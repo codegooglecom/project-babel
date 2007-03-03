@@ -116,19 +116,23 @@ define('IM_QUALITY', 100);
 
 define('BABEL_BLOWFISH_KEY', 'ThereIsNoCureForTheWailingDeath');
 
+/* Cache_Lite in PEAR for 360s */
 $CACHE_LITE_OPTIONS_SHORT = array('cacheDir' => BABEL_PREFIX . '/cache/360/', 'lifeTime' => 360, 'memoryCaching' => true, 'automaticCleaningFactor' => 100);
 
 $CACHE_LITE_OPTIONS_LONG = array('cacheDir' => BABEL_PREFIX . '/cache/7200/', 'lifeTime' => 7200, 'automaticCleaningFactor' => 100, 'hashedDirectoryLevel' => 3);
 
+/* Zend_Lite in ZF for 7200s */
 $ZEND_CACHE_OPTIONS_LONG_FRONTEND = array('lifeTime' => 7200, 'automaticSerialization' => false);
 
 $ZEND_CACHE_OPTIONS_LONG_BACKEND = array('cacheDir' => BABEL_PREFIX . '/cache/7200/', 'hashedDirectoryLevel' => 2);
 
-define('ZEND_CACHE_MEMCACHED_ENABLED', 'yes');
+/* If you had memcached server */
+define('ZEND_CACHE_MEMCACHED_ENABLED', 'no');
 
 $ZEND_CACHE_OPTIONS_MEMCACHED = array('servers' => array(array('host' => 'localhost', 'port' => 11211, 'persistent' => true)));
 
-define('ZEND_FRAMEWORK_VERSION', '0.7.0');
+/* Zend Framework */
+define('ZEND_FRAMEWORK_VERSION', '0.8.0');
 
 if (BABEL_DEBUG) {
 	define('CDN_IMG', '/img/');
