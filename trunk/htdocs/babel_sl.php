@@ -8,11 +8,11 @@
  *
  * Subversion Keywords:
  *
- * $Id: babel_sl.php 61 2007-02-05 08:07:06Z livid $
- * $LastChangedDate: 2007-02-05 16:07:06 +0800 (Mon, 05 Feb 2007) $
- * $LastChangedRevision: 61 $
- * $LastChangedBy: livid $
- * $URL: http://svn.cn.v2ex.com/svn/babel/trunk/htdocs/babel_sl.php $
+ * $Id$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
+ * $URL$
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

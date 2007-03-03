@@ -7,11 +7,11 @@
 *
 *  Subversion Keywords:
 *
-*  $Id: babel_dry.php 61 2007-02-05 08:07:06Z livid $
-*  $LastChangedDate: 2007-02-05 16:07:06 +0800 (Mon, 05 Feb 2007) $
-*  $LastChangedRevision: 61 $
-*  $LastChangedBy: livid $
-*  $URL: http://svn.cn.v2ex.com/svn/babel/trunk/htdocs/babel_dry.php $
+*  $Id$
+*  $LastChangedDate$
+*  $LastChangedRevision$
+*  $LastChangedBy$
+*  $URL$
 */
 
 DEFINE('V2EX_BABEL', 1);

@@ -7,11 +7,11 @@
 *
 *  Subversion Keywords:
 *
-*  $Id: Settings.unix.php 86 2007-02-11 23:43:08Z livid $
-*  $LastChangedDate: 2007-02-12 07:43:08 +0800 (Mon, 12 Feb 2007) $
-*  $LastChangedRevision: 86 $
-*  $LastChangedBy: livid $
-*  $URL: http://svn.cn.v2ex.com/svn/babel/trunk/htdocs/core/Settings.unix.php $
+*  $Id$
+*  $LastChangedDate$
+*  $LastChangedRevision$
+*  $LastChangedBy$
+*  $URL$
 */
 
 date_default_timezone_set('Asia/Shanghai');

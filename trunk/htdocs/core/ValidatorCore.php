@@ -7,11 +7,11 @@
 *
 *  Subversion Keywords:
 *
-*  $Id: ValidatorCore.php 82 2007-02-11 00:11:15Z livid $
-*  $LastChangedDate: 2007-02-11 08:11:15 +0800 (Sun, 11 Feb 2007) $
-*  $LastChangedRevision: 82 $
-*  $LastChangedBy: livid $
-*  $URL: http://svn.cn.v2ex.com/svn/babel/trunk/htdocs/core/ValidatorCore.php $
+*  $Id$
+*  $LastChangedDate$
+*  $LastChangedRevision$
+*  $LastChangedBy$
+*  $URL$
 */
 
 if (@V2EX_BABEL != 1) {

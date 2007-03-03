@@ -8,11 +8,11 @@
  *
  * Subversion Keywords:
  *
- * $Id: AirmailCore.php 60 2007-02-05 08:00:48Z livid $
- * $LastChangedDate: 2007-02-05 16:00:48 +0800 (Mon, 05 Feb 2007) $
- * $LastChangedRevision: 60 $
- * $LastChangedBy: livid $
- * $URL: http://svn.cn.v2ex.com/svn/babel/trunk/htdocs/core/AirmailCore.php $
+ * $Id$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
+ * $URL$
  *
  * Copyright (C) 2006 Livid Liu <v2ex.livid@mac.com>
  *

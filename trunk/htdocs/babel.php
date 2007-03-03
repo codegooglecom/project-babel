@@ -8,11 +8,11 @@
  *
  * Subversion Keywords:
  *
- * $Id: babel.php 94 2007-02-18 09:18:03Z livid $
- * $LastChangedDate: 2007-02-18 17:18:03 +0800 (Sun, 18 Feb 2007) $
- * $LastChangedRevision: 94 $
- * $LastChangedBy: livid $
- * $URL: http://svn.cn.v2ex.com/svn/babel/trunk/htdocs/babel.php $
+ * $Id$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
+ * $URL$
  *
  * Copyright (C) 2006 Livid Liu <v2ex.livid@mac.com>
  *
