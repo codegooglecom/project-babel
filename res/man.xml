@@ -1,0 +1,13 @@
+<man>
+	<title>参考文档藏经阁</title>
+	<prefix>/man/</prefix>
+	<input>/input/</input>
+	<sets>
+		<set name="php" title="PHP" />
+		<set name="smarty" title="Smarty" />
+		<set name="pear" title="PEAR" />
+		<set name="zf" title="Zend Framework" />
+		<set name="svn" title="Subversion" />
+		<set name="pgsql" title="PostgreSQL" />
+	</sets>
+</man>

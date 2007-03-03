@@ -1,0 +1,28 @@
+<job>
+	<title>Software Engineer - PHP / JavaScript / XML</title>
+	<lang>en</lang>
+	<description>
+This is a position reporting to the Product Manager of Kijiji China BU. The software engineer will assist the Product Manager in developing, testing and documenting all technical design for all solutions to be delivered by Kijiji China product team. He will focus on Kijiji web site front-end framework design.
+	</description>
+	<responsibilities>
+		<rs>Design front-end framework for Kijiji China website</rs>
+		<rs>Design, code, unit test and document the Kijiji web page</rs>
+		<rs>Proposing and researching tools, scripts, and processes to improve front-end functional</rs>
+		<rs>Communicating effectively with international developers, release management, and QA</rs>
+		<rs>Proactively solving problems</rs>
+		<rs>Identifying project risks and making recommendations to minimize risk</rs>
+		<rs>Escalating project issues appropriately</rs>
+		<rs>Good team player</rs>
+	</responsibilities>
+	<requirements>
+        <rq>BS/BA in CS or related field</rq>
+		<rq>2+ years experience in requirements and design review of web application</rq>
+		<rq>Familiar with PHP, JavaScript</rq>
+		<rq>Oracle RDBMS/PLSQL experience</rq>
+		<rq>Good scripting on Linux experience a plus</rq>
+		<rq>Excellent knowledge of PHP based developed software required, development experience required. Ability to design and implement complex frameworks</rq>
+		<rq>Experience with XML/XSL and other open-source technologies will be preferred</rq>
+	</requirements>
+	<mailto>xipan@kijiji.com.cn</mailto>
+	<fulltime></fulltime>
+</job>
