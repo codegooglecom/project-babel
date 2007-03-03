@@ -1,0 +1,26 @@
+<job>
+	<title>System Administrator</title>
+	<lang>cn</lang>
+	<description>This is a position reporting to the Product Manager of Kijiji China BU. System Administrator will focus on *nix system administration for web site and internal system.</description>
+	<responsibilities>
+		<rs>安装及配置 Linux / FreeBSD 服务器，包括操作系统内核，Patch，及各种应用软件</rs>
+		<rs>安装及配置 Linux / FreeBSD 操作系统上的防火墙</rs>
+		<rs>完成一些能够重用的方便日常维护工作进行的脚本</rs>
+		<rs>尽可能去发现可能发生的安全方面的危机并乐意解决</rs>
+		<rs>帮助整个 System Administrator 团队将跑机房的必要降到最低</rs>
+		
+		<rs>根据应用的功能和性能需求提供服务器端的软件和硬件的解决方案的建议</rs>
+	</responsibilities>
+	<requirements>
+        <rq>计算机及相关专业专科以上学历</rq>
+		<rq>4 年以上的 Linux / FreeBSD / *nix 操作系统的日常使用经验</rq>
+		<rq>熟悉 bash，perl，c，sed，pcre，vi</rq>
+		<rq>身体强壮，有能力且愿意搬动至少 30 千克的设备</rq>
+		<rq>精通 Apache 配置</rq>
+		<rq>精通 Tomcat 配置</rq>
+		<rq>有在新浪或网易或其他门户网站的 System Administrator 团队工作经验者优先</rq>
+		<rq>熟悉 Debian / Ubuntu 者优先</rq>
+	</requirements>
+	<mailto>xipan@kijiji.com.cn</mailto>
+	<fulltime></fulltime>
+</job>

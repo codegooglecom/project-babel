@@ -1,0 +1,67 @@
+body {
+font-family: "Lucida Grande", Verdana, Sans;
+padding: 10px;
+margin: 0px;
+background-color: #999;
+}
+
+div.error {
+background-color: #FFF;
+padding: 10px;
+font-size: 12px;
+max-width: 500px;
+border-right: 2px solid #777;
+border-bottom: 2px solid #777;
+line-height: 20px;
+}
+
+h1 {
+color: #999;
+font-size: 18px;
+font-weight: normal;
+padding: 2px 0px 10px 0px;
+margin: 0px;
+}
+
+a:link, a:visited, a:active {
+color: #577DE4;
+text-decoration: none;
+}
+
+a:hover {
+text-decoration: underline;
+}
+
+div#debug {
+border-top: 2px solid #999;
+font-size: 10px;
+color: #333;
+clear: both;
+opacity: .85;
+padding: 5px;
+}
+
+div#debug table {
+border: 1px solid #CCC;
+background-color: #333;
+}
+
+div#debug table td {
+font-size: 10px;
+color: #FFF;
+}
+
+span.ver {
+font-size: 10px;
+color: #CCC;
+display: block;
+padding: 10px 0px 0px 0px;
+}
+
+.red {
+color: #C00;
+}
+
+.green {
+color: #0C0;
+}

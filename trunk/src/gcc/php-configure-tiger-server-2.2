@@ -1,0 +1,38 @@
+
+###############################################################################
+#                                                                             #
+# This configuration is for Apache 2.2 installed by MacPorts on Mac OS X      #
+# Tiger Server.                                                               #
+#                                                                             #
+# Remember to use gcc 3.3 not gcc 4.0 or it breaks.                           #
+#                                                                             #
+###############################################################################
+
+./configure \
+--prefix=/opt/local/php-5.1 \
+--with-apxs2=/opt/local/apache2/bin/apxs \
+--with-zlib \
+--with-xml \
+--with-gettext=/opt/local \
+--with-gd \
+--with-jpeg-dir=/opt/local \
+--with-png-dir=/opt/local \
+--with-mcrypt=/opt/local \
+--with-mysql=/usr \
+--with-mysqli \
+--with-pdo-mysql=/usr \
+--with-freetype-dir=/opt/local \
+--enable-mbstring \
+--enable-sockets \
+--enable-gd-native-ttf \
+--enable-calendar \
+--enable-soap \
+--enable-shmop \
+--enable-cli \
+--enable-bcmath \
+--enable-dba \
+--with-inifile \
+--enable-exif \
+--enable-ftp \
+--enable-sqlite-utf8 \
+--enable-wddx

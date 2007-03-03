@@ -1,0 +1,26 @@
+<job>
+	<title>Product Researcher</title>
+	<lang>cn</lang>
+	<description>
+This is a position reporting to the Product Manager of Kijiji China BU. The product researcher will assist the Product Manager in research, define, the Kijiji future product, and organize the user testing to improve the usability of product.
+	</description>
+	<responsibilities>
+		<rs>设计网站用户交互界面，并与用户共同进行用户体验评估</rs>
+		<rs>设计用户测试场景，发现网站可用性问题</rs>
+		<rs>跟踪和分析业界的可用性设计趋势，提高网站的整体用户体验和易用性</rs>
+		<rs>制定网站 UI 设计规范</rs>
+	</responsibilities>
+	<requirements>
+        <rq>具备扎实的美术功底，较高的艺术设计能力，及系统的UI设计理论知识</rq> 
+		<rq>富有丰富的想象力与创意、造型能力，良好的色彩感悟力</rq>
+		<rq>有用户界面设计相关经验</rq>
+		<rq>熟练使用各种 UI 设计工具及作图软件 </rq>
+		<rq>熟悉各种商业设计风格，并有相应设计经验</rq> 
+		<rq>较强的沟通能力和表达能力</rq>
+		<rq>有用户体验研究相关经验优先</rq>
+		<rq>熟悉 VI 设计优先</rq>
+		<rq>熟悉 HTML，JavaScript 优先</rq>
+    </requirements>
+	<mailto>xipan@kijiji.com.cn</mailto>
+	<fulltime>yes</fulltime>
+</job>

@@ -1,0 +1,25 @@
+<job>
+	<title>Software Engineer - Java</title>
+	<lang>en</lang>
+	<description>
+This is a position reporting to the Product Manager of Kijiji China BU. The software engineer will assist the Product Manager in developing, testing and documenting all technical design for all solutions to be delivered by Kijiji China product team. He will focus on Kijiji web site backend development.
+	</description>
+	<responsibilities>
+		<rs>Design and develop backend framework for Kijiji China website</rs>
+		<rs>Proposing and researching tools, scripts, and processes to improve backend functional</rs>
+		<rs>Communicating effectively with international developers, release management, and QA</rs>
+		<rs>Proactively solving problems</rs>
+		<rs>Identifying project risks and making recommendations to minimize risk</rs>
+		<rs>Escalating project issues appropriately</rs>
+	</responsibilities>
+	<requirements>
+		<rq>BS/BA in CS or related field</rq>
+		<rq>2+ years experience in requirements and design review of scalable, distributed, fault-tolerant applications in UNIX and NT environments</rq>
+		<rq>Familiar with Java software technology like JSP, Servlet</rq>
+		<rq>Oracle RDBMS/PLSQL experience</rq>
+		<rq>Excellent knowledge of java-based developed software required, development experience required. Ability to design and implement complex frameworks</rq>
+		<rq>Experience with XML/XSL and other open-source technologies will be preferred</rq>
+	</requirements>
+	<mailto>xipan@kijiji.com.cn</mailto>
+	<fulltime>yes</fulltime>
+</job>

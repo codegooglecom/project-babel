@@ -1,0 +1,3 @@
+You'll need to copy Zend Framework's "library" directory to this folder.
+
+And remember to give it a name according to the version like 0.8.0, and write this configuration into htdocs/core/Settings.php configuration file.

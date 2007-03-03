@@ -1,0 +1,25 @@
+<job>
+	<title>Web Site Architect - Java</title>
+	<lang>en</lang>
+	<description>
+This is a position reporting to the Product Manager of Kijiji China BU. The software engineer will assist the Product Manager in developing, testing and documenting all technical design for all solutions to be delivered by Kijiji China product team. He will focus on Kijiji web site architecture design and admin tool development.
+	</description>
+	<responsibilities>
+		<rs>为软件开发提供架构设计，原型实现及部分开发工作</rs>
+		<rs>开发和维护公司统一的软件开发架构</rs>
+		<rs>对开发人员提供技术和架构培训</rs>
+		<rs>解决项目中存在的架构和技术问题</rs>
+	</responsibilities>
+	<requirements>
+        <rq>计算机及相关专业本科以上学历，3 年以上 Java 开发经验，1 年以上软件架构设计经验</rq>
+		<rq>精通 Java 服务器端技术：JSP，Servlet 及 XML 技术应用</rq>
+		<rq>精通面向对象的分析设计技术和工具，UML 建模和统一过程等</rq>
+		<rq>具有 2 个以上大中型 Java / J2EE 项目的系统分析、设计和开发经验</rq>
+		<rq>熟悉 J2EE 设计模式</rq>
+		<rq>熟悉 Spring、Hibernate 等开源项目，并且有过实际应用经验</rq>
+		<rq>精通至少一种大型关系数据库平台， Oracle，并且熟悉开源数据库，如 MySQL</rq>
+		<rq>有大型网站架构设计经验者优先</rq>
+	</requirements>
+	<mailto>xipan@kijiji.com.cn</mailto>
+	<fulltime></fulltime>
+</job>
