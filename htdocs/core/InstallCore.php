@@ -181,5 +181,5 @@ $i->vxSetupWeight();
 // You can set up your own world from here:
 
 $i->vxSetupBoard('board', 'Board', 2, 2, 1, 2, 'Hello World!', 'This is an example board in Limbo.');
-	$i->vxSetupChannelByName('livid', 'http://www.livid.cn/rss.php');
+	$i->vxSetupChannelByName('board', 'http://feeds.feedburner.com/livid');
 ?>
