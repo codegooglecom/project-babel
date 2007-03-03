@@ -7167,7 +7167,7 @@ class Page {
 			$time_start = microtime_float();
 			if ($hits_c = $this->cl->load($_q_h)) {
 				$hits_c = unserialize($hits_c);
-				$_count = $this->cl->load('count_' . $_q_h);
+				$_count = unserialize($this->cl->load('count_' . $_q_h));
 				$time_end = microtime_float();
 				$time_elapsed = $time_end - $time_start;
 				if ($_count > 0) {
@@ -7260,12 +7260,12 @@ class Page {
 					// some promotions here
 					echo('</td></tr>');
 					$this->cl->save(serialize($hits_c), $_q_h);
-					$this->cl->save($_count, 'count_' . $_q_h);
+					$this->cl->save(serialize($_count), 'count_' . $_q_h);
 				} else {
 					$hits_c = array();
 					$_count = 0;
 					$this->cl->save(serialize($hits_c), $_q_h);
-					$this->cl->save($_count, 'count_' . $_q_h);
+					$this->cl->save(serialize($_count), 'count_' . $_q_h);
 					if (@!$e) {
 						printf("<tr><td colspan=\"2\" class=\"hf\">没有找到任何匹配的参考文档，本次操作耗时 %.3f 秒。</td></tr>", $time_elapsed);
 					}
@@ -7275,9 +7275,9 @@ class Page {
 			echo('<tr><td class="hf" colspan="2" height="18" style="border-top: 1px solid #CCC;"><img src="/img/pico_tuser.gif" align="absmiddle" class="portrait" />&nbsp;目前索引有 <span class="tip_i">');
 			if ($sets = $this->cl->load('sets_search_man')) {
 				$sets = unserialize($sets);
-				foreach ($sets as $key => $data) {
+				foreach ($sets as $key => $value) {
 					$css_color = rand_color();
-					echo(' ... <a href="http://' . BABEL_DNS_NAME . '/man/' . $key . '/" target="_blank" style="color: ' . $css_color . '" class="var">' . $value . '</a>');
+					echo(' ... <a href="http://' . BABEL_DNS_NAME . '/man/' . $key . '/" target="_blank" style="color: ' . $css_color . '" class="var">' . $value[$key] . '</a>');
 				}
 			} else {
 				$sets = array();
@@ -7286,10 +7286,10 @@ class Page {
 					$css_color = rand_color();
 					$set = array();
 					$set[strval($o['name'])] = strval($o['title']);
-					$sets[] = $set;
+					$sets[strval($o['name'])] = $set;
 					echo(' ... <a href="http://' . BABEL_DNS_NAME . '/man/' . $o['name'] . '/" target="_blank" style="color: ' . $css_color . '" class="var">' . $o['title'] . '</a>');
 				}
-				$this->cl->save('sets_search_man', serialize($sets));
+				$this->cl->save(serialize($sets), 'sets_search_man');
 			}
 			echo('</span></td></tr>');
 			echo('</table>');
