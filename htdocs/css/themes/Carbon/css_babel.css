@@ -15,7 +15,7 @@
 body, html {
 margin: 0px;
 padding: 0px;
-background-color: #EFEFEF;
+background-color: #FFF;
 color: #000;
 font-family: Verdana, "Lucida Grande", "Lucida Sans", sans, Hei;
 min-width:750px;
@@ -196,13 +196,13 @@ div#bottom {
 border-top: 1px solid #E0E0E0;
 border-bottom: 2px solid #E0E0E0;
 background-color: #FFFFFF;
-padding-top: 10px;
-padding-bottom: 10px;
+padding-top: 5px;
+padding-bottom: 5px;
 clear: both;
 font-size: 12px;
 color: #999;
 text-align: center;
-line-height: 22px;
+line-height: 16px;
 }
 
 div#sidebar {
@@ -305,34 +305,25 @@ font-size: 12px;
 }
 
 div.menu_inner {
-border-right: 2px solid #E0E0E0;
-border-bottom: 2px solid #E0E0E0;
+border: 1px solid #E0E0E0;
 background-color: #FFF;
 margin: 10px;
 padding: 5px;
 font-size: 12px;
-background-image: url("/img/bg_silver.png");
-background-repeat: repeat-x;
 }
 
 div.menu_fav {
 margin: 10px 10px 10px 10px;
 font-size: 12px;
 padding: 5px;
-border-right: 2px solid #E0E0E0;
-border-bottom: 2px solid #E0E0E0;
+border: 1px solid #E0E0E0;
 background-color: #FFF;
-background-image: url("/img/bg_silver.png");
-background-repeat: repeat-x;
 }
 
 div.blank {
 padding: 5px;
-border-right: 2px solid #E0E0E0;
-border-bottom: 2px solid #E0E0E0;
+border: 1px solid #E0E0E0;
 background-color: #FFF;
-background-image: url("/img/bg_silver.png");
-background-repeat: repeat-x;
 margin-bottom: 10px;
 font-size: 12px;
 }
@@ -985,11 +976,8 @@ font-size: 14px;
 table.board {
 float: right;
 margin-bottom: 10px;
-border-right: 2px solid #E0E0E0;
-border-bottom: 2px solid #E0E0E0;
+border: 1px solid #E0E0E0;
 background-color: #FFF;
-background-image: url("/img/bg_silver.png");
-background-repeat: repeat-x;
 }
 
 table.drawer {
@@ -1617,8 +1605,8 @@ border-bottom:
 display: block;
 margin: 3px 0px 0px 0px;
 padding: 10px 10px 3px 10px;
-border-bottom: 1px solid #DDD;
-border-top: 1px solid #EFEFEF;
+border-bottom: 1px solid #E0E0E0;
+border-top: 1px solid #E0E0E0;
 }
 
 ul.tabs li.current {
@@ -1626,9 +1614,9 @@ list-style: none;
 display: inline;
 margin: 0px 5px 0px 0px;
 padding: 3px 7px 3px 7px;
-border-top: 2px solid #577DE4;
-border-left: 1px solid #DDD;
-border-right: 1px solid #CCC;
+border-top: 2px solid #CCC;
+border-left: 1px solid #E0E0E0;
+border-right: 1px solid #E0E0E0;
 border-bottom: 1px solid #FFF;
 background-color: #FFF;
 cursor: default;
@@ -1639,10 +1627,10 @@ list-style: none;
 display: inline;
 margin: 0px 5px 0px 0px;
 padding: 3px 7px 3px 7px;
-border-top: 2px solid #FC0;
-border-left: 1px solid #EEE;
-border-right: 1px solid #999;
-background-color: #FFF;
+border-top: 2px solid #666;
+border-left: 1px solid #E0E0E0;
+border-right: 1px solid #E0E0E0;
+background-color: #F5F5F5;
 cursor: pointer;
 }
 
@@ -1662,10 +1650,10 @@ list-style: none;
 display: inline;
 margin: 0px 5px 0px 0px;
 padding: 3px 7px 3px 7px;
-border-top: 2px solid #FC0;
+border-top: 2px solid #666;
 border-left: 1px solid #FFF;
 border-right: 1px solid #FFF;
-background-color: #FFF;
+background-color: #F5F5F5;
 cursor: pointer;
 }
 

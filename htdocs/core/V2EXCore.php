@@ -486,6 +486,9 @@ class Page {
 		}
 		echo('</div>');
 		/* nav menu start: */
+		echo('<div id="top_banner">');
+		echo('<div id="top_banner_logo"><a href="/"><img src="' . CDN_UI . 'img/top_metal_logo.png" border="0" alt="' . Vocabulary::site_name . '" /></a></div>');
+		echo('</div>');
 		echo('<div id="nav">');
 		echo('<ul id="nav_menu">');
 		echo('<li class="top"><a href="/" class="top">&nbsp;&nbsp;&nbsp;<strong>' . Vocabulary::site_name . '</strong>&nbsp;&nbsp;&nbsp;</a>');
@@ -628,10 +631,12 @@ class Page {
 		echo(' <img src="' . CDN_UI . 'img/icons/flag/kr.png" align="absmiddle" alt="Korean" />');
 		*/
 		echo('</div>');
+		/* nav menu end. */
+		/* We don't need to mimic OS X any more!
 		echo('<div style="position: absolute; top: 0px; left: 0px;"><img src="/img/c_l.gif" /></div>');
 		echo('<div style="position: absolute; top: 0px; right: 0px;"><img src="/img/c_r.gif" /></div>');
-		/* nav menu end. */
-		/* No Google!
+		*/
+		/* No Google any more!
 		echo('<div id="search">');
 		include(BABEL_PREFIX . '/res/google_search.php');
 		echo('</div>');
@@ -2830,7 +2835,9 @@ class Page {
 	
 	public function vxStatus() {
 		echo('<div id="main">');
-		echo('<div class="blank">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_status . '</div>');
+		echo('<div class="blank">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_status . '</div>');
 		echo('<div class="blank" align="left"><span class="text_large"><img src="' . CDN_IMG . 'ico_tv.gif" align="absmiddle" class="home" />' . Vocabulary::term_status . '</span>');
 		$rs = mysql_query('SHOW STATUS', $this->db);
 		$status = array();
@@ -2911,6 +2918,9 @@ class Page {
 		echo('</small></td></tr>');
 		echo('<tr><td colspan="2" align="left" class="section_odd"><small><strong>Machine Architecture</strong>: ');
 		echo $flag_win ? 'x86' : shell_exec('uname -m');
+		echo('</small></td></tr>');
+		echo('<tr><td colspan="2" align="left" class="section_even"><small><strong>Uptime</strong>: ');
+		echo $flag_win ? 'unknown' : shell_exec('uptime');
 		echo('</small></td></tr>');
 		echo('</table>');
 		echo('</div>');
@@ -3569,7 +3579,7 @@ class Page {
 			echo('<tr><td colspan="2" align="center" class="section_even"><span class="text_large"><img src="/img/quote_left.gif" align="absmiddle" />&nbsp;' . make_plaintext($O->usr_brief) . '&nbsp;<img src="/img/quote_right.gif" align="absmiddle" /></span></td></tr>');
 		}
 		
-		echo('<tr><td colspan="2" align="center" class="section_odd"><span class="tip_i"><img src="' . CDN_UI . 'img/icons/silk/clock.png" align="absmiddle" alt="ZEN" />&nbsp;<a href="/zen/' . $O->usr_nick . '" class="var" style="color: ' . rand_color() . ';">' . $O->usr_nick . ' 的 ZEN</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/comments.png" alt="Topics" align="absmiddle" />&nbsp;<a href="/topic/archive/user/' . $O->usr_nick . '" class="var" style="color: ' . rand_color() . ';">' . $O->usr_nick . ' 的所有主题</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/heart_add.png" align="absmiddle" />&nbsp;<a href="/who/connect/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">谁把 ' . $O->usr_nick . ' 加为好友</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/feed.png" align="absmiddle" alt="RSS" />&nbsp;<a href="/feed/user/' . urlencode($O->usr_nick) . '">RSS 种子输出</a></span></tr>');
+		echo('<tr><td colspan="2" align="center" class="section_odd"><span class="tip_i"><img src="' . CDN_UI . 'img/icons/silk/clock.png" align="absmiddle" alt="ZEN" />&nbsp;<a href="/zen/' . $O->usr_nick . '" class="var" style="color: ' . rand_color() . ';">' . $O->usr_nick . ' 的 ZEN</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/comments.png" alt="Topics" align="absmiddle" />&nbsp;<a href="/topic/archive/user/' . $O->usr_nick . '" class="var" style="color: ' . rand_color() . ';">' . $O->usr_nick . ' 的所有主题</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/heart_add.png" align="absmiddle" />&nbsp;<a href="/who/connect/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">谁把 ' . $O->usr_nick . ' 加为好友</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/feed.png" align="absmiddle" alt="RSS" />&nbsp;<a href="/feed/user/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . '">RSS 种子输出</a></span></tr>');
 		
 		echo('<tr><td colspan="2" align="left" class="section_odd"><span class="text_large"><img src="/img/ico_savepoint.gif" align="absmiddle" class="home" />' . $O->usr_nick . ' 的网上据点<a name="svp" /></span></td></tr>');
 		

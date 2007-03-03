@@ -89,6 +89,12 @@ opacity: .3;
 filter: opacity(alpha=30%);
 }
 
+div#top_banner {
+background-color: #333;
+background-image: url("/img/top_metal.png");
+border-bottom: 1px solid #444;
+}
+
 div#nav {
 color: #CCC;
 font-size: 12px;
@@ -97,7 +103,7 @@ height: 20px;
 padding: 0px 20px 0px 20px;
 text-align: center;
 background-color: #FFF;
-border-bottom: 1px solid #CCC;
+border-bottom: 1px solid #E0E0E0;
 background-image: url("/img/bg_menu.gif");
 }
 
@@ -113,7 +119,7 @@ color: #FFF;
 padding: 3px 0px 3px 0px;
 text-decoration: none;
 background-color: #577DE4;
-background-image: url("/img/fall_sky.gif");
+background-image: url("/img/fall_navy.gif");
 }
 
 div#nav a.top:active {
@@ -133,7 +139,7 @@ div#nav a.nav:hover {
 color: #FFF;
 text-decoration: none;
 background-color: #577DE4;
-background-image: url("/img/fall_sky.gif");
+background-image: url("/img/fall_navy.gif");
 }
 
 div#nav a.nav:active {
@@ -185,12 +191,11 @@ background-image: url("/img/fall_dark.gif");
 	border-bottom: 1px solid #CCC;
 	border-right: 1px solid #CCC;
 	border-left: 1px solid #CCC;
-	background-image: url("/img/pin.gif");
 	z-index: 99;
 }
 
 #nav_menu li.top:hover, #nav_menu li.sfhover {
-	background-image: url("/img/fall_sky.gif");
+	background-image: url("/img/fall_navy.gif");
 }
 
 #nav_menu li:hover a.top, #nav_menu li.sfhover a.top {
