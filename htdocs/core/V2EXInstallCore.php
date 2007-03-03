@@ -8,11 +8,11 @@
  *
  * Subversion Keywords:
  *
- * $Id: V2EXInstallCore.php 96 2007-02-20 07:57:17Z livid $
- * $LastChangedDate: 2007-02-20 15:57:17 +0800 (Tue, 20 Feb 2007) $
- * $LastChangedRevision: 96 $
- * $LastChangedBy: livid $
- * $URL: http://svn.cn.v2ex.com/svn/babel/trunk/htdocs/core/V2EXInstallCore.php $
+ * $Id$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
+ * $URL$
  *
  * Copyright (C) 2006 Livid Liu <v2ex.livid@mac.com>
  *

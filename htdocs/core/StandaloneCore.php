@@ -8,11 +8,11 @@
  *  
  * Subversion Keywords:
  *
- * $Id: StandaloneCore.php 76 2007-02-07 00:24:19Z livid $
- * $LastChangedDate: 2007-02-07 08:24:19 +0800 (Wed, 07 Feb 2007) $
- * $LastChangedRevision: 76 $
- * $LastChangedBy: livid $
- * $URL: http://svn.cn.v2ex.com/svn/babel/trunk/htdocs/core/StandaloneCore.php $
+ * $Id$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
+ * $URL$
  *
  * Copyright (C) 2006 Livid Liu <v2ex.livid@mac.com>
  *

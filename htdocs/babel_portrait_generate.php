@@ -8,11 +8,11 @@
  *  
  * Subversion Keywords:
  *
- * $Id: babel_portrait_generate.php 71 2007-02-05 14:04:47Z livid $
- * $Date: 2007-02-05 22:04:47 +0800 (Mon, 05 Feb 2007) $
- * $Revision: 71 $
- * $Author: livid $
- * $URL: http://svn.cn.v2ex.com/svn/babel/trunk/htdocs/babel_portrait_generate.php $
+ * $Id$
+ * $Date$
+ * $Revision$
+ * $Author$
+ * $URL$
  * 
  * Copyright (C) 2006 Livid Liu <v2ex.livid@mac.com>
  *

@@ -8,11 +8,11 @@
  *  
  * Subversion Keywords:
  *
- * $Id: FeedCore.php 84 2007-02-11 22:48:31Z livid $
- * $Date: 2007-02-12 06:48:31 +0800 (Mon, 12 Feb 2007) $
- * $Revision: 84 $
- * $Author: livid $
- * $URL: http://svn.cn.v2ex.com/svn/babel/trunk/htdocs/core/FeedCore.php $
+ * $Id$
+ * $Date$
+ * $Revision$
+ * $Author$
+ * $URL$
  *
  * Copyright (C) 2006 Livid Liu <v2ex.livid@mac.com>
  *
