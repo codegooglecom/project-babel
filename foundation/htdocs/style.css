@@ -1,0 +1,84 @@
+body {
+font-family: "Lucida Grande", Verdana, Tahoma, sans, Hei;
+padding: 10px;
+margin: 0px;
+background-color: #FFF:
+}
+
+div.f_box {
+width: 500px;
+color: #333;
+border: 1px solid #DDD;
+padding: 2px;
+margin-top: 10px;
+-moz-border-radius: 6px;
+}
+
+div.f_box div.f_box_t {
+background-color: #F0F0F0;
+color: #333;
+font-size: 14px;
+padding: 5px;
+background-image: url("img/f_box_t.png");
+}
+
+div.f_box div.f_box_m {
+padding: 7px;
+font-size: 12px;
+}
+
+div.copyright {
+font-size: 11px;
+color: #CCC;
+margin-top: 10px;
+}
+
+a:link, a:active, a:visited {
+color: #577DE4;
+text-decoration: underline;
+}
+
+a:hover {
+color: #00C;
+text-decoration: underline;
+}
+
+span.tip {
+color: #999;
+font-size: 12px;
+}
+
+span.red {
+color: #FF6000;
+}
+
+span.v2ex_logo {
+font-family: "Arial Black";
+letter-spacing: -1px;
+color: #666;
+}
+
+td {
+padding: 5px 3px 10px 3px;
+}
+
+td.t_b {
+border-bottom: 1px solid #DDD;
+}
+
+ul.sq {
+color: #CCC;
+list-style: square;
+margin: 10px 0px 10px 0em;
+padding: 0px 0px 0px 2em;
+}
+
+ul.sq li {
+margin: 0px;
+padding: 2px;
+}
+
+small.cn {
+font-family: PMingLiu;
+font-size: 11px;
+}
