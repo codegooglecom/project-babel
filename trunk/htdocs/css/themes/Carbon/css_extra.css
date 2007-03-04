@@ -118,7 +118,7 @@ div#nav a.top:hover {
 color: #FFF;
 padding: 3px 0px 3px 0px;
 text-decoration: none;
-background-color: #577DE4;
+background-color: #334;
 background-image: url("/img/fall_navy.gif");
 }
 
@@ -138,7 +138,7 @@ text-decoration: none;
 div#nav a.nav:hover {
 color: #FFF;
 text-decoration: none;
-background-color: #577DE4;
+background-color: #334;
 background-image: url("/img/fall_navy.gif");
 }
 
@@ -214,9 +214,9 @@ padding: 2px 0px 2px 0px;
 #nav_menu li ul li a:hover {
 text-align: left;
 padding: 2px 0px 2px 0px;
-background-color: #577DE4;
+background-color: #334;
 color: #FFF;
-background-image: url("/img/fall_sky.gif");
+background-image: url("/img/fall_navy.gif");
 }
 
 #nav_menu li ul li a:active {
