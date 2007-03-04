@@ -602,7 +602,7 @@ class Page {
 		/* Gmail: */
 		/*
 		$client = new Zend_Http_Client('https://mail.google.com/mail/feed/atom');
-		$client->setAuth('v2ex.livid@gmail.com', 'MacromediaFlex');
+		$client->setAuth('', '');
 		$response = $client->request();
 		$f = new MagpieRSS($response->getBody(), 'UTF-8', 'UTF-8');
 		echo('<li class="top">');
@@ -730,7 +730,7 @@ class Page {
 			}
 			echo('</a></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/comments.png" align="absmiddle" />&nbsp;<a href="/topic/archive/user/' . urlencode($this->User->usr_nick) . '" class="menu">我创建的所有主题</a></li>');
-			echo('<li><img src="' . CDN_UI . 'img/icons/silk/calendar.png" align="absmiddle" />&nbsp;<a href="/m/' . urlencode($this->User->usr_nick) . '" class="menu">我的印迹</a></li>');
+			// echo('<li><img src="' . CDN_UI . 'img/icons/silk/calendar.png" align="absmiddle" />&nbsp;<a href="/m/' . urlencode($this->User->usr_nick) . '" class="menu">我的印迹</a></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/clock.png" align="absmiddle">&nbsp;<a href="/zen/' . urlencode($this->User->usr_nick) . '" class="menu">ZEN</a> <span class="tip_i"><small>alpha</small></span></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/house.png" align="absmiddle" />&nbsp;<a href="/u/' . urlencode($this->User->usr_nick) . '" class="menu">我的 ' . Vocabulary::site_name . ' 主页</a></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/coins.png" align="absmiddle" />&nbsp;<a href="/expense/view.vx" class="menu">消费记录</a></li>');
