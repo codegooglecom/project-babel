@@ -36,7 +36,7 @@ if (V2EX_BABEL == 1) {
 	require('core/Settings.php');
 	
 	/* 3rdparty PEAR cores */
-	ini_set('include_path', BABEL_PREFIX . '/libs/pear' . PATH_SEPARATOR . ini_get('include_path'));
+	ini_set('include_path', BABEL_PREFIX . DIRECTORY_SEPARATOR . 'libs' . DIRECTORY_SEPARATOR . 'pear' . PATH_SEPARATOR . ini_get('include_path'));
 	require_once('Cache/Lite.php');
 	require_once('HTTP/Request.php');
 	require_once('Crypt/Blowfish.php');
