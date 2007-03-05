@@ -889,7 +889,8 @@ class Page {
 		
 		echo('</ul>');
 		_v_hr();
-		echo('<a href="http://www.spreadfirefox.com/?q=affiliates&amp;id=197201&amp;t=218"><img border="0" alt="Firefox 2" title="Firefox 2" src="' . CDN_UI . 'img/ff2o80x15.gif"/></a>');
+		echo('<a href="http://www.spreadfirefox.com/?q=affiliates&amp;id=197201&amp;t=218"><img border="0" alt="Firefox 2" title="Firefox 2" src="' . CDN_UI . 'img/ff2o80x15.gif" /></a> ');
+		echo(' <a href="http://www.pageflakes.com/?source=d736779a-49d4-46a7-a918-a70ad0b8cbd8"><img border="0" alt="Pageflakes" title="Pageflakes" src="' . CDN_UI . 'img/80x15/pageflakes.gif" /></a>');
 		echo('</div>');
 		
 		/*
