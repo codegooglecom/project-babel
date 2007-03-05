@@ -36,7 +36,7 @@ if (V2EX_BABEL == 1) {
 	require('core/Settings.php');
 	
 	/* 3rdParty PEAR cores */
-	ini_set('include_path', BABEL_PREFIX . '/libs/pear' . ':' . ini_get('include_path'));
+	ini_set('include_path', BABEL_PREFIX . '/libs/pear' . PATH_SEPARATOR . ini_get('include_path'));
 	require_once('Cache/Lite.php');
 	require_once('HTTP/Request.php');
 	require_once('Crypt/Blowfish.php');
@@ -78,6 +78,11 @@ class Feed {
 		
 		$this->Validator = new Validator($this->db, $this->User);
 		
+		global $CACHE_LITE_OPTIONS_SHORT;
+		$this->cs = new Cache_Lite($CACHE_LITE_OPTIONS_SHORT);
+		
+		$this->restricted = get_restricted($this->cs);
+		
 		$this->s = new Smarty();
 		$this->s->template_dir = BABEL_PREFIX . '/tpl';
 		$this->s->compile_dir = BABEL_PREFIX . '/tplc';
@@ -118,33 +123,50 @@ class Feed {
 		$this->s->display('feed/rss2.smarty');
 	}
 	
-	public function vxFeedBoard($Node) {
-		$this->s->assign('site_url', 'http://' . BABEL_DNS_NAME . '/go/' . $Node->nod_name);
-		switch ($Node->nod_level) {
-			case 2:
-			default:
-				$sql = "SELECT usr_id, usr_nick, usr_gender, usr_portrait, tpc_id, tpc_title, tpc_content, tpc_posts, tpc_created, nod_id, nod_title, nod_name FROM babel_user, babel_topic, babel_node WHERE tpc_uid = usr_id AND tpc_pid = nod_id AND tpc_pid = {$Node->nod_id} ORDER BY tpc_created DESC LIMIT 20";
-				break;
-			case 1:
-				$sql = "SELECT usr_id, usr_nick, usr_gender, usr_portrait, tpc_id, tpc_title, tpc_content, tpc_posts, tpc_created, nod_id, nod_title, nod_name FROM babel_user, babel_topic, babel_node WHERE tpc_uid = usr_id AND tpc_pid = nod_id AND tpc_pid IN (SELECT nod_id FROM babel_node WHERE nod_pid = {$Node->nod_id}) ORDER BY tpc_created DESC LIMIT 20";
-				break;
-				
-		}
-		$rs = mysql_query($sql);
-		$Topics = array();
-		$i = 0;
-		while ($Topic = mysql_fetch_object($rs)) {
-			$i++;
-			$Topics[$i] = $Topic;
-			$Topics[$i]->tpc_title = htmlspecialchars($Topics[$i]->tpc_title, ENT_NOQUOTES);
-			$Topics[$i]->tpc_content = htmlspecialchars(format_ubb($Topics[$i]->tpc_content), ENT_NOQUOTES);
-			$Topics[$i]->tpc_pubdate = date('r', $Topics[$i]->tpc_created);
-		}
-		$this->s->assign('feed_title', 'Latest from ' . Vocabulary::site_name . "'s " . $Node->nod_title);
-		$this->s->assign('feed_description', Vocabulary::meta_description);
+	public function vxFeedDenied() {
+		$this->s->assign('site_url', 'http://' . BABEL_DNS_NAME . '/');
+		$this->s->assign('feed_title', '访问被拒绝');
+		$this->s->assign('feed_description', '[Project Babel] Feed Generator - 缺少访问特定资源的权限');
 		$this->s->assign('feed_category', Vocabulary::meta_category);
+		$Topics = array();
+		$i = 0; $i++;
+		$Topics[$i]->tpc_title = '访问被拒绝';
+		$Topics[$i]->tpc_content = '[Project Babel] Feed Generator - 缺少访问特定资源的权限';
+		$Topics[$i]->tpc_pubdate = date('r', time());
 		$this->s->assign('a_topics', $Topics);
-		$this->s->display('feed/rss2.smarty');
+		$this->s->display('feed/rss2_denied.smarty');
+	}
+	
+	public function vxFeedBoard($Node) {
+		if (!check_node_permission($Node->nod_id, $this->User, $this->restricted)) {
+			$this->vxFeedDenied();
+		} else {
+			$this->s->assign('site_url', 'http://' . BABEL_DNS_NAME . '/go/' . $Node->nod_name);
+			switch ($Node->nod_level) {
+				case 2:
+				default:
+					$sql = "SELECT usr_id, usr_nick, usr_gender, usr_portrait, tpc_id, tpc_title, tpc_content, tpc_posts, tpc_created, nod_id, nod_title, nod_name FROM babel_user, babel_topic, babel_node WHERE tpc_uid = usr_id AND tpc_pid = nod_id AND tpc_pid = {$Node->nod_id} ORDER BY tpc_created DESC LIMIT 20";
+					break;
+				case 1:
+					$sql = "SELECT usr_id, usr_nick, usr_gender, usr_portrait, tpc_id, tpc_title, tpc_content, tpc_posts, tpc_created, nod_id, nod_title, nod_name FROM babel_user, babel_topic, babel_node WHERE tpc_uid = usr_id AND tpc_pid = nod_id AND tpc_pid IN (SELECT nod_id FROM babel_node WHERE nod_pid = {$Node->nod_id}) ORDER BY tpc_created DESC LIMIT 20";
+					break;
+			}
+			$rs = mysql_query($sql);
+			$Topics = array();
+			$i = 0;
+			while ($Topic = mysql_fetch_object($rs)) {
+				$i++;
+				$Topics[$i] = $Topic;
+				$Topics[$i]->tpc_title = htmlspecialchars($Topics[$i]->tpc_title, ENT_NOQUOTES);
+				$Topics[$i]->tpc_content = htmlspecialchars(format_ubb($Topics[$i]->tpc_content), ENT_NOQUOTES);
+				$Topics[$i]->tpc_pubdate = date('r', $Topics[$i]->tpc_created);
+			}
+			$this->s->assign('feed_title', 'Latest from ' . Vocabulary::site_name . "'s " . $Node->nod_title);
+			$this->s->assign('feed_description', Vocabulary::meta_description);
+			$this->s->assign('feed_category', Vocabulary::meta_category);
+			$this->s->assign('a_topics', $Topics);
+			$this->s->display('feed/rss2.smarty');
+		}
 	}
 	
 	public function vxFeedUser($User) {

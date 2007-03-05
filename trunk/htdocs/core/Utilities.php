@@ -22,6 +22,7 @@ require_once(BABEL_PREFIX . '/res/pointless.php');
 
 $dirs = array('/tmp', '/tplc', '/cache', '/cache/360', '/cache/7200', '/cache/rss', '/cache/dict', '/cache/smarty', '/htdocs/img/c', '/htdocs/img/n', '/htdocs/img/s', '/htdocs/img/p_static');
 
+// return: func
 function check_env() {
 	if (BABEL_ENABLED == 'yes') {
 		global $dirs;
@@ -35,6 +36,49 @@ function check_env() {
 	}
 }
 
+// return: bool (true => access permited / false => access denied)
+function check_node_permission($node_id, $User, $restricted) {
+	if (in_array($node_id, $restricted->nodes_restricted)) {
+		if ($User->vxIsLogin()) {
+			if (in_array($User->usr_id, $restricted->users_permitted[$node_id])) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	} else {
+		return true;
+	}
+}
+
+// return: object
+function get_restricted($c) {
+	if ($o = $c->get('nodes_restricted')) {
+		$o = unserialize($o);
+	} else {
+		$xml = simplexml_load_file(BABEL_PREFIX . '/res/restricted.xml');
+		$o = new stdClass();
+		$nodes_restricted = array();
+		$users_permitted = array();
+		$i = 0;
+		foreach ($xml->nodes->node as $node) {
+			$i++;
+			$nodes_restricted[] = intval($node['id']);
+			$users_permitted[intval($node['id'])] = array();
+			foreach ($node->users->user as $user) {
+				$users_permitted[intval($node['id'])][] = intval($user['id']);
+			}
+		}
+		$o->nodes_restricted = $nodes_restricted;
+		$o->users_permitted = $users_permitted;
+		$c->save(serialize($o), 'nodes_restricted');
+	}
+	return $o;
+}
+
+// return: void
 function exception_message($func = '') {
 	header('Content-type: text/html;charset=UTF-8');
 	$o = '<html><head><title>Project Babel</title><meta http-equiv="content-type: text/html;charset=UTF-8" /></head>';
