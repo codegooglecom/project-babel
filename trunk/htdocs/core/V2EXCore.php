@@ -3023,7 +3023,9 @@ class Page {
 	
 	public function vxCommunityGuidelines() {
 		echo('<div id="main">');
-		echo('<div class="blank">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_community_guidelines . '</div>');
+		echo('<div class="blank">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_community_guidelines . '</div>');
 		echo('<div class="blank">');
 		include(BABEL_PREFIX . '/res/community_guidelines.html');
 		echo('</div>');
@@ -3035,7 +3037,9 @@ class Page {
 	
 	public function vxPartners() {
 		echo('<div id="main">');
-		echo('<div class="blank">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_partners . '</div>');
+		echo('<div class="blank">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_partners . '</div>');
 		echo('<div class="blank">');
 		include(BABEL_PREFIX . '/res/partners.html');
 		echo('</div>');
@@ -3062,7 +3066,7 @@ class Page {
 		echo('<div id="main">');
 		echo('<div class="blank">');
 		_v_ico_map();
-		echo(' 你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->lang->timtowtdi() . '</div>');
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->lang->timtowtdi() . '</div>');
 		include(BABEL_PREFIX . '/res/timtowtdi.html');
 		echo('</div>');
 	}

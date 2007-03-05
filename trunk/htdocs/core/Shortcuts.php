@@ -19,11 +19,11 @@ function _v_btn_l($label, $link) {
 }
 
 function _v_ico_map() {
-	echo('<img src="/img/icons/silk/map.png" align="absmiddle" alt="You are here" class="map" />');
+	echo('<img src="' . CDN_UI . 'img/icons/silk/map.png" align="absmiddle" alt="You are here" class="map" />');
 }
 
 function _vo_ico_map() {
-	return '<img src="/img/icons/silk/map.png" align="absmiddle" alt="You are here" class="map" />';
+	return '<img src="' . CDN_UI . 'img/icons/silk/map.png" align="absmiddle" alt="You are here" class="map" />';
 }
 
 function _v_btn_f($label, $form) {
@@ -31,7 +31,7 @@ function _v_btn_f($label, $form) {
 	$container = 'btn_' . strval(rand(1111, 9999));
 	echo('<script type="text/javascript">');
 	echo('var f_' . $form_md5 . "_do = function() {\n");
-	echo('var c = getObj("' . $container . '"); c.innerHTML = "<img src=/img/loading.gif align=absmiddle /> <span class=tip_i>正在发送请求</span>";');
+	echo('var c = getObj("' . $container . '"); c.innerHTML = "<img src=' . CDN_UI . 'img/loading.gif align=absmiddle /> <span class=tip_i>正在发送请求</span>";');
 	echo('var o = getObj("' . $form . '"); return o.submit();');
 	echo('}');
 	echo('</script>');
