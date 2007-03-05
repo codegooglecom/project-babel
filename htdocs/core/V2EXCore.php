@@ -1816,7 +1816,9 @@ class Page {
 			echo $l;
 		} else {
 			$l = '<div id="main">';
-			$l .= '<div class="blank" align="left">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_latesttopic . '</div>';
+			$l .= '<div class="blank" align="left">';
+			$l .= _vo_ico_map();
+			$l .= ' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_latesttopic . '</div>';
 			$l .= '<div class="blank"><img src="' . CDN_IMG . 'pico_fresh.gif" class="portrait" align="absmiddle" /> 所有讨论区最新的 100 个主题 ... ';
 			
 			if ($_SESSION['babel_ua']['GECKO_DETECTED'] || $_SESSION['babel_ua']['KHTML_DETECTED'] || $_SESSION['babel_ua']['OPERA_DETECTED']) {
@@ -1873,7 +1875,9 @@ class Page {
 			echo $l;
 		} else {
 			$l = '<div id="main">';
-			$l .= '<div class="blank" align="left">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_latest_answered_topic . '</div>';
+			$l .= '<div class="blank" align="left">';
+			$l .= _vo_ico_map();
+			$l .= ' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_latest_answered_topic . '</div>';
 			$l .= '<div class="blank"><img src="' . CDN_IMG . 'pico_fresh.gif" class="portrait" align="absmiddle" /> 所有讨论区最新被回复的 100 个主题 ... ';
 			
 			if ($_SESSION['babel_ua']['GECKO_DETECTED'] || $_SESSION['babel_ua']['KHTML_DETECTED'] || $_SESSION['babel_ua']['OPERA_DETECTED']) {
@@ -1930,7 +1934,9 @@ class Page {
 			echo $o;
 		} else {
 			$o = '<div id="main">';
-			$o .= '<div class="blank" align="left">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_latestfav . '</div>';
+			$o .= '<div class="blank" align="left">';
+			$o .= _vo_ico_map();
+			$o .= ' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_latestfav . '</div>';
 			
 			$o = $o . '<div class="blank"><img src="' . CDN_IMG . 'pico_star.gif" class="portrait" align="absmiddle" /> 最过去的几分钟里，我们在 ' . Vocabulary::site_name . ' 的最新 100 个收藏 ...';
 			
@@ -1977,7 +1983,9 @@ class Page {
 	
 	public function vxSessionStats() {
 		$s = '<div id="main">';
-		$s .= '<div class="blank" align="left">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_sessionstats . '</div>';
+		$s .= '<div class="blank" align="left">';
+		$s .= _vo_ico_map();
+		$s .= ' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_sessionstats . '</div>';
 		$s .= '<div class="blank"><img src="' . CDN_IMG . 'pico_tuser.gif" class="portrait" align="absmiddle" /> ' . Vocabulary::term_sessionstats . ' ... ';
 		if ($_SESSION['babel_ua']['GECKO_DETECTED'] || $_SESSION['babel_ua']['KHTML_DETECTED'] || $_SESSION['babel_ua']['OPERA_DETECTED']) {
 			$hack_width = 'width="100%" ';
@@ -2012,7 +2020,9 @@ class Page {
 	public function vxUserLogins() {
 		if ($o = $this->cs->get('set_user_logins_f')) {
 			$l = '<div id="main">';
-			$l .= '<div class="blank" align="left"><img src="' . CDN_UI . 'img/icons/silk/map.png" align="absmiddle" class="map" /> 你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; 24 小时内的' . Vocabulary::term_userlogins . '</div>';
+			$l .= '<div class="blank" align="left">';
+			$l .= _vo_ico_map();
+			$l .= ' <a href="/">' . Vocabulary::site_name . '</a> &gt; 24 小时内的' . Vocabulary::term_userlogins . '</div>';
 			$l .= '<div class="blank"><img src="' . CDN_UI . 'img/icons/silk/user_go.png" align="absmiddle" /> 24 小时内的' . Vocabulary::term_userlogins . ' ... ';
 			if ($_SESSION['babel_ua']['GECKO_DETECTED'] || $_SESSION['babel_ua']['KHTML_DETECTED'] || $_SESSION['babel_ua']['OPERA_DETECTED']) {
 				$hack_width = 'width="100%" ';
@@ -2025,7 +2035,9 @@ class Page {
 		} else {
 			$l = '';
 			$o = '<div id="main">';
-			$o .= '<div class="blank" align="left"><img src="' . CDN_UI . 'img/icons/silk/map.png" align="absmiddle" class="map" /> 你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; 24 小时内的' . Vocabulary::term_userlogins . '</div>';
+			$o .= '<div class="blank" align="left">';
+			$o .= _vo_ico_map();
+			$o .= ' <a href="/">' . Vocabulary::site_name . '</a> &gt; 24 小时内的' . Vocabulary::term_userlogins . '</div>';
 			$o .= '<div class="blank"><img src="' . CDN_UI . 'img/icons/silk/user_go.png" align="absmiddle" /> 24 小时内的' . Vocabulary::term_userlogins . ' ... ';
 			if ($_SESSION['babel_ua']['GECKO_DETECTED'] || $_SESSION['babel_ua']['KHTML_DETECTED'] || $_SESSION['babel_ua']['OPERA_DETECTED']) {
 				$hack_width = 'width="100%" ';
@@ -2474,7 +2486,9 @@ class Page {
 			$time_end = microtime_float();
 			$time_elapsed = $time_end - $time_start;
 		}
-		echo('<div id="main"><div class="blank" align="left">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::action_search . '</div><div class="blank" align="left"><span class="text_large"><img src="' . CDN_IMG . 'ico_search.gif" class="home" align="absmiddle" />' . Vocabulary::action_search . '</span><form action="/search.php" method="get">');
+		echo('<div id="main"><div class="blank" align="left">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::action_search . '</div><div class="blank" align="left"><span class="text_large"><img src="' . CDN_IMG . 'ico_search.gif" class="home" align="absmiddle" />' . Vocabulary::action_search . '</span><form action="/search.php" method="get">');
 		if ($stage == 2) {
 			$query_return = make_single_return($query);
 			echo('<input type="text" name="q" id="k_search_q" onmouseover="this.focus()" class="search" value="' . $query_return . '"/>');
@@ -2664,14 +2678,18 @@ class Page {
 	
 	public function vxDenied() {
 		echo('<div id="main">');
-		echo('<div class="blank" align="left">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; <strong>' . Vocabulary::term_accessdenied . '</strong></div>');
+		echo('<div class="blank" align="left">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <strong>' . Vocabulary::term_accessdenied . '</strong></div>');
 		echo('<div class="blank" align="left"><span class="text_large"><img src="' . CDN_IMG . 'ico_bomb.gif" align="absmiddle" class="home" />Access Denied</span><br />你在一个你不应该到达的地方，停止你的任何无意义的尝试吧<br /><br />我知道我正位于一个战场，因此我将会为一切的杀戮和战争做好准备</div>');
 		echo('</div>');
 	}
 	
 	public function vxTopicEraseDenied($Topic) {
 		echo('<div id="main">');
-		echo('<div class="blank" align="left">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; <strong>' . Vocabulary::term_accessdenied . '</strong></div>');
+		echo('<div class="blank" align="left">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <strong>' . Vocabulary::term_accessdenied . '</strong></div>');
 		echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_bomb.gif" align="absmiddle" class="home" />本主题的擦除功能被禁止</span><br />你不能对本主题进行擦除，是由于以下原因：');
 		_v_hr();
 		if ($this->User->usr_id != $Topic->tpc_uid) {
@@ -3077,7 +3095,9 @@ class Page {
 	
 	public function vxRules() {
 		echo('<div id="main">');
-		echo('<div class="blank">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_rules . '</div>');
+		echo('<div class="blank">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_rules . '</div>');
 		echo('<div class="blank">');
 		include(BABEL_PREFIX . '/res/rules.html');
 		echo('</div>');
@@ -3089,7 +3109,9 @@ class Page {
 	
 	public function vxTerms() {
 		echo('<div id="main">');
-		echo('<div class="blank">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_terms . '</div>');
+		echo('<div class="blank">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_terms . '</div>');
 		echo('<div class="blank">');
 		include(BABEL_PREFIX . '/res/terms.html');
 		echo('</div>');
@@ -3101,7 +3123,9 @@ class Page {
 	
 	public function vxPrivacy() {
 		echo('<div id="main">');
-		echo('<div class="blank">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_privacy . '</div>');
+		echo('<div class="blank">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_privacy . '</div>');
 		echo('<div class="blank">');
 		include(BABEL_PREFIX . '/res/privacy.html');
 		echo('</div>');
@@ -3113,7 +3137,9 @@ class Page {
 	
 	public function vxPolicies() {
 		echo('<div id="main">');
-		echo('<div class="blank">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_policies . '</div>');
+		echo('<div class="blank">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_policies . '</div>');
 		echo('<div class="blank">');
 		include(BABEL_PREFIX . '/res/policies.html');
 		echo('</div>');
@@ -3128,7 +3154,9 @@ class Page {
 		switch ($what) {
 			default:
 			case 'money':
-				echo('<div class="blank">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_out_of_money . '</div>');
+				echo('<div class="blank">');
+				_v_ico_map();
+				echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_out_of_money . '</div>');
 				echo('<div class="blank">');
 				include(BABEL_PREFIX . '/res/sorry_money.html');
 				break;
@@ -3168,7 +3196,9 @@ class Page {
 	
 	public function vxLogin($rt) {
 		echo('<div id="main">');
-		echo('<div class="blank" align="left">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::action_login . '</div>');
+		echo('<div class="blank" align="left">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::action_login . '</div>');
 		switch ($rt['target']) {
 		
 			// default
@@ -3266,7 +3296,9 @@ class Page {
 	
 	public function vxLogout() {
 		echo('<div id="main">');
-		echo('<div class="blank" align="left">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::action_logout . '</div>');
+		echo('<div class="blank" align="left">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::action_logout . '</div>');
 		echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_logout.gif" align="absmiddle" class="home" />你已经从 ' . Vocabulary::site_name . ' 登出</span><br />感谢你访问 ' . Vocabulary::site_name . '，你现在已经从 ' . Vocabulary::site_name . ' 完全登出，没有任何的个人信息被留在你当前使用过的计算机上。');
 		_v_hr();
 		echo('<img src="/img/pico_right.gif" align="absmiddle" />&nbsp;<a href="/login.vx">重新登录</a></div>');
@@ -3279,7 +3311,9 @@ class Page {
 	
 	public function vxPasswd($options) {
 		echo('<div id="main">');
-		echo('<div class="blank" align="left">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::action_passwd . '</div>');
+		echo('<div class="blank" align="left">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::action_passwd . '</div>');
 		switch ($options['mode']) {
 			default:
 			case 'get':
@@ -3910,7 +3944,9 @@ class Page {
 	
 	public function vxUserCreate($rt) {
 		echo('<div id="main">');
-		echo('<div class="blank"><img src="/img/icons/silk/map.png" align="absmiddle" class="map" /> 你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::action_signup . '</div>');
+		echo('<div class="blank">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::action_signup . '</div>');
 
 		if ($rt['errors'] != 0) {
 			echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_important.gif" align="absmiddle" class="home" />对不起，你刚才提交的信息里有些错误</span><table cellpadding="0" cellspacing="0" border="0" class="form"><form action="/user/create.vx" method="post" id="usrNew">');
@@ -4026,7 +4062,9 @@ class Page {
 	
 	public function vxUserModify() {
 		echo('<div id="main">');
-		echo('<div class="blank"><img src="/img/icons/silk/map.png" align="absmiddle" class="map" /> 你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . urlencode($this->User->usr_nick) . '">' . make_plaintext($this->User->usr_nick) . '</a> &gt; ' . Vocabulary::action_modifyprofile . '</div>');
+		echo('<div class="blank">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . urlencode($this->User->usr_nick) . '">' . make_plaintext($this->User->usr_nick) . '</a> &gt; ' . Vocabulary::action_modifyprofile . '</div>');
 		echo('<div class="blank" align="left">');
 		echo('<span class="text_large"><img src="/img/ico_smile.gif" align="absmiddle" class="home" />上传头像</span>');
 		echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
@@ -4174,7 +4212,9 @@ class Page {
 	
 	public function vxUserUpdate($rt) {
 		echo('<div id="main">');
-		echo('<div class="blank"><img src="/img/icons/silk/map.png" align="absmiddle" class="map" /> 你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . urlencode($this->User->usr_nick) . '">' . make_plaintext($this->User->usr_nick) . '</a> &gt; ' . Vocabulary::action_modifyprofile . '</div>');
+		echo('<div class="blank">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . urlencode($this->User->usr_nick) . '">' . make_plaintext($this->User->usr_nick) . '</a> &gt; ' . Vocabulary::action_modifyprofile . '</div>');
 
 		if ($rt['errors'] != 0) {
 			echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_important.gif" align="absmiddle" class="home" />对不起，你刚才提交的信息里有些错误</span><table cellpadding="0" cellspacing="0" border="0" class="form"><form action="/user/update.vx" method="post" id="form_user_info">');
@@ -4393,7 +4433,9 @@ class Page {
 		$geos_all_children = $Geo->vxGetRecursiveChildrenArray('', true);
 		$geos_all_children_sql = implode(',', $geos_all_children);
 		echo('<div id="main">');
-		echo('<div class="blank" align="left">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . urlencode($this->User->usr_nick) . '">' . make_plaintext($this->User->usr_nick) . '</a> &gt; <a href="/user/modify.vx">' . Vocabulary::action_modifyprofile . '</a> &gt; ' . Vocabulary::action_modifygeo);
+		echo('<div class="blank" align="left">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . urlencode($this->User->usr_nick) . '">' . make_plaintext($this->User->usr_nick) . '</a> &gt; <a href="/user/modify.vx">' . Vocabulary::action_modifyprofile . '</a> &gt; ' . Vocabulary::action_modifygeo);
 		echo('</div>');
 		
 		echo('<div class="blank">');
@@ -4550,7 +4592,9 @@ class Page {
 		$p['items'] = mysql_result($rs, 0, 0);
 		mysql_free_result($rs);
 		echo('<div id="main">');
-		echo('<div class="blank" align="left">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_favorite . '</div>');
+		echo('<div class="blank" align="left">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_favorite . '</div>');
 		echo('<div class="blank" align="left">');
 		echo('<span class="text_large"><img src="/img/ico_star.gif" align="absmiddle" class="home" />' . Vocabulary::term_favorite . '</span>');
 		echo('<br />目前你共在 <a href="/">' . Vocabulary::site_name . '</a> 社区收藏了 ' . $p['items'] . ' 个项目');
@@ -4674,7 +4718,9 @@ class Page {
 		$p['items'] = mysql_result($rs, 0, 0);
 		mysql_free_result($rs);
 		echo('<div id="main">');
-		echo('<div class="blank" align="left">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::action_freshtopic . '</div>');
+		echo('<div class="blank" align="left">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::action_freshtopic . '</div>');
 		echo('<div class="blank" align="left">');
 		echo('<span class="text_large"><img src="/img/ico_fresh.gif" align="absmiddle" class="home" />' . Vocabulary::action_freshtopic . '</span>');
 		echo('<br /><a href="/">' . Vocabulary::site_name . '</a> 社区目前目前共有 ' . $p['items'] . ' 个未回复主题');
@@ -6939,7 +6985,7 @@ class Page {
 		echo('<div id="main">');
 		echo('<div class="blank" align="left">');
 		_v_ico_map();
-		echo(' 你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::action_viewonline . '</div>');
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::action_viewonline . '</div>');
 		echo('<div class="blank" align="left">');
 		echo('<span class="text_large"><img src="/img/ico_board.gif" align="absmiddle" class="home" />' . Vocabulary::action_viewonline . '</span>');
 		echo('<br />目前共有 ' . $this->online_count . ' 人或者机器在线，其中注册会员 ' . $this->online_count_reg . ' 个，游客 ' . $this->online_count_anon . ' 个。');
@@ -7082,7 +7128,7 @@ class Page {
 		echo('<div id="main">');
 		echo('<div class="blank" align="left">');
 		_v_ico_map();
-		echo('你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_member . '列表');
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_member . '列表');
 		
 		_v_hr();
 		
