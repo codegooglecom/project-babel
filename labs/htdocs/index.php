@@ -140,7 +140,7 @@ V2EX 的制作者是一个狂热的移动设备收藏迷，因而能够兼容各
 </div>
 <div class="sep"></div>
 <?php _v_hr(); ?>
-<div class="svn">svn: $Id: index.php 8 2007-01-22 07:30:42Z livid $</div>
+<div class="svn">svn: $Id$</div>
 </body>
 </html>
 
