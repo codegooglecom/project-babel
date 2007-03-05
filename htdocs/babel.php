@@ -587,27 +587,21 @@ switch ($m) {
 
 	case 'board_view':
 		$GOOGLE_AD_LEGAL = true;
+		$permit = 1;
 		if (isset($_GET['board_id'])) {
 			$board_id = intval($_GET['board_id']);
-			$sql = "SELECT nod_id, nod_name, nod_title FROM babel_node WHERE nod_id = {$board_id} AND nod_level > 1";
-			$rs = mysql_query($sql, $p->db);
-			if (mysql_num_rows($rs) == 1) {
-				$O = mysql_fetch_object($rs);
-				mysql_free_result($rs);
-				$p->vxHead($msgSiteTitle = make_plaintext($O->nod_title), '', 'http://' . BABEL_DNS_NAME . '/feed/board/' . $O->nod_name . '.rss');
-				$p->vxBodyStart();
-				$p->vxTop($msgBanner = Vocabulary::site_banner, $keyword = $O->nod_title);
-				$p->vxContainer('board_view', $options = array('board_id' => $O->nod_id));
-				break;
-			} else {
-				mysql_free_result($rs);
-				$p->vxHomeBundle(BABEL_HOME_STYLE_DEFAULT);
-				break;
-			}		
-		} else {
-			if (isset($_GET['board_name'])) {
-				$board_name = strtolower(trim($_GET['board_name']));
-				$sql = "SELECT nod_id, nod_name, nod_title, nod_level FROM babel_node WHERE nod_name = '{$board_name}' and nod_level > 0";
+			// check if user was accessing a restricted node:
+			if (in_array($board_id, $p->restricted->nodes_restricted)) {
+				if ($p->User->vxIsLogin()) {
+					if (!in_array($p->User->usr_id, $p->restricted->users_permitted[$board_id])) {
+						$permit = 0;
+					}
+				} else {
+					$permit = 0;
+				}
+			}
+			if ($permit) {
+				$sql = "SELECT nod_id, nod_name, nod_title FROM babel_node WHERE nod_id = {$board_id} AND nod_level > 1";
 				$rs = mysql_query($sql, $p->db);
 				if (mysql_num_rows($rs) == 1) {
 					$O = mysql_fetch_object($rs);
@@ -615,14 +609,61 @@ switch ($m) {
 					$p->vxHead($msgSiteTitle = make_plaintext($O->nod_title), '', 'http://' . BABEL_DNS_NAME . '/feed/board/' . $O->nod_name . '.rss');
 					$p->vxBodyStart();
 					$p->vxTop($msgBanner = Vocabulary::site_banner, $keyword = $O->nod_title);
-					switch ($O->nod_level) {
-						case 2:
-						default:
-							$p->vxContainer('board_view', $options = array('board_id' => $O->nod_id));
-							break;
-						case 1:
-							$p->vxContainer('section_view', $options = array('section_id' => $O->nod_id));
-							break;
+					$p->vxContainer('board_view', $options = array('board_id' => $O->nod_id));
+					break;
+				} else {
+					mysql_free_result($rs);
+					$p->vxHomeBundle(BABEL_HOME_STYLE_DEFAULT);
+					break;
+				}
+			} else {
+				$sql = "SELECT nod_id, nod_name, nod_title, nod_sid FROM babel_node WHERE nod_id = {$board_id} AND nod_level > 1";
+				$rs = mysql_query($sql, $p->db);
+				if (mysql_num_rows($rs) == 1) {
+					$Board = mysql_fetch_object($rs);
+					mysql_free_result($rs);
+					$p->vxBoardViewDeniedBundle($Board);
+					break;
+				} else {
+					mysql_free_result($rs);
+					$p->vxHomeBundle(BABEL_HOME_STYLE_DEFAULT);
+					break;
+				}
+			}
+		} else {
+			$permit = 1;
+			if (isset($_GET['board_name'])) {
+				$board_name = strtolower(trim($_GET['board_name']));
+				$sql = "SELECT nod_id, nod_sid, nod_name, nod_title, nod_level FROM babel_node WHERE nod_name = '{$board_name}' and nod_level > 0";
+				$rs = mysql_query($sql, $p->db);
+				if (mysql_num_rows($rs) == 1) {
+					$Node = mysql_fetch_object($rs);
+					mysql_free_result($rs);
+					// check if user was accessing a restricted node:
+					if (in_array($Node->nod_id, $p->restricted->nodes_restricted)) {
+						if ($p->User->vxIsLogin()) {
+							if (!in_array($p->User->usr_id, $p->restricted->users_permitted[$Node->nod_id])) {
+								$permit = 0;
+							}
+						} else {
+							$permit = 0;
+						}
+					}
+					if ($permit) {
+						$p->vxHead($msgSiteTitle = make_plaintext($Node->nod_title), '', 'http://' . BABEL_DNS_NAME . '/feed/board/' . $Node->nod_name . '.rss');
+						$p->vxBodyStart();
+						$p->vxTop($msgBanner = Vocabulary::site_banner, $keyword = $Node->nod_title);
+						switch ($Node->nod_level) {
+							case 2:
+							default:
+								$p->vxContainer('board_view', $options = array('board_id' => $Node->nod_id));
+								break;
+							case 1:
+								$p->vxContainer('section_view', $options = array('section_id' => $Node->nod_id));
+								break;
+						}
+					} else {
+						$p->vxBoardViewDeniedBundle($Node);
 					}
 					break;
 				} else {
@@ -762,30 +803,36 @@ switch ($m) {
 			} else {
 				if (isset($_GET['board_id'])) {
 					$board_id = intval($_GET['board_id']);
-					if (strlen($board_id) > 0) {
-						$sql = "SELECT nod_id, nod_level FROM babel_node WHERE nod_id = {$board_id}";
-						$rs = mysql_query($sql, $p->db);
-						if (mysql_num_rows($rs) == 1) {
-							$O = mysql_fetch_object($rs);
-							mysql_free_result($rs);
-							$p->vxHead($msgSiteTitle = Vocabulary::action_newtopic);
-							$p->vxBodyStart();
-							$p->vxTop();
-							if ($O->nod_level > 1) {
-								$p->vxContainer('topic_new', $options = array('mode' => 'board', 'board_id' => $O->nod_id));
+					if (!check_node_permission($board_id, $p->User, $p->restricted)) {
+						$Board = new Node($board_id, $p->db);
+						$p->vxBoardViewDeniedBundle($Board);
+						break;
+					} else {
+						if (strlen($board_id) > 0) {
+							$sql = "SELECT nod_id, nod_level FROM babel_node WHERE nod_id = {$board_id}";
+							$rs = mysql_query($sql, $p->db);
+							if (mysql_num_rows($rs) == 1) {
+								$O = mysql_fetch_object($rs);
+								mysql_free_result($rs);
+								$p->vxHead($msgSiteTitle = Vocabulary::action_newtopic);
+								$p->vxBodyStart();
+								$p->vxTop();
+								if ($O->nod_level > 1) {
+									$p->vxContainer('topic_new', $options = array('mode' => 'board', 'board_id' => $O->nod_id));
+								} else {
+									$p->vxContainer('topic_new', $options = array('mode' => 'section', 'section_id' => $O->nod_id));	
+								}
+								$O = null;
+								break;
 							} else {
-								$p->vxContainer('topic_new', $options = array('mode' => 'section', 'section_id' => $O->nod_id));	
+								mysql_free_result($rs);
+								$p->vxHomeBundle(BABEL_HOME_STYLE_DEFAULT);
+								break;
 							}
-							$O = null;
-							break;
 						} else {
-							mysql_free_result($rs);
 							$p->vxHomeBundle(BABEL_HOME_STYLE_DEFAULT);
 							break;
 						}
-					} else {
-						$p->vxHomeBundle(BABEL_HOME_STYLE_DEFAULT);
-						break;
 					}
 				} else {
 					$p->vxHomeBundle(BABEL_HOME_STYLE_DEFAULT);
@@ -912,15 +959,20 @@ switch ($m) {
 				$p->URL->vxToRedirect($p->URL->vxGetHome());
 				die('');
 			}
-			$sql = "SELECT tpc_id, tpc_title FROM babel_topic WHERE tpc_id = {$topic_id}";
+			$sql = "SELECT tpc_id, tpc_pid, tpc_title FROM babel_topic WHERE tpc_id = {$topic_id}";
 			$rs = mysql_query($sql, $p->db);
 			if (mysql_num_rows($rs) == 1) {
 				$Topic = mysql_fetch_object($rs);
 				mysql_free_result($rs);
-				$p->vxHead($msgSiteTitle = make_plaintext($Topic->tpc_title), '', $feedURL = 'http://' . BABEL_DNS_FEED . '/feed/topic/' . $Topic->tpc_id . '.rss');
-				$p->vxBodyStart();
-				$p->vxTop($msgBanner = Vocabulary::site_banner, $keyword = make_single_return($Topic->tpc_title, 0));
-				$p->vxContainer('topic_view', $options = array('topic_id' => $Topic->tpc_id));
+				if (!check_node_permission($Topic->tpc_pid, $p->User, $p->restricted)) {
+					$Node = new Node($Topic->tpc_pid, $p->db);
+					$p->vxBoardViewDeniedBundle($Node);
+				} else {
+					$p->vxHead($msgSiteTitle = make_plaintext($Topic->tpc_title), '', $feedURL = 'http://' . BABEL_DNS_FEED . '/feed/topic/' . $Topic->tpc_id . '.rss');
+					$p->vxBodyStart();
+					$p->vxTop($msgBanner = Vocabulary::site_banner, $keyword = make_single_return($Topic->tpc_title, 0));
+					$p->vxContainer('topic_view', $options = array('topic_id' => $Topic->tpc_id));
+				}
 			} else {
 				$p->vxHomeBundle(BABEL_HOME_STYLE_DEFAULT);
 			}

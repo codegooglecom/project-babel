@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<restricted>
+	<nodes>
+		<node id="430">
+			<users>
+				<user id="1" />
+			</users>
+		</node>
+	</nodes>
+</restricted>

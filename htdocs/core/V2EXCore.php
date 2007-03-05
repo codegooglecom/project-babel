@@ -107,6 +107,8 @@ class Page {
 	
 	public $usr_share;
 	
+	public $restricted;
+	
 	/* S module: constructor and destructor */
 
 	public function __construct() {
@@ -245,6 +247,8 @@ class Page {
 		mysql_free_result($rs_a);
 		mysql_free_result($rs_b);
 		$this->online_count = $this->online_count_anon + $this->online_count_reg;
+		
+		$this->restricted = get_restricted($this->cs);
 		
 		header('Content-Type: text/html; charset=UTF-8');
 		header('Cache-control: no-cache, must-revalidate');
@@ -1013,6 +1017,18 @@ class Page {
 				$this->vxSidebar();
 				$this->vxMenu($_menu_options);
 				$this->vxTopicEraseDenied($options);
+				break;
+				
+			case 'board_view_denied':
+				$_menu_options['modules']['friends'] = false;
+				$_menu_options['modules']['links'] = false;
+				$_menu_options['modules']['new_members'] = false;
+				$_menu_options['modules']['stats'] = false;
+				$_menu_options['modules']['logins'] = false;
+				$_menu_options['modules']['online'] = false;
+				$this->vxSidebar();
+				$this->vxMenu($_menu_options);
+				$this->vxBoardViewDenied($options);
 				break;
 
 			case 'login':
@@ -2635,6 +2651,13 @@ class Page {
 		$this->vxContainer('topic_erase_denied', $Topic);
 	}
 	
+	public function vxBoardViewDeniedBundle($Board) {
+		$this->vxHead($msgSiteTitle = Vocabulary::term_accessdenied);
+		$this->vxBodyStart();
+		$this->vxTop();
+		$this->vxContainer('board_view_denied', $Board);
+	}
+	
 	/* E module: Denied bundle */
 	
 	/* S module: Denied block */
@@ -2662,6 +2685,27 @@ class Page {
 		}
 		_v_hr();
 		echo('<img src="/img/pico_left.gif" align="absmiddle" /> 返回主题 <a href="/topic/view/' . $Topic->tpc_id . '.html" class="t">' . make_plaintext($Topic->tpc_title) . '</a>');
+		_v_d_e();
+		_v_d_e();
+	}
+	
+	public function vxBoardViewDenied($Board) {
+		$Section = new Node($Board->nod_sid, $this->db);
+		echo('<div id="main">');
+		echo('<div class="blank" align="left">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/go/' . $Section->nod_name . '">' . make_plaintext($Section->nod_title) . '</a> &gt; <a href="/go/' . $Board->nod_name . '">' . make_plaintext($Board->nod_title) . '</a> &gt; <strong>' . Vocabulary::term_accessdenied . '</strong></div>');
+		echo('<div class="blank" align="left"><img src="/img/icons/silk/stop.png" align="absmiddle" /> 对讨论区的访问被禁止');
+		_v_hr();
+		echo('你不能访问本讨论区中的内容，是由于以下原因：');
+		_v_hr();
+		if ($this->User->vxIsLogin()) {
+			echo('<div class="geo_home_entry_odd">&nbsp;&nbsp;&nbsp;&nbsp;<img src="/img/gt.gif" align="absmiddle" />&nbsp;你没有访问本讨论区的授权</div>');
+		} else {
+			echo('<div class="geo_home_entry_odd">&nbsp;&nbsp;&nbsp;&nbsp;<img src="/img/gt.gif" align="absmiddle" />&nbsp;你尚未登录，请先 <a href="/login.php">登录</a></div>');
+		}
+		_v_hr();
+		echo('<img src="/img/pico_left.gif" align="absmiddle" /> <a href="/">返回首页</a>');
 		_v_d_e();
 		_v_d_e();
 	}

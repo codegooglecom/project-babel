@@ -834,6 +834,7 @@ $i->vxSetupBoard('ynsdfz', '云南师大附中', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('gxsdfz', '广西师大附中', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('gezhi', '上海格致中学', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('lomo', 'LOMO', 4, 4, 1, 2, '.: 我们的乐摸生活 :.', '');
+$i->vxSetupBoard('blacksmith', 'V2EX Blacksmith', 4, 4, 1, 2, 'For V2EX core hackers only', 'V2EX | software for internet');
 $i->vxSetupBoard('v2ex', 'V2EX', 4, 4, 1, 2, 'Latest from V2EX', 'V2EX | software for internet');
 	$i->vxSetupRelatedByName('v2ex', 'http://www.v2ex.org/', 'V2EX Blog');
 	$i->vxSetupChannelByName('v2ex', 'http://v2ex.org/?feed=rss2');
