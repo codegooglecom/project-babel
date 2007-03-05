@@ -1,0 +1,68 @@
+title|ubb-syntax-supported
+title-full|支持的 UBB 语法
+writer-name|Alex
+writer-url|http://www.alexhuang.org/
+model|simple
+adsense-client|pub-4924142719216011
+adsense-channel|7098623553
+
+<p>UBB 标记是 HTML 标记的一种变种，它允许您在文章中添加本来需要用 HTML 标记来实现的的功能或风格。与 HTML 相比，它只要求更少的的编码技术即可实现你期望实现的各种功能。</p>
+
+<p>在 <a href="http://v2ex.com">V2EX</a> 中，目前支持的 UBB 标记并不多，只提供有插入超级链接、添加图片等几种比较实用的 UBB 标记。不过，我们也可能在将来需要的时候，提供更多的 UBB 标记给大家使用。</p>
+
+<p>
+<ol>
+<li><strong>插入超级链接</strong><br /><br />
+  通过[url]标记对，可以方便地在 V2EX 中插入超级链接。<br /><br />
+  其使用方法为：<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;[url=链接链接地址]链接说明文字[/url]<br />
+   例如，链接 V2EX 首页的链接，就可以写成：<br />
+    &nbsp;&nbsp;&nbsp;&nbsp;[url=http://v2ex.com]返回V2EX首页[/url]
+</li><br />
+
+<li><strong>添加图片</strong><br /><br />
+    要在 V2EX 的贴子中添加图片，可以通过[img]标记对来实现。<br /><br />
+   具体使用方法为：<br />
+    &nbsp;&nbsp;[img]图片地址[/img]<br />
+   例如，添加 V2EX 首页上的 Logo 到你的贴子中，就可以用下面的语法来表示：<br />
+    &nbsp;&nbsp;[img]http://v2ex.com/logo.gif[/img]
+</li><br />
+
+<li><strong>插入电子邮件地址</strong><br /><br />
+    电子邮件地址是大家在网络上进行沟通的重要代号。在 V2EX 中，我们提供了[email]标记对来方便地实现电邮地址的插入功能。<br /><br />
+	它的使用方法是：<br />
+    &nbsp;&nbsp;[email]电子邮件地址[/email]<br />
+   下面的代码就提供了一个将我的电邮地址插入到 V2EX 贴子中的实例：<br />
+    &nbsp;&nbsp;[email]anythingispossible@gmail.com[/email]
+</li><br />
+
+<li><strong>插入媒体信息(主要是音乐)</strong><br /><br />
+    有时候我们希望在贴子中加入音乐这样的媒体信息，那么，我们就必须使用[media]标记来进行设置。<br /><br />
+	其使用方法为：<br />
+    &nbsp;&nbsp;[media,width,height]媒体内容地址[/media]<br />
+    比如，要将我喜欢的《Nine Million Bicycles》这首歌插入到贴子中，就要使用下面的语法：<br />
+    &nbsp;&nbsp;[media,200,40]http://www.fengdingcn.org/blog/audio/Katie%20Melua%20-%20Nine%20Million%20Bicycles.mp3[/media]
+</li>
+</ol>
+
+除了上述功能性的 UBB 标记外，在 V2EX 中，还有两个针对字体的 UBB 标记，即[i]和[b]，它们作用分别是提供斜体字和粗体字的显示。使用方法分别是：
+<ul>
+<li>
+    [i]文字内容[/i] - “文字内容”将会在 V2EX 贴子中以<i>斜体字</i>的方式显示。
+</li>
+<li>
+    [b]文字内容[/b] - “文字内容”将会在 V2EX 贴子中以<strong>粗体字</strong>的方式显示。
+</li>
+</ul>
+
+通过使用以上的 UBB 标记，你就可以在 V2EX 的贴子中实现一些基本却重要功能，从而更好地表达你的观点。至于更多的 UBB 标记支持，我们暂时还没有考虑。不过，如果有必要的话，我们也将会进行提供。</p>
+
+<p>
+<strong>注意事项：</strong>
+<ul>
+<li>UBB 标记和 HTML 标记不能混合使用。</li>
+<li>UBB 标记是大小写无关的，[URL] 或 [url]具有相同的效果。</li>
+<li>UBB 标记不支持嵌套。</li>
+<li>UBB 标记语法中，等于号后加的内容不用加引号，如[url="http://www.v2ex.com"]www.v2ex.com[/url]就是错误的写法。其次，也不要在标记和标记作用的文字之间加空格，像[url] www.v2ex.com [/url]这样的写法，也一样有错误。最后一点，UBB 标记对的结束标记必须包括正斜杠"/"，如[url=http://v2ex.com]返回V2EX首页[/url]</li>
+</ul>
+</p>

@@ -1,0 +1,22 @@
+title|chinese-mobile-web-tips
+title-full|Chinese Mobile Web Tips
+writer-name|Livid
+writer-url|http://www.livid.cn/
+model|simple
+adsense-client|pub-9823529788289591
+adsense-channel|6370613572
+
+<p>关于中文 Mobile Web 的一些思考结论。</p>
+
+<p><ol>
+<li>界面应该尽可能不要依赖图片和 CSS，一些 plaintext HTML 就足够了。出于下载速度及资费原因，大部分 nerd 使用 portable device 访问 Web 的时候都会禁止这些功能。</li>
+<li>彻底不能使用任何 JavaScript，即使在 Desktop PC 上，JavaScript 也足够折磨人了，而到了 portable device 上，就彻底是地狱。</li>
+<li>单个页面的大小控制在 10K 以内，8~9K 是最佳尺寸，从心理学及技术角度而言都是如此。</li>
+<li>没有太大的必要在 Mobile Web 上提供登录功能，大部分内容 read-only 就足够好了。大部分人没有耐心在 Mobile Web 上登录的。</li>
+<li>应该维护一个足够详尽的能够支持或者测试过的 portable device 的 HCL，这样你就可以知道事情究竟进展到哪一步了。这部分的工作可以使用 <a href="http://spreadsheet.google.com/" target="_blank">Google Spreadsheet</a> 来完成，其协作功能在这种场合尤其有用。</li>
+<li>针对设备的优化的重点是所有的 Nokia 的设备及 Windows Mobile 系统的设备，这些设备是目前访问 Mobile Web 的主力，另外需要注意的是，记得经常在 Opera 的 SSR （Small Screen Rendering）模式下进行尽可能多的测试。</li>
+<li>UTF-8，GB18030 及 GB2312 等编码的支持是必要的。</li>
+<li>WAP、WML 等协议已经过时了，现在大部分设备都能够支持 XHTML 及 CSS 的一个子集，所以没有必要花费时间在那些古老的协议上了，尤其是在中国这样的一个手机更新换代非常频繁的国家。
+</ol></p>
+
+<p>So，为了实践这些理论，我做了 <a href="http://m.v2ex.com/" target="_blank">V2EX Mobile</a>。</p>

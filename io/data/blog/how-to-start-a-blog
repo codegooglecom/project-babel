@@ -1,0 +1,47 @@
+title|how-to-start-a-blog
+title-full|How to Start a Blog
+writer-name|Livid
+writer-url|http://www.livid.cn/
+model|simple
+adsense-client|pub-9823529788289591
+adsense-channel|6370613572
+
+<p>If you're new to blog, this article will answer you a lot questions, then you can decide if to have your own blog or not. So, let's begin.</p>
+
+<h2>What is a blog?</h2>
+
+<p>Blog is a new form of personal website, it uses some automation software so that makes publishing easier. In early days, if you want to have a personal websites, you'll need to sign up for a hosting space, while free or charged, then you'll have to use HTML or software like FrontPage/Dreamweaver to make some web pages, then upload them to your hosting space via FTP. Automation publishing system is usually expensive in early days, so only large commercial websites or professional firms use them. But things changed. Now with more powerful processors, larger storage and faster networking, even regular PC can do a lot. Thus makes automation publishing system cheaper. So you can use some of those automation publishing systems to publish something about your ideas and life to the Internet very easily.</p>
+
+<p>More and more people enjoy this way to publish, the term "weblog" was coined by Jorn Barger in 1997. The short form, "blog", was coined by Peter Merholz in his blog Peterme.com in 1999. You can find more historical stuff on Wikipedia's <a href="http://en.wikipedia.org/wiki/Blog">Blog</a> page.</p>
+
+<h2>How to Start?</h2>
+
+<p>As I talked before, most blogs are powered by automation publishing systems. If you want to start your own, you'll need to use one. There are many choices, basically you don't need to install anything onto your computer, you can always use on-line blog hosting/publishing services provided by various companies.</p>
+
+<p>Another choice is mostly for nerd or who want to have more control over everything, you'll go to sign up for a hosting space, then you can install one publishing system in your hosting space and use it to start your blog.</p>
+
+<p>Now I'll tell you more about the two choices.</p>
+
+<h2>On-line Blogging Services</h2>
+
+<p><a href="http://www.blogger.com/">Blogger.com</a> is great site to recommend. It's originally found by Pyra Labs in 1999 and acquired by <a href="http://www.google.com/">Google</a> in 2003. Blogger.com supports a lot way to write your thoughts, you can use Web browser, mobile phone and even e-mail to write your thoughts and get published in Blogger.com. Blogger.com provides a lot beautiful page templates, you can change the total look-n-feel of your blog site whenever you want. And best of all, everything is FREE in Blogger.com.</p>
+
+<p>Another good on-line blogging service is Microsoft's <a href="http://spaces.live.com/">Live Spaces</a>. You can use drag-n-drop to configure the layout of your blog in Live Spaces, and Live Spaces also has a lot beautiful page templates to choose from. But Live Spaces doesn't run well in Firefox browser, many features are only usable in Microsoft's own Internet Explorer browser. And if you're using a Mac, then Live Spaces is not for you, you'd go for Blogger.com or Apple's iWeb.</p>
+
+<p>WordPress.com is also a great site worth trying. But the software they developed for publishing is a bit complicated, I mean there're too many things to learn in WordPress system, so if you're new to computer and Internet, WordPress may be a bit hard. However, if you could understand most elements in WordPress system, then you'll find it superb, there're a lot good blog site built on WordPress.</p>
+
+<h2>Dedicated Blogging Site</h2>
+
+<p>There are some limitations in online blogging services, for example you cannot bind a top domain name to your blog site in most on-line blogging services. So if you have ever tried to make your personal website in Dreamweaver in 1999, then you may want to try something else to start your blog.</p>
+
+<p>You can first sign up for a hosting space in <a href="http://www.dreamhost.com/">Dreamhost</a> or some others which can support PHP + MySQL. Then download the latest package of WordPress (WordPress.com is built on multi-user version of WordPress and now we're talking about its regular version you can download for your personal blog) from <a href="http://www.wordpress.org/">WordPress.org</a> and upload the extracted contents. Go several steps according to <a href="http://codex.wordpress.org/Main_Page">WordPress documentation</a> and you can have your own dedicated blogging site set up. And Dreamhost also provides easy one-button installation for poplular blogging software like WordPress, so you can set-up your own WordPress site with help from Dreamhost in minutes.</p>
+
+<p>There're a lot things to learn if you're interested in making your own blog publishing system. I'd recommend you to buy some books on HTML, PHP and MySQL and you can have your own blog publishing software in 1 month after you finished the books.</p>
+
+<h2>Great Blogs You Cannot Miss</h2>
+
+<p>In the last part of this article I'd like to recommend several great blogs I enjoyed a lot, you may have visited some of them before:</p>
+
+<p><strong>BoingBoing</strong> - <a href="http://www.boingboing.net/">www.boingboing.net</a> - A directory of wonderful things.</p>
+
+<p><strong>Engadget</strong> - <a href="http://www.engadget.com/">www.engadget.com</a> - A great site with latest info on various wonderful widgets.</p>

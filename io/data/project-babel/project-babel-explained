@@ -1,0 +1,43 @@
+title|project-babel-explained
+title-full|Project Babel Explained
+writer-name|Livid
+writer-url|http://www.livid.cn/
+model|simple
+adsense-client|pub-9823529788289591
+adsense-channel|6370613572
+
+<p><a href="http://www.v2ex.com/go/babel" target="_blank">Project Babel</a> 是在 2005 年 9 月中的时候开始构思的，这也是我第一次用 PHP 写论坛类型的程序。当时在做系统构架的时候面临一个重要问题，就是，以何种方式组织页面？基本上，选择介于以下三种方式之间。</p>
+
+<p><ol>
+<li>或许是最传统的做法，每个功能用一个单独的页面实现，比如注册就是 register.php，看别人的 profile 就是 user_profile.php，很多目前被广泛使用的论坛皆是用此方式组织，比如 <a href="http://www.phpbb.com/" target="_blank" rel="nofollow">phpBB</a> 和 <a href="http://www.discuz.com/" rel="nofollow">Discuz!</a>。</li>
+<li>使用一个大文件，通过传递其不同的参数来调用不同的功能，而所有的给用户看的内容页面使用生成静态 HTML 方式的方式组织，数据库在这样的系统中只是扮演一个存储的角色，而且只有在数据发生改变时才需要去对数据库进行读写。比如著名的成人社区 <a href="http://www.taiwankiss.com/" target="_blank" rel="nofollow">Taiwankiss</a> 即是用此方式。</li>
+<li>一种纯粹面向对象的架构，在这样的系统中，用户、用户的状态、用户之间的连接、帖子、分类、图片都是对象，最终给用户看到的内容页面也是对象，通过对象之间互相传递消息来组织这个系统，所有和特定对象有关的操作，都封装于最相关的那个对象的实现中。对象之间的组织尽可能使用一种扁平的方式，而不是多级的 nested 方式。</li>
+</ol></p>
+
+<p>我不愿意采用第 1 种方式，因为这样的话，我接下去所做的很多事情在我感觉就变成一种重复，重复的是别人在九十年代末已经完成过了的事情。</p>
+
+<p>第 2 种方式很适合那类访问量非常巨大的论坛，比如 <a href="http://www.taiwankiss.com/" target="_blank" rel="nofollow">Taiwankiss</a>，在第二种架构中，有两个前提已经被假设，1 每天有非常多的新主题和新回复，2 每个新主题和新回复都会在被创建之后准备迎接海量的点击，这两个假设对于在当时前途未知的 Project Babel 而言并无太大意义。而关键问题在于，一旦采用这样将内容页面静态化的方式，则 1 一旦要进行 massive update 的话则可能会很消耗时间和资源，2 在页面上显示一些动态的信息的复杂度将会提高，比如，假如我要在每个静态页面上显示现在的实时在线人数，则或许要通过嵌入 JavaScript 的方式来实现了。因此第 2 种方式也被放弃。</p>
+
+<p>那么最后的方式呢？最后的方式是当时让我感到兴奋的一个设想，因为之前从来没有做过这样的事情。我想，任何有激情的人都会对去尝试没有做过的事情而感到兴奋的吧。</p>
+
+<p>于是最后我选择了第 3 种方式，当然，选择了这样的方式意味着没有几乎没有任何现成的代码可以参考。和这样的系统最类似的，或许是那些用 <a href="http://www.rubyonrails.org/" target="_blank">Rails</a> 实现的系统。不过我当时并没有太多的时间来实现一个像 <a href="http://www.rubyonrails.org/" target="_blank">Rails</a> 那样的框架，Babel R1 最终是在 2005 年 10 月 15 日上线的，中途的所有 coding 时间加起来不超过 20 天。</p>
+
+<p>R1 中的具体做法是这样的。</p>
+
+<p>
+<ol>
+<li>Apache Web Server 在整个架构中扮演的角色是“接受并解构请求”，并且通过 mod_rewrite 将用户系统执行的 action 解析为各种参数映射到 loader 上。</li>
+<li>loader 是一个用 PHP 写成的小程序，loader 对 Apache Web Server 传递来的参数组进行判断 1 是否支持 2 所请求的服务是否可用。如果可用的话，loader 将初始化一个 Page 类的实例，并且让 Page 类执行相应的那些生成页面的方法。</li>
+<li>Page 的构造函数中包含了几个重要的功能。<ol>
+  <li>生成一个 User 类的实例，User 类负责解决如登录、密码验证和用户的金融系统的数字分析等。</li>
+  <li>生成一个 Validator 类的实例，Validator 类所完成的第一个功能就是对 User Agent 字符串进行分析并返回一个包含分析结果的数组放置于 $_SESSION 数组中，这个数组中包含了 User Agent 的一些有趣的信息，比如是否是手持设备、是否支持 UTF-8、使用的是何种渲染核心（Trident、Gecko、KHTML、Opera 等等）及 User Agent 的版本和所运行在的操作系统等等信息，这样的话，Page 类的其他方法就可以根据这些信息来对页面的生成方式进行调整以生成更加适合特定 User Agent 的页面。</li>
+  <li>生成一个 URL 类的实例，URL 类所完成的功能如页面跳转等。</li>
+</ol>
+</li>
+<li>之后对于如页面中的一些公共元素，则分别调用如 Page::vxTop()、Page::vxMenu() 等实现。之前有人对我在方法中“莫名其妙”地使用 vx 前缀表示了鄙夷，认为在一个完全面向对象的系统中使用这样的前缀完全是多此一举，对此，我只想说，使用这样的前缀很大程度上，是一种个人喜好问题，就好像古时候的木匠和建筑师，都喜欢在作品完成之后，将自己的名字刻于建筑物的某一个小小的恐怕是绝对不会被人发现的角落，我想这样的小小的乐趣恐怕没有侵犯到任何人吧，因此自然也就不必对此横加指责了。</li>
+<li>可以把 Page 类理解为一个生成系统中所有带 GUI 的页面的类，因此还有一些其他从结构上和 Page 类相似但是功能面向不同的类，比如 AJAX 类和 Standalone 类，AJAX 类负责所有的通过 XMLHTTPRequest() 提交的请求，而 Standalone 类则生成那些纯粹是过程而不需要任何页面的“空”页面，比如 Project Babel 中的加好友这个过程即是通过 Standalone 类完成的。</li>
+</ol>
+
+<p>这些所有的类都是一个个放置于 /htdocs/core/ 下的文件，在名字中有一个 Core 字样，比如 User 类就是 UserCore.php，以此方式和其他不带 Core 的纯粹函数集合的 .php 文件区分，比如 Utilities.php 中实现了很多常用的对字符串、颜色和时间进行操作的工具函数。</p>
+
+<p>2006 年 10 月 15 日就是 Project Babel 上线一周年的时间了，在这一年的时间里头这个系统从 R1 的 3000 多行代码的规模已经增长到了现在接近 10 万行。在这其中所完成的那些纯粹技术上的试验都是我这一年里最美好的回忆。</p>

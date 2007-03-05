@@ -1,0 +1,45 @@
+title|v2ex-overview
+title-full|V2EX 简介
+writer-name|Alex
+writer-url|http://www.alexhuang.org/
+model|simple
+adsense-client|pub-4924142719216011
+adsense-channel|7098623553
+
+<p><a href="http://v2ex.com" target="blank">V2EX</a> 网站基于一个代号名为“Project Babel”（巴别塔，<a href="http://babel.livid.cn/" target="blank">点击查看详细解释</a>）的程序搭建，是 <a href="http://www.livid.cn/" target="blank">Livid</a>（刘昕）的最新力作。</p>
+
+<p>那么，Livid 是谁呢? 这里有两篇介绍，大家可以看看：
+<ul>
+  <li><a href="http://livid.cn/livid.php" target="blank">作为自我介绍而存在的自我介绍</a> - Livid 自己写的。</li>
+  <li><a href="http://alexhuang.org/?p=154" target="blank">网络人物志[1] - 刘昕(Livid)</a> - Alex 写的。</li>
+</ul>
+
+<p>作为一个喜欢写代码的家伙，Livid 曾经搭建/开发过不少的论坛，包括有：
+<ul>
+  <li>第一个，SDFZ。</li>
+  <li>第二个，51dev。</li>
+  <li>第三个，Solaris。</li>
+  <li>第四个，Kijiji。</li>
+  <li>第五个，V2EX。</li>
+</ul>
+前两个已经消逝在了时间中。第三个去向不明。第四个就是 <a href="http://bbs.kijiji.com.cn" target="blank">bbs.kijiji.com.cn</a>，而第五个嘛，我们现在用的就是啦。
+</p>
+
+<p>V2EX 是两个短句的缩写，way too extreme 和 way to explore，前者关于一种生活的态度，后者关于我们每天都会产生然后又失去的好奇心。不过，它还没有中文名字，如果你有什么好的创意，欢迎参加我们的 《<a href="http://v2ex.com/topic/view/58.html" target="blank">V2EX 中文名征集活动</a>》。</p>
+
+<p>Project Babel 是开源的（<a href="http://www.gnu.org/copyleft/gpl.html" target="blank">GPL</a> 授权），这一点很重要。它于公元 2006 年 4 月 16 日正式向外发布，并提供全套的源代码下载（<a href="http://www.v2ex.com/releases/r500.tgz">立即下载 R500 版本</a>）。也就是说，如果你很喜欢它的话，那么也可以用它也建一个自己的论坛，甚至修改其中的代码并再次发布出来。</p>
+
+<p>V2EX 很漂亮，也很酷。与传统的论坛程序相比，它显得更加的新颖、独特。整套程序用 PHP 语言编写，可以跑在几乎所有的 *nix 操作系统上。当然，由于最初开发这个项目就是针对大型社区，所以对系统环境的要求也比较高：
+
+<ul>
+  <li>MySQL 5.0 或者 5.1，推荐 5.1。</li>
+  <li>PHP 5.0 或者 5.1，推荐 5.1，必须支持 mcrypt，MySQL，GD，Freetype，mbstring 及 SimpleXML 等模块。</li>
+  <li>PEAR packages 的最新版本。</li>
+  <li>Apache 2.0 以上，必须支持 rewrite。</li>
+</ul>
+
+</p>
+
+<p>从结构来看， V2EX 采用了与 <a href="http://www.phpwind.net/" target="blank">PHPWind</a> 或 <a href="http://www.discuz.net" target="blank">Discuz!</a> 等老牌论坛程序不同的布局方式。所有分类都在首页用二级结构展示了出来，并且，还将热门的主题也放置到了首页上。由于主题标题文字的颜色是动态生成的，从而使得 V2EX 的首页看上去可谓是“五彩缤纷”，颇能吸引眼球，同时给访问者耳目一新的感觉。</p>
+
+<p>当然，首页只是 V2EX 带给你众多惊喜中的一小部分。想要更多的精彩？那就自己慢慢地去发现吧！</p>
