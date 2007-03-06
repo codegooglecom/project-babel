@@ -418,19 +418,16 @@ class Image {
 	}
 	
 	public static function vxUpdateUserPortrait($filename, $content, $db) {
-		$sql = "UPDATE babel_user_portrait SET urp_content = '{$content}' WHERE urp_filename = '{$filename}'";
-		mysql_query($sql, $db);
-		if (mysql_affected_rows($db) == 1) {
-			
+		$sql = "SELECT COUNT(*) FROM babel_user_portrait WHERE urp_filename = '{$filename}'";
+		$count = mysql_result(mysql_query($sql, $db), 0, 0);
+		if ($count == 1) {
+			$sql = "UPDATE babel_user_portrait SET urp_content = '{$content}' WHERE urp_filename = '{$filename}'";
+			mysql_query($sql, $db);
 			return true;
 		} else {
 			$sql = "INSERT INTO babel_user_portrait(urp_filename, urp_content) VALUE('{$filename}', '{$content}')";
-			mysql_query($sql, $db) or die(mysql_error());
-			if (mysql_affected_rows($db) == 1) {
-				return true;
-			} else {
-				return false;
-			}
+			mysql_query($sql, $db) or die(__LINE__ . mysql_error());
+			return true;
 		}
 	}
 }
