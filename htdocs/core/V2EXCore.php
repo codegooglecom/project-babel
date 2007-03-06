@@ -4086,11 +4086,13 @@ class Page {
 		
 		echo('</td></tr>');
 		
-		echo('<tr><td width="200" align="right">选择一张你最喜欢的图片</td><td width="200" align="left"><input tabindex="1" type="file" name="usr_portrait" size="14" /></td></tr>');
+		echo('<tr><td width="200" align="right">选择一张你喜欢的图片</td><td width="200" align="left"><input tabindex="1" type="file" name="usr_portrait" size="14" /></td></tr>');
 		
-		echo('<tr><td width="200" align="right">对上传的图片做特效处理</td><td width="200" align="left"><input checked="checked" type="radio" name="fx" value="none" />&nbsp;&nbsp;不做任何修改</td></tr>');
-		echo('<tr><td width="200" align="right"></td><td width="200" align="left"><input type="radio" name="fx" value="lividark" />&nbsp;&nbsp;Lividark GFX <span class="tip_i"><a href="http://www.livid.cn/img/lividark_resized.jpg" rel="lightbox" title="GFX: Lividark">查看例图</a></span></td></tr>');
-		echo('<tr><td width="200" align="right"></td><td width="200" align="left"><input type="radio" name="fx" value="memory" />&nbsp;&nbsp;Memory GFX <span class="tip_i"><a href="http://www.livid.cn/img/memory_resized.jpg" rel="lightbox" title="GFX: Memory">查看例图</a></span></td></tr>');
+		if (IM_ENABLED) {
+			echo('<tr><td width="200" align="right">对上传的图片做特效处理</td><td width="200" align="left"><input checked="checked" type="radio" name="fx" value="none" />&nbsp;&nbsp;不做任何修改</td></tr>');
+			echo('<tr><td width="200" align="right"></td><td width="200" align="left"><input type="radio" name="fx" value="lividark" />&nbsp;&nbsp;Lividark GFX <span class="tip_i"><a href="http://www.livid.cn/img/lividark_resized.jpg" rel="lightbox" title="GFX: Lividark">查看例图</a></span></td></tr>');
+			echo('<tr><td width="200" align="right"></td><td width="200" align="left"><input type="radio" name="fx" value="memory" />&nbsp;&nbsp;Memory GFX <span class="tip_i"><a href="http://www.livid.cn/img/memory_resized.jpg" rel="lightbox" title="GFX: Memory">查看例图</a></span></td></tr>');
+		}
 		echo('</form>');
 		echo('<tr><td height="10" colspan="2"></td></tr>');
 		echo('</table>');
