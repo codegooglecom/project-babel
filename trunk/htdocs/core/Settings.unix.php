@@ -114,6 +114,10 @@ define('IM_ENABLED', true);
 define('IM_CMD', '/usr/bin/mogrify');
 define('IM_QUALITY', 100);
 
+/* Hosted by who? */
+define('HOST_COMPANY', 'Media Temple');
+define('HOST_LINK', 'http://www.mediatemple.net/');
+
 define('BABEL_BLOWFISH_KEY', 'ThereIsNoCureForTheWailingDeath');
 
 /* Cache_Lite in PEAR for 360s */
