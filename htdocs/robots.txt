@@ -2,3 +2,8 @@ User-agent: *
 Crawl-delay: 600
 Disallow: /login
 Disallow: /login/
+Disallow: /topic/new/
+Disallow: /topic/create/
+Disallow: /topic/modify/
+Disallow: /topic/update/
+Disallow: /who/
