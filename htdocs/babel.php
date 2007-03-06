@@ -42,34 +42,6 @@ if (isset($_GET['m'])) {
 	$m = 'home';
 }
 
-/*
-if (!BABEL_DEBUG) {
-	$chosen = strval(rand(1, 14));
-	if (strtolower($_SERVER['SERVER_NAME']) == 'www.v2ex.com' || strtolower($_SERVER['SERVER_NAME']) == 'v2ex.com') {
-		if ($_SERVER['REQUEST_URI'] == '/') {
-			header('Location: http://www' . $chosen . '.' . BABEL_DNS_DOMAIN. '/index.html');
-			die();
-		}
-		if ($_SERVER['REQUEST_URI'] == '/sidebar.html') {
-			header('Location: http://www' . $chosen . '.' . BABEL_DNS_DOMAIN. '/sidebar.html');
-			die();
-		}
-		if (mb_substr($_SERVER['REQUEST_URI'], 0, 4, 'UTF-8') == '/go/') {
-			header('Location: http://www' . $chosen . '.' . BABEL_DNS_DOMAIN. $_SERVER['REQUEST_URI']);
-			die();
-		}
-		if (mb_substr($_SERVER['REQUEST_URI'], 0, 7, 'UTF-8') == '/topic/') {
-			header('Location: http://www' . $chosen . '.' . BABEL_DNS_DOMAIN. $_SERVER['REQUEST_URI']);
-			die();
-		}
-		if (mb_substr($_SERVER['REQUEST_URI'], 0, 3, 'UTF-8') == '/u/') {
-			header('Location: http://www' . $chosen . '.' . BABEL_DNS_DOMAIN. $_SERVER['REQUEST_URI']);
-			die();
-		}
-	}
-}
-*/
-
 $p = &new Page();
 
 $global_has_bottom = true;
@@ -77,37 +49,42 @@ $global_has_bottom = true;
 switch ($m) {
 	default:
 	case 'home':
-		if ($_SESSION['babel_ua']['DEVICE_LEVEL'] < 3 && $_SESSION['babel_ua']['DEVICE_LEVEL'] > 0) {
-			$global_has_bottom = false;
-			require_once('core/MobileCore.php');
-			$p_m = &new Mobile(false);
-			$p_m->vxHome();
-			break;
+		if (strtolower($_SERVER['SERVER_NAME']) != BABEL_DNS_NAME) {
+			header('Location: http://' . BABEL_DNS_NAME . '/');
+			die('REDIRECTING ...');
 		} else {
-			if (isset($_GET['style'])) {
-				switch ($_GET['style']) {
-					case 'shuffle':
-						$p->vxHomeBundle('shuffle');
-						break;
-					case 'remix':
-						$p->vxHomeBundle('remix');
-						break;
-					default:
-						$p->vxHomeBundle(BABEL_HOME_STYLE_DEFAULT);
-						break;
-				}
+			if ($_SESSION['babel_ua']['DEVICE_LEVEL'] < 3 && $_SESSION['babel_ua']['DEVICE_LEVEL'] > 0) {
+				$global_has_bottom = false;
+				require_once('core/MobileCore.php');
+				$p_m = &new Mobile(false);
+				$p_m->vxHome();
+				break;
 			} else {
-				if (isset($_SESSION['babel_home_style'])) {
-					if ($_SESSION['babel_home_style'] != '') {
-						$p->vxHomeBundle($_SESSION['babel_home_style']);
+				if (isset($_GET['style'])) {
+					switch ($_GET['style']) {
+						case 'shuffle':
+							$p->vxHomeBundle('shuffle');
+							break;
+						case 'remix':
+							$p->vxHomeBundle('remix');
+							break;
+						default:
+							$p->vxHomeBundle(BABEL_HOME_STYLE_DEFAULT);
+							break;
+					}
+				} else {
+					if (isset($_SESSION['babel_home_style'])) {
+						if ($_SESSION['babel_home_style'] != '') {
+							$p->vxHomeBundle($_SESSION['babel_home_style']);
+						} else {
+							$p->vxHomeBundle(BABEL_HOME_STYLE_DEFAULT);
+						}
 					} else {
 						$p->vxHomeBundle(BABEL_HOME_STYLE_DEFAULT);
 					}
-				} else {
-					$p->vxHomeBundle(BABEL_HOME_STYLE_DEFAULT);
 				}
+				break;
 			}
-			break;
 		}
 		
 	case 'hot':
