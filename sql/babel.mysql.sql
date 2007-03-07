@@ -353,7 +353,7 @@ DROP TABLE IF EXISTS `babel_savepoint`;
 CREATE TABLE `babel_savepoint` (
   `svp_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `svp_uid` int(10) unsigned NOT NULL DEFAULT '0',
-  `svp_url` varchar(400) NOT NULL DEFAULT '',
+  `svp_url` text NOT NULL DEFAULT '',
   `svp_rank` int(10) unsigned NOT NULL DEFAULT '0',
   `svp_created` int(10) unsigned NOT NULL DEFAULT '0',
   `svp_lastupdated` int(10) unsigned NOT NULL DEFAULT '0',
