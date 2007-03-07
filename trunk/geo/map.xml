@@ -385,6 +385,61 @@
 	</location>
 		<!-- start: cities in /earth/china/hunan/ @hunan -->
 		<location>
+			<geo>yueyang</geo>
+			<cn>岳阳</cn>
+			<at>/earth/china/hunan/</at>
+		</location>
+		<location>
+			<geo>changde</geo>
+			<cn>常德</cn>
+			<at>/earth/china/hunan/</at>
+		</location>
+		<location>
+			<geo>yiyang</geo>
+			<cn>益阳</cn>
+			<at>/earth/china/hunan/</at>
+		</location>
+		<location>
+			<geo>loudi</geo>
+			<cn>娄底</cn>
+			<at>/earth/china/hunan/</at>
+		</location>
+		<location>
+			<geo>shaoyang</geo>
+			<cn>邵阳</cn>
+			<at>/earth/china/hunan/</at>
+		</location>
+		<location>
+			<geo>yongzhou</geo>
+			<cn>永州</cn>
+			<at>/earth/china/hunan/</at>
+		</location>
+		<location>
+			<geo>huaihua</geo>
+			<cn>怀化</cn>
+			<at>/earth/china/hunan/</at>
+		</location>
+		<location>
+			<geo>xiangtan</geo>
+			<cn>湘潭</cn>
+			<at>/earth/china/hunan/</at>
+		</location>
+		<location>
+			<geo>jishou</geo>
+			<cn>吉首</cn>
+			<at>/earth/china/hunan/</at>
+		</location>
+		<location>
+			<geo>zhuzhou</geo>
+			<cn>株洲</cn>
+			<at>/earth/china/hunan/</at>
+		</location>
+		<location>
+			<geo>hengyang</geo>
+			<cn>衡阳</cn>
+			<at>/earth/china/hunan/</at>
+		</location>
+		<location>
 			<geo>changsha</geo>
 			<cn>长沙</cn>
 			<at>/earth/china/hunan/</at>
@@ -889,6 +944,11 @@
 		<location>
 			<geo>shenzhen</geo>
 			<cn>深圳</cn>
+			<at>/earth/china/guangdong/</at>
+		</location>
+		<location>
+			<geo>huadu</geo>
+			<cn>花都</cn>
 			<at>/earth/china/guangdong/</at>
 		</location>
 		<location>
