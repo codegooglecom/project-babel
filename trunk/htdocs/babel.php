@@ -780,6 +780,7 @@ switch ($m) {
 			} else {
 				if (isset($_GET['board_id'])) {
 					$board_id = intval($_GET['board_id']);
+					// check if user had permission to post to a restricted node
 					if (!check_node_permission($board_id, $p->User, $p->restricted)) {
 						$Board = new Node($board_id, $p->db);
 						$p->vxBoardViewDeniedBundle($Board);
@@ -941,6 +942,7 @@ switch ($m) {
 			if (mysql_num_rows($rs) == 1) {
 				$Topic = mysql_fetch_object($rs);
 				mysql_free_result($rs);
+				// check if user was accessing a restricted node
 				if (!check_node_permission($Topic->tpc_pid, $p->User, $p->restricted)) {
 					$Node = new Node($Topic->tpc_pid, $p->db);
 					$p->vxBoardViewDeniedBundle($Node);
