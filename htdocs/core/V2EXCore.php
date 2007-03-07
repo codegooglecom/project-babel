@@ -424,7 +424,9 @@ class Page {
 		$this->vxMeta(Vocabulary::meta_keywords, Vocabulary::meta_description, $return);
 		$this->vxTitle($msgSiteTitle);
 		$this->vxLink($feedURL);
-		echo('<script src="/mint/?js" type="text/javascript"></script>');
+		if (MINT_LOCATION != '') {
+			echo('<script src="' . MINT_LOCATION . '" type="text/javascript"></script>');
+		}
 		echo('</head>');
 	}
 	
@@ -437,6 +439,9 @@ class Page {
 		echo('<link href="/favicon.ico" rel="shortcut icon" />');
 		echo('<link rel="stylesheet" type="text/css" href="/css/themes/' . BABEL_THEME . '/css_sidebar.css" />');
 		echo('<link rel="alternate" type="application/rss+xml" title="' . Vocabulary::site_name . ' RSS" href="' . BABEL_FEED_URL . '" />');
+		if (MINT_LOCATION != '') {
+			echo('<script src="' . MINT_LOCATION . '" type="text/javascript"></script>');
+		}
 		echo('</head>');
 	}
 	
