@@ -89,6 +89,11 @@
 		<at>/earth/</at>
 	</location>
 	<location>
+		<geo>holland</geo>
+		<cn>荷兰</cn>
+		<at>/earth/</at>
+	</location>
+	<location>
 		<geo>denmark</geo>
 		<cn>丹麦</cn>
 		<at>/earth/</at>
