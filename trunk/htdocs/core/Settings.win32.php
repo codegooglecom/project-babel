@@ -84,6 +84,9 @@ define('GOOGLE_AD_ENABLED', true);
 /* legacy kijiji api */
 define('KIJIJI_LEGACY_API_SEARCH_ENABLED', false);
 
+/* Mint */
+define('MINT_LOCATION', '');
+
 /* dict api */
 define('DICT_API_ENABLED', 'yes');
 
