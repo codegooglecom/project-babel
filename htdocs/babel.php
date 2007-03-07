@@ -49,7 +49,7 @@ $global_has_bottom = true;
 switch ($m) {
 	default:
 	case 'home':
-		if (strtolower($_SERVER['SERVER_NAME']) != BABEL_DNS_NAME) {
+		if (strtolower($_SERVER['SERVER_NAME']) != BABEL_DNS_NAME && !BABEL_DEBUG) {
 			header('Location: http://' . BABEL_DNS_NAME . '/');
 			die('REDIRECTING ...');
 		} else {
