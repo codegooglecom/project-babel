@@ -20,7 +20,7 @@
 			<title>{$topic->tpc_title} ... {$topic->tpc_posts} reply</title>
 {/if}
 {/if}
-			<link>{$site_base}topic/view/{$topic->tpc_id}.html</link>
+			<link>{$topic->entry_link}</link>
 			<comments>{$site_base}topic/view/{$topic->tpc_id}.html#reply</comments>
 			<dc:creator>{$topic->usr_nick}</dc:creator>
 			<category>{$topic->nod_title}</category>
@@ -28,7 +28,7 @@
 			{$topic->tpc_content}
 			</description>
 			<pubDate>{$topic->tpc_pubdate}</pubDate>
-			<guid>{$site_url}topic/view/{$topic->tpc_id}.html</guid>
+			<guid>{$topic->entry_link}</guid>
 		</item>
 {/foreach}
 	</channel>

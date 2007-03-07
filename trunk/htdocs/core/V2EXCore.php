@@ -4833,7 +4833,9 @@ class Page {
 			$Fav = 0;
 		}
 		echo('<div id="main">');
-		echo('<div class="blank" align="left">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/go/' . $Section->nod_name . '" target="_self">' . $Section->nod_title . '</a> &gt; <a href="/go/' . $Node->nod_name . '" target="_self">' . $Node->nod_title . '</a> &gt; ' . make_plaintext($Channel->chl_title));
+		echo('<div class="blank" align="left">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/go/' . $Section->nod_name . '" target="_self">' . $Section->nod_title . '</a> &gt; <a href="/go/' . $Node->nod_name . '" target="_self">' . $Node->nod_title . '</a> &gt; ' . make_plaintext($Channel->chl_title));
 		echo('</div>');
 		echo('<div class="blank" align="left">');
 		echo('<span class="text_large">');
@@ -5272,11 +5274,10 @@ class Page {
 		
 		echo('<div class="blank" align="left">');
 		_v_ico_map();
-		
 		if ($Node->nod_level > 1) {
-			echo(' 你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/go/' . $Section->nod_name . '" target="_self">' . $Section->nod_title . '</a> &gt; <a href="/go/' . $Node->nod_name . '">' . $Node->nod_title . '</a> &gt; 谁收藏了本讨论区？');
+			echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/go/' . $Section->nod_name . '" target="_self">' . $Section->nod_title . '</a> &gt; <a href="/go/' . $Node->nod_name . '">' . $Node->nod_title . '</a> &gt; 谁收藏了本讨论区？');
 		} else {
-			echo(' 你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/go/' . $Section->nod_name . '" target="_self">' . $Section->nod_title . '</a> &gt; 谁收藏了本区域？');
+			echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/go/' . $Section->nod_name . '" target="_self">' . $Section->nod_title . '</a> &gt; 谁收藏了本区域？');
 		}
 		echo('</div>');
 		
@@ -5349,7 +5350,7 @@ class Page {
 		
 		echo('<div class="blank" align="left">');
 		_v_ico_map();
-		echo(' 你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/go/' . $Section->nod_name . '" target="_self">' . $Section->nod_title . '</a> &gt; <a href="/go/' . $Node->nod_name . '">' . $Node->nod_title . '</a> &gt; <a href="/topic/view/' . $Topic->tpc_id . '.html">' . make_plaintext($Topic->tpc_title) . '</a> &gt; 谁收藏了本主题？');
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/go/' . $Section->nod_name . '" target="_self">' . $Section->nod_title . '</a> &gt; <a href="/go/' . $Node->nod_name . '">' . $Node->nod_title . '</a> &gt; <a href="/topic/view/' . $Topic->tpc_id . '.html">' . make_plaintext($Topic->tpc_title) . '</a> &gt; 谁收藏了本主题？');
 		
 		echo('</div>');
 		
@@ -5419,7 +5420,7 @@ class Page {
 		
 		echo('<div class="blank" align="left">');
 		_v_ico_map();
-		echo(' 你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_region . ' &gt; <a href="/geo/' . $geo . '">' . $Geo->geo->name->cn . '</a> &gt; 谁在' . $Geo->geo->name->cn);
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_region . ' &gt; <a href="/geo/' . $geo . '">' . $Geo->geo->name->cn . '</a> &gt; 谁在' . $Geo->geo->name->cn);
 		
 		echo('</div>');
 		
@@ -5546,7 +5547,7 @@ class Page {
 		
 		echo('<div class="blank" align="left">');
 		_v_ico_map();
-		echo(' 你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . urlencode($User->usr_nick) . '">' . make_plaintext($User->usr_nick) . '</a> &gt; 谁把 ' . $User->usr_nick . ' 加为好友？');
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . urlencode($User->usr_nick) . '">' . make_plaintext($User->usr_nick) . '</a> &gt; 谁把 ' . $User->usr_nick . ' 加为好友？');
 		
 		echo('</div>');
 		
@@ -5678,7 +5679,7 @@ class Page {
 		echo('<div id="main">');
 		echo('<div class="blank" align="left">');
 		_v_ico_map();
-		echo(' 你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . urlencode($User->usr_nick) . '" target="_self">' . make_plaintext($User->usr_nick) . '</a> &gt; 所有主题');
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . urlencode($User->usr_nick) . '" target="_self">' . make_plaintext($User->usr_nick) . '</a> &gt; 所有主题');
 		echo('</div>');
 		echo('<div class="blank" align="left">');
 		echo('<span class="text_large">');
@@ -5920,7 +5921,9 @@ class Page {
 			if (!isset($_SESSION['babel_page_topic'])) {
 				$_SESSION['babel_page_topic'] = 1;
 			}
-			echo('<div class="blank" align="left">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; <a href="/board/view/' . $Node->nod_id . '.html">' . $Node->nod_title . '</a> &gt; <a href="/topic/view/' . $Topic->tpc_id . '/' . $_SESSION['babel_page_topic'] . '.html">' . make_plaintext($Topic->tpc_title) . '</a> &gt; ' . make_plaintext($Post->pst_title) . ' &gt; ' . Vocabulary::action_modifypost . '</div>');
+			echo('<div class="blank" align="left">');
+			_v_ico_map();
+			echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; <a href="/board/view/' . $Node->nod_id . '.html">' . $Node->nod_title . '</a> &gt; <a href="/topic/view/' . $Topic->tpc_id . '/' . $_SESSION['babel_page_topic'] . '.html">' . make_plaintext($Topic->tpc_title) . '</a> &gt; ' . make_plaintext($Post->pst_title) . ' &gt; ' . Vocabulary::action_modifypost . '</div>');
 			echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_conf.gif" align="absmiddle" class="home" />' . Vocabulary::action_modifypost . '</span>');
 			echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
 			echo('<form action="/post/update/' . $Post->pst_id . '.vx" method="post" id="form_post_modify">');
@@ -5935,7 +5938,9 @@ class Page {
 			echo('<span class="tip"><img src="/img/pico_left.gif" align="absmiddle" />&nbsp;<a href="/topic/view/' . $Topic->tpc_id . '/' . $_SESSION['babel_page_topic'] . '.html">返回主题 / ' . make_plaintext($Topic->tpc_title) . '</a></span>');
 			echo('</div>');
 		} else {
-			echo('<div class="blank" align="left">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; <a href="/board/view/' . $Node->nod_id . '.html">' . $Node->nod_title . '</a> &gt; <a href="/topic/view/' . $Topic->tpc_id . '.html">' . make_plaintext($Topic->tpc_title) . '</a> &gt; ' . make_plaintext($Post->pst_title) . ' &gt; ' . Vocabulary::action_modifypost . ' &gt; <strong>本回复的修改功能被禁止</strong></div>');
+			echo('<div class="blank" align="left">');
+			_v_ico_map();
+			echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; <a href="/board/view/' . $Node->nod_id . '.html">' . $Node->nod_title . '</a> &gt; <a href="/topic/view/' . $Topic->tpc_id . '.html">' . make_plaintext($Topic->tpc_title) . '</a> &gt; ' . make_plaintext($Post->pst_title) . ' &gt; ' . Vocabulary::action_modifypost . ' &gt; <strong>本回复的修改功能被禁止</strong></div>');
 			echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_bomb.gif" align="absmiddle" class="home" />本回复的修改功能被禁止</span><br />你不能对本回复进行修改，是由于以下原因：');
 			_v_hr();
 			if ($this->User->usr_id != $Post->pst_uid) {
@@ -5965,7 +5970,9 @@ class Page {
 			$_SESSION['babel_page_topic'] = 1;
 		}
 		if ($rt['permit']) {
-			echo('<div class="blank" align="left">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html" target="_self">' . $Section->nod_title . '</a> &gt; <a href="/board/view/' . $Node->nod_id . '.html">' . $Node->nod_title . '</a> &gt; <a href="/topic/view/' . $Topic->tpc_id . '/' . $_SESSION['babel_page_topic'] . '.html">' . make_plaintext($Topic->tpc_title) . '</a> &gt; ' . make_plaintext($Post->pst_title) . ' &gt; ' . Vocabulary::action_modifypost . '</div>');
+			echo('<div class="blank" align="left">');
+			_v_ico_map();
+			echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html" target="_self">' . $Section->nod_title . '</a> &gt; <a href="/board/view/' . $Node->nod_id . '.html">' . $Node->nod_title . '</a> &gt; <a href="/topic/view/' . $Topic->tpc_id . '/' . $_SESSION['babel_page_topic'] . '.html">' . make_plaintext($Topic->tpc_title) . '</a> &gt; ' . make_plaintext($Post->pst_title) . ' &gt; ' . Vocabulary::action_modifypost . '</div>');
 			if ($rt['errors'] > 0) {
 				echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_important.gif" align="absmiddle" class="home" />' . Vocabulary::msg_submitwrong . '</span>');
 				echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
@@ -5997,7 +6004,9 @@ class Page {
 				echo('</div>');
 			}
 		} else {
-			echo('<div class="blank" align="left">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; <a href="/board/view/' . $Node->nod_id . '.html">' . $Node->nod_title . '</a> &gt; <a href="/topic/view/' . $Topic->tpc_id . '/' . $_SESSION['babel_page_topic'] . '.html">' . make_plaintext($Topic->tpc_title) . '</a> &gt; ' . make_plaintext($Post->pst_title) . ' &gt; ' . Vocabulary::action_modifypost . ' &gt; <strong>本回复的修改功能被禁止</strong></div>');
+			echo('<div class="blank" align="left">');
+			_v_ico_map();
+			echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; <a href="/board/view/' . $Node->nod_id . '.html">' . $Node->nod_title . '</a> &gt; <a href="/topic/view/' . $Topic->tpc_id . '/' . $_SESSION['babel_page_topic'] . '.html">' . make_plaintext($Topic->tpc_title) . '</a> &gt; ' . make_plaintext($Post->pst_title) . ' &gt; ' . Vocabulary::action_modifypost . ' &gt; <strong>本回复的修改功能被禁止</strong></div>');
 			echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_bomb.gif" align="absmiddle" class="home" />本回复的修改功能被禁止</span><br />你不能对本回复进行修改，是由于以下原因：');
 			_v_hr();
 			if ($this->User->usr_id != $Post->pst_uid) {
@@ -6033,7 +6042,9 @@ class Page {
 		}
 		echo('<div id="main">');
 		if ($permit == 1) {
-			echo('<div class="blank" align="left">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; <a href="/board/view/' . $Node->nod_id . '.html">' . $Node->nod_title . '</a> &gt; <a href="/topic/view/' . $Topic->tpc_id . '.html">' . make_plaintext($Topic->tpc_title) . '</a> &gt; ' . Vocabulary::action_modifytopic . '</div>');
+			echo('<div class="blank" align="left">');
+			_v_ico_map();
+			echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; <a href="/board/view/' . $Node->nod_id . '.html">' . $Node->nod_title . '</a> &gt; <a href="/topic/view/' . $Topic->tpc_id . '.html">' . make_plaintext($Topic->tpc_title) . '</a> &gt; ' . Vocabulary::action_modifytopic . '</div>');
 			echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_conf.gif" align="absmiddle" class="home" />' . Vocabulary::action_modifytopic . '</span>');
 			echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
 			echo('<form action="/topic/update/' . $Topic->tpc_id . '.vx" method="post" id="form_topic_modify">');
@@ -6049,7 +6060,9 @@ class Page {
 			echo('<span class="tip"><img src="/img/pico_left.gif" align="absmiddle" /><a href="/topic/view/' . $Topic->tpc_id . '.html">&nbsp;返回主题 / ' . make_plaintext($Topic->tpc_title) . '</a></span>');
 			echo('</div>');
 		} else {
-			echo('<div class="blank" align="left">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; <a href="/board/view/' . $Node->nod_id . '.html">' . $Node->nod_title . '</a> &gt; <a href="/topic/view/' . $Topic->tpc_id . '.html">' . make_plaintext($Topic->tpc_title) . '</a> &gt; ' . Vocabulary::action_modifytopic . ' &gt; <strong>本主题的修改功能被禁止</strong></div>');
+			echo('<div class="blank" align="left">');
+			_v_ico_map();
+			echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; <a href="/board/view/' . $Node->nod_id . '.html">' . $Node->nod_title . '</a> &gt; <a href="/topic/view/' . $Topic->tpc_id . '.html">' . make_plaintext($Topic->tpc_title) . '</a> &gt; ' . Vocabulary::action_modifytopic . ' &gt; <strong>本主题的修改功能被禁止</strong></div>');
 			echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_bomb.gif" align="absmiddle" class="home" />本主题的修改功能被禁止</span><br />你不能对本主题进行修改，是由于以下原因：');
 			_v_hr();
 			if ($this->User->usr_id != $Topic->tpc_uid) {
@@ -6096,14 +6109,18 @@ class Page {
 		if ($rt['permit'] == 1) {
 			if ($rt['errors'] == 0) {
 				$usr_money_a = $this->User->vxParseMoney(abs($rt['exp_amount']));
-				echo('<div class="blank" align="left">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; <a href="/board/view/' . $Node->nod_id . '.html">' . $Node->nod_title . '</a> &gt; <a href="/topic/view/' . $Topic->tpc_id . '.html">' . make_plaintext($Topic->tpc_title) . '</a> &gt; ' . Vocabulary::action_modifytopic . '</div>');
+				echo('<div class="blank" align="left">');
+				_v_ico_map();
+				echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; <a href="/board/view/' . $Node->nod_id . '.html">' . $Node->nod_title . '</a> &gt; <a href="/topic/view/' . $Topic->tpc_id . '.html">' . make_plaintext($Topic->tpc_title) . '</a> &gt; ' . Vocabulary::action_modifytopic . '</div>');
 				echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_smile.gif" align="absmiddle" class="home" />主题成功修改</span><br />主题 [ <a href="/topic/view/' . $Topic->tpc_id . '.html">' . make_plaintext($Topic->tpc_title) . '</a> ] 已经成功更新，<strong>修改该主题花费了你的' . $usr_money_a['str'] . '</strong>，将在 3 秒内自动转向到你刚才创建的主题<br /><br /><img src="/img/pico_right.gif" align="absmiddle" />&nbsp;<a href="/topic/view/' . $Topic->tpc_id . '.html">立刻转到刚才被修改的主题 / ' . $Topic->tpc_title . '</a><br /><br />');
 				echo('<img src="/img/pico_right.gif" align="absmiddle" />&nbsp;<a href="/go/' . $Node->nod_name . '">转到主题所在讨论区 / ' . make_plaintext($Node->nod_title) . '</a><br /><br />');
 				echo('<img src="/img/pico_right.gif" align="absmiddle" />&nbsp;<a href="/go/' . $Section->nod_name . '">转到主题所在区域 / ' . make_plaintext($Section->nod_title) . '</a><br /><br />');
 				echo('<span class="tip_i">' . Vocabulary::site_name . ' 感谢你对细节的关注！</span>');
 				echo('</div>');
 			} else {
-				echo('<div class="blank" align="left">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; <a href="/board/view/' . $Node->nod_id . '.html">' . $Node->nod_title . '</a> &gt; <a href="/topic/view/' . $Topic->tpc_id . '.html">' . $Topic->tpc_id . '</a> &gt; ' . Vocabulary::action_modifytopic . '</div>');
+				echo('<div class="blank" align="left">');
+				_v_ico_map();
+				echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; <a href="/board/view/' . $Node->nod_id . '.html">' . $Node->nod_title . '</a> &gt; <a href="/topic/view/' . $Topic->tpc_id . '.html">' . $Topic->tpc_id . '</a> &gt; ' . Vocabulary::action_modifytopic . '</div>');
 				echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_important.gif" align="absmiddle" class="home" />对不起，你刚才提交的信息里有些错误</span>');
 				echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
 				echo('<form action="/topic/update/' . $Topic->tpc_id . '.vx" method="post" id="form_topic_update">');
@@ -6132,7 +6149,9 @@ class Page {
 				echo('</div>');
 			}
 		} else {
-			echo('<div class="blank" align="left">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; <a href="/board/view/' . $Node->nod_id . '.html">' . $Node->nod_title . '</a> &gt; <a href="/topic/view/' . $Topic->tpc_id . '.html">' . make_plaintext($Topic->tpc_title) . '</a> &gt; ' . Vocabulary::action_modifytopic . ' &gt; <strong>Access Denied</strong></div>');
+			echo('<div class="blank" align="left">');
+			_v_ico_map();
+			echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; <a href="/board/view/' . $Node->nod_id . '.html">' . $Node->nod_title . '</a> &gt; <a href="/topic/view/' . $Topic->tpc_id . '.html">' . make_plaintext($Topic->tpc_title) . '</a> &gt; ' . Vocabulary::action_modifytopic . ' &gt; <strong>Access Denied</strong></div>');
 			echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_bomb.gif" align="absmiddle" class="home" />Access Denied</span><br />你在一个你不应该到达的地方，停止你的任何无意义的尝试吧</div>');
 		}
 		echo('</div>');
@@ -6244,9 +6263,13 @@ class Page {
 			echo('<div id="main">');
 			
 			if ($rt['tpc_pid_error'] == 0) {
-				echo('<div class="blank" align="left">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; <a href="/board/view/' . $Node->nod_id . '.html">' . $Node->nod_title . '</a> &gt; ' . Vocabulary::action_newtopic . '</div>');
+				echo('<div class="blank" align="left">');
+				_v_ico_map();
+				echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; <a href="/board/view/' . $Node->nod_id . '.html">' . $Node->nod_title . '</a> &gt; ' . Vocabulary::action_newtopic . '</div>');
 			} else {
-				echo('<div class="blank" align="left">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; ' . Vocabulary::action_newtopic . '</div>');
+				echo('<div class="blank" align="left">');
+				_v_ico_map();
+				echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; ' . Vocabulary::action_newtopic . '</div>');
 			}
 
 			echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_important.gif" align="absmiddle" class="home" />对不起，你刚才提交的信息里有些错误</span>');
@@ -6334,7 +6357,9 @@ class Page {
 		$Node = new Node($Topic->tpc_pid, $this->db);
 		$Section = $Node->vxGetNodeInfo($Node->nod_sid);
 		echo('<div id="main">');
-		echo('<div class="blank" align="left">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html" target="_self">' . $Section->nod_title . '</a> &gt; <a href="/board/view/' . $Node->nod_id . '.html">' . $Node->nod_title . '</a> &gt; <a href="/topic/view/' . $Topic->tpc_id . '.html">' . make_plaintext($Topic->tpc_title) . '</a> &gt; ' . Vocabulary::action_replytopic . '</div>');
+		echo('<div class="blank" align="left">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html" target="_self">' . $Section->nod_title . '</a> &gt; <a href="/board/view/' . $Node->nod_id . '.html">' . $Node->nod_title . '</a> &gt; <a href="/topic/view/' . $Topic->tpc_id . '.html">' . make_plaintext($Topic->tpc_title) . '</a> &gt; ' . Vocabulary::action_replytopic . '</div>');
 		if ($rt['errors'] > 0) {
 			echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_important.gif" align="absmiddle" class="home" />' . Vocabulary::msg_submitwrong . '</span>');
 			if ($rt['autistic']) {
@@ -6379,7 +6404,9 @@ class Page {
 	
 	public function vxTopicTop() {
 		echo('<div id="main">');
-		echo('<div class="blank">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_toptopic . '</div>');
+		echo('<div class="blank">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_toptopic . '</div>');
 		echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_top.gif" align="absmiddle" align="" class="ico" />' . Vocabulary::term_toptopic . '</span></div>');
 		echo('<table width="100%" border="0" cellpadding="0" cellspacing="2" class="board">');
 		echo('<tr><td width="50%" align="left" valign="top" class="container"><table width="100%" cellpadding="0" cellspacing="0" border="0" class="drawer"><tr><td height="18" class="orange">最多回复主题 Top 50</td></tr>');
@@ -6820,7 +6847,9 @@ class Page {
 	
 		echo('<div id="main">');
 		
-		echo('<div class="blank">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/go/' . $Section->nod_name . '" target="_self">' . $Section->nod_title . '</a> &gt; <a href="/go/' . $Node->nod_name . '" target="_self">' . $Node->nod_title . '</a> &gt; <a href="/topic/view/' . $Topic->tpc_id . '.html">' . make_plaintext($Topic->tpc_title) . '</a> &gt; 移动主题</div>');
+		echo('<div class="blank">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/go/' . $Section->nod_name . '" target="_self">' . $Section->nod_title . '</a> &gt; <a href="/go/' . $Node->nod_name . '" target="_self">' . $Node->nod_title . '</a> &gt; <a href="/topic/view/' . $Topic->tpc_id . '.html">' . make_plaintext($Topic->tpc_title) . '</a> &gt; 移动主题</div>');
 		
 		echo('<div class="blank" align="left">');
 		
@@ -6863,7 +6892,9 @@ class Page {
 		mysql_free_result($rs);
 		
 		echo('<div id="main">');
-		echo('<div class="blank" align="left">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::action_viewexpense . '</div>');
+		echo('<div class="blank" align="left">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::action_viewexpense . '</div>');
 		echo('<div class="blank" align="left">');
 		echo('<span class="text_large"><img src="/img/ico_expense.gif" align="absmiddle" class="home" />' . Vocabulary::action_viewexpense);
 		/* S: truncate */
@@ -7229,7 +7260,9 @@ class Page {
 	
 	public function vxMobile() {
 		echo('<div id="main">');
-		echo('<div class="blank" align="left">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::action_mobile_search . '</div>');
+		echo('<div class="blank" align="left">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::action_mobile_search . '</div>');
 		if (isset($_GET['no'])) {
 			$no = trim($_GET['no']);
 			if (strlen($no) == 11) {
@@ -7257,7 +7290,9 @@ class Page {
 	
 	public function vxMan() {
 		echo('<div id="main">');
-		echo('<div class="blank" align="left">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::action_man_search . '</div>');
+		echo('<div class="blank" align="left">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::action_man_search . '</div>');
 		if (isset($_GET['q'])) {
 			$_q = urldecode(strtolower(substr($_SERVER['REQUEST_URI'], 5, (strlen($_SERVER['REQUEST_URI']) - 5))));
 			$_q_h = 'search_man_' . md5($_q);
@@ -7436,7 +7471,9 @@ class Page {
 		
 		$rs = mysql_query($sql, $this->db);
 		echo('<div id="main">');
-		echo('<div class="blank" align="left">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . urlencode($User->usr_nick) . '">' . $User->usr_nick . '</a> &gt; ' . Vocabulary::term_zen . ' <span class="tip_i"><small>alpha</small></span></div>');
+		echo('<div class="blank" align="left">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . urlencode($User->usr_nick) . '">' . $User->usr_nick . '</a> &gt; ' . Vocabulary::term_zen . ' <span class="tip_i"><small>alpha</small></span></div>');
 		echo('<div class="blank"><span class="text_large"><a style="color: ' . rand_color() . ';" href="/u/' . urlencode($User->usr_nick) . '" class="var">' . $User->usr_nick . '</a> / 进行中的项目</span>');
 		
 		if ($_SESSION['babel_ua']['GECKO_DETECTED'] || $_SESSION['babel_ua']['KHTML_DETECTED'] || $_SESSION['babel_ua']['OPERA_DETECTED']) {
@@ -7609,12 +7646,16 @@ class Page {
 	public function vxUserGraphic($options) {
 		_v_m_s();
 		if (!$options['mode']) {
-			echo('<div class="blank" align="left">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_user_graphic . ' <span class="tip_i"><small>alpha</small></span></div>');
+			echo('<div class="blank" align="left">');
+			_v_ico_map();
+			echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_user_graphic . ' <span class="tip_i"><small>alpha</small></span></div>');
 			echo('<div class="blank"><h1 class="ititle">' . Vocabulary::term_user_empty . '</h1></div>');
 		} else {
 			$_u = $options['target'];
 			$_u->usr_nick_plain = make_plaintext($_u->usr_nick);
-			echo('<div class="blank" align="left">你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . urlencode($_u->usr_nick_plain) . '">' . $_u->usr_nick_plain . '</a> &gt; ' . Vocabulary::term_user_graphic . ' <span class="tip_i"><small>alpha</small></span></div>');
+			echo('<div class="blank" align="left">');
+			_v_ico_map();
+			echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . urlencode($_u->usr_nick_plain) . '">' . $_u->usr_nick_plain . '</a> &gt; ' . Vocabulary::term_user_graphic . ' <span class="tip_i"><small>alpha</small></span></div>');
 			_v_b_l_s();
 			if ($_u->usr_id == $this->User->usr_id) {
 				echo(_v_h1_i('我的最新图片'));
@@ -7634,7 +7675,9 @@ class Page {
 		$geos_all_children = $Geo->vxGetRecursiveChildrenArray('', true);
 		$geos_all_children_sql = implode(',', $geos_all_children);
 		echo('<div id="main">');
-		echo('<div class="blank" align="left"><img src="/img/icons/silk/map.png" align="absmiddle" class="map" />你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_region . ' &gt; ' . $Geo->geo->name->cn . ' <span class="tip_i"><small>portal</small></span></div>');
+		echo('<div class="blank" align="left">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_region . ' &gt; ' . $Geo->geo->name->cn . ' <span class="tip_i"><small>portal</small></span></div>');
 		echo('<div class="blank" align="left">');
 		if ($this->User->vxIsLogin() && $this->User->usr_geo == $Geo->geo->geo) {
 			echo('<span class="text_large">我在' . $Geo->geo->name->cn . '</span><span class="tip_i"> ... <a href="/user/move.vx" class="t">修改我的所在地</a></span>');
@@ -7937,7 +7980,7 @@ class Page {
 		/* S: You're here */
 		echo('<div class="blank">');
 		_v_ico_map();
-		echo(' 你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . urlencode($_u->usr_nick) . '">' . make_plaintext($_u->usr_nick) . '</a> &gt; ZEN <span class="tip_i"><small>2.0 alpha</small></span>');
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . urlencode($_u->usr_nick) . '">' . make_plaintext($_u->usr_nick) . '</a> &gt; ZEN <span class="tip_i"><small>2.0 alpha</small></span>');
 		echo('</div>');
 		/* E: You're here */
 		echo('<div class="blank">');
@@ -7968,7 +8011,7 @@ class Page {
 		/* S: You're here */
 		echo('<div class="blank">');
 		_v_ico_map();
-		echo(' 你当前位于 <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . urlencode($Project->usr_nick) . '">' . $Project->usr_nick_plain . '</a> &gt; <a href="/zen2/' . urlencode($Project->usr_nick) . '">ZEN</a> &gt; ' . $Project->zpr_title_plain . ' <span class="tip_i"><small>2.0 alpha</small></span>');
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . urlencode($Project->usr_nick) . '">' . $Project->usr_nick_plain . '</a> &gt; <a href="/zen2/' . urlencode($Project->usr_nick) . '">ZEN</a> &gt; ' . $Project->zpr_title_plain . ' <span class="tip_i"><small>2.0 alpha</small></span>');
 		echo('</div>');
 		/* E: You're here */
 		echo('<div class="blank">');

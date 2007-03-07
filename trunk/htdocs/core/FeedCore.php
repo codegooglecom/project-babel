@@ -115,12 +115,14 @@ class Feed {
 			$Topics[$i]->tpc_title = htmlspecialchars($Topics[$i]->tpc_title, ENT_NOQUOTES);
 			$Topics[$i]->tpc_content = htmlspecialchars(format_ubb($Topics[$i]->tpc_content), ENT_NOQUOTES);
 			$Topics[$i]->tpc_pubdate = date('r', $Topics[$i]->tpc_created);
+			$Topics[$i]->entry_link = 'http://' . BABEL_DNS_NAME . '/topic/view/' . $Topic->tpc_id . '.html';
 		}
 		$this->s->assign('feed_title', 'Latest from ' . Vocabulary::site_name);
 		$this->s->assign('feed_description', Vocabulary::meta_description);
 		$this->s->assign('feed_category', Vocabulary::meta_category);
 		$this->s->assign('a_topics', $Topics);
-		$this->s->display('feed/rss2.smarty');
+		$o = $this->s->fetch('feed/rss2.smarty');
+		echo $o;
 	}
 	
 	public function vxFeedDenied() {
