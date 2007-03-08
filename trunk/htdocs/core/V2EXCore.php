@@ -6710,9 +6710,9 @@ class Page {
 				$i++;
 				$j = ($p['cur'] - 1) * 60 + $i;
 				if ($Reply->usr_portrait == '') {
-					$img_usr_portrait = '/img/p_' . $Reply->usr_gender . '_s.gif';
+					$img_usr_portrait = CDN_P . 'p_' . $Reply->usr_gender . '_s.gif';
 				} else {
-					$img_usr_portrait = '/img/p/' . $Reply->usr_portrait . '_s.' . BABEL_PORTRAIT_EXT;
+					$img_usr_portrait = CDN_P . 'p/' . $Reply->usr_portrait . '_s.' . BABEL_PORTRAIT_EXT;
 				}
 				if ($this->User->usr_id == 1) {
 					$ico_erase = '&nbsp;<img src="/img/icons/silk/delete.png" align="absmiddle" onclick="if (confirm(' . "'确认擦除？'" . ')) {location.href=' . "'/post/erase/{$Reply->pst_id}.vx';" . '}" border="0" />';
