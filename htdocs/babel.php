@@ -1711,7 +1711,7 @@ switch ($m) {
 		
 	case 'sidebar':
 		$global_has_bottom = false;
-		$p->vxHeadMini('侧栏');
+		$p->vxHeadMini('侧栏', 90, '/sidebar.html');
 		$p->vxBodyStart();
 		$p->vxMozillaSidebar();
 		break;

@@ -430,11 +430,13 @@ class Page {
 		echo('</head>');
 	}
 	
-	public function vxHeadMini($title) {
+	public function vxHeadMini($title, $duration = '', $refresh = '') {
 		echo('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN">');
 		echo('<head>');
 		$this->vxMeta(Vocabulary::meta_keywords, Vocabulary::meta_description);
-		echo('<meta http-equiv="refresh" content="90;URL=/sidebar.html" />');
+		if ($duration != '' && $refresh != '') {
+			echo('<meta http-equiv="refresh" content="' . $duration . ';URL=' . $refresh . '" />');
+		}
 		$this->vxTitle($title);
 		echo('<link href="/favicon.ico" rel="shortcut icon" />');
 		echo('<link rel="stylesheet" type="text/css" href="/css/themes/' . BABEL_THEME . '/css_sidebar.css" />');
@@ -752,9 +754,7 @@ class Page {
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/clock.png" align="absmiddle">&nbsp;<a href="/zen/' . urlencode($this->User->usr_nick) . '" class="menu">ZEN</a> <span class="tip_i"><small>alpha</small></span></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/house.png" align="absmiddle" />&nbsp;<a href="/u/' . urlencode($this->User->usr_nick) . '" class="menu">我的 ' . Vocabulary::site_name . ' 主页</a></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/coins_delete.png" align="absmiddle" />&nbsp;<a href="/expense/view.vx" class="menu">消费记录</a></li>');
-			if ($this->User->usr_sw_top_wealth) {
-				echo('<li><img src="' . CDN_UI . 'img/icons/silk/coins_add.png" align="absmiddle" />&nbsp;<a href="/expense/view.vx" class="menu">社区财富排行</a></li>');
-			}
+			echo('<li><img src="' . CDN_UI . 'img/icons/silk/coins_add.png" align="absmiddle" />&nbsp;<a href="#;" class="menu" onclick="openTopWealth();">社区财富排行</a></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/world.png" align="absmiddle" />&nbsp;<a href="/geo/' . $this->User->usr_geo . '" class="menu">' . $this->Geo->map['name'][$this->User->usr_geo] . '</a> <span class="tip_i"><small>portal</small></span></li>');
 			echo('<li>');
 			_v_hr();
@@ -8234,7 +8234,8 @@ class Page {
 		echo('<div class="blank">');
 		echo('<img src="' . CDN_UI . 'img/icons/silk/coins_add.png" align="absmiddle" /> 社区财富排行');
 		_v_hr();
-		if ($o = $this->cs->get('babel_top_wealth')) {
+		$cached = false; // It's not quite necessary to use cache now
+		if ($o = $this->cs->get('babel_top_wealth') && $cached) {
 			echo $o;
 		} else {
 			ob_start();
