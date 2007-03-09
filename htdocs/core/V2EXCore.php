@@ -430,12 +430,12 @@ class Page {
 		echo('</head>');
 	}
 	
-	public function vxHeadSidebar() {
+	public function vxHeadMini($title) {
 		echo('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN">');
 		echo('<head>');
 		$this->vxMeta(Vocabulary::meta_keywords, Vocabulary::meta_description);
 		echo('<meta http-equiv="refresh" content="90;URL=/sidebar.html" />');
-		$this->vxTitle(Vocabulary::site_name);
+		$this->vxTitle($title);
 		echo('<link href="/favicon.ico" rel="shortcut icon" />');
 		echo('<link rel="stylesheet" type="text/css" href="/css/themes/' . BABEL_THEME . '/css_sidebar.css" />');
 		echo('<link rel="alternate" type="application/rss+xml" title="' . Vocabulary::site_name . ' RSS" href="' . BABEL_FEED_URL . '" />');
@@ -751,7 +751,10 @@ class Page {
 			// echo('<li><img src="' . CDN_UI . 'img/icons/silk/calendar.png" align="absmiddle" />&nbsp;<a href="/m/' . urlencode($this->User->usr_nick) . '" class="menu">我的印迹</a></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/clock.png" align="absmiddle">&nbsp;<a href="/zen/' . urlencode($this->User->usr_nick) . '" class="menu">ZEN</a> <span class="tip_i"><small>alpha</small></span></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/house.png" align="absmiddle" />&nbsp;<a href="/u/' . urlencode($this->User->usr_nick) . '" class="menu">我的 ' . Vocabulary::site_name . ' 主页</a></li>');
-			echo('<li><img src="' . CDN_UI . 'img/icons/silk/coins.png" align="absmiddle" />&nbsp;<a href="/expense/view.vx" class="menu">消费记录</a></li>');
+			echo('<li><img src="' . CDN_UI . 'img/icons/silk/coins_delete.png" align="absmiddle" />&nbsp;<a href="/expense/view.vx" class="menu">消费记录</a></li>');
+			if ($this->User->usr_sw_top_wealth) {
+				echo('<li><img src="' . CDN_UI . 'img/icons/silk/coins_add.png" align="absmiddle" />&nbsp;<a href="/expense/view.vx" class="menu">社区财富排行</a></li>');
+			}
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/world.png" align="absmiddle" />&nbsp;<a href="/geo/' . $this->User->usr_geo . '" class="menu">' . $this->Geo->map['name'][$this->User->usr_geo] . '</a> <span class="tip_i"><small>portal</small></span></li>');
 			echo('<li>');
 			_v_hr();
@@ -1812,6 +1815,9 @@ class Page {
 			$Node = null;
 		}
 		mysql_free_result($rs);
+		/* FIX: virgin tab
+		$o .= '<li class="normal" id="home_tab_virgin" onclick="switchHomeTab(' . "'virgin', '', ''" . ')">未回复</li>';
+		*/
 		$o .= '</ul>';
 		$o .= '<div id="home_tab_top"></div>';
 		$o .= '<div id="home_tab_content"></div>';
@@ -4158,7 +4164,7 @@ class Page {
 		echo('<tr><td width="200" align="right">真实姓名</td><td width="200" align="left"><input tabindex="1" type="text" maxlength="80" class="sl" name="usr_full" value="' . make_single_return($this->User->usr_full) . '" /></td>');
 		
 		// S button:
-		echo('<td width="150" rowspan="13" valign="middle" align="right">');
+		echo('<td width="150" rowspan="14" valign="middle" align="right">');
 		
 		_v_btn_f('修改', 'form_user_info');
 		
@@ -4197,6 +4203,19 @@ class Page {
 			}
 		}
 		echo('</select></td></tr>');
+		
+		// switch: top_wealth
+		
+		echo('<tr><td width="200" align="right" valign="middle"><small>参加社区财富排行</small></td><td align="left">');
+		if ($this->User->usr_sw_top_wealth == 1) {
+			echo('<input type="checkbox" name="usr_sw_top_wealth" tabindex="9" checked="checked" /> 参加');
+		} else {
+			echo('<input type="checkbox" name="usr_sw_top_wealth" tabindex="9" /> 参加');
+		}
+		echo('</td></tr>');
+		
+		// switch: shuffle_cloud
+		
 		echo('<tr><td width="200" align="right" valign="middle"><small>' . Vocabulary::term_shuffle_cloud . '</small></td><td align="left">');
 		if ($this->User->usr_sw_shuffle_cloud == 1) {
 			echo('<input type="checkbox" name="usr_sw_shuffle_cloud" tabindex="9" checked="checked" /> 开启');
@@ -4204,6 +4223,7 @@ class Page {
 			echo('<input type="checkbox" name="usr_sw_shuffle_cloud" tabindex="9" /> 开启');
 		}
 		echo('</td></tr>');
+		
 		echo('<tr><td width="200" align="right" valign="middle"><small>V2EX Shell</small></td><td align="left">');
 		if ($this->User->usr_sw_shell == 1) {
 			echo('<input type="checkbox" name="usr_sw_shell" tabindex="9" checked="checked" /> 开启');
@@ -4258,7 +4278,7 @@ class Page {
 			
 			/* cell: submit button */
 			
-			echo('<td width="150" rowspan="12" valign="middle" align="right">');
+			echo('<td width="150" rowspan="13" valign="middle" align="right">');
 			_v_btn_f('修改', 'form_user_info');
 			echo('</td></tr>');
 			
@@ -4319,6 +4339,14 @@ class Page {
 				}
 			}
 			echo('</select></td></tr>');
+			
+			echo('<tr><td width="200" align="right" valign="middle"><small>参加社区财富排行</small></td><td align="left">');
+			if ($rt['usr_sw_top_wealth_value'] == 1) {
+				echo('<input type="checkbox" name="usr_sw_top_wealth" tabindex="8" checked="checked" /> 参加');
+			} else {
+				echo('<input type="checkbox" name="usr_sw_top_wealth" tabindex="8" /> 参加');
+			}
+			echo('</td></tr>');
 			
 			echo('<tr><td width="200" align="right" valign="middle"><small>' . Vocabulary::term_shuffle_cloud . '</small></td><td align="left">');
 			if ($rt['usr_sw_shuffle_cloud_value'] == 1) {
@@ -4405,7 +4433,7 @@ class Page {
 			echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_smile.gif" align="absmiddle" class="home" />' . make_plaintext($rt['usr_nick_value']) . ' 的会员信息修改成功</span>');
 			echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
 			echo('<tr><td width="200" align="right" valign="middle">真实姓名</td><td align="left">' . make_plaintext($rt['usr_full_value']) . '</td>');
-			echo('<td width="150" rowspan="13" valign="middle" align="right">');
+			echo('<td width="150" rowspan="14" valign="middle" align="right">');
 			_v_btn_l('重新修改', '/user/modify.vx');
 			echo('</td>');
 			echo('</tr>');
@@ -4418,6 +4446,9 @@ class Page {
 			echo('<tr><td width="200" align="right" valign="middle">常用屏幕宽度</td><td align="left">' . $rt['usr_width_value'] . '</td></tr>');
 			
 			/* start: switches */
+			echo('<tr><td width="200" align="right" valign="middle"><small>参加社区财富排行</small></td><td align="left">');
+			echo $rt['usr_sw_top_wealth_value'] ? '参加' : '不参加'; 
+			echo('</td></tr>');
 			echo('<tr><td width="200" align="right" valign="middle"><small>' . Vocabulary::term_shuffle_cloud . '</small></td><td align="left">');
 			echo $rt['usr_sw_shuffle_cloud_value'] ? '开启' : '关闭'; 
 			echo('</td></tr>');
@@ -4834,10 +4865,7 @@ class Page {
 					$css_class = 'odd';
 				}
 				echo('<td class="' . $css_class . '" height="30" align="left"><a href="/topic/view/' . $Topic->tpc_id . '.html" target="_self">' . make_plaintext($Topic->tpc_title) . '</a>&nbsp;');
-				if ($Topic->tpc_posts > 0) {
-					echo('<small class="fade">(' . $Topic->tpc_posts . ')</small>');
-				}
-				echo('<small class="grey">+' . $Topic->tpc_hits . '</small>');
+				echo('<span class="tip_i"><small> ... viewed ' . $Topic->tpc_hits . ' times</small></span>');
 				echo('</td>');
 				echo('<td class="' . $css_class . '" width="120" height="30" align="left"><a href="/u/' . urlencode($Topic->usr_nick) . '"><img src="' . $img_p . '" class="portrait" align="absmiddle" border="0" /> ' . $Topic->usr_nick . '</a></td>');
 				if ($Topic->tpc_lasttouched > $Topic->tpc_created) {
@@ -5199,7 +5227,12 @@ class Page {
 						}
 					}
 				}
-				echo('<td width="24" height="30" align="center" valign="middle" class="star"><img src="' . CDN_UI . 'img/dot_' . $dot . '.png" /></td>');
+				if ($Topic->tpc_posts == 0) {
+					$img_dot = CDN_UI . 'img/icons/silk/weather_sun.png';
+				} else {
+					$img_dot = CDN_UI . 'img/dot_' . $dot . '.png';
+				}
+				echo('<td width="24" height="30" align="center" valign="middle" class="star"><img src="' . $img_dot . '" align="absmiddle" /></td>');
 				if ($i % 2 == 0) {
 					$css_class = 'even';
 				} else {
@@ -8192,6 +8225,63 @@ class Page {
 		echo('<a href="http://www.sourceforge.net/"><img src="' . CDN_UI . 'img/favicons/sf.png" align="absmiddle" border="0" alt="SourceForge" /></a> ');
 		echo('<a href="http://dev.mysql.com/"><img src="' . CDN_UI . 'img/favicons/mysql.png" align="absmiddle" border="0" alt="MySQL Developer Zone" /></a> ');
 		echo('<a href="http://www.php.net/"><img src="' . CDN_UI . 'img/favicons/php.png" align="absmiddle" border="0" alt="PHP" /></a> ');
+		echo('</div>');
+		echo('</div>');
+	}
+
+	public function vxTopWealth() {
+		echo('<div id="single">');
+		echo('<div class="blank">');
+		echo('<img src="' . CDN_UI . 'img/icons/silk/coins_add.png" align="absmiddle" /> 社区财富排行');
+		_v_hr();
+		if ($o = $this->cs->get('babel_top_wealth')) {
+			echo $o;
+		} else {
+			ob_start();
+			$sql = "SELECT usr_id, usr_nick, usr_gender, usr_portrait, usr_money FROM babel_user WHERE usr_sw_top_wealth = 1 ORDER BY usr_money DESC LIMIT 10";
+			$rs = mysql_query($sql);
+			$i = 0;
+			$full = 0;
+			while ($Richer = mysql_fetch_object($rs)) {
+				$i++;
+				if ($i == 1) { $full = $Richer->usr_money; $percentage = 1; } else { $percentage = $Richer->usr_money / $full; }
+				$css_class = ($i % 2 == 0) ? 'entry_even' : 'entry_odd';
+				$img_p = $Richer->usr_portrait ? CDN_IMG . 'p/' . $Richer->usr_portrait . '_n.jpg' : CDN_IMG . 'p_' . $Richer->usr_gender . '_n.gif';
+				
+				echo('<div class="' . $css_class . '">');
+				echo('<table width="100%" cellpadding="0" cellspacing="0" border="0">');
+				echo('<tr>');
+				echo('<td width="100" align="left">');
+				echo('<a href="/u/' . urlencode($Richer->usr_nick) . '" target="_parent"><img src="' . $img_p . '" align="absmiddle" class="portrait" border="0" alt="' . make_single_return(make_plaintext($Richer->usr_nick)) . '" /></a> ');
+				echo('<a href="/u/' . urlencode($Richer->usr_nick) . '" target="_parent" class="var" style="color: ' . rand_color() . '">' . make_plaintext($Richer->usr_nick) . '</a>');
+				echo('</td>');
+				echo('<td width="auto">');
+				$width = strval(intval($percentage * 300)) . 'px';
+				echo('<div style="float: left; padding: 1px; width: ' . $width . '; border: 1px solid #9C3; -moz-border-radius: 2px;">');
+				echo('<div style="height: 15px; background-image: url(' . "'/img/progress.png'" . ');"> </div></div>');
+				$_MONEY = $this->User->vxParseMoney($Richer->usr_money);
+				echo('<div style="">&nbsp;&nbsp;<small>');
+				if ($_MONEY['g'] > 0) {
+					echo(vsprintf('%d', $_MONEY['g']) . '<img src="/img/coin_g.png" align="absmiddle" /> ');
+				}
+				if ($_MONEY['s'] > 0) {
+					echo(vsprintf('%d', $_MONEY['s']) . '<img src="/img/coin_s.png" align="absmiddle" /> ');
+				}
+				if ($_MONEY['c'] > 1) {
+					echo(vsprintf('%d', $_MONEY['c']) . '<img src="/img/coin_c.png" align="absmiddle" />');
+				}
+				echo('</small></div>');
+				echo('</td>');
+				echo('</tr>');
+				echo('</table>');
+				echo('</div>');
+			}
+			$o = ob_get_contents();
+			ob_end_clean();
+			$this->cs->save($o, 'babel_top_wealth');
+			echo $o;
+		}
+		_v_hr();
 		echo('</div>');
 		echo('</div>');
 	}

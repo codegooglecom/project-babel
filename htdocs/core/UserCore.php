@@ -43,10 +43,11 @@ class User {
 	public $usr_hits;
 	public $usr_logins;
 	public $usr_created;
-	public $usr_sw_shuffle_cloud;
-	public $usr_sw_shell;
-	public $usr_sw_notify_reply;
-	public $usr_sw_notify_reply_all;
+	public $usr_sw_shuffle_cloud; // Whether to show the cloud on shuffle mode home page
+	public $usr_sw_top_wealth; // Whether to be ranked in Community wealth show page
+	public $usr_sw_shell; // Whether to use V2EX Shell
+	public $usr_sw_notify_reply; // Whether to be notified when one's own topic got new reply
+	public $usr_sw_notify_reply_all; // Whether to be notified when one's involved topic got new reply
 	public $usr_lastlogin;
 	public $usr_money_a;
 	public $usr_gender_a;
@@ -73,6 +74,7 @@ class User {
 		$this->usr_logins = 0;
 		$this->usr_created = 0;
 		$this->usr_sw_shuffle_cloud = 1;
+		$this->usr_sw_top_wealth = 0;
 		$this->usr_sw_shell = 0;
 		$this->usr_sw_notify_reply = 0;
 		$this->usr_sw_notify_reply_all = 0;
@@ -98,7 +100,7 @@ class User {
 		$e = 0;
 
 		if (strlen($usr_email) > 0 && strlen($usr_password) > 0) {
-			$sql = "SELECT usr_id, usr_gid, usr_email, usr_email_notify, usr_geo, usr_password, usr_nick, usr_full, usr_addr, usr_telephone, usr_identity, usr_gender, usr_brief, usr_portrait, usr_money, usr_width, usr_hits, usr_logins, usr_created, usr_sw_shuffle_cloud, usr_sw_shell, usr_sw_notify_reply, usr_sw_notify_reply_all, usr_lastlogin, usr_lastlogin_ua FROM babel_user WHERE usr_email = '{$usr_email}' AND usr_password = '{$usr_password}'";
+			$sql = "SELECT usr_id, usr_gid, usr_email, usr_email_notify, usr_geo, usr_password, usr_nick, usr_full, usr_addr, usr_telephone, usr_identity, usr_gender, usr_brief, usr_portrait, usr_money, usr_width, usr_hits, usr_logins, usr_created, usr_sw_shuffle_cloud, usr_sw_top_wealth, usr_sw_shell, usr_sw_notify_reply, usr_sw_notify_reply_all, usr_lastlogin, usr_lastlogin_ua FROM babel_user WHERE usr_email = '{$usr_email}' AND usr_password = '{$usr_password}'";
 			$rs = mysql_query($sql, $this->db);
 			if (mysql_num_rows($rs) == 1) {
 				$O = mysql_fetch_object($rs);
@@ -122,6 +124,7 @@ class User {
 				$this->usr_logins = $O->usr_logins;
 				$this->usr_created = $O->usr_created;
 				$this->usr_sw_shuffle_cloud = intval($O->usr_sw_shuffle_cloud);
+				$this->usr_sw_top_wealth = intval($O->usr_sw_top_wealth);
 				$this->usr_sw_shell = $O->usr_sw_shell;
 				$this->usr_sw_notify_reply = $O->usr_sw_notify_reply;
 				$this->usr_sw_notify_reply_all = $O->usr_sw_notify_reply_all;
@@ -155,7 +158,7 @@ class User {
 					$real_usr_email = mysql_real_escape_string($_COOKIE['babel_usr_email']);
 					$real_usr_password = mysql_real_escape_string($this->bf->decrypt($_COOKIE['babel_usr_password']));
 				}
-				$sql = "SELECT usr_id, usr_gid, usr_email, usr_email_notify, usr_geo, usr_password, usr_nick, usr_full, usr_addr, usr_telephone, usr_identity, usr_gender, usr_brief, usr_portrait, usr_money, usr_width, usr_hits, usr_logins, usr_created, usr_sw_shuffle_cloud, usr_sw_shell, usr_sw_notify_reply, usr_sw_notify_reply_all, usr_lastlogin, usr_lastlogin_ua FROM babel_user WHERE usr_email = '" . $real_usr_email . "' AND usr_password = '" . $real_usr_password . "'";
+				$sql = "SELECT usr_id, usr_gid, usr_email, usr_email_notify, usr_geo, usr_password, usr_nick, usr_full, usr_addr, usr_telephone, usr_identity, usr_gender, usr_brief, usr_portrait, usr_money, usr_width, usr_hits, usr_logins, usr_created, usr_sw_shuffle_cloud, usr_sw_top_wealth, usr_sw_shell, usr_sw_notify_reply, usr_sw_notify_reply_all, usr_lastlogin, usr_lastlogin_ua FROM babel_user WHERE usr_email = '" . $real_usr_email . "' AND usr_password = '" . $real_usr_password . "'";
 				$rs = mysql_query($sql, $this->db);
 				if (mysql_num_rows($rs) == 1) {
 					$O = mysql_fetch_object($rs);
@@ -179,6 +182,7 @@ class User {
 					$this->usr_logins = $O->usr_logins;
 					$this->usr_created = $O->usr_created;
 					$this->usr_sw_shuffle_cloud = intval($O->usr_sw_shuffle_cloud);
+					$this->usr_sw_top_wealth = intval($O->usr_sw_top_wealth);
 					$this->usr_sw_shell = $O->usr_sw_shell;
 					$this->usr_sw_notify_reply = $O->usr_sw_notify_reply;
 					$this->usr_sw_notify_reply_all = $O->usr_sw_notify_reply_all;
@@ -226,6 +230,7 @@ class User {
 		$this->usr_logins = 0;
 		$this->usr_created = 0;
 		$this->usr_sw_shuffle_cloud = 1;
+		$this->usr_sw_top_wealth = 0;
 		$this->usr_sw_shell = 0;
 		$this->usr_sw_notify_reply = 0;
 		$this->usr_lastlogin = 0;
