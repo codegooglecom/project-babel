@@ -465,14 +465,17 @@ class Page {
 			echo('<div class="inner"><img src="/img/login_caption.gif" /><br />');
 			echo('<form action="/auth" method="get"><input type="text" name="usr" class="s" maxlength="200" id="boxLogin" /><input type="password" name="password" class="s" maxlength="32" /><br /><br /><input type="submit" value=" 登  录 " class="b" />&nbsp;&nbsp;<a href="#;" onclick="closeLogin();" class="g">取消</a>&nbsp;&nbsp;<a href="/signup.html" class="g">注册</a></form>');
 			echo('</div></div>');
-			echo('<div id="top" style="display: none;"><div id="top_left">' . $msgBanner . '&nbsp;&nbsp;');
+			echo('<div id="top" style="display: none;">');
+			echo('<div id="top_left">' . $msgBanner . '&nbsp;&nbsp;');
 			if ($this->User->usr_sw_shell) {
 				echo('<form action="/locator.php" method="get" onsubmit="return V2EXShell();"><input type="search" name="go" class="top_go" id="boxGo" autosave="V2EX Go" results="20" onmouseover="this.focus();" /></form>');
 			}
 			/* Old login.
 			echo('</div><div id="top_right"><a name="top"></a><a href="http://' . BABEL_DNS_NAME . '/signup.html" class="top">注册</a>&nbsp;|&nbsp;<a href="/passwd.vx" class="top">找回密码</a>&nbsp;|&nbsp;<a href="/new_features.html" class="top">新功能!</a>&nbsp;|&nbsp;<a href="#;" class="top" onclick="swLogin();">登录</a></div>');
 			*/
-			echo('</div><div id="top_right"><a name="top"></a><a href="http://' . BABEL_DNS_NAME . '/signup.html" class="top">' . $this->lang->register() . '</a>&nbsp;|&nbsp;<a href="/passwd.vx" class="top">' . $this->lang->password_recovery() . '</a>&nbsp;|&nbsp;<a href="/login" class="top">' . $this->lang->login() . '</a></div>');
+			echo('</div>');
+			echo('<div id="top_right"><a href="http://' . BABEL_DNS_NAME . '/signup.html" class="top">' . $this->lang->register() . '</a>&nbsp;|&nbsp;<a href="/passwd.vx" class="top">' . $this->lang->password_recovery() . '</a>&nbsp;|&nbsp;<a href="/login" class="top">' . $this->lang->login() . '</a></div>');
+			echo('</div>');
 		} else {
 			$sql = "SELECT COUNT(tpc_id) FROM babel_topic WHERE tpc_uid = {$this->User->usr_id}";
 			$rs = mysql_query($sql, $this->db);
@@ -482,18 +485,21 @@ class Page {
 				$this->usr_share = (mysql_result($rs, 0, 0) / $this->tpc_count) * 100;
 			}
 			mysql_free_result($rs);
-			echo('<div id="top" style="display: none;"><div id="top_left">' . $msgBanner . '&nbsp;&nbsp;');
+			echo('<div id="top" style="display: none;">');
+			echo('<div id="top_left">' . $msgBanner . '&nbsp;&nbsp;');
 			if ($this->User->usr_sw_shell) {
 				echo('<form action="/locator.php" method="get" onsubmit="return V2EXShell();"><input type="search" name="go" class="top_go" id="boxGo" autosave="V2EX Go" results="20" onmouseover="this.focus();" /></form>');
 			}
-			echo('</div><div id="top_right"><a name="top"></a><a href="/u/' . urlencode($this->User->usr_nick) . '" class="top">' . $this->User->usr_nick . '</a>&nbsp;|&nbsp;<a href="/user/modify.vx" target="_self" class="top">' . $this->lang->settings() . '</a>&nbsp;|&nbsp;<a href="/new_features.html" class="top">' . $this->lang->new_features() . '</a>&nbsp;|&nbsp;<a href="/logout.vx" class="top" target="_self">' . $this->lang->logout() . '</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/expense/view.vx" class="top" target="_self">' . $this->lang->copper(intval($this->User->usr_money)) . '</a>&nbsp;&nbsp;|&nbsp;&nbsp;');
+			echo('</div>');
+			echo('<div id="top_right"><a href="/u/' . urlencode($this->User->usr_nick) . '" class="top">' . $this->User->usr_nick . '</a>&nbsp;|&nbsp;<a href="/user/modify.vx" target="_self" class="top">' . $this->lang->settings() . '</a>&nbsp;|&nbsp;<a href="/new_features.html" class="top">' . $this->lang->new_features() . '</a>&nbsp;|&nbsp;<a href="/logout.vx" class="top" target="_self">' . $this->lang->logout() . '</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/expense/view.vx" class="top" target="_self">' . $this->lang->copper(intval($this->User->usr_money)) . '</a>&nbsp;&nbsp;|&nbsp;&nbsp;');
 			printf("<a href=\"/topic/archive/user/{$this->User->usr_nick}\" class=\"top\"><small>%.3f%%</small></a>", $this->usr_share);
+			echo('</div>');
 			echo('</div>');
 		}
 		if ($this->User->usr_sw_shell == 1) {
 			echo('<script type="text/javascript">setTimeout("focusGo();", 500);</script>');
 		}
-		echo('</div>');
+		
 		/* nav menu start: */
 		echo('<div id="top_banner">');
 		echo('<div id="top_banner_logo"><a href="/"><img src="' . CDN_UI . 'img/top_metal_logo.png" border="0" alt="' . Vocabulary::site_name . '" /></a></div>');
@@ -2735,7 +2741,7 @@ class Page {
 		if ($this->User->vxIsLogin()) {
 			echo('<div class="geo_home_entry_odd">&nbsp;&nbsp;&nbsp;&nbsp;<img src="/img/gt.gif" align="absmiddle" />&nbsp;你没有访问本讨论区的授权</div>');
 		} else {
-			echo('<div class="geo_home_entry_odd">&nbsp;&nbsp;&nbsp;&nbsp;<img src="/img/gt.gif" align="absmiddle" />&nbsp;你尚未登录，请先 <a href="/login.php">登录</a></div>');
+			echo('<div class="geo_home_entry_odd">&nbsp;&nbsp;&nbsp;&nbsp;<img src="/img/gt.gif" align="absmiddle" />&nbsp;你尚未登录，请先 <a href="/login"><img src="/img/graphite/login.gif" border="0" alt="' . $this->lang->login() . '" align="absmiddle" /></a></div>');
 		}
 		_v_hr();
 		echo('<img src="/img/pico_left.gif" align="absmiddle" /> <a href="/">返回首页</a>');
@@ -4751,19 +4757,29 @@ class Page {
 		$p = array();
 		$p['base'] = '/topic/fresh/';
 		$p['ext'] = '.html';
+		
 		$sql = "SELECT COUNT(tpc_id) FROM babel_topic WHERE tpc_posts = 0";
 		$rs = mysql_query($sql, $this->db);
 		$p['items'] = mysql_result($rs, 0, 0);
 		mysql_free_result($rs);
+		
+		$today = make_today_unix();
+		$sql = "SELECT COUNT(tpc_id) FROM babel_topic WHERE tpc_posts = 0 AND tpc_created > {$today}";
+		$rs = mysql_query($sql, $this->db);
+		$count_virgin_today = mysql_result($rs, 0, 0);
+		mysql_free_result($rs);
+		
 		echo('<div id="main">');
 		echo('<div class="blank" align="left">');
 		_v_ico_map();
 		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::action_freshtopic . '</div>');
 		echo('<div class="blank" align="left">');
-		echo('<span class="text_large"><img src="/img/ico_fresh.gif" align="absmiddle" class="home" />' . Vocabulary::action_freshtopic . '</span>');
-		echo('<br /><a href="/">' . Vocabulary::site_name . '</a> 社区目前目前共有 ' . $p['items'] . ' 个 virgin 主题');
+		echo('<img src="' . CDN_UI . 'img/icons/silk/weather_sun.png" align="absmiddle" /> ' . Vocabulary::action_freshtopic . '');
+		echo(' | <span class="tip_i">整个社区中目前共有 ' . $p['items'] . ' 个 virgin 主题，其中今天到目前为止有 ' . $count_virgin_today . ' 个</span>');
+		_v_hr();
+		echo('因为有你对' . Vocabulary::term_virgin_topic . '的关怀，这里才变得更加美好！');
 		echo('</div>');
-		echo('<table width="100%" border="0" cellpadding="0" cellspacing="2" class="board">');
+		echo('<table width="100%" border="0" cellpadding="0" cellspacing="0" class="board">');
 		if ($p['items'] > 0) {
 			$p['size'] = BABEL_NOD_PAGE;
 			$p['span'] = BABEL_PG_SPAN;
@@ -4807,10 +4823,11 @@ class Page {
 				$img_p = $Topic->usr_portrait ? '/img/p/' . $Topic->usr_portrait . '_n.jpg' : '/img/p_' . $Topic->usr_gender . '_n.gif';
 				echo('<tr>');
 				if ($Topic->usr_id == $this->User->usr_id) {
-					echo('<td width="24" height="30" align="center" valign="middle" class="star"><img src="/img/star_active.png" /></td>');
+					$dot = 'green';
 				} else {
-					echo('<td width="24" height="30" align="center" valign="middle" class="star"><img src="/img/star_inactive.png" /></td>');
+					$dot = 'gray';
 				}
+				echo('<td width="24" height="30" align="center" valign="middle" class="star"><img src="' . CDN_UI . 'img/dot_' . $dot . '.png" /></td>');
 				if ($i % 2 == 0) {
 					$css_class = 'even';
 				} else {

@@ -454,6 +454,19 @@ $i->vxSetupBoard('mysql', 'MySQL', 3, 3, 1, 2, 'All About MySQL', '够用就好�
 	$i->vxSetupChannelByName('mysql', 'http://www.planetmysql.org/rss20.xml');
 	$i->vxSetupChannelByName('mysql', 'http://www.primebase.com/xt/pbxt.rss');
 $i->vxSetupBoard('babel', 'Project Babel', 3, 3, 1, 2, 'way to explore | way too extreme', 'V2EX | software for internet');
+	
+	// RSS Feeds from Google Groups
+	$i->vxSetupChannelByName('babel', 'http://groups.google.com/group/v2ex-commit/feed/rss_v2_0_msgs.xml?num=50');
+	$i->vxSetupChannelByName('babel', 'http://groups.google.com/group/v2ex-issue/feed/rss_v2_0_msgs.xml?num=50');
+	$i->vxSetupChannelByName('babel', 'http://groups.google.com/group/v2ex/feed/rss_v2_0_msgs.xml?num=50');
+	
+	// Sites on Google Groups
+	$i->vxSetupRelatedByName('babel', 'http://groups.google.com/group/v2ex', 'V2EX Blacksmith');
+	$i->vxSetupRelatedByName('babel', 'http://groups.google.com/group/v2ex-commit', 'V2EX Commit');
+	$i->vxSetupRelatedByName('babel', 'http://groups.google.com/group/v2ex-issue', 'V2EX Issue');
+	$i->vxSetupRelatedByName('babel', 'http://code.google.com/p/project-babel', 'V2EX Code');
+	
+	// Other interesting sites Livid likes
 	$i->vxSetupChannelByName('babel', 'http://www.osnews.com/files/recent.xml');
 	$i->vxSetupChannelByName('babel', 'http://rss.slashdot.org/Slashdot/slashdot');
 	$i->vxSetupChannelByName('babel', 'http://www.betanews.com/rss2');

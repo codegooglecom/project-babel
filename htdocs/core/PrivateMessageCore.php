@@ -112,6 +112,9 @@ class PrivateMessage {
 		echo('<title>' . $msgSiteTitle . '</title>');
 		echo('<link href="/favicon.ico" rel="shortcut icon" />');
 		echo('<link rel="stylesheet" type="text/css" href="/css_pm.css" />');
+		if (MINT_LOCATION != '') {
+			echo('<script src="' . MINT_LOCATION . '" type="text/javascript"></script>');
+		}
 		echo('</head>');
 	}
 	

@@ -136,7 +136,7 @@ class Node {
 			$board_id = $this->nod_id;
 		}
 		
-		$sql = "SELECT chl_id, chl_title FROM babel_channel WHERE chl_pid = {$board_id} ORDER BY chl_title";
+		$sql = "SELECT chl_id, chl_title, chl_url FROM babel_channel WHERE chl_pid = {$board_id} ORDER BY chl_title";
 		
 		$rs = mysql_query($sql, $this->db);
 		$count = mysql_num_rows($rs);
@@ -145,6 +145,9 @@ class Node {
 			_v_hr();
 			echo('<div class="channels">');
 			while ($Channel = mysql_fetch_object($rs)) {
+				if (trim($Channel->chl_title) == '') {
+					$Channel->chl_title = $Channel->chl_url;
+				}
 				if ($Channel->chl_id == $exclude) {
 					echo('<strong class="p_cur"><img src="' . CDN_UI . 'img/icons/silk/bullet_feed.png" align="absmiddle" />' . make_plaintext($Channel->chl_title) . '</strong> ');
 				} else {

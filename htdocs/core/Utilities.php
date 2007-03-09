@@ -267,6 +267,12 @@ function make_spaces($count) {
 	return $o;
 }
 
+// return: int
+function make_today_unix() {
+	$today = getdate(time());
+	return mktime(0, 0, 0, $today['mon'], $today['mday'], $today['year']);
+}
+
 function make_safe_display($txt) {
 	$txt = str_ireplace(' width="100%"', ' ', $txt);
 	return $txt;
