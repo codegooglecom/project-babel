@@ -1,16 +1,8 @@
--- phpMyAdmin SQL Dump
--- version 2.9.0-rc1
--- http://www.phpmyadmin.net
--- 
--- Host: localhost
--- Generation Time: Mar 04, 2007 at 07:57 AM
--- Server version: 5.1.12
--- PHP Version: 5.2.0
--- 
--- Database: `planescape`
--- 
-
--- --------------------------------------------------------
+--
+-- Project Babel Database Structure
+--
+-- $Id$
+--
 
 -- 
 -- Table structure for table `babel_channel`
@@ -445,6 +437,7 @@ CREATE TABLE `babel_user` (
   `usr_lastupdated` int(10) unsigned NOT NULL DEFAULT '0',
   `usr_lastlogin` int(10) unsigned NOT NULL DEFAULT '0',
   `usr_lastlogin_ua` varchar(400) DEFAULT NULL,
+  `usr_sw_shuffle_cloud` smallint(6) NOT NULL DEFAULT '1',
   `usr_sw_shell` smallint(6) NOT NULL DEFAULT '0',
   `usr_sw_notify_reply` smallint(6) NOT NULL DEFAULT '0',
   `usr_sw_notify_reply_all` smallint(6) NOT NULL DEFAULT '0',

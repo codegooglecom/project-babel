@@ -1402,6 +1402,20 @@ class Validator {
 		
 		/* E check: usr_brief */
 		
+		/* S check: usr_sw_shuffle_cloud */
+		
+		if (isset($_POST['usr_sw_shuffle_cloud'])) {
+			if (strtolower($_POST['usr_sw_shuffle_cloud']) == 'on') {
+				$rt['usr_sw_shuffle_cloud_value'] = 1;
+			} else {
+				$rt['usr_sw_shuffle_cloud_value'] = 0;
+			}
+		} else {
+			$rt['usr_sw_shuffle_cloud_value'] = 0;
+		}
+		
+		/* E check: usr_sw_shuffle_cloud */
+		
 		/* S check: usr_sw_shell */
 		
 		if (isset($_POST['usr_sw_shell'])) {
@@ -1525,7 +1539,7 @@ class Validator {
 	
 	/* S module: User Update Update logic */
 	
-	public function vxUserUpdateUpdate($usr_full, $usr_nick, $usr_email_notify, $usr_brief, $usr_gender, $usr_addr, $usr_telephone, $usr_identity, $usr_width = 1024, $usr_sw_shell = 0, $usr_sw_notify_reply = 0, $usr_sw_notify_reply_all = 0, $usr_password = '') {
+	public function vxUserUpdateUpdate($usr_full, $usr_nick, $usr_email_notify, $usr_brief, $usr_gender, $usr_addr, $usr_telephone, $usr_identity, $usr_width = 1024, $usr_sw_shuffle_cloud = 1, $usr_sw_shell = 0, $usr_sw_notify_reply = 0, $usr_sw_notify_reply_all = 0, $usr_password = '') {
 		$usr_id = $this->User->usr_id;
 		
 		if (get_magic_quotes_gpc()) {
@@ -1577,9 +1591,9 @@ class Validator {
 		$usr_lastupdated = time();
 		
 		if (strlen($usr_password) > 0) {
-			$sql = "UPDATE babel_user SET usr_full = '{$usr_full}', usr_nick = '{$usr_nick}', usr_email_notify = '{$usr_email_notify}', usr_brief = '{$usr_brief}', usr_gender = '{$usr_gender}', usr_addr = '{$usr_addr}', usr_telephone = '{$usr_telephone}', usr_identity = '{$usr_identity}', usr_width = {$usr_width}, usr_sw_shell = {$usr_sw_shell}, usr_sw_notify_reply = {$usr_sw_notify_reply}, usr_sw_notify_reply_all = {$usr_sw_notify_reply_all}, usr_password = '{$usr_password}', usr_lastupdated = {$usr_lastupdated} WHERE usr_id = {$usr_id} LIMIT 1";
+			$sql = "UPDATE babel_user SET usr_full = '{$usr_full}', usr_nick = '{$usr_nick}', usr_email_notify = '{$usr_email_notify}', usr_brief = '{$usr_brief}', usr_gender = '{$usr_gender}', usr_addr = '{$usr_addr}', usr_telephone = '{$usr_telephone}', usr_identity = '{$usr_identity}', usr_width = {$usr_width}, usr_sw_shuffle_cloud = {$usr_sw_shuffle_cloud}, usr_sw_shell = {$usr_sw_shell}, usr_sw_notify_reply = {$usr_sw_notify_reply}, usr_sw_notify_reply_all = {$usr_sw_notify_reply_all}, usr_password = '{$usr_password}', usr_lastupdated = {$usr_lastupdated} WHERE usr_id = {$usr_id} LIMIT 1";
 		} else {
-			$sql = "UPDATE babel_user SET usr_full = '{$usr_full}', usr_nick = '{$usr_nick}', usr_email_notify = '{$usr_email_notify}', usr_brief = '{$usr_brief}', usr_gender = '{$usr_gender}', usr_addr = '{$usr_addr}', usr_telephone = '{$usr_telephone}', usr_identity = '{$usr_identity}', usr_width = {$usr_width}, usr_sw_shell = {$usr_sw_shell}, usr_sw_notify_reply = {$usr_sw_notify_reply}, usr_sw_notify_reply_all = {$usr_sw_notify_reply_all}, usr_lastupdated = '{$usr_lastupdated}' WHERE usr_id = {$usr_id} LIMIT 1";
+			$sql = "UPDATE babel_user SET usr_full = '{$usr_full}', usr_nick = '{$usr_nick}', usr_email_notify = '{$usr_email_notify}', usr_brief = '{$usr_brief}', usr_gender = '{$usr_gender}', usr_addr = '{$usr_addr}', usr_telephone = '{$usr_telephone}', usr_identity = '{$usr_identity}', usr_width = {$usr_width}, usr_sw_shuffle_cloud = {$usr_sw_shuffle_cloud}, usr_sw_shell = {$usr_sw_shell}, usr_sw_notify_reply = {$usr_sw_notify_reply}, usr_sw_notify_reply_all = {$usr_sw_notify_reply_all}, usr_lastupdated = '{$usr_lastupdated}' WHERE usr_id = {$usr_id} LIMIT 1";
 		}
 		
 		mysql_query($sql, $this->db);
