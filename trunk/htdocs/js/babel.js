@@ -218,6 +218,13 @@ function openMessage() {
 	newWin.focus();
 }
 
+
+function openTopWealth() {
+	newWin = window.open("/top/wealth.html", "winTopWealth", "width=502,height=400");
+	newWin.moveTo(100,100);
+	newWin.focus();
+}
+
 var closeLogin = function() {
 	var oLogin = getObj("login");
 	oLogin.style.display = "none";
