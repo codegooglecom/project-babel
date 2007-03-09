@@ -1617,11 +1617,11 @@ class Page {
 			$o .= $this->vxHomeLatestTabs();
 		}
 		
-		$o = $o . '<div class="blank" align="left">';
-
+		
 		switch ($style) {
 			default:
 			case 'remix':
+				$o = $o . '<div class="blank" align="left">';
 				if (isset($_GET['go'])) {
 					$go = strtolower($_GET['go']);
 					$go = $this->Validator->vxExistBoardName($go);
@@ -1635,22 +1635,26 @@ class Page {
 					$go = false;
 					$o .= $this->vxHomeGenerateRemix();
 				}
+				$o = $o . '</div>';
 				break;
 			case 'shuffle':
 				$go = false;
-				$_seed = rand(1, 200);		
-				$_SESSION['babel_home_style'] = 'shuffle';
-				if ($_o = $this->cl->load('home_' . $_seed)) {
-					$o = $o . $_o;
-				} else {
-					$_o = $this->vxHomeGenerateV2EX();
-					$o = $o . $_o;
-					$this->cl->save($_o, 'home_' . $_seed);
+				if ($this->User->usr_sw_shuffle_cloud == 1) {
+					$o = $o . '<div class="blank" align="left">';
+					$_seed = rand(1, 200);		
+					$_SESSION['babel_home_style'] = 'shuffle';
+					if ($_o = $this->cl->load('home_' . $_seed)) {
+						$o = $o . $_o;
+					} else {
+						$_o = $this->vxHomeGenerateV2EX();
+						$o = $o . $_o;
+						$this->cl->save($_o, 'home_' . $_seed);
+					}
+					$o = $o . '</div>';
 				}
 				break;
 		}
 		
-		$o = $o . '</div>';
 		
 		if (!$go) {
 			$o .= $this->vxHomePortraits();
@@ -4148,7 +4152,7 @@ class Page {
 		echo('<tr><td width="200" align="right">真实姓名</td><td width="200" align="left"><input tabindex="1" type="text" maxlength="80" class="sl" name="usr_full" value="' . make_single_return($this->User->usr_full) . '" /></td>');
 		
 		// S button:
-		echo('<td width="150" rowspan="12" valign="middle" align="right">');
+		echo('<td width="150" rowspan="13" valign="middle" align="right">');
 		
 		_v_btn_f('修改', 'form_user_info');
 		
@@ -4187,21 +4191,28 @@ class Page {
 			}
 		}
 		echo('</select></td></tr>');
-		echo('<tr><td width="200" align="right" valign="middle"><small class="tip">V2EX Shell</small></td><td align="left">');
+		echo('<tr><td width="200" align="right" valign="middle"><small>Shuffle 模式首页上的云</small></td><td align="left">');
+		if ($this->User->usr_sw_shuffle_cloud == 1) {
+			echo('<input type="checkbox" name="usr_sw_shuffle_cloud" tabindex="9" checked="checked" /> 开启');
+		} else {
+			echo('<input type="checkbox" name="usr_sw_shuffle_cloud" tabindex="9" /> 开启');
+		}
+		echo('</td></tr>');
+		echo('<tr><td width="200" align="right" valign="middle"><small>V2EX Shell</small></td><td align="left">');
 		if ($this->User->usr_sw_shell == 1) {
 			echo('<input type="checkbox" name="usr_sw_shell" tabindex="9" checked="checked" /> 开启');
 		} else {
 			echo('<input type="checkbox" name="usr_sw_shell" tabindex="9" /> 开启');
 		}
 		echo('</td></tr>');
-		echo('<tr><td width="200" align="right" valign="middle"><small class="tip">邮件通知自己的主题的新回复</small></td><td align="left">');
+		echo('<tr><td width="200" align="right" valign="middle"><small>邮件通知自己的主题的新回复</small></td><td align="left">');
 		if ($this->User->usr_sw_notify_reply == 1) {
 			echo('<input type="checkbox" name="usr_sw_notify_reply" tabindex="10" checked="checked" /> 开启');
 		} else {
 			echo('<input type="checkbox" name="usr_sw_notify_reply" tabindex="10" /> 开启');
 		}
 		echo('</td></tr>');
-		echo('<tr><td width="200" align="right" valign="middle"><small class="tip">邮件通知我参与过的主题的新回复</small></td><td align="left">');
+		echo('<tr><td width="200" align="right" valign="middle"><small>邮件通知我参与过的主题的新回复</small></td><td align="left">');
 		if ($this->User->usr_sw_notify_reply_all == 1) {
 			echo('<input type="checkbox" name="usr_sw_notify_reply_all" tabindex="11" checked="checked" /> 开启');
 		} else {
@@ -4303,27 +4314,35 @@ class Page {
 			}
 			echo('</select></td></tr>');
 			
-			echo('<tr><td width="200" align="right" valign="middle"><small class="tip">V2EX Shell</small></td><td align="left">');
-			if ($rt['usr_sw_shell_value'] == 1) {
+			echo('<tr><td width="200" align="right" valign="middle"><small>Shuffle 模式首页上的云</small></td><td align="left">');
+			if ($rt['usr_sw_shuffle_cloud_value'] == 1) {
 				echo('<input type="checkbox" name="usr_sw_shell" tabindex="8" checked="checked" /> 开启');
 			} else {
 				echo('<input type="checkbox" name="usr_sw_shell" tabindex="8" /> 开启');
 			}
 			echo('</td></tr>');
 			
-			echo('<tr><td width="200" align="right" valign="middle"><small class="tip">邮件通知自己的主题的新回复</small></td><td align="left">');
-			if ($rt['usr_sw_notify_reply_value'] == 1) {
-				echo('<input type="checkbox" name="usr_sw_notify_reply" tabindex="9" checked="checked" /> 开启');
+			echo('<tr><td width="200" align="right" valign="middle"><small>V2EX Shell</small></td><td align="left">');
+			if ($rt['usr_sw_shell_value'] == 1) {
+				echo('<input type="checkbox" name="usr_sw_shell" tabindex="9" checked="checked" /> 开启');
 			} else {
-				echo('<input type="checkbox" name="usr_sw_notify_reply" tabindex="9" /> 开启');
+				echo('<input type="checkbox" name="usr_sw_shell" tabindex="9" /> 开启');
 			}
 			echo('</td></tr>');
 			
-			echo('<tr><td width="200" align="right" valign="middle"><small class="tip">邮件通知我参与过的主题的新回复</small></td><td align="left">');
-			if ($rt['usr_sw_notify_reply_all_value'] == 1) {
-				echo('<input type="checkbox" name="usr_sw_notify_reply_all" tabindex="10" checked="checked" /> 开启');
+			echo('<tr><td width="200" align="right" valign="middle"><small>邮件通知自己的主题的新回复</small></td><td align="left">');
+			if ($rt['usr_sw_notify_reply_value'] == 1) {
+				echo('<input type="checkbox" name="usr_sw_notify_reply" tabindex="10" checked="checked" /> 开启');
 			} else {
-				echo('<input type="checkbox" name="usr_sw_notify_reply_all" tabindex="10" /> 开启');
+				echo('<input type="checkbox" name="usr_sw_notify_reply" tabindex="10" /> 开启');
+			}
+			echo('</td></tr>');
+			
+			echo('<tr><td width="200" align="right" valign="middle"><small>邮件通知我参与过的主题的新回复</small></td><td align="left">');
+			if ($rt['usr_sw_notify_reply_all_value'] == 1) {
+				echo('<input type="checkbox" name="usr_sw_notify_reply_all" tabindex="11" checked="checked" /> 开启');
+			} else {
+				echo('<input type="checkbox" name="usr_sw_notify_reply_all" tabindex="11" /> 开启');
 			}
 			echo('</td></tr>');
 			
@@ -4391,15 +4410,21 @@ class Page {
 			echo('<tr><td width="200" align="right" valign="middle">身份证号码</td><td align="left">' . make_plaintext($rt['usr_identity_value']) . '</td></tr>');
 			echo('<tr><td width="200" align="right" valign="middle">性别</td><td align="left">' . $this->User->usr_gender_a[$rt['usr_gender_value']] . '</td></tr>');
 			echo('<tr><td width="200" align="right" valign="middle">常用屏幕宽度</td><td align="left">' . $rt['usr_width_value'] . '</td></tr>');
-			echo('<tr><td width="200" align="right" valign="middle"><small class="tip">V2EX Shell</small></td><td align="left">');
+			
+			/* start: switches */
+			echo('<tr><td width="200" align="right" valign="middle"><small>Shuffle 模式首页上的云</small></td><td align="left">');
+			echo $rt['usr_sw_shuffle_cloud_value'] ? '开启' : '关闭'; 
+			echo('</td></tr>');
+			echo('<tr><td width="200" align="right" valign="middle"><small>V2EX Shell</small></td><td align="left">');
 			echo $rt['usr_sw_shell_value'] ? '开启' : '关闭'; 
 			echo('</td></tr>');
-			echo('<tr><td width="200" align="right" valign="middle"><small class="tip">邮件通知自己的主题的新回复</small></td><td align="left">');
+			echo('<tr><td width="200" align="right" valign="middle"><small>邮件通知自己的主题的新回复</small></td><td align="left">');
 			echo $rt['usr_sw_notify_reply_value'] ? '开启' : '关闭'; 
 			echo('</td></tr>');
-			echo('<tr><td width="200" align="right" valign="middle"><small class="tip">邮件通知我参与过的主题的新回复</small></td><td align="left">');
+			echo('<tr><td width="200" align="right" valign="middle"><small>邮件通知我参与过的主题的新回复</small></td><td align="left">');
 			echo $rt['usr_sw_notify_reply_all_value'] ? '开启' : '关闭'; 
 			echo('</td></tr>');
+			/* end: switches */
 			echo('<tr><td width="200" align="right" valign="middle">用于接收通知的邮箱</td><td align="left">' . make_plaintext($rt['usr_email_notify_value']) . '</td></tr>');
 			if ($rt['usr_password_touched'] == 1) {
 				echo('<tr><td width="200" align="right" valign="top">新密码</td><td align="left"><div class="important">');
