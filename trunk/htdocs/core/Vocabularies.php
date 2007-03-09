@@ -64,6 +64,8 @@ class Vocabulary {
 	const term_favoritetopic = '我最喜欢的主题';
 	const term_accessdenied = '访问阻止';
 	
+	const term_virgin_topic = ' virgin 主题';
+	
 	const term_privatemessage = '短消息';
 	
 	const term_user_random = '茫茫人海';
