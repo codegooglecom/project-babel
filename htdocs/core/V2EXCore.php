@@ -507,7 +507,7 @@ class Page {
 		echo('<li><div class="sep">&nbsp;</div></li>');
 		echo('<li><a href="/topic/latest.html" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最新主题列表</a></li>');
 		echo('<li><a href="/topic/answered/latest.html" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最新回复列表</a></li>');
-		echo('<li><a href="/topic/fresh.html" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最新未回复主题</a></li>');	
+		echo('<li><a href="/topic/fresh.html" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最新 virgin 主题</a></li>');	
 		if ($this->User->vxIsLogin()) {
 			echo('<li><div class="sep">&nbsp;</div></li>');
 			echo('<li><a href="/online/view.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $this->online_count . ' 人在线</a></li>');
@@ -534,6 +534,9 @@ class Page {
 			echo('<li><a href="/topic/archive/user/' . urlencode($this->User->usr_nick) . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我创建的所有主题</a></li>');
 			echo('<li><a href="/topic/favorite.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我的收藏夹</a></li>');
 			echo('<li><a href="/expense/view.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消费记录</a></li>');
+			if ($_SESSION['hits'] > 0) {
+				echo('<li><a href="/session/stats.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本次访问了 ' . $_SESSION['hits'] . ' 个页面</a></li>');
+			}
 			echo('<li><div class="sep">&nbsp;</div></li>');
 			echo('<li><a href="/geo/' . $this->User->usr_geo . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/world.png" align="absmiddle" border="0" /> ' . $this->Geo->map['name'][$this->User->usr_geo] . '</a></li>');
 			echo('<li><div class="sep">&nbsp;</div></li>');
@@ -846,7 +849,7 @@ class Page {
 		echo('<div class="menu_inner" align="left"><ul class="menu">');
 		echo('<li><img src="' . CDN_UI . 'img/icons/silk/zoom.png" align="absmiddle" />&nbsp;<a href="/search.vx" class="menu">搜索</a></li>');
 		echo('<li><img src="' . CDN_UI . 'img/icons/silk/feed.png" align="absmiddle" />&nbsp;<a href="' . BABEL_FEED_URL . '" class="menu" target="_blank">RSS 种子输出</a></li>');
-		echo('<li><img src="' . CDN_UI . 'img/icons/silk/weather_sun.png" align="absmiddle" />&nbsp;<a href="/topic/fresh.html" class="menu">最新未回复主题</a></li>');
+		echo('<li><img src="' . CDN_UI . 'img/icons/silk/weather_sun.png" align="absmiddle" />&nbsp;<a href="/topic/fresh.html" class="menu">最新 virgin 主题</a></li>');
 		echo('<li><img src="' . CDN_UI . 'img/icons/silk/award_star_gold_1.png" align="absmiddle" />&nbsp;<a href="/topic/top.html" class="menu">' . Vocabulary::term_toptopic . '</a></li>');
 		if ($_module_new_members) {
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/user_add.png" align="absmiddle" />&nbsp;最新注册会员<ul class="items">');
@@ -4733,7 +4736,7 @@ class Page {
 		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::action_freshtopic . '</div>');
 		echo('<div class="blank" align="left">');
 		echo('<span class="text_large"><img src="/img/ico_fresh.gif" align="absmiddle" class="home" />' . Vocabulary::action_freshtopic . '</span>');
-		echo('<br /><a href="/">' . Vocabulary::site_name . '</a> 社区目前目前共有 ' . $p['items'] . ' 个未回复主题');
+		echo('<br /><a href="/">' . Vocabulary::site_name . '</a> 社区目前目前共有 ' . $p['items'] . ' 个 virgin 主题');
 		echo('</div>');
 		echo('<table width="100%" border="0" cellpadding="0" cellspacing="2" class="board">');
 		if ($p['items'] > 0) {

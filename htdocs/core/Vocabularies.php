@@ -45,7 +45,7 @@ class Vocabulary {
 	const action_viewtopic = '查看主题';
 	const action_modifytopic = '修改主题';
 	const action_modifypost = '修改回复';
-	const action_freshtopic = '未回复主题';
+	const action_freshtopic = 'virgin 主题';
 	
 	const action_viewboard = '查看讨论版';
 	const action_viewexpense = '查看消费记录';
