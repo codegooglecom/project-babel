@@ -4191,7 +4191,7 @@ class Page {
 			}
 		}
 		echo('</select></td></tr>');
-		echo('<tr><td width="200" align="right" valign="middle"><small>Shuffle 模式首页上的云</small></td><td align="left">');
+		echo('<tr><td width="200" align="right" valign="middle"><small>' . Vocabulary::term_shuffle_cloud . '</small></td><td align="left">');
 		if ($this->User->usr_sw_shuffle_cloud == 1) {
 			echo('<input type="checkbox" name="usr_sw_shuffle_cloud" tabindex="9" checked="checked" /> 开启');
 		} else {
@@ -4314,7 +4314,7 @@ class Page {
 			}
 			echo('</select></td></tr>');
 			
-			echo('<tr><td width="200" align="right" valign="middle"><small>Shuffle 模式首页上的云</small></td><td align="left">');
+			echo('<tr><td width="200" align="right" valign="middle"><small>' . Vocabulary::term_shuffle_cloud . '</small></td><td align="left">');
 			if ($rt['usr_sw_shuffle_cloud_value'] == 1) {
 				echo('<input type="checkbox" name="usr_sw_shell" tabindex="8" checked="checked" /> 开启');
 			} else {
@@ -4412,7 +4412,7 @@ class Page {
 			echo('<tr><td width="200" align="right" valign="middle">常用屏幕宽度</td><td align="left">' . $rt['usr_width_value'] . '</td></tr>');
 			
 			/* start: switches */
-			echo('<tr><td width="200" align="right" valign="middle"><small>Shuffle 模式首页上的云</small></td><td align="left">');
+			echo('<tr><td width="200" align="right" valign="middle"><small>' . Vocabulary::term_shuffle_cloud . '</small></td><td align="left">');
 			echo $rt['usr_sw_shuffle_cloud_value'] ? '开启' : '关闭'; 
 			echo('</td></tr>');
 			echo('<tr><td width="200" align="right" valign="middle"><small>V2EX Shell</small></td><td align="left">');

@@ -82,6 +82,8 @@ class Vocabulary {
 	
 	const term_user_empty = '会员不存在';
 	
+	const term_shuffle_cloud = 'Shuffle 首页上的云';
+	
 	const term_sessionstats = '访问历史管理';
 	
 	const term_status = '系统状态';
