@@ -711,7 +711,7 @@ class Page {
 	/* S module: div#bottom tag */
 	
 	public function vxBottom($msgCopyright = Vocabulary::site_copyright) {
-		echo('<div id="bottom"><small>' . $msgCopyright . '</small><br /><a href="/community_guidelines.vx">' . Vocabulary::term_community_guidelines . '</a> | <a href="http://io.v2ex.com/v2ex-doc/" target="_blank">帮助</a> | <a href="http://io.v2ex.com/project-babel/project-babel-downloads.html" target="_blank">下载本站程序</a><br /><a href="/rules.vx">' . Vocabulary::term_rules . '</a> | <a href="/terms.vx">' . Vocabulary::term_terms . '</a> | <a href="/privacy.vx">' . Vocabulary::term_privacy . '</a> | <a href="/policies.vx">' . Vocabulary::term_policies . '</a><br /><a href="http://labs.v2ex.com/" target="_blank" class="var"><img src="/img/beta_jtp.gif" alt="Beta * V2EX Labs" align="absmiddle" border="0" /></a><br /></span></div>');
+		echo('<div id="bottom"><small>' . $msgCopyright . '</small><br /><a href="/community_guidelines.vx">' . Vocabulary::term_community_guidelines . '</a> | <a href="http://io.v2ex.com/v2ex-doc/" target="_blank">帮助</a> | <a href="http://labs.v2ex.com/" target="_blank">下载本站程序</a><br /><a href="/rules.vx">' . Vocabulary::term_rules . '</a> | <a href="/terms.vx">' . Vocabulary::term_terms . '</a> | <a href="/privacy.vx">' . Vocabulary::term_privacy . '</a> | <a href="/policies.vx">' . Vocabulary::term_policies . '</a><br /><a href="http://labs.v2ex.com/" target="_blank" class="var"><img src="/img/beta_jtp.gif" alt="Beta * V2EX Labs" align="absmiddle" border="0" /></a><br /></span></div>');
 	}
 	
 	/* E module: div#bottom tag */
@@ -8184,7 +8184,7 @@ class Page {
 		echo('<a href="http://www.mac.com/"><img src="' . CDN_UI . 'img/favicons/dotmac.png" align="absmiddle" border="0" alt=".Mac" /></a> ');
 		_v_hr();
 		echo('<a href="http://www.netvibes.com/"><img src="' . CDN_UI . 'img/favicons/netvibes.png" align="absmiddle" border="0" alt="NetVibes" /></a> ');
-		echo('<a href="http://www.pageflakes.com/"><img src="' . CDN_UI . 'img/favicons/pageflakes.png" align="absmiddle" border="0" alt="Pageflakes" /></a> ');
+		echo('<a href="http://www.pageflakes.com/?source=d736779a-49d4-46a7-a918-a70ad0b8cbd8"><img src="' . CDN_UI . 'img/favicons/pageflakes.png" align="absmiddle" border="0" alt="Pageflakes" /></a> ');
 		_v_hr(); // Google Web Services
 		echo('<a href="http://www.google.com/"><img src="' . CDN_UI . 'img/favicons/google/google.png" align="absmiddle" border="0" alt="Google" /></a> ');
 		echo('<small><strong>Google</strong></small> | <a href="http://reader.google.com/"><img src="' . CDN_UI . 'img/favicons/google/reader.png" align="absmiddle" border="0" alt="Google Reader" /></a> <a href="http://docs.google.com/"><img src="' . CDN_UI . 'img/favicons/google/docs.png" align="absmiddle" border="0" alt="Google Docs & Spreadsheets" /></a> <a href="http://www.blogger.com/"><img src="' . CDN_UI . 'img/favicons/google/blogger.png" align="absmiddle" border="0" alt="Blogger" /></a> <a href="http://groups.google.com/"><img src="' . CDN_UI . 'img/favicons/google/groups.png" align="absmiddle" border="0" alt="Google Groups" /></a> <a href="http://www.gmail.com/"><img src="' . CDN_UI . 'img/favicons/google/gmail.png" align="absmiddle" border="0" alt="Gmail" /></a> <a href="http://calendar.google.com/"><img src="' . CDN_UI . 'img/favicons/google/calendar.png" align="absmiddle" border="0" alt="Google Calendar" /></a>');

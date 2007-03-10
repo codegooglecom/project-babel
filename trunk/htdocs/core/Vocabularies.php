@@ -22,7 +22,7 @@ class Vocabulary {
 	const site_name = 'V2EX';
 	const site_title = 'V2EX | Project Babel';
 	const site_title_mobile = 'V2EX Mobile';
-	const site_copyright = 'Project Babel | v0.5-pre Monster Inc | Copyright © 2006 Xin Liu (a.k.a <a href="http://www.livid.cn/" target="_blank">Livid</a>)';
+	const site_copyright = 'Project Babel | v0.5-pre Monster Inc | Copyright © 2007 Xin Liu (a.k.a. <a href="http://www.livid.cn/" target="_blank">Livid</a>)';
 	
 	const site_banner = "<a href=\"/\" target=\"_self\" class=\"var\"><img src=\"/img/top_logo_carbon.gif\" border=\"0\" alt=\"V2EX\" onclick=\"location.href='/';\" style=\"cursor: hand;\" align=\"absmiddle\" onmouseover=\"focusGo();\" /></a>";
 	
