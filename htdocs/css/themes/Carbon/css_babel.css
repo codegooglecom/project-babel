@@ -1605,20 +1605,20 @@ border-bottom:
 display: block;
 margin: 3px 0px 0px 0px;
 padding: 10px 10px 3px 10px;
-border-bottom: 1px solid #E0E0E0;
-border-top: 1px solid #E0E0E0;
+border-bottom: 1px solid #D4D4D4;
+border-top: 1px solid #FFF;
 }
 
 ul.tabs li.current {
 list-style: none;
 display: inline;
 margin: 0px 5px 0px 0px;
-padding: 3px 7px 3px 7px;
-border-top: 2px solid #CCC;
-border-left: 1px solid #E0E0E0;
-border-right: 1px solid #E0E0E0;
+padding: 3px 10px 3px 10px;
+border-top: 1px solid #D4D4D4;
+border-left: 1px solid #EBEBEB;
+border-right: 1px solid #EBEBEB;
 border-bottom: 1px solid #FFF;
-background-color: #FFF;
+background-image: url("/img/tab_active.png");
 cursor: default;
 }
 
@@ -1626,22 +1626,24 @@ ul.tabs li.current:hover {
 list-style: none;
 display: inline;
 margin: 0px 5px 0px 0px;
-padding: 3px 7px 3px 7px;
-border-top: 2px solid #666;
-border-left: 1px solid #E0E0E0;
-border-right: 1px solid #E0E0E0;
-background-color: #F5F5F5;
-cursor: pointer;
+padding: 3px 10px 3px 10px;
+border-top: 1px solid #D4D4D4;
+border-left: 1px solid #EBEBEB;
+border-right: 1px solid #EBEBEB;
+background-image: url("/img/tab_active.png");
+cursor: default;
 }
 
 ul.tabs li.normal {
 list-style: none;
 display: inline;
 margin: 0px 5px 0px 0px;
-padding: 3px 7px 3px 7px;
-border-top: 2px solid #FFF;
-border-left: 1px solid #FFF;
-border-right: 1px solid #FFF;
+padding: 3px 10px 3px 10px;
+border-top: 1px solid #D4D4D4;
+border-left: 1px solid #EBEBEB;
+border-right: 1px solid #EBEBEB;
+color: #666;
+background-image: url("/img/tab_inactive.png");
 cursor: default;
 }
 
@@ -1649,11 +1651,12 @@ ul.tabs li.normal:hover {
 list-style: none;
 display: inline;
 margin: 0px 5px 0px 0px;
-padding: 3px 7px 3px 7px;
-border-top: 2px solid #666;
-border-left: 1px solid #FFF;
-border-right: 1px solid #FFF;
-background-color: #F5F5F5;
+padding: 3px 10px 3px 10px;
+border-top: 1px solid #D4D4D4;
+border-left: 1px solid #EBEBEB;
+border-right: 1px solid #EBEBEB;
+color: #999;
+background-image: url("/img/tab_inactive.png");
 cursor: pointer;
 }
 
