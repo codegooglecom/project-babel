@@ -8253,8 +8253,11 @@ class Page {
 				echo('<table width="100%" cellpadding="0" cellspacing="0" border="0">');
 				echo('<tr>');
 				echo('<td width="100" align="left">');
-				echo('<a href="/u/' . urlencode($Richer->usr_nick) . '" target="_parent"><img src="' . $img_p . '" align="absmiddle" class="portrait" border="0" alt="' . make_single_return(make_plaintext($Richer->usr_nick)) . '" /></a> ');
-				echo('<a href="/u/' . urlencode($Richer->usr_nick) . '" target="_parent" class="var" style="color: ' . rand_color() . '">' . make_plaintext($Richer->usr_nick) . '</a>');
+				echo('<a href="/u/' . urlencode($Richer->usr_nick) . '" target="_blank"><img src="' . $img_p . '" align="absmiddle" class="portrait" border="0" alt="' . make_single_return(make_plaintext($Richer->usr_nick)) . '" /></a> ');
+				if ($this->User->usr_id == $Richer->usr_id) {
+					echo('<img src="/img/pico_right.gif" align="absmiddle" /> ');
+				}
+				echo('<a href="/u/' . urlencode($Richer->usr_nick) . '" target="_blank" class="var" style="color: ' . rand_color() . '">' . make_plaintext($Richer->usr_nick) . '</a>');
 				echo('</td>');
 				echo('<td width="auto">');
 				$width = strval(intval($percentage * 300)) . 'px';
@@ -8283,6 +8286,28 @@ class Page {
 			echo $o;
 		}
 		_v_hr();
+		echo('<span class="tip"><img src="' . CDN_UI . 'img/icons/silk/information.png" align="absmiddle" /> ');
+		if ($this->User->vxIsLogin()) {
+			if ($this->User->usr_sw_top_wealth == 0) {
+				echo('你当前没有参加此排行');
+			} else {
+				if ($total = $this->cl->load('babel_top_wealth_rank_total')) {
+				} else {
+					$this->vxTopWealthRank();
+					$total = $this->cl->load('babel_top_wealth_rank_total');
+				}
+				if ($rank = $this->cl->load('babel_top_wealth_rank_u' . $this->User->usr_id)) {
+					echo ('你当前排名第 <strong>' . $rank . '</strong> of ' . $total);
+				} else {
+					$this->vxTopWealthRank();
+					$rank = $this->cl->load('babel_top_wealth_rank_u' . $this->User->usr_id);
+					echo ('你当前排名第 <strong>' . $rank . '</strong> of ' . $total);
+				}
+			}
+		} else {
+			echo('你尚未登录，所以无法查看自己的排名信息');
+		}
+		echo('</span>');
 		echo('</div>');
 		echo('</div>');
 	}
@@ -8292,6 +8317,17 @@ class Page {
 	/* S private modules */
 	
 	/* S module: Home Section block */
+	
+	private function vxTopWealthRank() {
+		$sql = "SELECT usr_id, usr_money FROM babel_user WHERE usr_sw_top_wealth = 1 ORDER BY usr_money DESC";
+		$rs = mysql_query($sql);
+		$i = 0;
+		while ($_u = mysql_fetch_array($rs)) {
+			$i++;
+			$this->cl->save(strval($i), 'babel_top_wealth_rank_u' . strval($_u['usr_id']));
+		}
+		$this->cl->save(strval($i), 'babel_top_wealth_rank_total');
+	}
 	
 	private function vxZENProjectForm($Project) {
 		echo('<tr><td class="zen_task_new"><div id="pf_' . $Project->zpr_id . '"><img src="' . CDN_IMG . 'plus_green.gif" align="absmiddle" alt="+" /> <a href="#;" class="t" onclick="ZENSwitchProjectForm(' . $Project->zpr_id . ');">添加新任务</a></div></td></tr>');
