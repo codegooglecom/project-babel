@@ -220,7 +220,7 @@ function openMessage() {
 
 
 function openTopWealth() {
-	newWin = window.open("/top/wealth.html", "winTopWealth", "width=502,height=400");
+	newWin = window.open("/top/wealth.html", "winTopWealth", "width=502,height=360");
 	newWin.moveTo(100,100);
 	newWin.focus();
 }
