@@ -454,31 +454,7 @@ class Page {
 	public function vxTop($msgBanner = Vocabulary::site_banner, $keyword = '') {
 		global $GOOGLE_AD_LEGAL;
 		
-		if ($this->User->usr_id == 0) {
-			if ($_SESSION['babel_ua']['KHTML_DETECTED'] || $_SESSION['babel_ua']['OPERA_DETECTED'] || $_SESSION['babel_ua']['GECKO_DETECTED']) {
-				echo('<div id="login" class="login_modern">');
-			} else {
-				if ($_SESSION['babel_ua']['MSIE_DETECTED'] && $_SESSION['babel_ua']['version'] == '7.0') {
-					echo('<div id="login" class="login_modern">');
-				} else {
-					echo('<div id="login" class="login_legacy">');
-				}
-			}
-			echo('<div class="inner"><img src="/img/login_caption.gif" /><br />');
-			echo('<form action="/auth" method="get"><input type="text" name="usr" class="s" maxlength="200" id="boxLogin" /><input type="password" name="password" class="s" maxlength="32" /><br /><br /><input type="submit" value=" 登  录 " class="b" />&nbsp;&nbsp;<a href="#;" onclick="closeLogin();" class="g">取消</a>&nbsp;&nbsp;<a href="/signup.html" class="g">注册</a></form>');
-			echo('</div></div>');
-			echo('<div id="top" style="display: none;">');
-			echo('<div id="top_left">' . $msgBanner . '&nbsp;&nbsp;');
-			if ($this->User->usr_sw_shell) {
-				echo('<form action="/locator.php" method="get" onsubmit="return V2EXShell();"><input type="search" name="go" class="top_go" id="boxGo" autosave="V2EX Go" results="20" onmouseover="this.focus();" /></form>');
-			}
-			/* Old login.
-			echo('</div><div id="top_right"><a name="top"></a><a href="http://' . BABEL_DNS_NAME . '/signup.html" class="top">注册</a>&nbsp;|&nbsp;<a href="/passwd.vx" class="top">找回密码</a>&nbsp;|&nbsp;<a href="/new_features.html" class="top">新功能!</a>&nbsp;|&nbsp;<a href="#;" class="top" onclick="swLogin();">登录</a></div>');
-			*/
-			echo('</div>');
-			echo('<div id="top_right"><a href="http://' . BABEL_DNS_NAME . '/signup.html" class="top">' . $this->lang->register() . '</a>&nbsp;|&nbsp;<a href="/passwd.vx" class="top">' . $this->lang->password_recovery() . '</a>&nbsp;|&nbsp;<a href="/login" class="top">' . $this->lang->login() . '</a></div>');
-			echo('</div>');
-		} else {
+		if ($this->User->usr_id != 0) {
 			$sql = "SELECT COUNT(tpc_id) FROM babel_topic WHERE tpc_uid = {$this->User->usr_id}";
 			$rs = mysql_query($sql, $this->db);
 			if ($this->tpc_count == 0) {
@@ -487,24 +463,34 @@ class Page {
 				$this->usr_share = (mysql_result($rs, 0, 0) / $this->tpc_count) * 100;
 			}
 			mysql_free_result($rs);
-			echo('<div id="top" style="display: none;">');
-			echo('<div id="top_left">' . $msgBanner . '&nbsp;&nbsp;');
+			echo('<div id="top_right"><a href="/u/' . urlencode($this->User->usr_nick) . '" class="tr">' . $this->User->usr_nick . '</a> <a href="/user/modify.vx" class="tr">' . $this->lang->settings() . '</a> <a href="/new_features.html" class="tr">' . $this->lang->new_features() . '</a> <a href="/logout.vx" class="tr">' . $this->lang->logout() . '</a> <a href="/expense/view.vx" class="tr">' . $this->lang->copper(intval($this->User->usr_money)) . '</a> ');
+			printf("<a href=\"/topic/archive/user/{$this->User->usr_nick}\" class=\"tr\"><small>%.3f%%</small></a>", $this->usr_share);
 			if ($this->User->usr_sw_shell) {
-				echo('<form action="/locator.php" method="get" onsubmit="return V2EXShell();"><input type="search" name="go" class="top_go" id="boxGo" autosave="V2EX Go" results="20" onmouseover="this.focus();" /></form>');
+				echo('<div style="padding-top: 8px;"><form action="/locator.php" method="get" onsubmit="return V2EXShell();"><input type="search" name="go" class="top_go" id="boxGo" autosave="V2EX Go" results="20" onmouseover="this.focus();" /></form></div>');
 			}
 			echo('</div>');
-			echo('<div id="top_right"><a href="/u/' . urlencode($this->User->usr_nick) . '" class="top">' . $this->User->usr_nick . '</a>&nbsp;|&nbsp;<a href="/user/modify.vx" target="_self" class="top">' . $this->lang->settings() . '</a>&nbsp;|&nbsp;<a href="/new_features.html" class="top">' . $this->lang->new_features() . '</a>&nbsp;|&nbsp;<a href="/logout.vx" class="top" target="_self">' . $this->lang->logout() . '</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/expense/view.vx" class="top" target="_self">' . $this->lang->copper(intval($this->User->usr_money)) . '</a>&nbsp;&nbsp;|&nbsp;&nbsp;');
-			printf("<a href=\"/topic/archive/user/{$this->User->usr_nick}\" class=\"top\"><small>%.3f%%</small></a>", $this->usr_share);
-			echo('</div>');
-			echo('</div>');
+		} else {
+			echo('<div id="top_right"><a href="/signup.html" class="tr">' . $this->lang->register() . '</a> <a href="/passwd.vx" class="tr">' . $this->lang->password_recovery() . '</a> <a href="/login" class="tr">' . $this->lang->login() . '</a></div>');
 		}
+		
 		if ($this->User->usr_sw_shell == 1) {
 			echo('<script type="text/javascript">setTimeout("focusGo();", 500);</script>');
 		}
 		
 		/* nav menu start: */
 		echo('<div id="top_banner">');
-		echo('<div id="top_banner_logo"><a href="/"><img src="' . CDN_UI . 'img/top_metal_logo.png" border="0" alt="' . Vocabulary::site_name . '" /></a></div>');
+		
+		if ($_SESSION['babel_ua']['KHTML_DETECTED'] || $_SESSION['babel_ua']['OPERA_DETECTED'] || $_SESSION['babel_ua']['GECKO_DETECTED']) {
+			$img_logo = 'top_logo_graphite_v2.png';
+		} else {
+			if ($_SESSION['babel_ua']['MSIE_DETECTED'] && $_SESSION['babel_ua']['version'] == '7.0') {
+				$img_logo = 'top_logo_graphite_v2.png';
+			} else {
+				$img_logo = 'top_logo_graphite_v2_ie.gif';
+			}
+		}
+		
+		echo('<div id="top_banner_logo"><a href="/"><img src="' . CDN_UI . 'img/' . $img_logo . '" border="0" alt="' . Vocabulary::site_name . '" /></a></div>');
 		echo('</div>');
 		echo('<div id="nav">');
 		echo('<ul id="nav_menu">');
@@ -667,7 +653,7 @@ class Page {
 	public function vxTopV1($msgBanner = Vocabulary::site_banner, $keyword = '') {
 		global $GOOGLE_AD_LEGAL;
 		if ($this->User->usr_id == 0) {
-			echo('<div id="top"><div id="top_left">' . $msgBanner . '</div><div id="top_right"><a name="top"></a><a href="http://' . BABEL_DNS_NAME . '/signup.html" class="top">注册</a>&nbsp;|&nbsp;<a href="/passwd.vx" class="top">找回密码</a>&nbsp;|&nbsp;<a href="/new_features.html"><strong>新功能!</strong></a>&nbsp;|&nbsp;<a href="http://' . BABEL_DNS_NAME . '/login.vx" class="top">登录</a></div>');
+			echo('<div id="top"><div id="top_left">' . $msgBanner . '</div><div id="top_right"><a href="http://' . BABEL_DNS_NAME . '/signup.html" class="top">注册</a>&nbsp;|&nbsp;<a href="/passwd.vx" class="top">找回密码</a>&nbsp;|&nbsp;<a href="/new_features.html"><strong>新功能!</strong></a>&nbsp;|&nbsp;<a href="http://' . BABEL_DNS_NAME . '/login.vx" class="top">登录</a></div>');
 		} else {
 			$sql = "SELECT COUNT(tpc_id) FROM babel_topic WHERE tpc_uid = {$this->User->usr_id}";
 			$rs = mysql_query($sql, $this->db);
@@ -677,7 +663,7 @@ class Page {
 				$this->usr_share = (mysql_result($rs, 0, 0) / $this->tpc_count) * 100;
 			}
 			mysql_free_result($rs);
-			echo('<div id="top"><div id="top_left">' . $msgBanner . '</div><div id="top_right"><a name="top"></a>欢迎，<small><a href="/u/' . urlencode($this->User->usr_nick) . '" class="top">' . $this->User->usr_nick . '</a></small>&nbsp;|&nbsp;<a href="/user/modify.vx" target="_self" class="top">修改信息</a>&nbsp;|&nbsp;<a href="/new_features.html"><strong>新功能!</strong></a>&nbsp;|&nbsp;<a href="/logout.vx" class="top" target="_self">登出</a><br /><br />你口袋里有' . $this->User->usr_money_a['str'] . '&nbsp;|&nbsp;<a href="/expense/view.vx" class="top" target="_self">消费记录</a><br /><br />');
+			echo('<div id="top"><div id="top_left">' . $msgBanner . '</div><div id="top_right">欢迎，<small><a href="/u/' . urlencode($this->User->usr_nick) . '" class="top">' . $this->User->usr_nick . '</a></small>&nbsp;|&nbsp;<a href="/user/modify.vx" target="_self" class="top">修改信息</a>&nbsp;|&nbsp;<a href="/new_features.html"><strong>新功能!</strong></a>&nbsp;|&nbsp;<a href="/logout.vx" class="top" target="_self">登出</a><br /><br />你口袋里有' . $this->User->usr_money_a['str'] . '&nbsp;|&nbsp;<a href="/expense/view.vx" class="top" target="_self">消费记录</a><br /><br />');
 			printf("你的主题数在社区所占比率 %.3f%%", $this->usr_share);
 			echo('</div>');
 		}
@@ -760,12 +746,6 @@ class Page {
 			_v_hr();
 			echo('<img src="' . CDN_UI . 'img/icons/silk/key_go.png" align="absmiddle" /> <a href="/logout" class="menu">' . $this->lang->logout() . '</a></li>');
 			echo('</ul></div>');
-		} else {
-			echo('<div class="menu_inner" align="left"><ul class="menu">');
-			echo('<li><img src="' . CDN_UI . 'img/icons/silk/key.png" align="absmiddle" /> <a href="/login" class="menu">' . $this->lang->login() . '</a></li>');
-			echo('<li><img src="' . CDN_UI . 'img/icons/silk/emoticon_smile.png" align="absmiddle" /> <a href="/signup.html" class="menu">' . $this->lang->register() . '</a></li>');
-			echo('</ul>');
-			echo('</div>');
 		}
 		if ($this->User->vxIsLogin() && $_module_fav) {
 			$fimg = '<img src="' . CDN_UI . 'img/icons/silk/star.png" align="absmiddle" />';
@@ -3203,17 +3183,22 @@ class Page {
 		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->lang->register() . '</div>');
 		echo('<div class="blank" align="left">');
 		echo('<span class="text_large"><img src="' . CDN_IMG . 'ico_id.gif" align="absmiddle" class="home" />会员注册信息填写</span>');
+		_v_hr();
 		echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
 		echo('<form action="/user/create.vx" method="post" id="usrNew">');
 		echo('<tr><td width="200" align="right">电子邮件</td><td width="200" align="left"><input tabindex="1" type="text" maxlength="100" class="sl" name="usr_email" /></td>');
-		echo('<td width="150" rowspan="8" valign="middle" align="right"><input tabindex="7" type="image" src="' . CDN_IMG . 'silver/btn_signup.gif" alt="' . Vocabulary::action_signup . '" tabindex="5" /></td></tr>');
+		echo('<td width="150" rowspan="8" valign="middle" align="right">');
+		_v_btn_f('注册新会员', 'usrNew');
+		echo('</td></tr>');
 		echo('<tr><td width="200" align="right">昵称</td><td align="left"><input tabindex="2" type="text" maxlength="20" class="sl" name="usr_nick" /></td></tr>');
 		echo('<tr><td width="200" align="right">密码</td><td align="left"><input tabindex="3" type="password" maxlength="32" class="sl" name="usr_password" /></td></tr>');
 		echo('<tr><td width="200" align="right">重复密码</td><td align="left"><input tabindex="4" type="password" maxlength="32" class="sl" name="usr_confirm" /></td></tr>');
 		echo('<tr><td width="200" align="right" valign="top">性别</td><td align="left"><select tabindex="5" maxlength="20" size="6" name="usr_gender"><option value="0" selected="selected">未知</option><option value="1">男性</option><option value="2">女性</option><option value="5">女性改（变）为男性</option><option value="6">男性改（变）为女性</option><option value="9">未说明</option></select></td></tr>');
 		echo('<tr><td width="200" align="right">确认码</td><td align="left"><input tabindex="6" type="password" maxlength="32" class="sl" name="c" /></td></tr><tr><td width="200" align="right"></td><td align="left"><div class="important"><img src="/c/' . rand(1111,9999) . '.' . rand(1111,9999) . '.png" /><ol class="items"><li>请按照上图输入确认码</li><li>确认码不区分大小写</li><li>确认码中不包含数字</li><li>专为人类设计</li></ul></div></td></tr>');
-		echo('</form></table></div>');
-		echo('<div class="blank"><img src="' . CDN_IMG . 'ico_tip.gif" align="absmiddle" class="ico" />点击“注册新会员”，即表示你同意我们的 [ <a href="/terms.vx">' . Vocabulary::term_terms . '</a> ] 和 [ <a href="/privacy.vx">' . Vocabulary::term_privacy . '</a> ]</div>');
+		echo('</form></table>');
+		_v_hr();
+		_v_ico_silk('information');
+		echo(' 点击“注册新会员”，即表示你完全同意我们的 <a href="/terms.vx" class="t">' . Vocabulary::term_terms . '</a> 和 <a href="/privacy.vx" class="t">' . Vocabulary::term_privacy . '</a>，并且你不厌恶也不会反对我们的 <a href="/community_guidelines.vx" class="t">社区指导原则</a></div>');
 		echo('</div>');
 	}
 	
@@ -3976,42 +3961,64 @@ class Page {
 		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::action_signup . '</div>');
 
 		if ($rt['errors'] != 0) {
-			echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_important.gif" align="absmiddle" class="home" />对不起，你刚才提交的信息里有些错误</span><table cellpadding="0" cellspacing="0" border="0" class="form"><form action="/user/create.vx" method="post" id="usrNew">');
+			echo('<div class="blank" align="left">');
+			_v_ico_silk('exclamation');
+			echo(' 对不起，你刚才提交的信息里有些错误</span>');
+			_v_hr();
+			echo('<table cellpadding="0" cellspacing="0" border="0" class="form"><form action="/user/create.vx" method="post" id="usrNew">');
 
 			/* result: usr_email */
 			if ($rt['usr_email_error'] != 0) {
-				echo('<tr><td width="200" align="right" valign="top">电子邮件</td><td align="left"><div class="error"><input type="text" tabindex="1" maxlength="100" class="sl" name="usr_email" value="' . make_single_return($rt['usr_email_value']) . '" />&nbsp;<img src="/img/sico_error.gif" align="absmiddle" /><br />' . $rt['usr_email_error_msg'][$rt['usr_email_error']] . '</div></td>');
+				echo('<tr><td width="200" align="right" valign="top">电子邮件</td><td align="left"><div class="error"><input type="text" tabindex="1" maxlength="100" class="sl" name="usr_email" value="' . make_single_return($rt['usr_email_value']) . '" /><br />');
+				_v_ico_silk('exclamation');
+				echo(' ' . $rt['usr_email_error_msg'][$rt['usr_email_error']] . '</div></td>');
 			} else {
-				echo('<tr><td width="200" align="right">电子邮件</td><td align="left"><input type="text" tabindex="1" maxlength="100" class="sl" name="usr_email" value="' . make_single_return($rt['usr_email_value']) . '" />&nbsp;<img src="/img/sico_ok.gif" align="absmiddle" /></td>');
+				echo('<tr><td width="200" align="right">电子邮件</td><td align="left"><input type="text" tabindex="1" maxlength="100" class="sl" name="usr_email" value="' . make_single_return($rt['usr_email_value']) . '" />&nbsp;');
+				_v_ico_silk('tick');
+				echo('</td>');
 			}
 			
 			/* cell: submit button */
-			echo('<td width="150" rowspan="8" valign="middle" align="right"><input type="image" tabindex="7" src="/img/silver/btn_signup.gif" alt="' . Vocabulary::action_signup . '" /></td></tr>');
+			echo('<td width="150" rowspan="8" valign="middle" align="right">');
+			_v_btn_f('注册新会员', 'usrNew');
+			echo('</td></tr>');
 			
 			/* result: usr_nick */
 			if ($rt['usr_nick_error'] != 0) {
-				echo('<tr><td width="200" align="right" valign="top">昵称</td><td align="left"><div class="error"><input type="text" tabindex="2" maxlength="20" class="sl" name="usr_nick" value="' . make_single_return($rt['usr_nick_value']) . '" />&nbsp;<img src="/img/sico_error.gif" align="absmiddle" /><br />' . $rt['usr_nick_error_msg'][$rt['usr_nick_error']] . '</div></td></tr>');
+				echo('<tr><td width="200" align="right" valign="top">昵称</td><td align="left"><div class="error"><input type="text" tabindex="2" maxlength="20" class="sl" name="usr_nick" value="' . make_single_return($rt['usr_nick_value']) . '" /><br />'); 
+				_v_ico_silk('exclamation');
+				echo(' ' . $rt['usr_nick_error_msg'][$rt['usr_nick_error']] . '</div></td></tr>');
 			} else {
-				echo('<tr><td width="200" align="right">昵称</td><td align="left"><input type="text" tabindex="2" maxlength="20" class="sl" name="usr_nick" value="' . make_single_return($rt['usr_nick_value']) . '" />&nbsp;<img src="/img/sico_ok.gif" align="absmiddle" /></td></tr>');
+				echo('<tr><td width="200" align="right">昵称</td><td align="left"><input type="text" tabindex="2" maxlength="20" class="sl" name="usr_nick" value="' . make_single_return($rt['usr_nick_value']) . '" />&nbsp;');
+				_v_ico_silk('tick');
+				echo('</td></tr>');
 			}
 			
 			/* result: usr_password */
 			if ($rt['usr_password_error'] != 0) {
-				echo('<tr><td width="200" align="right" valign="top">密码</td><td align="left"><div class="error"><input type="password" tabindex="3" maxlength="32" class="sl" name="usr_password" value="' . make_single_return($rt['usr_password_value']) . '"/>&nbsp;<img src="/img/sico_error.gif" align="absmiddle" /><br />' . $rt['usr_password_error_msg'][$rt['usr_password_error']] . '</td></tr>');
+				echo('<tr><td width="200" align="right" valign="top">密码</td><td align="left"><div class="error"><input type="password" tabindex="3" maxlength="32" class="sl" name="usr_password" value="' . make_single_return($rt['usr_password_value']) . '"/><br />');
+				_v_ico_silk('exclamation');
+				echo(' ' . $rt['usr_password_error_msg'][$rt['usr_password_error']] . '</td></tr>');
 			} else {
 				if ($rt['usr_confirm_error'] != 0) {
 					echo('<tr><td width="200" align="right">密码</td><td align="left"><input type="password" tabindex="3" maxlength="32" class="sl" name="usr_password" value="' . make_single_return($rt['usr_password_value']) . '" /></td></tr>');
 				} else {
-					echo('<tr><td width="200" align="right">密码</td><td align="left"><input type="password" tabindex="3" maxlength="32" class="sl" name="usr_password" value="' . make_single_return($rt['usr_password_value']) . '" />&nbsp;<img src="/img/sico_ok.gif" align="absmiddle" alt="ok" /></td></tr>');
+					echo('<tr><td width="200" align="right">密码</td><td align="left"><input type="password" tabindex="3" maxlength="32" class="sl" name="usr_password" value="' . make_single_return($rt['usr_password_value']) . '" />&nbsp;');
+					_v_ico_silk('tick');
+					echo('</td></tr>');
 				}
 			}
 			
 			/* result: usr_confirm */
 			if ($rt['usr_password_error'] == 0) {
 				if ($rt['usr_confirm_error'] != 0) {
-					echo('<tr><td width="200" align="right" valign="top">重复密码</td><td align="left""><div class="error"><input type="password" tabindex="4" maxlength="32" class="sl" name="usr_confirm" value="' . make_single_return($rt['usr_confirm_value']) . '" />&nbsp;<img src="/img/sico_error.gif" align="absmiddle" /><br />' . $rt['usr_confirm_error_msg'][$rt['usr_confirm_error']] . '</div></td></tr>');
+					echo('<tr><td width="200" align="right" valign="top">重复密码</td><td align="left""><div class="error"><input type="password" tabindex="4" maxlength="32" class="sl" name="usr_confirm" value="' . make_single_return($rt['usr_confirm_value']) . '" /><br />');
+					_v_ico_silk('exclamation');
+					echo (' ' . $rt['usr_confirm_error_msg'][$rt['usr_confirm_error']] . '</div></td></tr>');
 				} else {
-					echo('<tr><td width="200" align="right">重复密码</td><td align="left""><input type="password" tabindex="4" maxlength="32" class="sl" name="usr_confirm" value="' . make_single_return($rt['usr_confirm_value']) . '" />&nbsp;<img src="/img/sico_ok.gif" align="absmiddle" alt="ok" /></td></tr>');
+					echo('<tr><td width="200" align="right">重复密码</td><td align="left""><input type="password" tabindex="4" maxlength="32" class="sl" name="usr_confirm" value="' . make_single_return($rt['usr_confirm_value']) . '" />&nbsp;');
+					_v_ico_silk('tick');
+					echo('</td></tr>');
 				}
 			} else {
 				echo('<tr><td width="200" align="right">重复密码</td><td align="left""><input type="password" tabindex="4" maxlength="32" class="sl" name="usr_confirm" /></td></tr>');
@@ -4032,13 +4039,19 @@ class Page {
 			/* S result: c */
 			
 			if ($rt['c_error'] > 0) {
-				echo('<tr><td width="200" align="right">确认码</td><td align="left"><input tabindex="6" type="password" maxlength="32" class="sl" name="c" /></td></tr><tr><td width="200" align="right"></td><td align="left"><div class="error"><img src="/c/' . rand(1111,9999) . '.' . rand(1111,9999) . '.png" /><br /><img src="/img/sico_error.gif" align="absmiddle" />&nbsp;' . $rt['c_error_msg'][$rt['c_error']] . '</div></td></tr>');
+				echo('<tr><td width="200" align="right">确认码</td><td align="left"><input tabindex="6" type="password" maxlength="32" class="sl" name="c" /></td></tr><tr><td width="200" align="right"></td><td align="left"><div class="error"><img src="/c/' . rand(1111,9999) . '.' . rand(1111,9999) . '.png" /><br />');
+				_v_ico_silk('exclamation');
+				echo('&nbsp;' . $rt['c_error_msg'][$rt['c_error']] . '</div></td></tr>');
 			} else {
-				echo('<tr><td width="200" align="right">确认码</td><td align="left"><input tabindex="6" type="password" maxlength="32" class="sl" name="c" value="' . $rt['c_value'] . '" />&nbsp;<img src="/img/sico_ok.gif" alt="ok" align="absmiddle" /></td></tr><tr><td width="200" align="right"></td><td align="left"><img src="/c/' . rand(1111,9999) . '.' . rand(1111,9999) . '.png" /></td></tr>');
+				echo('<tr><td width="200" align="right">确认码</td><td align="left"><input tabindex="6" type="password" maxlength="32" class="sl" name="c" value="' . $rt['c_value'] . '" />&nbsp;');
+				_v_ico_silk('tick');
+				echo('</td></tr><tr><td width="200" align="right"></td><td align="left"><img src="/c/' . rand(1111,9999) . '.' . rand(1111,9999) . '.png" /></td></tr>');
 			}
 			/* E result: c */			
-			echo('</form></table></div>');
-			echo('<div class="blank"><img src="/img/ico_tip.gif" align="absmiddle" class="home" />点击“注册新会员”，即表示你同意 ' . Vocabulary::site_name . ' 的使用条款和隐私权规则<br /><br />电子邮件地址将作为你登录时候使用的识别之一，这里的大部分功能依赖于一个真实的电子邮件地址，因此一个真实的电子邮件地址很有必要，而至于昵称，则可以任意设置随心换</div>');
+			echo('</form></table>');
+			_v_hr();
+			_v_ico_silk('information');
+			echo(' 点击“注册新会员”，即表示你完全同意我们的 <a href="/terms.vx" class="t">' . Vocabulary::term_terms . '</a> 和 <a href="/privacy.vx" class="t">' . Vocabulary::term_privacy . '</a>，并且你不厌恶也不会反对我们的 <a href="/community_guidelines.vx" class="t">社区指导原则</a><br /><br />电子邮件地址将作为你登录时候使用的识别之一，这里的大部分功能依赖于一个真实的电子邮件地址，因此一个真实的电子邮件地址很有必要，而至于昵称，则可以任意设置随心换</div>');
 		} else {
 			$mail = array();
 			$mail['subject'] = "{$this->User->usr_nick} 你好，欢迎来到 " . Vocabulary::site_name;
@@ -4267,13 +4280,21 @@ class Page {
 		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . urlencode($this->User->usr_nick) . '">' . make_plaintext($this->User->usr_nick) . '</a> &gt; ' . Vocabulary::action_modifyprofile . '</div>');
 
 		if ($rt['errors'] != 0) {
-			echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_important.gif" align="absmiddle" class="home" />对不起，你刚才提交的信息里有些错误</span><table cellpadding="0" cellspacing="0" border="0" class="form"><form action="/user/update.vx" method="post" id="form_user_info">');
+			echo('<div class="blank" align="left">');
+			_v_ico_silk('exclamation');
+			echo(' 对不起，你刚才提交的信息里有些错误');
+			_v_hr();
+			echo('<table cellpadding="0" cellspacing="0" border="0" class="form"><form action="/user/update.vx" method="post" id="form_user_info">');
 
 			/* result: usr_email */
 			if ($rt['usr_full_error'] != 0) {
-				echo('<tr><td width="200" align="right" valign="top">真实姓名</td><td width="200" align="left"><div class="error"><input type="text" maxlength="100" class="sl" name="usr_full" value="' . make_single_return($rt['usr_full_value']) . '" />&nbsp;<img src="/img/sico_error.gif" align="absmiddle" /><br />' . $rt['usr_full_error_msg'][$rt['usr_full_error']] . '</div></td>');
+				echo('<tr><td width="200" align="right" valign="top">真实姓名</td><td align="left"><div class="error"><input type="text" maxlength="100" class="sl" name="usr_full" value="' . make_single_return($rt['usr_full_value']) . '" /><br />');
+				_v_ico_silk('exclamation');
+				echo(' ' . $rt['usr_full_error_msg'][$rt['usr_full_error']] . '</div></td>');
 			} else {
-				echo('<tr><td width="200" align="right">真实姓名</td><td width="200" align="left"><input type="text" maxlength="100" class="sl" name="usr_full" value="' . make_single_return($rt['usr_full_value']) . '" />&nbsp;<img src="/img/sico_ok.gif" align="absmiddle" /></td>');
+				echo('<tr><td width="200" align="right">真实姓名</td><td align="left"><input type="text" maxlength="100" class="sl" name="usr_full" value="' . make_single_return($rt['usr_full_value']) . '" />&nbsp;');
+				_v_ico_silk('tick');
+				echo('</td>');
 			}
 			
 			/* cell: submit button */
@@ -4284,37 +4305,51 @@ class Page {
 			
 			/* result: usr_nick */
 			if ($rt['usr_nick_error'] != 0) {
-				echo('<tr><td width="200" align="right" valign="top">昵称</td><td width="200" align="left"><div class="error"><input type="text" maxlength="20" class="sl" name="usr_nick" value="' . make_single_return($rt['usr_nick_value']) . '" />&nbsp;<img src="/img/sico_error.gif" align="absmiddle" /><br />' . $rt['usr_nick_error_msg'][$rt['usr_nick_error']] . '</div></td></tr>');
+				echo('<tr><td width="200" align="right" valign="top">昵称</td><td align="left"><div class="error"><input type="text" maxlength="20" class="sl" name="usr_nick" value="' . make_single_return($rt['usr_nick_value']) . '" /><br />');
+				_v_ico_silk('exclamation');
+				echo(' ' . $rt['usr_nick_error_msg'][$rt['usr_nick_error']] . '</div></td></tr>');
 			} else {
-				echo('<tr><td width="200" align="right">昵称</td><td width="200" align="left"><input type="text" maxlength="20" class="sl" name="usr_nick" value="' . make_single_return($rt['usr_nick_value']) . '" />&nbsp;<img src="/img/sico_ok.gif" align="absmiddle" /></td></tr>');
+				echo('<tr><td width="200" align="right">昵称</td><td align="left"><input type="text" maxlength="20" class="sl" name="usr_nick" value="' . make_single_return($rt['usr_nick_value']) . '" />&nbsp;');
+				_v_ico_silk('tick');
+				echo('</td>');
 			}
 			
 			/* result: usr_brief */
 			if ($rt['usr_brief_error'] != 0) {
-				echo('<tr><td width="200" align="right" valign="top">自我简介</td><td width="200" align="left"><div class="error"><input type="text" maxlength="200" class="sl" name="usr_brief" value="' . make_single_return($rt['usr_brief_value']) . '" />&nbsp;<img src="/img/sico_error.gif" align="absmiddle" /><br />' . $rt['usr_brief_error_msg'][$rt['usr_brief_error']] . '</div></td></tr>');
+				echo('<tr><td width="200" align="right" valign="top">自我简介</td><td align="left"><div class="error"><input type="text" maxlength="200" class="sl" name="usr_brief" value="' . make_single_return($rt['usr_brief_value']) . '" /><br />');
+				_v_ico_silk('exclamation');
+				echo(' ' . $rt['usr_brief_error_msg'][$rt['usr_brief_error']] . '</div></td></tr>');
 			} else {
-				echo('<tr><td width="200" align="right">自我简介</td><td width="200" align="left"><input type="text" maxlength="200" class="sl" name="usr_brief" value="' . make_single_return($rt['usr_brief_value']) . '" />&nbsp;<img src="/img/sico_ok.gif" align="absmiddle" /></td></tr>');
+				echo('<tr><td width="200" align="right">自我简介</td><td align="left"><input type="text" maxlength="200" class="sl" name="usr_brief" value="' . make_single_return($rt['usr_brief_value']) . '" />&nbsp;');
+				_v_ico_silk('tick');
+				echo('</td></tr>');
 			}
 			
 			/* result: usr_addr */
 			if ($rt['usr_addr_error'] != 0) {
-				echo('<tr><td width="200" align="right" valign="top">家庭住址</td><td width="200" align="left"><div class="error"><input type="text" maxlength="100" class="sl" name="usr_addr" value="' . make_single_return($rt['usr_addr_value']) . '" />&nbsp;<img src="/img/sico_error.gif" align="absmiddle" /><br />' . $rt['usr_addr_error_msg'][$rt['usr_addr_error']] . '</div></td></tr>');
+				echo('<tr><td width="200" align="right" valign="top">家庭住址</td><td align="left"><div class="error"><input type="text" maxlength="100" class="sl" name="usr_addr" value="' . make_single_return($rt['usr_addr_value']) . '" />&nbsp;<img src="/img/sico_error.gif" align="absmiddle" /><br />' . $rt['usr_addr_error_msg'][$rt['usr_addr_error']] . '</div></td></tr>');
 			} else {
-				echo('<tr><td width="200" align="right">家庭住址</td><td width="200" align="left"><input type="text" maxlength="100" class="sl" name="usr_addr" value="' . make_single_return($rt['usr_addr_value']) . '" />&nbsp;<img src="/img/sico_ok.gif" align="absmiddle" /></td></tr>');
+				echo('<tr><td width="200" align="right">家庭住址</td><td align="left"><input type="text" maxlength="100" class="sl" name="usr_addr" value="' . make_single_return($rt['usr_addr_value']) . '" />&nbsp;');
+				_v_ico_silk('tick');
+				echo('</td></tr>');
 			}
 			
 			/* result: usr_telephone */
 			if ($rt['usr_telephone_error'] != 0) {
-				echo('<tr><td width="200" align="right" valign="top">电话号码</td><td width="200" align="left"><div class="error"><input type="text" maxlength="40" class="sl" name="usr_telephone" value="' . make_single_return($rt['usr_telephone_value']) . '" />&nbsp;<img src="/img/sico_error.gif" align="absmiddle" /><br />' . $rt['usr_telephone_error_msg'][$rt['usr_telephone_error']] . '</div></td></tr>');
+				echo('<tr><td width="200" align="right" valign="top">电话号码</td><td align="left"><div class="error"><input type="text" maxlength="40" class="sl" name="usr_telephone" value="' . make_single_return($rt['usr_telephone_value']) . '" />&nbsp;<img src="/img/sico_error.gif" align="absmiddle" /><br />' . $rt['usr_telephone_error_msg'][$rt['usr_telephone_error']] . '</div></td></tr>');
 			} else {
-				echo('<tr><td width="200" align="right">电话号码</td><td width="200" align="left"><input type="text" maxlength="40" class="sl" name="usr_telephone" value="' . make_single_return($rt['usr_telephone_value']) . '" />&nbsp;<img src="/img/sico_ok.gif" align="absmiddle" /></td></tr>');
+				echo('<tr><td width="200" align="right">电话号码</td><td align="left"><input type="text" maxlength="40" class="sl" name="usr_telephone" value="' . make_single_return($rt['usr_telephone_value']) . '" />&nbsp;');
+				_v_ico_silk('tick');
+				echo('</td></tr>');
 			}
 			
 			/* result: usr_identity */
 			if ($rt['usr_identity_error'] != 0) {
-				echo('<tr><td width="200" align="right" valign="top">身份证号码</td><td width="200" align="left"><div class="error"><input type="text" maxlength="18" class="sl" name="usr_identity" value="' . make_single_return($rt['usr_identity_value']) . '" />&nbsp;<img src="/img/sico_error.gif" align="absmiddle" /><br />' . $rt['usr_identity_error_msg'][$rt['usr_identity_error']] . '</div></td></tr>');
+				echo('<tr><td width="200" align="right" valign="top">身份证号码</td><td align="left"><div class="error"><input type="text" maxlength="18" class="sl" name="usr_identity" value="' . make_single_return($rt['usr_identity_value']) . '" />&nbsp;<img src="/img/sico_error.gif" align="absmiddle" /><br />' . $rt['usr_identity_error_msg'][$rt['usr_identity_error']] . '</div></td></tr>');
 			} else {
-				echo('<tr><td width="200" align="right">身份证号码</td><td width="200" align="left"><input type="text" maxlength="18" class="sl" name="usr_identity" value="' . make_single_return($rt['usr_identity_value']) . '" />&nbsp;<img src="/img/sico_ok.gif" align="absmiddle" /></td></tr>');
+				echo('<tr><td width="200" align="right">身份证号码</td><td align="left"><input type="text" maxlength="18" class="sl" name="usr_identity" value="' . make_single_return($rt['usr_identity_value']) . '" />&nbsp;');
+				_v_ico_silk('tick');
+				echo('</td></tr>');
 			}
 			
 			/* result: usr_gender */
@@ -4381,9 +4416,13 @@ class Page {
 			echo('</td></tr>');
 			
 			if ($rt['usr_email_notify_error'] != 0) {
-				echo('<tr><td width="200" align="right" valign="top">用于接收通知的邮箱</td><td width="200" align="left"><div class="error"><input type="text" maxlength="100" class="sl" name="usr_email_notify" value="' . make_single_return($rt['usr_email_notify_value']) . '" />&nbsp;<img src="/img/sico_error.gif" align="absmiddle" /><br />' . $rt['usr_email_notify_error_msg'][$rt['usr_email_notify_error']] . '</div></td>');
+				echo('<tr><td width="200" align="right" valign="top">用于接收通知的邮箱</td><td align="left"><div class="error"><input type="text" maxlength="100" class="sl" name="usr_email_notify" value="' . make_single_return($rt['usr_email_notify_value']) . '" /><br />');
+				_v_ico_silk('exclamation');
+				echo(' ' . $rt['usr_email_notify_error_msg'][$rt['usr_email_notify_error']] . '</div></td></tr>');
 			} else {
-				echo('<tr><td width="200" align="right">用于接收通知的邮箱</td><td width="200" align="left"><input type="text" maxlength="100" class="sl" name="usr_email_notify" value="' . make_single_return($rt['usr_email_notify_value']) . '" />&nbsp;<img src="/img/sico_ok.gif" align="absmiddle" /></td>');
+				echo('<tr><td width="200" align="right">用于接收通知的邮箱</td><td align="left"><input type="text" maxlength="100" class="sl" name="usr_email_notify" value="' . make_single_return($rt['usr_email_notify_value']) . '" />&nbsp;');
+				_v_ico_silk('tick');
+				echo('</td></tr>');
 			}
 			
 			/* S result: usr_password and usr_confirm */
@@ -4397,30 +4436,40 @@ class Page {
 			switch ($rt['pswitch']) {
 				default:
 				case 'a':
-					echo('<tr><td width="200" align="right">新密码</td><td width="200" align="left"><input type="password" maxlength="32" class="sl" name="usr_password_new" /></td></tr>');
-					echo('<tr><td width="200" align="right">重复密码</td><td width="200" align="left"><input type="password" maxlength="32" class="sl" name="usr_confirm_new" /></td></tr>');
+					echo('<tr><td width="200" align="right">新密码</td><td align="left"><input type="password" maxlength="32" class="sl" name="usr_password_new" /></td></tr>');
+					echo('<tr><td width="200" align="right">重复密码</td><td align="left"><input type="password" maxlength="32" class="sl" name="usr_confirm_new" /></td></tr>');
 					break;
 				case 'b':
 					if ($rt['usr_password_error'] == 0) {
 						if ($rt['usr_confirm_error'] != 0) {
-							echo('<tr><td width="200" align="right">新密码</td><td width="200" align="left"><input type="password" maxlength="32" class="sl" name="usr_password_new" value="' . make_single_return($rt['usr_password_value']) . '" /></td></tr>');
-							echo('<tr><td width="200" align="right">重复新密码</td><td width="200" align="left"><div class="error"><input type="password" maxlength="32" class="sl" name="usr_confirm_new" />&nbsp;<img src="/img/sico_error.gif" align="absmiddle" /><br />' . $rt['usr_confirm_error_msg'][$rt['usr_confirm_error']] . '</div></td></tr>');
+							echo('<tr><td width="200" align="right">新密码</td><td align="left"><input type="password" maxlength="32" class="sl" name="usr_password_new" value="' . make_single_return($rt['usr_password_value']) . '" /></td></tr>');
+							echo('<tr><td width="200" align="right">重复新密码</td><td align="left"><div class="error"><input type="password" maxlength="32" class="sl" name="usr_confirm_new" /><br />');
+							_v_ico_silk('exclamation');
+							echo (' ' . $rt['usr_confirm_error_msg'][$rt['usr_confirm_error']] . '</div></td></tr>');
 						} else {
-							echo('<tr><td width="200" align="right">新密码</td><td width="200" align="left""><input type="password" maxlength="32" class="sl" name="usr_password_new" value="' . make_single_return($rt['usr_password_value']) . '" />&nbsp;<img src="/img/sico_ok.gif" align="absmiddle" alt="ok" /></td></tr>');
-							echo('<tr><td width="200" align="right">重复新密码</td><td width="200" align="left""><input type="password" maxlength="32" class="sl" name="usr_confirm_new" value="' . make_single_return($rt['usr_confirm_value']) . '" />&nbsp;<img src="/img/sico_ok.gif" align="absmiddle" alt="ok" /></td></tr>');
+							echo('<tr><td width="200" align="right">新密码</td><td align="left""><input type="password" maxlength="32" class="sl" name="usr_password_new" value="' . make_single_return($rt['usr_password_value']) . '" />&nbsp;<img src="/img/sico_ok.gif" align="absmiddle" alt="ok" /></td></tr>');
+							echo('<tr><td width="200" align="right">重复新密码</td><td align="left""><input type="password" maxlength="32" class="sl" name="usr_confirm_new" value="' . make_single_return($rt['usr_confirm_value']) . '" />&nbsp;');
+							_v_ico_silk('tick');
+							echo('</td></tr>');
 						}
 					} else {
-						echo('<tr><td width="200" align="right">新密码</td><td width="200" align="left"><div class="error"><input type="password" maxlength="32" class="sl" name="usr_password_new" />&nbsp;<img src="/img/sico_error.gif" align="absmiddle" /><br />' . $rt['usr_password_error_msg'][$rt['usr_password_error']] . '</div></td></tr>');
-					echo('<tr><td width="200" align="right">重复新密码</td><td width="200" align="left"><input type="password" maxlength="32" class="sl" name="usr_confirm_new" /></td></tr>');
+						echo('<tr><td width="200" align="right">新密码</td><td align="left"><div class="error"><input type="password" maxlength="32" class="sl" name="usr_password_new" /><br />');
+						_v_ico_silk('exclamation');
+						echo(' ' . $rt['usr_password_error_msg'][$rt['usr_password_error']] . '</div></td></tr>');
+						echo('<tr><td width="200" align="right">重复新密码</td><td align="left"><input type="password" maxlength="32" class="sl" name="usr_confirm_new" /></td></tr>');
 					}
 					break;
 				case 'c':
-					echo('<tr><td width="200" align="right">新密码</td><td width="200" align="left"><input type="password" maxlength="32" class="sl" name="usr_password_new" value="' . make_single_return($rt['usr_password_value']) . '" /></td></tr>');
-					echo('<tr><td width="200" align="right">重复新密码</td><td width="200" align="left"><div class="error"><input type="password" maxlength="32" class="sl" name="usr_confirm_new" />&nbsp;<img src="/img/sico_error.gif" align="absmiddle" /><br />' . $rt['usr_confirm_error_msg'][$rt['usr_confirm_error']] . '</div></td></tr>');
+					echo('<tr><td width="200" align="right">新密码</td><td align="left"><input type="password" maxlength="32" class="sl" name="usr_password_new" value="' . make_single_return($rt['usr_password_value']) . '" /></td></tr>');
+					echo('<tr><td width="200" align="right">重复新密码</td><td align="left"><div class="error"><input type="password" maxlength="32" class="sl" name="usr_confirm_new" /><br />');
+					_v_ico_silk('exclamation');
+					echo(' ' . $rt['usr_confirm_error_msg'][$rt['usr_confirm_error']] . '</div></td></tr>');
 					break;
 				case 'd':
-					echo('<tr><td width="200" align="right">新密码</td><td width="200" align="left"><div class="error"><input type="password" maxlength="32" class="sl" name="usr_password_new" />&nbsp;<img src="/img/sico_error.gif" align="absmiddle" /><br />' . $rt['usr_password_error_msg'][$rt['usr_password_error']] . '</div></td></tr>');
-					echo('<tr><td width="200" align="right">重复新密码</td><td width="200" align="left"><input type="password" maxlength="32" class="sl" name="usr_confirm_new" value="' . make_single_return($rt['usr_confirm_value']) . '" /></td></tr>');
+					echo('<tr><td width="200" align="right">新密码</td><td align="left"><div class="error"><input type="password" maxlength="32" class="sl" name="usr_password_new" /><br />');
+					_v_ico_silk('exclamation');
+					echo(' ' . $rt['usr_password_error_msg'][$rt['usr_password_error']] . '</div></td></tr>');
+					echo('<tr><td width="200" align="right">重复新密码</td><td align="left"><input type="password" maxlength="32" class="sl" name="usr_confirm_new" value="' . make_single_return($rt['usr_confirm_value']) . '" /></td></tr>');
 					break;
 			}
 			
@@ -6052,16 +6101,23 @@ class Page {
 			_v_ico_map();
 			echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html" target="_self">' . $Section->nod_title . '</a> &gt; <a href="/board/view/' . $Node->nod_id . '.html">' . $Node->nod_title . '</a> &gt; <a href="/topic/view/' . $Topic->tpc_id . '/' . $_SESSION['babel_page_topic'] . '.html">' . make_plaintext($Topic->tpc_title) . '</a> &gt; ' . make_plaintext($Post->pst_title) . ' &gt; ' . Vocabulary::action_modifypost . '</div>');
 			if ($rt['errors'] > 0) {
-				echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_important.gif" align="absmiddle" class="home" />' . Vocabulary::msg_submitwrong . '</span>');
+				echo('<div class="blank" align="left">');
+				_v_ico_silk('exclamation');
+				echo(' ' . Vocabulary::msg_submitwrong);
+				_v_hr();
 				echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
 				echo('<form action="/post/update/' . $Post->pst_id . '.vx" method="post" id="form_post_modify">');
 				if ($rt['pst_title_error'] > 0) {
-					echo('<tr><td width="100" align="right">回复标题</td><td width="400" align="left"><div class="error"><input type="text" class="sll" name="pst_title" value="' . make_single_return($rt['pst_title_value']) . '" /><br /><img src="/img/sico_error.gif" align="absmiddle" />&nbsp;' . $rt['pst_title_error_msg'][$rt['pst_title_error']] . '</div></td></tr>');
+					echo('<tr><td width="100" align="right" valign="top">回复标题</td><td width="400" align="left"><div class="error" style="width: 308px;"><input type="text" class="sll" name="pst_title" value="' . make_single_return($rt['pst_title_value']) . '" /><br />');
+					_v_ico_silk('exclamation');
+					echo('&nbsp;' . $rt['pst_title_error_msg'][$rt['pst_title_error']] . '</div></td></tr>');
 				} else {
 					echo('<tr><td width="100" align="right">回复标题</td><td width="400" align="left"><input type="text" class="sll" name="pst_title" value="' . make_single_return($rt['pst_title_value']) . '" /></td></tr>');
 				}
 				if ($rt['pst_content_error'] > 0) {
-					echo('<tr><td width="100" align="right" valign="top">回复内容</td><td width="400" align="left"><div class="error"><textarea rows="15" class="ml" name="pst_content">' . $rt['pst_content_value'] . '</textarea><br /><img src="/img/sico_error.gif" align="absmiddle" />&nbsp;' . make_multi_return($rt['pst_content_error_msg'][$rt['pst_content_error']]) . '</div></td></tr>');
+					echo('<tr><td width="100" align="right" valign="top">回复内容</td><td width="400" align="left"><div class="error"><textarea rows="15" class="ml" name="pst_content">' . $rt['pst_content_value'] . '</textarea><br />');
+					_v_ico_silk('exclamation');
+					echo('&nbsp;' . make_multi_return($rt['pst_content_error_msg'][$rt['pst_content_error']]) . '</div></td></tr>');
 				} else {
 					echo('<tr><td width="100" align="right" valign="top">回复内容</td><td width="400" align="left"><textarea rows="15" class="ml" name="pst_content">' . make_multi_return($rt['pst_content_value']) .'</textarea></td></tr>');
 				}
@@ -6199,21 +6255,30 @@ class Page {
 				echo('<div class="blank" align="left">');
 				_v_ico_map();
 				echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; <a href="/board/view/' . $Node->nod_id . '.html">' . $Node->nod_title . '</a> &gt; <a href="/topic/view/' . $Topic->tpc_id . '.html">' . $Topic->tpc_id . '</a> &gt; ' . Vocabulary::action_modifytopic . '</div>');
-				echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_important.gif" align="absmiddle" class="home" />对不起，你刚才提交的信息里有些错误</span>');
+				echo('<div class="blank" align="left">');
+				_v_ico_silk('exclamation');
+				echo(' 对不起，你刚才提交的信息里有些错误');
+				_v_hr();
 				echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
 				echo('<form action="/topic/update/' . $Topic->tpc_id . '.vx" method="post" id="form_topic_update">');
 				if ($rt['tpc_title_error'] > 0) {
-					echo('<tr><td width="100" align="right">标题</td><td width="400" align="left"><div class="error"><input type="text" class="sll" name="tpc_title" value="' . make_single_return($rt['tpc_title_value']) . '" /><br /><img src="/img/sico_error.gif" align="absmiddle" />&nbsp;' . $rt['tpc_title_error_msg'][$rt['tpc_title_error']] . '</div></td></tr>');
+					echo('<tr><td width="100" align="right">标题</td><td width="400" align="left"><div class="error" style="width: 308px;"><input type="text" class="sll" name="tpc_title" value="' . make_single_return($rt['tpc_title_value']) . '" /><br />');
+					_v_ico_silk('exclamation');
+					echo('&nbsp;' . $rt['tpc_title_error_msg'][$rt['tpc_title_error']] . '</div></td></tr>');
 				} else {
 					echo('<tr><td width="100" align="right">标题</td><td width="400" align="left"><input type="text" class="sll" name="tpc_title" value="' . make_single_return($rt['tpc_title_value']) . '" /></td></tr>');
 				}
 				if ($rt['tpc_description_error'] > 0) {
-					echo('<tr><td width="100" align="right" valign="top">主题简介</td><td width="400" align="left"><div class="error"><textarea rows="5" class="ml" name="tpc_description">' . make_multi_return($rt['tpc_description_value']) . '</textarea><br /><img src="/ico/sico_error.gif" align="absmiddle" />&nbsp;' . $rt['tpc_description_error_msg'][$rt['tpc_description_error']] . '</div></td></tr>');
+					echo('<tr><td width="100" align="right" valign="top">主题简介</td><td width="400" align="left"><div class="error"><textarea rows="5" class="ml" name="tpc_description">' . make_multi_return($rt['tpc_description_value']) . '</textarea><br />');
+					_v_ico_silk('exclamation');
+					echo('&nbsp;' . $rt['tpc_description_error_msg'][$rt['tpc_description_error']] . '</div></td></tr>');
 				} else {
 					echo('<tr><td width="100" align="right" valign="top">主题简介</td><td width="400" align="left"><textarea rows="5" class="ml" name="tpc_description">' . make_multi_return($rt['tpc_description_value']) . '</textarea></td></tr>');
 				}
 				if ($rt['tpc_content_error'] > 0) {
-					echo('<tr><td width="100" align="right" valign="top">主题内容</td><td width="400" align="left"><div class="error"><textarea rows="15" class="ml" name="tpc_content">' . make_multi_return($rt['tpc_content_value']) . '</textarea><br /><img src="/img/sico_error.gif" align="absmiddle" />&nbsp;' . $rt['tpc_content_error_msg'][$rt['tpc_content_error']] . '</div></td></tr>');
+					echo('<tr><td width="100" align="right" valign="top">主题内容</td><td width="400" align="left"><div class="error"><textarea rows="15" class="ml" name="tpc_content">' . make_multi_return($rt['tpc_content_value']) . '</textarea><br />');
+					_v_ico_silk('exclamation');
+					echo('&nbsp;' . $rt['tpc_content_error_msg'][$rt['tpc_content_error']] . '</div></td></tr>');
 				} else {
 					echo('<tr><td width="100" align="right" valign="top">主题内容</td><td width="400" align="left"><textarea rows="15" class="ml" name="tpc_content">' . make_multi_return($rt['tpc_content_value']) . '</textarea></td></tr>');
 				}
@@ -6350,7 +6415,10 @@ class Page {
 				echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; ' . Vocabulary::action_newtopic . '</div>');
 			}
 
-			echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_important.gif" align="absmiddle" class="home" />对不起，你刚才提交的信息里有些错误</span>');
+			echo('<div class="blank" align="left">');
+			_v_ico_silk('exclamation');
+			echo(' 对不起，你刚才提交的信息里有些错误');
+			_v_hr();
 			echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
 			
 			if ($rt['mode'] == 'board') {
@@ -6360,7 +6428,9 @@ class Page {
 			}
 			
 			if ($rt['tpc_title_error'] > 0) {
-				echo('<tr><td width="100" align="right">标题</td><td width="400" align="left"><div class="error"><input type="text" class="sll" name="tpc_title" value="' . make_single_return($rt['tpc_title_value']) . '" /><br /><img src="/img/sico_error.gif" align="absmiddle" />&nbsp;' . $rt['tpc_title_error_msg'][$rt['tpc_title_error']] . '</div></td></tr>');
+				echo('<tr><td width="100" align="right">标题</td><td width="400" align="left"><div class="error" style="width: 308px;"><input type="text" class="sll" name="tpc_title" value="' . make_single_return($rt['tpc_title_value']) . '" /><br />');
+				_v_ico_silk('exclamation');
+				echo('&nbsp;' . $rt['tpc_title_error_msg'][$rt['tpc_title_error']] . '</div></td></tr>');
 			} else {
 				echo('<tr><td width="100" align="right">标题</td><td width="400" align="left"><input type="text" class="sll" name="tpc_title" value="' . make_single_return($rt['tpc_title_value']) . '" /></td></tr>');
 			}
@@ -6393,19 +6463,25 @@ class Page {
 				}
 				
 				if ($rt['tpc_pid_error'] > 0) {
-					echo ('</select><br /><img src="/img/sico_error.gif" align="absmiddle" />&nbsp;' . $rt['tpc_pid_error_msg'][$rt['tpc_pid_error']] . '</div></td></tr>');
+					echo ('</select><br />');
+					_v_ico_silk('exclamation');
+					echo('&nbsp;' . $rt['tpc_pid_error_msg'][$rt['tpc_pid_error']] . '</div></td></tr>');
 				} else {
 					echo ('</select></td></tr>');
 				}
 			}
 			
 			if ($rt['tpc_description_error'] > 0) {
-				echo('<tr><td width="100" align="right" valign="top">主题简介</td><td width="400" align="left"><div class="error"><textarea rows="5" class="ml" name="tpc_description">' . make_multi_return($rt['tpc_description_value']) . '</textarea><br /><img src="/ico/sico_error.gif" align="absmiddle" />&nbsp;' . $rt['tpc_description_error_msg'][$rt['tpc_description_error']] . '</div></td></tr>');
+				echo('<tr><td width="100" align="right" valign="top">主题简介</td><td width="400" align="left"><div class="error"><textarea rows="5" class="ml" name="tpc_description">' . make_multi_return($rt['tpc_description_value']) . '</textarea><br />');
+				_v_ico_silk('exclamation');
+				echo('&nbsp;' . $rt['tpc_description_error_msg'][$rt['tpc_description_error']] . '</div></td></tr>');
 			} else {
 				echo('<tr><td width="100" align="right" valign="top">主题简介</td><td width="400" align="left"><textarea rows="5" class="ml" name="tpc_description">' . make_multi_return($rt['tpc_description_value']) . '</textarea></td></tr>');
 			}
 			if ($rt['tpc_content_error'] > 0) {
-				echo('<tr><td width="100" align="right" valign="top">主题内容</td><td width="400" align="left"><div class="error"><textarea rows="15" class="ml" name="tpc_content">' . make_multi_return($rt['tpc_content_value']) . '</textarea><br /><img src="/img/sico_error.gif" align="absmiddle" />&nbsp;' . $rt['tpc_content_error_msg'][$rt['tpc_content_error']] . '</div></td></tr>');
+				echo('<tr><td width="100" align="right" valign="top">主题内容</td><td width="400" align="left"><div class="error"><textarea rows="15" class="ml" name="tpc_content">' . make_multi_return($rt['tpc_content_value']) . '</textarea><br />');
+				_v_ico_silk('exclamation');
+				echo('&nbsp;' . $rt['tpc_content_error_msg'][$rt['tpc_content_error']] . '</div></td></tr>');
 			} else {
 				echo('<tr><td width="100" align="right" valign="top">主题内容</td><td width="400" align="left"><textarea rows="15" class="ml" name="tpc_content">' . make_multi_return($rt['tpc_content_value']) . '</textarea></td></tr>');
 			}
@@ -6439,19 +6515,26 @@ class Page {
 		_v_ico_map();
 		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html" target="_self">' . $Section->nod_title . '</a> &gt; <a href="/board/view/' . $Node->nod_id . '.html">' . $Node->nod_title . '</a> &gt; <a href="/topic/view/' . $Topic->tpc_id . '.html">' . make_plaintext($Topic->tpc_title) . '</a> &gt; ' . Vocabulary::action_replytopic . '</div>');
 		if ($rt['errors'] > 0) {
-			echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_important.gif" align="absmiddle" class="home" />' . Vocabulary::msg_submitwrong . '</span>');
+			echo('<div class="blank" align="left">');
+			_v_ico_silk('exclamation');
+			echo(' ' . Vocabulary::msg_submitwrong);
+			_v_hr();
 			if ($rt['autistic']) {
 				echo('<div class="notify">你正在回复的主题位于自闭模式的讨论区中，你只能回复自闭模式的讨论区中你自己创建的主题。</div>');
 			}
 			echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
 			echo('<form action="/post/create/' . $Topic->tpc_id . '.vx" method="post" id="form_post_create">');
 			if ($rt['pst_title_error'] > 0) {
-				echo('<tr><td width="100" align="right">回复标题</td><td width="400" align="left"><div class="error"><input type="text" class="sll" name="pst_title" value="' . make_single_return($rt['pst_title_value']) . '" /><br /><img src="/img/sico_error.gif" align="absmiddle" />&nbsp;' . $rt['pst_title_error_msg'][$rt['pst_title_error']] . '</div></td></tr>');
+				echo('<tr><td width="100" align="right">回复标题</td><td width="400" align="left"><div class="error" style="width: 308px;"><input type="text" class="sll" name="pst_title" value="' . make_single_return($rt['pst_title_value']) . '" /><br />');
+				_v_ico_silk('exclamation');
+				echo(' ' . $rt['pst_title_error_msg'][$rt['pst_title_error']] . '</div></td></tr>');
 			} else {
 				echo('<tr><td width="100" align="right">回复标题</td><td width="400" align="left"><input type="text" class="sll" name="pst_title" value="' . make_single_return($rt['pst_title_value']) . '" /></td></tr>');
 			}
 			if ($rt['pst_content_error'] > 0) {
-				echo('<tr><td width="100" align="right" valign="top">回复内容</td><td width="400" align="left"><div class="error"><textarea rows="15" class="ml" name="pst_content">' . $rt['pst_content_value'] . '</textarea><br /><img src="/img/sico_error.gif" align="absmiddle" />&nbsp;' . make_multi_return($rt['pst_content_error_msg'][$rt['pst_content_error']]) . '</div></td></tr>');
+				echo('<tr><td width="100" align="right" valign="top">回复内容</td><td width="400" align="left"><div class="error"><textarea rows="15" class="ml" name="pst_content">' . $rt['pst_content_value'] . '</textarea><br />');
+				_v_ico_silk('exclamation');
+				echo('&nbsp;' . make_multi_return($rt['pst_content_error_msg'][$rt['pst_content_error']]) . '</div></td></tr>');
 			} else {
 				echo('<tr><td width="100" align="right" valign="top">回复内容</td><td width="400" align="left"><textarea rows="15" class="ml" name="pst_content">' . make_multi_return($rt['pst_content_value']) .'</textarea></td></tr>');
 			}
@@ -6772,7 +6855,7 @@ class Page {
 		}
 		$_SESSION['babel_page_topic'] = $p['cur'];
 		if ($Topic->tpc_reply_count > 0) {
-			echo('<div id="vxReplyTop">本主题共有 ' . $Topic->tpc_posts . ' 条回复 | <a href="#top">回到顶部</a> | ');
+			echo('<div id="vxReplyTop">本主题共有 ' . $Topic->tpc_posts . ' 条回复 | <a href="#;" onclick="window.scrollTo(0,0);">回到顶部</a> | ');
 			if ($this->User->vxIsLogin()) {
 				echo('<a href="#replyForm" onclick="jumpReply();">回复主题</a>');
 			} else {
@@ -6893,7 +6976,7 @@ class Page {
 			echo('<tr><td width="200" align="right">电子邮件或昵称</td><td width="200" align="left"><input type="text" maxlength="100" class="sl" name="usr" tabindex="1" /></td><td width="150" rowspan="2" valign="middle" align="right"><input type="image" src="/img/graphite/login.gif" alt="' . Vocabulary::action_login . '" tabindex="3" /></td></tr><tr><td width="200" align="right">密码</td><td align="left"><input type="password" maxlength="32" class="sl" name="usr_password" tabindex="2" /></td></tr></form></table></div>');
 		}
 		echo('<div class="light_odd" style="margin-bottom: 5px; " align="left">');
-		echo('<a href="#top">回到顶部</a> | ');
+		echo('<a href="#;" onclick="window.scrollTo(0,0);">回到顶部</a> | ');
 		if (isset($_SESSION['babel_page_node_' . $Node->nod_id])) {
 			echo('<a href="/board/view/' . $Node->nod_id . '/' . $_SESSION['babel_page_node_' . $Node->nod_id] . '.html">' . make_plaintext($Node->nod_title) . '</a>');
 		} else {

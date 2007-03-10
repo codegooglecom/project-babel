@@ -83,7 +83,7 @@ var cbGetHomeTabLatest = function() {
 				_o = _o + '<a href="/go/' + data.boards[i].nod_name + '" style="color: ' + data.boards[i].color + ';" class="var">' + data.boards[id].nod_title_plain + '</a><small> ' + data.boards[id].nod_topics + '</small>';
 				_o = _o + '<small>&nbsp;..&nbsp;</small>';
 			}
-			_o = _o + '<a href="/feed/v2ex.rss" class="var"><img src="/img/pico_feed.gif" align="absmiddle" border="0" alt="RSS 2.0" /></a>';
+			_o = _o + '<a href="/feed/v2ex.rss" class="var"><img src="/img/icons/silk/feed.png" align="absmiddle" border="0" alt="RSS 2.0" /></a>';
 			_o = _o + '</div>';
 			_t.innerHTML = _o;
 			_o = "";
@@ -119,7 +119,7 @@ var cbGetHomeTabSection = function() {
 				_o = _o + '<small>&nbsp;..&nbsp;</small>';
 			}
 			_o = _o + '<a href="/go/' + data.node.nod_name + '" class="t var"><small>more</small></a><small> .. </small>';
-			_o = _o + '<a href="/feed/board/' + data.node.nod_name + '.rss" class="var"><img src="/img/pico_feed.gif" align="absmiddle" border="0" alt="RSS 2.0" /></a>';
+			_o = _o + '<a href="/feed/board/' + data.node.nod_name + '.rss" class="var"><img src="/img/icons/silk/feed.png" align="absmiddle" border="0" alt="RSS 2.0" /></a>';
 			_o = _o + '</div>';
 			_t.innerHTML = _o;
 			_o = "";
