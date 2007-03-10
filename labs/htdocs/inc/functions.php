@@ -17,4 +17,8 @@ function _v_btn_f($label, $form) {
 	echo('</script>');
 	echo('<div id="' . $container . '"><div class="btn_o" align="left" onclick="f_' . $form_md5 . '_do();"><div class="btn_i" align="center"><a href="#;" onclick="f_' . $form_md5 . '_do();" onmousedown="f_' . $form_md5 . '_do();">' . $label . '</a></div></div></div>');
 }
+
+function _v_ico_silk($icon, $align = 'absmiddle') {
+	echo('<img src="' . CDN_UI . 'icons/silk/' . $icon . '.png" align="' . $align . '" />');
+}
 ?>

@@ -1,4 +1,5 @@
 <?php
+require_once('config.php');
 require_once('inc/functions.php');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -64,17 +65,35 @@ Project Babel 在 GPL 协议下发布，这意味着你可以自由地下载，�
 
 我们在这个项目的诸多细节上投入了非常多的精力，如果你也是一个非常注重细节的完美理想主义者的话，你或许会喜欢上这些细节的。比如，Project Babel 的所有功能和效果都能够在所有浏览器上做到一致，包括 Safari，Opera，Firefox 和 IE 等浏览器从 2004 年以后开始的所有版本。
 </div>
-<div class="header"><img src="/img/icons/disk.png" align="absmiddle" /> <a name="downloads"> </a> Downloads</div>
+<div class="header"><?php _v_ico_silk('basket_put'); ?> <a name="downloads"> </a> Downloads</div>
 <div class="content">
-2006-7-14: <strong>R500</strong> <span class="tip"><small>Stable Release</small></span>
+
+<?php _v_ico_silk('disk'); ?> <strong>发行版本 - Distribution Version</strong>
+
+<?php _v_hr(); ?>
+
+发行版本中包括了完整的程序源代码及运行所依赖的组件，适合初学者安装。但是其中的技术可能不是最新最好的。Project Babel 的发行版本的压缩包推荐使用 gnu tar 解压缩。<br /><br />
+
+<?php _v_ico_silk('bullet_go'); ?> 2006-7-14: <strong>R500</strong> <span class="tip"><small>Stable Release</small></span>
 <blockquote>
-下载地址:&nbsp;&nbsp;<a href="http://www.v2ex.com/releases/r500.tgz" target="_blank">http://www.v2ex.com/releases/r500.tgz</a> <span class="tip">3.3M</span><br />
-安装说明:&nbsp;&nbsp;<a href="http://www.v2ex.com/topic/view/1736.html" target="_blank">http://www.v2ex.com/topic/view/1736.html</a>
+下载地址:&nbsp;&nbsp;<a href="http://project-babel.googlecode.com/files/r500.tgz" target="_blank">http://project-babel.googlecode.com/files/r500.tgz</a> <span class="tip">3.3M</span><br />
+安装说明:&nbsp;&nbsp;<a href="http://project-babel.googlecode.com/files/r215.tgz" target="_blank"></a>
 </blockquote>
-2006-4-10: <strong>R215</strong> <span class="tip"><small>Legacy Release</small></span>
+<?php _v_ico_silk('bullet_go'); ?> 2006-4-10: <strong>R215</strong> <span class="tip"><small>Legacy Release</small></span>
 <blockquote>
-下载地址:&nbsp;&nbsp;<a href="http://www.v2ex.com/releases/r215.tgz" target="_blank">http://www.v2ex.com/releases/r215.tgz</a> <span class="tip">2.1M</span><br />
+下载地址:&nbsp;&nbsp;<a href="http://project-babel.googlecode.com/files/r215.tgz" target="_blank">http://project-babel.googlecode.com/files/r215.tgz</a> <span class="tip">2.1M</span><br />
 安装说明:&nbsp;&nbsp;<a href="http://www.v2ex.com/topic/view/1736.html" target="_blank">http://www.v2ex.com/topic/view/127.html</a>
+</blockquote><br />
+
+<?php _v_ico_silk('brick'); ?> <strong>最新版本 - Cutting Edge Version</strong>
+
+<?php _v_hr(); ?>
+
+Project Babel 的项目控制站点及 Subversion repository 位于 <a href="http://code.google.com/p/project-babel" target="_blank">Google Code</a>，你可以使用很多 <a href="http://subversion.tigris.org/" target="_blank">Subversion</a> 客户端匿名 check out 最新的开发进展。这个版本中缺乏一些外部的依赖文件，如 <a href="http://pear.php.net/" target="_blank">PEAR</a> 和 <a href="http://framework.zend.com/" target="_blank">Zend Framework</a>，及一些必要的外部图片，因此，如果你使用这个版本安装，可能会有一定难度。<br /><br />
+
+<?php _v_ico_silk('bullet_go'); ?> <strong>Subversion Trunk</strong>
+<blockquote><span style="font-family: 'Courier New', mono, fixed;">svn co https://project-babel.googlecode.com/svn/trunk project-babel</span><br />
+安装说明及讨论:&nbsp;&nbsp;<a href="http://www.v2ex.com/topic/view/7856.html" target="_blank">http://www.v2ex.com/topic/view/7856.html</a>
 </blockquote>
 </div>
 
@@ -127,14 +146,32 @@ V2EX 的制作者是一个狂热的移动设备收藏迷，因而能够兼容各
 <img src="/img/bullet_feed.png" align="absmiddle" /> Overall &nbsp;<a href="http://v2ex.com/feed/v2ex.rss" target="_blank">http://v2ex.com/feed/v2ex.rss</a><br />
 <img src="/img/bullet_feed.png" align="absmiddle" /> Board &nbsp;<a href="http://v2ex.com/feed/board/mac.rss" target="_blank">http://v2ex.com/feed/board/<strong>mac</strong>.rss</a><br />
 <img src="/img/bullet_feed.png" align="absmiddle" /> Geo &nbsp;<a href="http://v2ex.com/feed/geo/shanghai" target="_blank">http://v2ex.com/feed/geo/<strong>shanghai</strong></a><br />
+<img src="/img/bullet_feed.png" align="absmiddle" /> Topic &nbsp;<a href="http://v2ex.com/feed/topic/7746.rss" target="_blank">http://v2ex.com/feed/topic/<strong>7746</strong>.rss</a><br />
 <img src="/img/bullet_feed.png" align="absmiddle" /> Member &nbsp;<a href="http://v2ex.com/feed/user/Livid" target="_blank">http://v2ex.com/feed/user/<strong>Livid</strong></a><br />
-</small></span><p style="padding: 0px; margin: 5px 0px 0px 0px;">替换上面的粗体字中的内容即可选择性订阅。<br /><span class="tip"><small><img src="http://www.v2ex.com/img/favicons/google/reader.png" align="absmiddle" /> <a href="http://reader.google.com/" target="_blank">Google Reader</a> is recommended!</small></span></p></div>
+</small></span><p style="padding: 0px; margin: 5px 0px 0px 0px;">替换上面的粗体字中的内容即可选择性订阅。<br />
+
+<span class="tip"><small><img src="http://www.v2ex.com/img/favicons/google/reader.png" align="absmiddle" /> <a href="http://reader.google.com/" target="_blank">Google Reader</a> is recommended!</small></span><br />
+
+<span class="tip"><small><img src="http://static.cn.v2ex.com/v2ex/0.5/img/favicons/pageflakes.png" align="absmiddle" /> <a href="http://www.pageflakes.com/?source=d736779a-49d4-46a7-a918-a70ad0b8cbd8" target="_blank">Pageflakes</a> is recommended!</small></span><br />
+
+</p></div>
+
+<div class="header">
+<?php _v_ico_silk('eye'); ?> 媒体报道
+</div>
+
+<div class="content"><?php _v_ico_silk('bullet_go'); ?> <a href="http://www.v2ex.com/topic/view/6488.html" target="_blank">三联生活周刊</a></div>
+
 <div class="header">
 <img src="/img/icons/group.png" align="absmiddle" /> V2EX Team
 </div>
 <div class="content">
-<a href="http://www.v2ex.com/u/Livid" target="_blank"><img src="http://www.v2ex.com/img/p/1.jpg" align="left" class="p" border="0" /></a>
+<a href="http://www.v2ex.com/u/Livid" target="_blank"><img src="http://www.v2ex.com/img/p/1_s.jpg" style="margin-right: 5px;" align="left" class="p" border="0" /></a> <a href="http://www.v2ex.com/u/Livid" target="_blank">Livid</a><span class="tip"><small> - Location: Shanghai, China</small></span><br /><span class="tip"><small>The creator of the project.</small></span>
+<?php _v_hr(); ?>
+<span class="tip"><small><?php _v_ico_silk('email_edit'); ?> Want to join? write to <a target="_blank">v2ex.livid at mac.com</a></small></span>
 </div>
+
+
 </div>
 </div>
 </div>
