@@ -1033,7 +1033,7 @@ class Validator {
 		999 => unspecific */
 		$rt['usr_password_error'] = 0;
 		$rt['usr_password_touched'] = 0;
-		$rt['usr_password_error_msg'] = array(1 => '你忘记填写密码了', 2 => '你的这个密码太长了，缩减一下吧', 3 => '你填写的密码中包含了不被允许的字符', 4 => '你所填写的两个密码不匹配', 5 => '你修改密码时需要将新密码输入两遍');
+		$rt['usr_password_error_msg'] = array(1 => '你忘记填写密码了', 2 => '你的这个密码太长了，缩减一下吧', 3 => '你填写的密码中包含了不被允许的字符', 4 => '你所填写的两个密码不匹配', 5 => '修改密码时需将新密码输入两遍');
 		/* usr_confirm_error:
 		0 => no error
 		1 => empty
@@ -1044,7 +1044,7 @@ class Validator {
 		999 => unspecific */
 		$rt['usr_confirm_error'] = 0;
 		$rt['usr_confirm_touched'] = 0;
-		$rt['usr_confirm_error_msg'] = array(1 => '你忘记填写密码确认了', 2 => '你的这个密码确认太长了，缩减一下吧', 3 => '你填写的密码中包含了不被允许的字符', 4 => '你所填写的两个密码不匹配', 5 => '你修改密码时需要将新密码输入两遍');
+		$rt['usr_confirm_error_msg'] = array(1 => '你忘记填写密码确认了', 2 => '你的这个密码确认太长了，缩减一下吧', 3 => '你填写的密码中包含了不被允许的字符', 4 => '你所填写的两个密码不匹配', 5 => '修改密码时需将新密码输入两遍');
 
 		/* S check: usr_password and usr_confirm */
 		
@@ -1235,7 +1235,7 @@ class Validator {
 		999 => unspecific */
 		$rt['usr_password_error'] = 0;
 		$rt['usr_password_touched'] = 0;
-		$rt['usr_password_error_msg'] = array(1 => '你忘记填写密码了', 2 => '你的这个密码太长了，缩减一下吧', 3 => '你填写的密码中包含了不被允许的字符', 4 => '你所填写的两个密码不匹配', 5 => '你修改密码时需要将新密码输入两遍');
+		$rt['usr_password_error_msg'] = array(1 => '你忘记填写密码了', 2 => '你的这个密码太长了，缩减一下吧', 3 => '你填写的密码中包含了不被允许的字符', 4 => '你所填写的两个密码不匹配', 5 => '修改密码时需将新密码输入两遍');
 		/* usr_confirm_error:
 		0 => no error
 		1 => empty
@@ -1246,7 +1246,7 @@ class Validator {
 		999 => unspecific */
 		$rt['usr_confirm_error'] = 0;
 		$rt['usr_confirm_touched'] = 0;
-		$rt['usr_confirm_error_msg'] = array(1 => '你忘记填写密码确认了', 2 => '你的这个密码确认太长了，缩减一下吧', 3 => '你填写的密码中包含了不被允许的字符', 4 => '你所填写的两个密码不匹配', 5 => '你修改密码时需要将新密码输入两遍');
+		$rt['usr_confirm_error_msg'] = array(1 => '你忘记填写密码确认了', 2 => '你的这个密码确认太长了，缩减一下吧', 3 => '你填写的密码中包含了不被允许的字符', 4 => '你所填写的两个密码不匹配', 5 => '修改密码时需将新密码输入两遍');
 		
 		/* S check: usr_width */
 		
