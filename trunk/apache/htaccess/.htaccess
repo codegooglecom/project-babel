@@ -128,6 +128,7 @@ RewriteRule ^topic/favorite.vx$ /babel.php?m=topic_favorite [L]
 RewriteRule ^topic/favorite/([0-9]*).vx$ /babel.php?m=topic_favorite&p=$1 [L]
 
 RewriteRule ^t/([0-9]+)$ /babel_mobile.php?m=topic&topic_id=$1 [L]
+RewriteRule ^t/([0-9]+)/$ /babel_mobile.php?m=topic&topic_id=$1 [L]
 RewriteRule ^t/([0-9]+)/([0-9]+)$ /babel_mobile.php?m=topic&topic_id=$1&p=$2 [L]
 
 RewriteRule ^topic/view/([0-9]*)/([0-9]*).html$ /babel.php?m=topic_view&topic_id=$1&p=$2 [L]
@@ -149,6 +150,8 @@ RewriteRule ^topic/move/([0-9]*)/to/([0-9]+)$ /babel_sl.php?m=topic_move_to&topi
 
 RewriteRule ^post/create/([0-9]*).vx$ /babel.php?m=post_create&topic_id=$1 [L]
 RewriteRule ^post/erase/([0-9]*).vx$ /babel.php?m=post_erase&post_id=$1 [L]
+
+RewriteRule ^post/create/mobile/([0-9]*).vx$ /babel_mobile.php?m=post_create&topic_id=$1 [L]
 
 RewriteRule ^expense/view/([0-9]*).vx$ /babel.php?m=expense_view&p=$1 [L]
 RewriteRule ^expense/view.vx$ /babel.php?m=expense_view [L]
