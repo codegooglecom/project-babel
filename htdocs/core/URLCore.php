@@ -66,6 +66,26 @@ class URL {
 		return $url;
 	}
 	
+	public static function vxGetTopicViewMobile($topic_id, $page = 1, $anchor = '') {
+		if (!isset($_SESSION['babel_page_topic_last_mobile'])) {
+			$_SESSION['babel_page_topic_last_mobile'] = 1;
+		}
+		if ($page > 1) {
+			if ($anchor != '') {
+				$url = "/t/{$topic_id}/" . $page . "#" . $anchor;
+			} else {
+				$url = "/t/{$topic_id}/" . $page;
+			}
+		} else {
+			if ($anchor != '') {
+				$url = "/t/{$topic_id}/" . $_SESSION['babel_page_topic'] . "#" . $anchor;
+			} else {
+				$url = "/t/{$topic_id}/" . $_SESSION['babel_page_topic'];
+			}
+		}
+		return $url;
+	}
+	
 	public static function vxGetTopicNew($board_id) {
 		$url = "/topic/new/{$board_id}.vx";
 		return $url;

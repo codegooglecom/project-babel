@@ -1442,7 +1442,6 @@ switch ($m) {
 								mysql_free_result($rs);							
 							}
 							// Over: Update topic followers
-							
 							$p->URL->vxToRedirect($p->URL->vxGetTopicView($rt['topic_id'], $_SESSION['babel_page_topic'], 'replyForm'));
 						} else {
 							$p->vxHead($msgSiteTitle = Vocabulary::action_replytopic);

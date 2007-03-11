@@ -354,12 +354,13 @@ class Mobile {
 				if ($this->User->vxIsLogin()) {
 					if ($this->Validator->vxIsAutisticNode($Topic->tpc_pid, $this->cs)) {
 						if ($this->User->usr_id == $Topic->tpc_uid) {
-							echo('<div class="content"><form action="/post/create/' . $Topic->tpc_id . '.vx" method="post"><textarea name="reply" class="textbox" cols="30" rows="4" maxlength="1000"></textarea><br /><input type="submit" value="回 复" class="go" /><small> &nbsp; 回复不能超过 1000 字</small></form></div>');
+							echo('<div class="content"><form action="/post/create/mobile/' . $Topic->tpc_id . '.vx" method="post"><textarea name="reply" class="textbox" cols="30" rows="4" maxlength="1000"></textarea><br /><input type="submit" value="回 复" class="go" /><small> &nbsp; 回复不能超过 1000 字</small></form></div>');
 						} else {
 							echo('<div class="content"><small>你不能回复自闭模式讨论区中他人创建的主题</small></div>');
 						}
 					} else {
-						echo('<div class="content"><form action="/post/create/' . $Topic->tpc_id . '.vx" method="post"><textarea name="reply" class="textbox" cols="30" rows="4" maxlength="1000"></textarea><br /><input type="submit" value="回 复" class="go" /><small> &nbsp; 回复不能超过 1000 字</small></form></div>');
+						echo('<div class="content"><form action="/post/create/mobile/' . $Topic->tpc_id . '.vx" method="post"><textarea name="reply" class="textbox" cols="30" rows="4" maxlength="1000"></textarea><br /><input type="submit" value="回 复" class="go" /><small> &nbsp; 回复不能超过 1000 字</small>');
+						echo('</form></div>');
 					}
 				}
 				$this->vxBottom();
@@ -385,7 +386,7 @@ class Mobile {
 						$Topic = new Topic($rt['topic_id'], $this->db);
 						$Topic->vxTouch();
 						$Topic->vxUpdatePosts();
-						$this->URL->vxToRedirect($this->URL->vxGetTopicView($topic_id, $_SESSION['babel_page_topic_last_mobile']));
+						$this->URL->vxToRedirect($this->URL->vxGetTopicViewMobile($topic_id, $_SESSION['babel_page_topic_last_mobile']));
 					} else {
 						$Topic = new Topic($rt['topic_id'], $this->db);
 						$Node = new Node($Topic->tpc_pid, $this->db);
@@ -394,7 +395,7 @@ class Mobile {
 						$this->vxBodyStart();
 						$this->vxH1();
 						echo('<div class="content"><small><a href="/' . $_SESSION['babel_page_home_mobile'] . '">V2EX</a> &gt; ' . make_plaintext($Section->nod_title) . ' &gt; ' . make_plaintext($Node->nod_title) . ' &gt; <a href="/t/' . $Topic->tpc_id . '/' . $_SESSION['babel_page_topic_mobile'] . '">' . make_plaintext($Topic->tpc_title) . '</a> &gt; 回复出错</small></div>');
-						echo('<div class="content"><form action="/post/create/' . $Topic->tpc_id . '.vx" method="post"><small class="error">' . $rt['reply_error_msg'][$rt['reply_error']] . '</small><br /><textarea name="reply" class="textbox" cols="30" rows="4" maxlength="1000">' . make_multi_return($rt['reply_value']) . '</textarea><br /><input type="submit" value="回 复" class="go" />&nbsp;&nbsp;<input type="button" value="取 消" class="go" onclick="location.href=' . "'/t/{$Topic->tpc_id}/{$_SESSION['babel_page_topic_mobile']}';" . '" /></form></div>');
+						echo('<div class="content"><form action="/post/create/mobile/' . $Topic->tpc_id . '.vx" method="post"><small class="error">' . $rt['reply_error_msg'][$rt['reply_error']] . '</small><br /><textarea name="reply" class="textbox" cols="30" rows="4" maxlength="1000">' . make_multi_return($rt['reply_value']) . '</textarea><br /><input type="submit" value="回 复" class="go" />&nbsp;&nbsp;<input type="button" value="取 消" class="go" onclick="location.href=' . "'/t/{$Topic->tpc_id}/{$_SESSION['babel_page_topic_mobile']}';" . '" /></form></div>');
 						$this->vxBottom();
 						$this->vxBodyEnd();
 						$this->vxHTMLEnd();
@@ -408,7 +409,7 @@ class Mobile {
 		} else {
 			if (isset($_GET['topic_id'])) {
 				$topic_id = intval($_GET['topic_id']);
-				$this->URL->vxToRedirect($this->URL->vxGetLogin($this->URL->vxGetTopicView($topic_id)));
+				$this->URL->vxToRedirect($this->URL->vxGetLogin($this->URL->vxGetTopicViewMoblie($topic_id)));
 			} else {
 				$this->URL->vxToRedirect($this->URL->vxGetLogin($this->URL->vxGetHome()));
 			}

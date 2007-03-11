@@ -6166,7 +6166,7 @@ class Page {
 		$permit = 0;
 		if ($this->User->usr_id == $Topic->tpc_uid) {
 			if ((time() - $Topic->tpc_created) < 86400) {
-				if ($Topic->tpc_posts < 3) {
+				if ($Topic->tpc_posts < 1) {
 					$permit = 1;
 				}
 			}
