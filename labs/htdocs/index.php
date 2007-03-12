@@ -77,12 +77,12 @@ Project Babel 在 GPL 协议下发布，这意味着你可以自由地下载，�
 <?php _v_ico_silk('bullet_go'); ?> 2006-7-14: <strong>R500</strong> <span class="tip"><small>Stable Release</small></span>
 <blockquote>
 下载地址:&nbsp;&nbsp;<a href="http://project-babel.googlecode.com/files/r500.tgz" target="_blank">http://project-babel.googlecode.com/files/r500.tgz</a> <span class="tip">3.3M</span><br />
-安装说明:&nbsp;&nbsp;<a href="http://project-babel.googlecode.com/files/r215.tgz" target="_blank"></a>
+安装说明:&nbsp;&nbsp;<a href="http://www.v2ex.com/topic/view/1736.html" target="_blank">http://www.v2ex.com/topic/view/1736.html</a>
 </blockquote>
 <?php _v_ico_silk('bullet_go'); ?> 2006-4-10: <strong>R215</strong> <span class="tip"><small>Legacy Release</small></span>
 <blockquote>
 下载地址:&nbsp;&nbsp;<a href="http://project-babel.googlecode.com/files/r215.tgz" target="_blank">http://project-babel.googlecode.com/files/r215.tgz</a> <span class="tip">2.1M</span><br />
-安装说明:&nbsp;&nbsp;<a href="http://www.v2ex.com/topic/view/1736.html" target="_blank">http://www.v2ex.com/topic/view/127.html</a>
+安装说明:&nbsp;&nbsp;<a href="http://www.v2ex.com/topic/view/127.html" target="_blank">http://www.v2ex.com/topic/view/127.html</a>
 </blockquote><br />
 
 <?php _v_ico_silk('brick'); ?> <strong>最新版本 - Cutting Edge Version</strong>
