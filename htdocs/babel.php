@@ -32,6 +32,7 @@
  */
 
 DEFINE('V2EX_BABEL', 1);
+
 $GOOGLE_AD_LEGAL = false;
 
 require('core/V2EXCore.php');
