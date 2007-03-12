@@ -95,7 +95,9 @@ class Standalone {
 	}
 	
 	public function __destruct() {
-		mysql_close($this->db);
+		if ($this->db) {
+			mysql_close($this->db);
+		}
 	}
 	
 	/* E module: constructor and destructor */

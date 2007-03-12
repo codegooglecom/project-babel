@@ -251,12 +251,39 @@ class User {
 		}
 	}
 	
+	/*
+	 * note about coding style:
+	 *
+	 * Usually I'd expect int to be the ideal data type for parameters,
+	 * because it could be faster.
+	 *
+	 * So if there is no "BySomething" in the name of a function, it eats int.
+	 *
+	 * Marine is a traditional Chinese girl.
+	 *
+	 * And this would be the second time I'd like to forget.
+	 *
+	 *
+	 *
+	 */
+	
 	public function vxGetUserInfo($user_id) {
-		$sql = "SELECT usr_id, usr_gender, usr_nick, usr_brief, usr_email, usr_portrait, usr_created, usr_lastlogin FROM babel_user WHERE usr_id = {$user_id}";
+		$sql = "SELECT usr_id, usr_gender, usr_nick, usr_brief, usr_email, usr_portrait, usr_hits, usr_created, usr_lastlogin FROM babel_user WHERE usr_id = {$user_id}";
 		$rs = mysql_query($sql, $this->db);
 		$User = mysql_fetch_object($rs);
 		mysql_free_result($rs);
 		return $User;
+	}
+	
+	public function vxGetUserInfoByNick($user_nick) { // mysql_real_escape_string() or other treatment is expected for $user_nick
+		$sql = "SELECT usr_id, usr_gender, usr_nick, usr_brief, usr_email, usr_portrait, usr_hits, usr_created, usr_lastlogin FROM babel_user WHERE usr_nick = '{$user_nick}'";
+		$rs = mysql_query($sql, $this->db);
+		if ($User = mysql_fetch_object($rs)) {
+			mysql_free_result($rs);
+			return $User;
+		} else {
+			return false;
+		}
 	}
 	
 	public function vxAddHits($user_id) {

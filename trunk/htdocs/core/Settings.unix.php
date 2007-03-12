@@ -134,28 +134,28 @@ $ZEND_CACHE_OPTIONS_LONG_FRONTEND = array('lifeTime' => 7200, 'automaticSerializ
 $ZEND_CACHE_OPTIONS_LONG_BACKEND = array('cacheDir' => BABEL_PREFIX . '/cache/7200/', 'hashedDirectoryLevel' => 2);
 
 /* If you had memcached server */
-define('ZEND_CACHE_MEMCACHED_ENABLED', 'no');
+define('ZEND_CACHE_MEMCACHED_ENABLED', 'no'); // This feature requires PHP to have memcache extension.
 
 $ZEND_CACHE_OPTIONS_MEMCACHED = array('servers' => array(array('host' => 'localhost', 'port' => 11211, 'persistent' => true)));
 
 /* Zend Framework */
-define('ZEND_FRAMEWORK_VERSION', '0.8.0');
+define('ZEND_FRAMEWORK_VERSION', '0.8.0'); // Which version of Zend Framework to use? Remember to upload the "library" folder in Zend Framework distribution and rename it according to the version.
 
 if (BABEL_DEBUG) {
 	define('CDN_IMG', '/img/');
 } else {
-	define('CDN_IMG', '/img/');
+	define('CDN_IMG', '/img/'); // This is quite legacy.
 }
 
 if (BABEL_DEBUG) {
-	define('CDN_UI', '/');
-} else {
 	define('CDN_UI', 'http://static.cn.v2ex.com/v2ex/0.5/');
+} else {
+	define('CDN_UI', 'http://static.cn.v2ex.com/v2ex/0.5/'); // If you set up your dedicated image server.
 }
 
 if (BABEL_DEBUG) {
 	define('CDN_P', '/img/');
 } else {
-	define('CDN_P', 'http://p1.v2ex.com/img/');
+	define('CDN_P', 'http://www.v2ex.com/img/'); // If you set up your dedicated portrait server.
 }
 ?>
