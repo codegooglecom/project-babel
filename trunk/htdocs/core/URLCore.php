@@ -162,6 +162,11 @@ class URL {
 		$url = '/message/home.vx';
 		return $url;
 	}
+	
+	public static function vxGetIngPersonal($user_nick) {
+		$url = '/ing/' . urlencode($user_nick);
+		return $url;
+	}
 }
 
 /* E URL class */

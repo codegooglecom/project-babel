@@ -42,4 +42,12 @@ function _v_btn_f($label, $form) {
 function _v_ico_silk($icon, $align = 'absmiddle') {
 	echo('<img src="' . CDN_UI . 'img/icons/silk/' . $icon . '.png" align="' . $align . '" />');
 }
+
+function _v_ing_style() {
+	echo('<style type="text/css">');
+	echo('.entry_odd { padding: 10px 5px 10px 5px; }');
+	echo("\n");
+	echo('.entry_even { padding: 10px 5px 10px 5px; background-color: #F5F5F5; -webkit-border-radius: 7px; -moz-border-radius: 7px; }');
+	echo('</style>');
+}
 ?>

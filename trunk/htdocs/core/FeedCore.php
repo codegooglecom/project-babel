@@ -259,6 +259,28 @@ class Feed {
 		$this->s->display('feed/rss2_topic.smarty');
 	}
 	
+	public function vxFeedIng($User) {
+		$this->s->assign('site_url', 'http://' . BABEL_DNS_NAME . '/ing/' . urlencode($User->usr_nick_url));
+		
+		$geo_real = mysql_real_escape_string($Geo->geo->geo);
+		$sql = "SELECT usr_id, usr_nick, usr_gender, usr_portrait, tpc_id, tpc_title, tpc_content, tpc_posts, tpc_created, nod_id, nod_title, nod_name FROM babel_topic, babel_node, babel_user WHERE tpc_uid IN (SELECT usr_id FROM babel_user WHERE usr_geo = '{$geo_real}') AND tpc_uid = usr_id AND tpc_pid = nod_id AND tpc_pid NOT IN " . BABEL_NODES_POINTLESS . " ORDER BY tpc_created DESC LIMIT 20";
+		$rs = mysql_query($sql);
+		$Topics = array();
+		$i = 0;
+		while ($Topic = mysql_fetch_object($rs)) {
+			$i++;
+			$Topics[$i] = $Topic;
+			$Topics[$i]->tpc_title = htmlspecialchars($Topics[$i]->tpc_title, ENT_NOQUOTES);
+			$Topics[$i]->tpc_content = htmlspecialchars(format_ubb($Topics[$i]->tpc_content), ENT_NOQUOTES);
+			$Topics[$i]->tpc_pubdate = date('r', $Topics[$i]->tpc_created);
+		}
+		$this->s->assign('feed_title', $User->usr_nick_plain . " 在做什么");
+		$this->s->assign('feed_description', $User->usr_nick_plain . ' 的最新活动');
+		$this->s->assign('feed_category', $User->usr_nick_plain);
+		$this->s->assign('a_topics', $Topics);
+		$this->s->display('feed/rss2_ing.smarty');
+	}
+	
 	/* E public modules */
 	
 }

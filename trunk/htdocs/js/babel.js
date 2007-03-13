@@ -30,6 +30,20 @@ var changeBlockStyle = function(objId, strBgColor) {
 	obj.bgColor = strBgColor;
 }
 
+var checkIngType = function(doing, status) {
+	obj1 = getObj(doing);
+	remain = 131 - obj1.value.length;
+	obj2 = getObj(status);
+	obj2.innerHTML = '<span class="tip_i">现在还可以再输入 ' + remain + ' 个字符</span>';
+}
+
+var checkIngForm = function() {
+	doing = getObj("doing");
+	if (doing.value.length == 0) {
+		return false;
+	}
+}
+
 var showReply = function(replyId) {
 	if (replyId == "vxReplyA" ) {
 		vertScroll = 0;

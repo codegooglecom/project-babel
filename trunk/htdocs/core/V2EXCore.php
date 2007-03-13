@@ -473,7 +473,7 @@ class Page {
 			echo('<div id="top_right"><a href="/signup.html" class="tr">' . $this->lang->register() . '</a> <a href="/passwd.vx" class="tr">' . $this->lang->password_recovery() . '</a> <a href="/login" class="tr">' . $this->lang->login() . '</a></div>');
 		}
 		
-		if ($this->User->usr_sw_shell == 1) {
+		if ($this->User->usr_sw_shell == 1 && !in_array(__PAGE__, array('search', 'ing_personal')) ) {
 			echo('<script type="text/javascript">setTimeout("focusGo();", 500);</script>');
 		}
 		
@@ -593,7 +593,7 @@ class Page {
 		*/
 		echo('<li class="top"><a href="#" class="top">&nbsp;&nbsp;&nbsp;工具&nbsp;&nbsp;&nbsp;</a>');
 		echo('<ul>');
-		echo('<li><a href="/search.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/zoom.png" border="0" align="absmiddle" /> 高级搜索</a></li>');
+		echo('<li><a href="/search.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/zoom.png" border="0" align="absmiddle" /> 搜索</a></li>');
 		echo('<li><a href="/man.html" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/book_open.png" border="0" align="absmiddle" /> 参考文档搜索</a></li>');
 		
 		/*
@@ -736,7 +736,7 @@ class Page {
 			}
 			echo('</a></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/comments.png" align="absmiddle" />&nbsp;<a href="/topic/archive/user/' . urlencode($this->User->usr_nick) . '" class="menu">我创建的所有主题</a></li>');
-			// echo('<li><img src="' . CDN_UI . 'img/icons/silk/calendar.png" align="absmiddle" />&nbsp;<a href="/m/' . urlencode($this->User->usr_nick) . '" class="menu">我的印迹</a></li>');
+			echo('<li><img src="' . CDN_UI . 'img/icons/silk/hourglass.png" align="absmiddle" />&nbsp;<a href="/ing/' . urlencode($this->User->usr_nick) . '" class="menu">ING</a> <span class="tip_i"><small>alpha</small></span></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/clock.png" align="absmiddle">&nbsp;<a href="/zen/' . urlencode($this->User->usr_nick) . '" class="menu">ZEN</a> <span class="tip_i"><small>alpha</small></span></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/house.png" align="absmiddle" />&nbsp;<a href="/u/' . urlencode($this->User->usr_nick) . '" class="menu">我的 ' . Vocabulary::site_name . ' 主页</a></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/coins_delete.png" align="absmiddle" />&nbsp;<a href="/expense/view.vx" class="menu">消费记录</a></li>');
@@ -1515,6 +1515,18 @@ class Page {
 				$this->vxSidebar();
 				$this->vxMenu($_menu_options);
 				$this->vxProjectView($options);
+				break;
+				
+			case 'ing_public':
+				$this->vxSidebar($show = false);
+				$this->vxMenu();
+				$this->vxIngPublic();
+				break;
+				
+			case 'ing_personal':
+				$this->vxSidebar($show = false);
+				$this->vxMenu();
+				$this->vxIngPersonal($options);
 				break;
 		}
 		echo('</div>');
@@ -3660,10 +3672,24 @@ class Page {
 			$txt .= '<br /><span class="tip_i">你正在察看的是自己的页面，你可以把它的地址发给你的朋友，和他们共享你在 ' . Vocabulary::site_name . ' 获得的快乐！</span>';
 		}
 		
-		echo('<td width="95" align="left" valign="top" class="section_even"><img src="' . $img_p . '" class="portrait" /></td><td align="left" valign="top" class="section_even"><span class="text_large">' . $O->usr_nick . '</span>');
+		echo('<td width="95" align="left" valign="top" class="section_odd"><img src="' . $img_p . '" class="portrait" /></td><td align="left" valign="top" class="section_odd"><span class="text_large">' . $O->usr_nick . '</span>');
 		
 		echo('<span class="excerpt"><br /><br />' . $txt . '</span></td>');
 		echo('</tr>');
+		
+		$sql = "SELECT ing_doing, ing_created FROM babel_ing_update WHERE ing_uid = {$O->usr_id} ORDER BY ing_created DESC LIMIT 1";
+		$rs = mysql_query($sql);
+		if (mysql_num_rows($rs) == 1) {
+			$_up = mysql_fetch_array($rs);
+			echo('<tr><td colspan="2" class="section_odd">');
+			echo('<span class="tip_i">');
+			echo('<small>Currently via V2EX::ING');
+			echo('</small></span> ');
+			_v_ico_silk('bullet_go');
+			echo(' <a href="/ing/' . urlencode($O->usr_nick) . '">' . format_ubb(trim($_up['ing_doing'])) . '</a> <small class="fade">' . make_desc_time($_up['ing_created']) . ' ago</small>');
+			echo('</td></tr>');
+		}
+		mysql_free_result($rs);
 		
 		if ($this->User->usr_id == $O->usr_id) {
 			echo('<tr><td colspan="2" align="center" class="section_odd"><img src="/img/icons/silk/house.png" align="absmiddle" />&nbsp;你的 V2EX 主页地址&nbsp;&nbsp;&nbsp;<input type="text" class="sll" onclick="this.select()" value="http://' . BABEL_DNS_NAME . '/u/' . urlencode($O->usr_nick) . '" readonly="readonly" />&nbsp;&nbsp;&nbsp;<span class="tip_i">... 本页一共被访问了 ' . $O->usr_hits . ' 次</span></td></tr>');
@@ -3673,7 +3699,7 @@ class Page {
 			echo('<tr><td colspan="2" align="center" class="section_even"><span class="text_large"><img src="/img/quote_left.gif" align="absmiddle" />&nbsp;' . make_plaintext($O->usr_brief) . '&nbsp;<img src="/img/quote_right.gif" align="absmiddle" /></span></td></tr>');
 		}
 		
-		echo('<tr><td colspan="2" align="center" class="section_odd"><span class="tip_i"><img src="' . CDN_UI . 'img/icons/silk/clock.png" align="absmiddle" alt="ZEN" />&nbsp;<a href="/zen/' . $O->usr_nick . '" class="var" style="color: ' . rand_color() . ';">' . $O->usr_nick . ' 的 ZEN</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/comments.png" alt="Topics" align="absmiddle" />&nbsp;<a href="/topic/archive/user/' . $O->usr_nick . '" class="var" style="color: ' . rand_color() . ';">' . $O->usr_nick . ' 的所有主题</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/heart_add.png" align="absmiddle" />&nbsp;<a href="/who/connect/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">谁把 ' . $O->usr_nick . ' 加为好友</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/feed.png" align="absmiddle" alt="RSS" />&nbsp;<a href="/feed/user/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . '">RSS 种子输出</a></span></tr>');
+		echo('<tr><td colspan="2" align="center" class="section_odd"><span class="tip_i"><img src="' . CDN_UI . 'img/icons/silk/hourglass.png" align="absmiddle" alt="ING" />&nbsp;<a href="/ing/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">' . $O->usr_nick . ' 的 ING</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/clock.png" align="absmiddle" alt="ZEN" />&nbsp;<a href="/zen/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">' . $O->usr_nick . ' 的 ZEN</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/comments.png" alt="Topics" align="absmiddle" />&nbsp;<a href="/topic/archive/user/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">' . $O->usr_nick . ' 的所有主题</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/heart_add.png" align="absmiddle" />&nbsp;<a href="/who/connect/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">谁把 ' . $O->usr_nick . ' 加为好友</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/feed.png" align="absmiddle" alt="RSS" />&nbsp;<a href="/feed/user/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . '">RSS 种子输出</a></span></tr>');
 		
 		echo('<tr><td colspan="2" align="left" class="section_odd"><span class="text_large"><img src="/img/ico_savepoint.gif" align="absmiddle" class="home" />' . $O->usr_nick . ' 的网上据点<a name="svp" /></span></td></tr>');
 		
@@ -8393,6 +8419,129 @@ class Page {
 		echo('</span>');
 		echo('</div>');
 		echo('</div>');
+	}
+	
+	public function vxIngPublic() {
+		_v_ing_style();
+		_v_m_s();
+		_v_b_l_s();
+		_v_ico_map();
+		
+		_v_d_e();
+		_v_d_e();
+	}
+	
+	public function vxIngPersonal($User) {
+		$User->img_p = $User->usr_portrait ? CDN_IMG . 'p/' . $User->usr_portrait . '_s.jpg' : CDN_IMG . 'p_' . $User->usr_gender . '_s.gif';
+		
+		if ($User->usr_id == $this->User->usr_id) {
+			$flag_self = true;
+		} else {
+			$flag_self = false;
+		}
+		
+		_v_ing_style();
+		_v_m_s();
+		
+		_v_b_l_s();
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt <a href="/u/' . $User->usr_nick_url . '">' . $User->usr_nick_plain . '</a> &gt ING <span class="tip_i"><small>alpha</small></span>');
+		_v_d_e();
+		
+		/* S: data here!!! */
+		$_sources = array(1 => 'web');
+		$t = time() - 86400;
+		$sql = "SELECT ing_id, ing_uid, ing_doing, ing_doing, ing_source, ing_created, usr_id, usr_nick, usr_gender, usr_portrait FROM babel_ing_update, babel_user WHERE usr_id = ing_uid AND ing_uid = {$User->usr_id} ORDER BY ing_created DESC LIMIT 50";
+		$rs_updates = mysql_query($sql);
+		$count = mysql_num_rows($rs_updates);
+		if ($count == 0) {
+			$hack_height = 'height: 180px; ';
+		} else {
+			$hack_height = '';
+		}
+		/* E: data here!!! */
+		
+		echo('<div class="blank" align="left" style="' . $hack_height . '">');
+		echo('<div style="float: right; padding: 3px 10px 3px 10px; font-size: 10px; background-color: #F0F0F0; -moz-border-radius: 5px; color: #999;">');
+		echo($User->usr_nick_plain . ' | <a href="/ing/' . $User->usr_nick_url . '/friends">Friends</a> | <a href="/ing">Everyone</a>');
+		echo('</div>');
+		
+		
+		
+		_v_ico_silk('hourglass');
+		if ($flag_self) {
+			echo(' 告诉世界你在做什么 ...');
+			_v_hr();
+			echo('<div align="center">');
+			echo('<form action="/recv/ing.vx" id="ing_personal" method="POST" onsubmit="return checkIngForm();">');
+			echo('<div style="background-image: url(' . "'/img/bg_ing.gif'" . '); padding-top: 3px; width: 320px; height: 35px;"><input onkeyup="checkIngType(' . "'doing', 'ing_status'" . ');" type="text" class="sll" id="doing" name="doing" maxlength="131" /></div> ');
+			_v_btn_f('更新我的状态', 'ing_personal');
+			echo('<div id="ing_status"><span class="tip_i">现在还可以再输入 131 个字符</span></div>');
+			echo('</form>');
+			echo('</div>');
+		} else {
+			echo(' ' . $User->usr_nick_plain . ' 在做什么 ...');
+		}
+		_v_hr();
+		
+		echo('<div style="min-width: 170px; max-width: 180px; padding: 5px 0px 5px 0px; background-color: #FFF; float: right;"><img src="' . $User->img_p . '" align="left" style="margin-right: 10px;" class="portrait" /> <span class="tip_i">all about</span><h1 class="ititle" style="margin-bottom: 5px; display: block;"><a href="/u/' . $User->usr_nick_url . '">' . $User->usr_nick_plain . '</a></h1>');
+		
+		$sql = "SELECT ing_doing, ing_created FROM babel_ing_update WHERE ing_uid = {$User->usr_id} ORDER BY ing_created DESC LIMIT 1";
+		$rs = mysql_query($sql);
+		if ($_up = mysql_fetch_array($rs)) {
+			_v_hr();
+			echo('<span class="tip_i"><small>Currently:</small></span>');
+			echo('<blockquote style="padding: 5px 5px 5px 20px; margin: 0px; border: none;">' . format_ubb($_up['ing_doing']) . '</blockquote>');
+			echo('<div align="right"><small class="fade">Updated ' . make_desc_time($_up['ing_created']) . ' ago</small></div>');
+		} else {
+			_v_hr();
+			echo('<span class="tip_i"><small>Currently:</small></span>');
+			echo('<blockquote style="padding: 5px 5px 5px 20px; margin: 0px; border: none;">(void)</blockquote>');
+		}
+		mysql_free_result($rs);
+		if ($User->usr_brief_plain != '') {
+			_v_hr();
+			echo('<span class="tip_i">' . $User->usr_brief_plain . '</span>');
+		}
+		_v_d_e();
+		echo('<div>');
+		
+		$i = 0;
+		while ($_up = mysql_fetch_array($rs_updates)) {
+			$i++;
+			$css_class = $i % 2 == 0 ? 'even' : 'odd';
+			$img_p = $_up['usr_portrait'] ? CDN_IMG . 'p/' . $_up['usr_portrait'] . '_s.jpg' : CDN_IMG . 'p_' . $_up['usr_gender'] . '_s.gif';
+			echo('<div style="width: 61.8%; min-width: 200px; max-width: 800px;" class="entry_' . $css_class . '">');
+			//echo('<img src="' . $img_p . '" align="absmiddle" alt="' . make_single_return($_up['usr_nick']) . '" class="portrait" /> ');
+			//echo('<a href="/u/' . urlencode($_up['usr_nick']) . '" class="t">' . make_plaintext($_up['usr_nick']) . '</a> ');
+			echo(format_ubb(trim($_up['ing_doing'])) . ' <span class="tip_i">' . make_descriptive_time($_up['ing_created']) . '</span> <span class="tip"><small>from ' . $_sources[$_up['ing_source']] . '</small></span> ');
+			if ($flag_self) {
+				echo('<a href="/erase/ing/' . $_up['ing_id'] . '.vx"><img src="/img/ing_trash.gif" align="absmiddle" alt="del" border="0" /></a>');
+			}
+			_v_d_e();
+		}
+		mysql_free_result($rs_updates);
+		_v_d_e();
+		
+		
+		if ($i == 0) {
+			_v_ico_silk('exclamation');
+			echo(' <a href="/u/' . $User->usr_nick_url . '">' . $User->usr_nick_plain . '</a> 目前还没有任何更新 ...');
+		} else {
+			_v_hr();
+			_v_ico_silk('feed');
+			echo(' <a href="/feed/ing/' . $User->usr_nick_url . '">RSS 种子输出</a>');
+		}
+		if ($flag_self) {
+			echo('<img src="/img/spacer.gif" onload="getObj(' . "'doing'" . ').focus();" style="display: none;" />');
+		}
+		_v_d_e();
+		
+		_v_d_e();
+	}
+	
+	public function vxIngFriends($User) {
+		
 	}
 	
 	/* E public modules */

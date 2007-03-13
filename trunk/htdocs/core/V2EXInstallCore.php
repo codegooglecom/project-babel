@@ -518,6 +518,7 @@ $i->vxSetupBoard('3g', '3G', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('rss', 'RSS', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('samba', 'Samba', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('intype', 'Intype', 3, 3, 1, 2, '', '');
+$i->vxSetupBoard('xmpp', 'XMPP', 3, 3, 1, 2, '', "The Extensible Messaging and Presence Protocol (XMPP) is the IETF's formalization of the base XML streaming protocols for instant messaging and presence developed within the Jabber open-source community in 1999");
 $i->vxSetupBoard('pageflakes', 'Pageflakes 飞鸽', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('vmware', 'VMware', 3, 3, 1, 2, '', '');
 	$i->vxSetupRelatedByName('vmware', 'http://www.vmware.com/', 'VMware.com');

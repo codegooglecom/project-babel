@@ -280,6 +280,9 @@ class User {
 		$rs = mysql_query($sql, $this->db);
 		if ($User = mysql_fetch_object($rs)) {
 			mysql_free_result($rs);
+			$User->usr_nick_url = urlencode($User->usr_nick);
+			$User->usr_nick_plain = make_plaintext($User->usr_nick);
+			$User->usr_brief_plain = make_plaintext($User->usr_brief);
 			return $User;
 		} else {
 			return false;

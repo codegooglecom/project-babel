@@ -139,5 +139,13 @@ switch ($m) {
 	case 'user_settle':
 		$s->vxUserSettle();
 		break;
+		
+	case 'recv_ing':
+		$s->vxRecvIng();
+		break;
+		
+	case 'erase_ing':
+		$s->vxEraseIng();
+		break;
 }
 ?>

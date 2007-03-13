@@ -251,6 +251,68 @@ class Standalone {
 		}
 	}
 	
+	public function vxRecvIng() {
+		if ($this->User->vxIsLogin()) {
+			if (isset($_POST['doing'])) {
+				$doing = make_single_safe($_POST['doing']);
+				if ($doing != '') {
+					if (mb_strlen($doing) < 132) {
+						if (get_magic_quotes_gpc()) {
+							$doing_sql = mysql_real_escape_string(stripslashes($doing));
+						} else {
+							$doing_sql = mysql_real_escape_string($doing);
+						}
+						$t = time();
+						$source = 1;
+						$sql = "INSERT INTO babel_ing_update(ing_uid, ing_doing, ing_source, ing_created) VALUE({$this->User->usr_id}, '{$doing_sql}', $source, $t)";
+						mysql_unbuffered_query($sql);
+						return $this->URL->vxToRedirect($this->URL->vxGetIngPersonal($this->User->usr_nick));
+					} else {
+						return $this->URL->vxToRedirect($this->URL->vxGetIngPersonal($this->User->usr_nick));
+					}
+				} else {
+					return $this->URL->vxToRedirect($this->URL->vxGetIngPersonal($this->User->usr_nick));
+				}
+			} else {
+				return $this->URL->vxToRedirect($this->URL->vxGetIngPersonal($this->User->usr_nick));
+			}
+		} else {
+			return $this->URL->vxToRedirect($this->URL->vxGetLogin());
+		}
+	}
+	
+	public function vxEraseIng() {
+		if ($this->User->vxIsLogin()) {
+			if (isset($_GET['ing_id'])) {
+				$ing_id = intval($_GET['ing_id']);
+				$sql = "SELECT ing_id, ing_uid FROM babel_ing_update WHERE ing_id = {$ing_id}";
+				$rs = mysql_query($sql, $this->db);
+				if ($_up = mysql_fetch_array($rs)) {
+					mysql_free_result($rs);
+					if ($_up['ing_uid'] == $this->User->usr_id) {
+						$sql = "DELETE FROM babel_ing_update WHERE ing_id = {$ing_id} LIMIT 1";					
+						mysql_query($sql, $this->db);
+						if (mysql_affected_rows($this->db) == 1) {
+							return $this->URL->vxToRedirect($this->URL->vxGetIngPersonal($this->User->usr_nick));
+						} else {
+							return $this->URL->vxToRedirect($this->URL->vxGetIngPersonal($this->User->usr_nick));
+						}
+					} else {
+						$S = null;
+						return $this->URL->vxToRedirect($this->URL->vxGetIngPersonal($this->User->usr_nick));
+					}
+				} else {
+					mysql_free_result($rs);
+					return $this->URL->vxToRedirect($this->URL->vxGetIngPersonal($this->User->usr_nick));
+				}
+			} else {
+				return $this->URL->vxToRedirect($this->URL->vxGetIngPersonal($this->User->usr_nick));
+			}
+		} else {
+			return $this->URL->vxToRedirect($this->URL->vxGetLogin($this->URL->vxGetUserOwnHome()));
+		}
+	}
+	
 	public function vxRecvZENProject() {
 		if ($this->User->vxIsLogin()) {
 			if (isset($_POST['zpr_title'])) {
