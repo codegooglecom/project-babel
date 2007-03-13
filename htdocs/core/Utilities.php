@@ -555,8 +555,13 @@ function make_descriptive_time($unix_timestamp) {
 	}
 	
 	if ($diff > 60) {
-		$span = intval($diff / 60);
-		return $span . ' 分钟前';
+		$span = floor($diff / 60);
+		$secs = $diff % 60;
+		if ($secs > 0) {
+			return $span . ' 分 ' . $secs . ' 秒前';
+		} else {
+			return $span . ' 分钟前';
+		}
 	}
 	
 	return $diff . ' 秒前';
@@ -620,7 +625,7 @@ function is_valid_nick($nick) {
 	if (preg_match($regex, $nick)) {
 		return false;
 	} else {
-		$bad_words = array('。', '，', '？', '～', '！', '刘', '昕', '刘昕', '客齐集', '管', 'admin', 'fuck', 'kijiji', '斑竹', '版', '主');
+		$bad_words = array('。', '，', '？', '～', '！', '刘', '昕', '刘昕', '客齐集', '管', 'admin', 'fuck', 'kijiji', '斑竹', '版', '主', 'rss', 'v2ex', 'babel', 'project');
 		foreach ($bad_words as $w) {
 			$pos = stripos($nick, $w);
 			if ($pos === false) {

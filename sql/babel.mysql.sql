@@ -519,6 +519,24 @@ CREATE TABLE `babel_zen_task` (
   KEY `INDEX_PROGRESS` (`zta_progress`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Babel ZEN Task Table';
 
+-- 
+-- Table structure for table `babel_ing_update`
+-- 
+
+CREATE TABLE `babel_ing_update` (
+  `ing_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `ing_uid` int(10) unsigned NOT NULL DEFAULT '0',
+  `ing_doing` varchar(150) DEFAULT NULL,
+  `ing_source` int(10) unsigned NOT NULL DEFAULT '0',
+  `ing_favs` int(10) unsigned NOT NULL DEFAULT '0',
+  `ing_created` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`ing_id`),
+  KEY `INDEX_UID` (`ing_uid`),
+  KEY `INDEX_CREATED` (`ing_created`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Babel ING Updates';
+
+-- --------------------------------------------------------
+
 INSERT INTO `babel_node`(`nod_pid`, `nod_level`, `nod_name`, `nod_title`) VALUES(1, 0, 'planescape', '异域');
 
 INSERT INTO `babel_node`(`nod_pid`, `nod_level`, `nod_name`, `nod_title`) VALUES(1, 1, 'limbo', '混沌海');

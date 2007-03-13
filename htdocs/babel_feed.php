@@ -111,5 +111,23 @@ switch ($m) {
 			$f->vxFeed();
 		}
 		break;
+		
+	case 'ing':
+		if (isset($_GET['user_nick'])) {
+			$user_nick = fetch_single($_GET['user_nick']);
+			if ($user_nick != '') {
+				$User = $f->User->vxGetUserInfoByNick($user_nick);
+				if ($User) {
+					$f->vxFeedIngPersonal($User);
+				} else {
+					$f->vxFeed();
+				}
+			} else {
+				$f->vxFeed();
+			}
+		} else {
+			$f->vxFeed();
+		}
+		break;
 }
 ?>

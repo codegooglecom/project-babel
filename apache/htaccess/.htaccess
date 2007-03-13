@@ -43,6 +43,9 @@ RewriteRule ^g/(.+)$ /babel.php?m=user_graphic&user_nick=$1 [L]
 
 RewriteRule ^dry/(.+)$ /babel_dry.php?m=home&user_nick=$1 [L]
 
+RewriteRule ^ing$ /babel.php?m=ing_public [L]
+RewriteRule ^ing/(.+)$ /babel.php?m=ing_personal&u=$1 [L]
+
 RewriteRule ^geo/(.+)$ /babel.php?m=geo_home&geo=$1 [L]
 
 RewriteRule ^zen$ /babel.php?m=zen [L]
@@ -76,6 +79,9 @@ RewriteRule ^user/settle/([a-zA-Z0-9\-\_]+)$ /babel_sl.php?m=user_settle&geo=$1 
 
 RewriteRule ^recv/portrait.vx$ /babel_sl.php?m=recv_portrait [L]
 RewriteRule ^recv/savepoint.vx$ /babel_sl.php?m=recv_savepoint [L]
+
+RewriteRule ^recv/ing.vx$ /babel_sl.php?m=recv_ing [L]
+RewriteRule ^erase/ing/([0-9]+).vx$ /babel_sl.php?m=erase_ing&ing_id=$1 [L]
 
 RewriteRule ^recv/zen/project.vx$ /babel_sl.php?m=recv_zen_project [L]
 RewriteRule ^change/zen/task/done/([0-9]+).vx$ /babel_sl.php?m=change_zen_task_done&zen_task_id=$1 [L]

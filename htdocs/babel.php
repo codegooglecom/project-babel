@@ -43,6 +43,8 @@ if (isset($_GET['m'])) {
 	$m = 'home';
 }
 
+define('__PAGE__', $m);
+
 $p = &new Page();
 
 $global_has_bottom = true;
@@ -1721,6 +1723,39 @@ switch ($m) {
 		$p->vxHeadMini('社区财富排行');
 		$p->vxBodyStart();
 		$p->vxTopWealth();
+		break;
+		
+	case 'ing_personal':
+		$public = false;
+		if (isset($_GET['u'])) {
+			$u = make_single_safe($_GET['u']);
+		} else {
+			$u = false;
+			$public = true;
+		}
+		if ($u) {
+			if (get_magic_quotes_gpc()) {
+				$u = mysql_real_escape_string(stripslashes($u));
+			} else {
+				$u = mysql_real_escape_string($u);
+			}
+			$User = $p->User->vxGetUserInfoByNick($u);
+			if (!$User) {
+				$public = true;
+			}
+		}
+		if ($public) {
+			$p->vxHead($msgSiteTitle = '大家在做什么');
+		} else {
+			$p->vxHead($msgSiteTitle = make_plaintext($User->usr_nick) . ' 在做什么');
+		}
+		$p->vxBodyStart();
+		$p->vxTop();
+		if ($public) {
+			$p->vxContainer('ing_public');
+		} else {
+			$p->vxContainer('ing_personal', $User);
+		}
 		break;
 }
 
