@@ -30,6 +30,7 @@ RewriteRule ^feed/board/([a-zA-Z0-9\-]+)$ /babel_feed.php?m=board&board_name=$1 
 RewriteRule ^feed/user/(.+)$ /babel_feed.php?m=user&user_nick=$1 [L]
 RewriteRule ^feed/geo/(.+)$ /babel_feed.php?m=geo&geo=$1 [L]
 RewriteRule ^feed/topic/(.+).rss$ /babel_feed.php?m=topic&topic_id=$1 [L]
+RewriteRule ^feed/ing/(.+)$ /babel_feed.php?m=ing_personal&user_nick=$1 [L]
 
 RewriteRule ^me/([0-9]+)$ /babel.php?m=user_home&do=me&msg=$1 [L]
 RewriteRule ^me$ /babel.php?m=user_home&do=me [L]
@@ -44,7 +45,8 @@ RewriteRule ^g/(.+)$ /babel.php?m=user_graphic&user_nick=$1 [L]
 RewriteRule ^dry/(.+)$ /babel_dry.php?m=home&user_nick=$1 [L]
 
 RewriteRule ^ing$ /babel.php?m=ing_public [L]
-RewriteRule ^ing/(.+)$ /babel.php?m=ing_personal&u=$1 [L]
+RewriteRule ^ing/([^\/]+)/friends$ /babel.php?m=ing_friends&u=$1 [L]
+RewriteRule ^ing/([^\/]+)$ /babel.php?m=ing_personal&u=$1 [L]
 
 RewriteRule ^geo/(.+)$ /babel.php?m=geo_home&geo=$1 [L]
 

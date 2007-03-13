@@ -11,12 +11,12 @@
 		<language>{$site_lang}</language>
 {foreach from=$a_updates item=update}
 		<item>
-			<title>{$update->ing_doing_plain}</title>
+			<title>{$update->ing_doing_title}</title>
 			<link>{$update->entry_link}</link>
 			<dc:creator>{$user->usr_nick_plain}</dc:creator>
 			<category>{$user->usr_nick_plain}</category>
 			<description>
-			{$update->ing_doing_final}
+			{$update->ing_doing}
 			</description>
 			<pubDate>{$update->ing_pubdate}</pubDate>
 			<guid>{$update->entry_link}</guid>
