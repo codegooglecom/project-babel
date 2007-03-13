@@ -259,26 +259,28 @@ class Feed {
 		$this->s->display('feed/rss2_topic.smarty');
 	}
 	
-	public function vxFeedIng($User) {
-		$this->s->assign('site_url', 'http://' . BABEL_DNS_NAME . '/ing/' . urlencode($User->usr_nick_url));
+	public function vxFeedIngPersonal($User) {
+		$this->s->assign('site_url', 'http://' . BABEL_DNS_NAME . '/ing/' . $User->usr_nick_url);
 		
-		$geo_real = mysql_real_escape_string($Geo->geo->geo);
-		$sql = "SELECT usr_id, usr_nick, usr_gender, usr_portrait, tpc_id, tpc_title, tpc_content, tpc_posts, tpc_created, nod_id, nod_title, nod_name FROM babel_topic, babel_node, babel_user WHERE tpc_uid IN (SELECT usr_id FROM babel_user WHERE usr_geo = '{$geo_real}') AND tpc_uid = usr_id AND tpc_pid = nod_id AND tpc_pid NOT IN " . BABEL_NODES_POINTLESS . " ORDER BY tpc_created DESC LIMIT 20";
+		$sql = "SELECT ing_id, ing_doing, ing_source, ing_created FROM babel_ing_update WHERE ing_uid = {$User->usr_id} ORDER BY ing_created DESC LIMIT 10";
 		$rs = mysql_query($sql);
-		$Topics = array();
+		
+		$Updates = array();
 		$i = 0;
-		while ($Topic = mysql_fetch_object($rs)) {
+		while ($Update = mysql_fetch_object($rs)) {
 			$i++;
-			$Topics[$i] = $Topic;
-			$Topics[$i]->tpc_title = htmlspecialchars($Topics[$i]->tpc_title, ENT_NOQUOTES);
-			$Topics[$i]->tpc_content = htmlspecialchars(format_ubb($Topics[$i]->tpc_content), ENT_NOQUOTES);
-			$Topics[$i]->tpc_pubdate = date('r', $Topics[$i]->tpc_created);
+			$Updates[$i] = $Update;
+			$Updates[$i]->ing_doing_title = htmlspecialchars(make_plaintext(format_ubb($Updates[$i]->ing_doing)), ENT_NOQUOTES);
+			$Updates[$i]->ing_doing = htmlspecialchars('<img src="' . $User->img_p_n .'" align="left" style="background-color: #FFF; padding: 2px; margin-right: 10px; border: 1px solid #CCC;" />&nbsp;&nbsp;' . format_ubb($Updates[$i]->ing_doing), ENT_NOQUOTES) . ' - ' . make_descriptive_time($Update->ing_created);
+			$Updates[$i]->ing_pubdate = date('r', $Updates[$i]->ing_created);
+			$Updates[$i]->entry_link = 'http://' . BABEL_DNS_NAME . '/ing/' . $User->usr_nick_url;
 		}
+		$this->s->assign('user', $User);
 		$this->s->assign('feed_title', $User->usr_nick_plain . " 在做什么");
 		$this->s->assign('feed_description', $User->usr_nick_plain . ' 的最新活动');
 		$this->s->assign('feed_category', $User->usr_nick_plain);
-		$this->s->assign('a_topics', $Topics);
-		$this->s->display('feed/rss2_ing.smarty');
+		$this->s->assign('a_updates', $Updates);
+		$this->s->display('feed/rss2_ing_personal.smarty');
 	}
 	
 	/* E public modules */

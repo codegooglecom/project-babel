@@ -112,7 +112,7 @@ switch ($m) {
 		}
 		break;
 		
-	case 'ing':
+	case 'ing_personal':
 		if (isset($_GET['user_nick'])) {
 			$user_nick = fetch_single($_GET['user_nick']);
 			if ($user_nick != '') {

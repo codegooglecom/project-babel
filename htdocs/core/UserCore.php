@@ -283,6 +283,9 @@ class User {
 			$User->usr_nick_url = urlencode($User->usr_nick);
 			$User->usr_nick_plain = make_plaintext($User->usr_nick);
 			$User->usr_brief_plain = make_plaintext($User->usr_brief);
+			$User->img_p = $User->usr_portrait ? CDN_IMG . 'p/' . $User->usr_portrait . '.jpg' : CDN_IMG . 'p_' . $User->usr_gender . '.gif';
+			$User->img_p_s = $User->usr_portrait ? CDN_IMG . 'p/' . $User->usr_portrait . '_s.jpg' : CDN_IMG . 'p_' . $User->usr_gender . '_s.gif';
+			$User->img_p_n = $User->usr_portrait ? CDN_IMG . 'p/' . $User->usr_portrait . '_n.jpg' : CDN_IMG . 'p_' . $User->usr_gender . '_n.gif';
 			return $User;
 		} else {
 			return false;

@@ -1747,7 +1747,7 @@ switch ($m) {
 		if ($public) {
 			$p->vxHead($msgSiteTitle = '大家在做什么');
 		} else {
-			$p->vxHead($msgSiteTitle = make_plaintext($User->usr_nick) . ' 在做什么');
+			$p->vxHead($msgSiteTitle = $User->usr_nick_plain . ' 在做什么', '', 'http://' . BABEL_DNS_NAME . '/feed/ing/' . $User->usr_nick_url);
 		}
 		$p->vxBodyStart();
 		$p->vxTop();
@@ -1755,6 +1755,39 @@ switch ($m) {
 			$p->vxContainer('ing_public');
 		} else {
 			$p->vxContainer('ing_personal', $User);
+		}
+		break;
+		
+	case 'ing_friends':
+		$public = false;
+		if (isset($_GET['u'])) {
+			$u = make_single_safe($_GET['u']);
+		} else {
+			$u = false;
+			$public = true;
+		}
+		if ($u) {
+			if (get_magic_quotes_gpc()) {
+				$u = mysql_real_escape_string(stripslashes($u));
+			} else {
+				$u = mysql_real_escape_string($u);
+			}
+			$User = $p->User->vxGetUserInfoByNick($u);
+			if (!$User) {
+				$public = true;
+			}
+		}
+		if ($public) {
+			$p->vxHead($msgSiteTitle = '大家在做什么');
+		} else {
+			$p->vxHead($msgSiteTitle = make_plaintext($User->usr_nick) . ' 的朋友们在做什么', '', 'http://' . BABEL_DNS_NAME . '/feed/ing/friends/' . $User->usr_nick_url);
+		}
+		$p->vxBodyStart();
+		$p->vxTop();
+		if ($public) {
+			$p->vxContainer('ing_public');
+		} else {
+			$p->vxContainer('ing_friends', $User);
 		}
 		break;
 }
