@@ -259,6 +259,70 @@ class Feed {
 		$this->s->display('feed/rss2_topic.smarty');
 	}
 	
+	public function vxFeedIngPublic() {
+		$this->s->assign('site_url', 'http://' . BABEL_DNS_NAME . '/ing');
+		
+		$sql = "SELECT ing_id, ing_doing, ing_source, ing_created, usr_id, usr_nick, usr_gender, usr_portrait FROM babel_ing_update, babel_user WHERE ing_uid = usr_id ORDER BY ing_created DESC LIMIT 20";
+		$rs = mysql_query($sql);
+		
+		$Updates = array();
+		$i = 0;
+		while ($Update = mysql_fetch_object($rs)) {
+			$i++;
+			$img_p = $Update->usr_portrait ? CDN_IMG . 'p/' . $Update->usr_portrait . '_n.jpg' : CDN_IMG . 'p_' . $Update->usr_gender . '_n.gif';
+			$Updates[$i] = $Update;
+			$Updates[$i]->ing_doing_title = htmlspecialchars($Update->usr_nick . ': ' . make_plaintext(format_ubb($Updates[$i]->ing_doing, false)), ENT_NOQUOTES);
+			$Updates[$i]->ing_doing = htmlspecialchars('<img src="' . $img_p .'" align="left" style="background-color: #FFF; padding: 2px; margin-right: 10px; border: 1px solid #CCC;" />&nbsp;' . $Update->usr_nick . ':&nbsp;' . format_ubb($Updates[$i]->ing_doing), ENT_NOQUOTES) . ' - ' . make_descriptive_time($Update->ing_created);
+			$Updates[$i]->ing_pubdate = date('r', $Updates[$i]->ing_created);
+			$Updates[$i]->entry_link = 'http://' . BABEL_DNS_NAME . '/ing/' . urlencode($Update->usr_nick);
+		}
+		$this->s->assign('user', $this->User);
+		$this->s->assign('feed_title', "大家在做什么");
+		$this->s->assign('feed_description', '最新活动');
+		$this->s->assign('feed_category', 'ING');
+		$this->s->assign('a_updates', $Updates);
+		$this->s->display('feed/rss2_ing_public.smarty');
+	}
+	
+	public function vxFeedIngFriends($User) {
+		$this->s->assign('site_url', 'http://' . BABEL_DNS_NAME . '/ing/' . $User->usr_nick_url . '/friends');
+		
+		$sql = "SELECT frd_fid FROM babel_friend WHERE frd_uid = {$User->usr_id}";
+		$rs = mysql_query($sql);
+		$_friends = array();
+		while ($_friend = mysql_fetch_array($rs)) {
+			$_friends[] = $_friend['frd_fid'];
+		}
+		mysql_free_result($rs);
+		$_friends[] = $User->usr_id;
+		if (count($_friends) > 0) {
+			$friends_sql = implode(',', $_friends);
+		} else {
+			$friends_sql = '0';
+		}
+		
+		$sql = "SELECT ing_id, ing_doing, ing_source, ing_created, usr_id, usr_nick, usr_gender, usr_portrait FROM babel_ing_update, babel_user WHERE ing_uid = usr_id AND ing_uid IN ({$friends_sql}) ORDER BY ing_created DESC LIMIT 10";
+		$rs = mysql_query($sql);
+		
+		$Updates = array();
+		$i = 0;
+		while ($Update = mysql_fetch_object($rs)) {
+			$i++;
+			$img_p = $Update->usr_portrait ? CDN_IMG . 'p/' . $Update->usr_portrait . '_n.jpg' : CDN_IMG . 'p_' . $Update->usr_gender . '_n.gif';
+			$Updates[$i] = $Update;
+			$Updates[$i]->ing_doing_title = htmlspecialchars($Update->usr_nick . ': ' . make_plaintext(format_ubb($Updates[$i]->ing_doing, false)), ENT_NOQUOTES);
+			$Updates[$i]->ing_doing = htmlspecialchars('<img src="' . $img_p .'" align="left" style="background-color: #FFF; padding: 2px; margin-right: 10px; border: 1px solid #CCC;" />&nbsp;' . $Update->usr_nick . ':&nbsp;' . format_ubb($Updates[$i]->ing_doing), ENT_NOQUOTES) . ' - ' . make_descriptive_time($Update->ing_created);
+			$Updates[$i]->ing_pubdate = date('r', $Updates[$i]->ing_created);
+			$Updates[$i]->entry_link = 'http://' . BABEL_DNS_NAME . '/ing/' . $User->usr_nick_url . '/friends';
+		}
+		$this->s->assign('user', $User);
+		$this->s->assign('feed_title', $User->usr_nick_plain . " 和朋友们在做什么");
+		$this->s->assign('feed_description', $User->usr_nick_plain . ' 和朋友们的最新活动');
+		$this->s->assign('feed_category', $User->usr_nick_plain);
+		$this->s->assign('a_updates', $Updates);
+		$this->s->display('feed/rss2_ing_friends.smarty');
+	}
+	
 	public function vxFeedIngPersonal($User) {
 		$this->s->assign('site_url', 'http://' . BABEL_DNS_NAME . '/ing/' . $User->usr_nick_url);
 		
@@ -270,7 +334,7 @@ class Feed {
 		while ($Update = mysql_fetch_object($rs)) {
 			$i++;
 			$Updates[$i] = $Update;
-			$Updates[$i]->ing_doing_title = htmlspecialchars(make_plaintext(format_ubb($Updates[$i]->ing_doing)), ENT_NOQUOTES);
+			$Updates[$i]->ing_doing_title = htmlspecialchars(make_plaintext(format_ubb($Updates[$i]->ing_doing, false)), ENT_NOQUOTES);
 			$Updates[$i]->ing_doing = htmlspecialchars('<img src="' . $User->img_p_n .'" align="left" style="background-color: #FFF; padding: 2px; margin-right: 10px; border: 1px solid #CCC;" />&nbsp;&nbsp;' . format_ubb($Updates[$i]->ing_doing), ENT_NOQUOTES) . ' - ' . make_descriptive_time($Update->ing_created);
 			$Updates[$i]->ing_pubdate = date('r', $Updates[$i]->ing_created);
 			$Updates[$i]->entry_link = 'http://' . BABEL_DNS_NAME . '/ing/' . $User->usr_nick_url;

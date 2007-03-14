@@ -1542,6 +1542,16 @@ class Page {
 				$this->vxMenu($_menu_options);
 				$this->vxIngFriends($options);
 				break;
+				
+			case 'ing_public':
+				$_menu_options['modules']['new_members'] = false;
+				$_menu_options['modules']['friends'] = false;
+				$_menu_options['modules']['stats'] = false;
+				$_menu_options['modules']['fav'] = false;
+				$this->vxSidebar($show = false);
+				$this->vxMenu($_menu_options);
+				$this->vxIngPublic();
+				break;
 		}
 		echo('</div>');
 	}
@@ -8440,11 +8450,64 @@ class Page {
 		_v_m_s();
 		_v_b_l_s();
 		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt ING <span class="tip_i"><small>alpha</small></span>');
+		_v_d_e();
 		
+		/* S: data here!!! */
+		$_sources = array(1 => 'web');
+		$t = time() - 86400;
+		
+		$sql = "SELECT ing_id, ing_uid, ing_doing, ing_doing, ing_source, ing_created, usr_id, usr_nick, usr_gender, usr_portrait FROM babel_ing_update, babel_user WHERE usr_id = ing_uid ORDER BY ing_created DESC LIMIT 50";
+		$rs_updates = mysql_query($sql);
+		$count = mysql_num_rows($rs_updates);
+		if ($count == 0) {
+			$hack_height = 'height: 320px; ';
+		} else {
+			if ($count < 5) {
+				$hack_height = 'height: 320px; ';
+			} else {
+				$hack_height = '';
+			}
+		}
+		/* E: data here!!! */
+		
+		echo('<div class="blank" align="left" style="' . $hack_height . '">');
+		echo('<div style="float: right; padding: 3px 10px 3px 10px; font-size: 10px; background-color: #F0F0F0; -moz-border-radius: 5px; color: #999;">');
+		echo('<a href="/ing/' . $this->User->usr_nick_url . '">' . $this->User->usr_nick_plain . '</a> | <a href="/ing/' . $this->User->usr_nick_url . '/friends">With Friends</a> | Everyone');
+		echo('</div>');
+		
+		_v_ico_silk('hourglass');
+		echo(' 大家在做什么...');
+		_v_hr();
+
+		echo('<div>');
+		
+		$i = 0;
+		while ($_up = mysql_fetch_array($rs_updates)) {
+			$i++;
+			$css_class = $i % 2 == 0 ? 'even' : 'odd';
+			$img_p = $_up['usr_portrait'] ? CDN_IMG . 'p/' . $_up['usr_portrait'] . '_s.jpg' : CDN_IMG . 'p_' . $_up['usr_gender'] . '_s.gif';
+			echo('<div style="width: 61.8%; min-width: 200px; max-width: 800px;" class="entry_' . $css_class . '">');
+			echo('<img src="' . $img_p . '" align="absmiddle" alt="' . make_single_return($_up['usr_nick']) . '" class="portrait" /> ');
+			echo('<a href="/u/' . urlencode($_up['usr_nick']) . '" class="t">' . make_plaintext($_up['usr_nick']) . '</a> ');
+			echo(format_ubb(trim($_up['ing_doing'])) . ' <span class="tip_i">' . make_descriptive_time($_up['ing_created']) . '</span> <span class="tip"><small>from ' . $_sources[$_up['ing_source']] . '</small></span> ');
+			if ($_up['usr_id'] == $this->User->usr_id) {
+				echo('<a href="/erase/ing/' . $_up['ing_id'] . '.vx"><img src="/img/ing_trash.gif" align="absmiddle" alt="del" border="0" /></a>');
+			}
+			_v_d_e();
+		}
+		mysql_free_result($rs_updates);
+		if ($i > 0) {
+			_v_hr();
+			_v_ico_silk('feed');
+			echo(' <a href="/feed/ing">RSS</a></li>');
+		}
+		_v_d_e();
+
 		_v_d_e();
 		_v_d_e();
 	}
-	
+
 	public function vxIngFriends($User) {
 		if ($User->usr_id == $this->User->usr_id) {
 			$flag_self = true;
@@ -8456,7 +8519,7 @@ class Page {
 		_v_m_s();
 		_v_b_l_s();
 		_v_ico_map();
-		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt <a href="/u/' . $User->usr_nick_url . '">' . $User->usr_nick_plain . '</a> &gt <a href="/ing/' . $User->usr_nick_url . '">ING</a> &gt; ' . $User->usr_nick_plain . ' 的朋友们在做什么 <span class="tip_i"><small>alpha</small></span>');
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt <a href="/u/' . $User->usr_nick_url . '">' . $User->usr_nick_plain . '</a> &gt <a href="/ing/' . $User->usr_nick_url . '">ING</a> &gt; ' . $User->usr_nick_plain . ' 和朋友们在做什么 <span class="tip_i"><small>alpha</small></span>');
 		_v_d_e();
 		
 		/* S: data here!!! */
@@ -8466,11 +8529,12 @@ class Page {
 		$rs = mysql_query($sql);
 		$_friends = array();
 		if (mysql_num_rows($rs) == 0) {
-			$friends_sql = '0';
+			$friends_sql = $User->usr_id;
 		} else {
 			while ($_f = mysql_fetch_array($rs)) {
 				$_friends[] = $_f['frd_fid'];
 			}
+			$_friends[] = $User->usr_id;
 			$friends_sql = implode(',', $_friends);
 		}
 		mysql_free_result($rs);
@@ -8491,14 +8555,14 @@ class Page {
 		
 		echo('<div class="blank" align="left" style="' . $hack_height . '">');
 		echo('<div style="float: right; padding: 3px 10px 3px 10px; font-size: 10px; background-color: #F0F0F0; -moz-border-radius: 5px; color: #999;">');
-		echo('<a href="/ing/' . $User->usr_nick_url . '">' . $User->usr_nick_plain . '</a> | Friends | <a href="/ing">Everyone</a>');
+		echo('<a href="/ing/' . $User->usr_nick_url . '">' . $User->usr_nick_plain . '</a> | With Friends | <a href="/ing">Everyone</a>');
 		echo('</div>');
 		
 		_v_ico_silk('hourglass');
 		if ($flag_self) {
-			echo(' 你的朋友们在做什么 ...');
+			echo(' 你和朋友们在做什么 ...');
 		} else {
-			echo(' ' . $User->usr_nick_plain . ' 的朋友们在做什么 ...');
+			echo(' ' . $User->usr_nick_plain . ' 和朋友们在做什么 ...');
 		}
 		_v_hr();
 		
@@ -8522,12 +8586,6 @@ class Page {
 			_v_hr();
 			echo('<span class="tip_i">' . $User->usr_brief_plain . '</span>');
 		}
-		_v_hr();
-		echo('<li style="list-style: none; padding-bottom: 5px;">'); _v_ico_silk('feed');
-		echo(' <a href="/feed/ing/' . $User->usr_nick_url . '">RSS - ' . $User->usr_nick_plain . ' 的最新状态</a></li>');
-		
-		echo('<li style="list-style: none;">'); _v_ico_silk('feed');
-		echo(' <a href="/feed/user/' . $User->usr_nick_url . '">RSS - ' . $User->usr_nick_plain . ' 的最新主题</a></li>');
 		_v_d_e();
 		/* E: right user badge */
 		
@@ -8548,8 +8606,12 @@ class Page {
 			_v_d_e();
 		}
 		mysql_free_result($rs_updates);
+		if ($i > 0) {
+			_v_hr();
+			_v_ico_silk('feed');
+			echo(' <a href="/feed/ing/friends/' . $User->usr_nick_url . '">RSS / ' . $User->usr_nick_plain . ' 的朋友们最新状态</a></li>');
+		}
 		_v_d_e();
-		
 		
 		if ($i == 0) {
 			_v_ico_silk('exclamation');
@@ -8583,13 +8645,13 @@ class Page {
 		$count = mysql_num_rows($rs_updates);
 		if ($count == 0) {
 			if ($flag_self) {
-				$hack_height = 'height: 250px; ';
+				$hack_height = 'height: 320px; ';
 			} else {
-				$hack_height = 'height: 180px; ';
+				$hack_height = 'height: 240px; ';
 			}
 		} else {
 			if ($count < 5) {
-				$hack_height = 'height: 300px; ';
+				$hack_height = 'height: 350px; ';
 			} else {
 				$hack_height = '';
 			}
@@ -8598,7 +8660,7 @@ class Page {
 		
 		echo('<div class="blank" align="left" style="' . $hack_height . '">');
 		echo('<div style="float: right; padding: 3px 10px 3px 10px; font-size: 10px; background-color: #F0F0F0; -moz-border-radius: 5px; color: #999;">');
-		echo($User->usr_nick_plain . ' | <a href="/ing/' . $User->usr_nick_url . '/friends">Friends</a> | <a href="/ing">Everyone</a>');
+		echo($User->usr_nick_plain . ' | <a href="/ing/' . $User->usr_nick_url . '/friends">With Friends</a> | <a href="/ing">Everyone</a>');
 		echo('</div>');
 
 		_v_ico_silk('hourglass');
@@ -8637,12 +8699,6 @@ class Page {
 			_v_hr();
 			echo('<span class="tip_i">' . $User->usr_brief_plain . '</span>');
 		}
-		_v_hr();
-		echo('<li style="list-style: none; padding-bottom: 5px;">'); _v_ico_silk('feed');
-		echo(' <a href="/feed/ing/' . $User->usr_nick_url . '">RSS - ' . $User->usr_nick_plain . ' 的最新状态</a></li>');
-		
-		echo('<li style="list-style: none;">'); _v_ico_silk('feed');
-		echo(' <a href="/feed/user/' . $User->usr_nick_url . '">RSS - ' . $User->usr_nick_plain . ' 的最新主题</a></li>');
 		_v_d_e();
 		/* E: right user badge */
 		
@@ -8663,6 +8719,11 @@ class Page {
 			_v_d_e();
 		}
 		mysql_free_result($rs_updates);
+		if ($i > 0) {
+			_v_hr();
+			_v_ico_silk('feed');
+			echo(' <a href="/feed/ing/' . $User->usr_nick_url . '">RSS / ' . $User->usr_nick_plain . ' 的最新状态</a></li>');
+		}
 		_v_d_e();
 		
 		
