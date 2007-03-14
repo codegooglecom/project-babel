@@ -31,6 +31,8 @@ class User {
 	public $usr_geo;
 	public $usr_password;
 	public $usr_nick;
+	public $usr_nick_plain;
+	public $usr_nick_url;
 	public $usr_full;
 	public $usr_addr;
 	public $usr_telephone;
@@ -61,6 +63,8 @@ class User {
 		$this->usr_geo = 'earth';
 		$this->usr_password = '';
 		$this->usr_nick = '';
+		$this->usr_nick_plain = '';
+		$this->usr_nick_url = '';
 		$this->usr_full = '';
 		$this->usr_addr = '';
 		$this->usr_telephone = '';
@@ -111,6 +115,8 @@ class User {
 				$this->usr_geo = $O->usr_geo;
 				$this->usr_password = $O->usr_password;
 				$this->usr_nick = $O->usr_nick;
+				$this->usr_nick_plain = make_plaintext($O->usr_nick);
+				$this->usr_nick_url = urlencode($O->usr_nick);
 				$this->usr_full = $O->usr_full;
 				$this->usr_addr = $O->usr_addr;
 				$this->usr_telephone = $O->usr_telephone;
@@ -169,6 +175,8 @@ class User {
 					$this->usr_geo = $O->usr_geo;
 					$this->usr_password = $O->usr_password;
 					$this->usr_nick = $O->usr_nick;
+					$this->usr_nick_plain = make_plaintext($O->usr_nick);
+					$this->usr_nick_url = urlencode($O->usr_nick);
 					$this->usr_full = $O->usr_full;
 					$this->usr_addr = $O->usr_addr;
 					$this->usr_telephone = $O->usr_telephone;
@@ -219,6 +227,8 @@ class User {
 		$this->usr_geo = 'earth';
 		$this->usr_password = '';
 		$this->usr_nick = '';
+		$this->usr_nick_plain = '';
+		$this->usr_nick_url = '';
 		$this->usr_full = '';
 		$this->usr_addr = '';
 		$this->usr_telephone = '';

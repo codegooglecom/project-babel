@@ -1725,6 +1725,13 @@ switch ($m) {
 		$p->vxTopWealth();
 		break;
 		
+	case 'ing_public':
+		$p->vxHead($msgSiteTitle = '大家在做什么');
+		$p->vxBodyStart();
+		$p->vxTop();
+		$p->vxContainer('ing_public');
+		break;
+		
 	case 'ing_personal':
 		$public = false;
 		if (isset($_GET['u'])) {
@@ -1780,7 +1787,7 @@ switch ($m) {
 		if ($public) {
 			$p->vxHead($msgSiteTitle = '大家在做什么');
 		} else {
-			$p->vxHead($msgSiteTitle = make_plaintext($User->usr_nick) . ' 的朋友们在做什么', '', 'http://' . BABEL_DNS_NAME . '/feed/ing/friends/' . $User->usr_nick_url);
+			$p->vxHead($msgSiteTitle = make_plaintext($User->usr_nick) . ' 和朋友们在做什么', '', 'http://' . BABEL_DNS_NAME . '/feed/ing/friends/' . $User->usr_nick_url);
 		}
 		$p->vxBodyStart();
 		$p->vxTop();

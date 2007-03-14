@@ -112,6 +112,28 @@ switch ($m) {
 		}
 		break;
 		
+	case 'ing_public':
+		$f->vxFeedIngPublic();
+		break;
+		
+	case 'ing_friends':
+		if (isset($_GET['user_nick'])) {
+			$user_nick = fetch_single($_GET['user_nick']);
+			if ($user_nick != '') {
+				$User = $f->User->vxGetUserInfoByNick($user_nick);
+				if ($User) {
+					$f->vxFeedIngFriends($User);
+				} else {
+					$f->vxFeed();
+				}
+			} else {
+				$f->vxFeed();
+			}
+		} else {
+			$f->vxFeed();
+		}
+		break;
+		
 	case 'ing_personal':
 		if (isset($_GET['user_nick'])) {
 			$user_nick = fetch_single($_GET['user_nick']);

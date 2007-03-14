@@ -146,7 +146,7 @@ function format_def($def) {
 	return $o;
 }
 
-function format_ubb($text) {
+function format_ubb($text, $emoticon = true) {
 	$text = str_replace('<', '&lt;', $text);
 	$text = str_replace('>', '&gt;', $text);
 	
@@ -224,19 +224,21 @@ function format_ubb($text) {
 	$text = str_ireplace('</div><br />', '</div>', $text);
 	
 	// smiles:
-	$text = str_ireplace(':)', '<img src="http://' . BABEL_DNS_DOMAIN . '/img/icons/silk/emoticon_smile.png" align="absmiddle" style="padding: 0px 2px 0px 2px;" />', $text);
-	$text = str_ireplace(':-)', '<img src="http://' . BABEL_DNS_DOMAIN . '/img/icons/silk/emoticon_smile.png" align="absmiddle" style="padding: 0px 2px 0px 2px;" />', $text);
-	$text = str_ireplace(':o', '<img src="http://' . BABEL_DNS_DOMAIN . '/img/icons/silk/emoticon_surprised.png" align="absmiddle" style="padding: 0px 2px 0px 2px;" />', $text);
-	$text = str_ireplace(':-o', '<img src="http://' . BABEL_DNS_DOMAIN . '/img/icons/silk/emoticon_surprised.png" align="absmiddle" style="padding: 0px 2px 0px 2px;" />', $text);
-	$text = str_ireplace(':(', '<img src="http://' . BABEL_DNS_DOMAIN . '/img/icons/silk/emoticon_unhappy.png" align="absmiddle" style="padding: 0px 2px 0px 2px;" />', $text);
-	$text = str_ireplace(':-(', '<img src="http://' . BABEL_DNS_DOMAIN . '/img/icons/silk/emoticon_unhappy.png" align="absmiddle" style="padding: 0px 2px 0px 2px;" />', $text);
-	$text = str_replace(':D', '<img src="http://' . BABEL_DNS_DOMAIN . '/img/icons/silk/emoticon_grin.png" align="absmiddle" style="padding: 0px 2px 0px 2px;" />', $text);
-	$text = str_replace(':-D', '<img src="http://' . BABEL_DNS_DOMAIN . '/img/icons/silk/emoticon_grin.png" align="absmiddle" style="padding: 0px 2px 0px 2px;" />', $text);
-	$text = str_ireplace(':p', '<img src="http://' . BABEL_DNS_DOMAIN . '/img/icons/silk/emoticon_tongue.png" align="absmiddle" style="padding: 0px 2px 0px 2px;" />', $text);
-	$text = str_ireplace('^_^', '<img src="http://' . BABEL_DNS_DOMAIN . '/img/icons/silk/emoticon_happy.png" align="absmiddle" style="padding: 0px 2px 0px 2px;" />', $text);
-	$text = str_ireplace('^-^', '<img src="http://' . BABEL_DNS_DOMAIN . '/img/icons/silk/emoticon_happy.png" align="absmiddle" style="padding: 0px 2px 0px 2px;" />', $text);
-	$text = str_ireplace('^o^', '<img src="http://' . BABEL_DNS_DOMAIN . '/img/icons/silk/emoticon_happy.png" align="absmiddle" style="padding: 0px 2px 0px 2px;" />', $text);
-	$text = str_ireplace('^^', '<img src="http://' . BABEL_DNS_DOMAIN . '/img/icons/silk/emoticon_happy.png" align="absmiddle" style="padding: 0px 2px 0px 2px;" />', $text);
+	if ($emoticon) {
+		$text = str_ireplace(':)', '<img src="http://' . BABEL_DNS_DOMAIN . '/img/icons/silk/emoticon_smile.png" align="absmiddle" style="padding: 0px 2px 0px 2px;" />', $text);
+		$text = str_ireplace(':-)', '<img src="http://' . BABEL_DNS_DOMAIN . '/img/icons/silk/emoticon_smile.png" align="absmiddle" style="padding: 0px 2px 0px 2px;" />', $text);
+		$text = str_ireplace(':o', '<img src="http://' . BABEL_DNS_DOMAIN . '/img/icons/silk/emoticon_surprised.png" align="absmiddle" style="padding: 0px 2px 0px 2px;" />', $text);
+		$text = str_ireplace(':-o', '<img src="http://' . BABEL_DNS_DOMAIN . '/img/icons/silk/emoticon_surprised.png" align="absmiddle" style="padding: 0px 2px 0px 2px;" />', $text);
+		$text = str_ireplace(':(', '<img src="http://' . BABEL_DNS_DOMAIN . '/img/icons/silk/emoticon_unhappy.png" align="absmiddle" style="padding: 0px 2px 0px 2px;" />', $text);
+		$text = str_ireplace(':-(', '<img src="http://' . BABEL_DNS_DOMAIN . '/img/icons/silk/emoticon_unhappy.png" align="absmiddle" style="padding: 0px 2px 0px 2px;" />', $text);
+		$text = str_replace(':D', '<img src="http://' . BABEL_DNS_DOMAIN . '/img/icons/silk/emoticon_grin.png" align="absmiddle" style="padding: 0px 2px 0px 2px;" />', $text);
+		$text = str_replace(':-D', '<img src="http://' . BABEL_DNS_DOMAIN . '/img/icons/silk/emoticon_grin.png" align="absmiddle" style="padding: 0px 2px 0px 2px;" />', $text);
+		$text = str_ireplace(':p', '<img src="http://' . BABEL_DNS_DOMAIN . '/img/icons/silk/emoticon_tongue.png" align="absmiddle" style="padding: 0px 2px 0px 2px;" />', $text);
+		$text = str_ireplace('^_^', '<img src="http://' . BABEL_DNS_DOMAIN . '/img/icons/silk/emoticon_happy.png" align="absmiddle" style="padding: 0px 2px 0px 2px;" />', $text);
+		$text = str_ireplace('^-^', '<img src="http://' . BABEL_DNS_DOMAIN . '/img/icons/silk/emoticon_happy.png" align="absmiddle" style="padding: 0px 2px 0px 2px;" />', $text);
+		$text = str_ireplace('^o^', '<img src="http://' . BABEL_DNS_DOMAIN . '/img/icons/silk/emoticon_happy.png" align="absmiddle" style="padding: 0px 2px 0px 2px;" />', $text);
+		$text = str_ireplace('^^', '<img src="http://' . BABEL_DNS_DOMAIN . '/img/icons/silk/emoticon_happy.png" align="absmiddle" style="padding: 0px 2px 0px 2px;" />', $text);
+	}
 	return $text;
 }
 
