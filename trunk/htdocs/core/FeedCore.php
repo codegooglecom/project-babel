@@ -162,6 +162,7 @@ class Feed {
 				$Topics[$i]->tpc_title = htmlspecialchars($Topics[$i]->tpc_title, ENT_NOQUOTES);
 				$Topics[$i]->tpc_content = htmlspecialchars(format_ubb($Topics[$i]->tpc_content), ENT_NOQUOTES);
 				$Topics[$i]->tpc_pubdate = date('r', $Topics[$i]->tpc_created);
+				$Topics[$i]->entry_link = 'http://' . BABEL_DNS_NAME . '/topic/view/' . $Topic->tpc_id . '.html';
 			}
 			$this->s->assign('feed_title', 'Latest from ' . Vocabulary::site_name . "'s " . $Node->nod_title);
 			$this->s->assign('feed_description', Vocabulary::meta_description);
@@ -183,6 +184,7 @@ class Feed {
 			$Topics[$i]->tpc_title = htmlspecialchars($Topics[$i]->tpc_title, ENT_NOQUOTES);
 			$Topics[$i]->tpc_content = htmlspecialchars(format_ubb($Topics[$i]->tpc_content), ENT_NOQUOTES);
 			$Topics[$i]->tpc_pubdate = date('r', $Topics[$i]->tpc_created);
+			$Topics[$i]->entry_link = 'http://' . BABEL_DNS_NAME . '/topic/view/' . $Topic->tpc_id . '.html';
 		}
 		$this->s->assign('feed_title', 'Latest from ' . Vocabulary::site_name . ": " . make_plaintext($User->usr_nick));
 		$this->s->assign('feed_description', Vocabulary::meta_description);
@@ -204,6 +206,7 @@ class Feed {
 			$Topics[$i]->tpc_title = htmlspecialchars($Topics[$i]->tpc_title, ENT_NOQUOTES);
 			$Topics[$i]->tpc_content = htmlspecialchars(format_ubb($Topics[$i]->tpc_content), ENT_NOQUOTES);
 			$Topics[$i]->tpc_pubdate = date('r', $Topics[$i]->tpc_created);
+			$Topics[$i]->entry_link = 'http://' . BABEL_DNS_NAME . '/topic/view/' . $Topic->tpc_id . '.html';
 		}
 		$this->s->assign('feed_title', 'Latest from ' . Vocabulary::site_name . ": " . $Geo->geo->name->cn);
 		$this->s->assign('feed_description', Vocabulary::meta_description);
