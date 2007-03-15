@@ -426,6 +426,8 @@ google_ad_channel = "";
 <script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </script>', '');
 $i->vxSetupBoard('thunderbird', 'Mozilla Thunderbird', 3, 3, 1, 2, '', '');
+$i->vxSetupBoard('camino', 'Camino', 3, 3, 1, 2, 'Mozilla power, Mac style.', 'Faster, Safer, Better');
+	$i->vxSetupRelatedByName('camino', 'http://www.caminobrowser.org/', 'Camino');
 $i->vxSetupBoard('fortran', 'Fortran', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('compiler', '编译器技术', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('zune', 'Zune', 3, 3, 1, 2, '', '');
@@ -696,6 +698,7 @@ $i->vxSetupBoard('boy', '男生话题', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('girl', '女生话题', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('man', '男人帮', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('lady', '女人帮', 4, 4, 1, 2, '', '');
+$i->vxSetupBoard('gonewiththewind', '飘', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('punk', '我们坐车不买票', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('paranoid', '偏执狂', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('pointless', '无要点', 4, 4, 1, 2, '', '');

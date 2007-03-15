@@ -32,7 +32,9 @@ RewriteRule ^feed/geo/(.+)$ /babel_feed.php?m=geo&geo=$1 [L]
 RewriteRule ^feed/topic/(.+).rss$ /babel_feed.php?m=topic&topic_id=$1 [L]
 RewriteRule ^feed/ing$ /babel_feed.php?m=ing_public [L]
 RewriteRule ^feed/ing/friends/([^\/]+)$ /babel_feed.php?m=ing_friends&user_nick=$1 [L]
-RewriteRule ^feed/ing/(.+)$ /babel_feed.php?m=ing_personal&user_nick=$1 [L]
+RewriteRule ^feed/ing/([^\/]+)$ /babel_feed.php?m=ing_personal&user_nick=$1 [L]
+
+RewriteRule ^js/ing/([^\/]+)$ /babel.php?m=js_ing_personal&user_nick=$1 [L]
 
 RewriteRule ^me/([0-9]+)$ /babel.php?m=user_home&do=me&msg=$1 [L]
 RewriteRule ^me$ /babel.php?m=user_home&do=me [L]

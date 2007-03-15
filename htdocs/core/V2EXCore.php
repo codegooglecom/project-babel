@@ -8473,7 +8473,11 @@ class Page {
 		
 		echo('<div class="blank" align="left" style="' . $hack_height . '">');
 		echo('<div style="float: right; padding: 3px 10px 3px 10px; font-size: 10px; background-color: #F0F0F0; -moz-border-radius: 5px; color: #999;">');
-		echo('<a href="/ing/' . $this->User->usr_nick_url . '">' . $this->User->usr_nick_plain . '</a> | <a href="/ing/' . $this->User->usr_nick_url . '/friends">With Friends</a> | Everyone');
+		if ($this->User->vxIsLogin()) {
+			echo('<a href="/ing/' . $this->User->usr_nick_url . '">' . $this->User->usr_nick_plain . '</a> | ');
+			echo('<a href="/ing/' . $this->User->usr_nick_url . '/friends">With Friends</a> | ');
+		}
+		echo('Everyone');
 		echo('</div>');
 		
 		_v_ico_silk('hourglass');
@@ -8487,7 +8491,7 @@ class Page {
 			$i++;
 			$css_class = $i % 2 == 0 ? 'even' : 'odd';
 			$img_p = $_up['usr_portrait'] ? CDN_IMG . 'p/' . $_up['usr_portrait'] . '_s.jpg' : CDN_IMG . 'p_' . $_up['usr_gender'] . '_s.gif';
-			echo('<div style="width: 61.8%; min-width: 200px; max-width: 800px;" class="entry_' . $css_class . '">');
+			echo('<div style="min-width: 500px;" class="entry_' . $css_class . '">');
 			echo('<img src="' . $img_p . '" align="absmiddle" alt="' . make_single_return($_up['usr_nick']) . '" class="portrait" /> ');
 			echo('<a href="/u/' . urlencode($_up['usr_nick']) . '" class="t">' . make_plaintext($_up['usr_nick']) . '</a> ');
 			echo(format_ubb(trim($_up['ing_doing'])) . ' <span class="tip_i">' . make_descriptive_time($_up['ing_created']) . '</span> <span class="tip"><small>from ' . $_sources[$_up['ing_source']] . '</small></span> ');
@@ -8721,8 +8725,13 @@ class Page {
 		mysql_free_result($rs_updates);
 		if ($i > 0) {
 			_v_hr();
+			echo('<span class="tip_i">');
 			_v_ico_silk('feed');
-			echo(' <a href="/feed/ing/' . $User->usr_nick_url . '">RSS / ' . $User->usr_nick_plain . ' 的最新状态</a></li>');
+			echo(' <a href="/feed/ing/' . $User->usr_nick_url . '">RSS / ' . $User->usr_nick_plain . ' 的最新状态</a>');
+			echo(' | ');
+			_v_ico_silk('html');
+			echo(' <a href="#;" onclick="">JavaScript 输出到你的网站</a>');
+			echo('</span>');
 		}
 		_v_d_e();
 		
