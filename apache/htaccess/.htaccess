@@ -34,8 +34,6 @@ RewriteRule ^feed/ing$ /babel_feed.php?m=ing_public [L]
 RewriteRule ^feed/ing/friends/([^\/]+)$ /babel_feed.php?m=ing_friends&user_nick=$1 [L]
 RewriteRule ^feed/ing/([^\/]+)$ /babel_feed.php?m=ing_personal&user_nick=$1 [L]
 
-RewriteRule ^js/ing/([^\/]+)$ /babel.php?m=js_ing_personal&user_nick=$1 [L]
-
 RewriteRule ^me/([0-9]+)$ /babel.php?m=user_home&do=me&msg=$1 [L]
 RewriteRule ^me$ /babel.php?m=user_home&do=me [L]
 RewriteRule ^u/([^/?&]+)$ /babel.php?m=user_home&user_nick=$1 [L]
@@ -51,6 +49,11 @@ RewriteRule ^dry/(.+)$ /babel_dry.php?m=home&user_nick=$1 [L]
 RewriteRule ^ing$ /babel.php?m=ing_public [L]
 RewriteRule ^ing/([^\/]+)/friends$ /babel.php?m=ing_friends&u=$1 [L]
 RewriteRule ^ing/([^\/]+)$ /babel.php?m=ing_personal&u=$1 [L]
+
+RewriteRule ^js/ing/([^\/]+)$ /babel_sl.php?m=js_ing_personal&u=$1 [L]
+RewriteRule ^js/ing/([^\/]+)/gbk$ /babel_sl.php?m=js_ing_personal&u=$1&oe=gbk [L]
+
+RewriteRule ^ojs/ing/([^\/]+)$ /babel.php?m=ojs_ing_personal&u=$1 [L]
 
 RewriteRule ^geo/(.+)$ /babel.php?m=geo_home&geo=$1 [L]
 

@@ -68,3 +68,34 @@ font-size: 12px;
 color: #CCC;
 text-shadow: none;
 }
+
+a:link, a:active, a:visited {
+color: #577DE4;
+text-decoration: underline;
+}
+
+a:hover {
+color: #00C;
+text-decoration: underline;
+}
+
+h1 {
+padding: 5px;
+margin: 10px 0px 0px 0px;
+background-color: #F9F9F9;
+border-top: 1px solid #CCC;
+border-left: 1px solid #CCC;
+border-right: 1px solid #CCC;
+font-size: 12px;
+font-weight: normal;
+}
+
+div.code {
+padding: 7px;
+font-family: "Luxi Mono", "Monaco", "Courier New";
+border-bottom: 1px solid #CCC;
+border-left: 1px solid #CCC;
+border-right: 1px solid #CCC;
+font-size: 10px;
+white-space: pre;
+}

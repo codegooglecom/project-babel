@@ -273,17 +273,30 @@ class User {
 	 *
 	 * And this would be the second time I'd like to forget.
 	 *
-	 *
-	 *
 	 */
 	
 	public function vxGetUserInfo($user_id) {
 		$sql = "SELECT usr_id, usr_gender, usr_nick, usr_brief, usr_email, usr_portrait, usr_hits, usr_created, usr_lastlogin FROM babel_user WHERE usr_id = {$user_id}";
 		$rs = mysql_query($sql, $this->db);
-		$User = mysql_fetch_object($rs);
-		mysql_free_result($rs);
-		return $User;
+		if ($User = mysql_fetch_object($rs)) {
+			mysql_free_result($rs);
+			$User->usr_nick_url = urlencode($User->usr_nick);
+			$User->usr_nick_plain = make_plaintext($User->usr_nick);
+			$User->usr_brief_plain = make_plaintext($User->usr_brief);
+			$User->img_p = $User->usr_portrait ? CDN_IMG . 'p/' . $User->usr_portrait . '.jpg' : CDN_IMG . 'p_' . $User->usr_gender . '.gif';
+			$User->img_p_s = $User->usr_portrait ? CDN_IMG . 'p/' . $User->usr_portrait . '_s.jpg' : CDN_IMG . 'p_' . $User->usr_gender . '_s.gif';
+			$User->img_p_n = $User->usr_portrait ? CDN_IMG . 'p/' . $User->usr_portrait . '_n.jpg' : CDN_IMG . 'p_' . $User->usr_gender . '_n.gif';
+			return $User;
+		} else {
+			mysql_free_result($rs);
+			return false;
+		}
 	}
+	
+	/*
+	 * Gone with the wind is a great book, definitely.
+	 *
+	 */
 	
 	public function vxGetUserInfoByNick($user_nick) { // mysql_real_escape_string() or other treatment is expected for $user_nick
 		$sql = "SELECT usr_id, usr_gender, usr_nick, usr_brief, usr_email, usr_portrait, usr_hits, usr_created, usr_lastlogin FROM babel_user WHERE usr_nick = '{$user_nick}'";
@@ -298,6 +311,7 @@ class User {
 			$User->img_p_n = $User->usr_portrait ? CDN_IMG . 'p/' . $User->usr_portrait . '_n.jpg' : CDN_IMG . 'p_' . $User->usr_gender . '_n.gif';
 			return $User;
 		} else {
+			mysql_free_result($rs);
 			return false;
 		}
 	}

@@ -232,6 +232,11 @@ function openMessage() {
 	newWin.focus();
 }
 
+function openOJSIngPersonal(user_nick_url) {
+	newWin = window.open("/ojs/ing/" + user_nick_url, "winOJS", "width=700,height=460");
+	newWin.moveTo(100,100);
+	newWin.focus();
+}
 
 function openTopWealth() {
 	newWin = window.open("/top/wealth.html", "winTopWealth", "width=502,height=360");
