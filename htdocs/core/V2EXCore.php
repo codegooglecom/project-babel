@@ -2361,7 +2361,7 @@ class Page {
 				
 				// get topics
 				$i = 0;
-				$sql = "SELECT DISTINCT tpc_id, tpc_title, tpc_description, tpc_content, tpc_uid, tpc_lasttouched, usr_nick FROM babel_topic, babel_post, babel_user WHERE (";
+				$sql = "SELECT DISTINCT tpc_id, tpc_uid, tpc_title, tpc_description, tpc_content, tpc_uid, tpc_lasttouched, usr_nick FROM babel_topic LEFT JOIN (babel_post, babel_user) ON (babel_topic.tpc_id = babel_post.pst_tid AND babel_topic.tpc_uid = babel_user.usr_id) WHERE (";
 				foreach ($query_task as $task) {
 					$task = mysql_real_escape_string($task, $this->db);
 					$i++;
@@ -2379,7 +2379,6 @@ class Page {
 					$sql = $sql . ')';
 				}
 				$sql = $sql . ")";
-				$sql = $sql . " AND (tpc_uid = usr_id AND tpc_id = pst_tid)";
 				$sql = $sql . " ORDER BY tpc_created DESC";
 				$rs = mysql_query($sql, $this->db);
 				$count_matched = mysql_num_rows($rs);
@@ -2531,7 +2530,7 @@ class Page {
 		}
 		echo('<div id="main"><div class="blank" align="left">');
 		_v_ico_map();
-		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::action_search . '</div><div class="blank" align="left"><span class="text_large"><img src="' . CDN_IMG . 'ico_search.gif" class="home" align="absmiddle" />' . Vocabulary::action_search . '</span><form action="/search.php" method="get">');
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::site_name . ' ' . Vocabulary::action_search . '</div><div class="blank" align="left"><span class="text_large"><img src="' . CDN_IMG . 'ico_search.gif" class="home" align="absmiddle" />' . Vocabulary::site_name . ' ' . Vocabulary::action_search . '</span><form action="/search.php" method="get">');
 		if ($stage == 2) {
 			$query_return = make_single_return($query);
 			echo('<input type="text" name="q" id="k_search_q" onmouseover="this.focus()" class="search" value="' . $query_return . '"/>');
@@ -2540,18 +2539,18 @@ class Page {
 		}
 		switch ($stage) {
 			case 2:
-				printf("<br /><span class=\"tip\">搜索为你找到了 %d 条匹配“%s”的结果，耗时 %.3f 秒</span>", $count_result, make_plaintext(implode(' ', $query_verified)), $time_elapsed);
+				printf("<span class=\"tip\" style=\"display: block; margin-top: 5px; margin-bottom: 10px;\">" . Vocabulary::site_name . " 搜索为你找到了 %d 条匹配“%s”的结果，耗时 %.3f 秒</span>", $count_result, make_plaintext(implode(' ', $query_verified)), $time_elapsed);
 				break;
 			case 3:
-				echo('<br /><span class="tip">你所查询的关键字“' . implode(' ', $query_common) . '”太常见</span>');
+				echo('<span class="tip" style="display: block; margin-top: 5px; margin-bottom: 10px;">你所查询的关键字“' . implode(' ', $query_common) . '”太常见</span>');
 				break;
 			case 0:
 			case 1:
 			default:
-				echo('<span class="tip"></span>');
+				echo('<span class="tip" style="display: block; margin-top: 5px; margin-bottom: 10px;"></span>');
 				break;
 		}
-		echo('<br /><br /><input type="image" src="' . CDN_IMG . 'graphite/search.gif" /></form></div>');
+		echo('<input type="image" src="' . CDN_IMG . 'graphite/search.gif" /></form></div>');
 		
 		if (($stage == 2) && ($count_result > 0)) {
 			echo('<table width="100%" border="0" cellpadding="0" cellspacing="2" class="board">');
@@ -2589,21 +2588,25 @@ class Page {
 					echo('<tr><td colspan="2" height="10"></td></tr>');
 				}
 				if ($Result->type == 1) {
-					$img = 'mico_ad.gif';
+					$img = 'gray';
 				} else {
 					if ($Result->uid == $this->User->usr_id) {
-						$img = 'star_active.png';
+						$dot = 'green';
 					} else {
-						$img = 'mico_topic.gif';
+						$dot = 'gray';
 					}
 				}
-				echo('<tr><td width="24" height="18" valign="top" align="center" class="star"><img src="' . CDN_IMG . $img . '" /></td>');
+				echo('<tr><td width="24" height="18" valign="top" align="center" class="star"><img src="' . CDN_IMG . 'dot_' . $dot . '.png" /></td>');
 				if ($Result->type == 1) {
 					$_target = '_blank';
 				} else {
 					$_target = '_self';
 				}
-				echo('<td height="18" class="star"><a href="' . $Result->url . '" class="blue" target="' . $_target . '">' . make_plaintext($Result->title) . '</a> - <a href="/u/' . urlencode($Result->author) . '">' . make_plaintext($Result->author) . '</a></td></tr>');
+				echo('<td height="18" class="star"><a href="' . $Result->url . '" class="blue" target="' . $_target . '">' . make_plaintext($Result->title) . '</a>');
+				if ($Result->author != '') {
+					echo(' <span class="tip_i">by</span> <a href="/u/' . urlencode($Result->author) . '">' . make_plaintext($Result->author) . '</a>');
+				}
+				echo('</td></tr>');
 				if (strlen($Result->excerpt) > 0) {
 					echo('<tr><td width="24"></td><td class="hf"><span class="excerpt">');
 					echo ($Result->excerpt);
