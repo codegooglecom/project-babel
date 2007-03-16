@@ -275,7 +275,7 @@ class Feed {
 			$img_p = $Update->usr_portrait ? CDN_IMG . 'p/' . $Update->usr_portrait . '_n.jpg' : CDN_IMG . 'p_' . $Update->usr_gender . '_n.gif';
 			$Updates[$i] = $Update;
 			$Updates[$i]->ing_doing_title = htmlspecialchars($Update->usr_nick . ': ' . make_plaintext(format_ubb($Updates[$i]->ing_doing, false)), ENT_NOQUOTES);
-			$Updates[$i]->ing_doing = htmlspecialchars('<img src="' . $img_p .'" align="left" style="background-color: #FFF; padding: 2px; margin-right: 10px; border: 1px solid #CCC;" />&nbsp;' . $Update->usr_nick . ':&nbsp;' . format_ubb($Updates[$i]->ing_doing), ENT_NOQUOTES) . ' - ' . make_descriptive_time($Update->ing_created);
+			$Updates[$i]->ing_doing = htmlspecialchars('<img src="' . $img_p .'" align="left" style="background-color: #FFF; padding: 2px; margin: 0px 5px 5px 0px; border: 1px solid #CCC;" />&nbsp;' . $Update->usr_nick . ':&nbsp;' . format_ubb($Updates[$i]->ing_doing), ENT_NOQUOTES) . ' - ' . make_descriptive_time($Update->ing_created);
 			$Updates[$i]->ing_pubdate = date('r', $Updates[$i]->ing_created);
 			$Updates[$i]->entry_link = 'http://' . BABEL_DNS_NAME . '/ing/' . urlencode($Update->usr_nick);
 		}
@@ -314,7 +314,7 @@ class Feed {
 			$img_p = $Update->usr_portrait ? CDN_IMG . 'p/' . $Update->usr_portrait . '_n.jpg' : CDN_IMG . 'p_' . $Update->usr_gender . '_n.gif';
 			$Updates[$i] = $Update;
 			$Updates[$i]->ing_doing_title = htmlspecialchars($Update->usr_nick . ': ' . make_plaintext(format_ubb($Updates[$i]->ing_doing, false)), ENT_NOQUOTES);
-			$Updates[$i]->ing_doing = htmlspecialchars('<img src="' . $img_p .'" align="left" style="background-color: #FFF; padding: 2px; margin-right: 10px; border: 1px solid #CCC;" />&nbsp;' . $Update->usr_nick . ':&nbsp;' . format_ubb($Updates[$i]->ing_doing), ENT_NOQUOTES) . ' - ' . make_descriptive_time($Update->ing_created);
+			$Updates[$i]->ing_doing = htmlspecialchars('<img src="' . $img_p .'" align="left" style="background-color: #FFF; padding: 2px; margin: 0px 5px 5px 0px; border: 1px solid #CCC;" />&nbsp;' . $Update->usr_nick . ':&nbsp;' . format_ubb($Updates[$i]->ing_doing), ENT_NOQUOTES) . ' - ' . make_descriptive_time($Update->ing_created);
 			$Updates[$i]->ing_pubdate = date('r', $Updates[$i]->ing_created);
 			$Updates[$i]->entry_link = 'http://' . BABEL_DNS_NAME . '/ing/' . $User->usr_nick_url . '/friends';
 		}
@@ -338,7 +338,7 @@ class Feed {
 			$i++;
 			$Updates[$i] = $Update;
 			$Updates[$i]->ing_doing_title = htmlspecialchars(make_plaintext(format_ubb($Updates[$i]->ing_doing, false)), ENT_NOQUOTES);
-			$Updates[$i]->ing_doing = htmlspecialchars('<img src="' . $User->img_p_n .'" align="left" style="background-color: #FFF; padding: 2px; margin-right: 10px; border: 1px solid #CCC;" />&nbsp;&nbsp;' . format_ubb($Updates[$i]->ing_doing), ENT_NOQUOTES) . ' - ' . make_descriptive_time($Update->ing_created);
+			$Updates[$i]->ing_doing = htmlspecialchars('<img src="' . $User->img_p_n .'" align="left" style="background-color: #FFF; padding: 2px; margin: 0px 5px 5px 0px; border: 1px solid #CCC;" />&nbsp;&nbsp;' . format_ubb($Updates[$i]->ing_doing), ENT_NOQUOTES) . ' - ' . make_descriptive_time($Update->ing_created);
 			$Updates[$i]->ing_pubdate = date('r', $Updates[$i]->ing_created);
 			$Updates[$i]->entry_link = 'http://' . BABEL_DNS_NAME . '/ing/' . $User->usr_nick_url;
 		}

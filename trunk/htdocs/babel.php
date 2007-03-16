@@ -1726,7 +1726,7 @@ switch ($m) {
 		break;
 		
 	case 'ing_public':
-		$p->vxHead($msgSiteTitle = '大家在做什么');
+		$p->vxHead($msgSiteTitle = '大家在做什么', '', 'http://' . BABEL_DNS_NAME . '/feed/ing');
 		$p->vxBodyStart();
 		$p->vxTop();
 		$p->vxContainer('ing_public');
@@ -1796,6 +1796,13 @@ switch ($m) {
 		} else {
 			$p->vxContainer('ing_friends', $User);
 		}
+		break;
+		
+	case 'ojs_ing_personal':
+		$global_has_bottom = false;
+		$p->vxHeadMini('JavaScript 输出我的 ING 中的最新活动');
+		$p->vxBodyStart();
+		$p->vxOutputJavaScriptIngPersonal();
 		break;
 }
 

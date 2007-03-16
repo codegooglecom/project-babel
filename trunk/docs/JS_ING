@@ -1,0 +1,11 @@
+JavaScript output example of ING:
+
+<script type="text/javascript">
+babel_ing_prefix = "Currently: ";
+babel_ing_color_time = "#F0F0F0";
+</script>
+<script type="text/javascript" src="http://www.v2ex.com/js/ing/Livid"> </script>
+
+JavaScript code to run:
+
+document.writeln(babel_ing_prefix + "I'm doing something ... " + time + ' by <small style="font-size: 11px; color: ' + babel_ing_color_time + '">V2EX::ING</small>');

@@ -256,7 +256,7 @@ class Standalone {
 			if (isset($_POST['doing'])) {
 				$doing = make_single_safe($_POST['doing']);
 				if ($doing != '') {
-					if (mb_strlen($doing) < 132) {
+					if (mb_strlen($doing, 'UTF-8') < 132) {
 						if (get_magic_quotes_gpc()) {
 							$doing_sql = mysql_real_escape_string(stripslashes($doing));
 						} else {
@@ -265,7 +265,7 @@ class Standalone {
 						$t = time();
 						$source = 1;
 						$sql = "INSERT INTO babel_ing_update(ing_uid, ing_doing, ing_source, ing_created) VALUE({$this->User->usr_id}, '{$doing_sql}', $source, $t)";
-						mysql_unbuffered_query($sql);
+						mysql_unbuffered_query($sql) or die($sql . ':' . mysql_error());
 						return $this->URL->vxToRedirect($this->URL->vxGetIngPersonal($this->User->usr_nick));
 					} else {
 						return $this->URL->vxToRedirect($this->URL->vxGetIngPersonal($this->User->usr_nick));
@@ -924,6 +924,49 @@ class Standalone {
 			}
 		} else {
 			$this->URL->vxToRedirect($this->URL->vxGetLogin($this->URL->vxGetUserMove()));
+		}
+	}
+	
+	public function vxJavaScriptIngPersonal() {
+		if (isset($_GET['oe'])) {
+			$oe = strtolower(fetch_single($_GET['oe']));
+			if ($oe != 'gbk') {
+				$oe = 'utf-8';
+			}
+		} else {
+			$oe = "utf-8";
+		}
+		if ($oe != 'utf-8') {
+			header('Content-type: text/javascript; charset=gbk');
+		} else {
+			header('Content-type: text/javascript; charset=utf-8');
+		}
+		header('Cache-control: no-cache, must-revalidate');
+		if (isset($_GET['u'])) {
+			$user_nick = fetch_single($_GET['u']);
+			$User = $this->User->vxGetUserInfoByNick($user_nick);
+			if ($User) {
+				$sql = "SELECT ing_doing, ing_created FROM babel_ing_update WHERE ing_uid = {$User->usr_id} ORDER BY ing_created DESC LIMIT 1";
+				$rs = mysql_query($sql);
+				if (mysql_num_rows($rs) == 1) {
+					$_up = mysql_fetch_array($rs);
+					$doing = format_ubb($_up['ing_doing']);
+					$when = make_desc_time($_up['ing_created']) . ' ago';
+				} else {
+					$doing = '(void)';
+					$when = 'the moment';
+				}
+				$o = "document.writeln(\"<span style='color: \" + babel_ing_color_prefix + \";'>\" + babel_ing_prefix + \"</span> " . $doing . " <small style='font-size: 11px; color: \" + babel_ing_color_time + \";'>at " . $when .  " via <a href='http://" . BABEL_DNS_NAME . "/ing/" . $User->usr_nick_url . "' target='_blank'>" . Vocabulary::site_name . "::ING</a></small>\");";
+			} else {
+				$o = "document.writeln('<small style=\"font-size: 11px;\"><a href=\"http://" . BABEL_DNS_NAME . "/ing\" target=\"_blank\">" . Vocabulary::site_name . "::ING</a></small> 输出失败 - 指定的会员没有找到');";
+			}
+		} else {
+			$o = "document.writeln('<small style=\"font-size: 11px;\"><a href=\"http://" . BABEL_DNS_NAME . "/ing\" target=\"_blank\">" . Vocabulary::site_name . "::ING</a></small> 输出失败 - 没有指定会员昵称');";
+		}
+		if ($oe == 'utf-8') {
+			echo $o;
+		} else {
+			echo mb_convert_encoding($o, 'gbk', 'utf-8');
 		}
 	}
 	

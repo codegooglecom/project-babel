@@ -8445,6 +8445,56 @@ class Page {
 		echo('</div>');
 	}
 	
+	public function vxOutputJavaScriptIngPersonal() {
+		if (isset($_GET['u'])) {
+			$user_nick = fetch_single($_GET['u']);
+			$User = $this->User->vxGetUserInfoByNick($user_nick);
+			if (!$User) {
+				$User = $this->User->vxGetUserInfo(1);
+			}
+		} else {
+			$User = $this->User->vxGetUserInfo(1);
+		}
+		echo('<div id="single">');
+		echo('<div class="blank">');
+		_v_ico_silk('html');
+		echo(' JavaScript 输出我的 ING 中的最新活动');
+		_v_hr();
+		echo('你可以使用下面生成的这些 JavaScript 代码片段在你自己的网站上，展示你在 <a href="/ing/' . $User->usr_nick_url . '">' . Vocabulary::site_name . '::ING</a> 中的最新活动。根据你的网站编码类型，请选择 UTF-8 或者 GBK 编码的输出。<br /><br />');
+		_v_ico_silk('lightbulb');
+		echo(' 代码解释');
+		_v_hr();
+		echo('<blockquote style="white-space: pre; line-height: 16px; padding: 5px 0px 10px 10px; margin: 0px;">');
+		_v_ico_silk('bullet_blue');
+		echo(' <strong>babel_ing_prefix</strong>   前缀文字，比如“当前进行中”，“Currently”等<br />');
+		
+		_v_ico_silk('bullet_blue');
+		echo(' <strong>babel_ing_color_prefix</strong>   前缀文字颜色，请使用 CSS 颜色语法<br />');
+		
+		_v_ico_silk('bullet_blue');
+		echo(' <strong>babel_ing_color_time</strong>   时间戳颜色，请使用 CSS 颜色语法<br />');
+		echo('</blockquote>');
+		_v_ico_silk('control_play_blue');
+		echo(' 代码片段');
+		_v_hr();
+		echo('<h1>UTF-8 <span class="tip_i">适用于大部分网站</span></h1> ');
+		echo('<div class="code">&lt;script type="text/javascript"&gt;
+	babel_ing_prefix = "现在进行中:";
+	babel_ing_color_prefix = "#999";
+	babel_ing_color_time = "#999";
+&lt;/script&gt;
+&lt;script type="text/javascript" src="http://' . BABEL_DNS_NAME . '/js/ing/' . $User->usr_nick_url . '"&gt; &lt;/script&gt;</div>');
+		echo('<h1>GBK <span class="tip_i">适用于使用 GBK | GB2312 | GB18030 编码的网站</span></h1>');
+		echo('<div class="code">&lt;script type="text/javascript"&gt;
+	babel_ing_prefix = "现在进行中:";
+	babel_ing_color_prefix = "#999";
+	babel_ing_color_time = "#999";
+&lt;/script&gt;
+&lt;script type="text/javascript" src="http://' . BABEL_DNS_NAME . '/js/ing/' . $User->usr_nick_url . '/gbk"&gt; &lt;/script&gt;</div>');
+		echo('</div>');
+		echo('</div>');
+	}
+	
 	public function vxIngPublic() {
 		_v_ing_style_public();
 		_v_m_s();
@@ -8730,7 +8780,7 @@ class Page {
 			echo(' <a href="/feed/ing/' . $User->usr_nick_url . '">RSS / ' . $User->usr_nick_plain . ' 的最新状态</a>');
 			echo(' | ');
 			_v_ico_silk('html');
-			echo(' <a href="#;" onclick="">JavaScript 输出到你的网站</a>');
+			echo(' <a href="#;" onclick="openOJSIngPersonal(' . "'{$this->User->usr_nick_url}'" . ')">JavaScript 输出到你的网站</a>');
 			echo('</span>');
 		}
 		_v_d_e();

@@ -147,5 +147,9 @@ switch ($m) {
 	case 'erase_ing':
 		$s->vxEraseIng();
 		break;
+		
+	case 'js_ing_personal':
+		$s->vxJavaScriptIngPersonal();
+		break;
 }
 ?>
