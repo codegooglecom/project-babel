@@ -92,7 +92,7 @@ Project Babel 在 GPL 协议下发布，这意味着你可以自由地下载，�
 Project Babel 的项目控制站点及 Subversion repository 位于 <a href="http://code.google.com/p/project-babel" target="_blank">Google Code</a>，你可以使用很多 <a href="http://subversion.tigris.org/" target="_blank">Subversion</a> 客户端匿名 check out 最新的开发进展。这个版本中缺乏一些外部的依赖文件，如 <a href="http://pear.php.net/" target="_blank">PEAR</a> 和 <a href="http://framework.zend.com/" target="_blank">Zend Framework</a>，及一些必要的外部图片，因此，如果你使用这个版本安装，可能会有一定难度。<br /><br />
 
 <?php _v_ico_silk('bullet_go'); ?> <strong>Subversion Trunk</strong>
-<blockquote><span style="font-family: 'Courier New', mono, fixed;">svn co https://project-babel.googlecode.com/svn/trunk project-babel</span><br />
+<blockquote><span style="font-family: 'Courier New', mono, fixed;">svn co http://project-babel.googlecode.com/svn/trunk project-babel</span><br />
 安装说明及讨论:&nbsp;&nbsp;<a href="http://www.v2ex.com/topic/view/7856.html" target="_blank">http://www.v2ex.com/topic/view/7856.html</a>
 </blockquote>
 </div>
