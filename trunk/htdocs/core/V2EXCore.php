@@ -2361,25 +2361,53 @@ class Page {
 				
 				// get topics
 				$i = 0;
-				$sql = "SELECT DISTINCT tpc_id, tpc_uid, tpc_title, tpc_description, tpc_content, tpc_uid, tpc_lasttouched, usr_nick FROM babel_topic LEFT JOIN (babel_post, babel_user) ON (babel_topic.tpc_id = babel_post.pst_tid AND babel_topic.tpc_uid = babel_user.usr_id) WHERE (";
-				foreach ($query_task as $task) {
-					$task = mysql_real_escape_string($task, $this->db);
-					$i++;
-					if ($i == 1) {
-						$sql = $sql . '(';
-					} else {
+				
+				/* FIX: WHAT A DIRTY HACK! */
+				$mysql_ver = mysql_get_server_info();
+				$mysql_ver_major = intval(substr($mysql_ver, 0, 1));
+				if ($mysql_ver_major > 4) {
+					$sql = "SELECT DISTINCT tpc_id, tpc_uid, tpc_title, tpc_description, tpc_content, tpc_uid, tpc_lasttouched, usr_nick FROM babel_topic LEFT JOIN (babel_post, babel_user) ON (babel_topic.tpc_id = babel_post.pst_tid AND babel_topic.tpc_uid = babel_user.usr_id) WHERE (";
+					foreach ($query_task as $task) {
+						$task = mysql_real_escape_string($task, $this->db);
+						$i++;
+						if ($i == 1) {
+							$sql = $sql . '(';
+						} else {
+							$sql = $sql . ' OR (';
+						}
+						$sql = $sql . "tpc_title LIKE '%{$task}%'"; 
+						$sql = $sql . " OR tpc_description LIKE '%{$task}%'"; 
+						$sql = $sql . " OR tpc_content LIKE '%{$task}%'";
+						$sql = $sql . ')';
 						$sql = $sql . ' OR (';
+						$sql = $sql . "pst_content LIKE '%{$task}%'";
+						$sql = $sql . ')';
 					}
-					$sql = $sql . "tpc_title LIKE '%{$task}%'"; 
-					$sql = $sql . " OR tpc_description LIKE '%{$task}%'"; 
-					$sql = $sql . " OR tpc_content LIKE '%{$task}%'";
-					$sql = $sql . ')';
-					$sql = $sql . ' OR (';
-					$sql = $sql . "pst_content LIKE '%{$task}%'";
-					$sql = $sql . ')';
+					$sql = $sql . ")";
+					$sql = $sql . " ORDER BY tpc_created DESC";
+				} else {
+					$sql = "SELECT DISTINCT tpc_id, tpc_title, tpc_description, tpc_content, tpc_uid, tpc_lasttouched, usr_nick FROM babel_topic, babel_post, babel_user WHERE (";
+					foreach ($query_task as $task) {
+						$task = mysql_real_escape_string($task, $this->db);
+						$i++;
+						if ($i == 1) {
+							$sql = $sql . '(';
+						} else {
+							$sql = $sql . ' OR (';
+						}
+						$sql = $sql . "tpc_title LIKE '%{$task}%'"; 
+						$sql = $sql . " OR tpc_description LIKE '%{$task}%'"; 
+						$sql = $sql . " OR tpc_content LIKE '%{$task}%'";
+						$sql = $sql . ')';
+						$sql = $sql . ' OR (';
+						$sql = $sql . "pst_content LIKE '%{$task}%'";
+						$sql = $sql . ')';
+					}
+					$sql = $sql . ")";
+					$sql = $sql . " AND (tpc_uid = usr_id AND tpc_id = pst_tid)";
+					$sql = $sql . " ORDER BY tpc_created DESC";
 				}
-				$sql = $sql . ")";
-				$sql = $sql . " ORDER BY tpc_created DESC";
+				
 				$rs = mysql_query($sql, $this->db);
 				$count_matched = mysql_num_rows($rs);
 			
