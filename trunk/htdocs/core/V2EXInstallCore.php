@@ -553,6 +553,13 @@ $i->vxSetupBoard('python', 'Python', 3, 3, 1, 2, 'Happy Hacking!', 'Enjoy Life!'
 	$i->vxSetupChannelByName('python', 'http://www.python.org/channews.rdf');
 $i->vxSetupBoard('java', 'Java', 3, 3, 1, 2, 'Everywhere!', '');
 $i->vxSetupBoard('ideas', 'Ideas', 3, 3, 1, 2, '', '');
+$i->vxSetupBoard('pixel', '像素艺术', 3, 3, 1, 2, '', '');
+$i->vxSetupBoard('hosting', '寄托梦想', 3, 3, 1, 2, '<span class="tip_i">空间 - 域名 - 服务器 - 合租 | <a href="http://www.dreamhost.com/r.cgi?267137" target="_blank" class="t">DreamHost</a> | <a href="http://www.mediatemple.net/" target="_blank" class="t">(mt) Media Temple</a> | <a href="http://www.bluehost.com/track/livid/text1" class="t">Bluehost</a></span>', '<span class="tip_i"><a href="http://www.dreamhost.com/r.cgi?267137" target="_blank" class="t">DreamHost</a> | <a href="http://www.mediatemple.net/" target="_blank" class="t">(mt) Media Temple</a> | <a href="http://www.bluehost.com/track/livid/text1" class="t">Bluehost</a></span>');
+	$i->vxSetupRelatedByName('hosting', 'http://www.dreamhost.com/r.cgi?267137', 'DreamHost');
+	$i->vxSetupRelatedByName('hosting', 'http://www.bluehost.com/track/livid/text1', 'Bluehost');
+	$i->vxSetupRelatedByName('hosting', 'http://www.mediatemple.net/', '(mt) Media Temple');
+	$i->vxSetupChannelByName('hosting', 'http://www.dreamhoststatus.com/rss2/');
+	$i->vxSetupChannelByName('hosting', 'http://weblog.mediatemple.net/weblog/rss2/');
 $i->vxSetupBoard('startup', '互联网创业', 3, 3, 1, 2, '尽情讨论我们的发财计划吧，哈哈！', '');
 	$i->vxSetupChannelByName('startup', 'http://feed.feedsky.com/iblogbeta');
 	$i->vxSetupChannelByName('startup', 'http://feeds.feedburner.com/Wappblog');

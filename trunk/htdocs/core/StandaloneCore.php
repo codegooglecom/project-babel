@@ -944,21 +944,27 @@ class Standalone {
 		header('Cache-control: no-cache, must-revalidate');
 		if (isset($_GET['u'])) {
 			$user_nick = fetch_single($_GET['u']);
-			$User = $this->User->vxGetUserInfoByNick($user_nick);
-			if ($User) {
-				$sql = "SELECT ing_doing, ing_created FROM babel_ing_update WHERE ing_uid = {$User->usr_id} ORDER BY ing_created DESC LIMIT 1";
-				$rs = mysql_query($sql);
-				if (mysql_num_rows($rs) == 1) {
-					$_up = mysql_fetch_array($rs);
-					$doing = format_ubb($_up['ing_doing']);
-					$when = make_desc_time($_up['ing_created']) . ' ago';
-				} else {
-					$doing = '(void)';
-					$when = 'the moment';
-				}
-				$o = "document.writeln(\"<span style='color: \" + babel_ing_color_prefix + \";'>\" + babel_ing_prefix + \"</span> " . $doing . " <small style='font-size: 11px; color: \" + babel_ing_color_time + \";'>at " . $when .  " via <a href='http://" . BABEL_DNS_NAME . "/ing/" . $User->usr_nick_url . "' target='_blank'>" . Vocabulary::site_name . "::ING</a></small>\");";
+			$user_nick_md5 = md5($user_nick);
+			if ($o = $this->cs->get('babel_js_ing_' . $user_nick_md5)) {
+				// nothing to do here
 			} else {
-				$o = "document.writeln('<small style=\"font-size: 11px;\"><a href=\"http://" . BABEL_DNS_NAME . "/ing\" target=\"_blank\">" . Vocabulary::site_name . "::ING</a></small> 输出失败 - 指定的会员没有找到');";
+				$User = $this->User->vxGetUserInfoByNick($user_nick);
+				if ($User) {
+					$sql = "SELECT ing_doing, ing_created FROM babel_ing_update WHERE ing_uid = {$User->usr_id} ORDER BY ing_created DESC LIMIT 1";
+					$rs = mysql_query($sql);
+					if (mysql_num_rows($rs) == 1) {
+						$_up = mysql_fetch_array($rs);
+						$doing = format_ubb($_up['ing_doing']);
+						$when = make_desc_time($_up['ing_created']) . ' ago';
+					} else {
+						$doing = '(void)';
+						$when = 'the moment';
+					}
+					$o = "document.writeln(\"<span style='color: \" + babel_ing_color_prefix + \";'>\" + babel_ing_prefix + \"</span> " . $doing . " <small style='font-size: 11px; color: \" + babel_ing_color_time + \";'>at " . $when .  " via <a href='http://" . BABEL_DNS_NAME . "/ing/" . $User->usr_nick_url . "' target='_blank'>" . Vocabulary::site_name . "::ING</a></small>\");";
+				} else {
+					$o = "document.writeln('<small style=\"font-size: 11px;\"><a href=\"http://" . BABEL_DNS_NAME . "/ing\" target=\"_blank\">" . Vocabulary::site_name . "::ING</a></small> 输出失败 - 指定的会员没有找到');";
+				}
+				$this->cs->save($o, 'babel_js_ing_' . $user_nick_md5);
 			}
 		} else {
 			$o = "document.writeln('<small style=\"font-size: 11px;\"><a href=\"http://" . BABEL_DNS_NAME . "/ing\" target=\"_blank\">" . Vocabulary::site_name . "::ING</a></small> 输出失败 - 没有指定会员昵称');";

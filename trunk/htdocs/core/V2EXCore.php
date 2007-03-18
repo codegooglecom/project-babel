@@ -202,6 +202,7 @@ class Page {
 			$this->fav_count = $count_a['fav_count'];
 			$this->svp_count = $count_a['svp_count'];
 			$this->usr_count = $count_a['usr_count'];
+			$this->ing_count = $count_a['ing_count'];
 		} else {
 			$sql = "SELECT COUNT(pst_id) FROM babel_post";
 			$rs = mysql_query($sql, $this->db);
@@ -228,12 +229,18 @@ class Page {
 			$this->usr_count = mysql_result($rs, 0, 0);
 			mysql_free_result($rs);
 			
+			$sql = "SELECT COUNT(ing_id) FROM babel_ing_update";
+			$rs = mysql_query($sql, $this->db);
+			$this->ing_count = mysql_result($rs, 0, 0);
+			mysql_free_result($rs);
+			
 			$count_a = array();
 			$count_a['pst_count'] = $this->pst_count;
 			$count_a['tpc_count'] = $this->tpc_count;
 			$count_a['fav_count'] = $this->fav_count;
 			$count_a['svp_count'] = $this->svp_count;
 			$count_a['usr_count'] = $this->usr_count;
+			$count_a['ing_count'] = $this->ing_count;
 			
 			$this->cs->save(serialize($count_a), 'count');
 		}
@@ -874,6 +881,7 @@ class Page {
 			echo('<li>讨论 <small>' . ($this->tpc_count + $this->pst_count) . '</small></li>');
 			echo('<li>收藏 <small>' . $this->fav_count . '</small></li>');
 			echo('<li>据点 <small>' . $this->svp_count . '</small></li>');
+			echo('<li><a href="/ing">印迹</a> <small>' . $this->ing_count . '</small></li>');
 			echo('</ul></li>');
 		}
 		if ($_module_extra_links) {
@@ -1445,8 +1453,6 @@ class Page {
 			case 'online_view':
 				$_menu_options['modules']['friends'] = false;
 				$_menu_options['modules']['links'] = false;
-				$_menu_options['modules']['new_members'] = false;
-				$_menu_options['modules']['stats'] = false;
 				$this->vxSidebar();
 				$this->vxMenu($_menu_options);
 				$this->vxOnlineView();
@@ -3057,6 +3063,19 @@ class Page {
 		echo('</small></td></tr>');
 		echo('<tr><td colspan="2" align="left" class="section_even"><small><strong>Uptime</strong>: ');
 		echo $flag_win ? 'unknown' : shell_exec('uptime');
+		echo('</small></td></tr>');
+		echo('<tr><td colspan="2" align="left" class="section_odd"><small><strong>Server Memory Usage</strong>: ');
+		if (strtolower(PHP_OS) == 'linux') {
+			$mem_info = get_mem_info();
+			$mem_percent = $mem_info['used'] / $mem_info['total'];
+			$mem_width = floor(400 * $mem_percent);
+			echo($mem_info['used'] . ' kB / ' . $mem_info['total'] . ' kB');
+			echo('<div style="-moz-border-radius: 5px; margin-top: 10px; width: 400px; padding: 2px; border: 1px solid #CCC;">');
+			echo('<div style="width: ' . $mem_width . 'px; height: 10px; background-color: #33F; background-image: url(' . "'/img/fall_sky.gif'". ')"></div>');
+			echo('</div>');
+		} else {
+			echo('unknown');
+		}
 		echo('</small></td></tr>');
 		echo('</table>');
 		echo('</div>');
