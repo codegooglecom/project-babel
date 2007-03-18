@@ -53,6 +53,19 @@ function check_node_permission($node_id, $User, $restricted) {
 	}
 }
 
+function get_mem_info() {
+	$info = file_get_contents('/proc/meminfo');
+	preg_match('/MemTotal:([\s]+)([0-9]+) kB/i', $info, $z);
+	$mem_total = $z[2];
+	preg_match('/MemFree:([\s]+)([0-9]+) kB/i', $info, $z);
+	$mem_free = $z[2];
+	$mem_info = array();
+	$mem_info['total'] = intval($mem_total);
+	$mem_info['free'] = intval($mem_free);
+	$mem_info['used'] = intval($mem_total) - intval($mem_free);
+	return $mem_info;
+}
+
 // return: object
 function get_restricted($c) {
 	if ($o = $c->get('nodes_restricted')) {

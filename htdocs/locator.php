@@ -39,6 +39,12 @@ if (isset($_GET['go'])) {
 			die();
 		}
 		
+		if ($go == 'ing') {
+			$to = '/ing';
+			header('Location: ' . $to);
+			die();
+		}
+		
 		if ($go == 'expense' | $go == 'expenses' | $go == 'e') {
 			$to = '/expense/view.vx';
 			header('Location: ' . $to);
