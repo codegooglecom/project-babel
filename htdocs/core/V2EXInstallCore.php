@@ -677,6 +677,7 @@ $i->vxSetupBoard('stock', '证券投资', 4, 4, 1, 2, '', '');
 	$i->vxSetupRelatedByName('stock', 'http://www.gf.com.cn/', '广发证券');
 	$i->vxSetupRelatedByName('stock', 'http://www.jrj.com/', '金融界');
 	$i->vxSetupRelatedByName('stock', 'http://www.hexun.com/', '和讯');
+$i->vxSetupBoard('capitalism', '資本主義', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('money', '投资与理财', 4, 4, 1, 2, '', '');
 	$i->vxSetupRelatedByName('money', 'http://www.cmbchina.com/', '中国招商银行');
 	$i->vxSetupRelatedByName('money', 'http://www.cmbc.com.cn/', '中国民生银行');
