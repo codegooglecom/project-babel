@@ -654,7 +654,7 @@ class Page {
 		include(BABEL_PREFIX . '/res/google_search.php');
 		echo('</div>');
 		*/
-		echo('<div style="clear: both; height: 2px;">');
+		echo('<div style="clear: both; height: 2px;" />');
 	}
 	
 	public function vxTopV1($msgBanner = Vocabulary::site_banner, $keyword = '') {
@@ -1648,7 +1648,6 @@ class Page {
 			$o .= $this->vxHomeLatestTabs();
 		}
 		
-		
 		switch ($style) {
 			default:
 			case 'remix':
@@ -1798,6 +1797,22 @@ class Page {
 	public function vxHomeLatestTabs() {
 		$o = '<script src="/js/babel_home_tabs.js" type="text/javascript"> </script>';
 		$o .= '<div align="left" class="blank">';
+		
+		if ($_SESSION['babel_ua']['MSIE_DETECTED']) {
+			$o .= '<div style="float: right;">';
+			$o .= '<script type="text/javascript"><!--
+google_ad_client = "pub-9823529788289591";
+google_ad_width = 110;
+google_ad_height = 32;
+google_ad_format = "110x32_as_rimg";
+google_cpa_choice = "CAAQ_-KZzgEaCHfyBUS9wT0_KOP143Q";
+google_ad_channel = "";
+//-->
+</script>
+<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>';
+			$o .= '</div>';
+		}
 		
 		if ($this->User->vxIsLogin()) {
 			$img_p = $this->User->usr_portrait ? CDN_IMG . 'p/' . $this->User->usr_portrait . '_n.jpg' : CDN_IMG . 'p_' . $this->User->usr_gender . '_n.gif';
