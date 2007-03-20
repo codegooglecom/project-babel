@@ -71,6 +71,12 @@ function make_entry($base, $set, $entry, $output, $entries) {
 	$_final = str_replace('[content]', $_content, $_final);
 	$_final = str_replace('[built]', date('r', time()), $_final);
 	
+	if (MINT_LOCATION != '') {
+		$_final = str_replace('[mint]', '<script src="' . MINT_LOCATION . '" type="text/javascript"></script>', $_final);
+	} else {
+		$_final = str_replace('[mint]', '', $_final);
+	}
+	
 	$_w = file_put_contents($output . '/' . $_meta['title'] . '.html', $_final);
 	$f++;
 	fclose($_fh);
@@ -99,6 +105,13 @@ function make_set($entries, $set, $output) {
 	$_final = str_replace('[adsense-channel]', $set['adsense-channel'], $_final);
 	$_final = str_replace('[content]', $_content, $_final);
 	$_final = str_replace('[built]', date('r', time()), $_final);
+	
+	if (MINT_LOCATION != '') {
+		$_final = str_replace('[mint]', '<script src="' . MINT_LOCATION . '" type="text/javascript"></script>', $_final);
+	} else {
+		$_final = str_replace('[mint]', '', $_final);
+	}
+	
 	$_w = file_put_contents($output . '/index.html', $_final);
 	$f++;
 	
@@ -126,6 +139,13 @@ function make_site($site) {
 	$_final = str_replace('[adsense-channel]', $_site['adsense-channel'], $_final);
 	$_final = str_replace('[content]', $_content, $_final);
 	$_final = str_replace('[built]', date('r', time()), $_final);
+	
+	if (MINT_LOCATION != '') {
+		$_final = str_replace('[mint]', '<script src="' . MINT_LOCATION . '" type="text/javascript"></script>', $_final);
+	} else {
+		$_final = str_replace('[mint]', '', $_final);
+	}
+	
 	$_w = file_put_contents('./htdocs/index.html', $_final);
 	$f++;
 	

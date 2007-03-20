@@ -1,0 +1,32 @@
+title|how-to-disable-sendmail
+title-full|How to Disable Sendmail on FreeBSD
+writer-name|Livid
+writer-url|http://www.livid.cn/
+model|simple
+adsense-client|pub-9823529788289591
+adsense-channel|6370613572
+
+<p>Sometimes if you want to disable Sendmail on your FreeBSD server, you can try those two methods:
+</p>
+
+<p><ul>
+
+<li>If you don't want to restart your server (In case of emergency):<br /><br />
+<span style="font-family: Courier"># killall sendmail</span>
+</li>
+
+</ul></p>
+
+<p><ul>
+
+<li>If you want to disable Sendmail at the startup period, you'll need to add the following 4 lines to /etc/rc.conf :<br /><br />
+
+<span style="font-family: Courier; white-space: pre;">sendmail_enable="NONE"
+sendmail_submit_enable="NO"
+sendmail_outbound_enable="NO"
+sendmail_msp_queue_enable="NO"</span>
+<br /><br />
+And you'll need to restart your FreeBSD server.
+</li></ul>
+
+</p>

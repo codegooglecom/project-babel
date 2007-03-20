@@ -1,0 +1,17 @@
+title|v2ex-media-temple
+title-full|V2EX and (mt) Media Temple
+writer-name|Livid
+writer-url|http://www.livid.cn/
+model|simple
+adsense-client|pub-9823529788289591
+adsense-channel|6370613572
+
+<p>(mt) <a href="http://www.mediatemple.net/" target="_blank">Media Temple</a> 实在是太出色了。</p>
+
+<p>在这次 <a href="http://www.v2ex.com/" target="_blank">V2EX</a> 迁移的过程中，我一共向他们上过两个 support ticket，一个是让他们帮我打开 root 权限，另外一个是让他们帮安装 <a href="http://kb.mediatemple.net/article.php?id=098" target="_blank">Developer's Tools</a>。这两个 support ticket 都在非常短的时间内得到了回应，在第一个 ticket 的回应中，他们甚至给了我一个网站让我去检查我希望设置的 root 密码的强度，真是贴心。赞！赞！赞！</p>
+
+<p>在迁移顺利完成之后，<a href="http://www.v2ex.com/" target="_blank">V2EX</a> 的访问速度完全符合我的期望，无论是电信和网通的访问速度都能够让人满意！这是本次服务器迁移中最大的欣慰。</p>
+
+<p>我看了一下 server 的硬体规格，令我有些惊讶的是，这次在 <a href="http://www.mediatemple.net/" target="_blank">(mt)</a> 选择的 <a href="http://www.mediatemple.net/webhosting/dv/pricing.htm" target="_blank">(dv) Rage 3.0</a> hosting plan 用的 CPU 居然是最新的 Xeon 5140 2.33G，而且有两颗，这样就是说，<a href="http://www.v2ex.com/" target="_blank">V2EX</a> 现在跑在一台有 4 个最新的 Intel 处理核心的强大机器上，这实在是爽。这对于像 <a href="http://www.v2ex.com/go/babel" target="_blank">Project Babel</a> 这样的 CPU-intensive 应用实在是太美好了。</p>
+
+<p>如果你正在寻找可靠而高质量的 web hosting，那么我一定会向你全力推荐 <a href="http://www.mediatemple.net/" target="_blank">Media Temple</a>，这不仅是已经让 V2EX 运转得更好的选择，同时也是如 <a href="http://www.diesel.com/" target="_blank">Diesel</a>，<a href="http://www.starbucks.com/" target="_blank">Starbucks</a>，<a href="http://www.blitzagency.com/" target="_blank">BLITZ</a>，<a href="http://www.techcrunch.com/" target="_blank">TechCrunch</a> 和 <a href="http://www.zeldman.com/mediatemple/" target="_blank">Jeffrey Zeldman</a>（《网站重构》一书的作者，<a href="http://www.happycog.com/" target="_blank">Happy Cog</a> 的 founder）等共同的选择，你不会后悔的！</p>

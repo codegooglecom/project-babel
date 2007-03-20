@@ -1,0 +1,21 @@
+title|how-to-maintain-wordpress
+title-full|如何比较靠谱地维护 WordPress
+writer-name|Livid
+writer-url|http://www.livid.cn/
+model|simple
+adsense-client|pub-9823529788289591
+adsense-channel|6370613572
+
+<p>一些个人的小经验。</p>
+
+<p><ul>
+
+<li><a href="http://unknowngenius.com/blog/wordpress/spam-karma/" target="_blank">Spam Karma 2</a> 一定要装。</li>
+<li>文字的精髓在于文字，这也是一切要义的表达之根本，因此我觉得使用 <a href="http://www.livid.cn/immortal/" target="_blank">minimalism</a> 感觉的主题会更好。</li>
+
+<li>WordPress 的 Dashboard 依赖 Technorati 实现一些有趣的统计，比如 Incoming Links ，因此最好是在美国的服务器上安装 WordPress ，这样可以获得最稳定的性能。</li>
+<li>如果要详细统计访问量，那么 <a href="http://www8.v2ex.com/topic/view/3396.html" target="_blank">FireStats</a> 是最好的选择。或者就用 <a href="http://www.google.com/analytics/" target="_blank">Google Analytics</a>，不过就是不够实时。</li>
+<li><a href="http://www.wordpress.org/" target="_blank">WordPress</a> 官方的 themes 展览位于 <a href="http://themes.wordpress.net/" target="_blank">themes.wordpress.net</a> 。</li>
+<li>WordPress 的每次升级的时候，官方默认的两个 default themes 也会一并升级，因此高版本的 default themes 并不能适应低版本，升级数据库的操作很简单，执行一次 wp-admin/upgrade.php 然后按照提示就可以完成。</li>
+
+</ul></p>

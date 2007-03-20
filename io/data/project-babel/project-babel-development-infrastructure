@@ -1,0 +1,33 @@
+title|project-babel-development-infrastructure
+title-full|Project Babel Development Infrastructure
+writer-name|Livid
+writer-url|http://www.livid.cn/
+model|simple
+adsense-client|pub-9823529788289591
+adsense-channel|6370613572
+
+<p>目前 Project Babel 的大部分开发基础架构位于 Google 提供的各种服务上。</p>
+
+<p>其中 <a href="http://code.google.com/" target="_blank">Google Code</a> 提供了 Subversion，Wiki，Downloads，Issue Tracking 等功能。</p>
+
+<p><a href="http://code.google.com/p/project-babel" target="_blank">http://code.google.com/p/project-babel</a></p>
+
+<p>而 Google Groups 则提供了一些文档库的功能，Issue Tracking 和 Subversion 中的最新的变化都可以在以下两个 Google Group 中看到。</p>
+
+<p><a href="http://groups.google.com/group/v2ex-commit" target="_blank">http://groups.google.com/group/v2ex-commit</a></p>
+
+<p><a href="http://groups.google.com/group/v2ex-issue" target="_blank">http://groups.google.com/group/v2ex-issue</a></p>
+
+<p>在本地，Project Babel 的开发主要用到 4 台机器。</p>
+
+<p>destiny.trinity: 一台 PowerMac G5，主要用来做 coding 和各种图形相关的任务。</p>
+
+<p>lividot.trinity: 一台 PowerPC G4 iBook，主要用来做性能测试和文档，我经常用这台机器睡在床上写文档。</p>
+
+<p>pulse.trinity: 一台 IBM Z61t，主要用来做 Windows 下的各种兼容性测试。</p>
+
+<p>babel.trinity: 一台 Intel Mac Mini，用来做一些 cutting edge 试验。</p>
+
+<p>之前我也用过一些其他的开源项目平台，比如 Trac，SF 等，现在感觉还是 Google 做的是最好的。</p>
+
+<p>对了，V2EX 所在的服务器的名字叫 vik.trinity。</p>
