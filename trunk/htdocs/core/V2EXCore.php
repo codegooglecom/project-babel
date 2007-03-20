@@ -737,21 +737,21 @@ class Page {
 		if ($this->User->vxIsLogin()) {
 			echo('<div class="menu_inner" align="left"><ul class="menu">');
 		
-			echo('<li><img src="' . CDN_UI . 'img/icons/silk/email.png" align="absmiddle" />&nbsp;<a href="javascript:openMessage();" class="menu">我的消息');
+			echo('<li><img src="' . CDN_UI . 'img/icons/silk/email.png" align="absmiddle" />&nbsp;<a href="javascript:openMessage();">我的消息');
 			if ($this->p_msg_count > 0) {
 				echo(' <small class="fade">(' . $this->p_msg_count . ')</small>');
 			}
 			echo('</a></li>');
-			echo('<li><img src="' . CDN_UI . 'img/icons/silk/comments.png" align="absmiddle" />&nbsp;<a href="/topic/archive/user/' . urlencode($this->User->usr_nick) . '" class="menu">我创建的所有主题</a></li>');
-			echo('<li><img src="' . CDN_UI . 'img/icons/silk/hourglass.png" align="absmiddle" />&nbsp;<a href="/ing/' . urlencode($this->User->usr_nick) . '" class="menu">ING</a> <span class="tip_i"><small>alpha</small></span></li>');
-			echo('<li><img src="' . CDN_UI . 'img/icons/silk/clock.png" align="absmiddle">&nbsp;<a href="/zen/' . urlencode($this->User->usr_nick) . '" class="menu">ZEN</a> <span class="tip_i"><small>alpha</small></span></li>');
-			echo('<li><img src="' . CDN_UI . 'img/icons/silk/house.png" align="absmiddle" />&nbsp;<a href="/u/' . urlencode($this->User->usr_nick) . '" class="menu">我的 ' . Vocabulary::site_name . ' 主页</a></li>');
-			echo('<li><img src="' . CDN_UI . 'img/icons/silk/coins_delete.png" align="absmiddle" />&nbsp;<a href="/expense/view.vx" class="menu">消费记录</a></li>');
-			echo('<li><img src="' . CDN_UI . 'img/icons/silk/coins_add.png" align="absmiddle" />&nbsp;<a href="#;" class="menu" onclick="openTopWealth();">社区财富排行</a></li>');
-			echo('<li><img src="' . CDN_UI . 'img/icons/silk/world.png" align="absmiddle" />&nbsp;<a href="/geo/' . $this->User->usr_geo . '" class="menu">' . $this->Geo->map['name'][$this->User->usr_geo] . '</a> <span class="tip_i"><small>portal</small></span></li>');
+			echo('<li><img src="' . CDN_UI . 'img/icons/silk/comments.png" align="absmiddle" />&nbsp;<a href="/topic/archive/user/' . urlencode($this->User->usr_nick) . '">我创建的所有主题</a></li>');
+			echo('<li><img src="' . CDN_UI . 'img/icons/silk/hourglass.png" align="absmiddle" />&nbsp;<a href="/ing/' . urlencode($this->User->usr_nick) . '">ING</a> <span class="tip_i"><small>alpha</small></span></li>');
+			echo('<li><img src="' . CDN_UI . 'img/icons/silk/clock.png" align="absmiddle">&nbsp;<a href="/zen/' . urlencode($this->User->usr_nick) . '">ZEN</a> <span class="tip_i"><small>alpha</small></span></li>');
+			echo('<li><img src="' . CDN_UI . 'img/icons/silk/house.png" align="absmiddle" />&nbsp;<a href="/u/' . urlencode($this->User->usr_nick) . '">我的 ' . Vocabulary::site_name . ' 主页</a></li>');
+			echo('<li><img src="' . CDN_UI . 'img/icons/silk/coins_delete.png" align="absmiddle" />&nbsp;<a href="/expense/view.vx">消费记录</a></li>');
+			echo('<li><img src="' . CDN_UI . 'img/icons/silk/coins_add.png" align="absmiddle" />&nbsp;<a href="#;" onclick="openTopWealth();">社区财富排行</a></li>');
+			echo('<li><img src="' . CDN_UI . 'img/icons/silk/world.png" align="absmiddle" />&nbsp;<a href="/geo/' . $this->User->usr_geo . '">' . $this->Geo->map['name'][$this->User->usr_geo] . '</a> <span class="tip_i"><small>portal</small></span></li>');
 			echo('<li>');
 			_v_hr();
-			echo('<img src="' . CDN_UI . 'img/icons/silk/key_go.png" align="absmiddle" /> <a href="/logout" class="menu">' . $this->lang->logout() . '</a></li>');
+			echo('<img src="' . CDN_UI . 'img/icons/silk/key_go.png" align="absmiddle" /> <a href="/logout">' . $this->lang->logout() . '</a></li>');
 			echo('</ul></div>');
 		}
 		if ($this->User->vxIsLogin() && $_module_fav) {
@@ -767,7 +767,7 @@ class Page {
 				if (count($_favs) > 0) {
 					echo('<div class="menu_fav" align="left">');
 					echo($fimg);
-					echo(' <a href="/topic/favorite.vx" class="menu">我的收藏夹</a><table width="99%" cellpadding="0" cellspacing="0" border="0" class="fav">');
+					echo(' <a href="/topic/favorite.vx">我的收藏夹</a><table width="99%" cellpadding="0" cellspacing="0" border="0" class="fav">');
 					foreach ($_favs as $Fav) {
 						switch ($Fav->fav_type) {
 							case 1:
@@ -783,7 +783,7 @@ class Page {
 				} else {
 					echo('<div class="menu_fav" align="left">');
 					echo($fimg);
-					echo(' <a href="/topic/favorite.vx" class="menu">我的收藏夹</a></div>');
+					echo(' <a href="/topic/favorite.vx">我的收藏夹</a></div>');
 				}
 			} else {
 				$sql = "SELECT fav_title, fav_res, fav_type FROM babel_favorite WHERE fav_uid = {$this->User->usr_id} AND fav_type IN (1,2) ORDER BY fav_created DESC";
@@ -793,7 +793,7 @@ class Page {
 				if ($my_fav_nodes > 0) {
 					echo('<div class="menu_fav" align="left">');
 					echo($fimg);
-					echo(' <a href="/topic/favorite.vx" class="menu">我的收藏夹</a><table width="99%" cellpadding="0" cellspacing="0" border="0" class="fav">');
+					echo(' <a href="/topic/favorite.vx">我的收藏夹</a><table width="99%" cellpadding="0" cellspacing="0" border="0" class="fav">');
 					while ($Fav = mysql_fetch_object($rs)) {
 						switch ($Fav->fav_type) {
 							case 1:
@@ -810,7 +810,7 @@ class Page {
 				} else {
 					echo('<div class="menu_fav" align="left">');
 					echo($fimg);
-					echo(' <a href="/topic/favorite.vx" class="menu">我的收藏夹</a></div>');
+					echo(' <a href="/topic/favorite.vx">我的收藏夹</a></div>');
 				}
 				$this->cs->save(serialize($_favs), 'user_favs_' . $this->User->usr_id);
 				mysql_free_result($rs);
@@ -843,10 +843,10 @@ class Page {
 		}
 		
 		echo('<div class="menu_inner" align="left"><ul class="menu">');
-		echo('<li><img src="' . CDN_UI . 'img/icons/silk/zoom.png" align="absmiddle" />&nbsp;<a href="/search.vx" class="menu">搜索</a></li>');
-		echo('<li><img src="' . CDN_UI . 'img/icons/silk/feed.png" align="absmiddle" />&nbsp;<a href="' . BABEL_FEED_URL . '" class="menu" target="_blank">RSS 种子输出</a></li>');
-		echo('<li><img src="' . CDN_UI . 'img/icons/silk/weather_sun.png" align="absmiddle" />&nbsp;<a href="/topic/fresh.html" class="menu">最新 virgin 主题</a></li>');
-		echo('<li><img src="' . CDN_UI . 'img/icons/silk/award_star_gold_1.png" align="absmiddle" />&nbsp;<a href="/topic/top.html" class="menu">' . Vocabulary::term_toptopic . '</a></li>');
+		echo('<li><img src="' . CDN_UI . 'img/icons/silk/zoom.png" align="absmiddle" />&nbsp;<a href="/search.vx">搜索</a></li>');
+		echo('<li><img src="' . CDN_UI . 'img/icons/silk/feed.png" align="absmiddle" />&nbsp;<a href="' . BABEL_FEED_URL . '" target="_blank">RSS 种子输出</a></li>');
+		echo('<li><img src="' . CDN_UI . 'img/icons/silk/weather_sun.png" align="absmiddle" />&nbsp;<a href="/topic/fresh.html">最新 virgin 主题</a></li>');
+		echo('<li><img src="' . CDN_UI . 'img/icons/silk/award_star_gold_1.png" align="absmiddle" />&nbsp;<a href="/topic/top.html">' . Vocabulary::term_toptopic . '</a></li>');
 		if ($_module_new_members) {
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/user_add.png" align="absmiddle" />&nbsp;最新注册会员<ul class="items">');
 			$sql = 'SELECT usr_id, usr_nick, usr_gender, usr_portrait, usr_created FROM babel_user ORDER BY usr_created DESC LIMIT 5';
@@ -861,7 +861,7 @@ class Page {
 			echo('</ul></li>');
 		}
 		if ($_module_online) {
-			echo('<li><img src="' . CDN_UI . 'img/icons/silk/user_comment.png" align="absmiddle" />&nbsp;<a href="/online/view.vx" class="menu">在线总数 <small>' . $this->online_count . '</small></a><ul class="items">');
+			echo('<li><img src="' . CDN_UI . 'img/icons/silk/user_comment.png" align="absmiddle" />&nbsp;<a href="/online/view.vx">在线总数 <small>' . $this->online_count . '</small></a><ul class="items">');
 			echo('<li>游客 <small>' . $this->online_count_anon . '</small></li>');
 			echo('<li>注册会员 <small>' . $this->online_count_reg . '</small></li></ul></li>');
 		}
@@ -869,15 +869,15 @@ class Page {
 			echo('<li><img src="' . CDN_IMG . 'pico_web.gif" align="absmiddle" />&nbsp;友情链接<ul class="items">');
 			$x = simplexml_load_file(BABEL_PREFIX . '/res/links.xml');
 			foreach ($x->xpath('//link') as $link) {
-				echo '<li><a href="' . $link->url . '" target="_blank" class="menu">' . $link->name . '</a></li>';
+				echo '<li><a href="' . $link->url . '" target="_blank">' . $link->name . '</a></li>';
 			}
 			echo('</ul></li>');
 		} */
 		if ($_module_logins) {
-			echo('<li><img src="' . CDN_UI . 'img/icons/silk/user_go.png" align="absmiddle" />&nbsp;<a href="/user/logins.html" class="menu">' . Vocabulary::term_userlogins . '</a></li>');
+			echo('<li><img src="' . CDN_UI . 'img/icons/silk/user_go.png" align="absmiddle" />&nbsp;<a href="/user/logins.html">' . Vocabulary::term_userlogins . '</a></li>');
 		}
 		if ($_module_stats) {
-			echo('<li><img src="' . CDN_UI . 'img/icons/silk/user_gray.png" align="absmiddle" />&nbsp;<a href="/who/join.html" class="menu">注册会员总数</a> <a href="/who/join.html" class="t"><small>' . $this->usr_count . '</small></a><ul class="items">');
+			echo('<li><img src="' . CDN_UI . 'img/icons/silk/user_gray.png" align="absmiddle" />&nbsp;<a href="/who/join.html">注册会员总数</a> <a href="/who/join.html" class="t"><small>' . $this->usr_count . '</small></a><ul class="items">');
 			echo('<li>讨论 <small>' . ($this->tpc_count + $this->pst_count) . '</small></li>');
 			echo('<li>收藏 <small>' . $this->fav_count . '</small></li>');
 			echo('<li>据点 <small>' . $this->svp_count . '</small></li>');
@@ -885,10 +885,10 @@ class Page {
 			echo('</ul></li>');
 		}
 		if ($_module_extra_links) {
-			echo('<li><img src="' . CDN_UI . 'img/icons/silk/cog_go.png" align="absmiddle" />&nbsp;<a href="/remix/babel" class="menu" target="_self"><small>Developer Zone</small></a></li>');
-			echo('<li><img src="' . CDN_UI . 'img/icons/silk/cog_go.png" align="absmiddle" />&nbsp;<small><a href="http://technorati.com/claim/5qwbf37cs2" class="menu" rel="me">Technorati Profile</a></small></li>');
+			echo('<li><img src="' . CDN_UI . 'img/icons/silk/cog_go.png" align="absmiddle" />&nbsp;<a href="/remix/babel" target="_self"><small>Developer Zone</small></a></li>');
+			echo('<li><img src="' . CDN_UI . 'img/icons/silk/cog_go.png" align="absmiddle" />&nbsp;<small><a href="http://technorati.com/claim/5qwbf37cs2" rel="me">Technorati Profile</a></small></li>');
 			if ($this->User->usr_id == 1) {
-				echo('<li><img src="' . CDN_UI . 'img/icons/silk/cog_go.png" align="absmiddle" />&nbsp;<a href="/status.vx" class="menu" target="_self"><small>System Status</small></a></li>');
+				echo('<li><img src="' . CDN_UI . 'img/icons/silk/cog_go.png" align="absmiddle" />&nbsp;<a href="/status.vx" target="_self"><small>System Status</small></a></li>');
 			}
 		}
 		
