@@ -845,6 +845,7 @@ $i->vxSetupBoard('delicious', '美食 . 好酒 . 生活', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('travel', '龙门客栈', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('dnd', '龙与地下城', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('jobs', '我要找份好工作', 4, 4, 1, 2, '', '');
+$i->vxSetupBoard('sales', '销售经验交流', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('bulaoge', '不老歌', 4, 4, 1, 2, '', '');
 	$i->vxSetupRelatedByName('bulaoge', 'http://www.bulaoge.com/', '不老歌');
 	$i->vxSetupChannelByName('bulaoge', 'http://bulaoge.com/rss2.blg?uid=2');
