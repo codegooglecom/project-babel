@@ -33,7 +33,9 @@
 
 if (V2EX_BABEL == 1) {
 	/* The most important file */
-	require('core/Settings.php');
+	require_once('core/Settings.php');
+	require_once('core/Limits.php');
+	require_once('core/Features.php');
 	
 	/* 3rdparty PEAR cores */
 	ini_set('include_path', BABEL_PREFIX . DIRECTORY_SEPARATOR . 'libs' . DIRECTORY_SEPARATOR . 'pear' . PATH_SEPARATOR . ini_get('include_path'));
@@ -3790,55 +3792,44 @@ google_ad_channel = "";
 		
 		echo('<tr><td colspan="2" align="center" class="section_odd"><span class="tip_i"><img src="' . CDN_UI . 'img/icons/silk/hourglass.png" align="absmiddle" alt="ING" />&nbsp;<a href="/ing/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">' . $O->usr_nick . ' 的 ING</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/clock.png" align="absmiddle" alt="ZEN" />&nbsp;<a href="/zen/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">' . $O->usr_nick . ' 的 ZEN</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/comments.png" alt="Topics" align="absmiddle" />&nbsp;<a href="/topic/archive/user/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">' . $O->usr_nick . ' 的所有主题</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/heart_add.png" align="absmiddle" />&nbsp;<a href="/who/connect/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">谁把 ' . $O->usr_nick . ' 加为好友</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/feed.png" align="absmiddle" alt="RSS" />&nbsp;<a href="/feed/user/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . '">RSS 种子输出</a></span></tr>');
 		
-		echo('<tr><td colspan="2" align="left" class="section_odd"><span class="text_large"><img src="/img/ico_savepoint.gif" align="absmiddle" class="home" />' . $O->usr_nick . ' 的网上据点<a name="svp" /></span></td></tr>');
-		
-		$msgs = array(0 => '新据点添加失败，你可以再试一次，或者是到 <a href="/go/babel">Developer Corner</a> 向我们报告错误', 1 => '新据点添加成功', 2 => '你刚才想添加的据点已经存在于你的列表中', 3 => '目前，每个人只能添加至多 ' . BABEL_SVP_LIMIT . ' 个据点，你可以试着删除掉一些过去添加的，我们正在扩展系统的能力以支持更多的据点', 4 => '要删除的据点不存在', 5 => '你不能删除别人的据点', 6 => '据点删除成功', 7 => '据点删除失败，你可以再试一次，或者是到 <a href="/go/babel">Developer Corner</a> 向我们报告错误', 9 => '不需要输入前面的 http:// 协议名称，直接添加网址就可以了，比如 www.livid.cn 这样的地址');
-		
-		if (isset($_GET['msg'])) {
-			echo('<tr><td colspan="2" class="section_odd"><div class="notify">');
-			$msg = intval($_GET['msg']);
-			switch ($msg) {
-				case 0:
-					echo $msgs[0];
-					break;
-				case 1:
-					echo $msgs[1];
-					break;
-				case 2:
-					echo $msgs[2];
-					break;
-				case 3:
-					echo $msgs[3];
-					break;
-				case 4:
-					echo $msgs[4];
-					break;
-				case 5:
-					echo $msgs[5];
-					break;
-				case 6:
-					echo $msgs[6];
-					break;
-				case 7:
-					echo $msgs[7];
-					break;
-				default:
-					echo $msgs[9];
-					break;
-			}
-			echo('</div></td></tr>');
-			$savepoints = array();
-			$sql = "SELECT svp_id, svp_url, svp_rank FROM babel_savepoint WHERE svp_uid = {$O->usr_id} ORDER BY svp_url";
-			$rs = mysql_query($sql, $this->db);
-			while ($Savepoint = mysql_fetch_object($rs)) {
-				$savepoints[$Savepoint->svp_id] = $Savepoint;
-			}
-			mysql_free_result($rs);
-			$this->cs->save(serialize($savepoints), 'babel_user_savepoints_' . $O->usr_nick);		
-		} else {
-			if ($savepoints = $this->cs->get('babel_user_savepoints_' . $O->usr_nick)) {
-				$savepoints = unserialize($savepoints);
-			} else {
+		if (BABEL_FEATURE_USER_COMPONENTS) {
+			echo('<tr><td colspan="2" align="left" class="section_odd"><span class="text_large"><img src="/img/ico_savepoint.gif" align="absmiddle" class="home" />' . $O->usr_nick . ' 的网上据点<a name="svp" /></span></td></tr>');
+			
+			$msgs = array(0 => '新据点添加失败，你可以再试一次，或者是到 <a href="/go/babel">Developer Corner</a> 向我们报告错误', 1 => '新据点添加成功', 2 => '你刚才想添加的据点已经存在于你的列表中', 3 => '目前，每个人只能添加至多 ' . BABEL_SVP_LIMIT . ' 个据点，你可以试着删除掉一些过去添加的，我们正在扩展系统的能力以支持更多的据点', 4 => '要删除的据点不存在', 5 => '你不能删除别人的据点', 6 => '据点删除成功', 7 => '据点删除失败，你可以再试一次，或者是到 <a href="/go/babel">Developer Corner</a> 向我们报告错误', 9 => '不需要输入前面的 http:// 协议名称，直接添加网址就可以了，比如 www.livid.cn 这样的地址');
+			
+			if (isset($_GET['msg'])) {
+				echo('<tr><td colspan="2" class="section_odd"><div class="notify">');
+				$msg = intval($_GET['msg']);
+				switch ($msg) {
+					case 0:
+						echo $msgs[0];
+						break;
+					case 1:
+						echo $msgs[1];
+						break;
+					case 2:
+						echo $msgs[2];
+						break;
+					case 3:
+						echo $msgs[3];
+						break;
+					case 4:
+						echo $msgs[4];
+						break;
+					case 5:
+						echo $msgs[5];
+						break;
+					case 6:
+						echo $msgs[6];
+						break;
+					case 7:
+						echo $msgs[7];
+						break;
+					default:
+						echo $msgs[9];
+						break;
+				}
+				echo('</div></td></tr>');
 				$savepoints = array();
 				$sql = "SELECT svp_id, svp_url, svp_rank FROM babel_savepoint WHERE svp_uid = {$O->usr_id} ORDER BY svp_url";
 				$rs = mysql_query($sql, $this->db);
@@ -3846,29 +3837,42 @@ google_ad_channel = "";
 					$savepoints[$Savepoint->svp_id] = $Savepoint;
 				}
 				mysql_free_result($rs);
-				$this->cs->save(serialize($savepoints), 'babel_user_savepoints_' . $O->usr_nick);
+				$this->cs->save(serialize($savepoints), 'babel_user_savepoints_' . $O->usr_nick);		
+			} else {
+				if ($savepoints = $this->cs->get('babel_user_savepoints_' . $O->usr_nick)) {
+					$savepoints = unserialize($savepoints);
+				} else {
+					$savepoints = array();
+					$sql = "SELECT svp_id, svp_url, svp_rank FROM babel_savepoint WHERE svp_uid = {$O->usr_id} ORDER BY svp_url";
+					$rs = mysql_query($sql, $this->db);
+					while ($Savepoint = mysql_fetch_object($rs)) {
+						$savepoints[$Savepoint->svp_id] = $Savepoint;
+					}
+					mysql_free_result($rs);
+					$this->cs->save(serialize($savepoints), 'babel_user_savepoints_' . $O->usr_nick);
+				}
 			}
-		}
-		
-		$i = 0;
-		foreach ($savepoints as $svp_id => $S) {
-			$i++;
-			$css_color = rand_color();
-			$css_class = $i % 2 ? 'section_even' : 'section_odd';
-			$o = $this->Validator->vxGetURLHost($S->svp_url);
-			echo('<tr><td colspan="2" align="left" class="' . $css_class . '"><span class="svp"><img src="' . CDN_UI . 'img/fico_' . $o['type'] . '.gif" align="absmiddle" />&nbsp;&nbsp;<a href="http://' . htmlspecialchars(strip_quotes($S->svp_url)) . '" target="_blank" rel="external nofollow" style="color: ' . $css_color . '" class="var">http://' . htmlspecialchars(strip_quotes($S->svp_url)) . '</a>&nbsp;&nbsp;</span>');
-			if ($this->User->usr_id == $O->usr_id) {
-				echo('<span class="tip_i"> ... <a href="/savepoint/erase/' . $S->svp_id . '.vx" class="g">X</a></span>');
+			
+			$i = 0;
+			foreach ($savepoints as $svp_id => $S) {
+				$i++;
+				$css_color = rand_color();
+				$css_class = $i % 2 ? 'section_even' : 'section_odd';
+				$o = $this->Validator->vxGetURLHost($S->svp_url);
+				echo('<tr><td colspan="2" align="left" class="' . $css_class . '"><span class="svp"><img src="' . CDN_UI . 'img/fico_' . $o['type'] . '.gif" align="absmiddle" />&nbsp;&nbsp;<a href="http://' . htmlspecialchars(strip_quotes($S->svp_url)) . '" target="_blank" rel="external nofollow" style="color: ' . $css_color . '" class="var">http://' . htmlspecialchars(strip_quotes($S->svp_url)) . '</a>&nbsp;&nbsp;</span>');
+				if ($this->User->usr_id == $O->usr_id) {
+					echo('<span class="tip_i"> ... <a href="/savepoint/erase/' . $S->svp_id . '.vx" class="g">X</a></span>');
+				}
+				echo('</td></tr>');
 			}
-			echo('</td></tr>');
-		}
-
-		if ($this->User->vxIsLogin() && $this->User->usr_id == $O->usr_id) {
-			$i++;
-			$css_class = $i % 2 ? 'section_even' : 'section_odd';
-			echo('<form action="/recv/savepoint.vx" method="post"><tr><td colspan="2" align="left" class="' . $css_class . '">你可以为自己添加一个新的网上据点&nbsp;&nbsp;<span class="tip_i">http://&nbsp;<input type="text" onmouseover="this.focus();" name="url" class="sll" />&nbsp;&nbsp;<input type="image" align="absmiddle" src="/img/silver/sbtn_add.gif" /></span><div class="notify" style="margin-top: 5px;">');
-			echo $msgs[9];
-			echo('</div></td></tr></form>');
+	
+			if ($this->User->vxIsLogin() && $this->User->usr_id == $O->usr_id) {
+				$i++;
+				$css_class = $i % 2 ? 'section_even' : 'section_odd';
+				echo('<form action="/recv/savepoint.vx" method="post"><tr><td colspan="2" align="left" class="' . $css_class . '">你可以为自己添加一个新的网上据点&nbsp;&nbsp;<span class="tip_i">http://&nbsp;<input type="text" onmouseover="this.focus();" name="url" class="sll" />&nbsp;&nbsp;<input type="image" align="absmiddle" src="/img/silver/sbtn_add.gif" /></span><div class="notify" style="margin-top: 5px;">');
+				echo $msgs[9];
+				echo('</div></td></tr></form>');
+			}
 		}
 		
 		echo('<tr><td colspan="2" align="left" class="section_odd"><span class="text_large"><img src="/img/ico_friends.gif" align="absmiddle" class="home" />' . $O->usr_nick . ' 的朋友们</span>');
@@ -4025,35 +4029,35 @@ google_ad_channel = "";
 		
 		echo('</table>');
 		echo('</td></tr>');
-		
-		echo('<tr><td colspan="2" align="left" class="section_odd"><span class="text_large"><img src="/img/ico_cc.gif" align="absmiddle" class="home"/>' . $O->usr_nick . ' 的成分分析</span>');
-		echo('</td></tr>');
-		
-		if ($c = $this->cl->load('cc_' . $O->usr_id)) {
-			$c = unserialize($c);
-		} else {
-			$f = new Fun();
-			$c = $f->vxGetComponents($O->usr_nick);
-			$f = null;
-			$this->cl->save(serialize($c), 'cc_' . $O->usr_id);
+		if (BABEL_FEATURE_USER_COMPONENTS) {
+			echo('<tr><td colspan="2" align="left" class="section_odd"><span class="text_large"><img src="/img/ico_cc.gif" align="absmiddle" class="home"/>' . $O->usr_nick . ' 的成分分析</span>');
+			echo('</td></tr>');
+			
+			if ($c = $this->cl->load('cc_' . $O->usr_id)) {
+				$c = unserialize($c);
+			} else {
+				$f = new Fun();
+				$c = $f->vxGetComponents($O->usr_nick);
+				$f = null;
+				$this->cl->save(serialize($c), 'cc_' . $O->usr_id);
+			}
+	
+			echo('<tr><td colspan="2" align="left" class="section_odd">');
+			
+			echo('<ul class="items">');
+			foreach($c['c'] as $C) {
+				echo('<li>' . $C . '</li>');
+			}
+			echo('</ul>');
+			
+			echo('</td></tr>');
+			
+			echo('<tr><td colspan="2" align="left" class="section_even" style="padding-left: 20px;">');
+			
+			echo('<span class="tip">' . $c['s'] . '</span>');
+			
+			echo('</td></tr>');
 		}
-
-		echo('<tr><td colspan="2" align="left" class="section_odd">');
-		
-		echo('<ul class="items">');
-		foreach($c['c'] as $C) {
-			echo('<li>' . $C . '</li>');
-		}
-		echo('</ul>');
-		
-		echo('</td></tr>');
-		
-		echo('<tr><td colspan="2" align="left" class="section_even" style="padding-left: 20px;">');
-		
-		echo('<span class="tip">' . $c['s'] . '</span>');
-		
-		echo('</td></tr>');
-		
 		echo('<tr><td colspan="2" align="left" class="section_odd"><span class="tip"><img src="/img/icons/silk/user_go.png" align="absmiddle" /> ' . make_plaintext($O->usr_nick) . ' 的最后登录时间 ' . date('Y-n-j G:i:s', $O->usr_lastlogin) . '，总登录次数 ' . $O->usr_logins . ' 次。</span></td></tr>');
 		if ($O->usr_lastlogin_ua != '') {
 			echo('<tr><td colspan="2" align="left" class="section_odd"><span class="tip_i"><img src="/img/icons/silk/computer.png" align="absmiddle" /> 上次访问时所用浏览器 <small>' . make_plaintext($O->usr_lastlogin_ua) . '</small></span></td></tr>');
