@@ -1,0 +1,3 @@
+<?php
+define('BABEL_LIMIT_TOPIC_LENGTH', 10240);
+?>

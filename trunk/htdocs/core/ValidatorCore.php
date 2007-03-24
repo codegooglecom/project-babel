@@ -1737,7 +1737,7 @@ class Validator {
 			$rt['tpc_content_value'] = make_multi_safe($_POST['tpc_content']);
 			$rt['tpc_content_length'] = mb_strlen($rt['tpc_content_value'], 'UTF-8');
 			if ($rt['tpc_content_length'] > 0) {
-				if ($rt['tpc_content_length'] > 10240) {
+				if ($rt['tpc_content_length'] > BABEL_LIMIT_TOPIC_LENGTH) {
 					$rt['tpc_content_error'] = 2;
 					$rt['errors']++;
 				}
@@ -1826,7 +1826,7 @@ class Validator {
 		$rt['tpc_content_value'] = $tpc_content;
 		$rt['tpc_content_length'] = mb_strlen($rt['tpc_content_value'], 'UTF-8');
 		if ($rt['tpc_content_length'] > 0) {
-			if ($rt['tpc_content_length'] > 10240) {
+			if ($rt['tpc_content_length'] > BABEL_LIMIT_TOPIC_LENGTH) {
 				$rt['tpc_content_error'] = 2;
 				$rt['errors']++;
 			}
@@ -1937,7 +1937,7 @@ class Validator {
 			$rt['tpc_content_value'] = make_multi_safe($_POST['tpc_content']);
 			$rt['tpc_content_length'] = mb_strlen($rt['tpc_content_value'], 'UTF-8');
 			if ($rt['tpc_content_length'] > 0) {
-				if ($rt['tpc_content_length'] > 10240) {
+				if ($rt['tpc_content_length'] > BABEL_LIMIT_TOPIC_LENGTH) {
 					$rt['tpc_content_error'] = 2;
 					$rt['errors']++;
 				}
