@@ -1524,13 +1524,7 @@ class Page {
 				$this->vxMenu($_menu_options);
 				$this->vxProjectView($options);
 				break;
-				
-			case 'ing_public':
-				$this->vxSidebar($show = false);
-				$this->vxMenu();
-				$this->vxIngPublic();
-				break;
-				
+	
 			case 'ing_personal':
 				$_menu_options['modules']['new_members'] = false;
 				$_menu_options['modules']['friends'] = false;
@@ -3018,7 +3012,11 @@ google_ad_channel = "";
 		
 		echo('<table ' . $hack_width . 'cellpadding="0" cellspacing="0" border="0" class="fav">');
 		
-		echo('<tr><td colspan="2" align="left"><span class="text_large"><img src="' . CDN_IMG . 'ico_db.gif" align="absmiddle" class="home" />数据库子系统 MySQL ' . mysql_get_server_info($this->db) . '</span></td></tr>');
+		echo('<tr><td colspan="2" align="left" class="section_even"><span class="text"><small>');
+		_v_ico_silk('computer');
+		echo(' ' . $_SERVER['HTTP_USER_AGENT'] . '</small></span></td></tr>');
+		
+		echo('<tr><td colspan="2" align="left" class="section_odd"><span class="text_large"><img src="' . CDN_IMG . 'ico_db.gif" align="absmiddle" class="home" />数据库子系统 MySQL ' . mysql_get_server_info($this->db) . '</span></td></tr>');
 		
 		echo('<tr><td colspan="2" align="left"><span class="tip">数据库系统信息</span></td></tr>');
 		
@@ -8611,7 +8609,7 @@ google_ad_channel = "";
 			$css_class = $i % 2 == 0 ? 'even' : 'odd';
 			$img_p = $_up['usr_portrait'] ? CDN_IMG . 'p/' . $_up['usr_portrait'] . '_s.jpg' : CDN_IMG . 'p_' . $_up['usr_gender'] . '_s.gif';
 			echo('<div style="min-width: 500px;" class="entry_' . $css_class . '">');
-			echo('<img src="' . $img_p . '" align="absmiddle" alt="' . make_single_return($_up['usr_nick']) . '" class="portrait" /> ');
+			echo('<a href="/ing-' . $_up['ing_id'] . '.html"><img src="' . $img_p . '" align="absmiddle" alt="' . make_single_return($_up['usr_nick']) . '" class="portrait" border="0" /></a> ');
 			echo('<a href="/u/' . urlencode($_up['usr_nick']) . '" class="t">' . make_plaintext($_up['usr_nick']) . '</a> ');
 			echo(format_ubb(trim($_up['ing_doing'])) . ' <span class="tip_i">' . make_descriptive_time($_up['ing_created']) . '</span> <span class="tip"><small>from ' . $_sources[$_up['ing_source']] . '</small></span> ');
 			if ($_up['usr_id'] == $this->User->usr_id) {

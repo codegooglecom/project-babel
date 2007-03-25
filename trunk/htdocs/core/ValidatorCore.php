@@ -681,6 +681,21 @@ class Validator {
 			$o['KHTML_DETECTED'] = 1;
 			return $o;
 		}
+		
+		/* Shiira (WebKit based)
+		 * Example: Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/419 (KHTML, like Gecko) Shiira/2.0 b2 Safari/125 */
+		if (preg_match('/Mozilla\/5\.0 \(Macintosh; U;([a-zA-Z0-9\s]+); [a-z\-]+\) AppleWebKit\/([0-9\+\.]+) \(KHTML, like Gecko\) Shiira\/([0-9]+\.[0-9]+) ([b0-9]+) Safari\/([0-9]+)/', $ua, $z)) {
+			$o['platform'] = 'Mac OS X';
+			$o['name'] = 'Shiira';
+			if (isset($z[5])) {
+				$o['version'] = $z[3] . ' ' . $z[4];
+			} else {
+				$o['version'] = $z[3];
+			}
+			$o['DEVICE_LEVEL'] = 3;
+			$o['KHTML_DETECTED'] = 1;
+			return $o;
+		}
 	
 		/* KDE Konqueror
 		 * Example: Mozilla/5.0 (compatible; Konqueror/3.4; Linux) KHTML/3.4.2 (like Gecko) (Debian package 4:3.4.2-4) */

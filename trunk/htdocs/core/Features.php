@@ -8,11 +8,11 @@
  *  
  * Subversion Keywords:
  *
- * $Id: V2EXCore.php 67 2007-03-20 23:38:40Z v2ex.livid $
- * $Date: 2007-03-21 07:38:40 +0800 (Wed, 21 Mar 2007) $
- * $Revision: 67 $
- * $Author: v2ex.livid $
- * $URL: https://project-babel.googlecode.com/svn/trunk/htdocs/core/V2EXCore.php $
+ * $Id$
+ * $Date$
+ * $Revision$
+ * $Author$
+ * $URL$
  *
  * Copyright (C) 2006 Livid Liu <v2ex.livid@mac.com>
  *
