@@ -558,6 +558,10 @@ $i->vxSetupBoard('python', 'Python', 3, 3, 1, 2, 'Happy Hacking!', 'Enjoy Life!'
 	$i->vxSetupChannelByName('python', 'http://www.python.org/channews.rdf');
 $i->vxSetupBoard('java', 'Java', 3, 3, 1, 2, 'Everywhere!', '');
 $i->vxSetupBoard('ideas', 'Ideas', 3, 3, 1, 2, '', '');
+$i->vxSetupBoard('openid', 'OpenID', 3, 3, 1, 2, '', '');
+$i->vxSetupBoard('mediatemple', '(mt) Media Temple', 3, 3, 1, 2, '', '');
+	$i->vxSetupChannelByName('mediatemple', 'http://weblog.mediatemple.net/weblog/rss2/');
+	$i->vxSetupRelatedByName('mediatemple', 'http://www.mediatemple.net/', '(mt) Media Temple');
 $i->vxSetupBoard('pixel', '像素艺术', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('hosting', '寄托梦想', 3, 3, 1, 2, '<span class="tip_i">空间 - 域名 - 服务器 - 合租 | <a href="http://www.dreamhost.com/r.cgi?267137" target="_blank" class="t">DreamHost</a> | <a href="http://www.mediatemple.net/" target="_blank" class="t">(mt) Media Temple</a> | <a href="http://www.bluehost.com/track/livid/text1" class="t">Bluehost</a></span>', '<span class="tip_i"><a href="http://www.dreamhost.com/r.cgi?267137" target="_blank" class="t">DreamHost</a> | <a href="http://www.mediatemple.net/" target="_blank" class="t">(mt) Media Temple</a> | <a href="http://www.bluehost.com/track/livid/text1" class="t">Bluehost</a></span>');
 	$i->vxSetupRelatedByName('hosting', 'http://www.dreamhost.com/r.cgi?267137', 'DreamHost');
