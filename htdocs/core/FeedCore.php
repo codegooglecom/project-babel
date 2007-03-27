@@ -159,6 +159,7 @@ class Feed {
 			while ($Topic = mysql_fetch_object($rs)) {
 				$i++;
 				$Topics[$i] = $Topic;
+				$Topics[$i]->nod_title = htmlspecialchars($Topics[$i]->nod_title, ENT_NOQUOTES);
 				$Topics[$i]->tpc_title = htmlspecialchars($Topics[$i]->tpc_title, ENT_NOQUOTES);
 				$Topics[$i]->tpc_content = htmlspecialchars(format_ubb($Topics[$i]->tpc_content), ENT_NOQUOTES);
 				$Topics[$i]->tpc_pubdate = date('r', $Topics[$i]->tpc_created);

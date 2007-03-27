@@ -28,6 +28,7 @@ class User {
 	public $usr_gid;
 	public $usr_email;
 	public $usr_email_notify;
+	public $usr_google_account;
 	public $usr_geo;
 	public $usr_password;
 	public $usr_nick;
@@ -60,6 +61,7 @@ class User {
 		$this->usr_gid = 0;
 		$this->usr_email = '';
 		$this->usr_email_notify = '';
+		$this->usr_google_account = '';
 		$this->usr_geo = 'earth';
 		$this->usr_password = '';
 		$this->usr_nick = '';
@@ -104,7 +106,7 @@ class User {
 		$e = 0;
 
 		if (strlen($usr_email) > 0 && strlen($usr_password) > 0) {
-			$sql = "SELECT usr_id, usr_gid, usr_email, usr_email_notify, usr_geo, usr_password, usr_nick, usr_full, usr_addr, usr_telephone, usr_identity, usr_gender, usr_brief, usr_portrait, usr_money, usr_width, usr_hits, usr_logins, usr_created, usr_sw_shuffle_cloud, usr_sw_top_wealth, usr_sw_shell, usr_sw_notify_reply, usr_sw_notify_reply_all, usr_lastlogin, usr_lastlogin_ua FROM babel_user WHERE usr_email = '{$usr_email}' AND usr_password = '{$usr_password}'";
+			$sql = "SELECT usr_id, usr_gid, usr_email, usr_email_notify, usr_google_account, usr_geo, usr_password, usr_nick, usr_full, usr_addr, usr_telephone, usr_identity, usr_gender, usr_brief, usr_portrait, usr_money, usr_width, usr_hits, usr_logins, usr_created, usr_sw_shuffle_cloud, usr_sw_top_wealth, usr_sw_shell, usr_sw_notify_reply, usr_sw_notify_reply_all, usr_lastlogin, usr_lastlogin_ua FROM babel_user WHERE usr_email = '{$usr_email}' AND usr_password = '{$usr_password}'";
 			$rs = mysql_query($sql, $this->db);
 			if (mysql_num_rows($rs) == 1) {
 				$O = mysql_fetch_object($rs);
@@ -112,6 +114,7 @@ class User {
 				$this->usr_gid = $O->usr_gid;
 				$this->usr_email = $O->usr_email;
 				$this->usr_email_notify = $O->usr_email_notify;
+				$this->usr_google_account = $O->usr_google_account;
 				$this->usr_geo = $O->usr_geo;
 				$this->usr_password = $O->usr_password;
 				$this->usr_nick = $O->usr_nick;
@@ -164,7 +167,7 @@ class User {
 					$real_usr_email = mysql_real_escape_string($_COOKIE['babel_usr_email']);
 					$real_usr_password = mysql_real_escape_string($this->bf->decrypt($_COOKIE['babel_usr_password']));
 				}
-				$sql = "SELECT usr_id, usr_gid, usr_email, usr_email_notify, usr_geo, usr_password, usr_nick, usr_full, usr_addr, usr_telephone, usr_identity, usr_gender, usr_brief, usr_portrait, usr_money, usr_width, usr_hits, usr_logins, usr_created, usr_sw_shuffle_cloud, usr_sw_top_wealth, usr_sw_shell, usr_sw_notify_reply, usr_sw_notify_reply_all, usr_lastlogin, usr_lastlogin_ua FROM babel_user WHERE usr_email = '" . $real_usr_email . "' AND usr_password = '" . $real_usr_password . "'";
+				$sql = "SELECT usr_id, usr_gid, usr_email, usr_email_notify, usr_google_account, usr_geo, usr_password, usr_nick, usr_full, usr_addr, usr_telephone, usr_identity, usr_gender, usr_brief, usr_portrait, usr_money, usr_width, usr_hits, usr_logins, usr_created, usr_sw_shuffle_cloud, usr_sw_top_wealth, usr_sw_shell, usr_sw_notify_reply, usr_sw_notify_reply_all, usr_lastlogin, usr_lastlogin_ua FROM babel_user WHERE usr_email = '" . $real_usr_email . "' AND usr_password = '" . $real_usr_password . "'";
 				$rs = mysql_query($sql, $this->db);
 				if (mysql_num_rows($rs) == 1) {
 					$O = mysql_fetch_object($rs);
@@ -172,6 +175,7 @@ class User {
 					$this->usr_gid = $O->usr_gid;
 					$this->usr_email = $O->usr_email;
 					$this->usr_email_notify = $O->usr_email_notify;
+					$this->usr_google_account = $O->usr_google_account;
 					$this->usr_geo = $O->usr_geo;
 					$this->usr_password = $O->usr_password;
 					$this->usr_nick = $O->usr_nick;
@@ -224,6 +228,7 @@ class User {
 		$this->usr_gid = 0;
 		$this->usr_email = '';
 		$this->usr_email_notify = '';
+		$this->usr_google_account = '';
 		$this->usr_geo = 'earth';
 		$this->usr_password = '';
 		$this->usr_nick = '';
@@ -276,7 +281,7 @@ class User {
 	 */
 	
 	public function vxGetUserInfo($user_id) {
-		$sql = "SELECT usr_id, usr_gender, usr_nick, usr_brief, usr_email, usr_portrait, usr_hits, usr_created, usr_lastlogin FROM babel_user WHERE usr_id = {$user_id}";
+		$sql = "SELECT usr_id, usr_gender, usr_nick, usr_brief, usr_email, usr_portrait, usr_hits, usr_created, usr_lastlogin, usr_logins FROM babel_user WHERE usr_id = {$user_id}";
 		$rs = mysql_query($sql, $this->db);
 		if ($User = mysql_fetch_object($rs)) {
 			mysql_free_result($rs);

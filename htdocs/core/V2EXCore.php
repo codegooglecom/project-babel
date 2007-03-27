@@ -532,13 +532,14 @@ class Page {
 		if ($this->User->vxIsLogin()) {
 			echo('<li class="top"><a href="/u/' . urlencode($this->User->usr_nick) . '" class="top">&nbsp;&nbsp;&nbsp;' . make_plaintext($this->User->usr_nick) . '&nbsp;&nbsp;&nbsp;</a>');
 			echo('<ul>');
-			echo('<li><a href="/u/' . urlencode($this->User->usr_nick) . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我的 ' . Vocabulary::site_name . ' 主页</a></li>');
-			echo('<li><a href="/zen/' . urlencode($this->User->usr_nick) . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZEN</a></li>');
-			echo('<li><a href="/topic/archive/user/' . urlencode($this->User->usr_nick) . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我创建的所有主题</a></li>');
-			echo('<li><a href="/topic/favorite.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我的收藏夹</a></li>');
-			echo('<li><a href="/expense/view.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;消费记录</a></li>');
+			echo('<li><a href="/u/' . urlencode($this->User->usr_nick) . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/house.png" align="absmiddle" border="0" /> 我的 ' . Vocabulary::site_name . ' 主页</a></li>');
+			echo('<li><a href="/zen/' . $this->User->usr_nick_url . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/clock.png" align="absmiddle" border="0" /> ZEN</a></li>');
+			echo('<li><a href="/ing/' . $this->User->usr_nick_url . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/hourglass.png" align="absmiddle" border="0" /> ING</a></li>');
+			echo('<li><a href="/topic/archive/user/' . urlencode($this->User->usr_nick) . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/comments.png" align="absmiddle" border="0" /> 我创建的所有主题</a></li>');
+			echo('<li><a href="/topic/favorite.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/star.png" align="absmiddle" border="0" /> 我的收藏夹</a></li>');
+			echo('<li><a href="/expense/view.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/coins_delete.png" align="absmiddle" border="0" /> 消费记录</a></li>');
 			if ($_SESSION['hits'] > 0) {
-				echo('<li><a href="/session/stats.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本次访问了 ' . $_SESSION['hits'] . ' 个页面</a></li>');
+				echo('<li><a href="/session/stats.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/page_copy.png" align="absmiddle" border="0" /> 本次访问了 ' . $_SESSION['hits'] . ' 个页面</a></li>');
 			}
 			echo('<li><div class="sep">&nbsp;</div></li>');
 			echo('<li><a href="/geo/' . $this->User->usr_geo . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/world.png" align="absmiddle" border="0" /> ' . $this->Geo->map['name'][$this->User->usr_geo] . '</a></li>');
@@ -4294,7 +4295,7 @@ google_ad_channel = "";
 		echo('<tr><td width="200" align="right">真实姓名</td><td width="200" align="left"><input tabindex="1" type="text" maxlength="80" class="sl" name="usr_full" value="' . make_single_return($this->User->usr_full) . '" /></td>');
 		
 		// S button:
-		echo('<td width="150" rowspan="14" valign="middle" align="right">');
+		echo('<td width="150" rowspan="15" valign="middle" align="right">');
 		
 		_v_btn_f('修改', 'form_user_info');
 		
@@ -4376,8 +4377,9 @@ google_ad_channel = "";
 		}
 		echo('</td></tr>');
 		echo('<tr><td width="200" align="right">用于接收通知的邮箱</td><td align="left"><input tabindex="12" type="text" maxlength="100" class="sl" name="usr_email_notify" value="' . make_single_return($this->User->usr_email_notify) . '" /></td></tr>');
-		echo('<tr><td width="200" align="right">新密码</td><td align="left"><input tabindex="13" type="password" maxlength="32" class="sl" name="usr_password_new" /></td></tr>');
-		echo('<tr><td width="200" align="right">重复新密码</td><td align="left"><input tabindex="14" type="password" maxlength="32" class="sl" name="usr_confirm_new" /></td></tr>');
+		echo('<tr><td width="200" align="right">Google Account</td><td align="left"><input tabindex="13" type="text" maxlength="100" class="sl" name="usr_google_account" value="' . make_single_return($this->User->usr_google_account) . '" /></td></tr>');
+		echo('<tr><td width="200" align="right">新密码</td><td align="left"><input tabindex="14" type="password" maxlength="32" class="sl" name="usr_password_new" /></td></tr>');
+		echo('<tr><td width="200" align="right">重复新密码</td><td align="left"><input tabindex="15" type="password" maxlength="32" class="sl" name="usr_confirm_new" /></td></tr>');
 		echo('<tr><td height="10" colspan="2"></td></tr>');
 		echo('</form></table>');
 		echo('<hr size="1" color="#DDD" style="color: #DDD; background-color: #DDD; height: 1px; border: 0;" />');
@@ -4416,7 +4418,7 @@ google_ad_channel = "";
 			
 			/* cell: submit button */
 			
-			echo('<td width="150" rowspan="13" valign="middle" align="right">');
+			echo('<td width="150" rowspan="14" valign="middle" align="right">');
 			_v_btn_f('修改', 'form_user_info');
 			echo('</td></tr>');
 			
@@ -4542,6 +4544,16 @@ google_ad_channel = "";
 				echo('</td></tr>');
 			}
 			
+			if ($rt['usr_google_account_error'] != 0) {
+				echo('<tr><td width="200" align="right" valign="top">Google Account</td><td align="left"><div class="error"><input type="text" maxlength="200" class="sl" name="usr_google_account" value="' . make_single_return($rt['usr_google_account_value']) . '" /><br />');
+				_v_ico_silk('exclamation');
+				echo(' ' . $rt['usr_google_account_error_msg'][$rt['usr_google_account_error']] . '</div></td></tr>');
+			} else {
+				echo('<tr><td width="200" align="right">Google Account</td><td align="left"><input type="text" maxlength="100" class="sl" name="usr_google_account" value="' . make_single_return($rt['usr_google_account_value']) . '" />&nbsp;');
+				_v_ico_silk('tick');
+				echo('</td></tr>');
+			}
+			
 			/* S result: usr_password and usr_confirm */
 			
 			/* pswitch:
@@ -4629,6 +4641,7 @@ google_ad_channel = "";
 			echo('</td></tr>');
 			/* end: switches */
 			echo('<tr><td width="200" align="right" valign="middle">用于接收通知的邮箱</td><td align="left">' . make_plaintext($rt['usr_email_notify_value']) . '</td></tr>');
+			echo('<tr><td width="200" align="right" valign="middle">Google Account</td><td align="left">' . make_plaintext($rt['usr_google_account_value']) . '</td></tr>');
 			if ($rt['usr_password_touched'] == 1) {
 				echo('<tr><td width="200" align="right" valign="top">新密码</td><td align="left"><div class="important">');
 				$max = rand(1, 6) * 4;
@@ -8688,7 +8701,7 @@ google_ad_channel = "";
 		_v_hr();
 		
 		/* S: right user badge */
-		echo('<div style="min-width: 170px; max-width: 180px; padding: 5px 0px 5px 0px; background-color: #FFF; float: right;"><img src="' . $User->img_p_s . '" align="left" style="margin-right: 10px;" class="portrait" /> <span class="tip_i">all about</span><h1 class="ititle" style="margin-bottom: 5px; display: block;"><a href="/u/' . $User->usr_nick_url . '">' . $User->usr_nick_plain . '</a></h1>');
+		echo('<div style="min-width: 170px; max-width: 180px; padding: 5px 0px 5px 0px; background-color: #FFF; float: right;"><img src="' . $User->img_p_s . '" align="left" style="margin-right: 10px;" class="portrait" border="0" /> <span class="tip_i">all about</span><h1 class="ititle" style="margin-bottom: 5px; display: block;"><a href="/u/' . $User->usr_nick_url . '">' . $User->usr_nick_plain . '</a></h1>');
 		
 		$sql = "SELECT ing_doing, ing_created FROM babel_ing_update WHERE ing_uid = {$User->usr_id} ORDER BY ing_created DESC LIMIT 1";
 		$rs = mysql_query($sql);
@@ -8718,7 +8731,7 @@ google_ad_channel = "";
 			$css_class = $i % 2 == 0 ? 'even' : 'odd';
 			$img_p = $_up['usr_portrait'] ? CDN_IMG . 'p/' . $_up['usr_portrait'] . '_s.jpg' : CDN_IMG . 'p_' . $_up['usr_gender'] . '_s.gif';
 			echo('<div style="width: 61.8%; min-width: 200px; max-width: 800px;" class="entry_' . $css_class . '">');
-			echo('<img src="' . $img_p . '" align="absmiddle" alt="' . make_single_return($_up['usr_nick']) . '" class="portrait" /> ');
+			echo('<a href="/ing-' . $_up['ing_id'] . '.html"><img src="' . $img_p . '" align="absmiddle" alt="' . make_single_return($_up['usr_nick']) . '" class="portrait" border="0" /></a> ');
 			echo('<a href="/u/' . urlencode($_up['usr_nick']) . '" class="t">' . make_plaintext($_up['usr_nick']) . '</a> ');
 			echo(format_ubb(trim($_up['ing_doing'])) . ' <span class="tip_i">' . make_descriptive_time($_up['ing_created']) . '</span> <span class="tip"><small>from ' . $_sources[$_up['ing_source']] . '</small></span> ');
 			if ($flag_self) {

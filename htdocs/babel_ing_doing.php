@@ -40,18 +40,23 @@ header('Etag: ' . sha1($ing_id));
 ?>
 <html>
 <head>
-	<meta http-equiv="Content-type" type="text/html;charset=utf-8" />
-	<title>
-	<?php
+	<meta http-equiv="Content-type" content="text/html;charset=utf-8" />
+	<meta name="Author" content="<?php echo make_single_return($_ing['usr_nick']); ?>" />
+	<meta name="Generator" content="Project Babel" />
+	<title><?php
 	if ($_ing) {
 		echo(strip_tags(format_ubb($_ing['ing_doing'])) . ' - ' . Vocabulary::site_name);
 	} else {
 		echo(Vocabulary::site_name . '::ING');
 	}
-	?>
-	</title>
+	?></title>
 	<link rel="stylesheet" type="text/css" href="/css/themes/<?php echo BABEL_THEME; ?>/css_babel.css" />
 	<link rel="stylesheet" type="text/css" href="/css/themes/<?php echo BABEL_THEME; ?>/css_extra.css" />
+<?php
+if (MINT_LOCATION != '') {
+	echo('<script src="' . MINT_LOCATION . '" type="text/javascript"></script>');
+}
+?>
 </head>
 <body>
 <table width="100%" height="99%">

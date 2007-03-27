@@ -75,5 +75,9 @@ switch ($m) {
 	case 'friend':
 		$p->vxFriend();
 		break;
+		
+	case 'ing_public':
+		$p->vxIngPublic();
+		break;
 }
 ?>
