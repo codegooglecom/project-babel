@@ -31,10 +31,11 @@ margin: 0px 5px 5px 0px;
 }
 
 img.code {
-padding: 5px;
-background-color: #FFFFEE;
-border: 1px solid #999;
+padding: 2px;
+background-color: #FFF;
+border: 2px solid #EEE;
 margin: 10px 0px 10px 0px;
+-moz-border-radius: 5px;
 }
 
 img.portrait {
@@ -279,15 +280,8 @@ dl.toolbar {
 margin: 10px 10px 10px 10px;
 font-size: 12px;
 padding: 5px;
-/*
-border-top: 1px solid #FFF;
-border-left: 1px solid #BBB;
-border-right: 1px solid #BBB;
-border-bottom: 1px solid #BBB;
-background-image: url("/img/bg_blank.gif");
-background-repeat: repeat-x;
-*/
 background-color: #FFF;
+-moz-border-radius: 7px;
 }
 
 dl.toolbar dt {
@@ -311,6 +305,7 @@ background-color: #FFF;
 margin: 10px;
 padding: 5px;
 font-size: 12px;
+-moz-border-radius: 7px;
 }
 
 div.menu_fav {
@@ -319,6 +314,7 @@ font-size: 12px;
 padding: 5px;
 border: 1px solid #E0E0E0;
 background-color: #FFF;
+-moz-border-radius: 7px;
 }
 
 div.blank {
@@ -327,6 +323,7 @@ border: 1px solid #E0E0E0;
 background-color: #FFF;
 margin-bottom: 10px;
 font-size: 12px;
+-moz-border-radius: 7px;
 }
 
 div.zen2 {

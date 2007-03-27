@@ -102,7 +102,7 @@ class Mobile {
 	}
 	
 	public function vxHome() {
-		$this->vxHeader('V2EX Mobile');
+		$this->vxHeader(Vocabulary::site_title_mobile);
 		$this->vxBodyStart();
 		$this->vxH1(false);
 		echo('<div class="content"><small>');
@@ -466,6 +466,7 @@ class Mobile {
 				echo('，当前不在线');
 			}
 			echo('，上次登录时间 ' . date('Y 年 n 月 j 日 G:i:s', $_u->usr_lastlogin));
+			echo('，总共登录 ' . $_u->usr_logins . ' 次');
 			echo('。');
 			echo('<div class="c"></div>');
 			echo('</div>');
@@ -660,6 +661,29 @@ class Mobile {
 		$this->vxHTMLEnd();
 	}
 	
+	public function vxIngPublic() {
+		$this->vxHeader(Vocabulary::site_title_mobile);
+		$this->vxBodyStart();
+		$this->vxH1(true);
+		echo('<div class="content"><small>');
+		if ($this->User->vxIsLogin()) {
+			echo('<a href="/u/' . urlencode($this->User->usr_nick) . '">' . $this->User->usr_nick . '</a> - ');
+			echo('<a href="/logout.vx">登出</a>');
+		} else {
+			echo('<a href="/login.vx">登录</a>');
+		}
+		echo('</small></div>');
+		echo('<div class="content"><small><a href="/">' . Vocabulary::site_name . '</a> &gt; ING</small></div>');
+		echo('<div class="content">');
+		echo('<ul>');
+		echo('</ul>');
+		echo('</div>');
+		$this->vxBottom();
+		$this->vxBodyEnd();
+		$this->vxHTMLEnd();
+		
+	}
+	
 	public function vxHeader($title) {
 		echo('<?xml version="1.0" encoding="utf-8"?>' . "\n");
 		echo('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' . "\n");
@@ -695,7 +719,7 @@ class Mobile {
 	}
 	
 	public function vxBottom() {
-		echo('<div><small>&copy; 2006 V2EX | software for internet</small></div>');
+		echo('<div><small>&copy; 2007 <a href="http://labs.v2ex.com/" target="_blank">V2EX Labs</a> | software for internet</small></div>');
 	}
 	
 	public function vxBodyEnd() {

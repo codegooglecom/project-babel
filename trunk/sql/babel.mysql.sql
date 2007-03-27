@@ -418,6 +418,7 @@ CREATE TABLE `babel_user` (
   `usr_password` varchar(40) NOT NULL DEFAULT '',
   `usr_email` varchar(100) DEFAULT NULL,
   `usr_email_notify` varchar(100) DEFAULT NULL,
+  `usr_google_account` varchar(200) DEFAULT NULL,
   `usr_geo` varchar(100) NOT NULL DEFAULT 'earth',
   `usr_full` varchar(40) DEFAULT NULL,
   `usr_addr` varchar(200) DEFAULT NULL,
