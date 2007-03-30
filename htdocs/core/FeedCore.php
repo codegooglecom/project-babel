@@ -278,7 +278,7 @@ class Feed {
 			$Updates[$i]->ing_doing_title = htmlspecialchars($Update->usr_nick . ': ' . make_plaintext(format_ubb($Updates[$i]->ing_doing, false)), ENT_NOQUOTES);
 			$Updates[$i]->ing_doing = htmlspecialchars('<img src="' . $img_p .'" align="left" style="background-color: #FFF; padding: 2px; margin: 0px 5px 5px 0px; border: 1px solid #CCC;" />&nbsp;' . $Update->usr_nick . ':&nbsp;' . format_ubb($Updates[$i]->ing_doing), ENT_NOQUOTES) . ' - ' . make_descriptive_time($Update->ing_created);
 			$Updates[$i]->ing_pubdate = date('r', $Updates[$i]->ing_created);
-			$Updates[$i]->entry_link = 'http://' . BABEL_DNS_NAME . '/ing/' . urlencode($Update->usr_nick);
+			$Updates[$i]->entry_link = 'http://' . BABEL_DNS_NAME . '/ing-' . $Update->ing_id . '.html';
 		}
 		$this->s->assign('user', $this->User);
 		$this->s->assign('feed_title', "大家在做什么");
@@ -317,7 +317,7 @@ class Feed {
 			$Updates[$i]->ing_doing_title = htmlspecialchars($Update->usr_nick . ': ' . make_plaintext(format_ubb($Updates[$i]->ing_doing, false)), ENT_NOQUOTES);
 			$Updates[$i]->ing_doing = htmlspecialchars('<img src="' . $img_p .'" align="left" style="background-color: #FFF; padding: 2px; margin: 0px 5px 5px 0px; border: 1px solid #CCC;" />&nbsp;' . $Update->usr_nick . ':&nbsp;' . format_ubb($Updates[$i]->ing_doing), ENT_NOQUOTES) . ' - ' . make_descriptive_time($Update->ing_created);
 			$Updates[$i]->ing_pubdate = date('r', $Updates[$i]->ing_created);
-			$Updates[$i]->entry_link = 'http://' . BABEL_DNS_NAME . '/ing/' . $User->usr_nick_url . '/friends';
+			$Updates[$i]->entry_link = 'http://' . BABEL_DNS_NAME . '/ing-' . $Update->ing_id . '.html';
 		}
 		$this->s->assign('user', $User);
 		$this->s->assign('feed_title', $User->usr_nick_plain . " 和朋友们在做什么");
@@ -339,9 +339,9 @@ class Feed {
 			$i++;
 			$Updates[$i] = $Update;
 			$Updates[$i]->ing_doing_title = htmlspecialchars(make_plaintext(format_ubb($Updates[$i]->ing_doing, false)), ENT_NOQUOTES);
-			$Updates[$i]->ing_doing = htmlspecialchars('<img src="' . $User->img_p_n .'" align="left" style="background-color: #FFF; padding: 2px; margin: 0px 5px 5px 0px; border: 1px solid #CCC;" />&nbsp;&nbsp;' . format_ubb($Updates[$i]->ing_doing), ENT_NOQUOTES) . ' - ' . make_descriptive_time($Update->ing_created);
+			$Updates[$i]->ing_doing = htmlspecialchars('<img src="' . $User->img_p_n .'" align="left" style="background-color: #FFF; padding: 2px; margin: 0px 5px 5px 0px; border: 1px solid #CCC;" />&nbsp;' . format_ubb($Updates[$i]->ing_doing), ENT_NOQUOTES) . ' - ' . make_descriptive_time($Update->ing_created);
 			$Updates[$i]->ing_pubdate = date('r', $Updates[$i]->ing_created);
-			$Updates[$i]->entry_link = 'http://' . BABEL_DNS_NAME . '/ing/' . $User->usr_nick_url;
+			$Updates[$i]->entry_link = 'http://' . BABEL_DNS_NAME . '/ing-' . $Update->ing_id . '.html';
 		}
 		$this->s->assign('user', $User);
 		$this->s->assign('feed_title', $User->usr_nick_plain . " 在做什么");
