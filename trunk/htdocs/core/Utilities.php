@@ -656,6 +656,18 @@ function is_valid_nick($nick) {
 	}
 }
 
+function make_google_account_chain_code() {
+	$c1 = chr(rand(65, 90));
+	$c2 = chr(rand(65, 90));
+	$c3 = chr(rand(65, 90));
+	$c4 = chr(rand(65, 90));
+	$c5 = chr(rand(65, 90));
+	$c6 = chr(rand(65, 90));
+	$c7 = chr(rand(65, 90));
+	$c8 = chr(rand(65, 90));
+	return $c1 . $c2 . $c3 . $c4 . $c5 . $c6 . $c7 . $c8;
+}
+
 /**
 * Perform a simple text replace
 * This should be used when the string does not contain HTML
