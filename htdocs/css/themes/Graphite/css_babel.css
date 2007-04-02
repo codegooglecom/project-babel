@@ -1796,3 +1796,8 @@ div.channels {
 display: block;
 text-align: left;
 }
+
+div.r {
+border-bottom: 1px dotted #CCC;
+padding: 10px;
+}
