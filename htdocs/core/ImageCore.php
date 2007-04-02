@@ -72,7 +72,7 @@ class Image {
 		}
 		if ($c > 0) {
 			$f = '';
-			$f .= '<tr><td align="left" class="hf" colspan="' . $colspan . '" style="border-top: 1px solid #CCC;">';
+			$f .= '<tr><td align="left" class="hf" colspan="' . $colspan . '" style="border-top: 1px solid #EEE;">';
 			
 			$f .= '<a href="http://www.flickr.com/photos/tags/' . $tag . '" target="_blank"><img src="/img/flickr_logo_beta.gif" border="0" align="absmiddle" /></a>&nbsp;&nbsp;&nbsp;<span class="tip_i">以下照片版权属于 Flickr 网站上照片的作者，并受法律保护。</span>';
 			$f .= '</td></tr>';

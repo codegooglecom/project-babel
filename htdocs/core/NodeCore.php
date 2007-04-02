@@ -165,6 +165,175 @@ class Node {
 		}
 	}
 	
+	public function vxDrawAlsoFav($c) {
+		$board_id = $this->nod_id;
+		
+		if ($o = $c->load('babel_node_fav_also_' . $board_id)) {
+		} else {
+			$sql = "SELECT fav_uid FROM babel_favorite WHERE fav_res = {$board_id} AND fav_type = 1";
+			$rs = mysql_query($sql);
+			$_users = array();
+			while ($_user = mysql_fetch_array($rs)) {
+				$_users[] = $_user['fav_uid'];
+			}
+			mysql_free_result($rs);
+			$_nodes = array();
+			$o = '';
+			if (count($_users) > 0) {
+				foreach ($_users as $usr_id) {
+					$sql = "SELECT fav_res FROM babel_favorite WHERE fav_uid = {$usr_id} AND fav_type = 1";
+					$rs = mysql_query($sql);
+					if (mysql_num_rows($rs) > 0) {
+						while ($_node = mysql_fetch_array($rs)) {
+							if (array_key_exists(intval($_node['fav_res']), $_nodes)) {
+								$_nodes[$_node['fav_res']]++;
+							} else {
+								$_nodes[$_node['fav_res']] = 1;
+							}
+						}
+					}
+					mysql_free_result($rs);
+				}
+			}
+			if (count($_nodes) > 0) {
+				arsort($_nodes);
+				$_nodes_keys = array_keys($_nodes);
+				$sql = "SELECT nod_id, nod_title, nod_name FROM babel_node WHERE nod_id IN (" . implode(',', $_nodes_keys) . ")";
+				$rs = mysql_query($sql);
+				if (mysql_num_rows($rs) > 0) {
+					while ($_node = mysql_fetch_array($rs)) {
+						$_nodes_names[$_node['nod_id']] = $_node['nod_name'];
+						$_nodes_titles[$_node['nod_id']] = $_node['nod_title'];
+					}
+					$o .= _vo_hr();
+					$o .= '<span class="tip">' . make_plaintext($this->nod_title) . '</span> <span class="tip_i">的收藏者也同时收藏了</span> ';
+					$i = 0;
+					if (count($_nodes_keys) > 7) {
+						$max = 8;
+					} else {
+						$max = count($_nodes_keys);
+					}
+					while ($i < $max) {
+						$i++;
+						$css_color = rand_color();
+						$o .= '<a href="/go/' . $_nodes_names[$_nodes_keys[$i]] . '" class="var" style="color: ' . $css_color . '">' . make_plaintext($_nodes_titles[$_nodes_keys[$i]]) . '</a> <small>(' . $_nodes[$_nodes_keys[$i]] . ')</small> ';
+					}
+				} else {
+					$o = '';
+				}
+				mysql_free_result($rs);
+			} else {
+				$o = '';
+			}
+			$c->save($o, 'babel_node_fav_also_' . $board_id);
+		}
+		echo $o;
+	}
+	
+	public function vxDrawStock($c) {
+		if (!BABEL_FEATURE_NODE_STOCK) {
+			return false;
+		} else {
+			if ($o = $c->load('babel_node_stock_' . $this->nod_id)) {
+				if ($o == '') {
+					return false;
+				} else {
+					echo $o;
+					return true;
+				}
+			} else {
+				$special = false;
+				
+				$fix = '';
+				
+				if (preg_match('/^6([0-9]{5})$/', $this->nod_name) || $this->nod_name == 'sh000001') {
+					$special = 'sh';
+					if ($this->nod_name == 'sh000001') {
+						$this->nod_name = '000001';
+						$fix = '+' . urlencode('-深发展');
+					}
+				}
+				
+				if ((preg_match('/^0([0-9]{5})$/', $this->nod_name) || $this->nod_name == '399001' || preg_match('/^3([0-9]{5})$/', $this->nod_name)) && $special == false) {
+					$special = 'sz';
+				}
+				
+				$o = '';
+				
+				if ($special == 'sh' || $special == 'sz') {
+					$news = fetch_rss('http://news.google.com/news?hl=zh-CN&ned=cn&q=' . $this->nod_name . '+%7C+' . urlencode($this->nod_title) . $fix . '&ie=UTF-8&output=rss');
+					
+					$blogs = fetch_rss('http://blogsearch.google.com/blogsearch_feeds?hl=en&q=' . $this->nod_name . '+%7C+' . urlencode($this->nod_title) . $fix . '&ie=utf-8&num=10&output=rss');
+					
+					$o .= '<tr><td align="left" class="hf" colspan="4" style="border-top: 1px solid #EEE;">';
+					$o .= '<span class="tip_i">';
+					$o .= '<img src="/img/pico_right.gif" align="absmiddle" /> ';
+					$o .= $this->nod_header . ' <a href="#stock_chart" class="t">行情图表</a> | <a href="#stock_blogs" class="t">Blogsphere</a> | <a href="#stock_news" class="t">新闻资讯</a></span>';
+					$o .= _vo_hr();
+					$o .= '<div class="notify" style="margin-bottom: 5px;"><div style="float: right;"><a href="#;" onclick="window.scrollTo(0, 0);">回到顶部</a></div><span style="font-size: 14px;">';
+					$o .= _vo_ico_silk('chart_line');
+					$o .= ' ' . $this->nod_header . ' 的行情图表 <a name="stock_chart"></a></span></div>';
+					$o .= '<div align="center">';
+					$o .= '<script type="text/javascript" src="/js/babel_stock_switcher.js"> </script>';
+					$o .= '<script type="text/javascript">market = "' . $special . '"; code = "' . $this->nod_name . '"; stock_charts_preload();</script>';
+					$o .= '<span class="tip_i"><a href="#;" onclick="stock_get_realtime();">分时行情</a> | <a href="#;" onclick="stock_get_k_daily();">日 K 线</a> | <a href="#;" onclick="stock_get_k_weekly();">周 K 线</a> | <a href="#;" onclick="stock_get_k_monthly();">月 K 线</a> | <a href="#;" onclick="stock_get_rsi();">RSI</a> | <a href="#;" onclick="stock_get_macd();">MACD</a> | <a href="#;" onclick="stock_get_kdj();">KDJ</a> | <a href="#;" onclick="stock_get_mike();">MIKE</a></span><br />';
+					$o .= '<img id="stock_chart" src="http://image.sinajs.cn/newchart/min/n/' . $special . $this->nod_name . '.gif" class="code" /></div>';
+					$o .= _vo_hr();
+					$o .= '<div class="notify"><div style="float: right;"><a href="#;" onclick="window.scrollTo(0, 0);">回到顶部</a></div><span style="font-size: 14px;">';
+					$o .= _vo_ico_silk('comments');
+					$o .= ' 来自 Blogsphere 的关于 ' . $this->nod_header . ' 的最新消息 <a name="stock_blogs"></a></span></div>';
+					$i = 0;
+					foreach ($blogs->items as $blog) {
+						$i++;
+						$css_class = $i % 2 == 0 ? 'even' : 'odd';
+						$d = str_replace('<b>', '', $blog['description']);
+						$d = str_replace('</b>', '', $d);
+						
+						$t = str_replace('<b>', '', $blog['title']);
+						$t = str_replace('</b>', '', $t);
+						
+						$o .= '<div class="geo_home_entry_' . $css_class . '">';
+						$o .= '<span style="font-size: 13px; display: block; margin-bottom: 5px;">';
+						$o .= _vo_ico_silk('bullet_blue');
+						$o .= ' <a href="' . $blog['link'] . '" class="var" style="color: ' . rand_color() . '">' . $t . '</a></span>';
+						$o .= $d;
+						$o .= '</div>';
+						unset($blog);
+					}
+					$o .= _vo_hr();
+					$o .= '<div class="notify"><div style="float: right;"><a href="#;" onclick="window.scrollTo(0, 0);">回到顶部</a></div><span style="font-size: 14px;">';
+					$o .= _vo_ico_silk('world');
+					$o .= ' 来自互联网的关于 ' . $this->nod_header . ' 的最新资讯 <a name="stock_news"></a></span></div>';
+					$i = 0;
+					foreach ($news->items as $item) {
+						$i++;
+						$css_class = $i % 2 == 0 ? 'even' : 'odd';
+						
+						$n = str_replace('<br><table border=0 width= valign=top cellpadding=2 cellspacing=7>', '<table border=0 width= valign=top cellpadding=0 cellspacing=2>', $item['description']);
+						$n = str_replace('<font color=#CC0033>' . $this->nod_title . '</font>', $this->nod_title, $n);
+						$n = str_replace('<font color=#CC0033>' . $this->nod_title . $this->nod_name . '</font>', $this->nod_title . $this->nod_name, $n);
+						$n = str_replace('<font color=#CC0033>' . $this->nod_name . $this->nod_title . '</font>', $this->nod_name . $this->nod_title, $n);
+						$n = str_replace('<font color=#CC0033>' . $this->nod_name . '</font>', $this->nod_name, $n);
+						$n = preg_replace('/<a href="([^"]+)" target=_blank>([^<]+)<\/a><br>/', '<span style="font-size: 13px; display: block; margin-bottom: 5px;">' . _vo_ico_silk('bullet_black') . ' <a class="var" style="color: ' . rand_color() . '" rel="nofollow" href="$1" target="_blank">$2</a></span>',$n);
+						$n = str_replace('<a class=p', '<img src="/img/pico_right.gif" align="absmiddle" /> <a class="t"', $n);
+						$n = str_replace('<font size=-1>', '<font style="font-size: 12px;">', $n);
+						$o .= '<div class="geo_home_entry_' . $css_class . '">' . $n . '</div>';
+						unset($item);
+					}
+					$o .= _vo_hr();
+					$o .= '<a href="#;" onclick="window.scrollTo(0, 0)">回到顶部</a>';
+					$o .= '</td></tr>';
+					echo $o;
+					$c->save($o, 'babel_node_stock_' . $this->nod_id);
+					return true;
+				} else {
+					$c->save($o, 'babel_node_stock_' . $this->nod_id);
+					return false;
+				}
+			}
+		}
+	}
+	
 	private function vxTrimKijijiTitle($title) {
 		if (mb_ereg_match('最新的客齐集广告', $title)) {
 			mb_ereg('最新的客齐集广告 所在地：(.+) 分类：(.+)', $title, $m);

@@ -495,7 +495,7 @@ switch ($m) {
 			} else {
 				$rt = $p->Validator->vxUserUpdateCheck();
 				if ($rt['errors'] == 0) {
-					$p->Validator->vxUserUpdateUpdate($rt['usr_full_value'], $rt['usr_nick_value'], $rt['usr_email_notify_value'], $rt['usr_google_account_value'], $rt['usr_brief_value'], $rt['usr_gender_value'], $rt['usr_addr_value'], $rt['usr_telephone_value'], $rt['usr_identity_value'], $rt['usr_width_value'], $rt['usr_sw_shuffle_cloud_value'], 
+					$p->Validator->vxUserUpdateUpdate($rt['usr_full_value'], $rt['usr_nick_value'], $rt['usr_email_notify_value'], $rt['usr_brief_value'], $rt['usr_gender_value'], $rt['usr_addr_value'], $rt['usr_telephone_value'], $rt['usr_identity_value'], $rt['usr_width_value'], $rt['usr_sw_shuffle_cloud_value'], 
 					$rt['usr_sw_top_wealth_value'], 
 					$rt['usr_sw_shell_value'], $rt['usr_sw_notify_reply_value'], $rt['usr_sw_notify_reply_all_value'], $rt['usr_password_value']);
 					if ($rt['pswitch'] == 'b') {
@@ -588,7 +588,12 @@ switch ($m) {
 				if (mysql_num_rows($rs) == 1) {
 					$O = mysql_fetch_object($rs);
 					mysql_free_result($rs);
-					$p->vxHead($msgSiteTitle = make_plaintext($O->nod_title), '', 'http://' . BABEL_DNS_NAME . '/feed/board/' . $O->nod_name . '.rss');
+					if (preg_match('/^([0-9]{6})$/', $O->nod_name)) {
+						$nod_title = $O->nod_title . ' (' . $O->nod_name . ')';
+					} else {
+						$nod_title = make_plaintext($O->nod_title);
+					}
+					$p->vxHead($msgSiteTitle = $nod_title, '', 'http://' . BABEL_DNS_NAME . '/feed/board/' . $O->nod_name . '.rss');
 					$p->vxBodyStart();
 					$p->vxTop($msgBanner = Vocabulary::site_banner, $keyword = $O->nod_title);
 					$p->vxContainer('board_view', $options = array('board_id' => $O->nod_id));
@@ -632,7 +637,12 @@ switch ($m) {
 						}
 					}
 					if ($permit) {
-						$p->vxHead($msgSiteTitle = make_plaintext($Node->nod_title), '', 'http://' . BABEL_DNS_NAME . '/feed/board/' . $Node->nod_name . '.rss');
+						if (preg_match('/^([0-9]{6})$/', $Node->nod_name)) {
+							$nod_title = $Node->nod_title . ' (' . $Node->nod_name . ')';
+						} else {
+							$nod_title = make_plaintext($Node->nod_title);
+						}
+						$p->vxHead($msgSiteTitle = $nod_title, '', 'http://' . BABEL_DNS_NAME . '/feed/board/' . $Node->nod_name . '.rss');
 						$p->vxBodyStart();
 						$p->vxTop($msgBanner = Vocabulary::site_banner, $keyword = $Node->nod_title);
 						switch ($Node->nod_level) {
