@@ -13,7 +13,7 @@
  * $LastChangedBy: livid $
  */
 
-sections = new Array("2", "3", "4", "71", "220");
+sections = new Array("2", "3", "4", "71", "220", "452");
 
 var noop = function() {
 	return 1;

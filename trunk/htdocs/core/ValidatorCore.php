@@ -1007,11 +1007,7 @@ class Validator {
 		
 		$sql = "SELECT usr_id, usr_nick, usr_password, usr_email, usr_money FROM babel_user WHERE usr_email = '{$usr_email}'";
 		$User = mysql_fetch_object(mysql_query($sql, $this->db));
-		
-		$_friend = time();
-		$sql = "INSERT INTO babel_friend(frd_uid, frd_fid, frd_created, frd_lastupdated) VALUES({$User->usr_id}, 1, {$_friend}, {$_friend})";
-		mysql_unbuffered_query($sql);
-		
+
 		$grp_created = time();
 		$sql = "INSERT INTO babel_group(grp_oid, grp_nick, grp_created, grp_lastupdated) VALUES({$User->usr_id}, '{$User->usr_nick}', {$grp_created}, {$grp_created})";
 		mysql_query($sql, $this->db);
@@ -1192,15 +1188,6 @@ class Validator {
 		999 => unspecific */
 		$rt['usr_email_notify_error'] = 0;
 		$rt['usr_email_notify_error_msg'] = array(2 => '邮箱地址不能超过 100 个字符', 3 => '邮箱地址不正确');
-		
-		$rt['usr_google_account_value'] = '';
-		/* usr_google_account_error:
-		0 => no error
-		2 => overflow (200 mbs)
-		3 => invalid format
-		999 => unspecific */
-		$rt['usr_google_account_error'] = 0;
-		$rt['usr_google_account_error_msg'] = array(2 => 'Google Account 地址不能超过 200 个字符', 3 => 'Google Account 地址格式不正确');
 
 		$rt['usr_full_value'] = '';
 		/* usr_full_error:
@@ -1347,25 +1334,6 @@ class Validator {
 		
 		/* E check: usr_email_notify */
 		
-		/* S check: usr_google_account */
-		
-		if (isset($_POST['usr_google_account'])) {
-			$rt['usr_google_account_value'] = make_single_safe($_POST['usr_google_account']);
-			if (mb_strlen($rt['usr_google_account_value'], 'UTF-8') > 200) {
-				$rt['usr_google_account_error'] = 2;
-				$rt['errors']++;
-			} else {
-				if (mb_strlen($rt['usr_google_account_value'], 'UTF-8') > 0) {
-					if (!is_valid_email($rt['usr_google_account_value'])) {
-						$rt['usr_google_account_error'] = 3;
-						$rt['errors']++;
-					}
-				}
-			}
-		}
-		
-		/* E check: usr_google_account */
-
 		/* S check: usr_full */
 		
 		if (isset($_POST['usr_full'])) {
@@ -1598,7 +1566,7 @@ class Validator {
 	
 	/* S module: User Update Update logic */
 	
-	public function vxUserUpdateUpdate($usr_full, $usr_nick, $usr_email_notify, $usr_google_account, $usr_brief, $usr_gender, $usr_addr, $usr_telephone, $usr_identity, $usr_width = 1024, $usr_sw_shuffle_cloud = 1, $usr_sw_top_wealth = 0, $usr_sw_shell = 0, $usr_sw_notify_reply = 0, $usr_sw_notify_reply_all = 0, $usr_password = '') {
+	public function vxUserUpdateUpdate($usr_full, $usr_nick, $usr_email_notify, $usr_brief, $usr_gender, $usr_addr, $usr_telephone, $usr_identity, $usr_width = 1024, $usr_sw_shuffle_cloud = 1, $usr_sw_top_wealth = 0, $usr_sw_shell = 0, $usr_sw_notify_reply = 0, $usr_sw_notify_reply_all = 0, $usr_password = '') {
 		$usr_id = $this->User->usr_id;
 		
 		if (get_magic_quotes_gpc()) {
@@ -1612,9 +1580,6 @@ class Validator {
 			
 			$usr_email_notify = stripslashes($usr_email_notify);
 			$usr_email_notify = mysql_real_escape_string($usr_email_notify);
-			
-			$usr_google_account = stripslashes($usr_google_account);
-			$usr_google_account = mysql_real_escape_string($usr_google_account);
 			
 			$usr_full = stripslashes($usr_full);
 			$usr_full = mysql_real_escape_string($usr_full);
@@ -1636,8 +1601,6 @@ class Validator {
 			
 			$usr_email_notify = mysql_real_escape_string($usr_email_notify);
 			
-			$usr_google_account = mysql_real_escape_string($usr_google_account);
-			
 			$usr_full = mysql_real_escape_string($usr_full);
 			
 			$usr_brief = mysql_real_escape_string($usr_brief);
@@ -1655,9 +1618,9 @@ class Validator {
 		$usr_lastupdated = time();
 		
 		if (strlen($usr_password) > 0) {
-			$sql = "UPDATE babel_user SET usr_full = '{$usr_full}', usr_nick = '{$usr_nick}', usr_email_notify = '{$usr_email_notify}', usr_google_account = '{$usr_google_account}', usr_brief = '{$usr_brief}', usr_gender = '{$usr_gender}', usr_addr = '{$usr_addr}', usr_telephone = '{$usr_telephone}', usr_identity = '{$usr_identity}', usr_width = {$usr_width}, usr_sw_shuffle_cloud = {$usr_sw_shuffle_cloud}, usr_sw_top_wealth = {$usr_sw_top_wealth}, usr_sw_shell = {$usr_sw_shell}, usr_sw_notify_reply = {$usr_sw_notify_reply}, usr_sw_notify_reply_all = {$usr_sw_notify_reply_all}, usr_password = '{$usr_password}', usr_lastupdated = {$usr_lastupdated} WHERE usr_id = {$usr_id} LIMIT 1";
+			$sql = "UPDATE babel_user SET usr_full = '{$usr_full}', usr_nick = '{$usr_nick}', usr_email_notify = '{$usr_email_notify}', usr_brief = '{$usr_brief}', usr_gender = '{$usr_gender}', usr_addr = '{$usr_addr}', usr_telephone = '{$usr_telephone}', usr_identity = '{$usr_identity}', usr_width = {$usr_width}, usr_sw_shuffle_cloud = {$usr_sw_shuffle_cloud}, usr_sw_top_wealth = {$usr_sw_top_wealth}, usr_sw_shell = {$usr_sw_shell}, usr_sw_notify_reply = {$usr_sw_notify_reply}, usr_sw_notify_reply_all = {$usr_sw_notify_reply_all}, usr_password = '{$usr_password}', usr_lastupdated = {$usr_lastupdated} WHERE usr_id = {$usr_id} LIMIT 1";
 		} else {
-			$sql = "UPDATE babel_user SET usr_full = '{$usr_full}', usr_nick = '{$usr_nick}', usr_email_notify = '{$usr_email_notify}', usr_google_account = '{$usr_google_account}', usr_brief = '{$usr_brief}', usr_gender = '{$usr_gender}', usr_addr = '{$usr_addr}', usr_telephone = '{$usr_telephone}', usr_identity = '{$usr_identity}', usr_width = {$usr_width}, usr_sw_shuffle_cloud = {$usr_sw_shuffle_cloud}, usr_sw_top_wealth = {$usr_sw_top_wealth}, usr_sw_shell = {$usr_sw_shell}, usr_sw_notify_reply = {$usr_sw_notify_reply}, usr_sw_notify_reply_all = {$usr_sw_notify_reply_all}, usr_lastupdated = '{$usr_lastupdated}' WHERE usr_id = {$usr_id} LIMIT 1";
+			$sql = "UPDATE babel_user SET usr_full = '{$usr_full}', usr_nick = '{$usr_nick}', usr_email_notify = '{$usr_email_notify}', usr_brief = '{$usr_brief}', usr_gender = '{$usr_gender}', usr_addr = '{$usr_addr}', usr_telephone = '{$usr_telephone}', usr_identity = '{$usr_identity}', usr_width = {$usr_width}, usr_sw_shuffle_cloud = {$usr_sw_shuffle_cloud}, usr_sw_top_wealth = {$usr_sw_top_wealth}, usr_sw_shell = {$usr_sw_shell}, usr_sw_notify_reply = {$usr_sw_notify_reply}, usr_sw_notify_reply_all = {$usr_sw_notify_reply_all}, usr_lastupdated = '{$usr_lastupdated}' WHERE usr_id = {$usr_id} LIMIT 1";
 		}
 		
 		mysql_query($sql, $this->db);

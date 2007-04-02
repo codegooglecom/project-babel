@@ -2604,13 +2604,13 @@ google_ad_channel = "";
 				if (preg_match('/[a-z0-9]/i', $query)) {
 					$d = new Net_Dict;
 					$d->setCache(true, 'file', array('cache_dir' => BABEL_PREFIX . '/cache/dict/'));
-					$defs_a = $d->define($query, 'xdict');
+					$defs_a = $d->define($query, 'web1913');
 					if (!PEAR::isError($defs_a)) {
 						if (count($defs_a) > 0) {
 							echo('<tr><td colspan="2" height="18" class="shead">&nbsp;');
 							echo(format_def(mb_convert_encoding($defs_a[0]['definition'], 'UTF-8', 'GBK')));
 							if (preg_match('/^[a-zA-Z]+$/', $query)) {
-								echo('<span class="tip_i"><small> ... learn more on <a href="http://' . strtolower($query) . '.livid.cn/" target="_blank" class="t">http://' . strtolower($query) . '.livid.cn/</a></small></span>');
+								echo('<span class="tip_i"><small> ... learn more on <a href="http://www.dict.org/bin/Dict?Form=Dict2&Database=web1913&Query=' . urlencode(strtolower($query)) . '" target="_blank" class="t">dict.org</a></small></span>');
 							}
 							echo('</td></tr>');
 						} else {
@@ -2679,13 +2679,13 @@ google_ad_channel = "";
 					if (preg_match('/[a-z0-9]/i', $query)) {
 						$d = new Net_Dict;
 						$d->setCache(true, 'file', array('cache_dir' => BABEL_PREFIX . '/cache/dict/'));
-						$defs_a = @$d->define($query);
+						$defs_a = @$d->define($query, 'web1913');
 						if (!PEAR::isError($defs_a)) {
 							if (count($defs_a) > 0) {
 								echo('<table width="100%" border="0" cellpadding="0" cellspacing="2" class="board">');
 								echo('<tr><td class="shead">&nbsp;' . format_def(mb_convert_encoding($defs_a[0]['definition'], 'UTF-8', 'GBK')));
 								if (preg_match('/^[a-zA-Z]+$/', $query)) {
-									echo('<span class="tip_i"><small> ... learn more on <a href="http://' . strtolower($query) . '.livid.cn/" target="_blank" class="top">http://' . strtolower($query) . '.livid.cn/</a></small></span>');
+									echo('<span class="tip_i"><small> ... learn more on <a href="http://www.dict.org/bin/Dict?Form=Dict2&Database=web1913&Query=' . urlencode(strtolower($query)) . '" target="_blank" class="t">dict.org</a></small></span>');
 								}
 								echo('</td></tr>');
 								echo('</table>');
@@ -4295,7 +4295,7 @@ google_ad_channel = "";
 		echo('<tr><td width="200" align="right">真实姓名</td><td width="200" align="left"><input tabindex="1" type="text" maxlength="80" class="sl" name="usr_full" value="' . make_single_return($this->User->usr_full) . '" /></td>');
 		
 		// S button:
-		echo('<td width="150" rowspan="15" valign="middle" align="right">');
+		echo('<td width="150" rowspan="16" valign="middle" align="right">');
 		
 		_v_btn_f('修改', 'form_user_info');
 		
@@ -4377,7 +4377,22 @@ google_ad_channel = "";
 		}
 		echo('</td></tr>');
 		echo('<tr><td width="200" align="right">用于接收通知的邮箱</td><td align="left"><input tabindex="12" type="text" maxlength="100" class="sl" name="usr_email_notify" value="' . make_single_return($this->User->usr_email_notify) . '" /></td></tr>');
-		echo('<tr><td width="200" align="right">Google Account</td><td align="left"><input tabindex="13" type="text" maxlength="100" class="sl" name="usr_google_account" value="' . make_single_return($this->User->usr_google_account) . '" /></td></tr>');
+		/*
+		echo('<tr><td width="200" align="right">Google Account</td><td align="left">');
+		if ($this->User->usr_google_account != '') {
+			echo('已绑定 <small>' . make_plaintext($this->User->usr_google_account) . '</small>');
+		} else {
+			echo('未绑定');
+		}
+		echo('</td></tr>');
+		echo('<tr><td width="200"></td><td align="left">');
+		if ($this->User->usr_google_account != '') {
+			_v_btn_l('重新绑定', '/google/account/init.vx');
+		} else {
+			_v_btn_l('现在绑定', '/google/account/init.vx');
+		}
+		echo('</td></tr>');
+		*/
 		echo('<tr><td width="200" align="right">新密码</td><td align="left"><input tabindex="14" type="password" maxlength="32" class="sl" name="usr_password_new" /></td></tr>');
 		echo('<tr><td width="200" align="right">重复新密码</td><td align="left"><input tabindex="15" type="password" maxlength="32" class="sl" name="usr_confirm_new" /></td></tr>');
 		echo('<tr><td height="10" colspan="2"></td></tr>');
@@ -4418,7 +4433,7 @@ google_ad_channel = "";
 			
 			/* cell: submit button */
 			
-			echo('<td width="150" rowspan="14" valign="middle" align="right">');
+			echo('<td width="150" rowspan="15" valign="middle" align="right">');
 			_v_btn_f('修改', 'form_user_info');
 			echo('</td></tr>');
 			
@@ -4544,15 +4559,20 @@ google_ad_channel = "";
 				echo('</td></tr>');
 			}
 			
-			if ($rt['usr_google_account_error'] != 0) {
-				echo('<tr><td width="200" align="right" valign="top">Google Account</td><td align="left"><div class="error"><input type="text" maxlength="200" class="sl" name="usr_google_account" value="' . make_single_return($rt['usr_google_account_value']) . '" /><br />');
-				_v_ico_silk('exclamation');
-				echo(' ' . $rt['usr_google_account_error_msg'][$rt['usr_google_account_error']] . '</div></td></tr>');
+			echo('<tr><td width="200" align="right">Google Account</td><td align="left">');
+			if ($this->User->usr_google_account != '') {
+				echo('已绑定 <small>' . make_plaintext($this->User->usr_google_account) . '</small>');
 			} else {
-				echo('<tr><td width="200" align="right">Google Account</td><td align="left"><input type="text" maxlength="100" class="sl" name="usr_google_account" value="' . make_single_return($rt['usr_google_account_value']) . '" />&nbsp;');
-				_v_ico_silk('tick');
-				echo('</td></tr>');
+				echo('未绑定');
 			}
+			echo('</td></tr>');
+			echo('<tr><td width="200"></td><td align="left">');
+			if ($this->User->usr_google_account != '') {
+				_v_btn_l('重新绑定', '/google/account/init.vx');
+			} else {
+				_v_btn_l('现在绑定', '/google/account/init.vx');
+			}
+			echo('</td></tr>');
 			
 			/* S result: usr_password and usr_confirm */
 			
@@ -4641,7 +4661,13 @@ google_ad_channel = "";
 			echo('</td></tr>');
 			/* end: switches */
 			echo('<tr><td width="200" align="right" valign="middle">用于接收通知的邮箱</td><td align="left">' . make_plaintext($rt['usr_email_notify_value']) . '</td></tr>');
-			echo('<tr><td width="200" align="right" valign="middle">Google Account</td><td align="left">' . make_plaintext($rt['usr_google_account_value']) . '</td></tr>');
+			echo('<tr><td width="200" align="right" valign="middle">Google Account</td><td align="left">');
+			if ($this->User->usr_google_account != '') {
+				echo('已绑定 <small>' . make_plaintext($this->User->usr_google_account) . '</small>');
+			} else {
+				echo('未绑定');
+			}
+			echo('</td></tr>');
 			if ($rt['usr_password_touched'] == 1) {
 				echo('<tr><td width="200" align="right" valign="top">新密码</td><td align="left"><div class="important">');
 				$max = rand(1, 6) * 4;
@@ -5262,10 +5288,12 @@ google_ad_channel = "";
 		/* S: how many favs */
 		echo $Node->nod_favs ? '，共有 <a href="/who/fav/node/' . $Node->nod_name . '" class="t">&nbsp;' . $Node->nod_favs . '&nbsp;</a> 人收藏了此讨论区' : '，无人收藏此讨论区';
 		echo('，<a href="/go/' . $Node->nod_name . '" class="var"><img src="/img/icons/silk/shape_move_backwards.png" align="absmiddle" border="0" /></a>&nbsp;<a href="/remix/' . $Node->nod_name . '" class="t">切换到 REMIX 模式</a>');
+		
 		/* E: how many favs */
 		if (!$Node->vxDrawChannels()) {
 			echo('，无相关频道');
 		}
+		
 		
 		
 		$sql = "SELECT rlt_url, rlt_title FROM babel_related WHERE rlt_pid = {$Node->nod_id} ORDER BY rlt_url ASC";
@@ -5284,6 +5312,9 @@ google_ad_channel = "";
 		}
 		
 		mysql_free_result($rs);
+		
+		$Node->vxDrawAlsoFav($this->cl);
+		
 		echo('</div>');
 		
 		echo('<table width="100%" border="0" cellpadding="0" cellspacing="0" class="board">');
@@ -5455,61 +5486,63 @@ google_ad_channel = "";
 			echo('<tr><td align="left" class="hf" colspan="4">' . $Node->nod_footer . '</td></tr>');
 		}
 		
-		/* S ultimate cool flickr */
-		
-		$tag = $Node->nod_name;
-		if ($this->User->usr_id == 1) {
-			$f = Image::vxFlickrBoardBlock($tag, $this->User->usr_width, 4);
-			echo $f;
-			$this->cl->save($f, 'go_flickr_' . $tag);
-		} else {
-			if ($f = $this->cl->load('go_flickr_' . $tag)) {
-				echo $f;
-			} else {
+		if (!$Node->vxDrawStock($this->cl)) {
+			/* S ultimate cool flickr */
+			
+			$tag = $Node->nod_name;
+			if ($this->User->usr_id == 1) {
 				$f = Image::vxFlickrBoardBlock($tag, $this->User->usr_width, 4);
 				echo $f;
 				$this->cl->save($f, 'go_flickr_' . $tag);
-			}
-		}
-		
-		/* E ultimate cool Flickr */
-		
-		/* S ultimate cool Technorati */
-		
-		if (TN_API_ENABLED) {
-			$tn = TN_PREFIX . $Node->nod_name;
-			
-			$T = fetch_rss($tn);
-			echo('<tr><td align="left" class="hf" colspan="4" style="border-top: 1px solid #CCC;">');
-			echo('<a href="http://www.technorati.com/tags/' . $Node->nod_name . '"><img src="/img/tn_logo.gif" align="absmiddle" border="0" /></a>&nbsp;&nbsp;&nbsp;<span class="tip_i">以下条目链接到外部的与本讨论主题 [ ' . $Node->nod_title . ' ] 有关的 Blog。</span>');
-			echo('</td></tr>');
-			$b = count($T->items) > 6 ? 6 : count($T->items);
-			for ($i = 0; $i < $b; $i++) {
-				$Related = $T->items[$i];
-				$css_class = $i % 2 ? 'odd' : 'even';
-				$css_color = rand_color();
-				@$count = $Related['tapi']['inboundlinks'] + $Related['tapi']['inboundblogs'];
-				$css_font_size = '12';
-				echo('<tr><td width="24" height="22" align="center"><a href="' . $Related['comments'] . '" target="_blank" rel="nofollow external"><img src="/img/tnico_cosmos.gif" align="absmiddle" border="0" /></a></td>');
-				echo('<td class="' . $css_class . '" height="22" align="left">');
-				if (isset($Related['title'])) {
-					echo '<a href="' . $Related['link'] . '" target="_blank" rel="external nofollow" class="var" style="color: ' . $css_color . '; font-size: ' . $css_font_size . 'px;">' . $Related['title'] . '</a>';
+			} else {
+				if ($f = $this->cl->load('go_flickr_' . $tag)) {
+					echo $f;
 				} else {
-					echo '<a href="' . $Related['link'] . '" target="_blank" rel="external nofollow">' . $Related['link'] . '</a>';
+					$f = Image::vxFlickrBoardBlock($tag, $this->User->usr_width, 4);
+					echo $f;
+					$this->cl->save($f, 'go_flickr_' . $tag);
 				}
-				echo('</td>');
-				
-				echo('<td class="' . $css_class . '" width="120" height="22" align="left">');
-				if (isset($Related['tapi']['inboundlinks'])) {
-					echo('<span class="tip_i"><small>' . $Related['tapi']['inboundlinks'] . ' inbound links</small></span>');
-				}
-				echo('</td>');
-				echo('<td class="' . $css_class . '" width="120" height="22" align="left"><small class="time">' . make_descriptive_time($Related['date_timestamp']) . '</small></td>');
-				echo('</tr>');
 			}
+			
+			/* E ultimate cool Flickr */
+			
+			/* S ultimate cool Technorati */
+			
+			if (TN_API_ENABLED) {
+				$tn = TN_PREFIX . $Node->nod_name;
+				
+				$T = fetch_rss($tn);
+				echo('<tr><td align="left" class="hf" colspan="4" style="border-top: 1px solid #EEE;">');
+				echo('<a href="http://www.technorati.com/tags/' . $Node->nod_name . '"><img src="/img/tn_logo.gif" align="absmiddle" border="0" /></a>&nbsp;&nbsp;&nbsp;<span class="tip_i">以下条目链接到外部的与本讨论主题 [ ' . $Node->nod_title . ' ] 有关的 Blog。</span>');
+				echo('</td></tr>');
+				$b = count($T->items) > 6 ? 6 : count($T->items);
+				for ($i = 0; $i < $b; $i++) {
+					$Related = $T->items[$i];
+					$css_class = $i % 2 ? 'odd' : 'even';
+					$css_color = rand_color();
+					@$count = $Related['tapi']['inboundlinks'] + $Related['tapi']['inboundblogs'];
+					$css_font_size = '12';
+					echo('<tr><td width="24" height="22" align="center"><a href="' . $Related['comments'] . '" target="_blank" rel="nofollow external"><img src="/img/tnico_cosmos.gif" align="absmiddle" border="0" /></a></td>');
+					echo('<td class="' . $css_class . '" height="22" align="left">');
+					if (isset($Related['title'])) {
+						echo '<a href="' . $Related['link'] . '" target="_blank" rel="external nofollow" class="var" style="color: ' . $css_color . '; font-size: ' . $css_font_size . 'px;">' . $Related['title'] . '</a>';
+					} else {
+						echo '<a href="' . $Related['link'] . '" target="_blank" rel="external nofollow">' . $Related['link'] . '</a>';
+					}
+					echo('</td>');
+					
+					echo('<td class="' . $css_class . '" width="120" height="22" align="left">');
+					if (isset($Related['tapi']['inboundlinks'])) {
+						echo('<span class="tip_i"><small>' . $Related['tapi']['inboundlinks'] . ' inbound links</small></span>');
+					}
+					echo('</td>');
+					echo('<td class="' . $css_class . '" width="120" height="22" align="left"><small class="time">' . make_descriptive_time($Related['date_timestamp']) . '</small></td>');
+					echo('</tr>');
+				}
+			}
+			
+			/* E ultimate cool technorati */
 		}
-		
-		/* E ultimate cool technorati */
 		echo('</table>');
 		echo('<div class="_hh"></div>');
 		echo('</div>');

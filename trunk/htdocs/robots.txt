@@ -6,4 +6,3 @@ Disallow: /topic/new/
 Disallow: /topic/create/
 Disallow: /topic/modify/
 Disallow: /topic/update/
-Disallow: /who/

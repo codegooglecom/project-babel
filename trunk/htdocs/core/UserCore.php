@@ -81,7 +81,7 @@ class User {
 		$this->usr_created = 0;
 		$this->usr_sw_shuffle_cloud = 1;
 		$this->usr_sw_top_wealth = 0;
-		$this->usr_sw_shell = 0;
+		$this->usr_sw_shell = 1;
 		$this->usr_sw_notify_reply = 0;
 		$this->usr_sw_notify_reply_all = 0;
 		$this->usr_lastlogin = 0;
@@ -246,7 +246,7 @@ class User {
 		$this->usr_created = 0;
 		$this->usr_sw_shuffle_cloud = 1;
 		$this->usr_sw_top_wealth = 0;
-		$this->usr_sw_shell = 0;
+		$this->usr_sw_shell = 1;
 		$this->usr_sw_notify_reply = 0;
 		$this->usr_lastlogin = 0;
 		$this->usr_money = 0;
