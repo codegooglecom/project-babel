@@ -411,8 +411,8 @@ class Page {
 	
 	public function vxLink($feedURL = BABEL_FEED_URL) {
 		echo('<link href="/favicon.ico" rel="shortcut icon" />');
-		echo('<link rel="stylesheet" type="text/css" href="/css/themes/' . BABEL_THEME . '/css_babel.css" />');
-		echo('<link rel="stylesheet" type="text/css" href="/css/themes/' . BABEL_THEME . '/css_extra.css" />');
+		echo('<link rel="stylesheet" type="text/css" href="/css/themes/' . BABEL_THEME . '/css_babel.css?' . date('YnjG', time()) . '" />');
+		echo('<link rel="stylesheet" type="text/css" href="/css/themes/' . BABEL_THEME . '/css_extra.css?' . date('YnjG', time()) . '" />');
 		echo('<link rel="stylesheet" type="text/css" href="/css/themes/' . BABEL_THEME . '/css_zen.css" />');
 		echo('<link rel="stylesheet" type="text/css" href="/css/lightbox.css" media="screen" />');
 		echo('<link rel="alternate" type="application/rss+xml" title="' . Vocabulary::site_name . ' RSS" href="' . $feedURL . '" />');
@@ -7033,11 +7033,7 @@ google_ad_channel = "";
 			while ($Reply = mysql_fetch_object($rs)) {
 				$i++;
 				$j = ($p['cur'] - 1) * 60 + $i;
-				if ($Reply->usr_portrait == '') {
-					$img_usr_portrait = CDN_P . 'p_' . $Reply->usr_gender . '_s.gif';
-				} else {
-					$img_usr_portrait = CDN_P . 'p/' . $Reply->usr_portrait . '_s.' . BABEL_PORTRAIT_EXT;
-				}
+
 				if ($this->User->usr_id == 1) {
 					$ico_erase = '&nbsp;<img src="/img/icons/silk/delete.png" align="absmiddle" onclick="if (confirm(' . "'确认擦除？'" . ')) {location.href=' . "'/post/erase/{$Reply->pst_id}.vx';" . '}" border="0" />';
 				} else {
@@ -7064,6 +7060,7 @@ google_ad_channel = "";
 				
 				$txt_title .= $ico_erase . $ico_modify;
 				
+				/* Old style here: 
 				if (($i % 2) == 0) {
 					echo ('<div class="light_even"><span style="color: ' . rand_color() . ';"><img src="' . $img_usr_portrait . '" align="absmiddle" style="border-left: 2px solid ' . rand_color() . '; padding: 0px 5px 0px 5px;" />');
 					if ($Reply->usr_id == $Topic->tpc_uid) {
@@ -7081,6 +7078,39 @@ google_ad_channel = "";
 					}
 					echo ('</div>');
 				}
+				Old style over. */
+				
+				/* New style 4/07 here: */
+				$now = time();
+				$created = $Reply->pst_created;
+				$diff = $now - $created;
+				if (($diff) < 86400) {
+					$when = '<small>' . $j . ' - </small>' . make_descriptive_time($created) . ' - <small>' . date('G:i', $created) . '</small>';
+				} else {
+					if ($diff < 31536000) {
+						$when = '<small>' . $j . ' - ' . date("n-j G:i", $Reply->pst_created) . '</small>';
+					} else {
+						$when = '<small>' . $j . ' - ' . date("Y-n-j G:i", $Reply->pst_created) . '</small>';
+					}
+				}
+				
+				$img_p = $Reply->usr_portrait ? CDN_IMG . 'p/' . $Reply->usr_portrait . '_s.jpg' : CDN_IMG . 'p_' . $Reply->usr_gender . '_s.gif';
+				
+				echo('<div class="r">');
+				echo('<div style="float: right;"><span class="tip_i">' . $when . $ico_erase . $ico_modify . '</span></div>');
+				echo('<a href="/u/' . urlencode($Reply->usr_nick) . '"><img src="' . $img_p . '" align="absmiddle" style="margin-right: 10px;" border="0" /></a>');
+				echo('<strong><a href="/u/' . urlencode($Reply->usr_nick) . '" style="color: ' . rand_color() . '" class="var">' . make_plaintext($Reply->usr_nick) . '</a></strong>');
+				if ($this->User->usr_id == $Reply->usr_id) {
+					echo(' <span class="tip_i">我</span>');
+				}
+				if ($Topic->usr_id == $Reply->usr_id) {
+					echo(' <span class="tip_i">楼主</span>');
+				}
+				echo('<div style="margin-bottom: -5px;"></div>');
+				echo('<div style="padding-left: 45px;">' . format_ubb($Reply->pst_content) . '</div>');
+				echo('</div>');
+				
+				/* New style 4/07 over. */
 			}
 			if ($p['total'] > 1) {
 				$this->vxDrawPages($p);
@@ -7800,6 +7830,18 @@ google_ad_channel = "";
 		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . urlencode($User->usr_nick) . '">' . $User->usr_nick . '</a> &gt; ' . Vocabulary::term_zen . ' <span class="tip_i"><small>alpha</small></span></div>');
 		echo('<div class="blank"><span class="text_large"><a style="color: ' . rand_color() . ';" href="/u/' . urlencode($User->usr_nick) . '" class="var">' . $User->usr_nick . '</a> / 进行中的项目</span>');
 		
+		if (isset($_SESSION['babel_zen_message'])) {
+			if ($_SESSION['babel_zen_message'] != '') {
+				_v_hr();
+				echo('<div class="notify"><span class="tip">' . $_SESSION['babel_zen_message'] . '</span></div>');
+				$_SESSION['babel_zen_message'] = '';
+			} else {
+			}
+		} else {
+			$_SESSION['babel_zen_message'] = '';
+		}
+		
+		
 		if ($_SESSION['babel_ua']['GECKO_DETECTED'] || $_SESSION['babel_ua']['KHTML_DETECTED'] || $_SESSION['babel_ua']['OPERA_DETECTED']) {
 			$hack_width = 'width="100%" ';
 		} else {
@@ -7878,16 +7920,6 @@ google_ad_channel = "";
 		}
 		if (!$this->User->vxIsLogin()) {
 			echo('<span class="tip">ZEN 是帮助你管理时间的一个小工具，如果你就是 <a href="/u/' . urlencode($User->usr_nick) . '" class="t">' . make_plaintext($User->usr_nick) . '</a>，你可以在 [ <a href="/login.vx" class="t">登录</a> ] 之后管理自己的时间</span>');
-		} else {
-			if (isset($_SESSION['babel_zen_message'])) {
-				if ($_SESSION['babel_zen_message'] != '') {
-					echo('<span class="tip_i">' . $_SESSION['babel_zen_message'] . '</span>');
-					$_SESSION['babel_zen_message'] = '';
-				} else {
-				}
-			} else {
-				$_SESSION['babel_zen_message'] = '';
-			}
 		}
 		echo('</div>');
 		/* E: Unfinished Projects */
@@ -8767,7 +8799,7 @@ google_ad_channel = "";
 			echo('<a href="/ing-' . $_up['ing_id'] . '.html"><img src="' . $img_p . '" align="absmiddle" alt="' . make_single_return($_up['usr_nick']) . '" class="portrait" border="0" /></a> ');
 			echo('<a href="/u/' . urlencode($_up['usr_nick']) . '" class="t">' . make_plaintext($_up['usr_nick']) . '</a> ');
 			echo(format_ubb(trim($_up['ing_doing'])) . ' <span class="tip_i">' . make_descriptive_time($_up['ing_created']) . '</span> <span class="tip"><small>from ' . $_sources[$_up['ing_source']] . '</small></span> ');
-			if ($flag_self) {
+			if ($_up['ing_uid'] == $this->User->usr_id) {
 				echo('<a href="/erase/ing/' . $_up['ing_id'] . '.vx"><img src="/img/ing_trash.gif" align="absmiddle" alt="del" border="0" /></a>');
 			}
 			_v_d_e();
