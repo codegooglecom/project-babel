@@ -234,7 +234,7 @@ class Node {
 		if (!BABEL_FEATURE_NODE_STOCK) {
 			return false;
 		} else {
-			if ($o = $c->load('babel_node_stock_' . $this->nod_id)) {
+			if ($o = $c->load('babel_node_stock_a' . $this->nod_id)) {
 				if ($o == '') {
 					return false;
 				} else {
@@ -275,9 +275,9 @@ class Node {
 					$o .= ' ' . $this->nod_header . ' 的行情图表 <a name="stock_chart"></a></span></div>';
 					$o .= '<div align="center">';
 					$o .= '<script type="text/javascript" src="/js/babel_stock_switcher.js"> </script>';
-					$o .= '<script type="text/javascript">market = "' . $special . '"; code = "' . $this->nod_name . '"; stock_charts_preload();</script>';
-					$o .= '<span class="tip_i"><a href="#;" onclick="stock_get_realtime();">分时行情</a> | <a href="#;" onclick="stock_get_k_min5();">5 分钟 K 线</a> | <a href="#;" onclick="stock_get_k_daily();">日 K 线</a> | <a href="#;" onclick="stock_get_k_weekly();">周 K 线</a> | <a href="#;" onclick="stock_get_k_monthly();">月 K 线</a> | <a href="#;" onclick="stock_get_rsi();">RSI</a> | <a href="#;" onclick="stock_get_macd();">MACD</a> | <a href="#;" onclick="stock_get_kdj();">KDJ</a> | <a href="#;" onclick="stock_get_mike();">MIKE</a></span><br />';
-					$o .= '<img id="stock_chart" src="http://image.sinajs.cn/newchart/min/n/' . $special . $this->nod_name . '.gif" class="code" /></div>';
+					$o .= '<script type="text/javascript">market = "' . $special . '"; code = "' . $this->nod_name . '";</script>';
+					$o .= '<span class="tip_i">图表切换<img src="/img/pico_right.gif" align="absmiddle" /> <a href="#;" onclick="stock_get_realtime();" class="t">分时行情</a> | <a href="#;" onclick="stock_get_k_min5();" class="t">5 分钟 K 线</a> | <a href="#;" onclick="stock_get_k_daily();" class="t">日 K 线</a> | <a href="#;" onclick="stock_get_k_weekly();" class="t">周 K 线</a> | <a href="#;" onclick="stock_get_k_monthly();" class="t">月 K 线</a> | <a href="#;" onclick="stock_get_rsi();" class="o">RSI</a> | <a href="#;" onclick="stock_get_macd();" class="o">MACD</a> | <a href="#;" onclick="stock_get_kdj();" class="o">KDJ</a> | <a href="#;" onclick="stock_get_mike();" class="o">MIKE</a></span><br />';
+					$o .= '<img id="stock_chart" src="http://image.sinajs.cn/newchart/min/n/' . $special . $this->nod_name . '.gif?' . time() . '" class="code" /></div>';
 					$o .= _vo_hr();
 					$o .= '<div class="notify"><div style="float: right;"><a href="#;" onclick="window.scrollTo(0, 0);">回到顶部</a></div><span style="font-size: 14px;">';
 					$o .= _vo_ico_silk('comments');
@@ -321,7 +321,16 @@ class Node {
 						unset($item);
 					}
 					$o .= _vo_hr();
+					$o .= '<span class="tip_i">各大财经网站关于 ' . $this->nod_title . ' (' . $this->nod_name . ') 的相关信息<img src="/img/pico_right.gif" align="absmiddle" /> ';
+					$o .= '<a href="http://finance.sina.com.cn/realstock/company/' . $special . $this->nod_name . '/nc.shtml" class="var" style="color: ' . rand_color() . '" rel="external nofollow">新浪</a> | ';
+					$o .= '<a href="http://stockdata.stock.hexun.com/dynamic/default.aspx?stockid=' . $this->nod_name . '" class="var" style="color: ' . rand_color() . '" rel="external nofollow">和讯</a> | ';
+					$o .= '<a href="http://hq.eastmoney.com/' . $this->nod_name . '.html" class="var" style="color: ' . rand_color() . '" rel="external nofollow">东方财富网</a> | ';
+					$o .= '<a href="http://quote.stockstar.com/stock/external_quote.asp?code=' . $special . 'ag' . $this->nod_name . '" class="var" style="color: ' . rand_color() . '" rel="external nofollow">证券之星</a> | ';
+					$o .= '<a href="http://share.jrj.com.cn/cominfo/ggxw_' . $this->nod_name . '.htm" class="var" style="color: ' . rand_color() . '" rel="external nofollow">金融界</a>';
+					$o .= '</span>';
+					$o .= _vo_hr();
 					$o .= '<a href="#;" onclick="window.scrollTo(0, 0)">回到顶部</a>';
+					$o .= '<script type="text/javascript">stock_charts_preload();</script>';
 					$o .= '</td></tr>';
 					echo $o;
 					$c->save($o, 'babel_node_stock_' . $this->nod_id);
