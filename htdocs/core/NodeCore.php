@@ -276,7 +276,7 @@ class Node {
 					$o .= '<div align="center">';
 					$o .= '<script type="text/javascript" src="/js/babel_stock_switcher.js"> </script>';
 					$o .= '<script type="text/javascript">market = "' . $special . '"; code = "' . $this->nod_name . '"; stock_charts_preload();</script>';
-					$o .= '<span class="tip_i"><a href="#;" onclick="stock_get_realtime();">分时行情</a> | <a href="#;" onclick="stock_get_k_daily();">日 K 线</a> | <a href="#;" onclick="stock_get_k_weekly();">周 K 线</a> | <a href="#;" onclick="stock_get_k_monthly();">月 K 线</a> | <a href="#;" onclick="stock_get_rsi();">RSI</a> | <a href="#;" onclick="stock_get_macd();">MACD</a> | <a href="#;" onclick="stock_get_kdj();">KDJ</a> | <a href="#;" onclick="stock_get_mike();">MIKE</a></span><br />';
+					$o .= '<span class="tip_i"><a href="#;" onclick="stock_get_realtime();">分时行情</a> | <a href="#;" onclick="stock_get_k_min5();">5 分钟 K 线</a> | <a href="#;" onclick="stock_get_k_daily();">日 K 线</a> | <a href="#;" onclick="stock_get_k_weekly();">周 K 线</a> | <a href="#;" onclick="stock_get_k_monthly();">月 K 线</a> | <a href="#;" onclick="stock_get_rsi();">RSI</a> | <a href="#;" onclick="stock_get_macd();">MACD</a> | <a href="#;" onclick="stock_get_kdj();">KDJ</a> | <a href="#;" onclick="stock_get_mike();">MIKE</a></span><br />';
 					$o .= '<img id="stock_chart" src="http://image.sinajs.cn/newchart/min/n/' . $special . $this->nod_name . '.gif" class="code" /></div>';
 					$o .= _vo_hr();
 					$o .= '<div class="notify"><div style="float: right;"><a href="#;" onclick="window.scrollTo(0, 0);">回到顶部</a></div><span style="font-size: 14px;">';
