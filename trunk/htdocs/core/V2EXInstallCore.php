@@ -222,11 +222,15 @@ $i->vxSetupWeightV2EX();
 
 // The River Oceanus
 //$i->vxSetupSectionExtra('theriveroceanus', '海神之河');
-$i->vxSetupBoard('stock', '证券投资', 452, 452, 1, 2, '', '');
+$i->vxSetupBoard('stock', '股票', 452, 452, 1, 2, '', '股票 | 证券 | Stock');
 	$i->vxSetupRelatedByName('stock', 'http://www.stockstar.com/', '证券之星');
 	$i->vxSetupRelatedByName('stock', 'http://www.gf.com.cn/', '广发证券');
 	$i->vxSetupRelatedByName('stock', 'http://www.jrj.com/', '金融界');
 	$i->vxSetupRelatedByName('stock', 'http://www.hexun.com/', '和讯');
+$i->vxSetupBoard('stock', '股票', 452, 452, 1, 2, '', '股票 | 证券 | Stock');
+$i->vxSetupBoard('futures', '期货', 452, 452, 1, 2, '', '期货 | Futures');
+$i->vxSetupBoard('option', '期权', 452, 452, 1, 2, '', '期权 | Option');
+$i->vxSetupBoard('bond', '债券', 452, 452, 1, 2, '', '债券 | Bond');
 $i->vxSetupBoard('capitalism', '資本主義', 452, 452, 1, 2, '', '');
 $i->vxSetupBoard('money', '投资与理财', 452, 452, 1, 2, '', '');
 	$i->vxSetupRelatedByName('money', 'http://www.cmbchina.com/', '中国招商银行');
@@ -235,7 +239,7 @@ $i->vxSetupBoard('money', '投资与理财', 452, 452, 1, 2, '', '');
 	$i->vxSetupRelatedByName('money', 'http://www.ccb.com.cn/', '中国建设银行');
 	$i->vxSetupRelatedByName('money', 'http://www.bank-of-china.com/', '中国银行');
 $i->vxSetupBoard('vc', '风险投资', 452, 452, 1, 2, '', '');
-$i->vxSetupBoard('lottery', '彩票研究', 452, 452, 1, 2, '', '');
+$i->vxSetupBoard('lottery', '彩票', 452, 452, 1, 2, '', '');
 $i->vxSetupBoard('jobs', '我要找份好工作', 452, 452, 1, 2, '', '');
 $i->vxSetupBoard('sales', '销售一切', 452, 452, 1, 2, '', '');
 $i->vxSetupBoard('exchange', '以物换物', 452, 452, 1, 2, '', '');
@@ -302,6 +306,7 @@ $i->vxSetupBoard('600071', '凤凰光学', 452, 452, 1, 2, '凤凰光学 (600071
 $i->vxSetupBoard('600072', '江南重工', 452, 452, 1, 2, '江南重工 (600072)', '');
 $i->vxSetupBoard('600073', '上海梅林', 452, 452, 1, 2, '上海梅林 (600073)', '');
 $i->vxSetupBoard('600075', '新疆天业', 452, 452, 1, 2, '新疆天业 (600075)', '');
+$i->vxSetupBoard('600103', '青山纸业', 452, 452, 1, 2, '青山纸业 (600103)', '');
 $i->vxSetupBoard('600105', '永鼎光缆', 452, 452, 1, 2, '永鼎光缆 (600105)', '');
 $i->vxSetupBoard('600109', '成都建设', 452, 452, 1, 2, '成都建设 (600109)', '');
 $i->vxSetupBoard('600123', '兰花科创', 452, 452, 1, 2, '兰花科创 (600123)', '');
@@ -317,6 +322,7 @@ $i->vxSetupBoard('600210', '紫江企业', 452, 452, 1, 2, '紫江企业 (600210
 $i->vxSetupBoard('600213', 'S*ST亚星', 452, 452, 1, 2, 'S*ST亚星 (600213)', '');
 $i->vxSetupBoard('600223', '万杰高科', 452, 452, 1, 2, '万杰高科 (600223)', '');
 $i->vxSetupBoard('600239', 'S红河', 452, 452, 1, 2, 'S红河 (600239)', '');
+$i->vxSetupBoard('600318', 'S巢东', 452, 452, 1, 2, 'S巢东 (600318)', '');
 $i->vxSetupBoard('600320', '振华港机', 452, 452, 1, 2, '振华港机 (600320)', '');
 $i->vxSetupBoard('600323', '南海发展', 452, 452, 1, 2, '南海发展 (600323)', '');
 $i->vxSetupBoard('600362', '江西铜业', 452, 452, 1, 2, '江西铜业 (600362)', '');
@@ -339,6 +345,8 @@ $i->vxSetupBoard('600653', '申华控股', 452, 452, 1, 2, '申华控股 (600653
 $i->vxSetupBoard('600675', '中华企业', 452, 452, 1, 2, '中华企业 (600675)', '');
 $i->vxSetupBoard('600707', '彩虹股份', 452, 452, 1, 2, '彩虹股份 (600707)', '');
 $i->vxSetupBoard('600722', '沧州化工', 452, 452, 1, 2, '沧州化工 (600722)', '');
+$i->vxSetupBoard('600726', '华电能源', 452, 452, 1, 2, '华电能源 (600726)', '');
+$i->vxSetupBoard('600744', '华银电力', 452, 452, 1, 2, '华银电力 (600744)', '');
 $i->vxSetupBoard('600770', '综艺股份', 452, 452, 1, 2, '综艺股份 (600770)', '');
 $i->vxSetupBoard('600795', '国电电力', 452, 452, 1, 2, '国电电力 (600795)', '');
 $i->vxSetupBoard('600804', '鹏博士', 452, 452, 1, 2, '鹏博士 (600804)', '');
@@ -351,6 +359,7 @@ $i->vxSetupBoard('600863', '内蒙华电', 452, 452, 1, 2, '内蒙华电 (600863
 $i->vxSetupBoard('600866', '星湖科技', 452, 452, 1, 2, '星湖科技 (600866)', '');
 $i->vxSetupBoard('600868', '梅雁水电', 452, 452, 1, 2, '梅雁水电 (600868)', '');
 $i->vxSetupBoard('600869', '三普药业', 452, 452, 1, 2, '三普药业 (600869)', '');
+$i->vxSetupBoard('600871', '仪征化纤', 452, 452, 1, 2, '仪征化纤 (600871)', '');
 $i->vxSetupBoard('600882', '大成股份', 452, 452, 1, 2, '大成股份 (600882)', '');
 $i->vxSetupBoard('600884', '杉杉股份', 452, 452, 1, 2, '杉杉股份 (600884)', '');
 $i->vxSetupBoard('600900', '长江电力', 452, 452, 1, 2, '长江电力 (600900)', '');
@@ -358,10 +367,13 @@ $i->vxSetupBoard('600960', '滨州活塞', 452, 452, 1, 2, '滨州活塞 (600960
 $i->vxSetupBoard('600979', '广安爱众', 452, 452, 1, 2, '广安爱众 (600979)', '');
 $i->vxSetupBoard('601111', '中国国航', 452, 452, 1, 2, '中国国航 (601111)', '');
 $i->vxSetupBoard('601318', '中国平安', 452, 452, 1, 2, '中国平安 (601318)', '');
+$i->vxSetupBoard('601333', '广深铁路', 452, 452, 1, 2, '广深铁路 (601333)', '');
 $i->vxSetupBoard('601398', '工商银行', 452, 452, 1, 2, '工商银行 (601398)', '');
+$i->vxSetupBoard('601588', '北辰实业', 452, 452, 1, 2, '北辰实业 (601588)', '');
 $i->vxSetupBoard('601628', '中国人寿', 452, 452, 1, 2, '中国人寿 (601628)', '');
 $i->vxSetupBoard('601872', '招商轮船', 452, 452, 1, 2, '招商轮船 (601872)', '');
 $i->vxSetupBoard('601988', '中国银行', 452, 452, 1, 2, '中国银行 (601988)', '');
+$i->vxSetupBoard('601991', '大唐发电', 452, 452, 1, 2, '大唐发电 (601991)', '');
 
 $i->vxSetupBoard('000001', 'S深发展A', 452, 452, 1, 2, 'S深发展A (000001)', '');
 $i->vxSetupBoard('000002', '万科A', 452, 452, 1, 2, '万科A (000002)', '');
@@ -869,6 +881,7 @@ $i->vxSetupBoard('sai', 'SAi', 4, 4, 1, 2, '', '');
 	$i->vxSetupRelatedByName('sai', 'http://blog.orzotl.com/?1', 'Nothing but SAi');
 	$i->vxSetupChannelByName('sai', 'http://blog.orzotl.com/1/action_rss.html');
 $i->vxSetupBoard('harukimurakami', '村上春树', 4, 4, 1, 2, '', '');
+$i->vxSetupBoard('jeanpaulsartre', 'Jean-Paul Sartre', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('m2099', 'm2099', 4, 4, 1, 2, '', '');
 	$i->vxSetupRelatedByName('m2099', 'http://www.m2099.com/', 'm2099');
 $i->vxSetupBoard('triangle', '三角地', 4, 4, 1, 2, '', '');
