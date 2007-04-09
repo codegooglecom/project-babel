@@ -111,6 +111,8 @@ class Page {
 	
 	public $restricted;
 	
+	public $ver;
+	
 	/* S module: constructor and destructor */
 
 	public function __construct() {
@@ -258,6 +260,9 @@ class Page {
 		$this->online_count = $this->online_count_anon + $this->online_count_reg;
 		
 		$this->restricted = get_restricted($this->cs);
+		
+		preg_match('/([0-9]+)/', '$Revision$', $z);
+		$this->ver = '0.5.' . $z[1];
 		
 		header('Content-Type: text/html; charset=UTF-8');
 		header('Cache-control: no-cache, must-revalidate');
@@ -898,7 +903,7 @@ class Page {
 		echo('</ul>');
 		_v_hr();
 		echo('<a href="http://www.spreadfirefox.com/?q=affiliates&amp;id=197201&amp;t=218"><img border="0" alt="Firefox 2" title="Firefox 2" src="' . CDN_UI . 'img/ff2o80x15.gif" /></a> ');
-		echo(' <a href="http://www.pageflakes.com/?source=d736779a-49d4-46a7-a918-a70ad0b8cbd8"><img border="0" alt="Pageflakes" title="Pageflakes" src="' . CDN_UI . 'img/80x15/pageflakes.gif" /></a>');
+		echo(' <a href="http://www.igniterealtime.org/projects/openfire/" target="_blank"><img border="0" alt="Pageflakes" title="Openfire" src="' . CDN_UI . 'img/80x15/openfire.gif" /></a>');
 		_v_hr();
 		echo('<span class="tip_i"><small>Hosted by <a href="' . HOST_LINK . '" target="_blank" style="color: ' . rand_color() . '" class="var">' . HOST_COMPANY . '</a></small></span>');
 		echo('</div>');
@@ -1686,16 +1691,33 @@ class Page {
 		if (!$go) {
 			$o .= $this->vxHomePortraits();
 		}
-		// latest favorite
+		// latest ing & favorite
 		
 		if (!$go) {
-			$o = $o . '<div class="blank"><img src="' . CDN_UI . 'img/icons/silk/star.png" align="absmiddle" /> 在过去的几分钟里，我们在 ' . Vocabulary::site_name . ' 收藏了 ... <a href="/fav/latest.html" class="var" style="color: ' . rand_color() . '">浏览最新的 100 个收藏</a>';
-			
+			$o .= '<div class="blank">';
+			$o .= '<a href="/feed/ing">' . _vo_ico_silk('feed', 'right') . '</a>';
+			$o .= _vo_ico_silk('hourglass');
+			$o .= ' 大家在做什么 ...';
 			if ($_SESSION['babel_ua']['GECKO_DETECTED'] || $_SESSION['babel_ua']['KHTML_DETECTED'] || $_SESSION['babel_ua']['OPERA_DETECTED']) {
 				$hack_width = 'width="100%" ';
 			} else {
 				$hack_width = 'width="99%" ';
 			}
+			$o = $o . '<table ' . $hack_width . 'cellpadding="0" cellspacing="0" border="0" class="fav">';
+			$sql = 'SELECT ing_id, ing_doing, ing_created, usr_id, usr_nick, usr_portrait, usr_gender FROM babel_ing_update, babel_user WHERE usr_id = ing_uid ORDER BY ing_created DESC LIMIT 10';
+			$rs = mysql_query($sql);
+			while ($_ing = mysql_fetch_array($rs)) {
+				$img_p = $_ing['usr_portrait'] ? CDN_P . 'p/' . $_ing['usr_portrait'] . '_n.jpg' : CDN_P . 'p_' . $_ing['usr_gender'] . '_n.gif';
+				$css_color = rand_color();
+				$o .= '<tr><td align="left">&nbsp;<img src="' . $img_p . '" border="0" class="portrait" align="absmiddle" alt="' . make_single_return($_ing['usr_nick']) . '" />&nbsp;<a href="/ing/' . urlencode($_ing['usr_nick']) . '" class="var" style="color: ' . $css_color . ';">' . make_plaintext($_ing['usr_nick']) . '</a>: <a href="/ing-' . $_ing['ing_id'] . '.html" class="var" style="color: ' . $css_color . ';">' . format_ubb($_ing['ing_doing']) . '</a> <span class="tip_i">... ' . make_descriptive_time($_ing['ing_created']) . '</span>';
+				unset($_ing);
+			}
+			mysql_free_result($rs);
+			$o .= '</table>';
+			$o .= '</div>';
+			
+			$o = $o . '<div class="blank"><img src="' . CDN_UI . 'img/icons/silk/star.png" align="absmiddle" /> 在过去的几分钟里，我们在 ' . Vocabulary::site_name . ' 收藏了 ... <a href="/fav/latest.html" class="var" style="color: ' . rand_color() . '">浏览最新的 100 个收藏</a>';
+			
 			$o = $o . '<table ' . $hack_width . 'cellpadding="0" cellspacing="0" border="0" class="fav">';
 			
 			$sql = 'SELECT usr_id, usr_gender, usr_nick, usr_portrait, fav_id, fav_type, fav_title, fav_author, fav_res, fav_created FROM babel_favorite, babel_user WHERE fav_uid = usr_id ORDER BY fav_created DESC LIMIT 10';
@@ -1795,21 +1817,9 @@ class Page {
 		$o = '<script src="/js/babel_home_tabs.js" type="text/javascript"> </script>';
 		$o .= '<div align="left" class="blank">';
 		
-		if ($_SESSION['babel_ua']['MSIE_DETECTED']) {
-			$o .= '<div style="float: right;">';
-			$o .= '<script type="text/javascript"><!--
-google_ad_client = "pub-9823529788289591";
-google_ad_width = 110;
-google_ad_height = 32;
-google_ad_format = "110x32_as_rimg";
-google_cpa_choice = "CAAQ_-KZzgEaCHfyBUS9wT0_KOP143Q";
-google_ad_channel = "";
-//-->
-</script>
-<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
-</script>';
-			$o .= '</div>';
-		}
+		$o .= '<div style="float: right;">';
+		$o .= '<span class="tip_i"><small>V' . $this->ver . '</small></span>';
+		$o .= '</div>';
 		
 		if ($this->User->vxIsLogin()) {
 			$img_p = $this->User->usr_portrait ? CDN_IMG . 'p/' . $this->User->usr_portrait . '_n.jpg' : CDN_IMG . 'p_' . $this->User->usr_gender . '_n.gif';
