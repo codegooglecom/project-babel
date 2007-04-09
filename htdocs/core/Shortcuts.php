@@ -44,7 +44,7 @@ function _v_ico_silk($icon, $align = 'absmiddle') {
 }
 
 function _vo_ico_silk($icon, $align = 'absmiddle') {
-	return '<img src="' . CDN_UI . 'img/icons/silk/' . $icon . '.png" align="' . $align . '" />';
+	return '<img src="' . CDN_UI . 'img/icons/silk/' . $icon . '.png" align="' . $align . '" border="0" />';
 }
 
 function _v_ing_style_personal() {
