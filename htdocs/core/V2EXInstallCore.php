@@ -952,6 +952,7 @@ $i->vxSetupBoard('blogbus', 'BlogBus', 4, 4, 1, 2, '', '');
 	$i->vxSetupRelatedByName('blogbus', 'http://www.blogbus.com/', 'BlogBus');
 $i->vxSetupBoard('blogger', 'Blogger', 4, 4, 1, 2, '', '');
 	$i->vxSetupChannelByName('blogger', 'http://www.mozine.cn/feed/rss2/');
+	$i->vxSetupChannelByName('blogger', 'http://memedia.cn/feed/');
 	$i->vxSetupChannelByName('blogger', 'http://feeds.feedburner.com/TechCrunch');
 	$i->vxSetupChannelByName('blogger', 'http://feeds.feedburner.com/PoseShow');
 	$i->vxSetupChannelByName('blogger', 'http://feeds.feedburner.com/PlayinWithIt');
