@@ -137,9 +137,14 @@ class Page {
 			mysql_query("SET NAMES utf8");
 			mysql_query("SET CHARACTER SET utf8");
 			mysql_query("SET COLLATION_CONNECTION='utf8_general_ci'");
+			if (BABEL_DEBUG) {
+				mysql_query("SET PROFILING=1");
+			}
 			$rs = mysql_query('SELECT nod_id FROM babel_node WHERE nod_id = 1');
 			if (@mysql_num_rows($rs) == 1) {
+				mysql_free_result($rs);
 			} else {
+				mysql_free_result($rs);
 				exception_message('world');
 			}
 		} else {
@@ -269,9 +274,6 @@ class Page {
 	}
 	
 	public function __destruct() {
-		if (@$this->db) {
-			mysql_close($this->db);
-		}
 		if (BABEL_DEBUG) {
 			$this->timer->stop();
 			echo('<div id="debug">Project Babel Debug Information - Generated on ' . date('Y-n-j G:i:s', time()) . '<br /><br />');
@@ -291,7 +293,15 @@ class Page {
 				$_SESSION['babel_debug_log'] = array();
 				echo('Debug log is empty.');
 			}
+			_v_hr();
+			$rs = mysql_query("SHOW PROFILES");
+			while ($_p = mysql_fetch_array($rs)) {
+				echo $_p['Query_ID'] . ' - ' . $_p['Duration'] . ' - ' . $_p['Query'] . '<br />';
+			}
 			echo('</div>');
+		}
+		if (@$this->db) {
+			mysql_close($this->db);
 		}
 	}
 	
@@ -540,6 +550,7 @@ class Page {
 			echo('<li><a href="/u/' . urlencode($this->User->usr_nick) . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/house.png" align="absmiddle" border="0" /> 我的 ' . Vocabulary::site_name . ' 主页</a></li>');
 			echo('<li><a href="/zen/' . $this->User->usr_nick_url . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/clock.png" align="absmiddle" border="0" /> ZEN</a></li>');
 			echo('<li><a href="/ing/' . $this->User->usr_nick_url . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/hourglass.png" align="absmiddle" border="0" /> ING</a></li>');
+			echo('<li><a href="/dry/' . $this->User->usr_nick_url . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/color_swatch.png" align="absmiddle" border="0" /> DRY</a></li>');
 			echo('<li><a href="/topic/archive/user/' . urlencode($this->User->usr_nick) . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/comments.png" align="absmiddle" border="0" /> 我创建的所有主题</a></li>');
 			echo('<li><a href="/topic/favorite.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/star.png" align="absmiddle" border="0" /> 我的收藏夹</a></li>');
 			echo('<li><a href="/expense/view.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/coins_delete.png" align="absmiddle" border="0" /> 消费记录</a></li>');
@@ -753,6 +764,7 @@ class Page {
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/comments.png" align="absmiddle" />&nbsp;<a href="/topic/archive/user/' . urlencode($this->User->usr_nick) . '">我创建的所有主题</a></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/hourglass.png" align="absmiddle" />&nbsp;<a href="/ing/' . urlencode($this->User->usr_nick) . '">ING</a> <span class="tip_i"><small>alpha</small></span></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/clock.png" align="absmiddle">&nbsp;<a href="/zen/' . urlencode($this->User->usr_nick) . '">ZEN</a> <span class="tip_i"><small>alpha</small></span></li>');
+			echo('<li><img src="' . CDN_UI . 'img/icons/silk/color_swatch.png" align="absmiddle">&nbsp;<a href="/dry/' . urlencode($this->User->usr_nick) . '">DRY</a> <span class="tip_i"><small>alpha</small></span></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/house.png" align="absmiddle" />&nbsp;<a href="/u/' . urlencode($this->User->usr_nick) . '">我的 ' . Vocabulary::site_name . ' 主页</a></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/coins_delete.png" align="absmiddle" />&nbsp;<a href="/expense/view.vx">消费记录</a></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/coins_add.png" align="absmiddle" />&nbsp;<a href="#;" onclick="openTopWealth();">社区财富排行</a></li>');
