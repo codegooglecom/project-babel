@@ -640,7 +640,7 @@ function is_valid_nick($nick) {
 	if (preg_match($regex, $nick)) {
 		return false;
 	} else {
-		$bad_words = array('。', '，', '？', '～', '！', '刘', '昕', '刘昕', '客齐集', '管', 'admin', 'fuck', 'kijiji', 'public', 'portal', 'all', 'home', 'own', 'private', 'static', 'protected', 'final', 'go', 'special', 'featured', 'staff', '斑竹', '版', '主', 'rss', 'v2ex', 'babel', 'project');
+		$bad_words = array('。', '，', '？', '～', '！', '刘', '昕', '刘昕', '客齐集', '管', 'admin', 'fuck', 'kijiji', 'public', 'portal', 'all', 'home', 'new', 'save', 'modify', 'write', 'update', 'own', 'private', 'static', 'protected', 'final', 'go', 'special', 'featured', 'staff', '斑竹', '版', '主', 'rss', 'v2ex', 'babel', 'project');
 		foreach ($bad_words as $w) {
 			$pos = stripos($nick, $w);
 			if ($pos === false) {

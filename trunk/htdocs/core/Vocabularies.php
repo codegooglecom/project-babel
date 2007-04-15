@@ -74,6 +74,8 @@ class Vocabulary {
 	
 	const term_zen = 'ZEN';
 	
+	const term_dry = 'DRY';
+	
 	const term_region = '地域';
 	
 	const term_member = '会员';

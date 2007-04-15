@@ -1814,6 +1814,58 @@ switch ($m) {
 		$p->vxBodyStart();
 		$p->vxOutputJavaScriptIngPersonal();
 		break;
+		
+	case 'dry':
+		$options = array();
+		$options['mode'] = false;
+		if (isset($_GET['user_nick'])) {
+			$user_nick = mysql_real_escape_string(make_single_safe($_GET['user_nick']), $p->db);
+			if (strlen($user_nick) > 0) {
+				$sql = "SELECT usr_id, usr_nick, usr_brief, usr_gender, usr_portrait, usr_hits, usr_created FROM babel_user WHERE usr_nick = '{$user_nick}'";
+				$rs = mysql_query($sql, $p->db);
+				if ($O = mysql_fetch_object($rs)) {
+					$options['mode'] = 'fixed';
+					$O->usr_nick_plain = make_plaintext($O->usr_nick);
+					$O->usr_nick_url = urlencode($O->usr_nick);
+					$options['target'] = $O;
+					$O = null;
+				} else {
+					if ($p->User->vxIsLogin()) {
+						$options['mode'] = 'self';
+					}
+				}
+				mysql_free_result($rs);
+			} else {
+				if ($p->User->vxIsLogin()) {
+					$options['mode'] = 'self';
+				}
+			}
+		} else {
+			if ($p->User->vxIsLogin()) {
+				$options['mode'] = 'self';
+			}
+		}
+			
+		if ($options['mode'] == 'self') {
+			$sql = "SELECT usr_id, usr_nick, usr_brief, usr_gender, usr_portrait, usr_hits, usr_created FROM babel_user WHERE usr_id = {$p->User->usr_id}";
+			$rs = mysql_query($sql, $p->db);
+			$O = mysql_fetch_object($rs);
+			$O->usr_nick_plain = make_plaintext($O->usr_nick);
+			$O->usr_nick_url = urlencode($O->usr_nick);
+			$options['target'] = $O;
+			$O = null;
+			mysql_free_result($rs);	
+		}
+		
+		if ($options['mode']) {
+			$p->vxHead($msgSiteTitle = make_plaintext($options['target']->usr_nick) . ' - ' . Vocabulary::term_dry);
+			$p->vxBodyStart();
+			$p->vxTop();
+			$p->vxContainer('dry', $options);
+		} else {
+			$p->vxHomeBundle();
+		}
+		break;
 }
 
 if ($global_has_bottom) {

@@ -1573,6 +1573,16 @@ class Page {
 				$this->vxMenu($_menu_options);
 				$this->vxIngPublic();
 				break;
+				
+			case 'dry':
+				$_menu_options['modules']['friends'] = false;
+				$_menu_options['modules']['links'] = false;
+				$_menu_options['modules']['new_members'] = false;
+				$_menu_options['modules']['stats'] = false;
+				$this->vxSidebar();
+				$this->vxMenu($_menu_options);
+				$this->vxDry($options);
+				break;
 		}
 		echo('</div>');
 	}
@@ -8698,8 +8708,9 @@ class Page {
 		echo('Everyone');
 		echo('</div>');
 		
+		echo('<span class="text_large">');
 		_v_ico_silk('hourglass');
-		echo(' 大家在做什么...');
+		echo(' ING</span> <span class="tip_i">大家在做什么 ...</span>');
 		_v_hr();
 
 		echo('<div>');
@@ -8780,12 +8791,16 @@ class Page {
 		echo('<a href="/ing/' . $User->usr_nick_url . '">' . $User->usr_nick_plain . '</a> | With Friends | <a href="/ing">Everyone</a>');
 		echo('</div>');
 		
+		echo('<span class="text_large">');
 		_v_ico_silk('hourglass');
+		echo(' ING</span>');
+		echo(' <span class="tip_i">');
 		if ($flag_self) {
 			echo(' 你和朋友们在做什么 ...');
 		} else {
 			echo(' ' . $User->usr_nick_plain . ' 和朋友们在做什么 ...');
 		}
+		echo('</span>');
 		_v_hr();
 		
 		/* S: right user badge */
@@ -8885,9 +8900,12 @@ class Page {
 		echo($User->usr_nick_plain . ' | <a href="/ing/' . $User->usr_nick_url . '/friends">With Friends</a> | <a href="/ing">Everyone</a>');
 		echo('</div>');
 
+		echo('<span class="text_large">');
 		_v_ico_silk('hourglass');
+		echo(' ING</span>');
+		echo('<span class="tip_i">');
 		if ($flag_self) {
-			echo(' 告诉世界你在做什么 ...');
+			echo(' 告诉世界你在做什么 ...</span>');
 			_v_hr();
 			echo('<div align="center">');
 			echo('<form action="/recv/ing.vx" id="ing_personal" method="POST" onsubmit="return checkIngForm();">');
@@ -8963,6 +8981,62 @@ class Page {
 		}
 		_v_d_e();
 		
+		_v_d_e();
+	}
+	
+	public function vxDry($options) {
+		$User =& $options['target'];
+		_v_m_s();
+		_v_b_l_s();
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . $User->usr_nick_url . '">' . $User->usr_nick_plain . '</a> &gt; ' . Vocabulary::term_dry);
+		_v_d_e();
+		_v_b_l_s();
+		echo('<div style="float: right;">');
+		if ($this->User->vxIsLogin() && $User->usr_id == $this->User->usr_id) {
+			_v_btn_l('添加新项目', '/dry/new.vx');
+		}
+		echo('</div>');
+		_v_ico_silk('color_swatch');
+		echo(' <span class="text_large">' . Vocabulary::term_dry . '</span>');
+		_v_hr();
+		_v_d_e();
+		_v_b_l_s();
+		_v_ico_silk('color_swatch');
+		echo(' 关于 ' . Vocabulary::term_dry . ' <span class="tip_i"><small>alpha</small></span>');
+		echo('<br /><br />');
+		echo('<span class="tip">');
+		echo('DRY 是一个工具。如何使用 DRY 取决于你的想像力。同时我们也在不断地扩展 DRY 的想像空间。');
+		_v_hr();
+		echo("<span class=" . '"tip_i"' . "><small>Don't Repeat Yourself</small></span>");
+		echo('</span>');
+		_v_d_e();
+		_v_d_e();
+	}
+	
+	public function vxDryNew() {
+		_v_m_s();
+		_v_b_l_s();
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . $this->User->usr_nick_url . '">' . $this->User->usr_nick_plain . '</a> &gt; <a href="/dry/' . $this->User->usr_nick_url . '">' . Vocabulary::term_dry . '</a>');
+		_v_d_e();
+		_v_b_l_s();
+		echo('<div style="float: right;">');
+		echo('</div>');
+		_v_ico_silk('color_swatch');
+		echo(' <span class="text_large">' . Vocabulary::term_dry . '</span>');
+		_v_hr();
+		_v_d_e();
+		_v_b_l_s();
+		_v_ico_silk('color_swatch');
+		echo(' 关于 ' . Vocabulary::term_dry . ' <span class="tip_i"><small>alpha</small></span>');
+		echo('<br /><br />');
+		echo('<span class="tip">');
+		echo('DRY 是一个工具。如何使用 DRY 取决于你的想像力。同时我们也在不断地扩展 DRY 的想像空间。');
+		_v_hr();
+		echo("<span class=" . '"tip_i"' . "><small>Don't Repeat Yourself</small></span>");
+		echo('</span>');
+		_v_d_e();
 		_v_d_e();
 	}
 	
