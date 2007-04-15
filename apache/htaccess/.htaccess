@@ -44,7 +44,8 @@ RewriteRule ^f/([^/?&]+)/([0-9]+)$ /babel_mobile.php?m=friend&user_nick=$1&p=$2 
 
 RewriteRule ^g/(.+)$ /babel.php?m=user_graphic&user_nick=$1 [L]
 
-RewriteRule ^dry/(.+)$ /babel_dry.php?m=home&user_nick=$1 [L]
+RewriteRule ^dry/new.vx$ /babel.php?m=dry_new [L]
+RewriteRule ^dry/([^\.]+)$ /babel.php?m=dry&user_nick=$1 [L]
 
 RewriteRule ^ing$ /babel.php?m=ing_public [L]
 RewriteRule ^ing/$ /babel.php?m=ing_public [L]

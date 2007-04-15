@@ -131,9 +131,23 @@ if (isset($rt['return'])) {
 	case 'ok':
 ?>
 <body>
+<div id="main" align="center">
+<div id="v2ex" align="left">
+<div class="title"><?php echo Vocabulary::site_name ?> 登录成功</div>
+<?php
+_v_hr();
+echo('<div id="info">正在自动跳转到 <a href="/">' . Vocabulary::site_name . '</a> 首页，或者你可以 <a href="/">点击这里</a> 进行手动跳转</div>');
+?>
+</div>
+
+	<div id="bottom" align="center">
+		&copy; 2006-2007 <a href="http://<?php echo BABEL_DNS_NAME ?>/" target="_self"><?php echo Vocabulary::site_name ?></a>
+	</div>
+	
 <script type="text/javascript">
-location.href = "/";
+setTimeout('location.href = "/"', 1500);
 </script>
+</div>
 </body>
 <?php
 	break;

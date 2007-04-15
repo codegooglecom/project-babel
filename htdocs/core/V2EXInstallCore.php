@@ -57,6 +57,7 @@ class Install {
 		mysql_unbuffered_query("UPDATE babel_node SET nod_weight = 10000 WHERE nod_name = 'thegraywaste'");
 		mysql_unbuffered_query("UPDATE babel_node SET nod_weight = 10 WHERE nod_name = 'sigil'");
 		mysql_unbuffered_query("UPDATE babel_node SET nod_weight = 1 WHERE nod_name = 'elysium'");
+		mysql_unbuffered_query("UPDATE babel_node SET nod_weight = 500 WHERE nod_name = 'theriveroceanus'");
 	}
 	
 	public function vxSetupSections() {
@@ -228,6 +229,9 @@ $i->vxSetupBoard('stock', '股票', 452, 452, 1, 2, '', '股票 | 证券 | Stock
 	$i->vxSetupRelatedByName('stock', 'http://www.jrj.com/', '金融界');
 	$i->vxSetupRelatedByName('stock', 'http://www.hexun.com/', '和讯');
 $i->vxSetupBoard('stockindexfutures', '股指期货', 452, 452, 1, 2, '', '股指期货 | Stock Index Futures');
+$i->vxSetupBoard('nyse', 'New York Stock Exchange', 452, 452, 1, 2, '', '');
+$i->vxSetupBoard('amex', 'American Stock and Options Exchange', 452, 452, 1, 2, '', '');
+$i->vxSetupBoard('nasdaq', 'NASDAQ', 452, 452, 1, 2, '', '');
 $i->vxSetupBoard('forex', '外汇', 452, 452, 1, 2, '', '外汇 | Forex');
 	$i->vxSetupRelatedByName('forex', 'http://www.forex.com/', 'FOREX');
 $i->vxSetupBoard('futures', '期货', 452, 452, 1, 2, '', '期货 | Futures');
@@ -330,6 +334,7 @@ $i->vxSetupBoard('600169', '太原重工', 452, 452, 1, 2, '太原重工 (600169
 $i->vxSetupBoard('600182', 'S佳通', 452, 452, 1, 2, 'S佳通 (600182)', '');
 $i->vxSetupBoard('600186', '莲花味精', 452, 452, 1, 2, '莲花味精 (600186)', '');
 $i->vxSetupBoard('600193', '创兴科技', 452, 452, 1, 2, '创兴科技 (600193)', '');
+$i->vxSetupBoard('600195', '中牧股份', 452, 452, 1, 2, '中牧股份 (600195)', '');
 $i->vxSetupBoard('600198', '大唐电信', 452, 452, 1, 2, '大唐电信 (600198)', '');
 $i->vxSetupBoard('600205', 'S山东铝', 452, 452, 1, 2, 'S山东铝 (600205)', '');
 $i->vxSetupBoard('600207', '安彩高科', 452, 452, 1, 2, '安彩高科 (600207)', '');
@@ -359,6 +364,7 @@ $i->vxSetupBoard('600383', '金地集团', 452, 452, 1, 2, '金地集团 (600383
 $i->vxSetupBoard('600393', '东华实业', 452, 452, 1, 2, '东华实业 (600393)', '');
 $i->vxSetupBoard('600401', '江苏申龙', 452, 452, 1, 2, '江苏申龙 (600401)', '');
 $i->vxSetupBoard('600456', '宝钛股份', 452, 452, 1, 2, '宝钛股份 (600456)', '');
+$i->vxSetupBoard('600460', '士兰微', 452, 452, 1, 2, '士兰微 (600460)', '');
 $i->vxSetupBoard('600467', '好当家', 452, 452, 1, 2, '好当家 (600467)', '');
 $i->vxSetupBoard('600470', '六国化工', 452, 452, 1, 2, '六国化工 (600470)', '');
 $i->vxSetupBoard('600475', '华光股份', 452, 452, 1, 2, '华光股份 (600475)', '');
@@ -372,6 +378,7 @@ $i->vxSetupBoard('600510', '黑牡丹', 452, 452, 1, 2, '黑牡丹 (600510)', ''
 $i->vxSetupBoard('600515', '*ST一投', 452, 452, 1, 2, '*ST一投 (600515)', '');
 $i->vxSetupBoard('600519', '贵州茅台', 452, 452, 1, 2, '贵州茅台 (600519)', '');
 $i->vxSetupBoard('600531', '豫光金铅', 452, 452, 1, 2, '豫光金铅 (600531)', '');
+$i->vxSetupBoard('600540', '新赛股份', 452, 452, 1, 2, '新赛股份 (600540)', '');
 $i->vxSetupBoard('600546', '中油化建', 452, 452, 1, 2, '中油化建 (600546)', '');
 $i->vxSetupBoard('600553', '太行水泥', 452, 452, 1, 2, '太行水泥 (600553)', '');
 $i->vxSetupBoard('600566', '洪城股份', 452, 452, 1, 2, '洪城股份 (600566)', '');
@@ -379,6 +386,7 @@ $i->vxSetupBoard('600569', '安阳钢铁', 452, 452, 1, 2, '安阳钢铁 (600569
 $i->vxSetupBoard('600570', '恒生电子', 452, 452, 1, 2, '恒生电子 (600570)', '');
 $i->vxSetupBoard('600601', '方正科技', 452, 452, 1, 2, '方正科技 (600601)', '');
 $i->vxSetupBoard('600607', '上实医药', 452, 452, 1, 2, '上实医药 (600607)', '');
+$i->vxSetupBoard('600609', '*ST金杯', 452, 452, 1, 2, '*ST金杯 (600609)', '');
 $i->vxSetupBoard('600619', '海立股份', 452, 452, 1, 2, '海立股份 (600619)', '');
 $i->vxSetupBoard('600622', '嘉宝集团', 452, 452, 1, 2, '嘉宝集团 (600622)', '');
 $i->vxSetupBoard('600629', '新钢钒', 452, 452, 1, 2, '新钢钒 (600629)', '');
@@ -387,6 +395,7 @@ $i->vxSetupBoard('600642', '申能股份', 452, 452, 1, 2, '申能股份 (600642
 $i->vxSetupBoard('600649', '原水股份', 452, 452, 1, 2, '原水股份 (600649)', '');
 $i->vxSetupBoard('600651', '飞乐音响', 452, 452, 1, 2, '飞乐音响 (600651)', '');
 $i->vxSetupBoard('600653', '申华控股', 452, 452, 1, 2, '申华控股 (600653)', '');
+$i->vxSetupBoard('600660', '福耀玻璃', 452, 452, 1, 2, '福耀玻璃 (600660)', '');
 $i->vxSetupBoard('600666', '西南药业', 452, 452, 1, 2, '西南药业 (600666)', '');
 $i->vxSetupBoard('600675', '中华企业', 452, 452, 1, 2, '中华企业 (600675)', '');
 $i->vxSetupBoard('600677', '航天通信', 452, 452, 1, 2, '航天通信 (600677)', '');
