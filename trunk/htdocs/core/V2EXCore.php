@@ -296,8 +296,9 @@ class Page {
 			_v_hr();
 			$rs = mysql_query("SHOW PROFILES");
 			while ($_p = mysql_fetch_array($rs)) {
-				echo $_p['Query_ID'] . ' - ' . $_p['Duration'] . ' - ' . $_p['Query'] . '<br />';
+				echo intval($_p['Duration'] * 1000) . ' - ' . $_p['Query'] . '<br />';
 			}
+			mysql_free_result($rs);
 			echo('</div>');
 		}
 		if (@$this->db) {
