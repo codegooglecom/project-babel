@@ -36,6 +36,7 @@ background-color: #FFF;
 border: 2px solid #EEE;
 margin: 10px 0px 10px 0px;
 -moz-border-radius: 5px;
+-webkit-border-radius: 5px;
 }
 
 img.portrait {
@@ -282,6 +283,7 @@ font-size: 12px;
 padding: 5px;
 background-color: #FFF;
 -moz-border-radius: 7px;
+-webkit-border-radius: 7px;
 }
 
 dl.toolbar dt {
@@ -306,6 +308,7 @@ margin: 10px;
 padding: 5px;
 font-size: 12px;
 -moz-border-radius: 7px;
+-webkit-border-radius: 7px;
 }
 
 div.menu_fav {
@@ -315,6 +318,7 @@ padding: 5px;
 border: 1px solid #E0E0E0;
 background-color: #FFF;
 -moz-border-radius: 7px;
+-webkit-border-radius: 7px;
 }
 
 div.blank {
@@ -324,6 +328,7 @@ background-color: #FFF;
 margin-bottom: 10px;
 font-size: 12px;
 -moz-border-radius: 7px;
+-webkit-border-radius: 7px;
 }
 
 div.zen2 {
@@ -375,6 +380,7 @@ color: #000;
 div.zen2_project_right {
 display: inline;
 -moz-border-radius: 7px;
+-webkit-border-radius: 7px;
 padding: 8px 7px 7px 7px;
 }
 
@@ -410,6 +416,7 @@ font-size: 12px;
 color: #333;
 margin-bottom: 5px;
 -moz-border-radius: 5px;
+-webkit-border-radius: 5px;
 }
 
 div.zen2_project_toolbar {
@@ -554,6 +561,7 @@ padding: 3px;
 font-size: 12px;
 color: #CCC;
 -moz-border-radius: 5px;
+-webkit-border-radius: 5px;
 }
 
 /* _hh: height hack */
@@ -607,6 +615,7 @@ padding: 5px;
 font-size: 12px;
 color: #333;
 -moz-border-radius: 5px;
+-webkit-border-radius: 5px;
 }
 
 div.brief {
@@ -983,6 +992,7 @@ margin-bottom: 10px;
 border: 1px solid #E0E0E0;
 background-color: #FFF;
 -moz-border-radius: 7px;
+-webkit-border-radius: 7px;
 }
 
 table.drawer {
@@ -1425,6 +1435,7 @@ font-weight: bold;
 div.user_gray_border {
 border: 2px solid #EFEFEF;
 -moz-border-radius: 7px;
+-webkit-border-radius: 7px;
 margin: 2px;
 padding: 5px;
 }
@@ -1433,6 +1444,7 @@ div.user_graphite_border {
 border: 2px solid #DDD;
 background-color: #F9F9F9;
 -moz-border-radius: 7px;
+-webkit-border-radius: 7px;
 margin: 2px;
 padding: 5px;
 }
@@ -1586,18 +1598,18 @@ a.friend:link div.tip, a.friend:visited div.tip {
 }
 
 a.friend:hover div.tip, a.friend:active div.tip {
-	display: block;
-	position: relative;
-	top: -120px;
-	left: 0px;
-	padding: 2px;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	background-color: #FA9000;
-	font-size: 12px;
-	color: #FFF;
-	border-right: 1px solid #666;
-	border-bottom: 1px solid #666;
+display: block;
+position: relative;
+top: -120px;
+left: 0px;
+padding: 2px;
+-webkit-border-radius: 5px;
+-moz-border-radius: 5px;
+background-color: #FA9000;
+font-size: 12px;
+color: #FFF;
+border-right: 1px solid #666;
+border-bottom: 1px solid #666;
 }
 
 #home_tab_top {
@@ -1770,6 +1782,7 @@ height: 26px;
 background-image: url("/img/graphite/bg.gif");
 background-color: #333;
 -moz-border-radius: 5px;
+-webkit-border-radius: 5px;
 padding: 0px;
 margin: 0px;
 }
