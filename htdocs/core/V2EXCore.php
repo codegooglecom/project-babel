@@ -182,7 +182,7 @@ class Page {
 		if (!isset($_SESSION['babel_ua'])) {
 			$_SESSION['babel_ua'] = $this->Validator->vxGetUserAgent();
 		}
-		
+
 		$sql = 'DELETE FROM babel_online WHERE onl_lastmoved < ' . (time() - BABEL_USR_ONLINE_DURATION);
 		mysql_query($sql, $this->db);
 		$sql = "SELECT onl_hash FROM babel_online WHERE onl_hash = '" . mysql_real_escape_string(session_id()) . "'";

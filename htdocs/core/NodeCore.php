@@ -234,7 +234,7 @@ class Node {
 		if (!BABEL_FEATURE_NODE_STOCK) {
 			return false;
 		} else {
-			if ($o = $c->load('babel_node_stock_a' . $this->nod_id)) {
+			if ($o = $c->load('babel_node_stock_' . $this->nod_id)) {
 				if ($o == '') {
 					return false;
 				} else {
@@ -265,10 +265,12 @@ class Node {
 					
 					$blogs = fetch_rss('http://blogsearch.google.com/blogsearch_feeds?hl=en&q=' . $this->nod_name . '+%7C+' . urlencode($this->nod_title) . $fix . '&ie=utf-8&num=10&output=rss');
 					
+					$tn = fetch_rss('http://feeds.technorati.com/search/' . $this->nod_name);
+					
 					$o .= '<tr><td align="left" class="hf" colspan="4" style="border-top: 1px solid #EEE;">';
 					$o .= '<span class="tip_i">';
 					$o .= '<img src="/img/pico_right.gif" align="absmiddle" /> ';
-					$o .= $this->nod_header . ' <a href="#stock_chart" class="t">行情图表</a> | <a href="#stock_blogs" class="t">Blogsphere</a> | <a href="#stock_news" class="t">新闻资讯</a></span>';
+					$o .= $this->nod_header . ' <a href="#stock_chart" class="t">行情图表</a> | <a href="#stock_blogs" class="t"><img src="/img/googleblogsearch.gif" align="absmiddle" alt="Google Blog Search results for ' . $this->nod_title . '" border="0" /></a> | <a href="#stock_news" class="t">新闻资讯</a> | <a href="#stock_tn"><img src="/img/technorati.gif" align="absmiddle" alt="Technorati results for ' . $this->nod_title . '" border="0" /></a></span>';
 					$o .= _vo_hr();
 					$o .= '<div class="notify" style="margin-bottom: 5px;"><div style="float: right;"><a href="#;" onclick="window.scrollTo(0, 0);">回到顶部</a></div><span style="font-size: 14px;">';
 					$o .= _vo_ico_silk('chart_line');
@@ -281,7 +283,7 @@ class Node {
 					$o .= _vo_hr();
 					$o .= '<div class="notify"><div style="float: right;"><a href="#;" onclick="window.scrollTo(0, 0);">回到顶部</a></div><span style="font-size: 14px;">';
 					$o .= _vo_ico_silk('comments');
-					$o .= ' 来自 Blogsphere 的关于 ' . $this->nod_header . ' 的最新消息 <a name="stock_blogs"></a></span></div>';
+					$o .= ' 来自 Google Blog Search 的关于 ' . $this->nod_header . ' 的最新消息 <a name="stock_blogs"></a></span></div>';
 					$i = 0;
 					foreach ($blogs->items as $blog) {
 						$i++;
@@ -319,6 +321,26 @@ class Node {
 						$n = str_replace('<font size=-1>', '<font style="font-size: 12px;">', $n);
 						$o .= '<div class="geo_home_entry_' . $css_class . '">' . $n . '</div>';
 						unset($item);
+					}
+					$o .= _vo_hr();
+					$o .= '<div class="notify"><div style="float: right;"><a href="#;" onclick="window.scrollTo(0, 0);">回到顶部</a></div><span style="font-size: 14px;">';
+					$o .= _vo_ico_silk('comments');
+					$o .= ' 来自 Technorati 的关于 ' . $this->nod_header . ' 的最新消息 <a name="stock_tn"></a></span></div>';
+					$i = 0;
+					foreach ($tn->items as $blog) {
+						$i++;
+						$css_class = $i % 2 == 0 ? 'even' : 'odd';
+						$d = str_replace('<br /><br /><img width="1" height="1"', '<img width="1" height="1"', $blog['description']);
+
+						$t = $blog['title'];
+						
+						$o .= '<div class="geo_home_entry_' . $css_class . '">';
+						$o .= '<span style="font-size: 13px; display: block; margin-bottom: 5px;">';
+						$o .= _vo_ico_silk('bullet_blue');
+						$o .= ' <a href="' . $blog['link'] . '" class="var" style="color: ' . rand_color() . '">' . $t . '</a></span>';
+						$o .= $d;
+						$o .= '</div>';
+						unset($blog);
 					}
 					$o .= _vo_hr();
 					$o .= '<span class="tip_i">各大财经网站关于 ' . $this->nod_title . ' (' . $this->nod_name . ') 的相关信息<img src="/img/pico_right.gif" align="absmiddle" /> ';
