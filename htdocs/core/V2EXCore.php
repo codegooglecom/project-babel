@@ -3795,7 +3795,7 @@ class Page {
 			$txt .= '<br /><span class="tip_i">你正在察看的是自己的页面，你可以把它的地址发给你的朋友，和他们共享你在 ' . Vocabulary::site_name . ' 获得的快乐！</span>';
 		}
 		
-		echo('<td width="95" align="left" valign="top" class="section_odd"><img src="' . $img_p . '" class="portrait" /></td><td align="left" valign="top" class="section_odd"><span class="text_large">' . $O->usr_nick . '</span>');
+		echo('<td width="95" align="left" valign="top"><img src="' . $img_p . '" class="portrait" alt="' . make_single_return($O->usr_nick) . '" /></td><td align="left" valign="top"><span class="text_large">' . $O->usr_nick . '</span>');
 		
 		echo('<span class="excerpt"><br /><br />' . $txt . '</span></td>');
 		echo('</tr>');
@@ -3804,7 +3804,7 @@ class Page {
 		$rs = mysql_query($sql);
 		if (mysql_num_rows($rs) == 1) {
 			$_up = mysql_fetch_array($rs);
-			echo('<tr><td colspan="2" class="section_odd">');
+			echo('<tr><td colspan="2">');
 			echo('<span class="tip_i">');
 			echo('<small>Currently via V2EX::ING');
 			echo('</small></span> ');
@@ -3822,7 +3822,7 @@ class Page {
 			echo('<tr><td colspan="2" align="center" class="section_even"><span class="text_large"><img src="/img/quote_left.gif" align="absmiddle" />&nbsp;' . make_plaintext($O->usr_brief) . '&nbsp;<img src="/img/quote_right.gif" align="absmiddle" /></span></td></tr>');
 		}
 		
-		echo('<tr><td colspan="2" align="center" class="section_odd"><span class="tip_i"><img src="' . CDN_UI . 'img/icons/silk/hourglass.png" align="absmiddle" alt="ING" />&nbsp;<a href="/ing/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">' . $O->usr_nick . ' 的 ING</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/clock.png" align="absmiddle" alt="ZEN" />&nbsp;<a href="/zen/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">' . $O->usr_nick . ' 的 ZEN</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/comments.png" alt="Topics" align="absmiddle" />&nbsp;<a href="/topic/archive/user/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">' . $O->usr_nick . ' 的所有主题</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/heart_add.png" align="absmiddle" />&nbsp;<a href="/who/connect/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">谁把 ' . $O->usr_nick . ' 加为好友</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/feed.png" align="absmiddle" alt="RSS" />&nbsp;<a href="/feed/user/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . '">RSS 种子输出</a></span></tr>');
+		echo('<tr><td colspan="2" align="center" class="section_odd"><span class="tip_i"><img src="' . CDN_UI . 'img/icons/silk/hourglass.png" align="absmiddle" alt="ING" />&nbsp;<a href="/ing/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">ING</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/clock.png" align="absmiddle" alt="ZEN" />&nbsp;<a href="/zen/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">ZEN</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/color_swatch.png" align="absmiddle" alt="ZEN" />&nbsp;<a href="/dry/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">DRY</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/comments.png" alt="Topics" align="absmiddle" />&nbsp;<a href="/topic/archive/user/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">' . $O->usr_nick . ' 的所有主题</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/heart_add.png" align="absmiddle" />&nbsp;<a href="/who/connect/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">谁把 ' . $O->usr_nick . ' 加为好友</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/feed.png" align="absmiddle" alt="RSS" />&nbsp;<a href="/feed/user/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . '">RSS 种子输出</a></span></tr>');
 		
 		if (BABEL_FEATURE_USER_COMPONENTS) {
 			echo('<tr><td colspan="2" align="left" class="section_odd"><span class="text_large"><img src="/img/ico_savepoint.gif" align="absmiddle" class="home" />' . $O->usr_nick . ' 的网上据点<a name="svp" /></span></td></tr>');

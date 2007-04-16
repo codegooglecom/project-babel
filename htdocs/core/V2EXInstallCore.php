@@ -242,6 +242,7 @@ $i->vxSetupBoard('mutualfunds', '开放式基金', 452, 452, 1, 2, '', '开放�
 $i->vxSetupBoard('capitalism', '資本主義', 452, 452, 1, 2, '', '');
 $i->vxSetupBoard('money', '投资与理财', 452, 452, 1, 2, '', '');
 	$i->vxSetupChannelByName('money', 'http://www.money-courier.com/index.rdf');
+	$i->vxSetupChannelByName('money', 'http://www.ftchinese.com/sc/rss2_full.jsp');
 	$i->vxSetupRelatedByName('money', 'http://www.cmbchina.com/', '中国招商银行');
 	$i->vxSetupRelatedByName('money', 'http://www.cmbc.com.cn/', '中国民生银行');
 	$i->vxSetupRelatedByName('money', 'http://www.icbc.com.cn/', '中国工商银行');
