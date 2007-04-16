@@ -69,6 +69,28 @@ CREATE TABLE `babel_favorite` (
 -- --------------------------------------------------------
 
 -- 
+-- Table structure for table `babel_dry_item`
+--
+
+CREATE TABLE `babel_dry_item` (
+  `itm_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `itm_uid` int(10) unsigned NOT NULL DEFAULT '0',
+  `itm_name` varchar(100) NOT NULL,
+  `itm_title` varchar(100) DEFAULT NULL,
+  `itm_substance` text,
+  `itm_revisions` int(10) unsigned NOT NULL DEFAULT '0',
+  `itm_password` varchar(32) DEFAULT NULL,
+  `itm_type` varchar(32) DEFAULT NULL,
+  `itm_created` int(10) unsigned NOT NULL DEFAULT '0',
+  `itm_lastupdated` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`itm_id`),
+  KEY `INDEX_UID` (`itm_uid`),
+  KEY `INDEX_NAME` (`itm_name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Babel Dry Item';
+
+-- --------------------------------------------------------
+
+-- 
 -- Table structure for table `babel_foundation`
 -- 
 
