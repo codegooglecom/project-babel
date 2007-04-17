@@ -331,7 +331,8 @@ class Node {
 						$i++;
 						$css_class = $i % 2 == 0 ? 'even' : 'odd';
 						$d = str_replace('<br /><br /><img width="1" height="1"', '<img width="1" height="1"', $blog['description']);
-
+						$d = str_replace('Posted in', '<span class="tip"><small>Posted in</small></span>', $d);
+						
 						$t = $blog['title'];
 						
 						$o .= '<div class="geo_home_entry_' . $css_class . '">';
