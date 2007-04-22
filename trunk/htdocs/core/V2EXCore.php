@@ -5248,9 +5248,18 @@ class Page {
 						$txt_content = nl2br($txt_content);
 					} else {
 						$txt_content = make_safe_display($txt_content);
-					}	
+					}
 				} else {
-					$txt_content = '<a href="' . $Item['link'] . '" target="_blank">read more on ' . $Item['link'] . '</a>';
+					if (isset($Item['atom_content'])) {
+						$txt_content = trim($Item['atom_content']);
+						if (!preg_match('/(<br >)|(<table>)|(<div>)|(<p>)|(<\/p>)|(<p >)|(<br \/>)|(<br>)|(<br\/>)/i', $txt_content)) {
+							$txt_content = nl2br($txt_content);
+						} else {
+							$txt_content = make_safe_display($txt_content);
+						}
+					} else {
+						$txt_content = '<a href="' . $Item['link'] . '" target="_blank">read more on ' . $Item['link'] . '</a>';
+					}
 				}
 			}
 			echo '<div class="rss_entry_content">' . $txt_content . '</div></div>';

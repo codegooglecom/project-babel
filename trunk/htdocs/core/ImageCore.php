@@ -107,7 +107,7 @@ class Image {
 			$f .= '<tr><td align="left" class="hf" colspan="' . $colspan . '"><span class="tip_i">感谢他们发现的生活的精彩瞬间！更多精彩照片请访问 <a href="http://www.flickr.com/" target="_blank">Flickr.com</a> <img src="/img/fico_flickr.gif" align="absmiddle" border="0" /></span></td></tr>';
 		} else {
 			$f = '';
-			$f .= '<tr><td align="left" class="hf" colspan="' . $colspan . '" style="border-top: 1px solid #CCC;">';
+			$f .= '<tr><td align="left" class="hf" colspan="' . $colspan . '" style="border-top: 1px solid #EEE;">';
 			
 			$f .= '<a href="http://www.flickr.com/photos/tags/' . $tag . '" target="_blank"><img src="/img/flickr_logo_beta.gif" border="0" align="absmiddle" /></a>&nbsp;&nbsp;&nbsp;<span class="tip_i">' . Vocabulary::site_name . ' 支持从 Flickr 聚合照片！想让你的照片显示在这？给照片加上 [ ' . $tag . ' ] 标签即可。</span>';
 			$f .= '</td></tr>';

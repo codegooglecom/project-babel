@@ -1759,6 +1759,16 @@ font-size: 13px;
 font-family: "Luxi Sans", "Lucida Grande", "Verdana", sans, hei;
 }
 
+.rss_entry_content a:link, .rss_entry_content a:active, .rss_entry_content a:visited {
+color: #577DE4;
+text-decoration: none;
+}
+
+.rss_entry_content a:hover {
+color: #36C;
+text-decoration: underline;
+}
+
 .geo_home_entry_even {
 padding: 5px;
 background-color: #F5F5F5;
