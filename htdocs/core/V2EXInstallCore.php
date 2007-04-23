@@ -733,7 +733,7 @@ $i->vxSetupBoard('000983', '西山煤电', 452, 452, 1, 2, '西山煤电 (000983
 $i->vxSetupBoard('000985', '大庆华科', 452, 452, 1, 2, '大庆华科 (000985)', '');
 $i->vxSetupBoard('000997', '新大陆', 452, 452, 1, 2, '新大陆 (000997)', '');
 $i->vxSetupBoard('000999', 'S三九', 452, 452, 1, 2, 'S三九 (000999)', '');
-
+$i->vxSetupBoard('001696', '宗申动力', 452, 452, 1, 2, '宗申动力 (001696)', '');
 $i->vxSetupBoard('002005', '德豪润达', 452, 452, 1, 2, '德豪润达 (002005)', '');
 $i->vxSetupBoard('002008', '大族激光', 452, 452, 1, 2, '大族激光 (002008)', '');
 $i->vxSetupBoard('002021', '中捷股份', 452, 452, 1, 2, '中捷股份 (002021)', '');
@@ -1098,6 +1098,9 @@ $i->vxSetupBoard('xmpp', 'XMPP', 3, 3, 1, 2, '', "<small>eXtensible Messaging an
 $i->vxSetupBoard('pageflakes', 'Pageflakes 飞鸽', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('vmware', 'VMware', 3, 3, 1, 2, '', '');
 	$i->vxSetupRelatedByName('vmware', 'http://www.vmware.com/', 'VMware.com');
+$i->vxSetupBoard('fon', 'FON', 3, 3, 1, 2, '<span class="tip_i"><small>FON is the largest Wi-Fi community in the world</small></span>', '');
+	$i->vxSetupChannelByName('fon', 'http://blog.fon.com/en/index.xml');
+	$i->vxSetupRelatedByName('fon', 'http://www.fon.com/', 'FON');
 $i->vxSetupBoard('maemo', 'Maemo', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('linux', 'Linux', 3, 3, 1, 2, 'Better Work, Better Play', '');
 	$i->vxSetupChannelByName('linux', 'http://www.linux.com/index.rss');
