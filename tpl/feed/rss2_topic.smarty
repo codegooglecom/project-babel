@@ -14,6 +14,10 @@
 			<title>{$post->pst_title} by {$post->usr_nick}</title>
 			<link>{$post->link}</link>
 			<dc:creator>{$post->usr_nick}</dc:creator>
+			<author>{$post->usr_nick}</author>
+			<enclosure url="http://{$site_domain}{$post->usr_portrait_img}" type="image/jpeg" />
+			<enclosure url="http://{$site_domain}{$post->usr_portrait_img_s}" type="image/jpeg" />
+			<enclosure url="http://{$site_domain}{$post->usr_portrait_img_n}" type="image/jpeg" />
 			<category>{$board->nod_title}</category>
 			<description>
 			{$post->pst_content}

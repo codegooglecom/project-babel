@@ -92,6 +92,7 @@ class Feed {
 		
 		$this->s->assign('site_lang', BABEL_LANG);
 		$this->s->assign('site_base', 'http://' . BABEL_DNS_NAME . '/');
+		$this->s->assign('site_domain', BABEL_DNS_NAME);
 		header('Content-Type: text/xml;charset=utf-8');
 	}
 	
@@ -116,6 +117,9 @@ class Feed {
 			$Topics[$i]->tpc_content = htmlspecialchars(format_ubb($Topics[$i]->tpc_content), ENT_NOQUOTES);
 			$Topics[$i]->tpc_pubdate = date('r', $Topics[$i]->tpc_created);
 			$Topics[$i]->entry_link = 'http://' . BABEL_DNS_NAME . '/topic/view/' . $Topic->tpc_id . '.html';
+			$Topics[$i]->usr_portrait_img = $Topic->usr_portrait ? CDN_P . 'p/' . $Topic->usr_portrait . '.jpg' : CDN_P . 'p_' . $Topic->usr_gender . '.gif';
+			$Topics[$i]->usr_portrait_img_s = $Topic->usr_portrait ? CDN_P . 'p/' . $Topic->usr_portrait . '_s.jpg' : CDN_P . 'p_' . $Topic->usr_gender . '_s.gif';
+			$Topics[$i]->usr_portrait_img_n = $Topic->usr_portrait ? CDN_P . 'p/' . $Topic->usr_portrait . '_n.jpg' : CDN_P . 'p_' . $Topic->usr_gender . '_n.gif';
 		}
 		$this->s->assign('feed_title', 'Latest from ' . Vocabulary::site_name);
 		$this->s->assign('feed_description', Vocabulary::meta_description);
@@ -164,6 +168,9 @@ class Feed {
 				$Topics[$i]->tpc_content = htmlspecialchars(format_ubb($Topics[$i]->tpc_content), ENT_NOQUOTES);
 				$Topics[$i]->tpc_pubdate = date('r', $Topics[$i]->tpc_created);
 				$Topics[$i]->entry_link = 'http://' . BABEL_DNS_NAME . '/topic/view/' . $Topic->tpc_id . '.html';
+				$Topics[$i]->usr_portrait_img = $Topic->usr_portrait ? CDN_P . 'p/' . $Topic->usr_portrait . '.jpg' : CDN_P . 'p_' . $Topic->usr_gender . '.gif';
+				$Topics[$i]->usr_portrait_img_s = $Topic->usr_portrait ? CDN_P . 'p/' . $Topic->usr_portrait . '_s.jpg' : CDN_P . 'p_' . $Topic->usr_gender . '_s.gif';
+				$Topics[$i]->usr_portrait_img_n = $Topic->usr_portrait ? CDN_P . 'p/' . $Topic->usr_portrait . '_n.jpg' : CDN_P . 'p_' . $Topic->usr_gender . '_n.gif';
 			}
 			$this->s->assign('feed_title', 'Latest from ' . Vocabulary::site_name . "'s " . $Node->nod_title);
 			$this->s->assign('feed_description', Vocabulary::meta_description);
@@ -186,6 +193,9 @@ class Feed {
 			$Topics[$i]->tpc_content = htmlspecialchars(format_ubb($Topics[$i]->tpc_content), ENT_NOQUOTES);
 			$Topics[$i]->tpc_pubdate = date('r', $Topics[$i]->tpc_created);
 			$Topics[$i]->entry_link = 'http://' . BABEL_DNS_NAME . '/topic/view/' . $Topic->tpc_id . '.html';
+			$Topics[$i]->usr_portrait_img = $Topic->usr_portrait ? CDN_P . 'p/' . $Topic->usr_portrait . '.jpg' : CDN_P . 'p_' . $Topic->usr_gender . '.gif';
+			$Topics[$i]->usr_portrait_img_s = $Topic->usr_portrait ? CDN_P . 'p/' . $Topic->usr_portrait . '_s.jpg' : CDN_P . 'p_' . $Topic->usr_gender . '_s.gif';
+			$Topics[$i]->usr_portrait_img_n = $Topic->usr_portrait ? CDN_P . 'p/' . $Topic->usr_portrait . '_n.jpg' : CDN_P . 'p_' . $Topic->usr_gender . '_n.gif';
 		}
 		$this->s->assign('feed_title', 'Latest from ' . Vocabulary::site_name . ": " . make_plaintext($User->usr_nick));
 		$this->s->assign('feed_description', Vocabulary::meta_description);
@@ -208,6 +218,9 @@ class Feed {
 			$Topics[$i]->tpc_content = htmlspecialchars(format_ubb($Topics[$i]->tpc_content), ENT_NOQUOTES);
 			$Topics[$i]->tpc_pubdate = date('r', $Topics[$i]->tpc_created);
 			$Topics[$i]->entry_link = 'http://' . BABEL_DNS_NAME . '/topic/view/' . $Topic->tpc_id . '.html';
+			$Topics[$i]->usr_portrait_img = $Topic->usr_portrait ? CDN_P . 'p/' . $Topic->usr_portrait . '.jpg' : CDN_P . 'p_' . $Topic->usr_gender . '.gif';
+			$Topics[$i]->usr_portrait_img_s = $Topic->usr_portrait ? CDN_P . 'p/' . $Topic->usr_portrait . '_s.jpg' : CDN_P . 'p_' . $Topic->usr_gender . '_s.gif';
+			$Topics[$i]->usr_portrait_img_n = $Topic->usr_portrait ? CDN_P . 'p/' . $Topic->usr_portrait . '_n.jpg' : CDN_P . 'p_' . $Topic->usr_gender . '_n.gif';
 		}
 		$this->s->assign('feed_title', 'Latest from ' . Vocabulary::site_name . ": " . $Geo->geo->name->cn);
 		$this->s->assign('feed_description', Vocabulary::meta_description);
@@ -225,7 +238,7 @@ class Feed {
 		$count = mysql_result($rs, 0, 0);
 		mysql_free_result($rs);		
 		
-		$sql = 'SELECT pst_id, pst_title, pst_content, pst_created, usr_id, usr_nick FROM babel_post, babel_user WHERE pst_uid = usr_id AND pst_tid = ' . $Topic->tpc_id . ' ORDER BY pst_id ASC';
+		$sql = 'SELECT pst_id, pst_title, pst_content, pst_created, usr_id, usr_nick, usr_gender, usr_portrait FROM babel_post, babel_user WHERE pst_uid = usr_id AND pst_tid = ' . $Topic->tpc_id . ' ORDER BY pst_id ASC';
 		$rs = mysql_query($sql);
 		$i = 0;
 		$Posts = array();
@@ -249,6 +262,9 @@ class Feed {
 			} else {
 				$Posts[$i]->link = 'http://' . BABEL_DNS_NAME . '/topic/view/' . $Topic->tpc_id . '.html#p' . $Post->pst_id;
 			}
+			$Posts[$i]->usr_portrait_img = $Post->usr_portrait ? CDN_P . 'p/' . $Post->usr_portrait . '.jpg' : CDN_P . 'p_' . $Post->usr_gender . '.gif';
+			$Posts[$i]->usr_portrait_img_s = $Post->usr_portrait ? CDN_P . 'p/' . $Post->usr_portrait . '_s.jpg' : CDN_P . 'p_' . $Post->usr_gender . '_s.gif';
+			$Posts[$i]->usr_portrait_img_n = $Post->usr_portrait ? CDN_P . 'p/' . $Post->usr_portrait . '_n.jpg' : CDN_P . 'p_' . $Post->usr_gender . '_n.gif';
 		}
 		mysql_free_result($rs);
 		$Posts = array_reverse($Posts, true);

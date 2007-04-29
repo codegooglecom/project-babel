@@ -7007,7 +7007,12 @@ class Page {
 		if ($Topic->tpc_favs > 0) {
 			echo(' ... <img src="' . CDN_UI . 'img/icons/silk/group_add.png" align="absmiddle"/> <a href="/who/fav/topic/' . $Topic->tpc_id . '" class="t">&nbsp;' . $Topic->tpc_favs . '&nbsp;</a>');
 		}
-		echo(' ... <a href="http://' . BABEL_DNS_FEED . '/feed/topic/' . $Topic->tpc_id . '.rss" target="_blank"><img src="' . CDN_UI . 'img/icons/silk/feed.png" align="absmiddle" border="0" alt="RSS 2.0 Feed" /></a>');
+		if (BABEL_DEBUG) {
+			$Topic->feed_url = '/feed/topic/' . $Topic->tpc_id . '.rss';
+		} else {
+			$Topic->feed_url = 'http://' . BABEL_DNS_FEED . '/feed/topic/' . $Topic->tpc_id . '.rss';
+		}
+		echo(' ... <a href="' . $Topic->feed_url . '" target="_blank"><img src="' . CDN_UI . 'img/icons/silk/feed.png" align="absmiddle" border="0" alt="RSS 2.0 Feed" /></a>');
 		echo('</span>');
 		echo('</div>');
 		echo('</div>');
