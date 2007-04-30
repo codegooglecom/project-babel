@@ -105,6 +105,25 @@ class Feed {
 	/* S public modules */
 
 	public function vxFeed() {
+		$feed = BABEL_PREFIX . '/htdocs/feed/v2ex.rss';
+		$now = time();
+		if (file_exists($feed)) {
+			$changed = filectime($feed);
+			if (($now - $changed) > 500) {
+				$o = $this->vxGenerateFeedMain();
+				echo $o;
+				file_put_contents($feed, $o);
+			} else {
+				echo file_get_contents($feed);
+			}
+		} else {
+			$o = $this->vxGenerateFeedMain();
+			echo $o;
+			file_put_contents($feed, $o);
+		}
+	}
+	
+	public function vxGenerateFeedMain() {
 		$this->s->assign('site_url', 'http://' . BABEL_DNS_NAME . '/');
 		$sql = 'SELECT usr_id, usr_nick, usr_gender, usr_portrait, tpc_id, tpc_title, tpc_content, tpc_posts, tpc_created, nod_id, nod_title, nod_name FROM babel_user, babel_topic, babel_node WHERE tpc_uid = usr_id AND tpc_pid = nod_id AND tpc_pid NOT IN ' . BABEL_NODES_POINTLESS . ' ORDER BY tpc_created DESC LIMIT 20';
 		$rs = mysql_query($sql);
@@ -126,7 +145,7 @@ class Feed {
 		$this->s->assign('feed_category', Vocabulary::meta_category);
 		$this->s->assign('a_topics', $Topics);
 		$o = $this->s->fetch('feed/rss2.smarty');
-		echo $o;
+		return $o;
 	}
 	
 	public function vxFeedDenied() {

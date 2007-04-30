@@ -20,7 +20,7 @@ if (@V2EX_BABEL != 1) {
 
 require_once(BABEL_PREFIX . '/res/pointless.php');
 
-$dirs = array('/tmp', '/tplc', '/cache', '/cache/360', '/cache/7200', '/cache/rss', '/cache/dict', '/cache/smarty', '/htdocs/img/c', '/htdocs/img/n', '/htdocs/img/s', '/htdocs/img/p_static');
+$dirs = array('/tmp', '/tplc', '/cache', '/cache/360', '/cache/7200', '/cache/rss', '/cache/dict', '/cache/smarty', '/htdocs/img/c', '/htdocs/img/n', '/htdocs/img/s', '/htdocs/img/p_static', '/htdocs/feed');
 
 // return: func
 function check_env() {
