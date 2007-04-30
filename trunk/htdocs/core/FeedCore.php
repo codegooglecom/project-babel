@@ -109,7 +109,7 @@ class Feed {
 		$now = time();
 		if (file_exists($feed)) {
 			$changed = filectime($feed);
-			if (($now - $changed) > 500) {
+			if (($now - $changed) > 180) {
 				$o = $this->vxGenerateFeedMain();
 				echo $o;
 				file_put_contents($feed, $o);

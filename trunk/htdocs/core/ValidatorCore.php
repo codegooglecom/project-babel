@@ -1871,6 +1871,8 @@ class Validator {
 		$sql = "INSERT INTO babel_topic(tpc_pid, tpc_uid, tpc_title, tpc_description, tpc_content, tpc_created, tpc_lastupdated, tpc_lasttouched) VALUES({$board_id}, {$user_id}, '{$tpc_title}', '{$tpc_description}', '{$tpc_content}', " . time() . ", " . time() . ', ' . time() . ')';
 		mysql_query($sql, $this->db);
 		if (mysql_affected_rows($this->db) == 1) {
+			$req = new HTTP_Request('http://' . BABEL_DNS_NAME . '/gen/feed/v2ex.rss');
+			$req->sendRequest();
 			return $this->User->vxPay($this->User->usr_id, $expense_amount, 2);
 		} else {
 			return false;
@@ -2202,6 +2204,8 @@ class Validator {
 			$rs = mysql_query($sql, $this->db);
 			$Topic = mysql_fetch_object($rs);
 			mysql_free_result($rs);
+			$req = new HTTP_Request('http://' . BABEL_DNS_NAME . '/gen/feed/v2ex.rss');
+			$req->sendRequest();
 			if ($Topic->tpc_uid != $this->User->usr_id) {
 				return $this->User->vxPay($this->User->usr_id, $expense_amount, 3, '', $Topic->tpc_uid);
 			} else {
@@ -2344,6 +2348,82 @@ class Validator {
 	}
 	
 	/* E module: Post Update Update logic */
+	
+	/* S module: Dry Create Check logic */
+	
+	public function vxDryCreateCheck() {
+		/**
+		 *
+		 * method: POST
+		 * elements: dry_name, dry_title, dry_substance
+		 *
+		 */
+
+		$rt = array();
+		$rt['errors'] = 0;
+		
+		$rt['dry_name_value'] = '';
+		$rt['dry_name_error'] = 0;
+		$rt['dry_name_error_msg'] = array(
+			1 => '你没有输入 DRY 项目的名称',
+			2 => '你输入的 DRY 项目的名称长度不能超过 100 个字符',
+			3 => '你输入的 DRY 项目的名称中含有不被允许的字符');
+			
+		if (isset($_POST['dry_name'])) {
+			$rt['dry_name_value'] = fetch_single($_POST['dry_name']);
+			if ($rt['dry_name_value'] == '') {
+				$rt['errors']++;
+				$rt['dry_name_error'] = 1;
+			} else {
+				if (mb_strlen($rt['dry_name_value'], 'UTF-8') > 100) {
+					$rt['errors']++;
+					$rt['dry_name_error'] = 2;
+				} else {
+					if (!preg_match('/^([a-zA-Z0-9\-\_]+)$/', $rt['dry_name_value'])) {
+						$rt['errors']++;
+						$rt['dry_name_error'] = 3;
+					}
+				}
+			}
+		} else {
+			$rt['errors']++;
+			$rt['dry_name_error'] = 1;
+		}
+		
+		$rt['dry_title_value'] = '';
+		$rt['dry_title_error'] = 0;
+		$rt['dry_title_error_msg'] = array(
+			1 => '你没有输入 DRY 项目的标题',
+			2 => '你输入的 DRY 项目的标题长度不能超过 100 个字符');
+			
+		if (isset($_POST['dry_title'])) {
+			$rt['dry_title_value'] = fetch_single($_POST['dry_title']);
+			if ($rt['dry_title_value'] == '') {
+				$rt['errors']++;
+				$rt['dry_title_error'] = 1;
+			} else {
+				if (mb_strlen($rt['dry_title_value'], 'UTF-8') > 100) {
+					$rt['errors']++;
+					$rt['dry_title_error'] = 2;
+				}
+			}
+		} else {
+			$rt['errors']++;
+			$rt['dry_title_error'] = 1;
+		}
+		
+		$rt['dry_substance_value'] = '';
+		$rt['dry_substance_error'] = 0;
+		$rt['dry_substance_error_msg'] = array();
+		
+		if (isset($_POST['dry_substance'])) {
+			$rt['dry_substance_value'] = fetch_multi($_POST['dry_substance']);
+		}
+		
+		return $rt;
+	}
+	
+	/* E module: Dry Create Check logic */
 }
 
 /* E Validator class */

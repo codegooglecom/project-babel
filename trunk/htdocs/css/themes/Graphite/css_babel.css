@@ -1273,6 +1273,36 @@ border-right-color: #3C0;
 border-bottom-color: #3C0;
 }
 
+input.slll {
+font-family: "Courier New", Courier, Hei, mono;
+font-size: 13px;
+width: 500px;
+background-color: #F7F7F7;
+color: #333;
+border-style: solid;
+border-width: 1px;
+padding: 2px;
+border-top-color: #C0C0C0;
+border-left-color: #C0C0C0;
+border-right-color: #CCC;
+border-bottom-color: #CCC;
+}
+
+input.slll:focus {
+font-family: "Courier New", Courier, Hei, mono;
+font-size: 13px;
+width: 500px;
+background-color: #FFF;
+color: #000;
+border-style: solid;
+border-width: 1px;
+padding: 2px;
+border-top-color: #3C0;
+border-left-color: #3C0;
+border-right-color: #3C0;
+border-bottom-color: #3C0;
+}
+
 textarea.ml {
 font-family: "Courier New", Courier, Hei, mono;
 font-size: 13px;
@@ -1293,6 +1323,38 @@ textarea.ml:focus {
 font-family: "Courier New", Courier, Hei, mono;
 font-size: 13px;
 width: 400px;
+overflow: auto;
+background-color: #FFF;
+color: #333;
+border-style: solid;
+border-width: 1px;
+padding: 2px;
+border-top-color: #3C0;
+border-left-color: #3C0;
+border-right-color: #3C0;
+border-bottom-color: #3C0;
+}
+
+textarea.mlw {
+font-family: "Courier New", Courier, Hei, mono;
+font-size: 13px;
+width: 500px;
+overflow: auto;
+background-color: #F7F7F7;
+color: #333;
+border-style: solid;
+border-width: 1px;
+padding: 2px;
+border-top-color: #C0C0C0;
+border-left-color: #C0C0C0;
+border-right-color: #CCC;
+border-bottom-color: #CCC;
+}
+
+textarea.mlw:focus {
+font-family: "Courier New", Courier, Hei, mono;
+font-size: 13px;
+width: 500px;
 overflow: auto;
 background-color: #FFF;
 color: #333;
