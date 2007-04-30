@@ -1583,6 +1583,26 @@ class Page {
 				$this->vxMenu($_menu_options);
 				$this->vxDry($options);
 				break;
+				
+			case 'dry_new':
+				$_menu_options['modules']['friends'] = false;
+				$_menu_options['modules']['links'] = false;
+				$_menu_options['modules']['new_members'] = false;
+				$_menu_options['modules']['stats'] = false;
+				$this->vxSidebar();
+				$this->vxMenu($_menu_options);
+				$this->vxDryNew();
+				break;
+				
+			case 'dry_create':
+				$_menu_options['modules']['friends'] = false;
+				$_menu_options['modules']['links'] = false;
+				$_menu_options['modules']['new_members'] = false;
+				$_menu_options['modules']['stats'] = false;
+				$this->vxSidebar();
+				$this->vxMenu($_menu_options);
+				$this->vxDryCreate();
+				break;
 		}
 		echo('</div>');
 	}
@@ -1720,7 +1740,7 @@ class Page {
 			$o .= '<div class="blank">';
 			$o .= '<a href="/feed/ing">' . _vo_ico_silk('feed', 'right') . '</a>';
 			$o .= _vo_ico_silk('hourglass');
-			$o .= ' 大家在做什么 ...';
+			$o .= ' 大家在做什么 ... <a href="/ing" class="var" style="color: ' . rand_color() . '">浏览最新的 50 条更新</a>';
 			if ($_SESSION['babel_ua']['GECKO_DETECTED'] || $_SESSION['babel_ua']['KHTML_DETECTED'] || $_SESSION['babel_ua']['OPERA_DETECTED']) {
 				$hack_width = 'width="100%" ';
 			} else {
@@ -8998,6 +9018,8 @@ class Page {
 		_v_d_e();
 	}
 	
+	/* S: Project Dry */
+	
 	public function vxDry($options) {
 		$User =& $options['target'];
 		_v_m_s();
@@ -9024,9 +9046,9 @@ class Page {
 		echo('<div class="geo_home_entry_even">');
 		echo('<span class="text_large">');
 		_v_ico_silk('page_white_text');
-		echo(' There is no cure for my wailing death</span>');
+		echo(' <a href="#;">There is no cure for my wailing death</a></span>');
 		_v_hr();
-		echo('<span class="tip_i">324325 个字节 - 123 次修改 - 公开发布 - 无密码保护</span>');
+		echo('<span class="tip">324325 个字节 - 123 次修改 - 公开发布 - 无密码保护</span>');
 		echo('</div>');
 		_v_d_e();
 		_v_b_l_s();
@@ -9046,7 +9068,7 @@ class Page {
 		_v_m_s();
 		_v_b_l_s();
 		_v_ico_map();
-		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . $this->User->usr_nick_url . '">' . $this->User->usr_nick_plain . '</a> &gt; <a href="/dry/' . $this->User->usr_nick_url . '">' . Vocabulary::term_dry . '</a>');
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . $this->User->usr_nick_url . '">' . $this->User->usr_nick_plain . '</a> &gt; <a href="/dry/' . $this->User->usr_nick_url . '">' . Vocabulary::term_dry . '</a> &gt; 添加新项目');
 		_v_d_e();
 		_v_b_l_s();
 		echo('<div style="float: right;">');
@@ -9054,6 +9076,16 @@ class Page {
 		_v_ico_silk('color_swatch');
 		echo(' <span class="text_large">' . Vocabulary::term_dry . '</span>');
 		_v_hr();
+		echo('<form id="dry_new" action="/dry/create.vx" method="post">');
+		echo('<span class="tip"><small>1.</small></span> 项目名称 <span class="tip_i">这个名称将用于项目在 URL 中的表示，只可使用英文字母和数字及横线和下划线</span><br /><br />');
+		echo(' <input type="text" class="slll" name="dry_name" maxlength="100" /><br /><br />');
+		echo('<span class="tip"><small>2.</small></span> 项目标题 <span class="tip_i">关于该项目的描述</span><br /><br />');
+		echo(' <input type="text" class="slll" name="dry_title" maxlength="100" /><br /><br />');
+		echo('<span class="tip"><small>3.</small></span> 项目实体 <span class="tip_i">Whatever，任何都可以</span><br /><br />');
+		echo(' <textarea class="mlw" rows="30" name="dry_substance"></textarea>');
+		_v_hr();
+		_v_btn_f('创建', 'dry_new');
+		echo('</form>');
 		_v_d_e();
 		_v_b_l_s();
 		_v_ico_silk('color_swatch');
@@ -9067,6 +9099,54 @@ class Page {
 		_v_d_e();
 		_v_d_e();
 	}
+	
+	public function vxDryCreate() {
+		$rt = $this->Validator->vxDryCreateCheck();
+		var_dump($rt);
+		if ($rt['errors'] == 0) {
+			echo('insert to database');
+		} else {		
+			_v_m_s();
+			_v_b_l_s();
+			_v_ico_map();
+			echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . $this->User->usr_nick_url . '">' . $this->User->usr_nick_plain . '</a> &gt; <a href="/dry/' . $this->User->usr_nick_url . '">' . Vocabulary::term_dry . '</a> &gt; 添加新项目');
+			_v_d_e();
+			_v_b_l_s();
+			echo('<div style="float: right;">');
+			echo('</div>');
+			_v_ico_silk('color_swatch');
+			echo(' <span class="text_large">' . Vocabulary::term_dry . '</span>');
+			_v_hr();
+			echo('<form id="dry_new" action="/dry/create.vx" method="post">');
+			echo('<span class="tip"><small>1.</small></span> 项目名称 <span class="tip_i">这个名称将用于项目在 URL 中的表示，只可使用英文字母和数字及横线和下划线</span><br /><br />');
+			if ($rt['dry_name_error'] > 0) {
+				echo('<div class="error" style="width: 505px;"> <input type="text" class="slll" name="dry_name" maxlength="100" /><br />' . _vo_ico_silk('exclamation') . ' ' . $rt['dry_name_error_msg'][$rt['dry_name_error']] . '</div><br />');
+			} else {
+				echo(' <input type="text" class="slll" name="dry_name" maxlength="100" /><br /><br />');
+			}
+			echo('<span class="tip"><small>2.</small></span> 项目标题 <span class="tip_i">关于该项目的描述</span><br /><br />');
+			echo(' <input type="text" class="slll" name="dry_title" maxlength="100" /><br /><br />');
+			echo('<span class="tip"><small>3.</small></span> 项目实体 <span class="tip_i">Whatever，任何都可以</span><br /><br />');
+			echo(' <textarea class="mlw" rows="30" name="dry_substance"></textarea>');
+			_v_hr();
+			_v_btn_f('创建', 'dry_new');
+			echo('</form>');
+			_v_d_e();
+			_v_b_l_s();
+			_v_ico_silk('color_swatch');
+			echo(' 关于 ' . Vocabulary::term_dry . ' <span class="tip_i"><small>alpha</small></span>');
+			echo('<br /><br />');
+			echo('<span class="tip">');
+			echo('DRY 是一个工具。如何使用 DRY 取决于你的想像力。同时我们也在不断地扩展 DRY 的想像空间。');
+			_v_hr();
+			echo("<span class=" . '"tip_i"' . "><small>Don't Repeat Yourself</small></span>");
+			echo('</span>');
+			_v_d_e();
+			_v_d_e();
+		}
+	}
+	
+	/* E: Project Dry */
 	
 	/* E public modules */
 	

@@ -167,6 +167,11 @@ class URL {
 		$url = '/ing/' . urlencode($user_nick);
 		return $url;
 	}
+	
+	public static function vxGetDryNew() {
+		$url = '/dry/new.vx';
+		return $url;
+	}
 }
 
 /* E URL class */

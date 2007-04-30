@@ -1866,6 +1866,28 @@ switch ($m) {
 			$p->vxHomeBundle();
 		}
 		break;
+		
+	case 'dry_new':
+		if ($p->User->vxIsLogin()) {
+			$p->vxHead($msgSiteTitle = Vocabulary::action_dry_new);
+			$p->vxBodyStart();
+			$p->vxTop();
+			$p->vxContainer('dry_new');
+		} else {
+			$p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetDryNew()));
+		}
+		break;
+		
+	case 'dry_create':
+		if ($p->User->vxIsLogin()) {
+			$p->vxHead($msgSiteTitle = Vocabulary::action_dry_new);
+			$p->vxBodyStart();
+			$p->vxTop();
+			$p->vxContainer('dry_create');
+		} else {
+			$p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetDryNew()));
+		}
+		break;
 }
 
 if ($global_has_bottom) {

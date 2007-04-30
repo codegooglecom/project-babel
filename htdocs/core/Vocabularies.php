@@ -58,6 +58,8 @@ class Vocabulary {
 	
 	const action_search = '搜索';
 	
+	const action_dry_new = '添加新的 DRY 项目';
+	
 	const msg_submitwrong = '对不起，你刚才提交的信息里有些问题';
 
 	const term_toptopic = '最强主题排行';
