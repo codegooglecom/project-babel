@@ -36,12 +36,13 @@ if (V2EX_BABEL == 1) {
 	require_once('core/Settings.php');
 	
 	/* 3rdparty PEAR cores */
-	ini_set('include_path', BABEL_PREFIX . '/libs/pear' . ':' . ini_get('include_path'));
+	ini_set('include_path', BABEL_PREFIX . '/libs/pear' . PATH_SEPARATOR . ini_get('include_path'));
 	require_once('Cache/Lite.php');
 	require_once('Crypt/Blowfish.php');
+	require_once('HTTP/Request.php');
 
 	/* 3rdparty Zend Framework cores */
-	ini_set('include_path', BABEL_PREFIX . '/libs/zf/' . ZEND_FRAMEWORK_VERSION . ':' . ini_get('include_path'));
+	ini_set('include_path', BABEL_PREFIX . '/libs/zf/' . ZEND_FRAMEWORK_VERSION . PATH_SEPARATOR . ini_get('include_path'));
 	
 	/* 3rdparty cores */
 	require_once(BABEL_PREFIX . '/libs/magpierss/rss_fetch.inc');
