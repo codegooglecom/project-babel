@@ -9078,13 +9078,17 @@ class Page {
 		_v_hr();
 		echo('<form id="dry_new" action="/dry/create.vx" method="post">');
 		echo('<span class="tip"><small>1.</small></span> 项目名称 <span class="tip_i">这个名称将用于项目在 URL 中的表示，只可使用英文字母和数字及横线和下划线</span><br /><br />');
-		echo(' <input type="text" class="slll" name="dry_name" maxlength="100" /><br /><br />');
+		echo(' <input type="text" class="slll" name="itm_name" maxlength="100" /><br /><br />');
 		echo('<span class="tip"><small>2.</small></span> 项目标题 <span class="tip_i">关于该项目的描述</span><br /><br />');
-		echo(' <input type="text" class="slll" name="dry_title" maxlength="100" /><br /><br />');
+		echo(' <input type="text" class="slll" name="itm_title" maxlength="100" /><br /><br />');
 		echo('<span class="tip"><small>3.</small></span> 项目实体 <span class="tip_i">Whatever，任何都可以</span><br /><br />');
-		echo(' <textarea class="mlw" rows="30" name="dry_substance"></textarea>');
+		echo(' <textarea class="mlw" rows="30" name="itm_substance"></textarea><br /><br />');
+		echo('<span class="tip"><small>4.</small></span> 项目权限 <span class="tip_i">公开或者私密</span><br /><br />');
+		echo('<select name="itm_permission"><option value="1" selected="selected">公开 Public</option><option value="0">私密 Private</option></select>');
 		_v_hr();
 		_v_btn_f('创建', 'dry_new');
+		_v_hr();
+		echo('<div class="notify">你可以将新项目的查看权限设置为公开或者私密，如果设置为公开，请确保你的内容和 V2EX 的 <a href="/community_guidelines.vx" class="t">社区指导原则</a> 相符</div>');
 		echo('</form>');
 		_v_d_e();
 		_v_b_l_s();
@@ -9101,10 +9105,10 @@ class Page {
 	}
 	
 	public function vxDryCreate() {
-		$rt = $this->Validator->vxDryCreateCheck();
+		$rt = $this->Validator->vxDryItemCreateCheck();
 		var_dump($rt);
 		if ($rt['errors'] == 0) {
-			echo('insert to database');
+			
 		} else {		
 			_v_m_s();
 			_v_b_l_s();
@@ -9119,17 +9123,34 @@ class Page {
 			_v_hr();
 			echo('<form id="dry_new" action="/dry/create.vx" method="post">');
 			echo('<span class="tip"><small>1.</small></span> 项目名称 <span class="tip_i">这个名称将用于项目在 URL 中的表示，只可使用英文字母和数字及横线和下划线</span><br /><br />');
-			if ($rt['dry_name_error'] > 0) {
-				echo('<div class="error" style="width: 505px;"> <input type="text" class="slll" name="dry_name" maxlength="100" /><br />' . _vo_ico_silk('exclamation') . ' ' . $rt['dry_name_error_msg'][$rt['dry_name_error']] . '</div><br />');
+			
+			if ($rt['itm_name_error'] > 0) {
+				echo('<div class="error" style="width: 505px;"> <input type="text" class="slll" name="itm_name" maxlength="100" /><br />' . _vo_ico_silk('exclamation') . ' ' . $rt['itm_name_error_msg'][$rt['itm_name_error']] . '</div><br />');
 			} else {
-				echo(' <input type="text" class="slll" name="dry_name" maxlength="100" /><br /><br />');
+				echo(' <input type="text" class="slll" name="itm_name" maxlength="100" value="' . make_single_return($rt['itm_name_value'], 0) . '" /><br /><br />');
 			}
+			
 			echo('<span class="tip"><small>2.</small></span> 项目标题 <span class="tip_i">关于该项目的描述</span><br /><br />');
-			echo(' <input type="text" class="slll" name="dry_title" maxlength="100" /><br /><br />');
-			echo('<span class="tip"><small>3.</small></span> 项目实体 <span class="tip_i">Whatever，任何都可以</span><br /><br />');
-			echo(' <textarea class="mlw" rows="30" name="dry_substance"></textarea>');
+			
+			if ($rt['itm_title_error'] > 0) {
+				echo('<div class="error" style="width: 505px;"> <input type="text" class="slll" name="itm_title" maxlength="100" value="' . make_single_return($rt['itm_title_value'], 0) . '" /><br />' . _vo_ico_silk('exclamation') . ' ' . $rt['itm_title_error_msg'][$rt['itm_title_error']] . '</div><br />');
+			} else {
+				echo(' <input type="text" class="slll" name="itm_title" maxlength="100" value="' . make_single_return($rt['itm_title_value'], 0) . '" /><br /><br />');
+			}
+			
+			echo('<span class="tip"><small>3.</small></span> 项目实体 <span class="tip_i">欢迎在这里填入任何东西</span><br /><br />');
+			echo(' <textarea class="mlw" rows="30" name="itm_substance">' . make_multi_return($rt['itm_substance_value'], 00) . '</textarea><br /><br />');
+			
+			echo('<span class="tip"><small>4.</small></span> 项目权限 <span class="tip_i">公开或者私密</span><br /><br />');
+			if ($rt['itm_permission_value'] == 1) {
+				echo('<select name="itm_permission"><option value="1" selected="selected">公开 Public</option><option value="0">私密 Private</option></select>');
+			} else {
+				echo('<select name="itm_permission"><option value="1">公开 Public</option><option value="0" selected="selected">私密 Private</option></select>');
+			}
 			_v_hr();
 			_v_btn_f('创建', 'dry_new');
+			_v_hr();
+			echo('<div class="notify">你可以将新项目的查看权限设置为公开或者私密，如果设置为公开，请确保你的内容和 V2EX 的 <a href="/community_guidelines.vx" class="t">社区指导原则</a> 相符</div>');
 			echo('</form>');
 			_v_d_e();
 			_v_b_l_s();

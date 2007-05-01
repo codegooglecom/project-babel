@@ -2351,73 +2351,94 @@ class Validator {
 	
 	/* S module: Dry Create Check logic */
 	
-	public function vxDryCreateCheck() {
+	public function vxDryItemCreateCheck() {
 		/**
 		 *
 		 * method: POST
-		 * elements: dry_name, dry_title, dry_substance
+		 * elements: itm_name, itm_title, itm_substance
 		 *
 		 */
 
 		$rt = array();
 		$rt['errors'] = 0;
 		
-		$rt['dry_name_value'] = '';
-		$rt['dry_name_error'] = 0;
-		$rt['dry_name_error_msg'] = array(
+		$rt['itm_name_value'] = '';
+		$rt['itm_name_error'] = 0;
+		$rt['itm_name_error_msg'] = array(
 			1 => '你没有输入 DRY 项目的名称',
 			2 => '你输入的 DRY 项目的名称长度不能超过 100 个字符',
-			3 => '你输入的 DRY 项目的名称中含有不被允许的字符');
+			3 => '你输入的 DRY 项目的名称中含有不被允许的字符',
+			4 => '这个项目的名称和已经存在的项目的名称有冲突');
 			
-		if (isset($_POST['dry_name'])) {
-			$rt['dry_name_value'] = fetch_single($_POST['dry_name']);
-			if ($rt['dry_name_value'] == '') {
+		if (isset($_POST['itm_name'])) {
+			$rt['itm_name_value'] = fetch_single($_POST['itm_name']);
+			if ($rt['itm_name_value'] == '') {
 				$rt['errors']++;
-				$rt['dry_name_error'] = 1;
+				$rt['itm_name_error'] = 1;
 			} else {
-				if (mb_strlen($rt['dry_name_value'], 'UTF-8') > 100) {
+				if (mb_strlen($rt['itm_name_value'], 'UTF-8') > 100) {
 					$rt['errors']++;
-					$rt['dry_name_error'] = 2;
+					$rt['itm_name_error'] = 2;
 				} else {
-					if (!preg_match('/^([a-zA-Z0-9\-\_]+)$/', $rt['dry_name_value'])) {
+					if (!preg_match('/^([a-zA-Z0-9\-\_]+)$/', $rt['itm_name_value'])) {
 						$rt['errors']++;
-						$rt['dry_name_error'] = 3;
+						$rt['itm_name_error'] = 3;
 					}
 				}
 			}
 		} else {
 			$rt['errors']++;
-			$rt['dry_name_error'] = 1;
+			$rt['itm_name_error'] = 1;
 		}
 		
-		$rt['dry_title_value'] = '';
-		$rt['dry_title_error'] = 0;
-		$rt['dry_title_error_msg'] = array(
+		if ($rt['itm_name_error'] == 0) {
+			$real_itm_name = mysql_real_escape_string($rt['itm_name_value']);
+			$sql = "SELECT itm_name FROM babel_dry_item WHERE itm_name = '{$real_itm_name}' AND itm_uid = {$this->User->usr_id}";
+			$rs = mysql_query($sql);
+			if (mysql_num_rows($rs) == 1) {
+				$rt['errors']++;
+				$rt['itm_name_error'] = 4;
+			}
+			mysql_free_result($rs);
+		}
+		
+		$rt['itm_title_value'] = '';
+		$rt['itm_title_error'] = 0;
+		$rt['itm_title_error_msg'] = array(
 			1 => '你没有输入 DRY 项目的标题',
 			2 => '你输入的 DRY 项目的标题长度不能超过 100 个字符');
 			
-		if (isset($_POST['dry_title'])) {
-			$rt['dry_title_value'] = fetch_single($_POST['dry_title']);
-			if ($rt['dry_title_value'] == '') {
+		if (isset($_POST['itm_title'])) {
+			$rt['itm_title_value'] = fetch_single($_POST['itm_title']);
+			if ($rt['itm_title_value'] == '') {
 				$rt['errors']++;
-				$rt['dry_title_error'] = 1;
+				$rt['itm_title_error'] = 1;
 			} else {
-				if (mb_strlen($rt['dry_title_value'], 'UTF-8') > 100) {
+				if (mb_strlen($rt['itm_title_value'], 'UTF-8') > 100) {
 					$rt['errors']++;
-					$rt['dry_title_error'] = 2;
+					$rt['itm_title_error'] = 2;
 				}
 			}
 		} else {
 			$rt['errors']++;
-			$rt['dry_title_error'] = 1;
+			$rt['itm_title_error'] = 1;
 		}
 		
-		$rt['dry_substance_value'] = '';
-		$rt['dry_substance_error'] = 0;
-		$rt['dry_substance_error_msg'] = array();
+		$rt['itm_substance_value'] = '';
+		$rt['itm_substance_error'] = 0;
+		$rt['itm_substance_error_msg'] = array();
 		
-		if (isset($_POST['dry_substance'])) {
-			$rt['dry_substance_value'] = fetch_multi($_POST['dry_substance']);
+		if (isset($_POST['itm_substance'])) {
+			$rt['itm_substance_value'] = fetch_multi($_POST['itm_substance']);
+		}
+		
+		if (isset($_POST['itm_permission'])) {
+			$rt['itm_permission_value'] = intval($_POST['itm_permission']);
+			if (!in_array($rt['itm_permission_value'], array(0, 1))) {
+				$rt['itm_permission_value'] = 1;
+			}
+		} else {
+			$rt['itm_permission_value'] = 1;
 		}
 		
 		return $rt;

@@ -81,6 +81,7 @@ CREATE TABLE `babel_dry_item` (
   `itm_revisions` int(10) unsigned NOT NULL DEFAULT '0',
   `itm_password` varchar(32) DEFAULT NULL,
   `itm_type` varchar(32) DEFAULT NULL,
+  `itm_permission` int(10) unsigned NOT NULL DEFAULT '1',
   `itm_created` int(10) unsigned NOT NULL DEFAULT '0',
   `itm_lastupdated` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`itm_id`),
