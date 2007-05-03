@@ -1118,6 +1118,7 @@ $i->vxSetupBoard('fon', 'FON', 3, 3, 1, 2, '<span class="tip_i"><small>FON is th
 	$i->vxSetupChannelByName('fon', 'http://blog.fon.com/en/index.xml');
 	$i->vxSetupRelatedByName('fon', 'http://www.fon.com/', 'FON');
 $i->vxSetupBoard('maemo', 'Maemo', 3, 3, 1, 2, '', '');
+$i->vxSetupBoard('openwrt', 'OpenWrt', 3, 3, 1, 2, '<span class="tip_i"><small>Wireless Freedom</small></span>', '');
 $i->vxSetupBoard('linux', 'Linux', 3, 3, 1, 2, 'Better Work, Better Play', '');
 	$i->vxSetupChannelByName('linux', 'http://www.linux.com/index.rss');
 	$i->vxSetupChannelByName('linux', 'http://gnomefiles.org/gnomefiles.xml');

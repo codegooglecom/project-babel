@@ -60,6 +60,11 @@
 		<cn>Sputnik 1</cn>
 		<at>/</at>
 	</location>
+	<location>
+		<geo>ontheroad</geo>
+		<cn>在路上</cn>
+		<at>/</at>
+	</location>
 	<!-- end: planets -->
 
 	<!-- start: countries in /earth/ -->
@@ -974,6 +979,11 @@
 		<location>
 			<geo>zhuhai</geo>
 			<cn>珠海</cn>
+			<at>/earth/china/guangdong/</at>
+		</location>
+		<location>
+			<geo>yangjiang</geo>
+			<cn>阳江</cn>
 			<at>/earth/china/guangdong/</at>
 		</location>
 		<location>
