@@ -1413,6 +1413,40 @@ class Validator {
 		
 		/* E check: usr_brief */
 		
+		/* S check: usr_religion */
+		
+		$_religions = read_xml_religions();
+		
+		if (isset($_GET['usr_religion'])) {
+			$rt['usr_religion_value'] = make_single_safe($_GET['usr_religion']);
+			if (!in_array($rt['usr_religion_value'], $_religions)) {
+				$rt['usr_religion_value'] = 'Unknown';
+			}
+		} else {
+			$rt['usr_religion_value'] = 'Unknown';
+		}
+		
+		/* E check: usr_religion */
+		
+		/* S check: usr_religion_permission */
+		/* default: 0 */
+		/* options:
+		   0 => secret
+		   1 => public
+		   2 => public to the same
+		 */
+
+		if (isset($_POST['usr_religion_permission'])) {
+			$rt['usr_religion_permission_value'] = intval($rt['usr_religion_permission']);
+			if (!in_array($rt['usr_religion_permission_value'], array(0, 1, 2))) {
+				$rt['usr_religion_permission_value'] = 0;
+			}
+		} else {
+			$rt['usr_religion_permission_value'] = 0;
+		}
+		
+		/* E check: usr_religion_permission */
+		
 		/* S check: usr_sw_shuffle_cloud */
 		/* default: 1 */
 		

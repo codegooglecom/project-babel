@@ -94,13 +94,53 @@
 		<at>/earth/</at>
 	</location>
 	<location>
+		<geo>greece</geo>
+		<cn>希腊</cn>
+		<at>/earth/</at>
+	</location>
+	<location>
 		<geo>holland</geo>
 		<cn>荷兰</cn>
 		<at>/earth/</at>
 	</location>
 	<location>
+		<geo>ireland</geo>
+		<cn>爱尔兰</cn>
+		<at>/earth/</at>
+	</location>
+	<location>
+		<geo>iceland</geo>
+		<cn>冰岛</cn>
+		<at>/earth/</at>
+	</location>
+	<location>
+		<geo>portugal</geo>
+		<cn>葡萄牙</cn>
+		<at>/earth/</at>
+	</location>
+	<location>
+		<geo>israel</geo>
+		<cn>以色列</cn>
+		<at>/earth/</at>
+	</location>
+	<location>
+		<geo>italy</geo>
+		<cn>意大利</cn>
+		<at>/earth/</at>
+	</location>
+	<location>
 		<geo>denmark</geo>
 		<cn>丹麦</cn>
+		<at>/earth/</at>
+	</location>
+	<location>
+		<geo>sweden</geo>
+		<cn>瑞典</cn>
+		<at>/earth/</at>
+	</location>
+	<location>
+		<geo>switzerland</geo>
+		<cn>瑞士</cn>
 		<at>/earth/</at>
 	</location>
 	<location>

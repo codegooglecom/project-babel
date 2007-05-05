@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <religions>
 	<religion>
+		<name>Agnostic</name>
+	</religion>
+	<religion>
 		<name>Buddhism</name>
 	</religion>
 	<religion>
@@ -13,25 +16,19 @@
 		<name>Hinduism</name>
 	</religion>
 	<religion>
+		<name>Irreligion</name>
+	</religion>
+	<religion>
 		<name>Islam</name>
 	</religion>
 	<religion>
 		<name>Judaism</name>
 	</religion>
 	<religion>
-		<name>Taoism</name>
-	</religion>
-	<religion>
 		<name>Sikhism</name>
 	</religion>
 	<religion>
-		<name>Agnostic</name>
-	</religion>
-	<religion>
-		<name>Agnostic</name>
-	</religion>
-	<religion>
-		<name>Irreligion</name>
+		<name>Taoism</name>
 	</religion>
 	<religion>
 		<name>Unknown</name>
