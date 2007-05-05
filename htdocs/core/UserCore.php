@@ -40,6 +40,9 @@ class User {
 	public $usr_identity;
 	public $usr_gender;
 	public $usr_brief;
+	public $usr_religion;
+	public $usr_religion_permission;
+	public $usr_religion_lastconverted;
 	public $usr_portrait;
 	public $usr_money;
 	public $usr_width;
@@ -73,6 +76,9 @@ class User {
 		$this->usr_identity = '';
 		$this->usr_gender = 0;
 		$this->usr_brief = '';
+		$this->usr_religion = 'Unknown';
+		$this->usr_religion_permission = 0;
+		$this->usr_religion_lastconverted = 0;
 		$this->usr_portrait = '';
 		$this->usr_money = 0;
 		$this->usr_width = 1024;
@@ -106,7 +112,7 @@ class User {
 		$e = 0;
 
 		if (strlen($usr_email) > 0 && strlen($usr_password) > 0) {
-			$sql = "SELECT usr_id, usr_gid, usr_email, usr_email_notify, usr_google_account, usr_geo, usr_password, usr_nick, usr_full, usr_addr, usr_telephone, usr_identity, usr_gender, usr_brief, usr_portrait, usr_money, usr_width, usr_hits, usr_logins, usr_created, usr_sw_shuffle_cloud, usr_sw_top_wealth, usr_sw_shell, usr_sw_notify_reply, usr_sw_notify_reply_all, usr_lastlogin, usr_lastlogin_ua FROM babel_user WHERE usr_email = '{$usr_email}' AND usr_password = '{$usr_password}'";
+			$sql = "SELECT usr_id, usr_gid, usr_email, usr_email_notify, usr_google_account, usr_geo, usr_password, usr_nick, usr_full, usr_addr, usr_telephone, usr_identity, usr_gender, usr_brief, usr_religion, usr_religion_permission, usr_religion_lastconverted, usr_portrait, usr_money, usr_width, usr_hits, usr_logins, usr_created, usr_sw_shuffle_cloud, usr_sw_top_wealth, usr_sw_shell, usr_sw_notify_reply, usr_sw_notify_reply_all, usr_lastlogin, usr_lastlogin_ua FROM babel_user WHERE usr_email = '{$usr_email}' AND usr_password = '{$usr_password}'";
 			$rs = mysql_query($sql, $this->db);
 			if (mysql_num_rows($rs) == 1) {
 				$O = mysql_fetch_object($rs);
@@ -126,6 +132,9 @@ class User {
 				$this->usr_identity = $O->usr_identity;
 				$this->usr_gender = $O->usr_gender;
 				$this->usr_brief = $O->usr_brief;
+				$this->usr_religion = $O->usr_religion;
+				$this->usr_religion_permission = $O->usr_religion_permission;
+				$this->usr_religion_lastconverted = $O->usr_religion_lastconverted;
 				$this->usr_portrait = $O->usr_portrait;
 				$this->usr_money = $O->usr_money;
 				$this->usr_width = $O->usr_width;

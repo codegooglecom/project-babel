@@ -724,7 +724,7 @@ class Page {
 	/* S module: div#bottom tag */
 	
 	public function vxBottom($msgCopyright = Vocabulary::site_copyright) {
-		echo('<div id="bottom"><small>' . $msgCopyright . '</small><br /><a href="/community_guidelines.vx">' . Vocabulary::term_community_guidelines . '</a> | <a href="http://io.v2ex.com/v2ex-doc/" target="_blank">帮助</a> | <a href="http://labs.v2ex.com/" target="_blank">下载本站程序</a><br /><a href="/rules.vx">' . Vocabulary::term_rules . '</a> | <a href="/terms.vx">' . Vocabulary::term_terms . '</a> | <a href="/privacy.vx">' . Vocabulary::term_privacy . '</a> | <a href="/policies.vx">' . Vocabulary::term_policies . '</a><br /><a href="http://labs.v2ex.com/" target="_blank" class="var"><img src="/img/beta_jtp.gif" alt="Beta * V2EX Labs" align="absmiddle" border="0" /></a><br /></span></div>');
+		echo('<div id="bottom"><small>' . $msgCopyright . '</small><br /><a href="/community_guidelines.vx">' . Vocabulary::term_community_guidelines . '</a> | <a href="http://io.v2ex.com/v2ex-doc/" target="_blank">帮助</a> | <a href="http://labs.v2ex.com/" target="_blank">下载本站程序</a><br /><a href="/rules.vx">' . Vocabulary::term_rules . '</a> | <a href="/terms.vx">' . Vocabulary::term_terms . '</a> | <a href="/privacy.vx">' . Vocabulary::term_privacy . '</a> | <a href="/policies.vx">' . Vocabulary::term_policies . '</a><br /><a href="http://labs.v2ex.com/" target="_blank" class="var"><img src="/img/beta_jtp.gif" alt="Beta * V2EX Labs" align="absmiddle" border="0" /></a><br /></div>');
 	}
 	
 	/* E module: div#bottom tag */
@@ -4348,7 +4348,7 @@ class Page {
 		echo('<tr><td width="200" align="right">真实姓名</td><td width="200" align="left"><input tabindex="1" type="text" maxlength="80" class="sl" name="usr_full" value="' . make_single_return($this->User->usr_full) . '" /></td>');
 		
 		// S button:
-		echo('<td width="150" rowspan="16" valign="middle" align="right">');
+		echo('<td width="150" rowspan="18" valign="middle" align="right">');
 		
 		_v_btn_f('修改', 'form_user_info');
 		
@@ -4371,6 +4371,30 @@ class Page {
 			}
 		}
 		echo('</select></td></tr>');
+		/* result: usr_religion */
+		if ($this->User->usr_religion == '') {
+			$this->User->usr_religion = 'Irreligion';
+		}
+		echo('<tr><td width="200" align="right" valign="top">信仰</td><td align="left"><select tabindex="8" maxlength="20" size="11" name="usr_religion">');
+		$_religions = read_xml_religions();
+		foreach ($_religions as $religion) {
+			if ($religion == $this->User->usr_religion) {
+				echo('<option value="' . $religion . '" selected="selected">' . $religion . '</option>');
+			} else {
+				echo('<option value="' . $religion . '">' . $religion . '</option>');
+			}
+		}
+		echo('</select></td></tr>');
+		echo('<tr><td width="200" align="right" valign="top">是否公开自己的信仰</td><td align="left"><select tabindex="9" maxlength="20" size="3" name="usr_religion">');
+		$_religion_permission = array('不公开', '公开', '只向同样信仰者公开');
+		for ($i = 0; $i < 3; $i++) {
+			if ($this->User->usr_religion_permission == $i) {
+				echo('<option value="' . $i . '" selected="selected">' . $_religion_permission[$i] . '</option>');
+			} else {
+				echo('<option value="' . $i . '">' . $_religion_permission[$i] . '</option>');
+			}
+		}
+		echo('</select></td></tr>');
 		/* result: usr_width */
 		$x = simplexml_load_file(BABEL_PREFIX . '/res/valid_width.xml');
 		$w = $x->xpath('/array/width');
@@ -4378,7 +4402,7 @@ class Page {
 		while(list( , $width) = each($w)) {
 			$ws[] = strval($width);
 		}
-		echo('<tr><td width="200" align="right" valign="top">常用屏幕宽度</td><td align="left"><select tabindex="8" maxlength="20" size="' . count($ws) . '" name="usr_width">');
+		echo('<tr><td width="200" align="right" valign="top">常用屏幕宽度</td><td align="left"><select tabindex="10" maxlength="20" size="' . count($ws) . '" name="usr_width">');
 		foreach ($ws as $width) {
 			if ($width == $this->User->usr_width) {
 				echo('<option value="' . $width . '" selected="selected">' . $width . '</option>');
@@ -4392,9 +4416,9 @@ class Page {
 		
 		echo('<tr><td width="200" align="right" valign="middle"><small>参加社区财富排行</small></td><td align="left">');
 		if ($this->User->usr_sw_top_wealth == 1) {
-			echo('<input type="checkbox" name="usr_sw_top_wealth" tabindex="9" checked="checked" /> 参加');
+			echo('<input type="checkbox" name="usr_sw_top_wealth" tabindex="11" checked="checked" /> 参加');
 		} else {
-			echo('<input type="checkbox" name="usr_sw_top_wealth" tabindex="9" /> 参加');
+			echo('<input type="checkbox" name="usr_sw_top_wealth" tabindex="11" /> 参加');
 		}
 		echo('</td></tr>');
 		
@@ -4402,34 +4426,34 @@ class Page {
 		
 		echo('<tr><td width="200" align="right" valign="middle"><small>' . Vocabulary::term_shuffle_cloud . '</small></td><td align="left">');
 		if ($this->User->usr_sw_shuffle_cloud == 1) {
-			echo('<input type="checkbox" name="usr_sw_shuffle_cloud" tabindex="9" checked="checked" /> 开启');
+			echo('<input type="checkbox" name="usr_sw_shuffle_cloud" tabindex="12" checked="checked" /> 开启');
 		} else {
-			echo('<input type="checkbox" name="usr_sw_shuffle_cloud" tabindex="9" /> 开启');
+			echo('<input type="checkbox" name="usr_sw_shuffle_cloud" tabindex="12" /> 开启');
 		}
 		echo('</td></tr>');
 		
 		echo('<tr><td width="200" align="right" valign="middle"><small>V2EX Shell</small></td><td align="left">');
 		if ($this->User->usr_sw_shell == 1) {
-			echo('<input type="checkbox" name="usr_sw_shell" tabindex="9" checked="checked" /> 开启');
+			echo('<input type="checkbox" name="usr_sw_shell" tabindex="13" checked="checked" /> 开启');
 		} else {
-			echo('<input type="checkbox" name="usr_sw_shell" tabindex="9" /> 开启');
+			echo('<input type="checkbox" name="usr_sw_shell" tabindex="13" /> 开启');
 		}
 		echo('</td></tr>');
 		echo('<tr><td width="200" align="right" valign="middle"><small>邮件通知自己的主题的新回复</small></td><td align="left">');
 		if ($this->User->usr_sw_notify_reply == 1) {
-			echo('<input type="checkbox" name="usr_sw_notify_reply" tabindex="10" checked="checked" /> 开启');
+			echo('<input type="checkbox" name="usr_sw_notify_reply" tabindex="14" checked="checked" /> 开启');
 		} else {
-			echo('<input type="checkbox" name="usr_sw_notify_reply" tabindex="10" /> 开启');
+			echo('<input type="checkbox" name="usr_sw_notify_reply" tabindex="14" /> 开启');
 		}
 		echo('</td></tr>');
 		echo('<tr><td width="200" align="right" valign="middle"><small>邮件通知我参与过的主题的新回复</small></td><td align="left">');
 		if ($this->User->usr_sw_notify_reply_all == 1) {
-			echo('<input type="checkbox" name="usr_sw_notify_reply_all" tabindex="11" checked="checked" /> 开启');
+			echo('<input type="checkbox" name="usr_sw_notify_reply_all" tabindex="15" checked="checked" /> 开启');
 		} else {
-			echo('<input type="checkbox" name="usr_sw_notify_reply_all" tabindex="11" /> 开启');
+			echo('<input type="checkbox" name="usr_sw_notify_reply_all" tabindex="15" /> 开启');
 		}
 		echo('</td></tr>');
-		echo('<tr><td width="200" align="right">用于接收通知的邮箱</td><td align="left"><input tabindex="12" type="text" maxlength="100" class="sl" name="usr_email_notify" value="' . make_single_return($this->User->usr_email_notify) . '" /></td></tr>');
+		echo('<tr><td width="200" align="right">用于接收通知的邮箱</td><td align="left"><input tabindex="16" type="text" maxlength="100" class="sl" name="usr_email_notify" value="' . make_single_return($this->User->usr_email_notify) . '" /></td></tr>');
 		/*
 		echo('<tr><td width="200" align="right">Google Account</td><td align="left">');
 		if ($this->User->usr_google_account != '') {
@@ -4446,8 +4470,8 @@ class Page {
 		}
 		echo('</td></tr>');
 		*/
-		echo('<tr><td width="200" align="right">新密码</td><td align="left"><input tabindex="14" type="password" maxlength="32" class="sl" name="usr_password_new" /></td></tr>');
-		echo('<tr><td width="200" align="right">重复新密码</td><td align="left"><input tabindex="15" type="password" maxlength="32" class="sl" name="usr_confirm_new" /></td></tr>');
+		echo('<tr><td width="200" align="right">新密码</td><td align="left"><input tabindex="17" type="password" maxlength="32" class="sl" name="usr_password_new" /></td></tr>');
+		echo('<tr><td width="200" align="right">重复新密码</td><td align="left"><input tabindex="18" type="password" maxlength="32" class="sl" name="usr_confirm_new" /></td></tr>');
 		echo('<tr><td height="10" colspan="2"></td></tr>');
 		echo('</form></table>');
 		echo('<hr size="1" color="#DDD" style="color: #DDD; background-color: #DDD; height: 1px; border: 0;" />');

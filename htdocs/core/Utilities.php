@@ -91,6 +91,16 @@ function get_restricted($c) {
 	return $o;
 }
 
+// return: array
+function read_xml_religions() {
+	$_religions = array();
+	$xml = simplexml_load_file(BABEL_PREFIX . '/res/religions.xml');
+	foreach ($xml->religion as $religion) {
+		$_religions[] = $religion->name;
+	}
+	return $_religions;
+}
+
 // return: void
 function exception_message($func = '') {
 	header('Content-type: text/html;charset=UTF-8');
