@@ -139,6 +139,16 @@
 		<at>/earth/</at>
 	</location>
 	<location>
+		<geo>latvia</geo>
+		<cn>拉脱维亚</cn>
+		<at>/earth/</at>
+	</location>
+	<location>
+		<geo>estonia</geo>
+		<cn>爱沙尼亚</cn>
+		<at>/earth/</at>
+	</location>
+	<location>
 		<geo>switzerland</geo>
 		<cn>瑞士</cn>
 		<at>/earth/</at>
