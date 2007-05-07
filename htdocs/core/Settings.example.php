@@ -140,6 +140,9 @@ $CACHE_LITE_OPTIONS_SHORT = array('cacheDir' => BABEL_PREFIX . '/cache/360/', 'l
 /* Long term cache settings (Cache_Lite in PEAR) lasting for 7200 seconds */
 $CACHE_LITE_OPTIONS_LONG = array('cacheDir' => BABEL_PREFIX . '/cache/7200/', 'lifeTime' => 7200, 'automaticCleaningFactor' => 100, 'hashedDirectoryLevel' => 3);
 
+/* Which type of long term cache to use. */
+define('ZEND_CACHE_TYPE_LONG', 'File');
+
 /**
  *
  * Long term cache settings (Zend_Cache in Zend Framework) lasting for 7200 seconds.
@@ -149,7 +152,14 @@ $CACHE_LITE_OPTIONS_LONG = array('cacheDir' => BABEL_PREFIX . '/cache/7200/', 'l
  */
 $ZEND_CACHE_OPTIONS_LONG_FRONTEND = array('lifeTime' => 7200, 'automaticSerialization' => false);
 
-$ZEND_CACHE_OPTIONS_LONG_BACKEND = array('cacheDir' => BABEL_PREFIX . '/cache/7200/', 'hashedDirectoryLevel' => 2);
+/**
+ *
+ * Long term cache: Backends
+ *
+ */
+$ZEND_CACHE_OPTIONS_LONG_BACKEND = array();
+$ZEND_CACHE_OPTIONS_LONG_BACKEND['Sqlite'] = array('cacheDBCompletePath' => BABEL_PREFIX . '/cache/7200.db');
+$ZEND_CACHE_OPTIONS_LONG_BACKEND['File'] = array('cacheDir' => BABEL_PREFIX . '/cache/7200/', 'hashedDirectoryLevel' => 2);
 
 /* If you have memcached server(s). */
 define('ZEND_CACHE_MEMCACHED_ENABLED', 'no'); // This feature requires PHP to have memcache extension.

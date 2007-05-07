@@ -78,6 +78,16 @@
 		<cn>日本</cn>
 		<at>/earth/</at>
 	</location>
+		<location>
+			<geo>tokyo</geo>
+			<cn>东京</cn>
+			<at>/earth/japan/</at>
+		</location>
+		<location>
+			<geo>hokkaido</geo>
+			<cn>北海道</cn>
+			<at>/earth/japan/</at>
+		</location>
 	<location>
 		<geo>singapore</geo>
 		<cn>新加坡</cn>
@@ -89,10 +99,160 @@
 		<at>/earth/</at>
 	</location>
 	<location>
+		<geo>belgium</geo>
+		<cn>比利时</cn>
+		<at>/earth/</at>
+	</location>
+	<location>
+		<geo>czech</geo>
+		<cn>捷克</cn>
+		<at>/earth/</at>
+	</location>
+	<location>
+		<geo>poland</geo>
+		<cn>波兰</cn>
+		<at>/earth/</at>
+	</location>
+	<location>
 		<geo>france</geo>
 		<cn>法国</cn>
 		<at>/earth/</at>
 	</location>
+		<location>
+			<geo>alsace</geo>
+			<cn>阿尔萨斯</cn>
+			<at>/earth/france/</at>
+		</location>
+		<location>
+			<geo>bretagne</geo>
+			<cn>布列塔尼</cn>
+			<at>/earth/france/</at>
+		</location>
+		<location>
+			<geo>rhone-alpes</geo>
+			<cn>罗纳-阿尔卑斯</cn>
+			<at>/earth/france/</at>
+		</location>
+		<location>
+			<geo>franche-comte</geo>
+			<cn>弗朗什孔泰</cn>
+			<at>/earth/france/</at>
+		</location>
+		<location>
+			<geo>midi-pyrenees</geo>
+			<cn>南部-比利牛斯</cn>
+			<at>/earth/france/</at>
+		</location>
+		<location>
+			<geo>poitou-charentes</geo>
+			<cn>普瓦图-夏朗德</cn>
+			<at>/earth/france/</at>
+		</location>
+		<location>
+			<geo>nord-pas-de-calais</geo>
+			<cn>北部-加来海峡</cn>
+			<at>/earth/france/</at>
+		</location>
+		<location>
+			<geo>languedoc-roussillon</geo>
+			<cn>朗格多克-鲁西永</cn>
+			<at>/earth/france/</at>
+		</location>
+		<location>
+			<geo>ile-de-france</geo>
+			<cn>法兰西岛</cn>
+			<at>/earth/france/</at>
+		</location>
+			<location>
+				<geo>paris</geo>
+				<cn>巴黎</cn>
+				<at>/earth/france/ile-de-france/</at>
+			</location>
+		<location>
+			<geo>aquitaine</geo>
+			<cn>阿基坦</cn>
+			<at>/earth/france/</at>
+		</location>
+		<location>
+			<geo>provence-alpes-cote-d-azur</geo>
+			<cn>普罗旺斯-阿尔卑斯-蓝色海岸</cn>
+			<at>/earth/france/</at>
+		</location>
+		<location>
+			<geo>guadeloupe</geo>
+			<cn>瓜德罗普</cn>
+			<at>/earth/france/</at>
+		</location>
+		<location>
+			<geo>guyane</geo>
+			<cn>法属圭亞那</cn>
+			<at>/earth/france/</at>
+		</location>
+		<location>
+			<geo>reunion</geo>
+			<cn>留尼旺</cn>
+			<at>/earth/france/</at>
+		</location>
+		<location>
+			<geo>martinique</geo>
+			<cn>馬提尼克</cn>
+			<at>/earth/france/</at>
+		</location>
+		<location>
+			<geo>auvergne</geo>
+			<cn>奥弗涅</cn>
+			<at>/earth/france/</at>
+		</location>
+		<location>
+			<geo>bourgogne</geo>
+			<cn>勃艮第</cn>
+			<at>/earth/france/</at>
+		</location>
+		<location>
+			<geo>basse-normandie</geo>
+			<cn>下诺曼底</cn>
+			<at>/earth/france/</at>
+		</location>
+		<location>
+			<geo>centre</geo>
+			<cn>中央</cn>
+			<at>/earth/france/</at>
+		</location>
+		<location>
+			<geo>champagne-ardenne</geo>
+			<cn>香槟-阿登</cn>
+			<at>/earth/france/</at>
+		</location>
+		<location>
+			<geo>corse</geo>
+			<cn>科西嘉</cn>
+			<at>/earth/france/</at>
+		</location>
+		<location>
+			<geo>haute-normandie</geo>
+			<cn>上诺曼底</cn>
+			<at>/earth/france/</at>
+		</location>
+		<location>
+			<geo>lorraine</geo>
+			<cn>洛林</cn>
+			<at>/earth/france/</at>
+		</location>
+		<location>
+			<geo>picardie</geo>
+			<cn>皮卡第</cn>
+			<at>/earth/france/</at>
+		</location>
+		<location>
+			<geo>limousin</geo>
+			<cn>利穆赞</cn>
+			<at>/earth/france/</at>
+		</location>
+		<location>
+			<geo>pays-de-la-loire</geo>
+			<cn>卢瓦尔河地区</cn>
+			<at>/earth/france/</at>
+		</location>
 	<location>
 		<geo>greece</geo>
 		<cn>希腊</cn>
@@ -178,6 +338,21 @@
 		<cn>德国</cn>
 		<at>/earth/</at>
 	</location>
+		<location>
+			<geo>berlin</geo>
+			<cn>柏林</cn>
+			<at>/earth/germany/</at>
+		</location>
+		<location>
+			<geo>bremen</geo>
+			<cn>不来梅</cn>
+			<at>/earth/germany/</at>
+		</location>
+		<location>
+			<geo>hessen</geo>
+			<cn>黑森</cn>
+			<at>/earth/germany/</at>
+		</location>
 	<location>
 		<geo>canada</geo>
 		<cn>加拿大</cn>

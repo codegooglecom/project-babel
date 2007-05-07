@@ -163,7 +163,7 @@ class Page {
 		if (ZEND_CACHE_MEMCACHED_ENABLED == 'yes') {
 			$this->cl = Zend_Cache::factory('Core', 'Memcached', $ZEND_CACHE_OPTIONS_LONG_FRONTEND, $ZEND_CACHE_OPTIONS_MEMCACHED);
 		} else {
-			$this->cl = Zend_Cache::factory('Core', 'File', $ZEND_CACHE_OPTIONS_LONG_FRONTEND, $ZEND_CACHE_OPTIONS_LONG_BACKEND);
+			$this->cl = Zend_Cache::factory('Core', ZEND_CACHE_TYPE_LONG, $ZEND_CACHE_OPTIONS_LONG_FRONTEND, $ZEND_CACHE_OPTIONS_LONG_BACKEND[ZEND_CACHE_TYPE_LONG]);
 		}
 		session_start();
 		$this->User = new User('', '', $this->db);
@@ -8336,11 +8336,11 @@ class Page {
 		*/
 		
 		/* Start: geos_children */
-		if ($geos_children = $this->cl->load('babel_geo_children_' . $geo)) {
+		if ($geos_children = $this->cl->load('babel_geo_children_' . $geo_md5)) {
 			$geos_children = unserialize($geos_children);
 		} else {
 			$geos_children = $this->Geo->vxGetChildrenArray($geo);
-			$this->cl->save(serialize($geos_children), 'babel_geo_children_' . $geo);
+			$this->cl->save(serialize($geos_children), 'babel_geo_children_' . $geo_md5);
 		}
 		if (count($geos_children) > 0) {
 			$len_total = 0;
@@ -8350,7 +8350,7 @@ class Page {
 			$len_avg = floor($len_total / count($geos_children));
 			$br = calc_geo_break($len_avg);
 			_v_hr();
-			if ($o = $this->cl->load('babel_geo_children_' . $geo . '_o')) {
+			if ($o = $this->cl->load('babel_geo_children_' . $geo_md5 . '_o')) {
 				echo $o;
 			} else {
 				$o = '';
@@ -8369,17 +8369,17 @@ class Page {
 				$o .= '</blockquote>';
 				$o .= '</div>';
 				echo $o;
-				$this->cl->save($o, 'babel_geo_children_' . $geo . '_o');
+				$this->cl->save($o, 'babel_geo_children_' . $geo_md5 . '_o');
 			}
 		}
 		/* End: array geos_children */
 		
 		/* Start: array geos_parallel */
-		if ($geos_parallel = $this->cl->load('babel_geo_parallel_' . $geo)) {
+		if ($geos_parallel = $this->cl->load('babel_geo_parallel_' . $geo_md5)) {
 			$geos_parallel = unserialize($geos_parallel);
 		} else {
 			$geos_parallel = $this->Geo->vxGetParallelArray($geo);
-			$this->cl->save(serialize($geos_parallel), 'babel_geo_parallel_' . $geo);
+			$this->cl->save(serialize($geos_parallel), 'babel_geo_parallel_' . $geo_md5);
 		}
 		if (count($geos_parallel) > 0) {
 			$len_total = 0;
@@ -8389,7 +8389,7 @@ class Page {
 			$len_avg = floor($len_total / count($geos_parallel));
 			$br = calc_geo_break($len_avg);
 			_v_hr();
-			if ($o = $this->cl->load('babel_geo_parallel_' . $geo . '_o')) {
+			if ($o = $this->cl->load('babel_geo_parallel_' . $geo_md5 . '_o')) {
 				echo $o;
 			} else {
 				$o = '';
@@ -8408,7 +8408,7 @@ class Page {
 				$o .= '</blockquote>';
 				$o .= '</div>';
 				echo $o;
-				$this->cl->save($o, 'babel_geo_parallel_' . $geo . '_o');
+				$this->cl->save($o, 'babel_geo_parallel_' . $geo_md5 . '_o');
 			}
 		}
 		/* End: array geos_parallel */
@@ -8973,7 +8973,7 @@ class Page {
 			echo('</form>');
 			echo('</div>');
 		} else {
-			echo(' ' . $User->usr_nick_plain . ' 在做什么 ...');
+			echo(' ' . $User->usr_nick_plain . ' 在做什么 ...</span>');
 		}
 		_v_hr();
 		
