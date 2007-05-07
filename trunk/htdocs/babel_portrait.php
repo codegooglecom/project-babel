@@ -13,7 +13,7 @@ if (isset($_GET['fn'])) {
 	if (ZEND_CACHE_MEMCACHED_ENABLED == 'yes') {
 		$cache = Zend_Cache::factory('Core', 'Memcached', $ZEND_CACHE_OPTIONS_LONG_FRONTEND, $ZEND_CACHE_OPTIONS_MEMCACHED);
 	} else {
-		$cache = Zend_Cache::factory('Core', 'File', $ZEND_CACHE_OPTIONS_LONG_FRONTEND, $ZEND_CACHE_OPTIONS_LONG_BACKEND);
+		$cache = Zend_Cache::factory('Core', ZEND_CACHE_TYPE_LONG, $ZEND_CACHE_OPTIONS_LONG_FRONTEND, $ZEND_CACHE_OPTIONS_LONG_BACKEND[ZEND_CACHE_TYPE_LONG]);
 	}
 	if ($o = $cache->load('user_portrait_' . $fn)) {
 		header("Content-type: image/jpeg");

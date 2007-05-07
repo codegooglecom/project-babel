@@ -1414,6 +1414,7 @@ class Validator {
 		/* E check: usr_brief */
 		
 		/* S check: usr_religion */
+		/* default: Unknown */
 		
 		$_religions = read_xml_religions();
 		
@@ -1431,7 +1432,7 @@ class Validator {
 		/* S check: usr_religion_permission */
 		/* default: 0 */
 		/* options:
-		   0 => secret
+		   0 => secret (default)
 		   1 => public
 		   2 => public to the same
 		 */
