@@ -235,6 +235,7 @@ $i->vxSetupBoard('amex', 'American Stock and Options Exchange', 452, 452, 1, 2, 
 $i->vxSetupBoard('nasdaq', 'NASDAQ', 452, 452, 1, 2, '', '');
 $i->vxSetupBoard('forex', '外汇', 452, 452, 1, 2, '', '外汇 | Forex');
 	$i->vxSetupRelatedByName('forex', 'http://www.forex.com/', 'FOREX');
+	$i->vxSetupRelatedByName('forex', 'http://www.dailyfx.com.hk/', 'DailyFX');
 $i->vxSetupBoard('futures', '期货', 452, 452, 1, 2, '', '期货 | Futures');
 $i->vxSetupBoard('option', '期权', 452, 452, 1, 2, '', '期权 | Option');
 $i->vxSetupBoard('bond', '债券', 452, 452, 1, 2, '', '债券 | Bond');

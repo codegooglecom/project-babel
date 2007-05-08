@@ -1,18 +1,35 @@
 <?php
 /* Project Babel
-*  Author: Livid Torvalds
-*  File: /htdocs/core/ImageCore.php
-*  Usage: Image Class
-*  Format: 1 tab indent(4 spaces), LF, UTF-8, no-BOM
-*
-*  Subversion Keywords:
-*
-*  $Id$
-*  $LastChangedDate$
-*  $LastChangedRevision$
-*  $LastChangedBy$
-*  $URL$
-*/
+ *
+ * Author: Livid Liu <v2ex.livid@mac.com>
+ * File: /htdocs/core/ImageCore.php
+ * Usage: Image Class
+ * Format: 1 tab indent(4 spaces), LF, UTF-8, no-BOM
+ *
+ * Subversion Keywords:
+ *
+ * $Id$
+ * $Date$
+ * $Revision$
+ * $Author$
+ * $URL$
+ *
+ * Copyright (C) 2006 Livid Liu <v2ex.livid@mac.com>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ */
 
 if (@V2EX_BABEL != 1) {
 	die('<strong>Project Babel</strong><br /><br />Made by <a href="http://www.v2ex.com/">V2EX</a> | software for internet');
@@ -400,7 +417,7 @@ class Image {
 		if (ZEND_CACHE_MEMCACHED_ENABLED == 'yes') {
 			$cache = Zend_Cache::factory('Core', 'Memcached', $ZEND_CACHE_OPTIONS_LONG_FRONTEND, $ZEND_CACHE_OPTIONS_MEMCACHED);
 		} else {
-			$cache = Zend_Cache::factory('Core', 'File', $ZEND_CACHE_OPTIONS_LONG_FRONTEND, $ZEND_CACHE_OPTIONS_LONG_BACKEND);
+			$cache = Zend_Cache::factory('Core', ZEND_CACHE_TYPE_LONG, $ZEND_CACHE_OPTIONS_LONG_FRONTEND, $ZEND_CACHE_OPTIONS_LONG_BACKEND[ZEND_CACHE_TYPE_LONG]);
 		}
 		Image::vxResize(BABEL_PREFIX . '/tmp/' . $user_id . $ext, BABEL_PREFIX . '/htdocs/img/p_static/' . $user_id . '.' . BABEL_PORTRAIT_EXT, 75, 75, 1|4, 2);
 		$content = addslashes(file_get_contents(BABEL_PREFIX . '/htdocs/img/p_static/' . $user_id . '.' . BABEL_PORTRAIT_EXT));
