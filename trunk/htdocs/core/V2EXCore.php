@@ -78,7 +78,7 @@ if (V2EX_BABEL == 1) {
 	require('core/ImageCore.php');
 	require('core/ValidatorCore.php');
 } else {
-	die('<strong>Project Babel</strong><br /><br />Made by V2EX | software for internet');
+	die('<strong>Project Babel</strong><br /><br />Made by <a href="http://labs.v2ex.com/">V2EX</a> | software for internet');
 }
 
 /* S Page class */
