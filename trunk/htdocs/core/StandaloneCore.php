@@ -253,6 +253,11 @@ class Standalone {
 	
 	public function vxRecvIng() {
 		if ($this->User->vxIsLogin()) {
+			if (isset($_POST['return'])) {
+				$return = fetch_single($_POST['return']);
+			} else {
+				$return = $this->URL->vxGetIngPersonal($this->User->usr_nick);
+			}
 			if (isset($_POST['doing'])) {
 				$doing = make_single_safe($_POST['doing']);
 				if ($doing != '') {
@@ -266,15 +271,15 @@ class Standalone {
 						$source = 1;
 						$sql = "INSERT INTO babel_ing_update(ing_uid, ing_doing, ing_source, ing_created) VALUE({$this->User->usr_id}, '{$doing_sql}', $source, $t)";
 						mysql_unbuffered_query($sql) or die($sql . ':' . mysql_error());
-						return $this->URL->vxToRedirect($this->URL->vxGetIngPersonal($this->User->usr_nick));
+						return $this->URL->vxToRedirect($return);
 					} else {
-						return $this->URL->vxToRedirect($this->URL->vxGetIngPersonal($this->User->usr_nick));
+						return $this->URL->vxToRedirect($return);
 					}
 				} else {
-					return $this->URL->vxToRedirect($this->URL->vxGetIngPersonal($this->User->usr_nick));
+					return $this->URL->vxToRedirect($return);
 				}
 			} else {
-				return $this->URL->vxToRedirect($this->URL->vxGetIngPersonal($this->User->usr_nick));
+				return $this->URL->vxToRedirect($return);
 			}
 		} else {
 			return $this->URL->vxToRedirect($this->URL->vxGetLogin());
