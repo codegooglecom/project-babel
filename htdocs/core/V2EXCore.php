@@ -8859,6 +8859,17 @@ class Page {
 			echo(' ' . $User->usr_nick_plain . ' 和朋友们在做什么 ...');
 		}
 		echo('</span>');
+		if ($flag_self) {
+			_v_hr();
+			echo('<div align="center">');
+			echo('<form action="/recv/ing.vx" id="ing_personal" method="POST" onsubmit="return checkIngForm();">');
+			echo('<div style="background-image: url(' . "'/img/bg_ing.gif'" . '); padding-top: 3px; width: 320px; height: 35px;"><input onkeyup="checkIngType(' . "'doing', 'ing_status'" . ');" type="text" class="sll" id="doing" name="doing" maxlength="131" /></div> ');
+			_v_btn_f('更新我的状态', 'ing_personal');
+			echo('<div id="ing_status"><span class="tip_i">现在还可以再输入 131 个字符</span></div>');
+			echo('<input type="hidden" name="return" value="/ing/' . urlencode($this->User->usr_nick) . '/friends" />');
+			echo('</form>');
+			echo('</div>');
+		}
 		_v_hr();
 		
 		/* S: right user badge */
@@ -8970,6 +8981,7 @@ class Page {
 			echo('<div style="background-image: url(' . "'/img/bg_ing.gif'" . '); padding-top: 3px; width: 320px; height: 35px;"><input onkeyup="checkIngType(' . "'doing', 'ing_status'" . ');" type="text" class="sll" id="doing" name="doing" maxlength="131" /></div> ');
 			_v_btn_f('更新我的状态', 'ing_personal');
 			echo('<div id="ing_status"><span class="tip_i">现在还可以再输入 131 个字符</span></div>');
+			echo('<input type="hidden" name="return" value="/ing/' . urlencode($this->User->usr_nick) . '" />');
 			echo('</form>');
 			echo('</div>');
 		} else {
