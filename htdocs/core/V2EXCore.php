@@ -765,7 +765,9 @@ class Page {
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/comments.png" align="absmiddle" />&nbsp;<a href="/topic/archive/user/' . urlencode($this->User->usr_nick) . '">我创建的所有主题</a></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/hourglass.png" align="absmiddle" />&nbsp;<a href="/ing/' . urlencode($this->User->usr_nick) . '">ING</a> <span class="tip_i"><small>alpha</small></span></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/clock.png" align="absmiddle">&nbsp;<a href="/zen/' . urlencode($this->User->usr_nick) . '">ZEN</a> <span class="tip_i"><small>alpha</small></span></li>');
-			echo('<li><img src="' . CDN_UI . 'img/icons/silk/color_swatch.png" align="absmiddle">&nbsp;<a href="/dry/' . urlencode($this->User->usr_nick) . '">DRY</a> <span class="tip_i"><small>alpha</small></span></li>');
+			if (BABEL_FEATURE_DRY) {
+				echo('<li><img src="' . CDN_UI . 'img/icons/silk/color_swatch.png" align="absmiddle">&nbsp;<a href="/dry/' . urlencode($this->User->usr_nick) . '">DRY</a> <span class="tip_i"><small>alpha</small></span></li>');
+			}
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/house.png" align="absmiddle" />&nbsp;<a href="/u/' . urlencode($this->User->usr_nick) . '">我的 ' . Vocabulary::site_name . ' 主页</a></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/coins_delete.png" align="absmiddle" />&nbsp;<a href="/expense/view.vx">消费记录</a></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/coins_add.png" align="absmiddle" />&nbsp;<a href="#;" onclick="openTopWealth();">社区财富排行</a></li>');
@@ -3811,6 +3813,38 @@ class Page {
 
 		$txt .= '在' . date(' Y 年 n 月', $O->usr_created) . '的时候来到 ' . Vocabulary::site_name . '，在过去创建了 <a href="/topic/archive/user/' . $O->usr_nick . '">' . $count_u['tpc_count'] . '</a> 个主题，发表了 ' . $count_u['pst_count'] . ' 篇回复，所在地为 [ <a href="/geo/' . $O->usr_geo . '" class="o">' . $this->Geo->map['name'][$O->usr_geo] . '</a> ]'; 
 		
+		if ($O->usr_religion_permission != 0 && $O->usr_religion != 'Unknown') {
+			if ($this->User->vxIsLogin()) {
+				if ($O->usr_religion_permission = 2) {
+					if ($this->User->usr_religion == $O->usr_religion) {
+						if ($O->usr_religion == 'Irreligion') {
+							$txt .= '，无信仰';
+						} else {
+							$txt .= '，信仰 [ ' . $O->usr_religion . ' ]';
+						}
+					}
+				} else {
+					if ($this->User->usr_religion == $O->usr_religion) {
+						if ($O->usr_religion == 'Irreligion') {
+							$txt .= '，无信仰';
+						} else {
+							$txt .= '，信仰 [ ' . $O->usr_religion . ' ]';
+						}
+					}
+				}
+			} else {
+				if ($O->usr_religion_permission != 2) {
+					if ($this->User->usr_religion == $O->usr_religion) {
+						if ($O->usr_religion == 'Irreligion') {
+							$txt .= '，无信仰';
+						} else {
+							$txt .= '，信仰 [ ' . $O->usr_religion . ' ]';
+						}
+					}
+				}
+			}
+		}
+		
 		if ($this->User->usr_id == $O->usr_id) {
 			$txt .= '<br /><span class="tip_i">你正在察看的是自己的页面，你可以把它的地址发给你的朋友，和他们共享你在 ' . Vocabulary::site_name . ' 获得的快乐！</span>';
 		}
@@ -3842,7 +3876,11 @@ class Page {
 			echo('<tr><td colspan="2" align="center" class="section_even"><span class="text_large"><img src="/img/quote_left.gif" align="absmiddle" />&nbsp;' . make_plaintext($O->usr_brief) . '&nbsp;<img src="/img/quote_right.gif" align="absmiddle" /></span></td></tr>');
 		}
 		
-		echo('<tr><td colspan="2" align="center" class="section_odd"><span class="tip_i"><img src="' . CDN_UI . 'img/icons/silk/hourglass.png" align="absmiddle" alt="ING" />&nbsp;<a href="/ing/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">ING</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/clock.png" align="absmiddle" alt="ZEN" />&nbsp;<a href="/zen/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">ZEN</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/color_swatch.png" align="absmiddle" alt="ZEN" />&nbsp;<a href="/dry/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">DRY</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/comments.png" alt="Topics" align="absmiddle" />&nbsp;<a href="/topic/archive/user/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">' . $O->usr_nick . ' 的所有主题</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/heart_add.png" align="absmiddle" />&nbsp;<a href="/who/connect/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">谁把 ' . $O->usr_nick . ' 加为好友</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/feed.png" align="absmiddle" alt="RSS" />&nbsp;<a href="/feed/user/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . '">RSS 种子输出</a></span></tr>');
+		echo('<tr><td colspan="2" align="center" class="section_odd"><span class="tip_i"><img src="' . CDN_UI . 'img/icons/silk/hourglass.png" align="absmiddle" alt="ING" />&nbsp;<a href="/ing/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">ING</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/clock.png" align="absmiddle" alt="ZEN" />&nbsp;<a href="/zen/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">ZEN</a>');
+		if (BABEL_FEATURE_DRY) {
+			echo('&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/color_swatch.png" align="absmiddle" alt="ZEN" />&nbsp;<a href="/dry/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">DRY</a>');
+		}
+		echo('&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/comments.png" alt="Topics" align="absmiddle" />&nbsp;<a href="/topic/archive/user/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">' . $O->usr_nick . ' 的所有主题</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/heart_add.png" align="absmiddle" />&nbsp;<a href="/who/connect/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">谁把 ' . $O->usr_nick . ' 加为好友</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/feed.png" align="absmiddle" alt="RSS" />&nbsp;<a href="/feed/user/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . '">RSS 种子输出</a></span></tr>');
 		
 		if (BABEL_FEATURE_USER_COMPONENTS) {
 			echo('<tr><td colspan="2" align="left" class="section_odd"><span class="text_large"><img src="/img/ico_savepoint.gif" align="absmiddle" class="home" />' . $O->usr_nick . ' 的网上据点<a name="svp" /></span></td></tr>');
@@ -4373,19 +4411,19 @@ class Page {
 		echo('</select></td></tr>');
 		/* result: usr_religion */
 		if ($this->User->usr_religion == '') {
-			$this->User->usr_religion = 'Irreligion';
+			$this->User->usr_religion = 'Unknown';
 		}
 		echo('<tr><td width="200" align="right" valign="top">信仰</td><td align="left"><select tabindex="8" maxlength="20" size="11" name="usr_religion">');
 		$_religions = read_xml_religions();
 		foreach ($_religions as $religion) {
-			if ($religion == $this->User->usr_religion) {
+			if (strval($religion) == $this->User->usr_religion) {
 				echo('<option value="' . $religion . '" selected="selected">' . $religion . '</option>');
 			} else {
 				echo('<option value="' . $religion . '">' . $religion . '</option>');
 			}
 		}
 		echo('</select></td></tr>');
-		echo('<tr><td width="200" align="right" valign="top">是否公开自己的信仰</td><td align="left"><select tabindex="9" maxlength="20" size="3" name="usr_religion">');
+		echo('<tr><td width="200" align="right" valign="top">是否公开自己的信仰</td><td align="left"><select tabindex="9" maxlength="20" size="3" name="usr_religion_permission">');
 		$_religion_permission = array('不公开', '公开', '只向同样信仰者公开');
 		for ($i = 0; $i < 3; $i++) {
 			if ($this->User->usr_religion_permission == $i) {
@@ -4708,7 +4746,7 @@ class Page {
 			echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_smile.gif" align="absmiddle" class="home" />' . make_plaintext($rt['usr_nick_value']) . ' 的会员信息修改成功</span>');
 			echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
 			echo('<tr><td width="200" align="right" valign="middle">真实姓名</td><td align="left">' . make_plaintext($rt['usr_full_value']) . '</td>');
-			echo('<td width="150" rowspan="14" valign="middle" align="right">');
+			echo('<td width="150" rowspan="12" valign="middle" align="right">');
 			_v_btn_l('重新修改', '/user/modify.vx');
 			echo('</td>');
 			echo('</tr>');
@@ -4718,6 +4756,9 @@ class Page {
 			echo('<tr><td width="200" align="right" valign="middle">电话号码</td><td align="left">' . make_plaintext($rt['usr_telephone_value']) . '</td></tr>');
 			echo('<tr><td width="200" align="right" valign="middle">身份证号码</td><td align="left">' . make_plaintext($rt['usr_identity_value']) . '</td></tr>');
 			echo('<tr><td width="200" align="right" valign="middle">性别</td><td align="left">' . $this->User->usr_gender_a[$rt['usr_gender_value']] . '</td></tr>');
+			echo('<tr><td width="200" align="right" valign="middle">信仰</td><td align="left">' . $rt['usr_religion_value'] . '</td></tr>');
+			$_religion_permission = array('不公开', '公开', '只向同样信仰者公开');
+			echo('<tr><td width="200" align="right" valign="middle">是否公开自己的信仰</td><td align="left">' . $_religion_permission[$rt['usr_religion_permission_value']] . '</td></tr>');
 			echo('<tr><td width="200" align="right" valign="middle">常用屏幕宽度</td><td align="left">' . $rt['usr_width_value'] . '</td></tr>');
 			
 			/* start: switches */
@@ -4762,7 +4803,9 @@ class Page {
 				echo('<form action="/login.vx" method="post" id="Login">');
 				echo('<tr><td width="200" align="right">电子邮件或昵称</td><td width="200" align="left"><input type="text" maxlength="100" class="sl" name="usr" tabindex="1" /></td><td width="150" rowspan="2" valign="middle" align="right"><input type="image" src="/img/graphite/login.gif" alt="' . Vocabulary::action_login . '" /></td></tr><tr><td width="200" align="right">密码</td><td align="left"><input type="password" maxlength="32" class="sl" name="usr_password" tabindex="2" /></td></tr></form></table></div>');
 			} else {
-				echo('<div class="blank" align="left"><img src="/img/ico_tip.gif" align="absmiddle" class="ico" />' . make_plaintext($this->User->usr_nick) . ' <span class="tip">&lt; ' . $this->User->usr_email . ' &gt;</span> 的会员信息已经更新</div>');
+				echo('<div class="blank" align="left">');
+				_v_ico_silk('information');
+				echo(' ' . make_plaintext($this->User->usr_nick) . ' <span class="tip">&lt; ' . $this->User->usr_email . ' &gt;</span> 的会员信息已经更新</div>');
 			}
 		}
 		echo('</div>');

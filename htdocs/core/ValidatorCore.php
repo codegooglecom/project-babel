@@ -1418,8 +1418,8 @@ class Validator {
 		
 		$_religions = read_xml_religions();
 		
-		if (isset($_GET['usr_religion'])) {
-			$rt['usr_religion_value'] = make_single_safe($_GET['usr_religion']);
+		if (isset($_POST['usr_religion'])) {
+			$rt['usr_religion_value'] = make_single_safe($_POST['usr_religion']);
 			if (!in_array($rt['usr_religion_value'], $_religions)) {
 				$rt['usr_religion_value'] = 'Unknown';
 			}
@@ -1438,7 +1438,7 @@ class Validator {
 		 */
 
 		if (isset($_POST['usr_religion_permission'])) {
-			$rt['usr_religion_permission_value'] = intval($rt['usr_religion_permission']);
+			$rt['usr_religion_permission_value'] = intval($_POST['usr_religion_permission']);
 			if (!in_array($rt['usr_religion_permission_value'], array(0, 1, 2))) {
 				$rt['usr_religion_permission_value'] = 0;
 			}
@@ -1601,7 +1601,7 @@ class Validator {
 	
 	/* S module: User Update Update logic */
 	
-	public function vxUserUpdateUpdate($usr_full, $usr_nick, $usr_email_notify, $usr_brief, $usr_gender, $usr_addr, $usr_telephone, $usr_identity, $usr_width = 1024, $usr_sw_shuffle_cloud = 1, $usr_sw_top_wealth = 0, $usr_sw_shell = 0, $usr_sw_notify_reply = 0, $usr_sw_notify_reply_all = 0, $usr_password = '') {
+	public function vxUserUpdateUpdate($usr_full, $usr_nick, $usr_email_notify, $usr_brief, $usr_gender, $usr_religion, $usr_religion_permission, $usr_addr, $usr_telephone, $usr_identity, $usr_width = 1024, $usr_sw_shuffle_cloud = 1, $usr_sw_top_wealth = 0, $usr_sw_shell = 0, $usr_sw_notify_reply = 0, $usr_sw_notify_reply_all = 0, $usr_password = '') {
 		$usr_id = $this->User->usr_id;
 		
 		if (get_magic_quotes_gpc()) {
@@ -1622,6 +1622,9 @@ class Validator {
 			$usr_brief = stripslashes($usr_brief);
 			$usr_brief = mysql_real_escape_string($usr_brief);
 			
+			$usr_religion = stripslashes($usr_religion);
+			$usr_religion = mysql_real_escape_string($usr_religion);
+			
 			$usr_addr = stripslashes($usr_addr);
 			$usr_addr = mysql_real_escape_string($usr_addr);
 			
@@ -1640,6 +1643,8 @@ class Validator {
 			
 			$usr_brief = mysql_real_escape_string($usr_brief);
 			
+			$usr_religion = mysql_real_escape_string($usr_religion);
+			
 			$usr_addr = mysql_real_escape_string($usr_addr);
 			
 			$usr_telephone = mysql_real_escape_string($usr_telephone);
@@ -1653,9 +1658,9 @@ class Validator {
 		$usr_lastupdated = time();
 		
 		if (strlen($usr_password) > 0) {
-			$sql = "UPDATE babel_user SET usr_full = '{$usr_full}', usr_nick = '{$usr_nick}', usr_email_notify = '{$usr_email_notify}', usr_brief = '{$usr_brief}', usr_gender = '{$usr_gender}', usr_addr = '{$usr_addr}', usr_telephone = '{$usr_telephone}', usr_identity = '{$usr_identity}', usr_width = {$usr_width}, usr_sw_shuffle_cloud = {$usr_sw_shuffle_cloud}, usr_sw_top_wealth = {$usr_sw_top_wealth}, usr_sw_shell = {$usr_sw_shell}, usr_sw_notify_reply = {$usr_sw_notify_reply}, usr_sw_notify_reply_all = {$usr_sw_notify_reply_all}, usr_password = '{$usr_password}', usr_lastupdated = {$usr_lastupdated} WHERE usr_id = {$usr_id} LIMIT 1";
+			$sql = "UPDATE babel_user SET usr_full = '{$usr_full}', usr_nick = '{$usr_nick}', usr_email_notify = '{$usr_email_notify}', usr_brief = '{$usr_brief}', usr_gender = '{$usr_gender}', usr_religion = '{$usr_religion}', usr_religion_permission = {$usr_religion_permission}, usr_addr = '{$usr_addr}', usr_telephone = '{$usr_telephone}', usr_identity = '{$usr_identity}', usr_width = {$usr_width}, usr_sw_shuffle_cloud = {$usr_sw_shuffle_cloud}, usr_sw_top_wealth = {$usr_sw_top_wealth}, usr_sw_shell = {$usr_sw_shell}, usr_sw_notify_reply = {$usr_sw_notify_reply}, usr_sw_notify_reply_all = {$usr_sw_notify_reply_all}, usr_password = '{$usr_password}', usr_lastupdated = {$usr_lastupdated} WHERE usr_id = {$usr_id} LIMIT 1";
 		} else {
-			$sql = "UPDATE babel_user SET usr_full = '{$usr_full}', usr_nick = '{$usr_nick}', usr_email_notify = '{$usr_email_notify}', usr_brief = '{$usr_brief}', usr_gender = '{$usr_gender}', usr_addr = '{$usr_addr}', usr_telephone = '{$usr_telephone}', usr_identity = '{$usr_identity}', usr_width = {$usr_width}, usr_sw_shuffle_cloud = {$usr_sw_shuffle_cloud}, usr_sw_top_wealth = {$usr_sw_top_wealth}, usr_sw_shell = {$usr_sw_shell}, usr_sw_notify_reply = {$usr_sw_notify_reply}, usr_sw_notify_reply_all = {$usr_sw_notify_reply_all}, usr_lastupdated = '{$usr_lastupdated}' WHERE usr_id = {$usr_id} LIMIT 1";
+			$sql = "UPDATE babel_user SET usr_full = '{$usr_full}', usr_nick = '{$usr_nick}', usr_email_notify = '{$usr_email_notify}', usr_brief = '{$usr_brief}', usr_gender = '{$usr_gender}', usr_religion = '{$usr_religion}', usr_religion_permission = {$usr_religion_permission}, usr_addr = '{$usr_addr}', usr_telephone = '{$usr_telephone}', usr_identity = '{$usr_identity}', usr_width = {$usr_width}, usr_sw_shuffle_cloud = {$usr_sw_shuffle_cloud}, usr_sw_top_wealth = {$usr_sw_top_wealth}, usr_sw_shell = {$usr_sw_shell}, usr_sw_notify_reply = {$usr_sw_notify_reply}, usr_sw_notify_reply_all = {$usr_sw_notify_reply_all}, usr_lastupdated = '{$usr_lastupdated}' WHERE usr_id = {$usr_id} LIMIT 1";
 		}
 		
 		mysql_query($sql, $this->db);
