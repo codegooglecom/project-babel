@@ -293,12 +293,14 @@ class Page {
 				$_SESSION['babel_debug_log'] = array();
 				echo('Debug log is empty.');
 			}
-			_v_hr();
-			$rs = mysql_query("SHOW PROFILES");
-			while ($_p = mysql_fetch_array($rs)) {
-				echo intval($_p['Duration'] * 1000) . ' - ' . $_p['Query'] . '<br />';
+			if (isset($this->db)) {
+				_v_hr();				
+				$rs = mysql_query("SHOW PROFILES");
+				while ($_p = mysql_fetch_array($rs)) {
+					echo intval($_p['Duration'] * 1000) . ' - ' . $_p['Query'] . '<br />';
+				}
+				mysql_free_result($rs);
 			}
-			mysql_free_result($rs);
 			echo('</div>');
 		}
 		if (@$this->db) {
@@ -5246,7 +5248,7 @@ class Page {
 		/* S: add to favorite */
 		if ($this->User->vxIsLogin()) {
 			if ($Fav > 0) {
-				echo('<div id="chlFav" style="font-size: 12px; display: inline; margin-left: 10px;"><input type="image" onclick="removeFavoriteChannel(' . $Fav . ')" src="/img/icons/silk/lightning_minus.png" align="absmiddle" /></div>');
+				echo('<div id="chlFav" style="font-size: 12px; display: inline; margin-left: 10px;"><input type="image" onclick="removeFavoriteChannel(' . $Fav . ')" src="/img/icons/silk/lightning_delete.png" align="absmiddle" /></div>');
 			} else {
 				echo('<div id="chlFav" style="font-size: 12px; display: inline; margin-left: 10px;"><input type="image" onclick="addFavoriteChannel(' . $Channel->chl_id . ')" src="/img/icons/silk/lightning_add.png" align="absmiddle" /></div>');
 			}
@@ -8169,11 +8171,20 @@ class Page {
 		_v_ico_map();
 		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_region . ' &gt; ' . $Geo->geo->name->cn . ' <span class="tip_i"><small>portal</small></span></div>');
 		echo('<div class="blank" align="left">');
-		if ($this->User->vxIsLogin() && $this->User->usr_geo == $Geo->geo->geo) {
-			echo('<span class="text_large">我在' . $Geo->geo->name->cn . '</span><span class="tip_i"> ... <a href="/user/move.vx" class="t">修改我的所在地</a></span>');
-			_v_hr();
+		if ($this->User->vxIsLogin()) {
+			if ($this->User->usr_geo == $Geo->geo->geo) {
+				echo('<span class="text_large">' . _vo_ico_silk('world') . ' ' . $Geo->geo->name->cn . '</span><span class="tip_i"> ... 这是我的当前所在地');
+				echo(' / <a href="/user/move.vx" class="t">修改我的所在地</a>');
+			} else {
+				echo('<span class="text_large">' . _vo_ico_silk('world') . ' ' . $Geo->geo->name->cn . '</span><span class="tip_i"> ... <a href="/geo/' . $this->User->usr_geo . '" class="t">返回' . $this->Geo->map['name'][$this->User->usr_geo] . '</a> / <a href="/user/move.vx" class="t">修改我的所在地</a>');
+			}
+			echo(' ... <a href="/going/' . $Geo->geo->geo . '" class="t">我想去' . $Geo->geo->name->cn . '</a>');
+			echo(' ... <a href="/been/' . $Geo->geo->geo . '" class="t">我去过' . $Geo->geo->name->cn . '</a>');
+			echo('</span>');
+		} else {
+			echo('<span class="text_large">' . _vo_ico_silk('world') . ' ' . $Geo->geo->name->cn . '</span>');
 		}
-		
+		_v_hr();
 		if ($geo_route = $this->cs->get('babel_geo_route_' . $geo_md5)) {
 			$geo_route = unserialize($geo_route);
 		} else {
@@ -8347,6 +8358,27 @@ class Page {
 				}
 			}
 			_v_d_e();
+			_v_hr();
+			echo('<div class="geo_home_bar">');
+			_v_ico_silk('clock');
+			echo(' ' . $Geo->geo->name->cn . '的人们在做什么？');
+			_v_d_e();
+			echo('<div class="geo_home_content">');
+			$sql = 'SELECT usr_id, usr_nick, usr_gender, usr_portrait, ing_id, ing_doing, ing_created FROM babel_user, babel_ing_update WHERE ing_uid = usr_id AND usr_geo IN (' . $geos_all_children_sql . ') ORDER BY ing_created DESC LIMIT 10';
+			$rs = mysql_query($sql);
+			$i = 0;
+			while ($_ing = mysql_fetch_array($rs)) {
+				$i++;
+				if ($i % 2 == 0) {
+					$css_class = 'even';
+				} else {
+					$css_class = 'odd';
+				}
+				$img_p = $_ing['usr_portrait'] ? CDN_IMG . 'p/' . $_ing['usr_portrait'] . '_n.jpg' : CDN_IMG . 'p_' . $_ing['usr_gender'] . '_n.gif';
+				echo('<div class="geo_home_entry_' . $css_class . '"><img src="' . $img_p . '" align="absmiddle" alt="' . make_single_return($_ing['usr_nick']) . '" class="portrait" /> <a href="/ing-' . $_ing['ing_id'] . '.html">' . format_ubb($_ing['ing_doing']) . '</a><span class="tip_i"> ... <a href="/u/' . urlencode($_ing['usr_nick']) . '" style="color: ' . rand_color() . '" class="var">' . make_plaintext($_ing['usr_nick']) . '</a></span></div>');
+			}
+			mysql_free_result($rs);
+			_v_d_e();
 		}
 		_v_d_e();
 		echo('</td>');
@@ -8456,7 +8488,7 @@ class Page {
 		}
 		/* End: array geos_parallel */
 		_v_hr();
-		echo('<div class="geo_home_middle"><small>地名列表是按照字母顺序排列的</small></div>');
+		echo('<div class="geo_home_middle"><span class="text">' . _vo_ico_silk('information') . ' 地名列表是按照字母顺序排列的</span></div>');
 		_v_d_e();
 		echo('</div>');
 	}
