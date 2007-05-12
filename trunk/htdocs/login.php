@@ -145,7 +145,7 @@ echo('<div id="info">正在自动跳转到 <a href="/">' . Vocabulary::site_name
 	</div>
 	
 <script type="text/javascript">
-setTimeout('location.href = "/"', 1500);
+setTimeout('location.href = "/"', 300);
 </script>
 </div>
 </body>

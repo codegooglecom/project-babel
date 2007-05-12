@@ -479,7 +479,41 @@ CREATE TABLE `babel_user` (
   KEY `INDEX_HITS` (`usr_hits`),
   KEY `INDEX_LASTLOGIN` (`usr_lastlogin`),
   KEY `INDEX_GEO` (`usr_geo`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Babel User Table';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Babel User Table';
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `babel_geo_going`
+-- 
+
+CREATE TABLE `babel_geo_going` (
+  `ggg_id` int(10) unsigned NOT NULL auto_increment,
+  `ggg_uid` int(10) unsigned NOT NULL default '0',
+  `ggg_geo` varchar(100) NOT NULL,
+  `ggg_impression` text,
+  `ggg_created` int(10) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`ggg_id`),
+  KEY `INDEX_UID` (`ggg_uid`),
+  KEY `INDEX_GEO` (`ggg_geo`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Babel Geo Going';
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `babel_geo_been`
+-- 
+
+CREATE TABLE `babel_geo_been` (
+  `gbn_id` int(10) unsigned NOT NULL auto_increment,
+  `gbn_uid` int(10) unsigned NOT NULL default '0',
+  `gbn_geo` varchar(100) NOT NULL,
+  `gbn_impression` text,
+  `gbn_created` int(10) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`gbn_id`),
+  KEY `INDEX_UID` (`gbn_uid`),
+  KEY `INDEX_GEO` (`gbn_geo`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Babel Geo Been';
 
 -- --------------------------------------------------------
 
