@@ -93,7 +93,7 @@ class AJAXServer {
 		if (ZEND_CACHE_MEMCACHED_ENABLED == 'yes') {
 			$this->cl = Zend_Cache::factory('Core', 'Memcached', $ZEND_CACHE_OPTIONS_LONG_FRONTEND, $ZEND_CACHE_OPTIONS_MEMCACHED);
 		} else {
-			$this->cl = Zend_Cache::factory('Core', 'File', $ZEND_CACHE_OPTIONS_LONG_FRONTEND, $ZEND_CACHE_OPTIONS_LONG_BACKEND);
+			$this->cl = Zend_Cache::factory('Core', ZEND_CACHE_TYPE_LONG, $ZEND_CACHE_OPTIONS_LONG_FRONTEND, $ZEND_CACHE_OPTIONS_LONG_BACKEND[ZEND_CACHE_TYPE_LONG]);
 		}
 		$this->Validator =  new Validator($this->db, $this->User);
 		if (!isset($_SESSION['babel_ua'])) {
