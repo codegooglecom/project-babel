@@ -981,6 +981,35 @@ class Standalone {
 		}
 	}
 	
+	public function vxGeoSetGoing() {
+		if ($this->User->vxIsLogin()) {
+			if (isset($_GET['geo'])) {
+				$geo = strtolower(fetch_single($_GET['geo']));
+				$this->Geo = new Geo($geo);
+				if ($this->Geo->geo->geo) {
+					$sql = "SELECT ggg_id FROM babel_geo_going WHERE ggg_geo = '{$geo}' AND ggg_uid = {$this->User->usr_geo}";
+					$rs = mysql_query($sql);
+					if (mysql_num_rows($rs) == 1) {
+						echo('EXIST');
+					} else {
+						echo('VALID');
+					}
+				} else {
+					$this->URL->vxToRedirect($this->URL->vxGetGeoHome($this->User->usr_geo));
+				}
+			} else {
+				$this->URL->vxToRedirect($this->URL->vxGetGeoHome($this->User->usr_geo));
+			}
+		} else {
+			if (isset($_GET['geo'])) {
+				$geo = fetch_single($_GET['geo']);
+				$this->URL->vxToRedirect($this->URL->vxGetLogin($this->URL->vxGetGeoSetGoing($geo)));
+			} else {
+				$this->URL->vxToRedirect($this->URL->vxGetLogin());
+			}
+		}
+	}
+	
 	/* E public modules */
 	
 }
