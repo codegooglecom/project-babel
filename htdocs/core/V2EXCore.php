@@ -1649,7 +1649,7 @@ class Page {
 		
 		$o .= ' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_hottopic . '</div>';
 		
-		$sql = "SELECT tpc_id, tpc_title, tpc_posts, nod_id, nod_name, nod_title, usr_id, usr_nick, usr_portrait, usr_gender FROM babel_topic, babel_node, babel_user WHERE tpc_uid = usr_id AND tpc_flag IN (0, 2) AND tpc_pid = nod_id AND tpc_posts > 10 ORDER BY tpc_lasttouched DESC LIMIT 100";
+		$sql = "SELECT tpc_id, tpc_title, tpc_posts, nod_id, nod_name, nod_title, usr_id, usr_nick, usr_portrait, usr_gender FROM babel_topic, babel_node, babel_user WHERE tpc_uid = usr_id AND tpc_flag IN (0, 2) AND tpc_pid = nod_id AND tpc_posts > 10 AND tpc_pid NOT IN " . BABEL_NODES_POINTLESS . " ORDER BY tpc_lasttouched DESC LIMIT 100";
 		
 		$rs = mysql_query($sql);
 		
@@ -1679,7 +1679,7 @@ class Page {
 		}
 
 		if ($style != 'remix') {		
-			$sql = "SELECT tpc_id, tpc_title, tpc_posts, nod_id, nod_name, nod_title, usr_id, usr_nick, usr_portrait, usr_gender FROM babel_topic, babel_node, babel_user WHERE tpc_uid = usr_id AND tpc_pid = nod_id AND tpc_flag IN (0, 2) AND tpc_posts > 10 ORDER BY tpc_lasttouched DESC LIMIT 1";			
+			$sql = "SELECT tpc_id, tpc_title, tpc_posts, nod_id, nod_name, nod_title, usr_id, usr_nick, usr_portrait, usr_gender FROM babel_topic, babel_node, babel_user WHERE tpc_uid = usr_id AND tpc_pid = nod_id AND tpc_flag IN (0, 2) AND tpc_pid NOT IN " . BABEL_NODES_POINTLESS . " AND tpc_posts > 10 ORDER BY tpc_lasttouched DESC LIMIT 1";			
 			$rs = mysql_query($sql);
 			if (mysql_num_rows($rs) == 1) {
 				$Hot = mysql_fetch_object($rs);
@@ -8201,9 +8201,24 @@ class Page {
 			} else {
 				echo('<span class="text_large">' . _vo_ico_silk('world') . ' ' . $Geo->geo->name->cn . '</span><span class="tip_i"> ... <a href="/geo/' . $this->User->usr_geo . '" class="t">返回' . $this->Geo->map['name'][$this->User->usr_geo] . '</a> / <a href="/user/move.vx" class="t">修改我的所在地</a>');
 			}
-			echo(' ... <a href="/set/going/' . $Geo->geo->geo . '" class="t">我想去' . $Geo->geo->name->cn . '</a>');
-			echo(' ... <a href="/set/been/' . $Geo->geo->geo . '" class="t">我去过' . $Geo->geo->name->cn . '</a>');
+			$sql = "SELECT COUNT(*) FROM babel_geo_going WHERE ggg_geo = '{$Geo->geo->geo}'";
+			$rs = mysql_query($sql);
+			$geo_count_going = mysql_result($rs, 0, 0);
+			mysql_free_result($rs);
+			echo(' ... <a href="/who/going/' . urlencode($Geo->geo->geo) . '" class="o">目前有 ' . $geo_count_going . ' 人想去' . $Geo->geo->name->cn . '</a> / <a href="/set/going/' . $Geo->geo->geo . '" class="t">我想去' . $Geo->geo->name->cn . '</a>');
+			$sql = "SELECT COUNT(*) FROM babel_geo_been WHERE gbn_geo = '{$Geo->geo->geo}'";
+			$rs = mysql_query($sql);
+			$geo_count_been = mysql_result($rs, 0, 0);
+			mysql_free_result($rs);
+			echo(' ... <a href="/who/been/' . urlencode($Geo->geo->geo) . '" class="o">目前有 ' . $geo_count_been . ' 人去过' . $Geo->geo->name->cn . '</a> / <a href="/set/been/' . $Geo->geo->geo . '" class="t">我去过' . $Geo->geo->name->cn . '</a>');
 			echo('</span>');
+			if (isset($_SESSION['babel_geo_message'])) {
+				if ($_SESSION['babel_geo_message'] != '') {
+					_v_hr();
+					echo ('<div class="notify">' . $_SESSION['babel_geo_message'] . '</div>');
+					$_SESSION['babel_geo_message'] = '';
+				}
+			}
 		} else {
 			echo('<span class="text_large">' . _vo_ico_silk('world') . ' ' . $Geo->geo->name->cn . '</span>');
 		}
@@ -8659,7 +8674,7 @@ class Page {
 		echo('<a href="/"><img src="' . CDN_UI . 'img/favicons/v2ex.png" align="absmiddle" border="0" /></a> ');
 		echo('<small><strong>' . Vocabulary::site_name . '</strong> | </small><span class="tip_i"><img src="' . CDN_UI . 'img/icons/silk/table_multiple.png" align="absmiddle" /> <small>' . $this->tpc_count . ' &nbsp; <img src="' . CDN_UI . 'img/icons/silk/comments.png" align="absmiddle" /> ' . $this->pst_count . ' &nbsp; <img src="' . CDN_UI . 'img/icons/silk/group.png" align="absmiddle" /> ' . $this->usr_count . '</small></span>');
 		_v_hr();
-		$sql = "SELECT tpc_id, tpc_title, tpc_posts, usr_id, usr_nick, usr_gender, usr_portrait FROM babel_topic, babel_user WHERE tpc_flag IN (0, 2) AND tpc_uid = usr_id ORDER BY tpc_lasttouched DESC LIMIT 20";
+		$sql = "SELECT tpc_id, tpc_title, tpc_posts, usr_id, usr_nick, usr_gender, usr_portrait FROM babel_topic, babel_user WHERE tpc_flag IN (0, 2) AND tpc_uid = usr_id AND tpc_pid NOT IN " . BABEL_NODES_POINTLESS . " ORDER BY tpc_lasttouched DESC LIMIT 20";
 		$rs = mysql_query($sql);
 		$i = 0;
 		while ($Topic = mysql_fetch_object($rs)) {
