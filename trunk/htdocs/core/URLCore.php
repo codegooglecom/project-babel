@@ -172,6 +172,31 @@ class URL {
 		$url = '/dry/new.vx';
 		return $url;
 	}
+	
+	public static function vxGetGeoHome($geo) {
+		$url = '/geo/' . $geo;
+		return $url;
+	}
+	
+	public static function vxGetGeoSetGoing($geo) {
+		$url = '/set/going/' . $geo;
+		return $url;
+	}
+	
+	public static function vxGetGeoSetBeen($geo) {
+		$url = '/set/been/' . $geo;
+		return $url;
+	}
+	
+	public static function vxGetGeoRevertGoing($geo) {
+		$url = '/revert/going/' . $geo;
+		return $url;
+	}
+	
+	public static function vxGetGeoRevertBeen($geo) {
+		$url = '/revert/been/' . $geo;
+		return $url;
+	}
 }
 
 /* E URL class */

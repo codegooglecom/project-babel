@@ -151,5 +151,21 @@ switch ($m) {
 	case 'js_ing_personal':
 		$s->vxJavaScriptIngPersonal();
 		break;
+
+	case 'geo_set_going':
+		$s->vxGeoSetGoing();
+		break;
+
+	case 'geo_set_been':
+		$s->vxGeoSetBeen();
+		break;
+
+	case 'geo_revert_going':
+		$s->vxGeoRevertGoing();
+		break;
+
+	case 'geo_revert_been':
+		$s->vxGeoRevertBeen();
+		break;
 }
 ?>

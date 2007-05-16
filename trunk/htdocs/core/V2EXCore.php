@@ -924,7 +924,11 @@ class Page {
 		echo('<a href="http://www.spreadfirefox.com/?q=affiliates&amp;id=197201&amp;t=218"><img border="0" alt="Firefox 2" title="Firefox 2" src="' . CDN_UI . 'img/ff2o80x15.gif" /></a> ');
 		echo(' <a href="http://www.igniterealtime.org/projects/openfire/" target="_blank"><img border="0" alt="Pageflakes" title="Openfire" src="' . CDN_UI . 'img/80x15/openfire.gif" /></a>');
 		_v_hr();
-		echo('<span class="tip_i"><small>Hosted by <a href="' . HOST_LINK . '" target="_blank" style="color: ' . rand_color() . '" class="var">' . HOST_COMPANY . '</a></small></span>');
+		if (HOST_LINK == 'http://www.mediatemple.net/') {
+			echo('<div align="center"><a href="' . HOST_LINK . '" target="_blank"><img src="http://www.mediatemple.net/_images/partnerlogos/mt-160x30-lt.gif" border="0" alt="' . HOST_COMPANY . '" /></a></div>');
+		} else {
+			echo('<span class="tip_i"><small>Hosted by <a href="' . HOST_LINK . '" target="_blank" style="color: ' . rand_color() . '" class="var">' . HOST_COMPANY . '</a></small></span>');
+		}
 		echo('</div>');
 		
 		/*
@@ -3715,7 +3719,12 @@ class Page {
 		}
 		echo('</div>');
 		
-		echo('<div class="blank"><span class="text"><img src="' . $img_p_n . '" class="portrait" align="absmiddle" /> ' . Vocabulary::site_name . ' 的第 <strong>' . $O->usr_id . '</strong> 号会员，' . $_o . '</span>');
+		echo('<div class="blank">');
+		if ($O->usr_skype != '') {
+			echo('<div style="float: right;"><script type="text/javascript" src="http://download.skype.com/share/skypebuttons/js/skypeCheck.js"></script>
+<a href="skype:' . make_single_return($O->usr_skype) . '?call"><img src="http://mystatus.skype.com/smallclassic/' . urlencode($O->usr_skype) . '" style="border: none;" width="114" height="20" alt="' . make_single_return($O->usr_nick) . ' 的 Skype" /></a></div>');
+		}
+		echo('<span class="text"><img src="' . $img_p_n . '" class="portrait" align="absmiddle" /> ' . Vocabulary::site_name . ' 的第 <strong>' . $O->usr_id . '</strong> 号会员，' . $_o . '</span>');
 		
 		if ($_SESSION['babel_ua']['GECKO_DETECTED'] || $_SESSION['babel_ua']['KHTML_DETECTED'] || $_SESSION['babel_ua']['OPERA_DETECTED']) {
 			
@@ -3854,10 +3863,6 @@ class Page {
 		}
 		
 		echo('<td width="95" align="left" valign="top"><img src="' . $img_p . '" class="portrait" alt="' . make_single_return($O->usr_nick) . '" /></td><td align="left" valign="top">');
-		if ($O->usr_skype != '') {
-			echo('<div style="float: right;"><script type="text/javascript" src="http://download.skype.com/share/skypebuttons/js/skypeCheck.js"></script>
-<a href="skype:' . make_single_return($O->usr_skype) . '?call"><img src="http://mystatus.skype.com/smallclassic/' . urlencode($O->usr_skype) . '" style="border: none;" width="114" height="20" alt="' . make_single_return($O->usr_nick) . ' 的 Skype" /></a></div>');
-		}
 		echo('<span class="text_large">' . $O->usr_nick . '</span>');
 		
 		echo('<span class="excerpt"><br /><br />' . $txt . '</span></td>');
@@ -8196,8 +8201,8 @@ class Page {
 			} else {
 				echo('<span class="text_large">' . _vo_ico_silk('world') . ' ' . $Geo->geo->name->cn . '</span><span class="tip_i"> ... <a href="/geo/' . $this->User->usr_geo . '" class="t">返回' . $this->Geo->map['name'][$this->User->usr_geo] . '</a> / <a href="/user/move.vx" class="t">修改我的所在地</a>');
 			}
-			//echo(' ... <a href="/going/' . $Geo->geo->geo . '" class="t">我想去' . $Geo->geo->name->cn . '</a>');
-			//echo(' ... <a href="/been/' . $Geo->geo->geo . '" class="t">我去过' . $Geo->geo->name->cn . '</a>');
+			echo(' ... <a href="/set/going/' . $Geo->geo->geo . '" class="t">我想去' . $Geo->geo->name->cn . '</a>');
+			echo(' ... <a href="/set/been/' . $Geo->geo->geo . '" class="t">我去过' . $Geo->geo->name->cn . '</a>');
 			echo('</span>');
 		} else {
 			echo('<span class="text_large">' . _vo_ico_silk('world') . ' ' . $Geo->geo->name->cn . '</span>');
