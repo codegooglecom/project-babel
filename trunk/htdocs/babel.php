@@ -733,7 +733,39 @@ switch ($m) {
 		$p->vxBodyStart();
 		$p->vxTop();
 		$p->vxContainer('who_settle_geo', $options = $geo);
-		break;		
+		break;
+	
+	case 'who_going_geo':
+		$GOOGLE_AD_LEGAL = true;
+		if (isset($_GET['geo'])) {
+			$geo = strtolower(make_single_safe($_GET['geo']));
+			if (!$p->Geo->vxIsExist($geo)) {
+				$geo = 'earth';
+			}
+		} else {
+			$geo = 'earth';
+		}
+		$p->vxHead($msgSiteTitle = '谁想去' . $p->Geo->map['name'][$geo]);
+		$p->vxBodyStart();
+		$p->vxTop();
+		$p->vxContainer('who_going_geo', $options = $geo);
+		break;
+		
+	case 'who_visited_geo':
+		$GOOGLE_AD_LEGAL = true;
+		if (isset($_GET['geo'])) {
+			$geo = strtolower(make_single_safe($_GET['geo']));
+			if (!$p->Geo->vxIsExist($geo)) {
+				$geo = 'earth';
+			}
+		} else {
+			$geo = 'earth';
+		}
+		$p->vxHead($msgSiteTitle = '谁去过' . $p->Geo->map['name'][$geo]);
+		$p->vxBodyStart();
+		$p->vxTop();
+		$p->vxContainer('who_visited_geo', $options = $geo);
+		break;	
 	
 	case 'who_connect_user':
 		$GOOGLE_AD_LEGAL = true;
