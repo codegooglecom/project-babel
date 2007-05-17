@@ -466,6 +466,7 @@ CREATE TABLE `babel_user` (
   `usr_lastlogin` int(10) unsigned NOT NULL DEFAULT '0',
   `usr_lastlogin_ua` varchar(400) DEFAULT NULL,
   `usr_sw_shuffle_cloud` smallint(6) NOT NULL DEFAULT '1',
+  `usr_sw_right_friends` int(10) unsigned NOT NULL DEFAULT '0',
   `usr_sw_top_wealth` smallint(6) NOT NULL DEFAULT '0',
   `usr_sw_shell` smallint(6) NOT NULL DEFAULT '0',
   `usr_sw_notify_reply` smallint(6) NOT NULL DEFAULT '0',
