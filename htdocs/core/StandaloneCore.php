@@ -270,7 +270,7 @@ class Standalone {
 						$t = time();
 						$source = 1;
 						$sql = "INSERT INTO babel_ing_update(ing_uid, ing_doing, ing_source, ing_created) VALUE({$this->User->usr_id}, '{$doing_sql}', $source, $t)";
-						mysql_unbuffered_query($sql) or die($sql . ':' . mysql_error());
+						mysql_unbuffered_query($sql);
 						return $this->URL->vxToRedirect($return);
 					} else {
 						return $this->URL->vxToRedirect($return);
@@ -988,7 +988,7 @@ class Standalone {
 				$this->Geo = new Geo($geo);
 				if ($this->Geo->geo->geo) {
 					$sql = "SELECT ggg_id FROM babel_geo_going WHERE ggg_geo = '{$geo}' AND ggg_uid = {$this->User->usr_id}";
-					$rs = mysql_query($sql) or die (mysql_error());
+					$rs = mysql_query($sql);
 					if (mysql_num_rows($rs) == 1) {
 						mysql_free_result($rs);
 						$_SESSION['babel_geo_message'] = $this->Geo->map['name'][$geo] . '已经存在于你想去的地方';
@@ -1025,7 +1025,7 @@ class Standalone {
 				$this->Geo = new Geo($geo);
 				if ($this->Geo->geo->geo) {
 					$sql = "SELECT ggg_id FROM babel_geo_going WHERE ggg_geo = '{$geo}' AND ggg_uid = {$this->User->usr_id}";
-					$rs = mysql_query($sql) or die (mysql_error());
+					$rs = mysql_query($sql);
 					if (mysql_num_rows($rs) == 1) {
 						mysql_free_result($rs);
 						$sql = "DELETE FROM babel_geo_going WHERE ggg_geo = '{$geo}' AND ggg_uid = {$this->User->usr_id}";
@@ -1061,7 +1061,7 @@ class Standalone {
 				$this->Geo = new Geo($geo);
 				if ($this->Geo->geo->geo) {
 					$sql = "SELECT gbn_id FROM babel_geo_been WHERE gbn_geo = '{$geo}' AND gbn_uid = {$this->User->usr_id}";
-					$rs = mysql_query($sql) or die (mysql_error());
+					$rs = mysql_query($sql);
 					if (mysql_num_rows($rs) == 1) {
 						mysql_free_result($rs);
 						$_SESSION['babel_geo_message'] = $this->Geo->map['name'][$geo] . '已经存在于你去过的地方';
@@ -1098,7 +1098,7 @@ class Standalone {
 				$this->Geo = new Geo($geo);
 				if ($this->Geo->geo->geo) {
 					$sql = "SELECT gbn_id FROM babel_geo_been WHERE gbn_geo = '{$geo}' AND gbn_uid = {$this->User->usr_id}";
-					$rs = mysql_query($sql) or die (mysql_error());
+					$rs = mysql_query($sql);
 					if (mysql_num_rows($rs) == 1) {
 						mysql_free_result($rs);
 						$sql = "DELETE FROM babel_geo_been WHERE gbn_geo = '{$geo}' AND gbn_uid = {$this->User->usr_id}";

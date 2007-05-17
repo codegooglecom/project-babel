@@ -848,7 +848,7 @@ class Page {
 		}
 		
 		if ($this->User->vxIsLogin() && $_module_friends) {
-			if (count($this->User->usr_friends) > 0) {
+			if (count($this->User->usr_friends) > 0 && $this->User->usr_sw_right_friends == 1) {
 				echo('<div class="menu_inner" align="left">');
 				echo('<img src="' . CDN_UI . 'img/icons/silk/heart.png" align="absmiddle" />');
 				echo('&nbsp;我的朋友们');
@@ -3208,7 +3208,7 @@ class Page {
 			echo('<tr><td width="150" align="right" class="section_odd">插入次数</td><td class="section_odd" align="left">' . $_apc_cache_info['num_inserts'] . '</td></tr>');
 			echo('<tr><td width="150" align="right" class="section_even">剩余可用缓存内存数量</td><td class="section_even" align="left">' . intval($_apc_cache_info['mem_size'] / 1024) . 'KB</td></tr>');
 		} else {
-			echo('<tr><td align="left" class="section_odd">' . _vo_ico_silk('exclamation') . ' APC extension is not detected. <strong>Strongly recommended</strong> for performance, <a href="http://pecl.php.net/package/APC" class="t">download and install now</a>!</td></tr>');
+			echo('<tr><td colspan="2" align="left" class="section_odd">' . _vo_ico_silk('exclamation') . ' APC extension is not detected. <strong>Strongly recommended</strong> for performance, <a href="http://pecl.php.net/package/APC" class="t">download and install now</a>!</td></tr>');
 		}
 		
 		echo('</table>');
@@ -4476,7 +4476,7 @@ class Page {
 		echo('<tr><td width="200" align="right">真实姓名</td><td width="200" align="left"><input tabindex="1" type="text" maxlength="80" class="sl" name="usr_full" value="' . make_single_return($this->User->usr_full) . '" /></td>');
 		
 		// S button:
-		echo('<td width="150" rowspan="20" valign="middle" align="right">');
+		echo('<td width="150" rowspan="21" valign="middle" align="right">');
 		
 		_v_btn_f('修改', 'form_user_info');
 		
@@ -4561,28 +4561,38 @@ class Page {
 		}
 		echo('</td></tr>');
 		
+		// switch: right_friends
+		
+		echo('<tr><td width="200" align="right" valign="middle"><small>' . Vocabulary::term_right_friends . '</small></td><td align="left">');
+		if ($this->User->usr_sw_right_friends == 1) {
+			echo('<input type="checkbox" name="usr_sw_right_friends" tabindex="14" checked="checked" /> 开启');
+		} else {
+			echo('<input type="checkbox" name="usr_sw_right_friends" tabindex="14" /> 开启');
+		}
+		echo('</td></tr>');
+		
 		echo('<tr><td width="200" align="right" valign="middle"><small>V2EX Shell</small></td><td align="left">');
 		if ($this->User->usr_sw_shell == 1) {
-			echo('<input type="checkbox" name="usr_sw_shell" tabindex="14" checked="checked" /> 开启');
+			echo('<input type="checkbox" name="usr_sw_shell" tabindex="15" checked="checked" /> 开启');
 		} else {
-			echo('<input type="checkbox" name="usr_sw_shell" tabindex="14" /> 开启');
+			echo('<input type="checkbox" name="usr_sw_shell" tabindex="15" /> 开启');
 		}
 		echo('</td></tr>');
 		echo('<tr><td width="200" align="right" valign="middle"><small>邮件通知自己的主题的新回复</small></td><td align="left">');
 		if ($this->User->usr_sw_notify_reply == 1) {
-			echo('<input type="checkbox" name="usr_sw_notify_reply" tabindex="15" checked="checked" /> 开启');
+			echo('<input type="checkbox" name="usr_sw_notify_reply" tabindex="16" checked="checked" /> 开启');
 		} else {
-			echo('<input type="checkbox" name="usr_sw_notify_reply" tabindex="15" /> 开启');
+			echo('<input type="checkbox" name="usr_sw_notify_reply" tabindex="16" /> 开启');
 		}
 		echo('</td></tr>');
 		echo('<tr><td width="200" align="right" valign="middle"><small>邮件通知我参与过的主题的新回复</small></td><td align="left">');
 		if ($this->User->usr_sw_notify_reply_all == 1) {
-			echo('<input type="checkbox" name="usr_sw_notify_reply_all" tabindex="16" checked="checked" /> 开启');
+			echo('<input type="checkbox" name="usr_sw_notify_reply_all" tabindex="17" checked="checked" /> 开启');
 		} else {
-			echo('<input type="checkbox" name="usr_sw_notify_reply_all" tabindex="16" /> 开启');
+			echo('<input type="checkbox" name="usr_sw_notify_reply_all" tabindex="17" /> 开启');
 		}
 		echo('</td></tr>');
-		echo('<tr><td width="200" align="right">用于接收通知的邮箱</td><td align="left"><input tabindex="17" type="text" maxlength="100" class="sl" name="usr_email_notify" value="' . make_single_return($this->User->usr_email_notify) . '" /></td></tr>');
+		echo('<tr><td width="200" align="right">用于接收通知的邮箱</td><td align="left"><input tabindex="18" type="text" maxlength="100" class="sl" name="usr_email_notify" value="' . make_single_return($this->User->usr_email_notify) . '" /></td></tr>');
 		/*
 		echo('<tr><td width="200" align="right">Google Account</td><td align="left">');
 		if ($this->User->usr_google_account != '') {
@@ -4599,8 +4609,8 @@ class Page {
 		}
 		echo('</td></tr>');
 		*/
-		echo('<tr><td width="200" align="right">新密码</td><td align="left"><input tabindex="18" type="password" maxlength="32" class="sl" name="usr_password_new" /></td></tr>');
-		echo('<tr><td width="200" align="right">重复新密码</td><td align="left"><input tabindex="19" type="password" maxlength="32" class="sl" name="usr_confirm_new" /></td></tr>');
+		echo('<tr><td width="200" align="right">新密码</td><td align="left"><input tabindex="19" type="password" maxlength="32" class="sl" name="usr_password_new" /></td></tr>');
+		echo('<tr><td width="200" align="right">重复新密码</td><td align="left"><input tabindex="20" type="password" maxlength="32" class="sl" name="usr_confirm_new" /></td></tr>');
 		echo('<tr><td height="10" colspan="2"></td></tr>');
 		echo('</form></table>');
 		echo('<hr size="1" color="#DDD" style="color: #DDD; background-color: #DDD; height: 1px; border: 0;" />');
@@ -4639,7 +4649,7 @@ class Page {
 			
 			/* cell: submit button */
 			
-			echo('<td width="150" rowspan="16" valign="middle" align="right">');
+			echo('<td width="150" rowspan="17" valign="middle" align="right">');
 			_v_btn_f('修改', 'form_user_info');
 			echo('</td></tr>');
 			
@@ -4734,9 +4744,17 @@ class Page {
 			
 			echo('<tr><td width="200" align="right" valign="middle"><small>' . Vocabulary::term_shuffle_cloud . '</small></td><td align="left">');
 			if ($rt['usr_sw_shuffle_cloud_value'] == 1) {
-				echo('<input type="checkbox" name="usr_sw_shell" tabindex="8" checked="checked" /> 开启');
+				echo('<input type="checkbox" name="usr_sw_shuffle_cloud" tabindex="8" checked="checked" /> 开启');
 			} else {
-				echo('<input type="checkbox" name="usr_sw_shell" tabindex="8" /> 开启');
+				echo('<input type="checkbox" name="usr_sw_shuffle_cloud" tabindex="8" /> 开启');
+			}
+			echo('</td></tr>');
+			
+			echo('<tr><td width="200" align="right" valign="middle"><small>' . Vocabulary::term_right_friends . '</small></td><td align="left">');
+			if ($rt['usr_sw_right_friends_value'] == 1) {
+				echo('<input type="checkbox" name="usr_sw_right_friends" tabindex="9" checked="checked" /> 开启');
+			} else {
+				echo('<input type="checkbox" name="usr_sw_right_friends" tabindex="9" /> 开启');
 			}
 			echo('</td></tr>');
 			
@@ -4846,7 +4864,7 @@ class Page {
 			echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_smile.gif" align="absmiddle" class="home" />' . make_plaintext($rt['usr_nick_value']) . ' 的会员信息修改成功</span>');
 			echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
 			echo('<tr><td width="200" align="right" valign="middle">真实姓名</td><td align="left">' . make_plaintext($rt['usr_full_value']) . '</td>');
-			echo('<td width="150" rowspan="13" valign="middle" align="right">');
+			echo('<td width="150" rowspan="14" valign="middle" align="right">');
 			_v_btn_l('重新修改', '/user/modify.vx');
 			echo('</td>');
 			echo('</tr>');
@@ -4868,6 +4886,9 @@ class Page {
 			echo('</td></tr>');
 			echo('<tr><td width="200" align="right" valign="middle"><small>' . Vocabulary::term_shuffle_cloud . '</small></td><td align="left">');
 			echo $rt['usr_sw_shuffle_cloud_value'] ? '开启' : '关闭'; 
+			echo('</td></tr>');
+			echo('<tr><td width="200" align="right" valign="middle"><small>' . Vocabulary::term_right_friends . '</small></td><td align="left">');
+			echo $rt['usr_sw_right_friends_value'] ? '开启' : '关闭'; 
 			echo('</td></tr>');
 			echo('<tr><td width="200" align="right" valign="middle"><small>V2EX Shell</small></td><td align="left">');
 			echo $rt['usr_sw_shell_value'] ? '开启' : '关闭'; 

@@ -495,9 +495,7 @@ switch ($m) {
 			} else {
 				$rt = $p->Validator->vxUserUpdateCheck();
 				if ($rt['errors'] == 0) {
-					$p->Validator->vxUserUpdateUpdate($rt['usr_full_value'], $rt['usr_nick_value'], $rt['usr_email_notify_value'], $rt['usr_brief_value'], $rt['usr_gender_value'], $rt['usr_religion_value'], $rt['usr_religion_permission_value'], $rt['usr_addr_value'], $rt['usr_telephone_value'], $rt['usr_skype_value'], $rt['usr_identity_value'], $rt['usr_width_value'], $rt['usr_sw_shuffle_cloud_value'], 
-					$rt['usr_sw_top_wealth_value'], 
-					$rt['usr_sw_shell_value'], $rt['usr_sw_notify_reply_value'], $rt['usr_sw_notify_reply_all_value'], $rt['usr_password_value']);
+					$p->Validator->vxUserUpdateUpdate($rt['usr_full_value'], $rt['usr_nick_value'], $rt['usr_email_notify_value'], $rt['usr_brief_value'], $rt['usr_gender_value'], $rt['usr_religion_value'], $rt['usr_religion_permission_value'], $rt['usr_addr_value'], $rt['usr_telephone_value'], $rt['usr_skype_value'], $rt['usr_identity_value'], $rt['usr_width_value'], $rt['usr_sw_shuffle_cloud_value'], $rt['usr_sw_right_friends_value'], $rt['usr_sw_top_wealth_value'], $rt['usr_sw_shell_value'], $rt['usr_sw_notify_reply_value'], $rt['usr_sw_notify_reply_all_value'], $rt['usr_password_value']);
 					if ($rt['pswitch'] == 'b') {
 						$p->User->vxLogout();
 					}
