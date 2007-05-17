@@ -998,6 +998,7 @@ class Standalone {
 						$now = time();
 						$sql = "INSERT INTO babel_geo_going(ggg_geo, ggg_uid, ggg_created) VALUES('{$geo}', {$this->User->usr_id}, {$now})";
 						mysql_unbuffered_query($sql);
+						$this->cs->remove('babel_geo_going_' . md5($geo));
 						$_SESSION['babel_geo_message'] = $this->Geo->map['name'][$geo] . '已经列入你想去的地方';
 						$this->URL->vxToRedirect($this->URL->vxGetGeoHome($geo));
 					}
@@ -1011,6 +1012,42 @@ class Standalone {
 			if (isset($_GET['geo'])) {
 				$geo = fetch_single($_GET['geo']);
 				$this->URL->vxToRedirect($this->URL->vxGetLogin($this->URL->vxGetGeoSetGoing($geo)));
+			} else {
+				$this->URL->vxToRedirect($this->URL->vxGetLogin());
+			}
+		}
+	}
+	
+	public function vxGeoRevertGoing() {
+		if ($this->User->vxIsLogin()) {
+			if (isset($_GET['geo'])) {
+				$geo = strtolower(fetch_single($_GET['geo']));
+				$this->Geo = new Geo($geo);
+				if ($this->Geo->geo->geo) {
+					$sql = "SELECT ggg_id FROM babel_geo_going WHERE ggg_geo = '{$geo}' AND ggg_uid = {$this->User->usr_id}";
+					$rs = mysql_query($sql) or die (mysql_error());
+					if (mysql_num_rows($rs) == 1) {
+						mysql_free_result($rs);
+						$sql = "DELETE FROM babel_geo_going WHERE ggg_geo = '{$geo}' AND ggg_uid = {$this->User->usr_id}";
+						mysql_unbuffered_query($sql);
+						$this->cs->remove('babel_geo_going_' . md5($geo));
+						$_SESSION['babel_geo_message'] = $this->Geo->map['name'][$geo] . '不再是你想去的地方';
+						$this->URL->vxToRedirect($this->URL->vxGetGeoHome($geo));
+					} else {
+						mysql_free_result($rs);
+						$_SESSION['babel_geo_message'] = $this->Geo->map['name'][$geo] . '不是你想去的地方';
+						$this->URL->vxToRedirect($this->URL->vxGetGeoHome($geo));
+					}
+				} else {
+					$this->URL->vxToRedirect($this->URL->vxGetGeoHome($this->User->usr_geo));
+				}
+			} else {
+				$this->URL->vxToRedirect($this->URL->vxGetGeoHome($this->User->usr_geo));
+			}
+		} else {
+			if (isset($_GET['geo'])) {
+				$geo = fetch_single($_GET['geo']);
+				$this->URL->vxToRedirect($this->URL->vxGetLogin($this->URL->vxGetGeoRevertGoing($geo)));
 			} else {
 				$this->URL->vxToRedirect($this->URL->vxGetLogin());
 			}
@@ -1034,6 +1071,7 @@ class Standalone {
 						$now = time();
 						$sql = "INSERT INTO babel_geo_been(gbn_geo, gbn_uid, gbn_created) VALUES('{$geo}', {$this->User->usr_id}, {$now})";
 						mysql_unbuffered_query($sql);
+						$this->cs->remove('babel_geo_visited_' . md5($geo));
 						$_SESSION['babel_geo_message'] = $this->Geo->map['name'][$geo] . '已经列入你去过的地方';
 						$this->URL->vxToRedirect($this->URL->vxGetGeoHome($geo));
 					}
@@ -1047,6 +1085,42 @@ class Standalone {
 			if (isset($_GET['geo'])) {
 				$geo = fetch_single($_GET['geo']);
 				$this->URL->vxToRedirect($this->URL->vxGetLogin($this->URL->vxGetGeoSetBeen($geo)));
+			} else {
+				$this->URL->vxToRedirect($this->URL->vxGetLogin());
+			}
+		}
+	}
+	
+	public function vxGeoRevertBeen() {
+		if ($this->User->vxIsLogin()) {
+			if (isset($_GET['geo'])) {
+				$geo = strtolower(fetch_single($_GET['geo']));
+				$this->Geo = new Geo($geo);
+				if ($this->Geo->geo->geo) {
+					$sql = "SELECT gbn_id FROM babel_geo_been WHERE gbn_geo = '{$geo}' AND gbn_uid = {$this->User->usr_id}";
+					$rs = mysql_query($sql) or die (mysql_error());
+					if (mysql_num_rows($rs) == 1) {
+						mysql_free_result($rs);
+						$sql = "DELETE FROM babel_geo_been WHERE gbn_geo = '{$geo}' AND gbn_uid = {$this->User->usr_id}";
+						mysql_unbuffered_query($sql);
+						$this->cs->remove('babel_geo_visited_' . md5($geo));
+						$_SESSION['babel_geo_message'] = $this->Geo->map['name'][$geo] . '不再是你去过的地方';
+						$this->URL->vxToRedirect($this->URL->vxGetGeoHome($geo));
+					} else {
+						mysql_free_result($rs);
+						$_SESSION['babel_geo_message'] = $this->Geo->map['name'][$geo] . '不是你去过的地方';
+						$this->URL->vxToRedirect($this->URL->vxGetGeoHome($geo));
+					}
+				} else {
+					$this->URL->vxToRedirect($this->URL->vxGetGeoHome($this->User->usr_geo));
+				}
+			} else {
+				$this->URL->vxToRedirect($this->URL->vxGetGeoHome($this->User->usr_geo));
+			}
+		} else {
+			if (isset($_GET['geo'])) {
+				$geo = fetch_single($_GET['geo']);
+				$this->URL->vxToRedirect($this->URL->vxGetLogin($this->URL->vxGetGeoRevertBeen($geo)));
 			} else {
 				$this->URL->vxToRedirect($this->URL->vxGetLogin());
 			}

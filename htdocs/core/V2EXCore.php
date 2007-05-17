@@ -138,7 +138,8 @@ class Page {
 			mysql_query("SET CHARACTER SET utf8");
 			mysql_query("SET COLLATION_CONNECTION='utf8_general_ci'");
 			if (BABEL_DEBUG) {
-				mysql_query("SET PROFILING=1");
+				$_SESSION['babel_debug_profiling'] = true;
+				mysql_query("SET PROFILING = 1") or $_SESSION['babel_debug_profiling'] = false;
 			}
 			$rs = mysql_query('SELECT nod_id FROM babel_node WHERE nod_id = 1');
 			if (@mysql_num_rows($rs) == 1) {
@@ -294,12 +295,14 @@ class Page {
 				echo('Debug log is empty.');
 			}
 			if (isset($this->db)) {
-				_v_hr();				
-				$rs = mysql_query("SHOW PROFILES");
-				while ($_p = mysql_fetch_array($rs)) {
-					echo intval($_p['Duration'] * 1000) . ' - ' . $_p['Query'] . '<br />';
+				if ($_SESSION['babel_debug_profiling']) {
+					_v_hr();				
+					$rs = mysql_query("SHOW PROFILES");
+					while ($_p = mysql_fetch_array($rs)) {
+						echo intval($_p['Duration'] * 1000) . ' - ' . $_p['Query'] . '<br />';
+					}
+					mysql_free_result($rs);
 				}
-				mysql_free_result($rs);
 			}
 			echo('</div>');
 		}
@@ -500,7 +503,7 @@ class Page {
 			echo('<div id="top_right"><a href="/signup.html" class="tr">' . $this->lang->register() . '</a> <a href="/passwd.vx" class="tr">' . $this->lang->password_recovery() . '</a> <a href="/login" class="tr">' . $this->lang->login() . '</a></div>');
 		}
 		
-		if ($this->User->usr_sw_shell == 1 && !in_array(__PAGE__, array('search', 'ing_personal')) ) {
+		if ($this->User->usr_sw_shell == 1 && !in_array(__PAGE__, array('search', 'ing_personal', 'ing_friends', 'topic_view')) ) {
 			echo('<script type="text/javascript">setTimeout("focusGo();", 500);</script>');
 		}
 		
@@ -767,7 +770,7 @@ class Page {
 			}
 			echo('</a></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/comments.png" align="absmiddle" />&nbsp;<a href="/topic/archive/user/' . urlencode($this->User->usr_nick) . '">我创建的所有主题</a></li>');
-			echo('<li><img src="' . CDN_UI . 'img/icons/silk/hourglass.png" align="absmiddle" />&nbsp;<a href="/ing/' . urlencode($this->User->usr_nick) . '">ING</a> <span class="tip_i"><small>alpha</small></span></li>');
+			echo('<li><img src="' . CDN_UI . 'img/icons/silk/hourglass.png" align="absmiddle" />&nbsp;<a href="/ing/' . urlencode($this->User->usr_nick) . '/friends">ING</a> <span class="tip_i"><small>alpha</small></span></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/clock.png" align="absmiddle">&nbsp;<a href="/zen/' . urlencode($this->User->usr_nick) . '">ZEN</a> <span class="tip_i"><small>alpha</small></span></li>');
 			if (BABEL_FEATURE_DRY) {
 				echo('<li><img src="' . CDN_UI . 'img/icons/silk/color_swatch.png" align="absmiddle">&nbsp;<a href="/dry/' . urlencode($this->User->usr_nick) . '">DRY</a> <span class="tip_i"><small>alpha</small></span></li>');
@@ -1349,6 +1352,24 @@ class Page {
 				$this->vxSidebar();
 				$this->vxMenu($_menu_options);
 				$this->vxWhoSettleGeo($options);
+				break;
+				
+			case 'who_going_geo':
+				$_menu_options['modules']['friends'] = false;
+				$_menu_options['modules']['links'] = false;
+				$_menu_options['modules']['new_members'] = false;
+				$this->vxSidebar();
+				$this->vxMenu($_menu_options);
+				$this->vxWhoGoingGeo($options);
+				break;
+				
+			case 'who_visited_geo':
+				$_menu_options['modules']['friends'] = false;
+				$_menu_options['modules']['links'] = false;
+				$_menu_options['modules']['new_members'] = false;
+				$this->vxSidebar();
+				$this->vxMenu($_menu_options);
+				$this->vxWhoVisitedGeo($options);
 				break;
 			
 			case 'who_connect_user':
@@ -3055,7 +3076,9 @@ class Page {
 		echo('<div class="blank">');
 		_v_ico_map();
 		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_status . '</div>');
-		echo('<div class="blank" align="left"><span class="text_large"><img src="' . CDN_IMG . 'ico_tv.gif" align="absmiddle" class="home" />' . Vocabulary::term_status . '</span>');
+		echo('<div class="blank" align="left">');
+		_v_ico_silk("information");
+		echo(' ' . Vocabulary::term_status);
 		$rs = mysql_query('SHOW STATUS', $this->db);
 		$status = array();
 		while ($row = mysql_fetch_assoc($rs)) {
@@ -3076,11 +3099,13 @@ class Page {
 		
 		echo('<table ' . $hack_width . 'cellpadding="0" cellspacing="0" border="0" class="fav">');
 		
-		echo('<tr><td colspan="2" align="left" class="section_even"><span class="text"><small>');
+		echo('<tr><td colspan="2" align="left" class="section_even">');
 		_v_ico_silk('computer');
-		echo(' ' . $_SERVER['HTTP_USER_AGENT'] . '</small></span></td></tr>');
+		echo(' <small><strong>Your User Agent</strong>: ' . $_SERVER['HTTP_USER_AGENT'] . '</small></td></tr>');
 		
-		echo('<tr><td colspan="2" align="left" class="section_odd"><span class="text_large"><img src="' . CDN_IMG . 'ico_db.gif" align="absmiddle" class="home" />数据库子系统 MySQL ' . mysql_get_server_info($this->db) . '</span></td></tr>');
+		echo('<tr><td colspan="2" align="left"><div class="notify">');
+		_v_ico_silk('database');
+		echo(' 数据库子系统 MySQL ' . mysql_get_server_info($this->db) . '</div></td></tr>');
 		
 		echo('<tr><td colspan="2" align="left"><span class="tip">数据库系统信息</span></td></tr>');
 		
@@ -3092,47 +3117,61 @@ class Page {
 		}
 		echo('</td></tr>');
 		
-		echo('<tr><td colspan="2" align="left" class="section_odd"><span class="tip">性能数据</span></td></tr>');
+		echo('<tr><td colspan="2" align="left"><span class="tip">性能数据</span></td></tr>');
 		
 		
-		echo('<tr><td width="150" align="right" class="section_even">线程创建数量</td><td class="section_even">' . $status['Threads_created'] . '（每分钟 ');
+		echo('<tr><td width="150" align="right" class="section_even">线程创建数量</td><td width="auto" class="section_even">' . $status['Threads_created'] . '（每分钟 ');
 		printf("%.2f", $status['Threads_created'] / ($status['Uptime'] / 60));
 		echo('）</td></tr>');
 		
-		echo('<tr><td width="150" align="right" class="section_odd">已处理的查询数量</td><td class="section_odd">' . $status['Questions'] . '（每分钟 ');
+		echo('<tr><td width="150" align="right" class="section_odd">已处理的查询数量</td><td width="auto" class="section_odd">' . $status['Questions'] . '（每分钟 ');
 		printf("%.2f", $status['Questions'] / ($status['Uptime'] / 60));
 		echo('）</td></tr>');
 		
-		echo('<tr><td width="150" align="right" class="section_even">可用缓存内存</td><td class="section_even">');
+		echo('<tr><td width="150" align="right" class="section_even">可用缓存内存</td><td width="auto" class="section_even">');
 		printf("%dKB",  floatval($status['Qcache_free_memory'] / 1024));
 		echo('</td></tr>');
-		echo('<tr><td width="150" align="right" class="section_odd">缓存中的查询数据</td><td class="section_odd">' . $status['Qcache_queries_in_cache'] . '</td></tr>');
+		echo('<tr><td width="150" align="right" class="section_odd">缓存中的查询数据</td><td width="auto" class="section_odd">' . $status['Qcache_queries_in_cache'] . '</td></tr>');
 		
-		echo('<tr><td width="150" align="right" class="section_even">插入缓存的查询数量</td><td class="section_even">' . $status['Qcache_inserts'] . '（每分钟 ');
+		echo('<tr><td width="150" align="right" class="section_even">插入缓存的查询数量</td><td width="auto" class="section_even">' . $status['Qcache_inserts'] . '（每分钟 ');
 		printf("%.2f", $status['Qcache_inserts'] / ($status['Uptime'] / 60));
 		echo('）</td></tr>');
 		
-		echo('<tr><td width="150" align="right" class="section_odd">命中缓存的查询数量</td><td class="section_odd">' . $status['Qcache_hits'] . '（每分钟 ');
+		echo('<tr><td width="150" align="right" class="section_odd">命中缓存的查询数量</td><td width="auto" class="section_odd">' . $status['Qcache_hits'] . '（每分钟 ');
 		printf("%.2f", $status['Qcache_hits'] / ($status['Uptime'] / 60));
 		echo('）</td></tr>');
 
-		echo('<tr><td width="150" align="right" class="section_even">无法缓存的查询数量</td><td class="section_even">' . $status['Qcache_not_cached'] . '（每分钟 ');
+		echo('<tr><td width="150" align="right" class="section_even">无法缓存的查询数量</td><td width="auto" class="section_even">' . $status['Qcache_not_cached'] . '（每分钟 ');
 		printf("%.2f", $status['Qcache_not_cached'] / ($status['Uptime'] / 60));
 		echo('）</td></tr>');
 		
-		echo('<tr><td width="150" align="right" class="section_odd">缓存命中率</td><td class="section_odd">');
+		echo('<tr><td width="150" align="right" class="section_odd">缓存命中率</td><td width="auto" class="section_odd">');
 		printf("%.3f%%", ($status['Qcache_hits'] / $status['Questions']) * 100);
 		echo('</td></tr>');
 		
-		echo('<tr><td colspan="2" align="left" class="section_odd"><span class="text_large"><img src="' . CDN_IMG . 'ico_mac.gif" align="absmiddle" class="home" />基础架构 ');
+		echo('<tr><td colspan="2" align="left"><div class="notify">');
+		
 		$flag_win = false;
+		$flag_linux = false;
 		if (strtolower(PHP_OS) == 'winnt') {
-			echo 'Windows NT';
+			$platform = 'Windows NT';
 			$flag_win = true;
 		} else {
-			echo shell_exec('uname -s');
+			$platform = shell_exec('uname -s');
+			if (preg_match('/linux/i', $platform)) {
+				$flag_linux = true;
+			}
 		}
-		echo('</span></td></tr>');
+		
+		if ($flag_linux) {
+			_v_ico_silk('tux');
+		} else {
+			_v_ico_silk('server');
+		}
+		
+		echo(' 基础架构 ' . $platform);
+		
+		echo('</div></td></tr>');
 		
 		echo('<tr><td colspan="2" align="left" class="section_even"><small><strong>OS</strong>: ');
 		echo $flag_win ? 'Windows NT' : shell_exec('uname -a');
@@ -3156,6 +3195,22 @@ class Page {
 			echo('unknown');
 		}
 		echo('</small></td></tr>');
+		
+		if (function_exists('apc_cache_info')) {
+			$_apc_cache_info = apc_cache_info();
+			echo('<tr><td colspan="2" align="left"><div class="notify">');
+			_v_ico_silk('database_lightning');
+			echo(' 高速缓存系统 Alternative PHP Cache</div></td></tr>');
+			echo('<tr><td colspan="2" align="left"><span class="tip">性能数据</span></td></tr>');
+			echo('<tr><td width="150" align="right" class="section_even">命中次数</td><td class="section_even" align="left">' . $_apc_cache_info['num_hits'] . '</td></tr>');
+			echo('<tr><td width="150" align="right" class="section_odd">错失次数</td><td class="section_odd" align="left">' . $_apc_cache_info['num_misses'] . '</td></tr>');
+			echo('<tr><td width="150" align="right" class="section_even">储存的条目数量</td><td class="section_even" align="left">' . $_apc_cache_info['num_entries'] . '</td></tr>');
+			echo('<tr><td width="150" align="right" class="section_odd">插入次数</td><td class="section_odd" align="left">' . $_apc_cache_info['num_inserts'] . '</td></tr>');
+			echo('<tr><td width="150" align="right" class="section_even">剩余可用缓存内存数量</td><td class="section_even" align="left">' . intval($_apc_cache_info['mem_size'] / 1024) . 'KB</td></tr>');
+		} else {
+			echo('<tr><td align="left" class="section_odd">' . _vo_ico_silk('exclamation') . ' APC extension is not detected. <strong>Strongly recommended</strong> for performance, <a href="http://pecl.php.net/package/APC" class="t">download and install now</a>!</td></tr>');
+		}
+		
 		echo('</table>');
 		echo('</div>');
 		echo('</div>');
@@ -3895,6 +3950,27 @@ class Page {
 			echo('&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/color_swatch.png" align="absmiddle" alt="ZEN" />&nbsp;<a href="/dry/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">DRY</a>');
 		}
 		echo('&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/comments.png" alt="Topics" align="absmiddle" />&nbsp;<a href="/topic/archive/user/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">' . $O->usr_nick . ' 的所有主题</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/heart_add.png" align="absmiddle" />&nbsp;<a href="/who/connect/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">谁把 ' . $O->usr_nick . ' 加为好友</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/feed.png" align="absmiddle" alt="RSS" />&nbsp;<a href="/feed/user/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . '">RSS 种子输出</a></span></tr>');
+		$sql = "SELECT ggg_geo FROM babel_geo_going WHERE ggg_uid = {$O->usr_id} ORDER BY ggg_created DESC";
+		$rs = mysql_query($sql);
+		if (mysql_num_rows($rs) > 0) {
+			echo('<tr><td colspan="2" class="section_odd" align="center"><span class="tip"> ' . _vo_ico_silk('world_go') . ' ' . $O->usr_nick . ' 想去的地方');
+			while ($_geo_going = mysql_fetch_array($rs)) {
+				echo('&nbsp;&nbsp;<a href="/geo/' . $_geo_going['ggg_geo'] . '" class="var" style="font-size: ' . rand(12,18) . 'px;color: ' . rand_color() . '">' . $this->Geo->map['name'][$_geo_going['ggg_geo']] . '</a>');
+			}
+			echo('</span></td></tr>');
+		}
+		mysql_free_result($rs);
+		
+		$sql = "SELECT gbn_geo FROM babel_geo_been WHERE gbn_uid = {$O->usr_id} ORDER BY gbn_created DESC";
+		$rs = mysql_query($sql);
+		if (mysql_num_rows($rs) > 0) {
+			echo('<tr><td colspan="2" class="section_odd" align="center"><span class="tip"> ' . _vo_ico_silk('world_go') . ' ' . $O->usr_nick . ' 去过的地方');
+			while ($_geo_been = mysql_fetch_array($rs)) {
+				echo('&nbsp;&nbsp;<a href="/geo/' . $_geo_been['gbn_geo'] . '" class="var" style="font-size: ' . rand(12,18) . 'px;color: ' . rand_color() . '">' . $this->Geo->map['name'][$_geo_been['gbn_geo']] . '</a>');
+			}
+			echo('</span></td></tr>');
+		}
+		mysql_free_result($rs);
 		
 		if (BABEL_FEATURE_USER_COMPONENTS) {
 			echo('<tr><td colspan="2" align="left" class="section_odd"><span class="text_large"><img src="/img/ico_savepoint.gif" align="absmiddle" class="home" />' . $O->usr_nick . ' 的网上据点<a name="svp" /></span></td></tr>');
@@ -5978,6 +6054,263 @@ class Page {
 	}
 	
 	/* E module: Who Settle Geo block */
+	
+	/* S module: Who Going Geo block */
+	
+	public function vxWhoGoingGeo($geo) {
+		global $GOOGLE_AD_LEGAL;
+
+		$Geo = new Geo($geo, $this->Geo->map);
+		$geo_real = mysql_real_escape_string($geo, $this->db);
+		$geo_md5 = md5($geo);
+		
+		echo('<div id="main">');		
+		echo('<div class="blank" align="left">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_region . ' &gt; <a href="/geo/' . $geo . '">' . $Geo->geo->name->cn . '</a> &gt; 谁想去' . $Geo->geo->name->cn);
+		
+		echo('</div>');
+		
+		if (get_magic_quotes_gpc()) {
+			$geo_real = mysql_real_escape_string(stripslashes($geo), $this->db);
+		} else {
+			$geo_real = mysql_real_escape_string($geo, $this->db);
+		}
+		
+		if ($usr_count = $this->cs->get('babel_geo_going_' . $geo_md5)) {
+			$usr_count = intval($usr_count);
+		} else {
+			$sql = "SELECT COUNT(*) FROM babel_geo_going WHERE ggg_geo = '{$geo_real}'";
+			$rs = mysql_query($sql, $this->db);
+			$usr_count = mysql_result($rs, 0, 0);
+			mysql_free_result($rs);
+			$this->cs->save(strval($usr_count), 'babel_geo_going_' . $geo_md5);
+		}
+		
+		$page_size = 15;
+		
+		if ($usr_count > $page_size) {
+			if (($usr_count % $page_size) == 0) {
+				$page_count = intval($usr_count / $page_size);
+			} else {
+				$page_count = floor($usr_count / $page_size) + 1;
+			}
+		} else {
+			$page_count = 1;
+		}
+		if (isset($_GET['p'])) {
+			$page_current = intval($_GET['p']);
+			if ($page_current < 1) {
+				$page_current = 1;
+			}
+			if ($page_current > $page_count) {
+				$page_current = $page_count;
+			}
+		} else {
+			$page_current = 1;
+		}
+		$page_sql = ($page_current - 1) * $page_size;
+		
+		$sql = "SELECT usr_id, usr_geo, usr_gender, usr_nick, usr_portrait, usr_hits, usr_created FROM babel_user, babel_geo_going WHERE ggg_geo = '{$geo_real}' AND usr_id = ggg_uid ORDER BY ggg_created DESC LIMIT {$page_sql}, {$page_size}";
+		$rs = mysql_query($sql);
+		
+		echo('<div class="blank">');
+		_v_ico_silk('world_go');
+		echo(' 谁想去<a href="/geo/' . $Geo->geo->geo . '">' . $Geo->geo->name->cn . '</a>');
+		
+		echo('<span class="tip_i"> ... 共 ' . $usr_count .' 人 ...</span> ');
+		
+		if ($page_current < $page_count) {
+			echo('<a href="/who/going/' . $Geo->geo->geo . '/' . ($page_current + 1) . '.html" class="t">下一页</a>&nbsp;');
+		}
+		if ($page_current > 1) {
+			echo('&nbsp;<a href="/who/going/' . $Geo->geo->geo . '/' . ($page_current - 1) . '.html" class="t">上一页</a>');
+		}
+		
+		echo('<span class="tip_i"> ... ' . $page_current . '/' . $page_count . '</span>');
+		
+		if ($_SESSION['babel_ua']['GECKO_DETECTED'] || $_SESSION['babel_ua']['KHTML_DETECTED'] || $_SESSION['babel_ua']['OPERA_DETECTED']) {
+			$hack_width = 'width="100%" ';
+		} else {
+			$hack_width = 'width="99%" ';
+		}
+		
+		echo('<table ' . $hack_width . 'cellpadding="0" cellspacing="0" border="0" class="fav">');
+		
+		$i = 0;
+		
+		$edges = array();
+		for ($i = 1; $i < ($page_size * 2); $i++) {
+			$edges[] = ($i * 5) + 1;
+		}
+
+		while ($Who = mysql_fetch_object($rs)) {
+			$i++;
+			if (in_array($i, $edges)) {
+				echo('<tr><td>');
+			}
+			$img_p = $Who->usr_portrait ? '/img/p/' . $Who->usr_portrait . '.jpg' : '/img/p_' . $Who->usr_gender . '.gif';
+			if ($Who->usr_geo != $Geo->geo->geo) {
+				echo('<a href="/u/' . urlencode($Who->usr_nick) . '" class="friend"><img src="' . $img_p . '" class="portrait" /><br />' . $Who->usr_nick . '<div class="tip">' . $this->Geo->map['name'][$Who->usr_geo] . '</div></a>');
+			} else {
+				echo('<a href="/u/' . urlencode($Who->usr_nick) . '" class="friend"><img src="' . $img_p . '" class="portrait" /><br />' . $Who->usr_nick . '</a>');
+			}
+			if (($i % 5) == 0) {
+				echo ('</td></tr>');
+			}
+		}
+		
+		mysql_free_result($rs);
+		
+		
+		echo('</table>');
+		
+		_v_hr();
+		
+		if ($page_current < $page_count) {
+			echo('&nbsp;&nbsp;&nbsp;<a href="/who/going/' . $Geo->geo->geo . '/' . ($page_current + 1) . '.html" class="t">下一页</a>');
+		}
+		if ($page_current > 1) {
+			echo('&nbsp;&nbsp;&nbsp;<a href="/who/going/' . $Geo->geo->geo . '/' . ($page_current - 1) . '.html" class="t">上一页</a>');
+		}
+		
+		echo('<span class="tip_i"> ... ' . $page_current . '/' . $page_count . '</span>');
+		
+		echo('</div>');
+
+		echo('</div>');
+	}
+	
+	/* E module: Who Going Geo block */
+	
+	/* S module: Who Visited Geo block */
+	
+	public function vxWhoVisitedGeo($geo) {
+		global $GOOGLE_AD_LEGAL;
+		
+		$Geo = new Geo($geo, $this->Geo->map);
+		$geo_real = mysql_real_escape_string($geo, $this->db);
+		$geo_md5 = md5($geo);
+		
+		echo('<div id="main">');
+		
+		echo('<div class="blank" align="left">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_region . ' &gt; <a href="/geo/' . $geo . '">' . $Geo->geo->name->cn . '</a> &gt; 谁去过' . $Geo->geo->name->cn);
+		
+		echo('</div>');
+		
+		if (get_magic_quotes_gpc()) {
+			$geo_real = mysql_real_escape_string(stripslashes($geo), $this->db);
+		} else {
+			$geo_real = mysql_real_escape_string($geo, $this->db);
+		}
+		
+		if ($usr_count = $this->cs->get('babel_geo_visited_' . $geo_md5)) {
+			$usr_count = intval($usr_count);
+		} else {
+			$sql = "SELECT COUNT(*) FROM babel_geo_been WHERE gbn_geo = '{$geo_real}'";
+			$rs = mysql_query($sql, $this->db) or die(mysql_error());
+			$usr_count = mysql_result($rs, 0, 0);
+			mysql_free_result($rs);
+			$this->cs->save(strval($usr_count), 'babel_geo_visited_' . $geo_md5);
+		}
+		
+		$page_size = 15;
+		
+		if ($usr_count > $page_size) {
+			if (($usr_count % $page_size) == 0) {
+				$page_count = intval($usr_count / $page_size);
+			} else {
+				$page_count = floor($usr_count / $page_size) + 1;
+			}
+		} else {
+			$page_count = 1;
+		}
+		if (isset($_GET['p'])) {
+			$page_current = intval($_GET['p']);
+			if ($page_current < 1) {
+				$page_current = 1;
+			}
+			if ($page_current > $page_count) {
+				$page_current = $page_count;
+			}
+		} else {
+			$page_current = 1;
+		}
+		$page_sql = ($page_current - 1) * $page_size;
+		
+		$sql = "SELECT usr_id, usr_geo, usr_gender, usr_nick, usr_portrait, usr_hits, usr_created FROM babel_user, babel_geo_been WHERE gbn_geo = '{$geo_real}' AND usr_id = gbn_uid ORDER BY gbn_created DESC LIMIT {$page_sql}, {$page_size}";
+		$rs = mysql_query($sql);
+		
+		echo('<div class="blank">');
+		_v_ico_silk('world_go');
+		echo(' 谁去过<a href="/geo/' . $Geo->geo->geo . '">' . $Geo->geo->name->cn . '</a>');
+		
+		echo('<span class="tip_i"> ... 共 ' . $usr_count .' 人 ...</span> ');
+		
+		if ($page_current < $page_count) {
+			echo('<a href="/who/visited/' . $Geo->geo->geo . '/' . ($page_current + 1) . '.html" class="t">下一页</a>&nbsp;');
+		}
+		if ($page_current > 1) {
+			echo('&nbsp;<a href="/who/visited/' . $Geo->geo->geo . '/' . ($page_current - 1) . '.html" class="t">上一页</a>');
+		}
+		
+		echo('<span class="tip_i"> ... ' . $page_current . '/' . $page_count . '</span>');
+		
+		if ($_SESSION['babel_ua']['GECKO_DETECTED'] || $_SESSION['babel_ua']['KHTML_DETECTED'] || $_SESSION['babel_ua']['OPERA_DETECTED']) {
+			$hack_width = 'width="100%" ';
+		} else {
+			$hack_width = 'width="99%" ';
+		}
+		
+		echo('<table ' . $hack_width . 'cellpadding="0" cellspacing="0" border="0" class="fav">');
+		
+		$i = 0;
+		
+		$edges = array();
+		for ($i = 1; $i < ($page_size * 2); $i++) {
+			$edges[] = ($i * 5) + 1;
+		}
+
+		while ($Who = mysql_fetch_object($rs)) {
+			$i++;
+			if (in_array($i, $edges)) {
+				echo('<tr><td>');
+			}
+			$img_p = $Who->usr_portrait ? '/img/p/' . $Who->usr_portrait . '.jpg' : '/img/p_' . $Who->usr_gender . '.gif';
+			if ($Who->usr_geo != $Geo->geo->geo) {
+				echo('<a href="/u/' . urlencode($Who->usr_nick) . '" class="friend"><img src="' . $img_p . '" class="portrait" /><br />' . $Who->usr_nick . '<div class="tip">' . $this->Geo->map['name'][$Who->usr_geo] . '</div></a>');
+			} else {
+				echo('<a href="/u/' . urlencode($Who->usr_nick) . '" class="friend"><img src="' . $img_p . '" class="portrait" /><br />' . $Who->usr_nick . '</a>');
+			}
+			if (($i % 5) == 0) {
+				echo ('</td></tr>');
+			}
+		}
+		
+		mysql_free_result($rs);
+		
+		
+		echo('</table>');
+		
+		_v_hr();
+		
+		if ($page_current < $page_count) {
+			echo('&nbsp;&nbsp;&nbsp;<a href="/who/visited/' . $Geo->geo->geo . '/' . ($page_current + 1) . '.html" class="t">下一页</a>');
+		}
+		if ($page_current > 1) {
+			echo('&nbsp;&nbsp;&nbsp;<a href="/who/visited/' . $Geo->geo->geo . '/' . ($page_current - 1) . '.html" class="t">上一页</a>');
+		}
+		
+		echo('<span class="tip_i"> ... ' . $page_current . '/' . $page_count . '</span>');
+		
+		echo('</div>');
+
+		echo('</div>');
+	}
+	
+	/* E module: Who Visited Geo block */
 	
 	/* S module: Who Connect User block */
 	
@@ -8201,16 +8534,52 @@ class Page {
 			} else {
 				echo('<span class="text_large">' . _vo_ico_silk('world') . ' ' . $Geo->geo->name->cn . '</span><span class="tip_i"> ... <a href="/geo/' . $this->User->usr_geo . '" class="t">返回' . $this->Geo->map['name'][$this->User->usr_geo] . '</a> / <a href="/user/move.vx" class="t">修改我的所在地</a>');
 			}
-			$sql = "SELECT COUNT(*) FROM babel_geo_going WHERE ggg_geo = '{$Geo->geo->geo}'";
+			if ($geo_count_going = $this->cs->get('babel_geo_going_' . $geo_md5)) {
+				$geo_count_going = intval($geo_count_going);
+			} else {
+				$sql = "SELECT COUNT(*) FROM babel_geo_going WHERE ggg_geo = '{$geo_real}'";
+				$rs = mysql_query($sql, $this->db);
+				$geo_count_going = mysql_result($rs, 0, 0);
+				mysql_free_result($rs);
+				$this->cs->save(strval($geo_count_going), 'babel_geo_going_' . $geo_md5);
+			}
+			$sql = "SELECT ggg_id FROM babel_geo_going WHERE ggg_geo = '{$Geo->geo->geo}' AND ggg_uid = {$this->User->usr_id}";
 			$rs = mysql_query($sql);
-			$geo_count_going = mysql_result($rs, 0, 0);
+			if (mysql_num_rows($rs) == 1) {
+				$geo_flag_going = true;
+			} else {
+				$geo_flag_going = false;
+			}
 			mysql_free_result($rs);
-			echo(' ... <a href="/who/going/' . urlencode($Geo->geo->geo) . '" class="o">目前有 ' . $geo_count_going . ' 人想去' . $Geo->geo->name->cn . '</a> / <a href="/set/going/' . $Geo->geo->geo . '" class="t">我想去' . $Geo->geo->name->cn . '</a>');
-			$sql = "SELECT COUNT(*) FROM babel_geo_been WHERE gbn_geo = '{$Geo->geo->geo}'";
+			echo(' ... <a href="/who/going/' . urlencode($Geo->geo->geo) . '" class="o">目前有 ' . $geo_count_going . ' 人想去' . $Geo->geo->name->cn . '</a> / ');
+			if ($geo_flag_going) {
+				echo('<a href="/revert/going/' . $Geo->geo->geo . '" class="t">我不想去' . $Geo->geo->name->cn . '</a>');
+			} else {
+				echo('<a href="/set/going/' . $Geo->geo->geo . '" class="t">我想去' . $Geo->geo->name->cn . '</a>');
+			}
+			if ($geo_count_been = $this->cs->get('babel_geo_visited_' . $geo_md5)) {
+				$geo_count_been = intval($geo_count_been);
+			} else {
+				$sql = "SELECT COUNT(*) FROM babel_geo_been WHERE gbn_geo = '{$geo_real}'";
+				$rs = mysql_query($sql, $this->db);
+				$geo_count_been = mysql_result($rs, 0, 0);
+				mysql_free_result($rs);
+				$this->cs->save(strval($geo_count_been), 'babel_geo_visited_' . $geo_md5);
+			}
+			$sql = "SELECT gbn_id FROM babel_geo_been WHERE gbn_geo = '{$Geo->geo->geo}' AND gbn_uid = {$this->User->usr_id}";
 			$rs = mysql_query($sql);
-			$geo_count_been = mysql_result($rs, 0, 0);
+			if (mysql_num_rows($rs) == 1) {
+				$geo_flag_been = true;
+			} else {
+				$geo_flag_been = false;
+			}
 			mysql_free_result($rs);
-			echo(' ... <a href="/who/been/' . urlencode($Geo->geo->geo) . '" class="o">目前有 ' . $geo_count_been . ' 人去过' . $Geo->geo->name->cn . '</a> / <a href="/set/been/' . $Geo->geo->geo . '" class="t">我去过' . $Geo->geo->name->cn . '</a>');
+			echo(' ... <a href="/who/visited/' . urlencode($Geo->geo->geo) . '" class="o">目前有 ' . $geo_count_been . ' 人去过' . $Geo->geo->name->cn . '</a> / ');
+			if ($geo_flag_been) {
+				echo('<a href="/revert/been/' . $Geo->geo->geo . '" class="t">我没有去过' . $Geo->geo->name->cn . '</a>');
+			} else {
+				echo('<a href="/set/been/' . $Geo->geo->geo . '" class="t">我去过' . $Geo->geo->name->cn . '</a>');
+			}
 			echo('</span>');
 			if (isset($_SESSION['babel_geo_message'])) {
 				if ($_SESSION['babel_geo_message'] != '') {
@@ -8252,7 +8621,87 @@ class Page {
 			echo $Geo->geo->description->cn;
 			_v_d_e();
 		}
+		
+		
 		_v_d_e();
+		
+		/* Start: geos_children */
+		if ($geos_children = $this->cl->load('babel_geo_children_' . $geo_md5)) {
+			$geos_children = unserialize($geos_children);
+		} else {
+			$geos_children = $this->Geo->vxGetChildrenArray($geo);
+			$this->cl->save(serialize($geos_children), 'babel_geo_children_' . $geo_md5);
+		}
+		if (count($geos_children) > 0) {
+			$len_total = 0;
+			foreach ($geos_children as $elem) {
+				$len_total = $len_total + mb_strlen($elem, 'UTF-8');
+			}
+			$len_avg = floor($len_total / count($geos_children));
+			$br = calc_geo_break($len_avg);
+			_v_hr();
+			if ($o = $this->cl->load('babel_geo_children_' . $geo_md5 . '_o')) {
+				echo $o;
+			} else {
+				$o = '';
+				$o .= '<div class="geo_home_bar"><img src="/img/icons/silk/world_go.png" align="absmiddle" /> 下属于' . $Geo->geo->name->cn . '的区域</div>';
+				$o .= '<div class="geo_home_content">';
+				$o .= '<blockquote>';
+				$i = 0;
+				foreach ($geos_children as $g => $g_name) {
+					$i++;
+					$css_color = rand_color();
+					$o .= '<a href="/geo/' . $g . '" class="var" style="color: ' . $css_color . ';">' . $g_name . '</a>&nbsp; ';
+					if ($i % $br == 0) {
+						$o .= '<br />';
+					}
+				}
+				$o .= '</blockquote>';
+				$o .= '</div>';
+				echo $o;
+				$this->cl->save($o, 'babel_geo_children_' . $geo_md5 . '_o');
+			}
+		}
+		/* End: array geos_children */
+		
+		/* Start: array geos_parallel */
+		if ($geos_parallel = $this->cl->load('babel_geo_parallel_' . $geo_md5)) {
+			$geos_parallel = unserialize($geos_parallel);
+		} else {
+			$geos_parallel = $this->Geo->vxGetParallelArray($geo);
+			$this->cl->save(serialize($geos_parallel), 'babel_geo_parallel_' . $geo_md5);
+		}
+		if (count($geos_parallel) > 0) {
+			$len_total = 0;
+			foreach ($geos_parallel as $elem) {
+				$len_total = $len_total + mb_strlen($elem, 'UTF-8');
+			}
+			$len_avg = floor($len_total / count($geos_parallel));
+			$br = calc_geo_break($len_avg);
+			_v_hr();
+			if ($o = $this->cl->load('babel_geo_parallel_' . $geo_md5 . '_o')) {
+				echo $o;
+			} else {
+				$o = '';
+				$o .= '<div class="geo_home_bar"><img src="/img/icons/silk/world_link.png" align="absmiddle" /> 与' . $Geo->geo->name->cn . '平行的区域</div>';
+				$o .= '<div class="geo_home_content">';
+				$o .= '<blockquote>';
+				$i = 0;
+				foreach ($geos_parallel as $g => $g_name) {
+					$i++;
+					$css_color = rand_color();
+					$o .= '<a href="/geo/' . $g . '" class="var" style="color: ' . $css_color . ';">' . $g_name . '</a>&nbsp; ';
+					if ($i % $br == 0) {
+						$o .= '<br />';
+					}
+				}
+				$o .= '</blockquote>';
+				$o .= '</div>';
+				echo $o;
+				$this->cl->save($o, 'babel_geo_parallel_' . $geo_md5 . '_o');
+			}
+		}
+		/* End: array geos_parallel */
 		
 		if ($_SESSION['babel_ua']['GECKO_DETECTED'] || $_SESSION['babel_ua']['KHTML_DETECTED'] || $_SESSION['babel_ua']['OPERA_DETECTED']) {
 			$hack_width = 'width="100%" ';
@@ -8267,7 +8716,7 @@ class Page {
 		if ($Topics = $this->cs->get('babel_geo_topics_latest_' . $geo_md5)) {
 			$Topics = unserialize($Topics);
 		} else {
-			$sql = "SELECT usr_id, usr_nick, usr_portrait, usr_gender, tpc_id, tpc_uid, tpc_title, tpc_content, tpc_hits FROM babel_topic, babel_user WHERE tpc_uid = usr_id AND usr_id IN (SELECT usr_id FROM babel_user WHERE usr_geo IN ({$geos_all_children_sql})) AND tpc_flag IN (0, 2) ORDER BY tpc_lasttouched DESC LIMIT 25";
+			$sql = "SELECT usr_id, usr_nick, usr_portrait, usr_gender, tpc_id, tpc_uid, tpc_title, tpc_content, tpc_hits FROM babel_topic, babel_user WHERE tpc_uid = usr_id AND usr_id IN (SELECT usr_id FROM babel_user WHERE usr_geo IN ({$geos_all_children_sql})) AND tpc_flag IN (0, 2) AND tpc_pid NOT IN " . BABEL_NODES_POINTLESS . " ORDER BY tpc_lasttouched DESC LIMIT 25";
 			$rs = mysql_query($sql, $this->db);
 			$Topics = array();
 			while ($Topic = mysql_fetch_object($rs)) {
@@ -8304,7 +8753,7 @@ class Page {
 		} else {
 			$now = getdate(time());
 			$start = mktime(0, 0, 0, $now['mon'], 1, $now['year']);
-			$sql = "SELECT tpc_id, tpc_title, tpc_hits, tpc_posts FROM babel_topic WHERE tpc_uid IN (SELECT usr_id FROM babel_user WHERE usr_geo IN ({$geos_all_children_sql})) AND tpc_created > {$start} AND tpc_flag IN (0, 2) ORDER BY tpc_hits DESC, tpc_lasttouched DESC LIMIT 10";
+			$sql = "SELECT tpc_id, tpc_title, tpc_hits, tpc_posts FROM babel_topic WHERE tpc_uid IN (SELECT usr_id FROM babel_user WHERE usr_geo IN ({$geos_all_children_sql})) AND tpc_created > {$start} AND tpc_flag IN (0, 2) AND tpc_pid NOT IN " . BABEL_NODES_POINTLESS . " ORDER BY tpc_hits DESC, tpc_lasttouched DESC LIMIT 10";
 			$rs = mysql_query($sql, $this->db);
 			$Topics = array();
 			while ($Topic = mysql_fetch_object($rs)) {
@@ -8447,86 +8896,7 @@ class Page {
 		_v_hr();
 		echo('<div class="geo_home_bar"><img src="/img/gt.gif" align="absmiddle" /> ' . $Geo->geo->name->cn . '的相关网站</div>');
 		*/
-		
-		/* Start: geos_children */
-		if ($geos_children = $this->cl->load('babel_geo_children_' . $geo_md5)) {
-			$geos_children = unserialize($geos_children);
-		} else {
-			$geos_children = $this->Geo->vxGetChildrenArray($geo);
-			$this->cl->save(serialize($geos_children), 'babel_geo_children_' . $geo_md5);
-		}
-		if (count($geos_children) > 0) {
-			$len_total = 0;
-			foreach ($geos_children as $elem) {
-				$len_total = $len_total + mb_strlen($elem, 'UTF-8');
-			}
-			$len_avg = floor($len_total / count($geos_children));
-			$br = calc_geo_break($len_avg);
-			_v_hr();
-			if ($o = $this->cl->load('babel_geo_children_' . $geo_md5 . '_o')) {
-				echo $o;
-			} else {
-				$o = '';
-				$o .= '<div class="geo_home_bar"><img src="/img/icons/silk/world_go.png" align="absmiddle" /> 下属于' . $Geo->geo->name->cn . '的区域</div>';
-				$o .= '<div class="geo_home_content">';
-				$o .= '<blockquote>';
-				$i = 0;
-				foreach ($geos_children as $g => $g_name) {
-					$i++;
-					$css_color = rand_color();
-					$o .= '<a href="/geo/' . $g . '" class="var" style="color: ' . $css_color . ';">' . $g_name . '</a>&nbsp; ';
-					if ($i % $br == 0) {
-						$o .= '<br />';
-					}
-				}
-				$o .= '</blockquote>';
-				$o .= '</div>';
-				echo $o;
-				$this->cl->save($o, 'babel_geo_children_' . $geo_md5 . '_o');
-			}
-		}
-		/* End: array geos_children */
-		
-		/* Start: array geos_parallel */
-		if ($geos_parallel = $this->cl->load('babel_geo_parallel_' . $geo_md5)) {
-			$geos_parallel = unserialize($geos_parallel);
-		} else {
-			$geos_parallel = $this->Geo->vxGetParallelArray($geo);
-			$this->cl->save(serialize($geos_parallel), 'babel_geo_parallel_' . $geo_md5);
-		}
-		if (count($geos_parallel) > 0) {
-			$len_total = 0;
-			foreach ($geos_parallel as $elem) {
-				$len_total = $len_total + mb_strlen($elem, 'UTF-8');
-			}
-			$len_avg = floor($len_total / count($geos_parallel));
-			$br = calc_geo_break($len_avg);
-			_v_hr();
-			if ($o = $this->cl->load('babel_geo_parallel_' . $geo_md5 . '_o')) {
-				echo $o;
-			} else {
-				$o = '';
-				$o .= '<div class="geo_home_bar"><img src="/img/icons/silk/world_link.png" align="absmiddle" /> 与' . $Geo->geo->name->cn . '平行的区域</div>';
-				$o .= '<div class="geo_home_content">';
-				$o .= '<blockquote>';
-				$i = 0;
-				foreach ($geos_parallel as $g => $g_name) {
-					$i++;
-					$css_color = rand_color();
-					$o .= '<a href="/geo/' . $g . '" class="var" style="color: ' . $css_color . ';">' . $g_name . '</a>&nbsp; ';
-					if ($i % $br == 0) {
-						$o .= '<br />';
-					}
-				}
-				$o .= '</blockquote>';
-				$o .= '</div>';
-				echo $o;
-				$this->cl->save($o, 'babel_geo_parallel_' . $geo_md5 . '_o');
-			}
-		}
-		/* End: array geos_parallel */
-		_v_hr();
-		echo('<div class="geo_home_middle"><span class="text">' . _vo_ico_silk('information') . ' 地名列表是按照字母顺序排列的</span></div>');
+
 		_v_d_e();
 		echo('</div>');
 	}
@@ -9035,6 +9405,10 @@ class Page {
 		if ($i == 0) {
 			_v_ico_silk('exclamation');
 			echo(' <a href="/u/' . $User->usr_nick_url . '">' . $User->usr_nick_plain . '</a> 的朋友们目前还没有任何更新 ...');
+		}
+		
+		if ($flag_self) {
+			echo('<img src="/img/spacer.gif" onload="getObj(' . "'doing'" . ').focus();" style="display: none;" />');
 		}
 		
 		_v_d_e();
