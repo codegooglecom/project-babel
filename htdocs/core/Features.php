@@ -36,5 +36,5 @@ define('BABEL_FEATURE_USER_COMPONENTS', true);
 
 define('BABEL_FEATURE_NODE_STOCK', true);
 
-define('BABEL_FEATURE_DRY', false);
+define('BABEL_FEATURE_DRY', true);
 ?>

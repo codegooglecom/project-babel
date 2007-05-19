@@ -3104,52 +3104,6 @@ class Page {
 		echo(' <small><strong>Your User Agent</strong>: ' . $_SERVER['HTTP_USER_AGENT'] . '</small></td></tr>');
 		
 		echo('<tr><td colspan="2" align="left"><div class="notify">');
-		_v_ico_silk('database');
-		echo(' 数据库子系统 MySQL ' . mysql_get_server_info($this->db) . '</div></td></tr>');
-		
-		echo('<tr><td colspan="2" align="left"><span class="tip">数据库系统信息</span></td></tr>');
-		
-		echo('<tr><td width="150" align="right" class="section_even">服务器字符集</td><td class="section_even">' . $status['collation_server'] . '</td></tr>');
-		echo('<tr><td width="150" align="right" class="section_odd">当前数据库字符集</td><td class="section_odd">' . $status['collation_database'] . '</td></tr>');
-		echo('<tr><td width="150" align="right" class="section_even">运转时间</td><td class="section_even">' . $status['Uptime'] . ' 秒');
-		if ($status['Uptime'] > 86400) {
-			echo ('（' . intval($status['Uptime'] / 86400) . ' 天）');
-		}
-		echo('</td></tr>');
-		
-		echo('<tr><td colspan="2" align="left"><span class="tip">性能数据</span></td></tr>');
-		
-		
-		echo('<tr><td width="150" align="right" class="section_even">线程创建数量</td><td width="auto" class="section_even">' . $status['Threads_created'] . '（每分钟 ');
-		printf("%.2f", $status['Threads_created'] / ($status['Uptime'] / 60));
-		echo('）</td></tr>');
-		
-		echo('<tr><td width="150" align="right" class="section_odd">已处理的查询数量</td><td width="auto" class="section_odd">' . $status['Questions'] . '（每分钟 ');
-		printf("%.2f", $status['Questions'] / ($status['Uptime'] / 60));
-		echo('）</td></tr>');
-		
-		echo('<tr><td width="150" align="right" class="section_even">可用缓存内存</td><td width="auto" class="section_even">');
-		printf("%dKB",  floatval($status['Qcache_free_memory'] / 1024));
-		echo('</td></tr>');
-		echo('<tr><td width="150" align="right" class="section_odd">缓存中的查询数据</td><td width="auto" class="section_odd">' . $status['Qcache_queries_in_cache'] . '</td></tr>');
-		
-		echo('<tr><td width="150" align="right" class="section_even">插入缓存的查询数量</td><td width="auto" class="section_even">' . $status['Qcache_inserts'] . '（每分钟 ');
-		printf("%.2f", $status['Qcache_inserts'] / ($status['Uptime'] / 60));
-		echo('）</td></tr>');
-		
-		echo('<tr><td width="150" align="right" class="section_odd">命中缓存的查询数量</td><td width="auto" class="section_odd">' . $status['Qcache_hits'] . '（每分钟 ');
-		printf("%.2f", $status['Qcache_hits'] / ($status['Uptime'] / 60));
-		echo('）</td></tr>');
-
-		echo('<tr><td width="150" align="right" class="section_even">无法缓存的查询数量</td><td width="auto" class="section_even">' . $status['Qcache_not_cached'] . '（每分钟 ');
-		printf("%.2f", $status['Qcache_not_cached'] / ($status['Uptime'] / 60));
-		echo('）</td></tr>');
-		
-		echo('<tr><td width="150" align="right" class="section_odd">缓存命中率</td><td width="auto" class="section_odd">');
-		printf("%.3f%%", ($status['Qcache_hits'] / $status['Questions']) * 100);
-		echo('</td></tr>');
-		
-		echo('<tr><td colspan="2" align="left"><div class="notify">');
 		
 		$flag_win = false;
 		$flag_linux = false;
@@ -3196,11 +3150,85 @@ class Page {
 		}
 		echo('</small></td></tr>');
 		
+		if (function_exists('apache_get_version')) {
+			echo('<tr><td colspan="2" align="left"><div class="notify">');
+			_v_ico_silk('server_link');
+			echo(' 应用程序服务器子系统 Apache Web Server');
+			echo('</div></td></tr>');
+			echo('<tr><td colspan="2" align="left" class="section_even"><small><strong>Version</strong>: ');
+			echo apache_get_version();
+			echo('</td></tr>');
+			$_modules = apache_get_modules();
+			echo('<tr><td colspan="2" align="left" class="section_even"><small><strong>Modules</strong>: ');
+			_v_ico_silk('bullet_black');
+			echo(' important module');
+			echo(' &nbsp; ');
+			_v_ico_silk('bullet_blue');
+			echo(' regular module');
+			echo('<blockquote>');
+			foreach ($_modules as $module) {
+				if (in_array($module, array('mod_rewrite', 'mod_php5'))) {
+					_v_ico_silk('bullet_black');
+				} else {
+					_v_ico_silk('bullet_blue');
+				}
+				echo(' ' . $module . '<br />');
+			}
+			echo('</blockquote>');
+			echo('</td></tr>');
+		}
+		
+		echo('<tr><td colspan="2" align="left"><div class="notify">');
+		_v_ico_silk('database');
+		echo(' 数据库子系统 MySQL ' . mysql_get_server_info($this->db) . '</div></td></tr>');
+		
+		echo('<tr><td colspan="2" align="left"><span class="tip">数据库系统信息</span></td></tr>');
+		
+		echo('<tr><td width="150" align="right" class="section_even">服务器字符集</td><td class="section_even">' . $status['collation_server'] . '</td></tr>');
+		echo('<tr><td width="150" align="right" class="section_odd">当前数据库字符集</td><td class="section_odd">' . $status['collation_database'] . '</td></tr>');
+		echo('<tr><td width="150" align="right" class="section_even">运转时间</td><td class="section_even">' . $status['Uptime'] . ' 秒');
+		if ($status['Uptime'] > 86400) {
+			echo ('（' . intval($status['Uptime'] / 86400) . ' 天）');
+		}
+		echo('</td></tr>');
+		
+		echo('<tr><td colspan="2" align="left"><span class="tip">性能数据</span></td></tr>');
+		
+		
+		echo('<tr><td width="150" align="right" class="section_even">线程创建数量</td><td width="auto" class="section_even">' . $status['Threads_created'] . '（每分钟 ');
+		printf("%.2f", $status['Threads_created'] / ($status['Uptime'] / 60));
+		echo('）</td></tr>');
+		
+		echo('<tr><td width="150" align="right" class="section_odd">已处理的查询数量</td><td width="auto" class="section_odd">' . $status['Questions'] . '（每分钟 ');
+		printf("%.2f", $status['Questions'] / ($status['Uptime'] / 60));
+		echo('）</td></tr>');
+		
+		echo('<tr><td width="150" align="right" class="section_even">可用缓存内存</td><td width="auto" class="section_even">');
+		printf("%dKB",  floatval($status['Qcache_free_memory'] / 1024));
+		echo('</td></tr>');
+		echo('<tr><td width="150" align="right" class="section_odd">缓存中的查询数据</td><td width="auto" class="section_odd">' . $status['Qcache_queries_in_cache'] . '</td></tr>');
+		
+		echo('<tr><td width="150" align="right" class="section_even">插入缓存的查询数量</td><td width="auto" class="section_even">' . $status['Qcache_inserts'] . '（每分钟 ');
+		printf("%.2f", $status['Qcache_inserts'] / ($status['Uptime'] / 60));
+		echo('）</td></tr>');
+		
+		echo('<tr><td width="150" align="right" class="section_odd">命中缓存的查询数量</td><td width="auto" class="section_odd">' . $status['Qcache_hits'] . '（每分钟 ');
+		printf("%.2f", $status['Qcache_hits'] / ($status['Uptime'] / 60));
+		echo('）</td></tr>');
+
+		echo('<tr><td width="150" align="right" class="section_even">无法缓存的查询数量</td><td width="auto" class="section_even">' . $status['Qcache_not_cached'] . '（每分钟 ');
+		printf("%.2f", $status['Qcache_not_cached'] / ($status['Uptime'] / 60));
+		echo('）</td></tr>');
+		
+		echo('<tr><td width="150" align="right" class="section_odd">缓存命中率</td><td width="auto" class="section_odd">');
+		printf("%.3f%%", ($status['Qcache_hits'] / $status['Questions']) * 100);
+		echo('</td></tr>');
+		
 		if (function_exists('apc_cache_info')) {
 			$_apc_cache_info = apc_cache_info();
 			echo('<tr><td colspan="2" align="left"><div class="notify">');
 			_v_ico_silk('database_lightning');
-			echo(' 高速缓存系统 Alternative PHP Cache</div></td></tr>');
+			echo(' 高速缓存子系统 Alternative PHP Cache ' . _vo_ico_silk('tick') . ' <strong>ACTIVE</strong></div></td></tr>');
 			echo('<tr><td colspan="2" align="left"><span class="tip">性能数据</span></td></tr>');
 			echo('<tr><td width="150" align="right" class="section_even">命中次数</td><td class="section_even" align="left">' . $_apc_cache_info['num_hits'] . '</td></tr>');
 			echo('<tr><td width="150" align="right" class="section_odd">错失次数</td><td class="section_odd" align="left">' . $_apc_cache_info['num_misses'] . '</td></tr>');
@@ -3208,7 +3236,36 @@ class Page {
 			echo('<tr><td width="150" align="right" class="section_odd">插入次数</td><td class="section_odd" align="left">' . $_apc_cache_info['num_inserts'] . '</td></tr>');
 			echo('<tr><td width="150" align="right" class="section_even">剩余可用缓存内存数量</td><td class="section_even" align="left">' . intval($_apc_cache_info['mem_size'] / 1024) . 'KB</td></tr>');
 		} else {
-			echo('<tr><td colspan="2" align="left" class="section_odd">' . _vo_ico_silk('exclamation') . ' APC extension is not detected. <strong>Strongly recommended</strong> for performance, <a href="http://pecl.php.net/package/APC" class="t">download and install now</a>!</td></tr>');
+			echo('<tr><td colspan="2" align="left"><div class="notify">');
+			_v_ico_silk('database_lightning');
+			echo(' 高速缓存子系统 Alternative PHP Cache ' . _vo_ico_silk('exclamation') . ' <strong><small>N/A</small></strong>');
+			echo('</div></td></tr>');
+		}
+		
+		if (ZEND_CACHE_MEMCACHED_ENABLED == 'yes') {
+			$mem = new Memcache;
+			$mem->addServer(ZEND_CACHE_OPTIONS_MEMCACHED_SERVER, ZEND_CACHE_OPTIONS_MEMCACHED_PORT);
+			$_memcached_stats = $mem->getExtendedStats();
+			$_mstats = $_memcached_stats[ZEND_CACHE_OPTIONS_MEMCACHED_SERVER . ':' . ZEND_CACHE_OPTIONS_MEMCACHED_PORT];
+			echo('<tr><td colspan="2" align="left"><div class="notify">');
+			_v_ico_silk('database_lightning');
+			echo(' 高速缓存子系统 Memcached ' . _vo_ico_silk('tick') . ' <strong>ACTIVE</strong>');
+			echo('</div></td></tr>');
+			echo('<tr><td colspan="2" align="left"><span class="tip">数据库系统信息</span></td></tr>');
+			echo('<tr><td width="150" align="right" class="section_even">版本</td><td class="section_even" align="left">' . $_mstats['version'] . '</td></tr>');
+			echo('<tr><td width="150" align="right" class="section_odd">运转时间</td><td class="section_odd" align="left">' . $_mstats['uptime'] . ' 秒</td></tr>');
+			echo('<tr><td colspan="2" align="left"><span class="tip">性能数据</span></td></tr>');
+			echo('<tr><td width="150" align="right" class="section_even">命中次数</td><td class="section_even" align="left">' . $_mstats['get_hits'] . '</td></tr>');
+			echo('<tr><td width="150" align="right" class="section_odd">错失次数</td><td class="section_odd" align="left">' . $_mstats['get_misses'] . '</td></tr>');
+			echo('<tr><td width="150" align="right" class="section_even">储存的条目数量</td><td class="section_even" align="left">' . $_mstats['curr_items'] . '</td></tr>');
+			echo('<tr><td width="150" align="right" class="section_odd">读取字节数</td><td class="section_odd" align="left">' . intval($_mstats['bytes_read'] / 1024) . 'KB</td></tr>');
+			echo('<tr><td width="150" align="right" class="section_even">写入字节数</td><td class="section_even" align="left">' . intval($_mstats['bytes_written'] / 1024) . 'KB</td></tr>');
+			echo('<tr><td width="150" align="right" class="section_odd">总连接数</td><td class="section_odd" align="left">' . $_mstats['total_connections'] . '</td></tr>');
+		} else {
+			echo('<tr><td colspan="2" align="left"><div class="notify">');
+			_v_ico_silk('database_lightning');
+			echo(' 高速缓存子系统 Memcached ' . _vo_ico_silk('exclamation') . ' <strong><small>N/A</small></strong>');
+			echo('</div></td></tr>');
 		}
 		
 		echo('</table>');
@@ -9567,18 +9624,57 @@ class Page {
 	public function vxDry($options) {
 		$User =& $options['target'];
 		_v_m_s();
+		echo('<link type="text/css" rel="stylesheet" href="/css/themes/' . BABEL_THEME . '/css_dry.css" />');
 		_v_b_l_s();
 		_v_ico_map();
 		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . $User->usr_nick_url . '">' . $User->usr_nick_plain . '</a> &gt; ' . Vocabulary::term_dry);
 		_v_d_e();
 		_v_b_l_s();
 		echo('<div style="float: right;">');
-		if ($this->User->vxIsLogin() && $User->usr_id == $this->User->usr_id) {
-			_v_btn_l('添加新项目', '/dry/new.vx');
-		}
+		echo('<span class="tip_i"><small>V' . $this->ver . '</small></span>');
 		echo('</div>');
 		_v_ico_silk('color_swatch');
 		echo(' <span class="text_large">' . Vocabulary::term_dry . '</span>');
+		
+		/* Start: Toolbar */
+		if ($this->User->vxIsLogin() && $User->usr_id == $this->User->usr_id) {
+			_v_hr();
+			echo('<a href="#;" class="dry_btn">');
+			_v_ico_tango_22('actions/go-previous');
+			echo('</a>');
+			echo('&nbsp;');
+			echo('<a href="#;" class="dry_btn">');
+			_v_ico_tango_22('actions/go-next');
+			echo('</a>');
+			echo('&nbsp;');
+			echo('<a href="#;" class="dry_btn">');
+			_v_ico_tango_22('actions/folder-new');
+			echo(' 新建文件夹');
+			echo('</a>');
+			echo('&nbsp;');
+			echo('<a href="#;" class="dry_btn">');
+			_v_ico_tango_22('actions/document-new');
+			echo(' 新建文档');
+			echo('</a>');
+			echo('&nbsp;');
+			echo('<a href="#;" class="dry_btn">');
+			_v_ico_tango_22('actions/view-refresh');
+			echo(' 刷新');
+			echo('</a>');
+			echo('&nbsp;');
+			echo('<a href="#;" class="dry_btn">');
+			_v_ico_tango_22('categories/preferences-system');
+			echo(' 配置选项');
+			echo('</a>');
+			echo('&nbsp;');
+			echo('<a href="#;" class="dry_btn">');
+			_v_ico_tango_22('apps/help-browser');
+			echo(' 帮助');
+			echo('</a>');
+		}
+		_v_hr();
+		echo('<a href="#;" class="dry_loc">DRY</a><img src="/img/pico_right.gif" align="absmiddle" /> <a href="/dry/' . urlencode($O->usr_nick) . '" class="dry_loc">' . make_plaintext($O->usr_nick) . '</a>');
+		/* End: Toolbar */
 		_v_hr();
 		echo('<div class="geo_home_entry_odd">');
 		echo('<span class="text_large">');
@@ -9594,6 +9690,8 @@ class Page {
 		_v_hr();
 		echo('<span class="tip">324325 个字节 - 123 次修改 - 公开发布 - 无密码保护</span>');
 		echo('</div>');
+		_v_hr();
+		echo('<span class="tip"><small>10 objects</small></span>');
 		_v_d_e();
 		_v_b_l_s();
 		_v_ico_silk('color_swatch');

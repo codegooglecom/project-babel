@@ -1037,6 +1037,7 @@ $i->vxSetupBoard('csharp', 'C#', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('delphi', 'Delphi', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('logo', 'Logo', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('pascal', 'Pascal', 3, 3, 1, 2, '', '');
+$i->vxSetupBoard('brainfuck', 'Brainfuck', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('wordpress', 'WordPress', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('bbpress', 'bbPress', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('adobe', 'Adobe', 3, 3, 1, 2, 'Adobe 产品讨论专区', '');
