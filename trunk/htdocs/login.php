@@ -102,6 +102,10 @@ switch ($rt['mode']) {
 if (isset($rt['return'])) {
 	if (trim($rt['return']) != '') {
 		echo ('<input type="hidden" value="' . make_single_return($rt['return'], 0) .  '" name="return" />');
+	} else {
+		if (!preg_match('/login$/i', $_SERVER['HTTP_REFERER'])) {
+			echo('<input type="hidden" value="' . make_single_return($_SERVER['HTTP_REFERER']) . '" name="return" />');
+		}
 	}
 } else {
 	if (isset($_GET['r'])) {
@@ -112,6 +116,14 @@ if (isset($rt['return'])) {
 		}
 		if ($return != '') {
 			echo ('<input type="hidden" value="' . make_single_return($return) . '" name="return" />');
+		} else {
+			if (!preg_match('/login$/i', $_SERVER['HTTP_REFERER'])) {
+				echo('<input type="hidden" value="' . make_single_return($_SERVER['HTTP_REFERER']) . '" name="return" />');
+			}
+		}
+	} else {
+		if (!preg_match('/login$/i', $_SERVER['HTTP_REFERER'])) {
+			echo('<input type="hidden" value="' . make_single_return($_SERVER['HTTP_REFERER']) . '" name="return" />');
 		}
 	}
 }
