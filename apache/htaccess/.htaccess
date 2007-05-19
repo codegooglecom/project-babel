@@ -42,7 +42,7 @@ RewriteRule ^u/([^/?&]+)/([0-9]+)$ /babel_mobile.php?m=user&user_nick=$1&p=$2 [L
 RewriteRule ^f/([^/?&]+)$ /babel_mobile.php?m=friend&user_nick=$1 [L]
 RewriteRule ^f/([^/?&]+)/([0-9]+)$ /babel_mobile.php?m=friend&user_nick=$1&p=$2 [L]
 
-RewriteRule ^g/(.+)$ /babel.php?m=user_graphic&user_nick=$1 [L]
+RewriteRule ^pix/(.+)$ /babel.php?m=pix&user_nick=$1 [L]
 
 RewriteRule ^dry/new.vx$ /babel.php?m=dry_new [L]
 RewriteRule ^dry/([^\.]+)$ /babel.php?m=dry&user_nick=$1 [L]

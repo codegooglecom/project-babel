@@ -84,7 +84,9 @@ class Vocabulary {
 	
 	const term_userlogins = '会员登录历史';
 	
-	const term_user_graphic = '图片共享';
+	const term_pix = 'PIX';
+	
+	const term_ing = 'ING';
 	
 	const term_user_empty = '会员不存在';
 	

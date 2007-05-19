@@ -1700,7 +1700,7 @@ switch ($m) {
 		$p->vxContainer('zen2', $options);
 		break;
 		
-	case 'user_graphic':
+	case 'pix':
 		if (isset($_GET['user_nick'])) {
 			$user_nick = mysql_real_escape_string(make_single_safe($_GET['user_nick']), $p->db);
 			if (strlen($user_nick) > 0) {
@@ -1723,11 +1723,11 @@ switch ($m) {
 		if (!$options['mode']) {
 			$p->vxHead($msgSiteTitle = Vocabulary::term_user_empty);
 		} else {
-			$p->vxHead($msgSiteTitle = make_plaintext($options['target']->usr_nick) . ' - ' . Vocabulary::term_user_graphic);
+			$p->vxHead($msgSiteTitle = make_plaintext($options['target']->usr_nick) . ' - ' . Vocabulary::term_pix);
 		}
 		$p->vxBodyStart();
 		$p->vxTop();
-		$p->vxContainer('user_graphic', $options);
+		$p->vxContainer('pix', $options);
 		break;
 		
 	case 'project_view':
