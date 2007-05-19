@@ -75,6 +75,7 @@ if (V2EX_BABEL == 1) {
 	require('core/URLCore.php');
 	require('core/ZenCore.php');
 	require('core/FunCore.php');
+	require('core/WidgetCore.php');
 	require('core/ImageCore.php');
 	require('core/ValidatorCore.php');
 } else {
@@ -773,7 +774,10 @@ class Page {
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/hourglass.png" align="absmiddle" />&nbsp;<a href="/ing/' . urlencode($this->User->usr_nick) . '/friends">ING</a> <span class="tip_i"><small>alpha</small></span></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/clock.png" align="absmiddle">&nbsp;<a href="/zen/' . urlencode($this->User->usr_nick) . '">ZEN</a> <span class="tip_i"><small>alpha</small></span></li>');
 			if (BABEL_FEATURE_DRY) {
-				echo('<li><img src="' . CDN_UI . 'img/icons/silk/color_swatch.png" align="absmiddle">&nbsp;<a href="/dry/' . urlencode($this->User->usr_nick) . '">DRY</a> <span class="tip_i"><small>alpha</small></span></li>');
+				echo('<li><img src="' . CDN_UI . 'img/icons/silk/color_swatch.png" align="absmiddle">&nbsp;<a href="/dry/' . urlencode($this->User->usr_nick) . '/friends">DRY</a> <span class="tip_i"><small>alpha</small></span></li>');
+			}
+			if (BABEL_FEATURE_PIX) {
+				echo('<li><img src="' . CDN_UI . 'img/icons/silk/images.png" align="absmiddle">&nbsp;<a href="/pix/' . $this->User->usr_nick_url . '">PIX</a> <span class="tip_i"><small>alpha</small></span></li>');
 			}
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/house.png" align="absmiddle" />&nbsp;<a href="/u/' . urlencode($this->User->usr_nick) . '">我的 ' . Vocabulary::site_name . ' 主页</a></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/coins_delete.png" align="absmiddle" />&nbsp;<a href="/expense/view.vx">消费记录</a></li>');
@@ -1556,14 +1560,14 @@ class Page {
 				$this->vxZen2($options);
 				break;
 			
-			case 'user_graphic':
+			case 'pix':
 				$_menu_options['modules']['friends'] = false;
 				$_menu_options['modules']['links'] = false;
 				$_menu_options['modules']['new_members'] = false;
 				$_menu_options['modules']['stats'] = false;
 				$this->vxSidebar();
 				$this->vxMenu($_menu_options);
-				$this->vxUserGraphic($options);
+				$this->vxPix($options);
 				break;
 				
 			case 'project_view':
@@ -8569,7 +8573,7 @@ class Page {
 		echo('</div>');
 	}
 	
-	public function vxUserGraphic($options) {
+	public function vxPix($options) {
 		_v_m_s();
 		if (!$options['mode']) {
 			echo('<div class="blank" align="left">');
@@ -8581,15 +8585,23 @@ class Page {
 			$_u->usr_nick_plain = make_plaintext($_u->usr_nick);
 			echo('<div class="blank" align="left">');
 			_v_ico_map();
-			echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . urlencode($_u->usr_nick_plain) . '">' . $_u->usr_nick_plain . '</a> &gt; ' . Vocabulary::term_user_graphic . ' <span class="tip_i"><small>alpha</small></span></div>');
+			echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . urlencode($_u->usr_nick_plain) . '">' . $_u->usr_nick_plain . '</a> &gt; ' . Vocabulary::term_pix . ' <span class="tip_i"><small>alpha</small></span></div>');
 			_v_b_l_s();
+			echo('<div style="float: right;">');
+			echo('<span class="tip_i"><small>V' . $this->ver . '</small></span>');
+			echo('</div>');
+			echo('<span class="text_large">');
+			_v_ico_silk('images');
 			if ($_u->usr_id == $this->User->usr_id) {
-				echo(_v_h1_i('我的最新图片'));
+				echo(' PIX');
 			} else {
-				echo(_v_h1_i('<a href="/u/' . urlencode($_u->usr_nick) . '">' . $_u->usr_nick_plain . '</a> 的最新图片'));
+				echo(' PIX');
 			}
+			echo('</span>');
+			echo('<span class="tip_i"> 让世界看到你 ...</span>');
 			_v_hr();
 			_v_d_e();
+			Widget::vxPixAbout();
 		}
 		_v_d_e();
 	}
@@ -9325,6 +9337,7 @@ class Page {
 			echo('<a href="/ing/' . $this->User->usr_nick_url . '/friends">With Friends</a> | ');
 		}
 		echo('Everyone');
+		echo('&nbsp;&nbsp;<a href="/feed/ing">' . _vo_ico_silk('feed') . '</a>');
 		echo('</div>');
 		
 		echo('<span class="text_large">');
@@ -9357,6 +9370,7 @@ class Page {
 		_v_d_e();
 
 		_v_d_e();
+		Widget::vxIngAbout();
 		_v_d_e();
 	}
 
@@ -9408,6 +9422,7 @@ class Page {
 		echo('<div class="blank" align="left" style="' . $hack_height . '">');
 		echo('<div style="float: right; padding: 3px 10px 3px 10px; font-size: 10px; background-color: #F0F0F0; -moz-border-radius: 5px; color: #999;">');
 		echo('<a href="/ing/' . $User->usr_nick_url . '">' . $User->usr_nick_plain . '</a> | With Friends | <a href="/ing">Everyone</a>');
+		echo('&nbsp;&nbsp;<a href="/feed/ing/friends/' . $User->usr_nick_url . '">' . _vo_ico_silk('feed') . '</a>');
 		echo('</div>');
 		
 		echo('<span class="text_large">');
@@ -9490,6 +9505,7 @@ class Page {
 		}
 		
 		_v_d_e();
+		Widget::vxIngAbout();
 		_v_d_e();
 	}
 	
@@ -9532,6 +9548,7 @@ class Page {
 		echo('<div class="blank" align="left" style="' . $hack_height . '">');
 		echo('<div style="float: right; padding: 3px 10px 3px 10px; font-size: 10px; background-color: #F0F0F0; -moz-border-radius: 5px; color: #999;">');
 		echo($User->usr_nick_plain . ' | <a href="/ing/' . $User->usr_nick_url . '/friends">With Friends</a> | <a href="/ing">Everyone</a>');
+		echo('&nbsp;&nbsp;<a href="/feed/ing/' . $User->usr_nick_url . '">' . _vo_ico_silk('feed') . '</a>');
 		echo('</div>');
 
 		echo('<span class="text_large">');
@@ -9615,11 +9632,13 @@ class Page {
 			echo('<img src="/img/spacer.gif" onload="getObj(' . "'doing'" . ').focus();" style="display: none;" />');
 		}
 		_v_d_e();
-		
+		Widget::vxIngAbout();
 		_v_d_e();
 	}
 	
 	/* S: Project Dry */
+	
+	/* FIX: This is very early stage */
 	
 	public function vxDry($options) {
 		$User =& $options['target'];
@@ -9633,8 +9652,9 @@ class Page {
 		echo('<div style="float: right;">');
 		echo('<span class="tip_i"><small>V' . $this->ver . '</small></span>');
 		echo('</div>');
+		echo('<span class="text_large">');
 		_v_ico_silk('color_swatch');
-		echo(' <span class="text_large">' . Vocabulary::term_dry . '</span>');
+		echo(' ' . Vocabulary::term_dry . '</span>');
 		
 		/* Start: Toolbar */
 		if ($this->User->vxIsLogin() && $User->usr_id == $this->User->usr_id) {
@@ -9673,7 +9693,7 @@ class Page {
 			echo('</a>');
 		}
 		_v_hr();
-		echo('<a href="#;" class="dry_loc">DRY</a><img src="/img/pico_right.gif" align="absmiddle" /> <a href="/dry/' . urlencode($O->usr_nick) . '" class="dry_loc">' . make_plaintext($O->usr_nick) . '</a>');
+		echo('<a href="#;" class="dry_loc">DRY</a><img src="/img/pico_right.gif" align="absmiddle" /> <a href="/dry/' . urlencode($User->usr_nick) . '" class="dry_loc">' . make_plaintext($User->usr_nick) . '</a>');
 		/* End: Toolbar */
 		_v_hr();
 		echo('<div class="geo_home_entry_odd">');
@@ -9693,6 +9713,7 @@ class Page {
 		_v_hr();
 		echo('<span class="tip"><small>10 objects</small></span>');
 		_v_d_e();
+		/* Start: About Dry */
 		_v_b_l_s();
 		_v_ico_silk('color_swatch');
 		echo(' 关于 ' . Vocabulary::term_dry . ' <span class="tip_i"><small>alpha</small></span>');
@@ -9703,6 +9724,7 @@ class Page {
 		echo("<span class=" . '"tip_i"' . "><small>Don't Repeat Yourself</small></span>");
 		echo('</span>');
 		_v_d_e();
+		/* End: About Dry */
 		_v_d_e();
 	}
 	
