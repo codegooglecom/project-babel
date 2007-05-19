@@ -328,6 +328,46 @@
 		<cn>美国</cn>
 		<at>/earth/</at>
 	</location>
+		<location>
+			<geo>utah</geo>
+			<cn>犹他</cn>
+			<at>/earth/usa/</at>
+		</location>
+		<location>
+			<geo>texas</geo>
+			<cn>德克萨斯</cn>
+			<at>/earth/usa/</at>
+		</location>
+			<location>
+				<geo>austin</geo>
+				<cn>奥斯汀</cn>
+				<at>/earth/usa/texas/</at>
+			</location>
+			<location>
+				<geo>houston</geo>
+				<cn>休斯顿</cn>
+				<at>/earth/usa/texas/</at>
+			</location>
+		<location>
+			<geo>alaska</geo>
+			<cn>阿拉斯加</cn>
+			<at>/earth/usa/</at>
+		</location>
+		<location>
+			<geo>alabama</geo>
+			<cn>阿拉巴马</cn>
+			<at>/earth/usa/</at>
+		</location>
+		<location>
+			<geo>arizona</geo>
+			<cn>亚利桑那</cn>
+			<at>/earth/usa/</at>
+		</location>
+		<location>
+			<geo>california</geo>
+			<cn>加利福尼亚</cn>
+			<at>/earth/usa/</at>
+		</location>
 	<location>
 		<geo>uk</geo>
 		<cn>英国</cn>

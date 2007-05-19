@@ -555,7 +555,7 @@ class Page {
 			echo('<ul>');
 			echo('<li><a href="/u/' . urlencode($this->User->usr_nick) . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/house.png" align="absmiddle" border="0" /> 我的 ' . Vocabulary::site_name . ' 主页</a></li>');
 			echo('<li><a href="/zen/' . $this->User->usr_nick_url . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/clock.png" align="absmiddle" border="0" /> ZEN</a></li>');
-			echo('<li><a href="/ing/' . $this->User->usr_nick_url . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/hourglass.png" align="absmiddle" border="0" /> ING</a></li>');
+			echo('<li><a href="/ing/' . $this->User->usr_nick_url . '/friends" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/hourglass.png" align="absmiddle" border="0" /> ING</a></li>');
 			if (BABEL_FEATURE_DRY) {
 				echo('<li><a href="/dry/' . $this->User->usr_nick_url . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/color_swatch.png" align="absmiddle" border="0" /> DRY</a></li>');
 			}
@@ -1783,7 +1783,7 @@ class Page {
 			while ($_ing = mysql_fetch_array($rs)) {
 				$img_p = $_ing['usr_portrait'] ? CDN_P . 'p/' . $_ing['usr_portrait'] . '_n.jpg' : CDN_P . 'p_' . $_ing['usr_gender'] . '_n.gif';
 				$css_color = rand_color();
-				$o .= '<tr><td align="left">&nbsp;<img src="' . $img_p . '" border="0" class="portrait" align="absmiddle" alt="' . make_single_return($_ing['usr_nick']) . '" />&nbsp;<a href="/ing/' . urlencode($_ing['usr_nick']) . '" class="var" style="color: ' . $css_color . ';">' . make_plaintext($_ing['usr_nick']) . '</a>: <a href="/ing-' . $_ing['ing_id'] . '.html" class="var" style="color: ' . $css_color . ';">' . format_ubb($_ing['ing_doing']) . '</a> <span class="tip_i">... ' . make_descriptive_time($_ing['ing_created']) . '</span>';
+				$o .= '<tr><td align="left">&nbsp;<img src="' . $img_p . '" border="0" class="portrait" align="absmiddle" alt="' . make_single_return($_ing['usr_nick']) . '" />&nbsp;<a href="/ing/' . urlencode($_ing['usr_nick']) . '/friends" class="var" style="color: ' . $css_color . ';">' . make_plaintext($_ing['usr_nick']) . '</a>: <a href="/ing-' . $_ing['ing_id'] . '.html" class="var" style="color: ' . $css_color . ';">' . format_ubb($_ing['ing_doing']) . '</a> <span class="tip_i">... ' . make_descriptive_time($_ing['ing_created']) . '</span>';
 				unset($_ing);
 			}
 			mysql_free_result($rs);
@@ -3932,7 +3932,7 @@ class Page {
 			echo('<small>Currently via V2EX::ING');
 			echo('</small></span> ');
 			_v_ico_silk('bullet_go');
-			echo(' <a href="/ing/' . urlencode($O->usr_nick) . '">' . format_ubb(trim($_up['ing_doing'])) . '</a> <small class="fade">' . make_desc_time($_up['ing_created']) . ' ago</small>');
+			echo(' <a href="/ing/' . urlencode($O->usr_nick) . '/friends">' . format_ubb(trim($_up['ing_doing'])) . '</a> <small class="fade">' . make_desc_time($_up['ing_created']) . ' ago</small>');
 			echo('</td></tr>');
 		}
 		mysql_free_result($rs);
@@ -3945,7 +3945,7 @@ class Page {
 			echo('<tr><td colspan="2" align="center" class="section_even"><span class="text_large"><img src="/img/quote_left.gif" align="absmiddle" />&nbsp;' . make_plaintext($O->usr_brief) . '&nbsp;<img src="/img/quote_right.gif" align="absmiddle" /></span></td></tr>');
 		}
 		
-		echo('<tr><td colspan="2" align="center" class="section_odd"><span class="tip_i"><img src="' . CDN_UI . 'img/icons/silk/hourglass.png" align="absmiddle" alt="ING" />&nbsp;<a href="/ing/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">ING</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/clock.png" align="absmiddle" alt="ZEN" />&nbsp;<a href="/zen/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">ZEN</a>');
+		echo('<tr><td colspan="2" align="center" class="section_odd"><span class="tip_i"><img src="' . CDN_UI . 'img/icons/silk/hourglass.png" align="absmiddle" alt="ING" />&nbsp;<a href="/ing/' . urlencode($O->usr_nick) . '/friends" class="var" style="color: ' . rand_color() . ';">ING</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/clock.png" align="absmiddle" alt="ZEN" />&nbsp;<a href="/zen/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">ZEN</a>');
 		if (BABEL_FEATURE_DRY) {
 			echo('&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/color_swatch.png" align="absmiddle" alt="ZEN" />&nbsp;<a href="/dry/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">DRY</a>');
 		}
@@ -9200,7 +9200,7 @@ class Page {
 		_v_ico_silk('html');
 		echo(' JavaScript 输出我的 ING 中的最新活动');
 		_v_hr();
-		echo('你可以使用下面生成的这些 JavaScript 代码片段在你自己的网站上，展示你在 <a href="/ing/' . $User->usr_nick_url . '">' . Vocabulary::site_name . '::ING</a> 中的最新活动。根据你的网站编码类型，请选择 UTF-8 或者 GBK 编码的输出。<br /><br />');
+		echo('你可以使用下面生成的这些 JavaScript 代码片段在你自己的网站上，展示你在 <a href="/ing/' . $User->usr_nick_url . '/friends">' . Vocabulary::site_name . '::ING</a> 中的最新活动。根据你的网站编码类型，请选择 UTF-8 或者 GBK 编码的输出。<br /><br />');
 		_v_ico_silk('lightbulb');
 		echo(' 代码解释');
 		_v_hr();
