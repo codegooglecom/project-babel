@@ -13,8 +13,9 @@ require_once('inc/functions.php');
 <link rel="stylesheet" type="text/css" href="/css/style.css" />
 </head>
 <body><a name="top"></a>
-<img src="/img/logo.png" alt="V2EX Labs" align="absmiddle" />
+<img src="/img/logo.png" alt="V2EX Labs" align="left" />
 <span class="welcome">V2EX 实验室，走进我们的产品、技术和团队</span>
+<div class="nav"><?php _v_nav('index'); ?></div>
 <div class="main">
 <div class="left">
 <div class="header">
@@ -42,7 +43,7 @@ Project Babel 在 GPL 协议下发布，这意味着你可以自由地下载，�
 系统需求：
 
 <blockquote style="font-size: 90%;">
-&nbsp;&nbsp;<img src="/img/bullet.png" align="absmiddle" />&nbsp;Scripting Runtime: PHP 5.0 or later<br />
+&nbsp;&nbsp;<img src="/img/bullet.png" align="absmiddle" />&nbsp;Scripting Runtime: PHP 5.1 or later<br />
 
 &nbsp;&nbsp;<img src="/img/bullet.png" align="absmiddle" />&nbsp;Web Server: Apache Web Server with mod_rewrite<br />
 
@@ -51,14 +52,14 @@ Project Babel 在 GPL 协议下发布，这意味着你可以自由地下载，�
 &nbsp;&nbsp;<img src="/img/bullet.png" align="absmiddle" />&nbsp;Server OS: Any<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tip">Linux is recommended</span><br />
 
-&nbsp;&nbsp;<img src="/img/bullet.png" align="absmiddle" />&nbsp;Server RAM: 2G at a minimum<br />
+&nbsp;&nbsp;<img src="/img/bullet.png" align="absmiddle" />&nbsp;Server RAM: 512M at a minimum<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tip">Usually every httpd process costs 20M, it's up to your concurrency</span><br />
 
 &nbsp;&nbsp;<img src="/img/bullet.png" align="absmiddle" />&nbsp;Server Storage: 400M free disk space at a minimum<br />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tip">Depends on your traffic, 4G or more is recommended</span><br />
 
-&nbsp;&nbsp;<img src="/img/bullet.png" align="absmiddle" />&nbsp;Required Dependencies: Zend Framework 0.2.0 or later<br />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tip">0.7.0 is included in newer releases</span><br />
+&nbsp;&nbsp;<img src="/img/bullet.png" align="absmiddle" />&nbsp;Required Dependencies: Zend Framework 0.9.0 or later<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="tip">0.9.3 is included in newer releases</span><br />
 
 &nbsp;&nbsp;<img src="/img/bullet.png" align="absmiddle" />&nbsp;Optional Dependencies: ImageMagick, <a href="http://www.dict.org/" target="_blank">dictd</a><br />
 </blockquote>
@@ -168,7 +169,7 @@ V2EX 的制作者是一个狂热的移动设备收藏迷，因而能够兼容各
 <div class="content">
 <a href="http://www.v2ex.com/u/Livid" target="_blank"><img src="http://www.v2ex.com/img/p/1_s.jpg" style="margin-right: 5px;" align="left" class="p" border="0" /></a> <a href="http://www.v2ex.com/u/Livid" target="_blank">Livid</a><span class="tip"><small> - Location: Shanghai, China</small></span><br /><span class="tip"><small>The creator of the project.</small></span>
 <?php _v_hr(); ?>
-<span class="tip"><small><?php _v_ico_silk('email_edit'); ?> Want to join? write to <a target="_blank">v2ex.livid at mac.com</a></small></span>
+<span class="tip"><small><?php _v_ico_silk('email_edit'); ?> Want to join? write to <a href="mailto:v2ex.livid at mac.com" target="_blank">v2ex.livid at mac.com</a></small></span>
 </div>
 
 
