@@ -774,7 +774,7 @@ class Page {
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/hourglass.png" align="absmiddle" />&nbsp;<a href="/ing/' . urlencode($this->User->usr_nick) . '/friends">ING</a> <span class="tip_i"><small>alpha</small></span></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/clock.png" align="absmiddle">&nbsp;<a href="/zen/' . urlencode($this->User->usr_nick) . '">ZEN</a> <span class="tip_i"><small>alpha</small></span></li>');
 			if (BABEL_FEATURE_DRY) {
-				echo('<li><img src="' . CDN_UI . 'img/icons/silk/color_swatch.png" align="absmiddle">&nbsp;<a href="/dry/' . urlencode($this->User->usr_nick) . '/friends">DRY</a> <span class="tip_i"><small>alpha</small></span></li>');
+				echo('<li><img src="' . CDN_UI . 'img/icons/silk/color_swatch.png" align="absmiddle">&nbsp;<a href="/dry/' . urlencode($this->User->usr_nick) . '">DRY</a> <span class="tip_i"><small>alpha</small></span></li>');
 			}
 			if (BABEL_FEATURE_PIX) {
 				echo('<li><img src="' . CDN_UI . 'img/icons/silk/images.png" align="absmiddle">&nbsp;<a href="/pix/' . $this->User->usr_nick_url . '">PIX</a> <span class="tip_i"><small>alpha</small></span></li>');
