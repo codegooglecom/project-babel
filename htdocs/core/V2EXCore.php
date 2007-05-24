@@ -141,6 +141,8 @@ class Page {
 			if (BABEL_DEBUG) {
 				$_SESSION['babel_debug_profiling'] = true;
 				mysql_query("SET PROFILING = 1") or $_SESSION['babel_debug_profiling'] = false;
+			} else {
+				$_SESSION['babel_debug_profiling'] = false;
 			}
 			$rs = mysql_query('SELECT nod_id FROM babel_node WHERE nod_id = 1');
 			if (@mysql_num_rows($rs) == 1) {
@@ -296,7 +298,7 @@ class Page {
 				echo('Debug log is empty.');
 			}
 			if (isset($this->db)) {
-				if ($_SESSION['babel_debug_profiling']) {
+				if (@$_SESSION['babel_debug_profiling']) {
 					_v_hr();				
 					$rs = mysql_query("SHOW PROFILES");
 					while ($_p = mysql_fetch_array($rs)) {
@@ -7414,7 +7416,7 @@ class Page {
 		printf("<small class=\"grey\"><br /><br /><a href=\"/topic/archive/user/{$Topic->usr_nick}\">%.3f%%</a></small>", $usr_share);
 		if ($this->User->vxIsLogin()) {
 			if ($Topic->usr_id != $this->User->usr_id) {
-				echo("<br /><br /><button class=\"mini\" onclick=\"sendMessage({$Topic->usr_id})\"><img src=\"/img/icons/silk/email_go.png\" border=\"0\" /></button>");
+				echo("<br /><br /><button class=\"mini\" onclick=\"sendMessage({$Topic->usr_id})\">" . _vo_ico_silk('email_go') . "</button>");
 			}
 		}
 		$sql = "SELECT onl_nick, onl_created, onl_lastmoved FROM babel_online WHERE onl_nick = '{$Topic->usr_nick}' ORDER BY onl_lastmoved DESC LIMIT 1";
@@ -7442,17 +7444,17 @@ class Page {
 		}
 		echo('<div class="brief" id="tpcBrief">' . $Topic->tpc_description . '</div><table cellpadding="0" cellspacing="0" border="0"><tr><td width="40" height="30" class="lt"></td><td height="30" class="ct"></td><td width="40" height="30" class="rt"></td></tr><tr><td width="40" class="lm" valign="top"><img src="/img/td_arrow.gif" /></td><td class="origin" valign="top">');
 		if ($Fav > 0) {
-			echo('<img src="/img/icons/silk/star.png" align="absmiddle" />&nbsp;');
+			echo(_vo_ico_silk('star') . '&nbsp;');
 		}
 		echo('<h1 class="ititle">' . make_plaintext($Topic->tpc_title) . '</h1> <span class="tip_i">... by ' . $Topic->usr_nick . ' ... ' . make_descriptive_time($Topic->tpc_created) . ' ... ' . $this->lang->hits($Topic->tpc_hits) . ' </span>');
 		if ($this->User->usr_id == 1) {
-			echo('&nbsp;<a href="#;" class="var" onclick="if (confirm(' . "'确认擦除？'" . ')) {location.href=' . "'/topic/erase/{$Topic->tpc_id}.vx';" . '}"><img src="/img/icons/silk/delete.png" align="absmiddle" border="0" /></a>');
+			echo('&nbsp;<a href="#;" class="var" onclick="if (confirm(' . "'确认擦除？'" . ')) {location.href=' . "'/topic/erase/{$Topic->tpc_id}.vx';" . '}">' . _vo_ico_silk('delete') . '</a>');
 		} else {
 			if (($Topic->tpc_posts == 0) && ($Topic->tpc_uid == $this->User->usr_id) && ((time() - $Topic->tpc_created) < (86400 * 31))) {
-				echo('&nbsp;<a href="#;" class="var" onclick="if (confirm(' . "'确认擦除？'" . ')) {location.href=' . "'/topic/erase/{$Topic->tpc_id}.vx';" . '}"><img src="/img/icons/silk/delete.png" align="absmiddle" border="0" /></a>');
+				echo('&nbsp;<a href="#;" class="var" onclick="if (confirm(' . "'确认擦除？'" . ')) {location.href=' . "'/topic/erase/{$Topic->tpc_id}.vx';" . '}">' . _vo_ico_silk('delete') . '</a>');
 			}
 		}
-		$ico_topic_modify = '&nbsp;<a href="/topic/modify/' . $Topic->tpc_id . '.vx" class="var"><img src="/img/icons/silk/page_white_edit.png" align="absmiddle" border="0" /></a>';
+		$ico_topic_modify = '&nbsp;<a href="/topic/modify/' . $Topic->tpc_id . '.vx" class="var">' . _vo_ico_silk('page_white_edit') . '</a>';
 		if ($Topic->tpc_uid == $this->User->usr_id && $this->User->usr_id != 1) {
 			if ((time() - $Topic->tpc_created) < 86400) {
 				if ($Topic->tpc_posts < 3) {
@@ -7465,7 +7467,7 @@ class Page {
 			}
 		}
 		if ($this->User->usr_id == 1) {
-			echo('&nbsp;<a href="/topic/move/' . $Topic->tpc_id . '.vx" class="var"><img src="/img/icons/silk/arrow_out.png" align="absmiddle" border="0" /></a>');
+			echo('&nbsp;<a href="/topic/move/' . $Topic->tpc_id . '.vx" class="var">' . _vo_ico_silk('arrow_out') . '</a>');
 		}
 		echo('</span><br /><br />' . $Topic->tpc_content);
 		
@@ -7532,14 +7534,14 @@ class Page {
 		/* E: add to favorite */
 		echo('<span class="tip_i">');
 		if ($Topic->tpc_favs > 0) {
-			echo(' ... <img src="' . CDN_UI . 'img/icons/silk/group_add.png" align="absmiddle"/> <a href="/who/fav/topic/' . $Topic->tpc_id . '" class="t">&nbsp;' . $Topic->tpc_favs . '&nbsp;</a>');
+			echo(' ... ' . _vo_ico_silk('group_add') . ' <a href="/who/fav/topic/' . $Topic->tpc_id . '" class="t">&nbsp;' . $Topic->tpc_favs . '&nbsp;</a>');
 		}
 		if (BABEL_DEBUG) {
 			$Topic->feed_url = '/feed/topic/' . $Topic->tpc_id . '.rss';
 		} else {
 			$Topic->feed_url = 'http://' . BABEL_DNS_FEED . '/feed/topic/' . $Topic->tpc_id . '.rss';
 		}
-		echo(' ... <a href="' . $Topic->feed_url . '" target="_blank"><img src="' . CDN_UI . 'img/icons/silk/feed.png" align="absmiddle" border="0" alt="RSS 2.0 Feed" /></a>');
+		echo(' ... <a href="' . $Topic->feed_url . '" target="_blank">' . _vo_ico_silk('feed') . '</a>');
 		echo('</span>');
 		echo('</div>');
 		echo('</div>');
@@ -7609,12 +7611,12 @@ class Page {
 				$j = ($p['cur'] - 1) * 60 + $i;
 
 				if ($this->User->usr_id == 1) {
-					$ico_erase = '&nbsp;<img src="/img/icons/silk/delete.png" align="absmiddle" onclick="if (confirm(' . "'确认擦除？'" . ')) {location.href=' . "'/post/erase/{$Reply->pst_id}.vx';" . '}" border="0" />';
+					$ico_erase = '&nbsp;<img src="' . CDN_UI . 'img/icons/silk/delete.png" align="absmiddle" onclick="if (confirm(' . "'确认擦除？'" . ')) {location.href=' . "'/post/erase/{$Reply->pst_id}.vx';" . '}" border="0" />';
 				} else {
 					$ico_erase = '';
 				}
 				if ($this->User->usr_id == 1 || ($this->User->usr_id == $Reply->usr_id && $j == $p['items'])) {
-					$ico_modify = '&nbsp;<a href="/post/modify/' . $Reply->pst_id . '.vx" class="var"><img src="/img/icons/silk/page_white_edit.png" align="absmiddle" border="0" /></a>';
+					$ico_modify = '&nbsp;<a href="/post/modify/' . $Reply->pst_id . '.vx" class="var">' . _vo_ico_silk('page_white_edit') . '</a>';
 				} else {
 					$ico_modify = '';
 				}
@@ -7735,7 +7737,7 @@ class Page {
 		} else {
 			_v_hr();
 			echo('<div class="light_odd" align="left"><span class="tip">');
-			echo('<img src="/img/icons/silk/vcard.png" align="absmiddle" /> ');
+			_v_ico_silk('vcard');
 			echo(' 在回复之前你需要先进行登录</span>');
 			echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
 			echo('<form action="/login.vx" method="post" id="Login">');
@@ -7759,7 +7761,7 @@ class Page {
 		echo('</div>');
 		
 		if (isset($_SESSION['babel_hot'])) {
-			echo('<span class="tip_i"><img src="/img/icons/silk/award_star_gold_1.png" align="absmiddle" /> 当前热门主题&nbsp;&nbsp;<a href="/topic/view/' . $_SESSION['babel_hot']['id'] . '.html" class="t">' . make_plaintext($_SESSION['babel_hot']['title']) . '</a> ... ' . $_SESSION['babel_hot']['posts'] . ' 篇回复</span>');
+			echo('<span class="tip_i">' . _vo_ico_silk('award_star_gold_1') . ' 当前热门主题&nbsp;&nbsp;<a href="/topic/view/' . $_SESSION['babel_hot']['id'] . '.html" class="t">' . make_plaintext($_SESSION['babel_hot']['title']) . '</a> ... ' . $_SESSION['babel_hot']['posts'] . ' 篇回复</span>');
 		}
 		echo('</div>');
 	}
@@ -7959,7 +7961,7 @@ class Page {
 		echo('<span class="text_large"><img src="/img/ico_board.gif" align="absmiddle" class="home" />' . Vocabulary::action_viewonline . '</span>');
 		echo('<br />目前共有 ' . $this->online_count . ' 人或者机器在线，其中注册会员 ' . $this->online_count_reg . ' 个，游客 ' . $this->online_count_anon . ' 个。');
 		_v_hr();
-		echo('<img src="/img/icons/silk/user_go.png" align="absmiddle" class="map" /> 当前在线的注册会员&nbsp;&nbsp;');
+		echo('<img src="' . CDN_UI . 'img/icons/silk/user_go.png" align="absmiddle" class="map" /> 当前在线的注册会员&nbsp;&nbsp;');
 		$sql = "SELECT DISTINCT onl_nick FROM babel_online WHERE onl_nick != '' ORDER BY onl_nick ASC";
 		$rs = mysql_query($sql, $this->db);
 		while ($Member = mysql_fetch_object($rs)) {

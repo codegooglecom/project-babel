@@ -74,6 +74,9 @@ define('BABEL_MSG_PAGE', 10);
 /* max items in savepoint collection */
 define('BABEL_SVP_LIMIT', 20);
 
+/* max items in PIX */
+define('BABEL_PIX_UPLOAD_LIMIT', 20);
+
 /* ads hits limitations */
 define('BABEL_ADS_LIMIT_HITS', 31);
 
@@ -176,9 +179,9 @@ if (BABEL_DEBUG) {
 }
 
 if (BABEL_DEBUG) {
-	define('CDN_UI', 'http://static.cn.v2ex.com/v2ex/0.5/');
+	define('CDN_UI', '/');
 } else {
-	define('CDN_UI', 'http://static.cn.v2ex.com/v2ex/0.5/'); // If you set up your dedicated image server.
+	define('CDN_UI', 'http://static.cn.v2ex.com/v2ex/0.5/'); // If you have dedicated image servers.
 }
 
 if (BABEL_DEBUG) {
