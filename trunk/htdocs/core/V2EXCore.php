@@ -419,6 +419,9 @@ class Page {
 	
 	public function vxBodyStart() {
 		echo('<body>');
+		if (MBL_ID != '') {
+			echo("<script type='text/javascript' src='http://track2.mybloglog.com/js/jsserv.php?mblID=" . MBL_ID . "'></script>");
+		}
 	}
 	
 	/* E module: body tag end */
@@ -562,11 +565,14 @@ class Page {
 			if (BABEL_FEATURE_DRY) {
 				echo('<li><a href="/dry/' . $this->User->usr_nick_url . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/color_swatch.png" align="absmiddle" border="0" /> DRY</a></li>');
 			}
+			if (BABEL_FEATURE_PIX) {
+				echo('<li><a href="/pix/' . $this->User->usr_nick_url . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/images.png" align="absmiddle" border="0" /> PIX</a></li>');
+			}
 			echo('<li><a href="/topic/archive/user/' . urlencode($this->User->usr_nick) . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/comments.png" align="absmiddle" border="0" /> 我创建的所有主题</a></li>');
 			echo('<li><a href="/topic/favorite.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/star.png" align="absmiddle" border="0" /> 我的收藏夹</a></li>');
 			echo('<li><a href="/expense/view.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/coins_delete.png" align="absmiddle" border="0" /> 消费记录</a></li>');
 			if ($_SESSION['hits'] > 0) {
-				echo('<li><a href="/session/stats.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/page_copy.png" align="absmiddle" border="0" /> 本次访问了 ' . $_SESSION['hits'] . ' 个页面</a></li>');
+				echo('<li><a href="/session/stats.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/page_copy.png" align="absmiddle" border="0" /> 本次访问了 <small>' . $_SESSION['hits'] . '</small> 个页面</a></li>');
 			}
 			echo('<li><div class="sep">&nbsp;</div></li>');
 			echo('<li><a href="/geo/' . $this->User->usr_geo . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/world.png" align="absmiddle" border="0" /> ' . $this->Geo->map['name'][$this->User->usr_geo] . '</a></li>');
@@ -751,6 +757,7 @@ class Page {
 			$_module_extra_links = $options['modules']['extra_links'];
 			$_module_logins = $options['modules']['logins'];
 			$_module_online = $options['modules']['online'];
+			$_module_mybloglog = $options['modules']['mybloglog'];
 		} else {
 			$_module_friends = true;
 			$_module_links = true;
@@ -760,6 +767,7 @@ class Page {
 			$_module_extra_links = true;
 			$_module_logins = true;
 			$_module_online = true;
+			$_module_mybloglog = false;
 		}
 		
 		global $GOOGLE_AD_LEGAL;
@@ -934,11 +942,20 @@ class Page {
 		echo(' <a href="http://www.igniterealtime.org/projects/openfire/" target="_blank"><img border="0" alt="Pageflakes" title="Openfire" src="' . CDN_UI . 'img/80x15/openfire.gif" /></a>');
 		_v_hr();
 		if (HOST_LINK == 'http://www.mediatemple.net/') {
-			echo('<div align="center"><a href="' . HOST_LINK . '" target="_blank"><img src="http://www.mediatemple.net/_images/partnerlogos/mt-160x30-lt.gif" border="0" alt="' . HOST_COMPANY . '" /></a></div>');
+			echo('<div align="center"><a href="' . HOST_LINK . '" target="_blank"><img src="http://www.mediatemple.net/_images/partnerlogos/mt-160x30-dk.gif" border="0" alt="' . HOST_COMPANY . '" /></a><br /><small>Hosted by <a href="' . HOST_LINK . '" target="_blank" class="o">' . HOST_COMPANY . '</a></small></div>');
 		} else {
 			echo('<span class="tip_i"><small>Hosted by <a href="' . HOST_LINK . '" target="_blank" style="color: ' . rand_color() . '" class="var">' . HOST_COMPANY . '</a></small></span>');
 		}
+		if ($_module_mybloglog && MBL_ID != '') {
+			_v_hr();
+			echo('<style type="text/css">');
+			echo('body table#MBL_COMM td.mbl_img img { border: 3px solid #EEE; }');
+			echo('</style>');
+			echo('<script type="text/javascript" src="http://pub.mybloglog.com/comm2.php?mblID=' . MBL_ID . '&amp;c_width=160&amp;c_sn_opt=y&amp;c_rows=6&amp;c_img_size=h&amp;c_heading_text=Recent+V2EXers&amp;c_color_heading_bg=FFFFFF&amp;c_color_heading=999999&amp;c_color_link_bg=FFFFFF&amp;c_color_link=0033FF&amp;c_color_bottom_bg=FFFFFF"></script>');
+		}
 		echo('</div>');
+		
+		
 		
 		/*
 		echo('<script language="javascript" src="/js/awstats_misc_tracker.js" type="text/javascript"></script>
@@ -963,12 +980,14 @@ class Page {
 		$_menu_options['modules']['logins'] = true;
 		$_menu_options['modules']['friends'] = false;
 		$_menu_options['modules']['online'] = false;
+		$_menu_options['modules']['mybloglog'] = false;
 		echo('<div id="wrap">');
 		switch ($module) {
 			default:
 			case 'home':
+				$_menu_options['modules']['mybloglog'] = true;
 				$this->vxSidebar($show = false);
-				$this->vxMenu();
+				$this->vxMenu($_menu_options);
 				$this->vxHome($options);
 				break;
 			
@@ -1979,7 +1998,7 @@ class Page {
 			}
 			$l = $l . '<table ' . $hack_width . 'cellpadding="0" cellspacing="0" border="0" class="fav">';
 			
-			$sql = 'SELECT usr_id, usr_nick, usr_gender, usr_portrait, tpc_id, tpc_title, tpc_posts, tpc_hits, tpc_created, nod_id, nod_title, nod_name FROM babel_user, babel_topic, babel_node WHERE tpc_uid = usr_id AND tpc_pid = nod_id ORDER BY tpc_created DESC LIMIT 100';
+			$sql = 'SELECT usr_id, usr_nick, usr_gender, usr_portrait, tpc_id, tpc_title, tpc_posts, tpc_hits, tpc_created, nod_id, nod_title, nod_name FROM babel_user, babel_topic, babel_node WHERE tpc_uid = usr_id AND tpc_pid = nod_id AND tpc_pid NOT IN ' . BABEL_NODES_POINTLESS . ' ORDER BY tpc_created DESC LIMIT 100';
 			
 			$rs = mysql_query($sql, $this->db);
 			

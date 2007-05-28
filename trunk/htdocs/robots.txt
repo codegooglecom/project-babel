@@ -1,5 +1,5 @@
 User-agent: *
-Crawl-delay: 600
+Crawl-delay: 3600
 Disallow: /login
 Disallow: /login/
 Disallow: /topic/new/

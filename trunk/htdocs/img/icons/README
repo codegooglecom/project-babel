@@ -1,7 +1,15 @@
-You'll need to create 3 folders for 3 icon sets. All of them are from famfamfam.com with names:
+You'll need to create 3 folders for 3 icon sets. All of them are from famfamfam.com:
 
 silk/*.png
 flag/*.png
 mini/*.gif
 
 Good luck!
+
+And tango icons:
+
+tango/16x16/
+tango/22x22/
+tango/32x32/
+
+I'm going to integrate Umicons soon.

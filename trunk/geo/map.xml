@@ -109,6 +109,21 @@
 		<at>/earth/</at>
 	</location>
 	<location>
+		<geo>cambodia</geo>
+		<cn>柬埔寨</cn>
+		<at>/earth/</at>
+	</location>
+		<location>
+			<geo>phnom-penh</geo>
+			<cn>金边</cn>
+			<at>/earth/cambodia/</at>
+		</location>
+		<location>
+			<geo>siem-reap</geo>
+			<cn>暹粒</cn>
+			<at>/earth/cambodia/</at>
+		</location>
+	<location>
 		<geo>poland</geo>
 		<cn>波兰</cn>
 		<at>/earth/</at>
