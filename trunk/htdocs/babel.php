@@ -394,7 +394,7 @@ switch ($m) {
 							$user_nick_real = mysql_real_escape_string($user_nick, $p->db);
 						}
 						if (mb_strlen($user_nick_real, 'UTF-8') > 0) {
-							$sql = "SELECT usr_id, usr_geo, usr_nick, usr_skype, usr_brief, usr_religion, usr_religion_permission, usr_gender, usr_portrait, usr_hits, usr_logins, usr_created, usr_lastlogin, usr_lastlogin_ua FROM babel_user WHERE usr_nick = '{$user_nick_real}'";
+							$sql = "SELECT usr_id, usr_geo, usr_nick, usr_skype, usr_lastfm, usr_brief, usr_religion, usr_religion_permission, usr_gender, usr_portrait, usr_hits, usr_logins, usr_created, usr_lastlogin, usr_lastlogin_ua FROM babel_user WHERE usr_nick = '{$user_nick_real}'";
 							$rs = mysql_query($sql, $p->db);
 							if ($O = mysql_fetch_object($rs)) {
 								$options['mode'] = 'fixed';
@@ -420,7 +420,7 @@ switch ($m) {
 						$user_nick_real = mysql_real_escape_string($user_nick, $p->db);
 					}
 					if (mb_strlen($user_nick_real, 'UTF-8') > 0) {
-						$sql = "SELECT usr_id, usr_geo, usr_nick, usr_skype, usr_brief, usr_religion, usr_religion_permission, usr_gender, usr_portrait, usr_hits, usr_logins, usr_created, usr_lastlogin, usr_lastlogin_ua FROM babel_user WHERE usr_nick = '{$user_nick_real}'";
+						$sql = "SELECT usr_id, usr_geo, usr_nick, usr_skype, usr_lastfm, usr_brief, usr_religion, usr_religion_permission, usr_gender, usr_portrait, usr_hits, usr_logins, usr_created, usr_lastlogin, usr_lastlogin_ua FROM babel_user WHERE usr_nick = '{$user_nick_real}'";
 						$rs = mysql_query($sql, $p->db);
 						if ($O = mysql_fetch_object($rs)) {
 							$options['mode'] = 'fixed';
@@ -439,7 +439,7 @@ switch ($m) {
 			}
 				
 			if ($options['mode'] == 'random') {
-				$sql = "SELECT usr_id, usr_geo, usr_nick, usr_skype, usr_brief, usr_religion, usr_religion_permission, usr_gender, usr_portrait, usr_hits, usr_logins, usr_created, usr_lastlogin, usr_lastlogin_ua FROM babel_user ORDER BY rand() LIMIT 1";
+				$sql = "SELECT usr_id, usr_geo, usr_nick, usr_skype, usr_lastfm, usr_brief, usr_religion, usr_religion_permission, usr_gender, usr_portrait, usr_hits, usr_logins, usr_created, usr_lastlogin, usr_lastlogin_ua FROM babel_user ORDER BY rand() LIMIT 1";
 				$rs = mysql_query($sql, $p->db);
 				$options['target'] = mysql_fetch_object($rs);
 				mysql_free_result($rs);
@@ -495,7 +495,7 @@ switch ($m) {
 			} else {
 				$rt = $p->Validator->vxUserUpdateCheck();
 				if ($rt['errors'] == 0) {
-					$p->Validator->vxUserUpdateUpdate($rt['usr_full_value'], $rt['usr_nick_value'], $rt['usr_email_notify_value'], $rt['usr_brief_value'], $rt['usr_gender_value'], $rt['usr_religion_value'], $rt['usr_religion_permission_value'], $rt['usr_addr_value'], $rt['usr_telephone_value'], $rt['usr_skype_value'], $rt['usr_identity_value'], $rt['usr_width_value'], $rt['usr_sw_shuffle_cloud_value'], $rt['usr_sw_right_friends_value'], $rt['usr_sw_top_wealth_value'], $rt['usr_sw_shell_value'], $rt['usr_sw_notify_reply_value'], $rt['usr_sw_notify_reply_all_value'], $rt['usr_password_value']);
+					$p->Validator->vxUserUpdateUpdate($rt['usr_full_value'], $rt['usr_nick_value'], $rt['usr_email_notify_value'], $rt['usr_brief_value'], $rt['usr_gender_value'], $rt['usr_religion_value'], $rt['usr_religion_permission_value'], $rt['usr_addr_value'], $rt['usr_telephone_value'], $rt['usr_skype_value'], $rt['usr_lastfm_value'], $rt['usr_identity_value'], $rt['usr_width_value'], $rt['usr_sw_shuffle_cloud_value'], $rt['usr_sw_right_friends_value'], $rt['usr_sw_top_wealth_value'], $rt['usr_sw_shell_value'], $rt['usr_sw_notify_reply_value'], $rt['usr_sw_notify_reply_all_value'], $rt['usr_password_value']);
 					if ($rt['pswitch'] == 'b') {
 						$p->User->vxLogout();
 					}

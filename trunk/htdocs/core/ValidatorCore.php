@@ -1232,6 +1232,14 @@ class Validator {
 		$rt['usr_skype_error'] = 0;
 		$rt['usr_skype_error_msg'] = array(2 => '你的 Skype 帐号长度超过了系统限制');
 		
+		$rt['usr_lastfm_value'] = '';
+		/* usr_lastfm_error:
+		0 => no error
+		2 => overflow (40 mbs)
+		*/
+		$rt['usr_lastfm_error'] = 0;
+		$rt['usr_lastfm_error_msg'] = array(2 => '你的 Last.fm 帐号长度超过了系统限制');
+		
 		$rt['usr_identity_value'] = '';
 		/* usr_identity_error:
 		0 => no error
@@ -1402,6 +1410,18 @@ class Validator {
 		}
 		
 		/* E check: usr_skype */
+		
+		/* S check: usr_lastfm */
+		
+		if (isset($_POST['usr_lastfm'])) {
+			$rt['usr_lastfm_value'] = make_single_safe($_POST['usr_lastfm']);
+			if (mb_strlen($rt['usr_lastfm_value'], 'UTF-8') > 40) {
+				$rt['usr_lastfm_error'] = 2;
+				$rt['errors']++;
+			}
+		}
+		
+		/* E check: usr_lastfm */
 		
 		/* S check: usr_identity */
 		
@@ -1636,7 +1656,7 @@ class Validator {
 	
 	/* S module: User Update Update logic */
 	
-	public function vxUserUpdateUpdate($usr_full, $usr_nick, $usr_email_notify, $usr_brief, $usr_gender, $usr_religion, $usr_religion_permission, $usr_addr, $usr_telephone, $usr_skype, $usr_identity, $usr_width = 1024, $usr_sw_shuffle_cloud = 1, $usr_sw_right_friends = 0, $usr_sw_top_wealth = 0, $usr_sw_shell = 0, $usr_sw_notify_reply = 0, $usr_sw_notify_reply_all = 0, $usr_password = '') {
+	public function vxUserUpdateUpdate($usr_full, $usr_nick, $usr_email_notify, $usr_brief, $usr_gender, $usr_religion, $usr_religion_permission, $usr_addr, $usr_telephone, $usr_skype, $usr_lastfm, $usr_identity, $usr_width = 1024, $usr_sw_shuffle_cloud = 1, $usr_sw_right_friends = 0, $usr_sw_top_wealth = 0, $usr_sw_shell = 0, $usr_sw_notify_reply = 0, $usr_sw_notify_reply_all = 0, $usr_password = '') {
 		$usr_id = $this->User->usr_id;
 		
 		if (get_magic_quotes_gpc()) {
@@ -1668,6 +1688,9 @@ class Validator {
 			
 			$usr_skype = stripslashes($usr_skype);
 			$usr_skype = mysql_real_escape_string($usr_skype);
+			
+			$usr_lastfm = stripslashes($usr_lastfm);
+			$usr_lastfm = mysql_real_escape_string($usr_lastfm);
 		} else {
 			$usr_nick = mysql_real_escape_string($usr_nick);
 			
@@ -1688,6 +1711,8 @@ class Validator {
 			$usr_telephone = mysql_real_escape_string($usr_telephone);
 			
 			$usr_skype = mysql_real_escape_string($usr_skype);
+			
+			$usr_lastfm = mysql_real_escape_string($usr_lastfm);
 		}
 		
 		$usr_identity = mysql_real_escape_string($usr_identity);
@@ -1698,9 +1723,9 @@ class Validator {
 		$usr_lastupdated = time();
 		
 		if (strlen($usr_password) > 0) {
-			$sql = "UPDATE babel_user SET usr_full = '{$usr_full}', usr_nick = '{$usr_nick}', usr_email_notify = '{$usr_email_notify}', usr_brief = '{$usr_brief}', usr_gender = '{$usr_gender}', usr_religion = '{$usr_religion}', usr_religion_permission = {$usr_religion_permission}, usr_addr = '{$usr_addr}', usr_telephone = '{$usr_telephone}', usr_skype = '{$usr_skype}', usr_identity = '{$usr_identity}', usr_width = {$usr_width}, usr_sw_shuffle_cloud = {$usr_sw_shuffle_cloud}, usr_sw_right_friends = {$usr_sw_right_friends}, usr_sw_top_wealth = {$usr_sw_top_wealth}, usr_sw_shell = {$usr_sw_shell}, usr_sw_notify_reply = {$usr_sw_notify_reply}, usr_sw_notify_reply_all = {$usr_sw_notify_reply_all}, usr_password = '{$usr_password}', usr_lastupdated = {$usr_lastupdated} WHERE usr_id = {$usr_id} LIMIT 1";
+			$sql = "UPDATE babel_user SET usr_full = '{$usr_full}', usr_nick = '{$usr_nick}', usr_email_notify = '{$usr_email_notify}', usr_brief = '{$usr_brief}', usr_gender = '{$usr_gender}', usr_religion = '{$usr_religion}', usr_religion_permission = {$usr_religion_permission}, usr_addr = '{$usr_addr}', usr_telephone = '{$usr_telephone}', usr_skype = '{$usr_skype}', usr_lastfm = '{$usr_lastfm}', usr_identity = '{$usr_identity}', usr_width = {$usr_width}, usr_sw_shuffle_cloud = {$usr_sw_shuffle_cloud}, usr_sw_right_friends = {$usr_sw_right_friends}, usr_sw_top_wealth = {$usr_sw_top_wealth}, usr_sw_shell = {$usr_sw_shell}, usr_sw_notify_reply = {$usr_sw_notify_reply}, usr_sw_notify_reply_all = {$usr_sw_notify_reply_all}, usr_password = '{$usr_password}', usr_lastupdated = {$usr_lastupdated} WHERE usr_id = {$usr_id} LIMIT 1";
 		} else {
-			$sql = "UPDATE babel_user SET usr_full = '{$usr_full}', usr_nick = '{$usr_nick}', usr_email_notify = '{$usr_email_notify}', usr_brief = '{$usr_brief}', usr_gender = '{$usr_gender}', usr_religion = '{$usr_religion}', usr_religion_permission = {$usr_religion_permission}, usr_addr = '{$usr_addr}', usr_telephone = '{$usr_telephone}', usr_skype = '{$usr_skype}', usr_identity = '{$usr_identity}', usr_width = {$usr_width}, usr_sw_shuffle_cloud = {$usr_sw_shuffle_cloud}, usr_sw_right_friends = {$usr_sw_right_friends}, usr_sw_top_wealth = {$usr_sw_top_wealth}, usr_sw_shell = {$usr_sw_shell}, usr_sw_notify_reply = {$usr_sw_notify_reply}, usr_sw_notify_reply_all = {$usr_sw_notify_reply_all}, usr_lastupdated = '{$usr_lastupdated}' WHERE usr_id = {$usr_id} LIMIT 1";
+			$sql = "UPDATE babel_user SET usr_full = '{$usr_full}', usr_nick = '{$usr_nick}', usr_email_notify = '{$usr_email_notify}', usr_brief = '{$usr_brief}', usr_gender = '{$usr_gender}', usr_religion = '{$usr_religion}', usr_religion_permission = {$usr_religion_permission}, usr_addr = '{$usr_addr}', usr_telephone = '{$usr_telephone}', usr_skype = '{$usr_skype}', usr_lastfm = '{$usr_lastfm}', usr_identity = '{$usr_identity}', usr_width = {$usr_width}, usr_sw_shuffle_cloud = {$usr_sw_shuffle_cloud}, usr_sw_right_friends = {$usr_sw_right_friends}, usr_sw_top_wealth = {$usr_sw_top_wealth}, usr_sw_shell = {$usr_sw_shell}, usr_sw_notify_reply = {$usr_sw_notify_reply}, usr_sw_notify_reply_all = {$usr_sw_notify_reply_all}, usr_lastupdated = '{$usr_lastupdated}' WHERE usr_id = {$usr_id} LIMIT 1";
 		}
 		
 		mysql_query($sql, $this->db);
