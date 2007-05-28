@@ -53,6 +53,7 @@ if (V2EX_BABEL == 1) {
 	require_once('Zend/Search/Lucene.php');
 	require_once('Zend/Cache.php');
 	require_once('Zend/Feed.php');
+	require_once('Zend/Feed/Rss.php');
 	require_once('Zend/Http/Client.php');
 	
 	/* 3rdparty cores */
@@ -4320,6 +4321,27 @@ class Page {
 			
 			echo('</td></tr>');
 		}
+		if (BABEL_FEATURE_USER_LASTFM && $O->usr_lastfm != '') {
+			$_tracks = new Zend_Feed_Rss('http://ws.audioscrobbler.com/1.0/user/' . $O->usr_lastfm . '/recenttracks.rss');
+			if (count($_tracks) > 0) {
+				echo('<tr><td colspan="2" align="left" class="section_odd"><span class="text_large">');
+				echo('<div style="float: right;"><span class="tip"><small><img src="/img/favicons/lastfm.png" align="absmiddle" /> Powered by <a href="http://www.last.fm/user/' . $O->usr_lastfm . '" target="_blank" class="var">Last.fm</a></small></span></div>');
+				_v_ico_tango_32('actions/media-playback-start', 'absmiddle', 'home');
+				echo($O->usr_nick . ' 最近听过的音乐');
+				echo('</span>');
+				
+				$i = 0;
+				echo('<table cellpadding="0" cellspacing="0" border="0" class="fav" width="100%">');
+				foreach ($_tracks as $track) {
+					$i++;
+					$css_class = $i % 2 == 0 ? 'even' : 'odd';
+					$css_color = rand_color();
+					echo('<tr><td colspan="2" class="section_' . $css_class . '">' . _vo_ico_silk('bullet_blue') . ' <a href="' . $track->link() . '" target="_blank" class="var" style="color: ' . $css_color . '">' . make_plaintext($track->title()) . '</a><span class="tip_i"> ... ' . make_descriptive_time(strtotime($track->pubDate())) . '</span></td></tr>');
+				}
+				echo('</table>');
+				echo('</td></tr>');
+			}
+		}
 		echo('<tr><td colspan="2" align="left" class="section_odd"><span class="tip"><img src="/img/icons/silk/user_go.png" align="absmiddle" /> ' . make_plaintext($O->usr_nick) . ' 的最后登录时间 ' . date('Y-n-j G:i:s', $O->usr_lastlogin) . '，总登录次数 ' . $O->usr_logins . ' 次。</span></td></tr>');
 		if ($O->usr_lastlogin_ua != '') {
 			echo('<tr><td colspan="2" align="left" class="section_odd"><span class="tip_i"><img src="/img/icons/silk/computer.png" align="absmiddle" /> 上次访问时所用浏览器 <small>' . make_plaintext($O->usr_lastlogin_ua) . '</small></span></td></tr>');
@@ -4558,7 +4580,7 @@ class Page {
 		echo('<tr><td width="200" align="right">真实姓名</td><td width="200" align="left"><input tabindex="1" type="text" maxlength="80" class="sl" name="usr_full" value="' . make_single_return($this->User->usr_full) . '" /></td>');
 		
 		// S button:
-		echo('<td width="150" rowspan="21" valign="middle" align="right">');
+		echo('<td width="150" rowspan="22" valign="middle" align="right">');
 		
 		_v_btn_f('修改', 'form_user_info');
 		
@@ -4570,9 +4592,10 @@ class Page {
 		echo('<tr><td width="200" align="right">家庭住址</td><td align="left"><input tabindex="4" type="text" maxlength="100" class="sl" name="usr_addr" value="' . make_single_return($this->User->usr_addr) . '" /></td></tr>');
 		echo('<tr><td width="200" align="right">电话</td><td align="left"><input tabindex="5" type="text" maxlength="40" class="sl" name="usr_telephone" value="' . make_single_return($this->User->usr_telephone) . '" /></td></tr>');
 		echo('<tr><td width="200" align="right">Skype</td><td align="left"><input tabindex="6" type="text" maxlength="40" class="sl" name="usr_skype" value="' . make_single_return($this->User->usr_skype) . '" /></td></tr>');
-		echo('<tr><td width="200" align="right">身份证号码</td><td align="left"><input tabindex="7" type="text" maxlength="18" class="sl" name="usr_identity" value="' . make_single_return($this->User->usr_identity) . '" /></td></tr>');
+		echo('<tr><td width="200" align="right">Last.fm</td><td align="left"><input tabindex="7" type="text" maxlength="40" class="sl" name="usr_lastfm" value="' . make_single_return($this->User->usr_lastfm) . '" /></td></tr>');
+		echo('<tr><td width="200" align="right">身份证号码</td><td align="left"><input tabindex="8" type="text" maxlength="18" class="sl" name="usr_identity" value="' . make_single_return($this->User->usr_identity) . '" /></td></tr>');
 		/* result: usr_gender */
-		echo('<tr><td width="200" align="right" valign="top">性别</td><td align="left"><select tabindex="8" maxlength="20" size="6" name="usr_gender">');
+		echo('<tr><td width="200" align="right" valign="top">性别</td><td align="left"><select tabindex="9" maxlength="20" size="6" name="usr_gender">');
 		$gender_a = array(0 => '未知', 1 => '男性', 2 => '女性', 5 => '女性改（变）为男性', 6 => '男性改（变）为女性', 9 => '未说明');
 		foreach ($gender_a as $c => $g) {
 			if ($c == $this->User->usr_gender) {
@@ -4586,7 +4609,7 @@ class Page {
 		if ($this->User->usr_religion == '') {
 			$this->User->usr_religion = 'Unknown';
 		}
-		echo('<tr><td width="200" align="right" valign="top">信仰</td><td align="left"><select tabindex="9" maxlength="20" size="11" name="usr_religion">');
+		echo('<tr><td width="200" align="right" valign="top">信仰</td><td align="left"><select tabindex="10" maxlength="20" size="11" name="usr_religion">');
 		$_religions = read_xml_religions();
 		foreach ($_religions as $religion) {
 			if (strval($religion) == $this->User->usr_religion) {
@@ -4596,7 +4619,7 @@ class Page {
 			}
 		}
 		echo('</select></td></tr>');
-		echo('<tr><td width="200" align="right" valign="top">是否公开自己的信仰</td><td align="left"><select tabindex="10" maxlength="20" size="3" name="usr_religion_permission">');
+		echo('<tr><td width="200" align="right" valign="top">是否公开自己的信仰</td><td align="left"><select tabindex="11" maxlength="20" size="3" name="usr_religion_permission">');
 		$_religion_permission = array('不公开', '公开', '只向同样信仰者公开');
 		for ($i = 0; $i < 3; $i++) {
 			if ($this->User->usr_religion_permission == $i) {
@@ -4613,7 +4636,7 @@ class Page {
 		while(list( , $width) = each($w)) {
 			$ws[] = strval($width);
 		}
-		echo('<tr><td width="200" align="right" valign="top">常用屏幕宽度</td><td align="left"><select tabindex="11" maxlength="20" size="' . count($ws) . '" name="usr_width">');
+		echo('<tr><td width="200" align="right" valign="top">常用屏幕宽度</td><td align="left"><select tabindex="12" maxlength="20" size="' . count($ws) . '" name="usr_width">');
 		foreach ($ws as $width) {
 			if ($width == $this->User->usr_width) {
 				echo('<option value="' . $width . '" selected="selected">' . $width . '</option>');
@@ -4627,9 +4650,9 @@ class Page {
 		
 		echo('<tr><td width="200" align="right" valign="middle"><small>参加社区财富排行</small></td><td align="left">');
 		if ($this->User->usr_sw_top_wealth == 1) {
-			echo('<input type="checkbox" name="usr_sw_top_wealth" tabindex="12" checked="checked" /> 参加');
+			echo('<input type="checkbox" name="usr_sw_top_wealth" tabindex="13" checked="checked" /> 参加');
 		} else {
-			echo('<input type="checkbox" name="usr_sw_top_wealth" tabindex="12" /> 参加');
+			echo('<input type="checkbox" name="usr_sw_top_wealth" tabindex="13" /> 参加');
 		}
 		echo('</td></tr>');
 		
@@ -4637,9 +4660,9 @@ class Page {
 		
 		echo('<tr><td width="200" align="right" valign="middle"><small>' . Vocabulary::term_shuffle_cloud . '</small></td><td align="left">');
 		if ($this->User->usr_sw_shuffle_cloud == 1) {
-			echo('<input type="checkbox" name="usr_sw_shuffle_cloud" tabindex="13" checked="checked" /> 开启');
+			echo('<input type="checkbox" name="usr_sw_shuffle_cloud" tabindex="14" checked="checked" /> 开启');
 		} else {
-			echo('<input type="checkbox" name="usr_sw_shuffle_cloud" tabindex="13" /> 开启');
+			echo('<input type="checkbox" name="usr_sw_shuffle_cloud" tabindex="14" /> 开启');
 		}
 		echo('</td></tr>');
 		
@@ -4647,34 +4670,34 @@ class Page {
 		
 		echo('<tr><td width="200" align="right" valign="middle"><small>' . Vocabulary::term_right_friends . '</small></td><td align="left">');
 		if ($this->User->usr_sw_right_friends == 1) {
-			echo('<input type="checkbox" name="usr_sw_right_friends" tabindex="14" checked="checked" /> 开启');
+			echo('<input type="checkbox" name="usr_sw_right_friends" tabindex="15" checked="checked" /> 开启');
 		} else {
-			echo('<input type="checkbox" name="usr_sw_right_friends" tabindex="14" /> 开启');
+			echo('<input type="checkbox" name="usr_sw_right_friends" tabindex="15" /> 开启');
 		}
 		echo('</td></tr>');
 		
 		echo('<tr><td width="200" align="right" valign="middle"><small>V2EX Shell</small></td><td align="left">');
 		if ($this->User->usr_sw_shell == 1) {
-			echo('<input type="checkbox" name="usr_sw_shell" tabindex="15" checked="checked" /> 开启');
+			echo('<input type="checkbox" name="usr_sw_shell" tabindex="16" checked="checked" /> 开启');
 		} else {
-			echo('<input type="checkbox" name="usr_sw_shell" tabindex="15" /> 开启');
+			echo('<input type="checkbox" name="usr_sw_shell" tabindex="16" /> 开启');
 		}
 		echo('</td></tr>');
 		echo('<tr><td width="200" align="right" valign="middle"><small>邮件通知自己的主题的新回复</small></td><td align="left">');
 		if ($this->User->usr_sw_notify_reply == 1) {
-			echo('<input type="checkbox" name="usr_sw_notify_reply" tabindex="16" checked="checked" /> 开启');
+			echo('<input type="checkbox" name="usr_sw_notify_reply" tabindex="17" checked="checked" /> 开启');
 		} else {
-			echo('<input type="checkbox" name="usr_sw_notify_reply" tabindex="16" /> 开启');
+			echo('<input type="checkbox" name="usr_sw_notify_reply" tabindex="17" /> 开启');
 		}
 		echo('</td></tr>');
 		echo('<tr><td width="200" align="right" valign="middle"><small>邮件通知我参与过的主题的新回复</small></td><td align="left">');
 		if ($this->User->usr_sw_notify_reply_all == 1) {
-			echo('<input type="checkbox" name="usr_sw_notify_reply_all" tabindex="17" checked="checked" /> 开启');
+			echo('<input type="checkbox" name="usr_sw_notify_reply_all" tabindex="18" checked="checked" /> 开启');
 		} else {
-			echo('<input type="checkbox" name="usr_sw_notify_reply_all" tabindex="17" /> 开启');
+			echo('<input type="checkbox" name="usr_sw_notify_reply_all" tabindex="18" /> 开启');
 		}
 		echo('</td></tr>');
-		echo('<tr><td width="200" align="right">用于接收通知的邮箱</td><td align="left"><input tabindex="18" type="text" maxlength="100" class="sl" name="usr_email_notify" value="' . make_single_return($this->User->usr_email_notify) . '" /></td></tr>');
+		echo('<tr><td width="200" align="right">用于接收通知的邮箱</td><td align="left"><input tabindex="19" type="text" maxlength="100" class="sl" name="usr_email_notify" value="' . make_single_return($this->User->usr_email_notify) . '" /></td></tr>');
 		/*
 		echo('<tr><td width="200" align="right">Google Account</td><td align="left">');
 		if ($this->User->usr_google_account != '') {
@@ -4691,8 +4714,8 @@ class Page {
 		}
 		echo('</td></tr>');
 		*/
-		echo('<tr><td width="200" align="right">新密码</td><td align="left"><input tabindex="19" type="password" maxlength="32" class="sl" name="usr_password_new" /></td></tr>');
-		echo('<tr><td width="200" align="right">重复新密码</td><td align="left"><input tabindex="20" type="password" maxlength="32" class="sl" name="usr_confirm_new" /></td></tr>');
+		echo('<tr><td width="200" align="right">新密码</td><td align="left"><input tabindex="20" type="password" maxlength="32" class="sl" name="usr_password_new" /></td></tr>');
+		echo('<tr><td width="200" align="right">重复新密码</td><td align="left"><input tabindex="21" type="password" maxlength="32" class="sl" name="usr_confirm_new" /></td></tr>');
 		echo('<tr><td height="10" colspan="2"></td></tr>');
 		echo('</form></table>');
 		echo('<hr size="1" color="#DDD" style="color: #DDD; background-color: #DDD; height: 1px; border: 0;" />');
@@ -4780,6 +4803,15 @@ class Page {
 				echo('<tr><td width="200" align="right" valign="top">Skype</td><td align="left"><div class="error"><input type="text" maxlength="40" class="sl" name="usr_skype" value="' . make_single_return($rt['usr_skype_value']) . '" />&nbsp;<img src="/img/sico_error.gif" align="absmiddle" /><br />' . $rt['usr_skype_error_msg'][$rt['usr_skype_error']] . '</div></td></tr>');
 			} else {
 				echo('<tr><td width="200" align="right">Skype</td><td align="left"><input type="text" maxlength="40" class="sl" name="usr_skype" value="' . make_single_return($rt['usr_skype_value']) . '" />&nbsp;');
+				_v_ico_silk('tick');
+				echo('</td></tr>');
+			}
+			
+			/* result: usr_lastfm */
+			if ($rt['usr_lastfm_error'] != 0) {
+				echo('<tr><td width="200" align="right" valign="top">Last.fm</td><td align="left"><div class="error"><input type="text" maxlength="40" class="sl" name="usr_lastfm" value="' . make_single_return($rt['usr_lastfm_value']) . '" />&nbsp;<img src="/img/sico_error.gif" align="absmiddle" /><br />' . $rt['usr_lastfm_error_msg'][$rt['usr_lastfm_error']] . '</div></td></tr>');
+			} else {
+				echo('<tr><td width="200" align="right">Last.fm</td><td align="left"><input type="text" maxlength="40" class="sl" name="usr_lastfm" value="' . make_single_return($rt['usr_lastfm_value']) . '" />&nbsp;');
 				_v_ico_silk('tick');
 				echo('</td></tr>');
 			}
@@ -4946,7 +4978,7 @@ class Page {
 			echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_smile.gif" align="absmiddle" class="home" />' . make_plaintext($rt['usr_nick_value']) . ' 的会员信息修改成功</span>');
 			echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
 			echo('<tr><td width="200" align="right" valign="middle">真实姓名</td><td align="left">' . make_plaintext($rt['usr_full_value']) . '</td>');
-			echo('<td width="150" rowspan="14" valign="middle" align="right">');
+			echo('<td width="150" rowspan="15" valign="middle" align="right">');
 			_v_btn_l('重新修改', '/user/modify.vx');
 			echo('</td>');
 			echo('</tr>');
@@ -4955,6 +4987,7 @@ class Page {
 			echo('<tr><td width="200" align="right" valign="middle">家庭住址</td><td align="left">' . make_plaintext($rt['usr_addr_value']) . '</td></tr>');
 			echo('<tr><td width="200" align="right" valign="middle">电话号码</td><td align="left">' . make_plaintext($rt['usr_telephone_value']) . '</td></tr>');
 			echo('<tr><td width="200" align="right" valign="middle">Skype</td><td align="left">' . make_plaintext($rt['usr_skype_value']) . '</td></tr>');
+			echo('<tr><td width="200" align="right" valign="middle">Last.fm</td><td align="left">' . make_plaintext($rt['usr_lastfm_value']) . '</td></tr>');
 			echo('<tr><td width="200" align="right" valign="middle">身份证号码</td><td align="left">' . make_plaintext($rt['usr_identity_value']) . '</td></tr>');
 			echo('<tr><td width="200" align="right" valign="middle">性别</td><td align="left">' . $this->User->usr_gender_a[$rt['usr_gender_value']] . '</td></tr>');
 			echo('<tr><td width="200" align="right" valign="middle">信仰</td><td align="left">' . $rt['usr_religion_value'] . '</td></tr>');
@@ -9176,7 +9209,7 @@ class Page {
 		echo('<a href="http://www.zhuaxia.com/"><img src="' . CDN_UI . 'img/favicons/zhuaxia.png" align="absmiddle" border="0" alt="抓虾" /></a> ');
 		echo('<a href="http://www.blogbus.com/"><img src="' . CDN_UI . 'img/favicons/blogbus.png" align="absmiddle" border="0" alt="BlogBus" /></a> ');
 		echo('<a href="http://www.verycd.com/"><img src="' . CDN_UI . 'img/favicons/verycd.png" align="absmiddle" border="0" alt="VeryCD" /></a> ');
-		echo('<a href="http://www.wealink.com/"><img src="' . CDN_UI . 'img/favicons/wealink.png" align="absmiddle" border="0" alt="We@Link" /></a> ');
+		echo('<a href="http://www.6rooms.com/" target="_blank"><img src="' . CDN_UI . 'img/favicons/6rooms.png" align="absmiddle" border="0" alt="六间房" /></a> ');
 		echo('<a href="http://www.tudou.com/"><img src="' . CDN_UI . 'img/favicons/tudou.png" align="absmiddle" border="0" alt="土豆" /></a> ');
 		echo('<a href="http://www.yodao.com/"><img src="' . CDN_UI . 'img/favicons/yodao.png" align="absmiddle" border="0" alt="有道" /></a> ');
 		echo('<a href="http://www.kooxoo.com/"><img src="' . CDN_UI . 'img/favicons/kooxoo.png" align="absmiddle" border="0" alt="酷讯" /></a> ');

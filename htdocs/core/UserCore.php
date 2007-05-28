@@ -38,6 +38,7 @@ class User {
 	public $usr_addr;
 	public $usr_telephone;
 	public $usr_skype;
+	public $usr_lastfm;
 	public $usr_identity;
 	public $usr_gender;
 	public $usr_brief;
@@ -76,6 +77,7 @@ class User {
 		$this->usr_addr = '';
 		$this->usr_telephone = '';
 		$this->usr_skype = '';
+		$this->usr_lastfm = '';
 		$this->usr_identity = '';
 		$this->usr_gender = 0;
 		$this->usr_brief = '';
@@ -116,7 +118,7 @@ class User {
 		$e = 0;
 
 		if (strlen($usr_email) > 0 && strlen($usr_password) > 0) {
-			$sql = "SELECT usr_id, usr_gid, usr_email, usr_email_notify, usr_google_account, usr_geo, usr_password, usr_nick, usr_full, usr_addr, usr_telephone, usr_skype, usr_identity, usr_gender, usr_brief, usr_religion, usr_religion_permission, usr_religion_lastconverted, usr_portrait, usr_money, usr_width, usr_hits, usr_logins, usr_created, usr_sw_shuffle_cloud, usr_sw_right_friends, usr_sw_top_wealth, usr_sw_shell, usr_sw_notify_reply, usr_sw_notify_reply_all, usr_lastlogin, usr_lastlogin_ua FROM babel_user WHERE usr_email = '{$usr_email}' AND usr_password = '{$usr_password}'";
+			$sql = "SELECT usr_id, usr_gid, usr_email, usr_email_notify, usr_google_account, usr_geo, usr_password, usr_nick, usr_full, usr_addr, usr_telephone, usr_skype, usr_lastfm, usr_identity, usr_gender, usr_brief, usr_religion, usr_religion_permission, usr_religion_lastconverted, usr_portrait, usr_money, usr_width, usr_hits, usr_logins, usr_created, usr_sw_shuffle_cloud, usr_sw_right_friends, usr_sw_top_wealth, usr_sw_shell, usr_sw_notify_reply, usr_sw_notify_reply_all, usr_lastlogin, usr_lastlogin_ua FROM babel_user WHERE usr_email = '{$usr_email}' AND usr_password = '{$usr_password}'";
 			$rs = mysql_query($sql, $this->db);
 			if (mysql_num_rows($rs) == 1) {
 				$O = mysql_fetch_object($rs);
@@ -134,6 +136,7 @@ class User {
 				$this->usr_addr = $O->usr_addr;
 				$this->usr_telephone = $O->usr_telephone;
 				$this->usr_skype = $O->usr_skype;
+				$this->usr_lastfm = $O->usr_lastfm;
 				$this->usr_identity = $O->usr_identity;
 				$this->usr_gender = $O->usr_gender;
 				$this->usr_brief = $O->usr_brief;
@@ -182,7 +185,7 @@ class User {
 					$real_usr_email = mysql_real_escape_string($_COOKIE['babel_usr_email']);
 					$real_usr_password = mysql_real_escape_string($this->bf->decrypt($_COOKIE['babel_usr_password']));
 				}
-				$sql = "SELECT usr_id, usr_gid, usr_email, usr_email_notify, usr_google_account, usr_geo, usr_password, usr_nick, usr_full, usr_addr, usr_telephone, usr_skype, usr_identity, usr_gender, usr_brief, usr_religion, usr_religion_permission, usr_religion_lastconverted, usr_portrait, usr_money, usr_width, usr_hits, usr_logins, usr_created, usr_sw_shuffle_cloud, usr_sw_right_friends, usr_sw_top_wealth, usr_sw_shell, usr_sw_notify_reply, usr_sw_notify_reply_all, usr_lastlogin, usr_lastlogin_ua FROM babel_user WHERE usr_email = '" . $real_usr_email . "' AND usr_password = '" . $real_usr_password . "'";
+				$sql = "SELECT usr_id, usr_gid, usr_email, usr_email_notify, usr_google_account, usr_geo, usr_password, usr_nick, usr_full, usr_addr, usr_telephone, usr_skype, usr_lastfm, usr_identity, usr_gender, usr_brief, usr_religion, usr_religion_permission, usr_religion_lastconverted, usr_portrait, usr_money, usr_width, usr_hits, usr_logins, usr_created, usr_sw_shuffle_cloud, usr_sw_right_friends, usr_sw_top_wealth, usr_sw_shell, usr_sw_notify_reply, usr_sw_notify_reply_all, usr_lastlogin, usr_lastlogin_ua FROM babel_user WHERE usr_email = '" . $real_usr_email . "' AND usr_password = '" . $real_usr_password . "'";
 				$rs = mysql_query($sql, $this->db);
 				if (mysql_num_rows($rs) == 1) {
 					$O = mysql_fetch_object($rs);
@@ -200,6 +203,7 @@ class User {
 					$this->usr_addr = $O->usr_addr;
 					$this->usr_telephone = $O->usr_telephone;
 					$this->usr_skype = $O->usr_skype;
+					$this->usr_lastfm = $O->usr_lastfm;
 					$this->usr_identity = $O->usr_identity;
 					$this->usr_gender = $O->usr_gender;
 					$this->usr_brief = $O->usr_brief;
@@ -258,6 +262,7 @@ class User {
 		$this->usr_addr = '';
 		$this->usr_telephone = '';
 		$this->usr_skype = '';
+		$this->usr_lastfm = '';
 		$this->usr_identity = '';
 		$this->usr_gender = 0;
 		$this->usr_brief = '';

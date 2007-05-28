@@ -448,6 +448,7 @@ CREATE TABLE `babel_user` (
   `usr_addr` varchar(200) DEFAULT NULL,
   `usr_telephone` varchar(40) DEFAULT NULL,
   `usr_skype` varchar(40) DEFAULT NULL,
+  `usr_lastfm` varchar(40) DEFAULT NULL,
   `usr_identity` varchar(18) DEFAULT NULL,
   `usr_gender` smallint(6) NOT NULL DEFAULT '0',
   `usr_birthday` int(10) unsigned NOT NULL DEFAULT '0',
