@@ -114,6 +114,7 @@ RewriteRule ^undone/zen/task/([0-9]+).vx$ /babel_sl.php?m=undone_zen_task&zen_ta
 RewriteRule ^login/(.+)$ /login.php?r=$1 [L]
 RewriteRule ^login.vx$ /login.php [L]
 RewriteRule ^login$ /login.php [L]
+RewriteRule ^login/$ /login.php [L]
 RewriteRule ^logout.vx$ /login.php?do=logout [L]
 RewriteRule ^logout$ /login.php?do=logout [L]
 

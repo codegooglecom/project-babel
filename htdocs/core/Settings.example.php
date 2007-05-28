@@ -109,8 +109,11 @@ define('GOOGLE_AD_ENABLED', true);
 /* legacy kijiji api */
 define('KIJIJI_LEGACY_API_SEARCH_ENABLED', false);
 
-/* Mint */
+/* Mint installation location */
 define('MINT_LOCATION', '');
+
+/* MyBlogLog ID */
+define('MBL_ID', '2007052502581391');
 
 /* dict api */
 define('DICT_API_ENABLED', 'no');
