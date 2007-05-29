@@ -113,7 +113,10 @@ define('KIJIJI_LEGACY_API_SEARCH_ENABLED', false);
 define('MINT_LOCATION', '');
 
 /* MyBlogLog ID */
-define('MBL_ID', '2007052502581391');
+define('MBL_ID', '');
+
+/* "x" in Pheedo's code */
+define('PHEEDO_X', '');
 
 /* dict api */
 define('DICT_API_ENABLED', 'no');
@@ -170,10 +173,14 @@ $ZEND_CACHE_OPTIONS_LONG_BACKEND['File'] = array('cacheDir' => BABEL_PREFIX . '/
 /* If you have memcached server(s). */
 define('ZEND_CACHE_MEMCACHED_ENABLED', 'no'); // This feature requires PHP to have memcache extension.
 
-$ZEND_CACHE_OPTIONS_MEMCACHED = array('servers' => array(array('host' => 'localhost', 'port' => 11211, 'persistent' => true)));
+define('ZEND_CACHE_OPTIONS_MEMCACHED_SERVER', '127.0.0.1');
+
+define('ZEND_CACHE_OPTIONS_MEMCACHED_PORT', 11211);
+
+$ZEND_CACHE_OPTIONS_MEMCACHED = array('servers' => array(array('host' => ZEND_CACHE_OPTIONS_MEMCACHED_SERVER, 'port' => ZEND_CACHE_OPTIONS_MEMCACHED_PORT, 'persistent' => true)));
 
 /* Zend Framework */
-define('ZEND_FRAMEWORK_VERSION', '0.9.0'); // Which version of Zend Framework to use? Remember to upload the "library" folder in Zend Framework distribution and rename it according to the version.
+define('ZEND_FRAMEWORK_VERSION', '0.9.3'); // Which version of Zend Framework to use?
 
 if (BABEL_DEBUG) {
 	define('CDN_IMG', '/img/');

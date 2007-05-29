@@ -59,9 +59,13 @@ padding: 10px 0px 0px 0px;
 }
 
 .red {
-color: #C00;
+color: #F00;
 }
 
 .green {
 color: #0C0;
+}
+
+.tip {
+color: #999;
 }
