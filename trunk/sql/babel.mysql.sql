@@ -4,6 +4,14 @@
 -- $Id$
 --
 
+--
+-- UTF8
+--
+
+SET NAMES utf8;
+SET CHARACTER SET utf8;
+SET COLLATION_CONNECTION='utf8_general_ci';
+
 -- 
 -- Table structure for table `babel_channel`
 -- 
@@ -72,6 +80,7 @@ CREATE TABLE `babel_favorite` (
 -- Table structure for table `babel_dry_item`
 --
 
+DROP TABLE IF EXISTS `babel_dry_item`;
 CREATE TABLE `babel_dry_item` (
   `itm_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `itm_uid` int(10) unsigned NOT NULL DEFAULT '0',
@@ -491,6 +500,7 @@ CREATE TABLE `babel_user` (
 -- Table structure for table `babel_geo_going`
 -- 
 
+DROP TABLE IF EXISTS `babel_geo_going`;
 CREATE TABLE `babel_geo_going` (
   `ggg_id` int(10) unsigned NOT NULL auto_increment,
   `ggg_uid` int(10) unsigned NOT NULL default '0',
@@ -508,6 +518,7 @@ CREATE TABLE `babel_geo_going` (
 -- Table structure for table `babel_geo_been`
 -- 
 
+DROP TABLE IF EXISTS `babel_geo_been`;
 CREATE TABLE `babel_geo_been` (
   `gbn_id` int(10) unsigned NOT NULL auto_increment,
   `gbn_uid` int(10) unsigned NOT NULL default '0',
@@ -588,6 +599,7 @@ CREATE TABLE `babel_zen_task` (
 -- Table structure for table `babel_ing_update`
 -- 
 
+DROP TABLE IF EXISTS `babel_ing_update`;
 CREATE TABLE `babel_ing_update` (
   `ing_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `ing_uid` int(10) unsigned NOT NULL DEFAULT '0',

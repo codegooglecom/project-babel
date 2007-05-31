@@ -180,7 +180,7 @@ define('ZEND_CACHE_OPTIONS_MEMCACHED_PORT', 11211);
 $ZEND_CACHE_OPTIONS_MEMCACHED = array('servers' => array(array('host' => ZEND_CACHE_OPTIONS_MEMCACHED_SERVER, 'port' => ZEND_CACHE_OPTIONS_MEMCACHED_PORT, 'persistent' => true)));
 
 /* Zend Framework */
-define('ZEND_FRAMEWORK_VERSION', '0.9.3'); // Which version of Zend Framework to use?
+define('ZEND_FRAMEWORK_VERSION', '1.0.0-RC1'); // Which version of Zend Framework to use?
 
 if (BABEL_DEBUG) {
 	define('CDN_IMG', '/img/');
