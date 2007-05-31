@@ -9369,7 +9369,7 @@ class Page {
 		_v_d_e();
 		
 		/* S: data here!!! */
-		$_sources = array(1 => 'web');
+		$_sources = array(1 => 'web', 2 => 'ingc');
 		$t = time() - 86400;
 		
 		$sql = "SELECT ing_id, ing_uid, ing_doing, ing_doing, ing_source, ing_created, usr_id, usr_nick, usr_gender, usr_portrait FROM babel_ing_update, babel_user WHERE usr_id = ing_uid ORDER BY ing_created DESC LIMIT 50";
@@ -9445,7 +9445,7 @@ class Page {
 		_v_d_e();
 		
 		/* S: data here!!! */
-		$_sources = array(1 => 'web');
+		$_sources = array(1 => 'web', 2 => 'ingc');
 		$t = time() - 86400;
 		$sql = "SELECT frd_fid FROM babel_friend WHERE frd_uid = {$User->usr_id}";
 		$rs = mysql_query($sql);
@@ -9581,7 +9581,7 @@ class Page {
 		_v_d_e();
 		
 		/* S: data here!!! */
-		$_sources = array(1 => 'web');
+		$_sources = array(1 => 'web', 2 => 'ingc');
 		$t = time() - 86400;
 		$sql = "SELECT ing_id, ing_uid, ing_doing, ing_doing, ing_source, ing_created, usr_id, usr_nick, usr_gender, usr_portrait FROM babel_ing_update, babel_user WHERE usr_id = ing_uid AND ing_uid = {$User->usr_id} ORDER BY ing_created DESC LIMIT 50";
 		$rs_updates = mysql_query($sql);
