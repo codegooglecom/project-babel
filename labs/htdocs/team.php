@@ -13,47 +13,47 @@ require_once('inc/functions.php');
 <link rel="stylesheet" type="text/css" href="/css/style.css" />
 </head>
 <body><a name="top"></a>
-<img src="/img/logo.png" alt="V2EX Labs" align="left" />
+<?php _v_logo(); ?>
 <span class="welcome">V2EX 实验室，走进我们的产品、技术和团队</span>
 <div class="nav"><?php _v_nav('team'); ?></div>
 <div class="main">
 <div class="left">
-<div class="header"><?php _v_ico_silk('basket_put'); ?> <a name="installation"> </a> Installation</div>
+<div class="header"><?php _v_ico_silk('group'); ?> <a name="team"> </a> Team</div>
 <div class="content">
+<strong>Project Leader Profile:</strong>
 
-你可以有两种选择来获得 Project Babel 的安装包。Distribution 发行版本（在一些文档中，也被叫做严肃版本）中包括了经过测试的安装手段、相对稳定的功能、完整的依赖关系及升级脚本。比较适合初学者，但是这个版本中包括的功能集相对比较古老一些。<br /><br />
+<blockquote>Project Babel 开始于 2005 年 9 月。Xin "Livid" Liu 完成了这个项目的主要部分的代码及全部的美术设计，其余部分基于大量各种协议的开放源代码软件。Project Babel 以 GPL 协议发布。<br /><br />
 
-另外一种选择是 Trunk 最新版本（你可以把这个版本理解为是非严肃版本），你将需要使用 Subversion 来获得最新的源代码。因为 Project Babel 的代码管理的原则之一就是我们尽量不把那些“可以被下载”和“可以被重复生成”的部分放进我们的代码管理库中，所以这个版本中缺乏两个必要的依赖程序包 <a href="http://pear.php.net/" target="_blank">PEAR</a> 和 <a href="http://framework.zend.com/" target="_blank">Zend Framework</a>，及来自 <a href="http://www.famfamfam.com/" target="_blank">FAMFAMFAM</a> 的 <a href="http://www.famfamfam.com/lab/icons/silk/" target="_parent">Silk</a> 图标库，你将需要自己下载并安装这些缺少的部分。具体可以参考 V2EX Labs 中关于 Trunk 版本的 <a href="/installation.php">installation</a> 的文档。
+<a href="http://www.v2ex.com/u/Livid" target="_blank"><img src="http://www.v2ex.com/img/p/1.jpg" align="left" border="0" alt="Livid's Portrait" style="margin-right: 5px;" /></a>
 
-<br /><br />
+Livid 于 1985 年出生在昆明，在他 17 岁的时候他离开了学校，然后去重新建立自己的世界。<br /><br />
 
-<?php _v_ico_silk('disk'); ?> <strong>发行版本 - Distribution Version</strong>
+在 2005 年 9 月到 2007 年 4 月之间，Livid 在上海作为开发和咨询的角色为 <a href="http://pages.ebay.com/aboutebay/thecompany/companyoverview.html" target="_blank">eBay</a> 的内部创业项目 <a href="http://www.kijiji.cn/" rel="nofollow" target="_blank">Kijiji</a> 中国分站工作。帮助 <a href="http://www.kijiji.cn/" rel="nofollow" target="_blank">Kijiji</a> 中国分站建立了产品和运营的技术基础架构。<br /><br />
 
-<?php _v_hr(); ?>
+在加入 eBay 之前，Livid 曾经在 <a href="http://www.51.com/" target="_blank">51.com</a> 短暂地工作过一段时间，负责一套大型统计系统的运营。<br /><br />
 
-发行版本中包括了完整的程序源代码及运行所依赖的组件，适合初学者安装。但是其中的技术可能不是最新最好的。Project Babel 的发行版本的压缩包推荐使用 gnu tar 解压缩。<br /><br />
-
-<?php _v_ico_silk('bullet_go'); ?> 2006-7-14: <strong>R500</strong> <span class="tip"><small>Stable Release</small></span>
-<blockquote>
-下载地址:&nbsp;&nbsp;<a href="http://project-babel.googlecode.com/files/r500.tgz" target="_blank">http://project-babel.googlecode.com/files/r500.tgz</a> <span class="tip">3.3M</span><br />
-安装说明:&nbsp;&nbsp;<a href="http://www.v2ex.com/topic/view/1736.html" target="_blank">http://www.v2ex.com/topic/view/1736.html</a>
-</blockquote>
-<?php _v_ico_silk('bullet_go'); ?> 2006-4-10: <strong>R215</strong> <span class="tip"><small>Legacy Release</small></span>
-<blockquote>
-下载地址:&nbsp;&nbsp;<a href="http://project-babel.googlecode.com/files/r215.tgz" target="_blank">http://project-babel.googlecode.com/files/r215.tgz</a> <span class="tip">2.1M</span><br />
-安装说明:&nbsp;&nbsp;<a href="http://www.v2ex.com/topic/view/127.html" target="_blank">http://www.v2ex.com/topic/view/127.html</a>
-</blockquote><br />
-
-<?php _v_ico_silk('brick'); ?> <strong>最新版本 - Cutting Edge Version</strong>
+Livid 的个人网站地址是 <a href="http://www.livid.cn/" target="_blank">livid.cn</a> ，这个网站由 Livid 的另外一个项目 Project vik 驱动。你也可以到 <a href="http://www.google.com/search?q=livid|刘昕" target="_blank">Google</a> 或者 Livid 在 V2EX 的个人主页 <a href="http://www.v2ex.com/u/Livid" target="_blank">http://www.v2ex.com/u/Livid</a> 去了解更多。</blockquote>
 
 <?php _v_hr(); ?>
+<strong>Technical Profile:</strong>
 
-Project Babel 的项目控制站点及 Subversion repository 位于 <a href="http://code.google.com/p/project-babel" target="_blank">Google Code</a>，你可以使用很多 <a href="http://subversion.tigris.org/" target="_blank">Subversion</a> 客户端匿名 check out 最新的开发进展。<br /><br />
-
-<?php _v_ico_silk('bullet_go'); ?> <strong>Subversion Trunk</strong>
-<blockquote><span style="font-family: 'Courier New', mono, fixed;">svn co http://project-babel.googlecode.com/svn/trunk project-babel</span><br />
-安装说明及讨论:&nbsp;&nbsp;<a href="http://www.v2ex.com/topic/view/7856.html" target="_blank">http://www.v2ex.com/topic/view/7856.html</a>
+<blockquote style="font-size: 90%;">
+&nbsp;&nbsp;<img src="/img/bullet.png" align="absmiddle" />&nbsp;Linux since 1998<br />
+&nbsp;&nbsp;<img src="/img/bullet.png" align="absmiddle" />&nbsp;Apache since 2001<br />
+&nbsp;&nbsp;<img src="/img/bullet.png" align="absmiddle" />&nbsp;MySQL since 2003<br />
+&nbsp;&nbsp;<img src="/img/bullet.png" align="absmiddle" />&nbsp;PHP since 2003<br />
+&nbsp;&nbsp;<img src="/img/bullet.png" align="absmiddle" />&nbsp;Python since 2003<br />
+&nbsp;&nbsp;<img src="/img/bullet.png" align="absmiddle" />&nbsp;Perl since 2003<br />
+&nbsp;&nbsp;<img src="/img/bullet.png" align="absmiddle" />&nbsp;Solaris since 2003<br />
+&nbsp;&nbsp;<img src="/img/bullet.png" align="absmiddle" />&nbsp;*BSD since 2001
+<?php _v_hr(); ?>
+&nbsp;&nbsp;<img src="/img/bullet.png" align="absmiddle" />&nbsp;Various designing software and markup languages since 1997
+<?php _v_hr(); ?>
+&nbsp;&nbsp;<img src="/img/bullet.png" align="absmiddle" />&nbsp;Portfolio:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;<?php _v_ico_silk('bullet_black'); ?>&nbsp;<a href="http://www.livid.cn/" target="_blank">Livid's Paranoid</a><br />
+&nbsp;&nbsp;&nbsp;&nbsp;<?php _v_ico_silk('bullet_black'); ?>&nbsp;<a href="http://www.v2ex.com/" target="_blank">V2EX</a>
 </blockquote>
+
 </div>
 
 </div> <!-- end of div class="left" -->

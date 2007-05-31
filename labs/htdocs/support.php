@@ -13,7 +13,7 @@ require_once('inc/functions.php');
 <link rel="stylesheet" type="text/css" href="/css/style.css" />
 </head>
 <body><a name="top"></a>
-<img src="/img/logo.png" alt="V2EX Labs" align="left" />
+<?php _v_logo(); ?>
 <span class="welcome">V2EX 实验室，走进我们的产品、技术和团队</span>
 <div class="nav"><?php _v_nav('support'); ?></div>
 <div class="main">

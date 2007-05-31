@@ -1,5 +1,7 @@
 <?php
 
+function _v_logo() { echo('<a href="/"><img src="/img/logo.png" alt="V2EX Labs" align="left" border="0" /></a>'); }
+
 function _v_hr() { echo('<hr size="1" color="#DDD" style="color: #DDD; background-color: #DDD; height: 1px; border: 0;" />'); }
 
 function _v_btn_l($label, $link) {
@@ -40,12 +42,14 @@ function _v_nav($page = 'index') {
 	} else {
 		echo('<a href="/installation.php">Installation</a>');
 	}
+	/*
 	echo(' | ');
 	if ($page == 'support') {
 		echo('Support');
 	} else {
 		echo('<a href="/support.php">Support</a>');
 	}
+	*/
 	echo(' | ');
 	if ($page == 'faq') {
 		echo('FAQ');
@@ -58,11 +62,19 @@ function _v_nav($page = 'index') {
 	} else {
 		echo('<a href="/team.php">Team</a>');
 	}
+	/*
 	echo(' | ');
 	if ($page == 'contribute') {
 		echo('Contribute');
 	} else {
 		echo('<a href="/contribute.php">Contribute</a>');
+	}
+	*/
+	echo(' | ');
+	if ($page == 'sites') {
+		echo('Sites');
+	} else {
+		echo('<a href="/sites.php">Sites</a>');
 	}
 }
 ?>

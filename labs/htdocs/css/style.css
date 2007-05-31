@@ -23,6 +23,18 @@ width: 980px;
 clear: both;
 }
 
+div.code {
+white-space: pre;
+margin-top: 15px;
+margin-left: 10px;
+margin-bottom: 10px;
+font-family: Courier, "Courier New", mono, fixed;
+font-size: 12px;
+color: #666;
+background-color: #F0F0F0;
+padding: 5px 10px 5px 10px;
+}
+
 div.left {
 float: left;
 width: 690px;
@@ -74,7 +86,7 @@ font-size: 80%;
 }
 
 span.tip {
-color: #AAA;
+color: #999;
 }
 
 a:link, a:active, a:visited {
