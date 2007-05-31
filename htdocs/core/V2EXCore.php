@@ -348,7 +348,8 @@ class Page {
 			$rs = mysql_query($sql, $this->db);
 			$this->p_msg_count = mysql_result($rs, 0, 0);
 			mysql_free_result($rs);		
-			if ((!in_array($_SERVER['SCRIPT_URL'], $_disabled_pages)) && (substr($_SERVER['SCRIPT_URL'], 0, 12) != '/post/modify') && (substr($_SERVER['SCRIPT_URL'], 0, 13) != '/topic/modify') && (substr($_SERVER['SCRIPT_URL'], 0, 13) != '/topic/update') && (substr($_SERVER['SCRIPT_URL'], 0, 12) != '/post/update') && (substr($_SERVER['SCRIPT_URL'], 0, 12) != '/online/view') && (substr($_SERVER['SCRIPT_URL'], 0, 3) != '/q/') && ($_SERVER['SCRIPT_URL'] != '/')) {
+			$uri = $_SERVER['REQUEST_URI'];
+			if ((!in_array($uri, $_disabled_pages)) && (substr($uri, 0, 12) != '/post/modify') && (substr($uri, 0, 13) != '/topic/modify') && (substr($uri, 0, 13) != '/topic/update') && (substr($uri, 0, 12) != '/post/update') && (substr($uri, 0, 12) != '/online/view') && (substr($uri, 0, 3) != '/q/') && ($uri != '/')) {
 				if (isset($_SESSION['hits'])) {
 					$_SESSION['hits'] = intval($_SESSION['hits']) + 1;
 					$_SESSION['pages'][$_this_time] = $_this_page;
@@ -389,7 +390,8 @@ class Page {
 				}
 			}
 		} else {
-			if ((!in_array($_SERVER['SCRIPT_URL'], $_disabled_pages)) && (substr($_SERVER['SCRIPT_URL'], 0, 12) != '/post/modify') && (substr($_SERVER['SCRIPT_URL'], 0, 13) != '/topic/modify') && (substr($_SERVER['SCRIPT_URL'], 0, 13) != '/topic/update') && (substr($_SERVER['SCRIPT_URL'], 0, 12) != '/post/update') && (substr($_SERVER['SCRIPT_URL'], 0, 12) != '/online/view') && (substr($_SERVER['SCRIPT_URL'], 0, 3) != '/q/') && ($_SERVER['SCRIPT_URL'] != '/')) {
+			$uri = $_SERVER['REQUEST_URI'];
+			if ((!in_array($uri, $_disabled_pages)) && (substr($uri, 0, 12) != '/post/modify') && (substr($uri, 0, 13) != '/topic/modify') && (substr($uri, 0, 13) != '/topic/update') && (substr($uri, 0, 12) != '/post/update') && (substr($uri, 0, 12) != '/online/view') && (substr($uri, 0, 3) != '/q/') && ($uri != '/')) {
 				if (isset($_SESSION['hits'])) {
 					$_SESSION['hits'] = intval($_SESSION['hits']) + 1;
 					$_SESSION['pages'][$_this_time] = $_this_page;
