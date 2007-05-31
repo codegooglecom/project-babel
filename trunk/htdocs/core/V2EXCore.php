@@ -6736,14 +6736,14 @@ class Page {
 		if ($this->User->usr_id == 1) {
 			$f = Image::vxFlickrBoardBlock($tag, $this->User->usr_width, 4);
 			echo $f;
-			$this->cl->save($f, 'go_flickr_' . $tag);
+			$this->cl->save($f, 'go_flickr_' . md5($tag));
 		} else {
-			if ($f = $this->cl->load('go_flickr_' . $tag)) {
+			if ($f = $this->cl->load('go_flickr_' . md5($tag))) {
 				echo $f;
 			} else {
 				$f = Image::vxFlickrBoardBlock($tag, $this->User->usr_width, 4);
 				echo $f;
-				$this->cl->save($f, 'go_flickr_' . $tag);
+				$this->cl->save($f, 'go_flickr_' . md5($tag));
 			}
 		}
 		
