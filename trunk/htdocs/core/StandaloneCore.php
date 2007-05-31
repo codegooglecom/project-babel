@@ -268,7 +268,16 @@ class Standalone {
 							$doing_sql = mysql_real_escape_string($doing);
 						}
 						$t = time();
-						$source = 1;
+						if (isset($_SERVER['HTTP_USER_AGENT'])) {
+							$ua = trim($_SERVER['HTTP_USER_AGENT']);
+							if (preg_match('/^ingc\//i', $ua)) {
+								$source = 2;
+							} else {
+								$source = 1;
+							}
+						} else {
+							$source = 1;
+						}
 						$sql = "INSERT INTO babel_ing_update(ing_uid, ing_doing, ing_source, ing_created) VALUE({$this->User->usr_id}, '{$doing_sql}', $source, $t)";
 						mysql_unbuffered_query($sql);
 						return $this->URL->vxToRedirect($return);

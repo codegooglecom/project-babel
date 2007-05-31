@@ -69,7 +69,7 @@ if (MINT_LOCATION != '') {
 <div class="blank">
 <?php
 if ($_ing) {
-	$_sources = array(1 => 'web');
+	$_sources = array(1 => 'web', 2 => 'ingc');
 	echo('<span style="font-size: 14px;">');
 	echo('<img src="' . $_ing['img_p'] . '" align="absmiddle" class="portrait" />');
 	echo(' ' . format_ubb($_ing['ing_doing']) . '</span>');

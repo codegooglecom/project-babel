@@ -1186,6 +1186,7 @@ $i->vxSetupBoard('linux', 'Linux', 3, 3, 1, 2, 'Better Work, Better Play', '');
 	$i->vxSetupChannelByName('linux', 'http://linuxtoy.org/?feed=rss2');
 	$i->vxSetupChannelByName('linux', 'http://ubuntucookbook.com/feed/rss2/');
 	$i->vxSetupChannelByName('linux', 'http://www.markshuttleworth.com/feed/');
+$i->vxSetupBoard('secondlife', 'Second Life', 3, 3, 1, 2, 'Your world. Your imagination.', '');
 $i->vxSetupBoard('emacs', 'Emacs', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('fah', 'Folding@Home', 3, 3, 1, 2, '', '');
 	$i->vxSetupRelatedByName('fah', 'http://folding.stanford.edu/', 'Folding@Home Distributed Computing');
