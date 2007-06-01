@@ -21,7 +21,7 @@ require_once('inc/functions.php');
 <div class="header"><?php _v_ico_silk('server'); ?> <a name="sites"> </a> Sites</div>
 <div class="content">
 
-这里是一个使用 Project Babel 搭建起来的网站的列表，如果你希望加入到这个列表中，那么请将你的站点（使用 Project Babel 搭建的站点）的一些介绍发信到 <a href="/team.php">Livid</a> 的邮箱 v2ex.livid at mac.com 或者发布到 Project Babel 在 V2EX 上的讨论区 <a href="http://www.v2ex.com/go/babel" target="_blank">http://www.v2ex.com/go/babel</a> ，如果你的站点已经出现在下面的列表中，而这是你不希望的，那么也请写信到 v2ex.livid at mac.com ，我将在收到你的信之后将站点从这个列表中移除。
+这里是一个使用 Project Babel 搭建起来的网站的列表，如果你希望加入到这个列表中，那么请将你的站点（使用 Project Babel 搭建的站点）的一些介绍发信到 <a href="/team.php">Livid</a> 的邮箱 v2ex.livid at mac.com 或者发布到 Project Babel 在 <a href="http://www.v2ex.com/" target="_blank">V2EX</a> 上的讨论区 <a href="http://www.v2ex.com/go/babel" target="_blank">http://www.v2ex.com/go/babel</a> ，如果你的站点已经出现在下面的列表中，而这是你不希望的，那么也请写信到 v2ex.livid at mac.com ，我将在收到你的信之后将站点从这个列表中移除。
 
 <?php _v_hr(); ?>
 
@@ -37,6 +37,25 @@ require_once('inc/functions.php');
 
 <blockquote><span class="tip">猛小蛇的个人网站</span></blockquote>
 
+<?php _v_ico_silk('bullet_black'); ?> <strong>开封 25 中非官方论坛</strong> - <a href="http://www.kf25.cn/" target="_blank">www.kf25.cn</a>
+
+<blockquote><span class="tip">开封市第二十五中学非官方不严肃校园论坛 + 学生社区</span></blockquote>
+
+<?php _v_ico_silk('bullet_black'); ?> <strong>iLovemm</strong> - <a href="http://www.ilovemm.cn/" target="_blank">www.ilovemm.cn</a>
+
+<blockquote><span class="tip">iLovemm 欢迎你</span></blockquote>
+
+<?php _v_ico_silk('bullet_black'); ?> <strong>颠趴公社</strong> - <a href="http://www.dianp.cn/" target="_blank">www.dianp.cn</a>
+
+<blockquote><span class="tip">我颠故我趴</span></blockquote>
+
+<?php _v_ico_silk('bullet_black'); ?> <strong>聚狗</strong> - <a href="http://www.jugou.com/" target="_blank">www.jugou.com</a>
+
+<blockquote><span class="tip">网聚狗的力量</span></blockquote>
+
+<?php _v_ico_silk('bullet_black'); ?> <strong>Kijiji YY</strong> - <a href="http://yy.kijiji.cn/" target="_blank">yy.kijiji.cn</a>
+
+<blockquote><span class="tip">客齐集的 YY 社区</span></blockquote>
 
 </div>
 

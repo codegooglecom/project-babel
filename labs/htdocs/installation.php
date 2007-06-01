@@ -35,7 +35,7 @@ require_once('inc/functions.php');
 
 <?php _v_ico_silk('bullet_black'); ?> <strong>STEP 3:</strong>
 
-<blockquote>使用 <a href="http://phpmyadmin.sf.net/" target="_blank">phpMyAdmin</a> 将 sql/babel.mysql.sql 文件导入数据库中，然后将 MySQL 数据库的登陆信息写到 Settings.php 中：
+<blockquote>使用 <a href="http://phpmyadmin.sf.net/" target="_blank">phpMyAdmin</a> 或者 MySQL 命令行客户端将 sql/babel.mysql.sql 文件导入数据库中，然后将 MySQL 数据库的登陆信息写到 Settings.php 中：
 
 <div class="code">define('BABEL_DB_HOSTNAME', '127.0.0.1');
 define('BABEL_DB_PORT', 3306);

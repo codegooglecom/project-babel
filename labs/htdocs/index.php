@@ -77,14 +77,24 @@ Project Babel 在 GPL 协议下发布，这意味着你可以自由地下载，�
 
 发行版本中包括了完整的程序源代码及运行所依赖的组件，适合初学者安装。但是其中的技术可能不是最新最好的。Project Babel 的发行版本的压缩包推荐使用 gnu tar 解压缩。<br /><br />
 
-<?php _v_ico_silk('bullet_go'); ?> 2006-7-14: <strong>R500</strong> <span class="tip"><small>Stable Release</small></span>
+<?php _v_ico_silk('bullet_go'); ?> 2007-5-31: <strong>v0.5 - Monster Inc</strong> <span class="tip"><small>Latest Release</small></span>
+
 <blockquote>
-下载地址:&nbsp;&nbsp;<a href="http://project-babel.googlecode.com/files/r500.tgz" target="_blank">http://project-babel.googlecode.com/files/r500.tgz</a> <span class="tip">3.3M</span><br />
+下载地址:&nbsp;&nbsp;<a href="http://project-babel.googlecode.com/files/project-babel-v0.5.zip" target="_blank">http://project-babel.googlecode.com/files/project-babel-v0.5.zip</a> <span class="tip">7 MB</span><br />
+安装说明:&nbsp;&nbsp;<a href="http://labs.v2ex.com/installation.php" target="_blank">http://labs.v2ex.com/installation.php</a>
+</blockquote>
+
+<?php _v_ico_silk('bullet_go'); ?> 2006-7-14: <strong>R500 - Banana Co</strong> <span class="tip"><small>Legacy Release</small></span>
+
+<blockquote>
+下载地址:&nbsp;&nbsp;<a href="http://project-babel.googlecode.com/files/r500.tgz" target="_blank">http://project-babel.googlecode.com/files/r500.tgz</a> <span class="tip">3.3 MB</span><br />
 安装说明:&nbsp;&nbsp;<a href="http://www.v2ex.com/topic/view/1736.html" target="_blank">http://www.v2ex.com/topic/view/1736.html</a>
 </blockquote>
-<?php _v_ico_silk('bullet_go'); ?> 2006-4-10: <strong>R215</strong> <span class="tip"><small>Legacy Release</small></span>
+
+<?php _v_ico_silk('bullet_go'); ?> 2006-4-10: <strong>R215 - Silver Town</strong> <span class="tip"><small>Legacy Release</small></span>
+
 <blockquote>
-下载地址:&nbsp;&nbsp;<a href="http://project-babel.googlecode.com/files/r215.tgz" target="_blank">http://project-babel.googlecode.com/files/r215.tgz</a> <span class="tip">2.1M</span><br />
+下载地址:&nbsp;&nbsp;<a href="http://project-babel.googlecode.com/files/r215.tgz" target="_blank">http://project-babel.googlecode.com/files/r215.tgz</a> <span class="tip">2.1 MB</span><br />
 安装说明:&nbsp;&nbsp;<a href="http://www.v2ex.com/topic/view/127.html" target="_blank">http://www.v2ex.com/topic/view/127.html</a>
 </blockquote><br />
 
