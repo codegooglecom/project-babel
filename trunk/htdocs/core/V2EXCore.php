@@ -139,12 +139,6 @@ class Page {
 			mysql_query("SET NAMES utf8");
 			mysql_query("SET CHARACTER SET utf8");
 			mysql_query("SET COLLATION_CONNECTION='utf8_general_ci'");
-			if (BABEL_DEBUG) {
-				$_SESSION['babel_debug_profiling'] = true;
-				mysql_query("SET PROFILING = 1") or $_SESSION['babel_debug_profiling'] = false;
-			} else {
-				$_SESSION['babel_debug_profiling'] = false;
-			}
 			$rs = mysql_query('SELECT nod_id FROM babel_node WHERE nod_id = 1');
 			if (@mysql_num_rows($rs) == 1) {
 				mysql_free_result($rs);
@@ -171,6 +165,12 @@ class Page {
 			$this->cl = Zend_Cache::factory('Core', ZEND_CACHE_TYPE_LONG, $ZEND_CACHE_OPTIONS_LONG_FRONTEND, $ZEND_CACHE_OPTIONS_LONG_BACKEND[ZEND_CACHE_TYPE_LONG]);
 		}
 		session_start();
+		if (BABEL_DEBUG) {
+			$_SESSION['babel_debug_profiling'] = true;
+			mysql_query("SET PROFILING = 1") or $_SESSION['babel_debug_profiling'] = false;
+		} else {
+			$_SESSION['babel_debug_profiling'] = false;
+		}
 		$this->User = new User('', '', $this->db);
 		if ($this->User->vxIsLogin()) {
 			$sql = "SELECT usr_id, usr_gender, usr_nick, usr_portrait FROM babel_user, babel_friend WHERE usr_id = frd_fid AND frd_uid = {$this->User->usr_id} ORDER BY frd_created ASC";
@@ -299,7 +299,7 @@ class Page {
 				echo('Debug log is empty.');
 			}
 			if (isset($this->db)) {
-				if (@$_SESSION['babel_debug_profiling']) {
+				if ($_SESSION['babel_debug_profiling']) {
 					_v_hr();				
 					$rs = mysql_query("SHOW PROFILES");
 					while ($_p = mysql_fetch_array($rs)) {
