@@ -182,8 +182,11 @@ V2EX 的制作者是一个狂热的移动设备收藏迷，因而能够兼容各
 <a href="http://www.v2ex.com/u/Livid" target="_blank"><img src="<?php echo CDN_UI; ?>p/1_s.jpg" style="margin-right: 5px;" align="left" class="p" border="0" /></a> <a href="http://www.v2ex.com/u/Livid" target="_blank">Livid</a><span class="tip"><small> - Location: Shanghai, China</small></span><br /><span class="tip"><small>The creator of the project.</small></span>
 <?php _v_hr(); ?>
 <span class="tip"><small><?php _v_ico_silk('email_edit'); ?> Want to join? write to <a href="mailto:v2ex.livid at mac.com" target="_blank">v2ex.livid at mac.com</a></small></span>
+<?php _v_hr(); ?>
+<small><?php _v_ico_silk('server'); ?> Hosted by <a href="http://www.mediatemple.net/" target="_blank">(mt) Media Temple</a></small>
+<div style="padding-top: 10px;">
+<a href="http://www.mediatemple.net/" target="_blank"><img src="http://www.mediatemple.net/_images/partnerlogos/mt-234x60-lt.jpg" border="0" alt="Hosted by (mt) Media Temple" /></a></div>
 </div>
-
 
 </div>
 </div>
