@@ -24,9 +24,9 @@
 			<comments>{$site_base}topic/view/{$topic->tpc_id}.html#reply</comments>
 			<dc:creator>{$topic->usr_nick}</dc:creator>
 			<author>{$topic->usr_nick}</author>
-			<enclosure url="http://{$site_domain}{$topic->usr_portrait_img}" type="image/jpeg" />
+			<!--<enclosure url="http://{$site_domain}{$topic->usr_portrait_img}" type="image/jpeg" />
 			<enclosure url="http://{$site_domain}{$topic->usr_portrait_img_s}" type="image/jpeg" />
-			<enclosure url="http://{$site_domain}{$topic->usr_portrait_img_n}" type="image/jpeg" />
+			<enclosure url="http://{$site_domain}{$topic->usr_portrait_img_n}" type="image/jpeg" />-->
 			<category>{$topic->nod_title}</category>
 			<description>
 			{$topic->tpc_content}

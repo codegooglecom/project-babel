@@ -244,6 +244,7 @@ CREATE TABLE `babel_message` (
   KEY `INDEX_DRAFT` (`msg_draft`),
   KEY `INDEX_CREATED` (`msg_created`),
   KEY `INDEX_SENT` (`msg_sent`),
+  KEY `INDEX_OPENED` (`msg_opened`),
   KEY `INDEX_SDELETED` (`msg_sdeleted`),
   KEY `INDEX_RDELETED` (`msg_rdeleted`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Babel Message Table';
@@ -348,7 +349,8 @@ CREATE TABLE `babel_post` (
   `pst_lastupdated` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`pst_id`),
   KEY `INDEX_TID` (`pst_tid`),
-  KEY `INDEX_UID` (`pst_uid`)
+  KEY `INDEX_UID` (`pst_uid`),
+  KEY `INDEX_CREATED` (`pst_created`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Babel Post Table';
 
 -- --------------------------------------------------------
@@ -491,7 +493,8 @@ CREATE TABLE `babel_user` (
   KEY `INDEX_PORTRAIT` (`usr_portrait`),
   KEY `INDEX_HITS` (`usr_hits`),
   KEY `INDEX_LASTLOGIN` (`usr_lastlogin`),
-  KEY `INDEX_GEO` (`usr_geo`)
+  KEY `INDEX_GEO` (`usr_geo`),
+  KEY `INDEX_CREATED` (`usr_created`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Babel User Table';
 
 -- --------------------------------------------------------
