@@ -133,10 +133,10 @@ class Feed {
 			$i++;
 			$Topics[$i] = $Topic;
 			$Topics[$i]->tpc_title = htmlspecialchars($Topics[$i]->tpc_title, ENT_NOQUOTES);
-			if (PHEEDO_X != '') {
-				$Topics[$i]->tpc_content .= '<div style="padding-top: 10px;"><a href="http://www.pheedo.com/click.phdo?x=' . PHEEDO_X . '&u=' . $Topic->tpc_id . '"><img src="http://www.pheedo.com/img.phdo?x=' . PHEEDO_X . '&u=' . $Topic->tpc_id . '" border="0"/></a></div>';
-			}
 			$Topics[$i]->tpc_content = htmlspecialchars(format_ubb($Topics[$i]->tpc_content), ENT_NOQUOTES);
+			if (PHEEDO_X != '') {
+				$Topics[$i]->tpc_content .= htmlspecialchars('<div style="padding-top: 15px;"><a href="http://www.pheedo.com/click.phdo?x=' . PHEEDO_X . '&u=' . $Topic->tpc_id . '"><img src="http://www.pheedo.com/img.phdo?x=' . PHEEDO_X . '&u=' . $Topic->tpc_id . '" border="0"/></a></div>', ENT_NOQUOTES);
+			}
 			$Topics[$i]->tpc_pubdate = date('r', $Topics[$i]->tpc_created);
 			$Topics[$i]->entry_link = 'http://' . BABEL_DNS_NAME . '/topic/view/' . $Topic->tpc_id . '.html';
 			$Topics[$i]->usr_portrait_img = $Topic->usr_portrait ? CDN_P . 'p/' . $Topic->usr_portrait . '.jpg' : CDN_P . 'p_' . $Topic->usr_gender . '.gif';
@@ -187,10 +187,10 @@ class Feed {
 				$Topics[$i] = $Topic;
 				$Topics[$i]->nod_title = htmlspecialchars($Topics[$i]->nod_title, ENT_NOQUOTES);
 				$Topics[$i]->tpc_title = htmlspecialchars($Topics[$i]->tpc_title, ENT_NOQUOTES);
-				if (PHEEDO_X != '') {
-					$Topics[$i]->tpc_content .= '<div style="padding-top: 10px;"><a href="http://www.pheedo.com/click.phdo?x=' . PHEEDO_X . '&u=' . $Topic->tpc_id . '"><img src="http://www.pheedo.com/img.phdo?x=' . PHEEDO_X . '&u=' . $Topic->tpc_id . '" border="0"/></a></div>';
-				}
 				$Topics[$i]->tpc_content = htmlspecialchars(format_ubb($Topics[$i]->tpc_content), ENT_NOQUOTES);
+				if (PHEEDO_X != '') {
+					$Topics[$i]->tpc_content .= htmlspecialchars('<div style="padding-top: 15px;"><a href="http://www.pheedo.com/click.phdo?x=' . PHEEDO_X . '&u=' . $Topic->tpc_id . '"><img src="http://www.pheedo.com/img.phdo?x=' . PHEEDO_X . '&u=' . $Topic->tpc_id . '" border="0"/></a></div>', ENT_NOQUOTES);
+				}
 				$Topics[$i]->tpc_pubdate = date('r', $Topics[$i]->tpc_created);
 				$Topics[$i]->entry_link = 'http://' . BABEL_DNS_NAME . '/topic/view/' . $Topic->tpc_id . '.html';
 				$Topics[$i]->usr_portrait_img = $Topic->usr_portrait ? CDN_P . 'p/' . $Topic->usr_portrait . '.jpg' : CDN_P . 'p_' . $Topic->usr_gender . '.gif';
@@ -215,10 +215,10 @@ class Feed {
 			$i++;
 			$Topics[$i] = $Topic;
 			$Topics[$i]->tpc_title = htmlspecialchars($Topics[$i]->tpc_title, ENT_NOQUOTES);
-			if (PHEEDO_X != '') {
-				$Topics[$i]->tpc_content .= '<div style="padding-top: 10px;"><a href="http://www.pheedo.com/click.phdo?x=' . PHEEDO_X . '&u=' . $Topic->tpc_id . '"><img src="http://www.pheedo.com/img.phdo?x=' . PHEEDO_X . '&u=' . $Topic->tpc_id . '" border="0"/></a></div>';
-			}
 			$Topics[$i]->tpc_content = htmlspecialchars(format_ubb($Topics[$i]->tpc_content), ENT_NOQUOTES);
+			if (PHEEDO_X != '') {
+				$Topics[$i]->tpc_content .= htmlspecialchars('<div style="padding-top: 15px;"><a href="http://www.pheedo.com/click.phdo?x=' . PHEEDO_X . '&u=' . $Topic->tpc_id . '"><img src="http://www.pheedo.com/img.phdo?x=' . PHEEDO_X . '&u=' . $Topic->tpc_id . '" border="0"/></a></div>', ENT_NOQUOTES);
+			}
 			$Topics[$i]->tpc_pubdate = date('r', $Topics[$i]->tpc_created);
 			$Topics[$i]->entry_link = 'http://' . BABEL_DNS_NAME . '/topic/view/' . $Topic->tpc_id . '.html';
 			$Topics[$i]->usr_portrait_img = $Topic->usr_portrait ? CDN_P . 'p/' . $Topic->usr_portrait . '.jpg' : CDN_P . 'p_' . $Topic->usr_gender . '.gif';
@@ -243,10 +243,10 @@ class Feed {
 			$i++;
 			$Topics[$i] = $Topic;
 			$Topics[$i]->tpc_title = htmlspecialchars($Topics[$i]->tpc_title, ENT_NOQUOTES);
-			if (PHEEDO_X != '') {
-				$Topics[$i]->tpc_content .= '<div style="padding-top: 10px;"><a href="http://www.pheedo.com/click.phdo?x=' . PHEEDO_X . '&u=' . $Topic->tpc_id . '"><img src="http://www.pheedo.com/img.phdo?x=' . PHEEDO_X . '&u=' . $Topic->tpc_id . '" border="0"/></a></div>';
-			}
 			$Topics[$i]->tpc_content = htmlspecialchars(format_ubb($Topics[$i]->tpc_content), ENT_NOQUOTES);
+			if (PHEEDO_X != '') {
+				$Topics[$i]->tpc_content .= htmlspecialchars('<div style="padding-top: 15px;"><a href="http://www.pheedo.com/click.phdo?x=' . PHEEDO_X . '&u=' . $Topic->tpc_id . '"><img src="http://www.pheedo.com/img.phdo?x=' . PHEEDO_X . '&u=' . $Topic->tpc_id . '" border="0"/></a></div>', ENT_NOQUOTES);
+			}
 			$Topics[$i]->tpc_pubdate = date('r', $Topics[$i]->tpc_created);
 			$Topics[$i]->entry_link = 'http://' . BABEL_DNS_NAME . '/topic/view/' . $Topic->tpc_id . '.html';
 			$Topics[$i]->usr_portrait_img = $Topic->usr_portrait ? CDN_P . 'p/' . $Topic->usr_portrait . '.jpg' : CDN_P . 'p_' . $Topic->usr_gender . '.gif';
@@ -277,10 +277,10 @@ class Feed {
 			$i++;
 			$Posts[$i] = $Post;
 			$Posts[$i]->pst_title = htmlspecialchars('#' . $i . ' - ' . $Posts[$i]->pst_title, ENT_NOQUOTES);
-			if (PHEEDO_X != '') {
-				$Posts[$i]->pst_content .= '<div style="padding-top: 10px;"><a href="http://www.pheedo.com/click.phdo?x=' . PHEEDO_X . '&u=' . $Post->pst_id . '"><img src="http://www.pheedo.com/img.phdo?x=' . PHEEDO_X . '&u=' . $Post->pst_id . '" border="0"/></a></div>';
-			}
 			$Posts[$i]->pst_content = htmlspecialchars(format_ubb($Posts[$i]->pst_content), ENT_NOQUOTES);
+			if (PHEEDO_X != '') {
+				$Posts[$i]->pst_content .= htmlspecialchars('<div style="padding-top: 10px;"><a href="http://www.pheedo.com/click.phdo?x=' . PHEEDO_X . '&u=' . $Post->pst_id . '"><img src="http://www.pheedo.com/img.phdo?x=' . PHEEDO_X . '&u=' . $Post->pst_id . '" border="0"/></a></div>', ENT_NOQUOTES);
+			}
 			$Posts[$i]->pst_pubdate = date('r', $Posts[$i]->pst_created);
 			$Posts[$i]->usr_nick = htmlspecialchars($Posts[$i]->usr_nick, ENT_NOQUOTES);
 			if ($i == 1) {
@@ -302,6 +302,7 @@ class Feed {
 		}
 		mysql_free_result($rs);
 		$Posts = array_reverse($Posts, true);
+		$latest = time();
 		$description = htmlspecialchars('截至 ' . date('Y-n-j G:i:s T', $latest) . ' ，主题 [ <a href="http://' . BABEL_DNS_NAME . '/topic/view/' . $Topic->tpc_id . '.html" target="_blank">' . $Topic->tpc_title . '</a> ] 共收到来自 ' . count($Topic->tpc_followers) . ' 名会员的 ' . $count . ' 篇回复。', ENT_NOQUOTES);
 		$this->s->assign('site_url', 'http://' . BABEL_DNS_NAME . '/topic/view/' . $Topic->tpc_id . '.html');
 		$this->s->assign('feed_title', 'Latest replies to ' . make_plaintext($Topic->tpc_title));

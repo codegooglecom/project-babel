@@ -494,14 +494,19 @@ class Page {
 		global $GOOGLE_AD_LEGAL;
 		
 		if ($this->User->usr_id != 0) {
-			$sql = "SELECT COUNT(tpc_id) FROM babel_topic WHERE tpc_uid = {$this->User->usr_id}";
-			$rs = mysql_query($sql, $this->db);
-			if ($this->tpc_count == 0) {
-				$this->usr_share = 0;
+			if ($usr_share = $this->cs->get('babel_user_share_' . $this->User->usr_id)) {
+				$this->usr_share = floatval($usr_share);
 			} else {
-				$this->usr_share = (mysql_result($rs, 0, 0) / $this->tpc_count) * 100;
+				$sql = "SELECT COUNT(tpc_id) FROM babel_topic WHERE tpc_uid = {$this->User->usr_id}";
+				$rs = mysql_query($sql, $this->db);
+				if ($this->tpc_count == 0) {
+					$this->usr_share = 0;
+				} else {
+					$this->usr_share = (mysql_result($rs, 0, 0) / $this->tpc_count) * 100;
+				}
+				mysql_free_result($rs);
+				$this->cs->save(strval($this->usr_share), 'babel_user_share_' . $this->User->usr_id);
 			}
-			mysql_free_result($rs);
 			echo('<div id="top_right"><a href="/u/' . urlencode($this->User->usr_nick) . '" class="tr">' . $this->User->usr_nick . '</a> <a href="/user/modify.vx" class="tr">' . $this->lang->settings() . '</a> <a href="/new_features.html" class="tr">' . $this->lang->new_features() . '</a> <a href="/logout.vx" class="tr">' . $this->lang->logout() . '</a> <a href="/expense/view.vx" class="tr">' . $this->lang->copper(intval($this->User->usr_money)) . '</a> ');
 			printf("<a href=\"/topic/archive/user/{$this->User->usr_nick}\" class=\"tr\"><small>%.3f%%</small></a>", $this->usr_share);
 			if ($this->User->usr_sw_shell) {
@@ -775,6 +780,12 @@ class Page {
 		
 		global $GOOGLE_AD_LEGAL;
 		echo('<div id="menu" align="center">');
+		echo('<div class="menu_inner" align="left">');
+		_v_ico_silk('zoom');
+		echo(' <small>Google Custom Search</small>');
+		_v_hr();
+		require_once(BABEL_PREFIX . '/res/google_search.php');
+		echo('</div>');
 		if ($this->User->vxIsLogin()) {
 			echo('<div class="menu_inner" align="left"><ul class="menu">');
 		
@@ -1727,22 +1738,31 @@ class Page {
 			$o .= file_get_contents(BABEL_PREFIX . '/res/hot.html');
 		}
 
-		if ($style != 'remix') {		
-			$sql = "SELECT tpc_id, tpc_title, tpc_posts, nod_id, nod_name, nod_title, usr_id, usr_nick, usr_portrait, usr_gender FROM babel_topic, babel_node, babel_user WHERE tpc_uid = usr_id AND tpc_pid = nod_id AND tpc_flag IN (0, 2) AND tpc_pid NOT IN " . BABEL_NODES_POINTLESS . " AND tpc_posts > 10 ORDER BY tpc_lasttouched DESC LIMIT 1";			
-			$rs = mysql_query($sql);
-			if (mysql_num_rows($rs) == 1) {
-				$Hot = mysql_fetch_object($rs);
-				$img_p = $Hot->usr_portrait ? CDN_IMG . 'p/' . $Hot->usr_portrait . '_n.jpg' : CDN_IMG . 'p_' . $Hot->usr_gender . '_n.gif';
-				$o .= '<div class="blank" align="left">';
-				$o .= '<h1 class="ititle"><img src="' . $img_p . '" align="absmiddle" class="portrait" />&nbsp;<a href="/topic/view/' . $Hot->tpc_id . '.html" style="color: ' . rand_color() . ';" class="var">' . make_plaintext($Hot->tpc_title) . '</a></h1><span class="tip_i"> <hr size="1" color="#EEE" style="color: #EEE; background-color: #EEE; height: 1px; border: 0;" />... <a href="/topic/view/' . $Hot->tpc_id . '.html#reply" class="t">' . $Hot->tpc_posts . ' 篇回复</a> | <a href="/topic/view/' . $Hot->tpc_id . '.html#replyForm" class="t">我要参与讨论</a> | 浏览讨论区 <a href="/go/' . $Hot->nod_name . '" class="t">' . $Hot->nod_title . '</a> | <a href="/topic/archive/user/' . $Hot->usr_nick . '" class="t">' . make_plaintext($Hot->usr_nick) . '</a> 的个人专辑 | <a href="/hot.html" class="t">浏览更多最热话题</a>';
-				$o .= '</span></div>';
-				$_SESSION['babel_hot'] = array();
-				$_SESSION['babel_hot']['title'] = $Hot->tpc_title;
-				$_SESSION['babel_hot']['id'] = $Hot->tpc_id;
-				$_SESSION['babel_hot']['posts'] = $Hot->tpc_posts;
+		if ($style != 'remix') {
+			if ($active = $this->cs->get('babel_home_active')) {
+				// Nothing to do here.
+			} else {
+				$active = '';
+				$sql = "SELECT tpc_id, tpc_title, tpc_posts, nod_id, nod_name, nod_title, usr_id, usr_nick, usr_portrait, usr_gender FROM babel_topic, babel_node, babel_user WHERE tpc_uid = usr_id AND tpc_pid = nod_id AND tpc_flag IN (0, 2) AND tpc_pid NOT IN " . BABEL_NODES_POINTLESS . " AND tpc_posts > 10 ORDER BY tpc_lasttouched DESC LIMIT 1";			
+				$rs = mysql_query($sql);
+				if (mysql_num_rows($rs) == 1) {
+					
+					$Hot = mysql_fetch_object($rs);
+					$img_p = $Hot->usr_portrait ? CDN_IMG . 'p/' . $Hot->usr_portrait . '_n.jpg' : CDN_IMG . 'p_' . $Hot->usr_gender . '_n.gif';
+					$active .= '<div class="blank" align="left">';
+					$active .= '<h1 class="ititle"><img src="' . $img_p . '" align="absmiddle" class="portrait" />&nbsp;<a href="/topic/view/' . $Hot->tpc_id . '.html" style="color: ' . rand_color() . ';" class="var">' . make_plaintext($Hot->tpc_title) . '</a></h1><span class="tip_i"> <hr size="1" color="#EEE" style="color: #EEE; background-color: #EEE; height: 1px; border: 0;" />... <a href="/topic/view/' . $Hot->tpc_id . '.html#reply" class="t">' . $Hot->tpc_posts . ' 篇回复</a> | <a href="/topic/view/' . $Hot->tpc_id . '.html#replyForm" class="t">我要参与讨论</a> | 浏览讨论区 <a href="/go/' . $Hot->nod_name . '" class="t">' . $Hot->nod_title . '</a> | <a href="/topic/archive/user/' . $Hot->usr_nick . '" class="t">' . make_plaintext($Hot->usr_nick) . '</a> 的个人专辑 | <a href="/hot.html" class="t">浏览更多最热话题</a>';
+					$active .= '</span></div>';
+					$_SESSION['babel_hot'] = array();
+					$_SESSION['babel_hot']['title'] = $Hot->tpc_title;
+					$_SESSION['babel_hot']['id'] = $Hot->tpc_id;
+					$_SESSION['babel_hot']['posts'] = $Hot->tpc_posts;
+				}
+				mysql_free_result($rs);
+				$this->cs->save($active, 'babel_home_active');
 			}
-			mysql_free_result($rs);
 		}
+		
+		$o .= $active;
 		
 		/* vxHomeLatest() for single or vxHomeLatestTabs() for multi. */
 		
@@ -1775,6 +1795,13 @@ class Page {
 				$go = false;
 				if ($this->User->usr_sw_shuffle_cloud == 1) {
 					$o = $o . '<div class="blank" align="left">';
+					$o .= '<span class="tip_i">New in ' . Vocabulary::site_name . '&nbsp;&nbsp;';
+					$sql = "SELECT nod_id, nod_title, nod_name FROM babel_node ORDER BY nod_created DESC LIMIT 10";
+					$rs = mysql_query($sql);
+					while ($_new = mysql_fetch_array($rs)) {
+						$o .= '<a href="/go/' . $_new['nod_name'] . '" class="var" style="color: ' . rand_color() . '">' . make_plaintext($_new['nod_title']) . '</a>&nbsp;&nbsp;';
+					}
+					$o .= '</span>';
 					$_seed = rand(1, 200);		
 					$_SESSION['babel_home_style'] = 'shuffle';
 					if ($_o = $this->cl->load('home_' . $_seed)) {
@@ -2308,19 +2335,25 @@ class Page {
 				$p_count = 9;
 				break;
 		}
-		$ts_month = time() - 86400 * 31;
-		$sql = "SELECT usr_id, usr_nick, usr_geo, usr_portrait FROM babel_user WHERE usr_portrait != '' AND usr_hits > 100 AND usr_lastlogin > {$ts_month} ORDER BY rand() LIMIT {$p_count}";
-		$rs = mysql_query($sql);
 		
-		$i = 0;
-		
-		while ($User = mysql_fetch_object($rs)) {
-			$i++;
-			$img_p = $User->usr_portrait ? '/img/p/' . $User->usr_portrait . '.jpg' : '/img/p_' . $User->usr_gender . '.gif';
-			$o .= '<a href="/u/' . urlencode($User->usr_nick) . '" class="friend"><img src="' . $img_p . '" class="portrait" /><br />' . $User->usr_nick . '<div class="tip">' . $this->Geo->map['name'][$User->usr_geo] . '</div></a>';
+		if ($oo = $this->cs->get('babel_home_portrait_' . $p_count)) {
+		} else {		
+			$ts_month = time() - 86400 * 31;
+			$sql = "SELECT usr_id, usr_nick, usr_geo, usr_portrait FROM babel_user WHERE usr_portrait != '' AND usr_hits > 100 AND usr_lastlogin > {$ts_month} ORDER BY rand() LIMIT {$p_count}";
+			$rs = mysql_query($sql);
+			$i = 0;
+			$oo = '';
+			while ($User = mysql_fetch_object($rs)) {
+				$i++;
+				$img_p = $User->usr_portrait ? '/img/p/' . $User->usr_portrait . '.jpg' : '/img/p_' . $User->usr_gender . '.gif';
+				$oo .= '<a href="/u/' . urlencode($User->usr_nick) . '" class="friend"><img src="' . $img_p . '" class="portrait" /><br />' . $User->usr_nick . '<div class="tip">' . $this->Geo->map['name'][$User->usr_geo] . '</div></a>';
+			}
+			mysql_free_result($rs);
+			$this->cs->save($oo, 'babel_home_portrait_' . $p_count);
 		}
 		
-		mysql_free_result($rs);
+		$o .= $oo;
+		
 		$o .= '</td></tr>';
 		$o .= '</table>';
 		$o .= '</div>';
@@ -2408,7 +2441,7 @@ class Page {
 			while ($Board = mysql_fetch_object($rs_boards)) {
 				$o .= '&nbsp;&nbsp;<a href="/go/' . $Board->nod_name . '" class="g">' . $Board->nod_title . '</a>';
 			}
-			$_topics = 40;
+			$_topics = 31;
 			$o .= '</span><br />' . $this->vxHomeSection($Node->nod_id, $_topics) . '</td></tr>';
 		}
 		
@@ -3837,6 +3870,9 @@ class Page {
 		if ($Online = mysql_fetch_object($rs)) {
 			$_flag_online = true;
 			$_o = '当前在线，于 ' . make_descriptive_time($Online->onl_created) . '进入 ' . Vocabulary::site_name . '，最后活动时间是在 ' . make_descriptive_time($Online->onl_lastmoved);
+			if ($this->User->usr_id == 1) {
+				$_o .= '，IP 地址 ' . $Online->onl_ip;
+			}
 		} else {
 			$_flag_online = false;
 			$_o = '当前不在线';
@@ -7736,6 +7772,7 @@ class Page {
 				if ($Topic->usr_id == $Reply->usr_id) {
 					echo(' <span class="tip_i">楼主</span>');
 				}
+				echo(' <span class="tip_i"><a href="/geo/' . urlencode($Reply->usr_geo) . '" class="var">' . $this->Geo->map['name'][$Reply->usr_geo] . '</a></span>');
 				echo('<div style="margin-bottom: -5px;"></div>');
 				echo('<div style="padding-left: 45px;">' . format_ubb($Reply->pst_content) . '</div>');
 				echo('</div>');
@@ -8069,7 +8106,13 @@ class Page {
 					echo('<img src="/img/icons/silk/bullet_yellow.png" align="absmiddle" /> <span class="tip_i"><small><a href="' . make_plaintext($Online->onl_ref) . '" class="var">' . make_plaintext($ref) . '</a></small></small>');
 				}
 			} else {
-				echo('<img src="/img/icons/silk/user.png" align="absmiddle" /> <a href="/u/' . urlencode($Online->onl_nick) . '" class="t">' . make_plaintext($Online->onl_nick) . '</a> <span class="tip_i"> - ' . make_descriptive_time($Online->onl_lastmoved) . ' - </span> <small class="lime">' . make_masked_ip($Online->onl_ip) . '</small>');
+				echo('<img src="/img/icons/silk/user.png" align="absmiddle" /> <a href="/u/' . urlencode($Online->onl_nick) . '" class="t">' . make_plaintext($Online->onl_nick) . '</a> <span class="tip_i"> - ' . make_descriptive_time($Online->onl_lastmoved) . ' - </span> <small class="lime">');
+				if ($this->User->usr_id == 1) {
+					echo $Online->onl_ip;
+				} else {
+					echo make_masked_ip($Online->onl_ip);
+				}
+				echo('</small>');
 				_v_hr();
 				if (mb_strlen($Online->onl_ua, 'UTF-8') > 30) {
 					$Online->onl_ua = mb_substr($Online->onl_ua, 0, 30) . ' ...';
@@ -9933,7 +9976,7 @@ class Page {
 		} else {
 			$action = '/go/';
 			$suffix = '';
-			$sql = "SELECT nod_name AS itm_id, nod_title AS itm_title, nod_lastupdated AS itm_time, nod_topics AS itm_items FROM babel_node WHERE nod_sid = {$section_id} ORDER BY rand()";
+			$sql = "SELECT nod_name AS itm_id, nod_title AS itm_title, nod_lastupdated AS itm_time, nod_topics AS itm_items FROM babel_node WHERE nod_sid = {$section_id} ORDER BY rand() LIMIT {$items}";
 		}
 		$rs = mysql_query($sql, $this->db);
 		$i = 0;
