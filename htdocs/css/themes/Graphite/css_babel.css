@@ -882,6 +882,32 @@ border-right: 1px solid #DDD;
 border-bottom: 1px solid #DDD;
 }
 
+a.p_ing, a.p_ing:active, a.p_ing:visited {
+margin-right: 2px;
+font-size: 11px;
+color: #FFF;
+padding: 2px 4px 2px 4px;
+background-color: #3366FF;
+border-left: 1px solid #3CF;  
+border-top: 1px solid #3CF;
+border-right: 1px solid #30C;
+border-bottom: 1px solid #30C;
+text-decoration: none;
+}
+
+a.p_ing:hover {
+margin-right: 2px;
+font-size: 11px;
+color: #FFF;
+padding: 2px 4px 2px 4px;
+background-color: #30C;
+border-left: 1px solid #3CF;  
+border-top: 1px solid #3CF;
+border-right: 1px solid #30C;
+border-bottom: 1px solid #30C;
+text-decoration: none;
+}
+
 a.p, a.p:active, a.p:visited {
 margin-right: 2px;
 font-size: 11px;

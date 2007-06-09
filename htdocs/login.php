@@ -31,8 +31,13 @@ if (strtoupper($_SERVER['REQUEST_METHOD']) == 'POST') {
 		$_SESSION['babel_usr_password'] = sha1($rt['usr_password_value']);
 		$rt['mode'] = 'ok';
 		if (trim($rt['return']) != '') {
-			header('Location: ' . $rt['return']);
-			die();
+			if (preg_match('/logout/i', $rt['return'])) {
+				header('Location: /');
+				die();
+			} else {
+				header('Location: ' . $rt['return']);
+				die();
+			}
 		}
 	} else {
 		$rt['mode'] = 'error';
@@ -68,6 +73,11 @@ if (strtoupper($_SERVER['REQUEST_METHOD']) == 'POST') {
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 <title><?php echo Vocabulary::site_name ?></title>
 <link href="/css/login.css" media="screen" rel="stylesheet" type="text/css" />
+<?php
+if (MINT_LOCATION != '') {
+	echo('<script src="' . MINT_LOCATION . '" type="text/javascript"></script>');
+}
+?>
 </head>
 <?php
 switch ($rt['mode']) {
