@@ -576,6 +576,9 @@ class Page {
 			if (BABEL_FEATURE_PIX) {
 				echo('<li><a href="/pix/' . $this->User->usr_nick_url . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/images.png" align="absmiddle" border="0" /> PIX</a></li>');
 			}
+			if (BABEL_FEATURE_BIT) {
+				echo('<li><a href="/bit" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/control_equalizer.png" align="absmiddle" border="0" /> BIT</a></li>');
+			}
 			echo('<li><a href="/topic/archive/user/' . urlencode($this->User->usr_nick) . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/comments.png" align="absmiddle" border="0" /> 我创建的所有主题</a></li>');
 			echo('<li><a href="/topic/favorite.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/star.png" align="absmiddle" border="0" /> 我的收藏夹</a></li>');
 			echo('<li><a href="/expense/view.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/coins_delete.png" align="absmiddle" border="0" /> 消费记录</a></li>');
@@ -802,6 +805,9 @@ class Page {
 			}
 			if (BABEL_FEATURE_PIX) {
 				echo('<li><img src="' . CDN_UI . 'img/icons/silk/images.png" align="absmiddle">&nbsp;<a href="/pix/' . $this->User->usr_nick_url . '">PIX</a> <span class="tip_i"><small>alpha</small></span></li>');
+			}
+			if (BABEL_FEATURE_BIT) {
+				echo('<li><img src="' . CDN_UI . 'img/icons/silk/control_equalizer.png" align="absmiddle">&nbsp;<a href="/bit">BIT</a> <span class="tip_i"><small>alpha</small></span></li>');
 			}
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/house.png" align="absmiddle" />&nbsp;<a href="/u/' . urlencode($this->User->usr_nick) . '">我的 ' . Vocabulary::site_name . ' 主页</a></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/coins_delete.png" align="absmiddle" />&nbsp;<a href="/expense/view.vx">消费记录</a></li>');
@@ -3162,7 +3168,11 @@ class Page {
 		
 		echo('<tr><td colspan="2" align="left" class="section_even">');
 		_v_ico_silk('computer');
-		echo(' <small><strong>Your User Agent</strong>: ' . $_SERVER['HTTP_USER_AGENT'] . '</small></td></tr>');
+		echo(' <small><strong>Your User Agent</strong>: ' . $_SERVER['HTTP_USER_AGENT'] . '</small>');
+		_v_hr();
+		_v_ico_silk('cog');
+		echo(' <small><strong>Parsed As</strong>: ' . $_SESSION['babel_ua']['name'] . '/' . $_SESSION['babel_ua']['version'] . ' on ' . $_SESSION['babel_ua']['platform'] . '</small>');
+		echo('</td></tr>');
 		
 		echo('<tr><td colspan="2" align="left"><div class="notify">');
 		
@@ -9461,6 +9471,7 @@ class Page {
 			_v_d_e();
 		}
 		mysql_free_result($rs_updates);
+		_v_hr();
 		if ($i > 0) {
 			_v_hr();
 			_v_ico_silk('feed');

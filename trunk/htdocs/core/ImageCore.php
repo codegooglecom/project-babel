@@ -52,7 +52,13 @@ class Image {
 	public function vxFlickrImageURL($text) {
 		$p_img = '/http\:\/\/farm([0-9]+)\.static\.flickr\.com\/([a-zA-Z0-9]*)\/([a-zA-Z0-9]*)\_([a-zA-Z0-9]*)\_m\.jpg/';
 		preg_match($p_img, $text, $img);
-		$url_img = 'http://farm' . $img[1] . '.static.flickr.com/' . $img[2] . '/' . $img[3] . '_' . $img[4] . '_s.jpg';
+		if (intval($img[1]) == 1) {
+			$host = '68.142.213.135';
+		}
+		if (intval($img[1]) == 2) {
+			$host = '69.147.90.156';
+		}
+		$url_img = 'http://' . $host . '/' . $img[2] . '/' . $img[3] . '_' . $img[4] . '_s.jpg';
 		$url = array('img' => $url_img);
 		return $url;
 	}

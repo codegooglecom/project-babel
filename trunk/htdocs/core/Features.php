@@ -41,4 +41,6 @@ define('BABEL_FEATURE_NODE_STOCK', true);
 define('BABEL_FEATURE_DRY', false);
 
 define('BABEL_FEATURE_PIX', false);
+
+define('BABEL_FEATURE_BIT', true);
 ?>
