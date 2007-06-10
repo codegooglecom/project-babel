@@ -42,5 +42,9 @@ define('BABEL_FEATURE_DRY', false);
 
 define('BABEL_FEATURE_PIX', false);
 
-define('BABEL_FEATURE_BIT', true);
+define('BABEL_FEATURE_BIT', false);
+
+define('BABEL_FEATURE_EGO', false);
+
+define('BABEL_FEATURE_PRO', false);
 ?>
