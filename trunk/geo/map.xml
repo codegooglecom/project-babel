@@ -69,6 +69,11 @@
 
 	<!-- start: countries in /earth/ -->
 	<location>
+		<geo>opensea</geo>
+		<cn>公海</cn>
+		<at>/earth/</at>
+	</location>
+	<location>
 		<geo>china</geo>
 		<cn>中国</cn>
 		<at>/earth/</at>
