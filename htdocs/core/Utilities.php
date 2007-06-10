@@ -207,6 +207,8 @@ function format_ubb($text, $emoticon = true) {
 	
 	$p[13] = '/\[s\](.*?)\[\/s\]/i';
 	
+	$p[14] = '/\[youtube\]([a-zA-Z0-9]+)\[\/youtube\]/i';
+	
 	$r[0] = '<img class="code" src="$1" border="0" />';
 	$r[1] = '<a href="$1" rel="nofollow external" class="tpc">$1</a>';
 	$r[2] = '<a href="http://$1" rel="nofollow external" class="tpc">http://$1</a>';
@@ -221,6 +223,7 @@ function format_ubb($text, $emoticon = true) {
 	$r[11] = '<em>$1</em>';
 	$r[12] = '讨论区 [ <a href="/go/$1" class="tpc">$2</a> ]';
 	$r[13] = '<strike>$1</strike>';
+	$r[14] = '<object width="425" height="350"><param name="movie" value="http://www.youtube.com/v/$1"></param><param name="wmode" value="transparent"></param><embed src="http://www.youtube.com/v/$1" type="application/x-shockwave-flash" wmode="transparent" width="425" height="350"></embed></object>';
 	
 	$text = preg_replace($p, $r, $text);
 	

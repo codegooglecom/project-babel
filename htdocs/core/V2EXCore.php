@@ -4104,7 +4104,9 @@ class Page {
 		mysql_free_result($rs);
 		
 		if (BABEL_FEATURE_USER_COMPONENTS) {
-			echo('<tr><td colspan="2" align="left" class="section_odd"><span class="text_large"><img src="/img/ico_savepoint.gif" align="absmiddle" class="home" />' . $O->usr_nick . ' 的网上据点<a name="svp" /></span></td></tr>');
+			echo('<tr><td colspan="2" align="left" class="section_odd"><span class="text_large">');
+			_v_ico_tango_32('places/start-here');
+			echo(' ' . $O->usr_nick . ' 的网上据点<a name="svp" /></span></td></tr>');
 			
 			$msgs = array(0 => '新据点添加失败，你可以再试一次，或者是到 <a href="/go/babel">Developer Corner</a> 向我们报告错误', 1 => '新据点添加成功', 2 => '你刚才想添加的据点已经存在于你的列表中', 3 => '目前，每个人只能添加至多 ' . BABEL_SVP_LIMIT . ' 个据点，你可以试着删除掉一些过去添加的，我们正在扩展系统的能力以支持更多的据点', 4 => '要删除的据点不存在', 5 => '你不能删除别人的据点', 6 => '据点删除成功', 7 => '据点删除失败，你可以再试一次，或者是到 <a href="/go/babel">Developer Corner</a> 向我们报告错误', 9 => '不需要输入前面的 http:// 协议名称，直接添加网址就可以了，比如 www.livid.cn 这样的地址');
 			
@@ -4186,7 +4188,9 @@ class Page {
 			}
 		}
 		
-		echo('<tr><td colspan="2" align="left" class="section_odd"><span class="text_large"><img src="/img/ico_friends.gif" align="absmiddle" class="home" />' . $O->usr_nick . ' 的朋友们</span>');
+		echo('<tr><td colspan="2" align="left" class="section_odd"><span class="text_large">');
+		_v_ico_tango_32('emotes/face-grin');
+		echo(' ' . $O->usr_nick . ' 的朋友们</span>');
 		
 		if (isset($_GET['do'])) {
 			$do = strtolower(make_single_safe($_GET['do']));
@@ -4312,8 +4316,13 @@ class Page {
 				echo ('</td></tr>');
 			}
 		}
+		if (($i % 5) != 0) {
+			echo ('</td></tr>');
+		}
 		
-		echo('<tr><td colspan="2" align="left" class="section_odd"><span class="text_large"><img src="/img/ico_topic.gif" align="absmiddle" class="home"/>' . $O->usr_nick . ' 最近创建的主题</span>');
+		echo('<tr><td colspan="2" align="left" class="section_odd"><span class="text_large">');
+		_v_ico_tango_32('categories/applications-multimedia');
+		echo(' ' . $O->usr_nick . ' 最近创建的主题</span>');
 		echo('<table cellpadding="0" cellspacing="0" border="0" class="fav" width="100%">');
 		$i = 0;
 		while ($Topic = mysql_fetch_object($rs_created)) {
@@ -4326,7 +4335,9 @@ class Page {
 		echo('</table>');
 		echo('</td></tr>');
 		
-		echo('<tr><td colspan="2" align="left" class="section_odd"><span class="text_large"><img src="/img/ico_followed.gif" align="absmiddle" class="home"/>' . $O->usr_nick . ' 最近参与的讨论</span>');
+		echo('<tr><td colspan="2" align="left" class="section_odd"><span class="text_large">');
+		_v_ico_tango_32('apps/internet-group-chat');
+		echo(' ' . $O->usr_nick . ' 最近参与的讨论</span>');
 		echo('<table cellpadding="0" cellspacing="0" border="0" class="fav" width="100%">');
 		
 		$i = 0;
@@ -4341,7 +4352,11 @@ class Page {
 		echo('</table>');
 		echo('</td></tr>');
 		if (BABEL_FEATURE_USER_COMPONENTS) {
-			echo('<tr><td colspan="2" align="left" class="section_odd"><span class="text_large"><img src="/img/ico_cc.gif" align="absmiddle" class="home"/>' . $O->usr_nick . ' 的成分分析</span>');
+			echo('<tr><td colspan="2" align="left" class="section_odd">');
+			echo('<div style="float: right;"><span class="tip_i">纯粹恶搞</span></div>');
+			echo('<span class="text_large">');
+			_v_ico_tango_32('emotes/face-devil-grin');
+			echo(' ' . $O->usr_nick . ' 的成分分析</span>');
 			echo('</td></tr>');
 			
 			if ($c = $this->cl->load('cc_' . $O->usr_id)) {
@@ -4370,25 +4385,62 @@ class Page {
 			echo('</td></tr>');
 		}
 		if (BABEL_FEATURE_USER_LASTFM && $O->usr_lastfm != '') {
-			$_tracks = new Zend_Feed_Rss('http://ws.audioscrobbler.com/1.0/user/' . $O->usr_lastfm . '/recenttracks.rss');
-			if (count($_tracks) > 0) {
+			require_once('Zend/Service/Audioscrobbler.php');
+			
+			$as = new Zend_Service_Audioscrobbler();
+			$as->set('user', $O->usr_lastfm);
+			$_top_artists = $as->userGetTopArtists();
+			$_recent = $as->userGetRecentTracks();
+			echo('<tr><td colspan="2" align="left" class="section_odd"><span class="text_large">');
+				echo('<div style="float: right;"><span class="tip"><small><img src="/img/favicons/lastfm.png" align="absmiddle" /> <a href="http://www.last.fm/user/' . $O->usr_lastfm . '" target="_blank" class="var">Powered by Last.fm</a></small></span></div>');
+			_v_ico_tango_32('mimetypes/audio-x-generic', 'absmiddle');
+			echo(' ' . $O->usr_nick . ' 最喜欢的艺术家');
+			echo('</span>');
+			echo('</td></tr>');
+			$edges = array();
+			for ($i = 1; $i < 1000; $i++) {
+				$edges[] = ($i * 6) + 1;
+			}
+			$i = 0;
+			foreach ($_top_artists->artist as $artist) {
+				$i++;
+				if ($i == 1) {
+					echo('<tr><td colspan="2">');
+				} else {
+					if (in_array($i, $edges)) {
+						echo('<tr><td colspan="2">');
+					}
+				}
+				echo('<a href="' . $artist->url . '" class="artist" target="_blank" title="' . $artist->name . '"><img src="' . $artist->thumbnail . '" border="0" alt="' . make_single_return($artist->name) . '" class="portrait" /><br /><small>' . $artist->name . '</small>');
+				echo('<div class="tip">' . $artist->playcount . ' 次播放</div>');
+				echo('</a> ');
+				if (($i % 6) == 0) {
+					echo ('</td></tr>');
+				}	
+			}
+			if (($i % 6) != 0) {
+				echo ('</td></tr>');
+			}
+			define('TMP_GLOBAL_EIGHT_HOURS', 28800);
+			if (count($_recent) > 0) {
 				echo('<tr><td colspan="2" align="left" class="section_odd"><span class="text_large">');
-				echo('<div style="float: right;"><span class="tip"><small><img src="/img/favicons/lastfm.png" align="absmiddle" /> Powered by <a href="http://www.last.fm/user/' . $O->usr_lastfm . '" target="_blank" class="var">Last.fm</a></small></span></div>');
-				_v_ico_tango_32('actions/media-playback-start', 'absmiddle', 'home');
-				echo($O->usr_nick . ' 最近听过的音乐');
+				echo('<div style="float: right;"><span class="tip"><small><img src="/img/favicons/lastfm.png" align="absmiddle" /> <a href="http://www.last.fm/user/' . $O->usr_lastfm . '" target="_blank" class="var">Powered by Last.fm</a></small></span></div>');
+				_v_ico_tango_32('actions/media-playback-start', 'absmiddle');
+				echo(' ' . $O->usr_nick . ' 最近听过的音乐');
 				echo('</span>');
 				
 				$i = 0;
 				echo('<table cellpadding="0" cellspacing="0" border="0" class="fav" width="100%">');
-				foreach ($_tracks as $track) {
+				foreach ($_recent->track as $track) {
 					$i++;
 					$css_class = $i % 2 == 0 ? 'even' : 'odd';
 					$css_color = rand_color();
-					echo('<tr><td colspan="2" class="section_' . $css_class . '">' . _vo_ico_silk('bullet_blue') . ' <a href="' . $track->link() . '" target="_blank" class="var" style="color: ' . $css_color . '">' . make_plaintext($track->title()) . '</a><span class="tip_i"> ... ' . make_descriptive_time(strtotime($track->pubDate())) . '</span></td></tr>');
+					echo('<tr><td colspan="2" class="section_' . $css_class . '">' . _vo_ico_silk('bullet_blue') . ' <a href="http://www.last.fm/music/' . urlencode($track->artist) . '" target="_blank" class="var" style="color: ' . $css_color . '">' . make_plaintext($track->artist) . '</a> - <a href="http://www.last.fm/music/' . urlencode($track->artist) . '/' . urlencode($track->album) . '" target="_blank" class="var" style="color: ' . $css_color . '">' . make_plaintext($track->album) . '</a> - <a href="' . $track->url . '" target="_blank" class="var" style="color: ' . $css_color . '">' . make_plaintext($track->name) . '</a><span class="tip_i"> ... ' . make_descriptive_time(strtotime($track->date) + TMP_GLOBAL_EIGHT_HOURS) . '</span></td></tr>');
 				}
 				echo('</table>');
 				echo('</td></tr>');
 			}
+			
 		}
 		echo('<tr><td colspan="2" align="left" class="section_odd"><span class="tip"><img src="/img/icons/silk/user_go.png" align="absmiddle" /> ' . make_plaintext($O->usr_nick) . ' 的最后登录时间 ' . date('Y-n-j G:i:s', $O->usr_lastlogin) . '，总登录次数 ' . $O->usr_logins . ' 次。</span></td></tr>');
 		if ($O->usr_lastlogin_ua != '') {

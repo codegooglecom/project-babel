@@ -56,19 +56,19 @@ function _vo_ico_buuf($icon, $align = 'absmiddle') {
 }
 
 function _v_ico_tango_22($icon, $align = 'absmiddle') {
-	echo '<img src="/img/icons/tango/22x22/' . $icon . '.png" align="' . $align . '" border="0" />';
+	echo '<img src="' . CDN_UI . 'img/icons/tango/22x22/' . $icon . '.png" align="' . $align . '" border="0" />';
 }
 
 function _vo_ico_tango_22($icon, $align = 'absmiddle') {
-	return '<img src="/img/icons/tango/22x22/' . $icon . '.png" align="' . $align . '" border="0" />';
+	return '<img src="' . CDN_UI . 'img/icons/tango/22x22/' . $icon . '.png" align="' . $align . '" border="0" />';
 }
 
 function _v_ico_tango_32($icon, $align = 'absmiddle', $class = '') {
-	echo '<img src="/img/icons/tango/32x32/' . $icon . '.png" align="' . $align . '" border="0" class="' . $class . '" />';
+	echo '<img src="' . CDN_UI . 'img/icons/tango/32x32/' . $icon . '.png" align="' . $align . '" border="0" class="' . $class . '" />';
 }
 
 function _vo_ico_tango_32($icon, $align = 'absmiddle', $class = '') {
-	return '<img src="/img/icons/tango/32x32/' . $icon . '.png" align="' . $align . '" border="0" class="' . $class . '" />';
+	return '<img src="' . CDN_UI . 'img/icons/tango/32x32/' . $icon . '.png" align="' . $align . '" border="0" class="' . $class . '" />';
 }
 
 function _v_ing_style_personal() {
