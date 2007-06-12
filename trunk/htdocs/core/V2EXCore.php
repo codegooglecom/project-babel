@@ -168,6 +168,7 @@ class Page {
 		if (BABEL_DEBUG) {
 			$_SESSION['babel_debug_profiling'] = true;
 			mysql_query("SET PROFILING = 1") or $_SESSION['babel_debug_profiling'] = false;
+			mysql_query("SET PROFILING_HISTORY_SIZE = 100") or $_SESSION['babel_debug_profiling'] = false;
 		} else {
 			$_SESSION['babel_debug_profiling'] = false;
 		}
@@ -576,6 +577,9 @@ class Page {
 			if (BABEL_FEATURE_PIX) {
 				echo('<li><a href="/pix/' . $this->User->usr_nick_url . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/images.png" align="absmiddle" border="0" /> PIX</a></li>');
 			}
+			if (BABEL_FEATURE_ADD) {
+				echo('<li><a href="/bit" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/control_add.png" align="absmiddle" border="0" /> ADD</a></li>');
+			}
 			if (BABEL_FEATURE_BIT) {
 				echo('<li><a href="/bit" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/control_equalizer.png" align="absmiddle" border="0" /> BIT</a></li>');
 			}
@@ -805,6 +809,9 @@ class Page {
 			}
 			if (BABEL_FEATURE_PIX) {
 				echo('<li><img src="' . CDN_UI . 'img/icons/silk/images.png" align="absmiddle">&nbsp;<a href="/pix/' . $this->User->usr_nick_url . '">PIX</a> <span class="tip_i"><small>alpha</small></span></li>');
+			}
+			if (BABEL_FEATURE_ADD) {
+				echo('<li><img src="' . CDN_UI . 'img/icons/silk/add.png" align="absmiddle">&nbsp;<a href="/add/' . $this->User->usr_nick_url . '">ADD</a> <span class="tip_i"><small>alpha</small></span></li>');
 			}
 			if (BABEL_FEATURE_BIT) {
 				echo('<li><img src="' . CDN_UI . 'img/icons/silk/control_equalizer.png" align="absmiddle">&nbsp;<a href="/bit">BIT</a> <span class="tip_i"><small>alpha</small></span></li>');
@@ -1679,6 +1686,26 @@ class Page {
 				$this->vxMenu($_menu_options);
 				$this->vxDryCreate();
 				break;
+				
+			case 'add':
+				$_menu_options['modules']['new_members'] = false;
+				$_menu_options['modules']['friends'] = false;
+				$_menu_options['modules']['stats'] = false;
+				$_menu_options['modules']['fav'] = false;
+				$this->vxSidebar($show = false);
+				$this->vxMenu($_menu_options);
+				$this->vxAdd($options);
+				break;
+				
+			case 'add_hot':
+				$_menu_options['modules']['new_members'] = false;
+				$_menu_options['modules']['friends'] = false;
+				$_menu_options['modules']['stats'] = false;
+				$_menu_options['modules']['fav'] = false;
+				$this->vxSidebar($show = false);
+				$this->vxMenu($_menu_options);
+				$this->vxAddHot();
+				break;
 		}
 		echo('</div>');
 	}
@@ -1850,42 +1877,26 @@ class Page {
 			mysql_free_result($rs);
 			$o .= '</table>';
 			$o .= '</div>';
-			
 			$o = $o . '<div class="blank"><img src="' . CDN_UI . 'img/icons/silk/star.png" align="absmiddle" /> 在过去的几分钟里，我们在 ' . Vocabulary::site_name . ' 收藏了 ... <a href="/fav/latest.html" class="var" style="color: ' . rand_color() . '">浏览最新的 100 个收藏</a>';
-			
 			$o = $o . '<table ' . $hack_width . 'cellpadding="0" cellspacing="0" border="0" class="fav">';
-			
 			$sql = 'SELECT usr_id, usr_gender, usr_nick, usr_portrait, fav_id, fav_type, fav_title, fav_author, fav_res, fav_created FROM babel_favorite, babel_user WHERE fav_uid = usr_id ORDER BY fav_created DESC LIMIT 10';
-			
 			$rs = mysql_query($sql, $this->db);
-			
 			$items = array(0 => '主题', 1 => '讨论区', 2 => '频道');
 			$items_p = array(0 => 'mico_topic.gif', 1 => 'mico_gear.gif', 2 => 'mico_news.gif');
 			$items_n = array(0 => 'topic', 1 => 'board', 2 => 'channel');
-	
 			while ($Fav = mysql_fetch_object($rs)) {
-				
 				$img_p = $Fav->usr_portrait ? CDN_P . 'p/' . $Fav->usr_portrait . '_n.jpg' : CDN_P . 'p_' . $Fav->usr_gender . '_n.gif';
-				
 				$css_color = rand_color();
-				
 				$o = $o . '<tr><td align="left">&nbsp;<img src="' . $img_p . '" alt="' . $Fav->usr_nick . '" align="absmiddle" class="portrait" />&nbsp;<a href="/u/' . urlencode($Fav->usr_nick) . '" class="var" style="color: ' . $css_color . ';">' . make_plaintext($Fav->usr_nick) . '</a> 收藏了' . $items[$Fav->fav_type] . ' <span class="tip_i">[ <img src="' . CDN_IMG . $items_p[$Fav->fav_type] . '" align="absmiddle" /> <a href="/' . $items_n[$Fav->fav_type] . '/view/' . $Fav->fav_res . '.html" style="color: ' . $css_color . ';" class="var">' . make_plaintext($Fav->fav_title) . '</a> ] ... ' . make_descriptive_time($Fav->fav_created) . '</span></td></tr>';
-				
 				$Fav = null;
 			}
-			
 			mysql_free_result($rs);
-			
 			$o = $o . '</table>';
-			
 			$o = $o . '</div>';
-			
 			$o .= $this->vxHomeTools();
 		}
 		$o = $o . '</div>';
-		
 		echo $o;
-		
 	}
 	
 	/* E module: Home block */
@@ -4330,7 +4341,7 @@ class Page {
 			$css_color = rand_color();
 			$css_td_class = $i % 2 ? 'section_even' : 'section_odd';
 			$txt_fresh = $Topic->tpc_posts ? $Topic->tpc_posts . ' 篇回复' : '尚无回复';
-			echo('<tr><td align="left" class="' . $css_td_class . '">[ <a href="/board/view/' . $Topic->nod_id . '.html" class="var" style="color: ' . $css_color . '">' . $Topic->nod_title . '</a> ]&nbsp;:&nbsp;<a href="/topic/view/' . $Topic->tpc_id . '.html">' . $Topic->tpc_title . '</a> <span class="tip_i">... ' . make_descriptive_time($Topic->tpc_created) . '，' . $txt_fresh . '</span></td></tr>');
+			echo('<tr><td align="left" class="' . $css_td_class . '">[ <a href="/board/view/' . $Topic->nod_id . '.html" class="var" style="color: ' . $css_color . '">' . $Topic->nod_title . '</a> ]&nbsp;<a href="/topic/view/' . $Topic->tpc_id . '.html">' . $Topic->tpc_title . '</a> <span class="tip_i">... ' . make_descriptive_time($Topic->tpc_created) . '，' . $txt_fresh . '</span></td></tr>');
 		}
 		echo('</table>');
 		echo('</td></tr>');
@@ -4346,14 +4357,14 @@ class Page {
 			$css_color = rand_color();
 			$css_td_class = $i % 2 ? 'section_odd' : 'section_even';
 			$txt_fresh = $_reply['tpc_posts'] ? $_reply['tpc_posts'] . ' 篇回复' : '尚无回复';
-			echo('<tr><td align="left" class="' . $css_td_class . '">[ <a href="/board/view/' . $_reply['nod_id'] . '.html" class="var" style="color: ' . $css_color . '">' . $_reply['nod_title_plain'] . '</a> ]&nbsp;:&nbsp;<a href="/topic/view/' . $_reply['tpc_id'] . '.html">' . $_reply['tpc_title_plain'] . '</a> <span class="tip_i">... ' . make_descriptive_time($_reply['pst_created']) . '，' . $txt_fresh . '</span></td></tr>');
+			echo('<tr><td align="left" class="' . $css_td_class . '">[ <a href="/board/view/' . $_reply['nod_id'] . '.html" class="var" style="color: ' . $css_color . '">' . $_reply['nod_title_plain'] . '</a> ]&nbsp;<a href="/topic/view/' . $_reply['tpc_id'] . '.html">' . $_reply['tpc_title_plain'] . '</a> <span class="tip_i">... ' . make_descriptive_time($_reply['pst_created']) . '，' . $txt_fresh . '</span></td></tr>');
 		}
 		
 		echo('</table>');
 		echo('</td></tr>');
 		if (BABEL_FEATURE_USER_COMPONENTS) {
 			echo('<tr><td colspan="2" align="left" class="section_odd">');
-			echo('<div style="float: right;"><span class="tip_i">纯粹恶搞</span></div>');
+			echo('<div style="float: right;"><span class="tip_i"><small>Kuso Only</small></span></div>');
 			echo('<span class="text_large">');
 			_v_ico_tango_32('emotes/face-devil-grin');
 			echo(' ' . $O->usr_nick . ' 的成分分析</span>');
@@ -4391,38 +4402,42 @@ class Page {
 			$as->set('user', $O->usr_lastfm);
 			$_top_artists = $as->userGetTopArtists();
 			$_recent = $as->userGetRecentTracks();
-			echo('<tr><td colspan="2" align="left" class="section_odd"><span class="text_large">');
+			
+			if (count($_top_artists->artist) > 0) {
+				echo('<tr><td colspan="2" align="left" class="section_odd"><span class="text_large">');
 				echo('<div style="float: right;"><span class="tip"><small><img src="/img/favicons/lastfm.png" align="absmiddle" /> <a href="http://www.last.fm/user/' . $O->usr_lastfm . '" target="_blank" class="var">Powered by Last.fm</a></small></span></div>');
-			_v_ico_tango_32('mimetypes/audio-x-generic', 'absmiddle');
-			echo(' ' . $O->usr_nick . ' 最喜欢的艺术家');
-			echo('</span>');
-			echo('</td></tr>');
-			$edges = array();
-			for ($i = 1; $i < 1000; $i++) {
-				$edges[] = ($i * 6) + 1;
-			}
-			$i = 0;
-			foreach ($_top_artists->artist as $artist) {
-				$i++;
-				if ($i == 1) {
-					echo('<tr><td colspan="2">');
-				} else {
-					if (in_array($i, $edges)) {
-						echo('<tr><td colspan="2">');
-					}
+				_v_ico_tango_32('mimetypes/audio-x-generic', 'absmiddle');
+				echo(' ' . $O->usr_nick . ' 最喜欢的艺术家');
+				echo('</span>');
+				echo('</td></tr>');
+				$edges = array();
+				for ($i = 1; $i < 1000; $i++) {
+					$edges[] = ($i * 6) + 1;
 				}
-				echo('<a href="' . $artist->url . '" class="artist" target="_blank" title="' . $artist->name . '"><img src="' . $artist->thumbnail . '" border="0" alt="' . make_single_return($artist->name) . '" class="portrait" /><br /><small>' . $artist->name . '</small>');
-				echo('<div class="tip">' . $artist->playcount . ' 次播放</div>');
-				echo('</a> ');
-				if (($i % 6) == 0) {
+				$i = 0;
+				foreach ($_top_artists->artist as $artist) {
+					$i++;
+					if ($i == 1) {
+						echo('<tr><td colspan="2">');
+					} else {
+						if (in_array($i, $edges)) {
+							echo('<tr><td colspan="2">');
+						}
+					}
+					echo('<a href="' . $artist->url . '" class="artist" target="_blank" title="' . $artist->name . '"><img src="' . $artist->thumbnail . '" border="0" alt="' . make_single_return($artist->name) . '" class="portrait" /><br /><small>' . $artist->name . '</small>');
+					echo('<div class="tip">' . $artist->playcount . ' 次播放</div>');
+					echo('</a> ');
+					if (($i % 6) == 0) {
+						echo ('</td></tr>');
+					}	
+				}
+				if (($i % 6) != 0) {
 					echo ('</td></tr>');
-				}	
+				}
 			}
-			if (($i % 6) != 0) {
-				echo ('</td></tr>');
-			}
-			define('TMP_GLOBAL_EIGHT_HOURS', 28800);
-			if (count($_recent) > 0) {
+			
+			if (count($_recent->track) > 0) {
+				define('TMP_GLOBAL_EIGHT_HOURS', 28800);
 				echo('<tr><td colspan="2" align="left" class="section_odd"><span class="text_large">');
 				echo('<div style="float: right;"><span class="tip"><small><img src="/img/favicons/lastfm.png" align="absmiddle" /> <a href="http://www.last.fm/user/' . $O->usr_lastfm . '" target="_blank" class="var">Powered by Last.fm</a></small></span></div>');
 				_v_ico_tango_32('actions/media-playback-start', 'absmiddle');
@@ -4435,7 +4450,11 @@ class Page {
 					$i++;
 					$css_class = $i % 2 == 0 ? 'even' : 'odd';
 					$css_color = rand_color();
-					echo('<tr><td colspan="2" class="section_' . $css_class . '">' . _vo_ico_silk('bullet_blue') . ' <a href="http://www.last.fm/music/' . urlencode($track->artist) . '" target="_blank" class="var" style="color: ' . $css_color . '">' . make_plaintext($track->artist) . '</a> - <a href="http://www.last.fm/music/' . urlencode($track->artist) . '/' . urlencode($track->album) . '" target="_blank" class="var" style="color: ' . $css_color . '">' . make_plaintext($track->album) . '</a> - <a href="' . $track->url . '" target="_blank" class="var" style="color: ' . $css_color . '">' . make_plaintext($track->name) . '</a><span class="tip_i"> ... ' . make_descriptive_time(strtotime($track->date) + TMP_GLOBAL_EIGHT_HOURS) . '</span></td></tr>');
+					echo('<tr><td colspan="2" class="section_' . $css_class . '">[ <a href="http://www.last.fm/music/' . urlencode($track->artist) . '" target="_blank" class="var" style="color: ' . $css_color . '">' . make_plaintext($track->artist) . '</a> ]');
+					if (trim($track->album) != '') {
+						echo(' <a href="http://www.last.fm/music/' . urlencode($track->artist) . '/' . urlencode($track->album) . '" target="_blank">' . make_plaintext($track->album) . '</a> -');
+					}
+					echo(' <a href="' . $track->url . '" target="_blank">' . make_plaintext($track->name) . '</a><span class="tip_i"> ... ' . make_descriptive_time(strtotime($track->date) + TMP_GLOBAL_EIGHT_HOURS) . '</span></td></tr>');
 				}
 				echo('</table>');
 				echo('</td></tr>');
@@ -7898,18 +7917,18 @@ class Page {
 			echo('<tr><td width="200" align="right">电子邮件或昵称</td><td width="200" align="left"><input type="text" maxlength="100" class="sl" name="usr" tabindex="1" /></td><td width="150" rowspan="2" valign="middle" align="right"><input type="image" src="/img/graphite/login.gif" alt="' . Vocabulary::action_login . '" tabindex="3" /></td></tr><tr><td width="200" align="right">密码</td><td align="left"><input type="password" maxlength="32" class="sl" name="usr_password" tabindex="2" /></td></tr></form></table></div>');
 		}
 		echo('<div class="light_odd" style="margin-bottom: 5px; " align="left">');
-		echo('<a href="#;" onclick="window.scrollTo(0,0);">回到顶部</a> | ');
+		echo('<a href="#;" onclick="window.scrollTo(0,0);" class="t">回到顶部</a> | ');
 		if (isset($_SESSION['babel_page_node_' . $Node->nod_id])) {
-			echo('<a href="/board/view/' . $Node->nod_id . '/' . $_SESSION['babel_page_node_' . $Node->nod_id] . '.html">' . make_plaintext($Node->nod_title) . '</a>');
+			echo('<a href="/board/view/' . $Node->nod_id . '/' . $_SESSION['babel_page_node_' . $Node->nod_id] . '.html" class="t">' . make_plaintext($Node->nod_title) . '</a>');
 		} else {
 			$_SESSION['babel_page_node_' . $Node->nod_id] = 1;
-			echo('<a href="/go/' . $Node->nod_name . '">' . make_plaintext($Node->nod_title) . '</a>');
+			echo('<a href="/go/' . $Node->nod_name . '" class="t">' . make_plaintext($Node->nod_title) . '</a>');
 		}
-		echo(' | <a href="/">回到首页</a>');
+		echo(' | <a href="/" class="t">回到首页</a>');
 		if ($this->User->vxIsLogin()) {
-			echo(' | <a href="/user/modify.vx">修改信息与设置</a>');
+			echo(' | <a href="/user/modify.vx" class="t">修改信息与设置</a>');
 		} else {
-			echo(' | <a href="/signup.html">注册</a> | <a href="/passwd.vx">忘记密码</a>');
+			echo(' | <a href="/signup.html" class="t">注册</a> | <a href="/passwd.vx" class="t">忘记密码</a>');
 		}
 		echo('</div>');
 		
@@ -9994,6 +10013,38 @@ class Page {
 	}
 	
 	/* E: Project Dry */
+	
+	/* S: Project Add */
+	
+	public function vxAdd($User) {
+		_v_m_s();
+		
+		_v_b_l_s();
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . $User->usr_nick_url . '">' . $User->usr_nick_plain . '</a> &gt; ADD <span class="tip_i"><small>alpha</small></span>');
+		_v_d_e();
+		
+		_v_b_l_s();
+		_v_d_e();
+		
+		_v_d_e();
+	}
+	
+	public function vxAddHot() {
+		_v_m_s();
+		
+		_v_b_l_s();
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ADD <span class="tip_i"><small>alpha</small></span>');
+		_v_d_e();
+		
+		_v_b_l_s();
+		_v_d_e();
+		
+		_v_d_e();
+	}
+	
+	/* E: Project Add */
 	
 	/* E public modules */
 	

@@ -660,12 +660,34 @@ class Validator {
 			return $o;
 		}
 	
-		/* Apple Safari 
+		/* Apple Safari 2.x 
 		 * Example: Mozilla/5.0 (Macintosh; U; PPC Mac OS X; zh-cn) AppleWebKit/412.7 (KHTML, like Gecko) Safari/412.5 */
 		if (preg_match('/Mozilla\/5\.0 \(Macintosh; U;([a-zA-Z0-9\s]+); [a-z\-]+\) AppleWebKit\/([0-9]+\.[0-9]+) \(KHTML, like Gecko\) Safari\/([0-9]+\.[0-9]+)/', $ua, $z)) {
 			$o['platform'] = 'Mac OS X';
 			$o['name'] = 'Safari';
 			$o['version'] = $z[2];
+			$o['DEVICE_LEVEL'] = 3;
+			$o['KHTML_DETECTED'] = 1;
+			return $o;
+		}
+		
+		/* Apple Safari 3.x on Mac OS X
+		 * Example: Mozilla/5.0 (Macintosh; U; Intel Mac OS X; en) AppleWebKit/522.10.1 (KHTML, like Gecko) Version/3.0 Safari/522.11 */
+		if (preg_match('/Mozilla\/5\.0 \(Macintosh; U;([a-zA-Z0-9\s]+); [a-z\-]+\) AppleWebKit\/([0-9]+\.[0-9]+\.[0-9]+) \(KHTML, like Gecko\) Version\/([0-9]+\.[0-9]+) Safari\/([0-9]+\.[0-9]+)/', $ua, $z)) {
+			$o['platform'] = 'Mac OS X';
+			$o['name'] = 'Safari';
+			$o['version'] = $z[3];
+			$o['DEVICE_LEVEL'] = 3;
+			$o['KHTML_DETECTED'] = 1;
+			return $o;
+		}
+		
+		/* Apple Safari 3.x on Windows
+		 * Example: Mozilla/5.0 (Windows; U; Windows NT 5.1; zh) AppleWebKit/522.11.3 (KHTML, like Gecko) Version/3.0 Safari/522.11.3 */
+		if (preg_match('/Mozilla\/5\.0 \(Windows; U;([a-zA-Z0-9\.\s]+); [a-z\-]+\) AppleWebKit\/([0-9]+\.[0-9]+\.[0-9]+) \(KHTML, like Gecko\) Version\/([0-9]+\.[0-9]+) Safari\/([0-9]+\.[0-9]+)/', $ua, $z)) {
+			$o['platform'] = 'Windows';
+			$o['name'] = 'Safari';
+			$o['version'] = $z[3];
 			$o['DEVICE_LEVEL'] = 3;
 			$o['KHTML_DETECTED'] = 1;
 			return $o;

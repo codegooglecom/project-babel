@@ -47,4 +47,8 @@ define('BABEL_FEATURE_BIT', false);
 define('BABEL_FEATURE_EGO', false);
 
 define('BABEL_FEATURE_PRO', false);
+
+define('BABEL_FEATURE_ADD', true);
+
+define('BABEL_FEATURE_ALL', false);
 ?>

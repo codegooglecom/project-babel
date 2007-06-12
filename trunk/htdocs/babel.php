@@ -1918,6 +1918,46 @@ switch ($m) {
 			$p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetDryNew()));
 		}
 		break;
+		
+	case 'add':
+		$hot = false;
+		if (isset($_GET['u'])) {
+			$u = make_single_safe($_GET['u']);
+		} else {
+			$u = false;
+			$hot = true;
+		}
+		if ($u) {
+			if (get_magic_quotes_gpc()) {
+				$u = mysql_real_escape_string(stripslashes($u));
+			} else {
+				$u = mysql_real_escape_string($u);
+			}
+			$User = $p->User->vxGetUserInfoByNick($u);
+			if (!$User) {
+				$hot = true;
+			}
+		}
+		if ($hot) {
+			$p->vxHead($msgSiteTitle = '热门收藏');
+		} else {
+			$p->vxHead($msgSiteTitle = $User->usr_nick_plain . ' - ADD', '', 'http://' . BABEL_DNS_NAME . '/feed/add/' . $User->usr_nick_url);
+		}
+		$p->vxBodyStart();
+		$p->vxTop();
+		if ($hot) {
+			$p->vxContainer('add_hot');
+		} else {
+			$p->vxContainer('add', $User);
+		}
+		break;
+		
+	case 'add_hot':
+		$p->vxHead($msgSiteTitle = '热门收藏');
+		$p->vxBodyStart();
+		$p->vxTop();
+		$p->vxContainer('add_hot');
+		break;
 }
 
 if ($global_has_bottom) {
