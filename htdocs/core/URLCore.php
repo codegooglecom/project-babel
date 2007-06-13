@@ -197,6 +197,11 @@ class URL {
 		$url = '/revert/been/' . $geo;
 		return $url;
 	}
+	
+	public static function vxGetAddSync() {
+		$url = '/sync/add';
+		return $url;
+	}
 }
 
 /* E URL class */

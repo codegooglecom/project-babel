@@ -7,6 +7,7 @@
 --with-jpeg-dir=/opt/local \
 --with-png-dir=/opt/local \
 --with-mcrypt=/opt/local \
+--with-openssl=/opt/local \
 --with-pdo \
 --with-pdo-mysql=/usr/local/mysql-5.1.18-beta-osx10.4-i686 \
 --with-mysql=/usr/local/mysql-5.1.18-beta-osx10.4-i686 \
@@ -15,7 +16,6 @@
 --with-freetype-dir=/opt/local \
 --enable-mbstring \
 --enable-sockets \
---enable-gd-native-ttf \
 --enable-calendar \
 --enable-soap \
 --enable-shmop \

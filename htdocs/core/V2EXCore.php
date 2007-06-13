@@ -525,17 +525,9 @@ class Page {
 		/* nav menu start: */
 		echo('<div id="top_banner">');
 		
-		if ($_SESSION['babel_ua']['KHTML_DETECTED'] || $_SESSION['babel_ua']['OPERA_DETECTED'] || $_SESSION['babel_ua']['GECKO_DETECTED']) {
-			$img_logo = 'top_logo_graphite_v2.png';
-		} else {
-			if ($_SESSION['babel_ua']['MSIE_DETECTED'] && $_SESSION['babel_ua']['version'] == '7.0') {
-				$img_logo = 'top_logo_graphite_v2.png';
-			} else {
-				$img_logo = 'top_logo_graphite_v2_ie.gif';
-			}
-		}
+		$img_logo = 'v2ex_logo_uranium.png';
 		
-		echo('<div id="top_banner_logo"><a href="/"><img src="' . CDN_UI . 'img/' . $img_logo . '" border="0" alt="' . Vocabulary::site_name . '" /></a></div>');
+		echo('<div id="top_banner_logo"><a href="/"><img src="/img/' . $img_logo . '" border="0" alt="' . Vocabulary::site_name . '" /></a></div>');
 		echo('</div>');
 		echo('<div id="nav">');
 		echo('<ul id="nav_menu">');
@@ -755,7 +747,7 @@ class Page {
 	/* S module: div#bottom tag */
 	
 	public function vxBottom($msgCopyright = Vocabulary::site_copyright) {
-		echo('<div id="bottom"><small>' . $msgCopyright . '</small><br /><a href="/community_guidelines.vx">' . Vocabulary::term_community_guidelines . '</a> | <a href="http://io.v2ex.com/v2ex-doc/" target="_blank">帮助</a> | <a href="http://labs.v2ex.com/" target="_blank">下载本站程序</a><br /><a href="/rules.vx">' . Vocabulary::term_rules . '</a> | <a href="/terms.vx">' . Vocabulary::term_terms . '</a> | <a href="/privacy.vx">' . Vocabulary::term_privacy . '</a> | <a href="/policies.vx">' . Vocabulary::term_policies . '</a><br /><a href="http://labs.v2ex.com/" target="_blank" class="var"><img src="/img/beta_jtp.gif" alt="Beta * V2EX Labs" align="absmiddle" border="0" /></a><br /></div>');
+		echo('<div id="bottom"><small>' . $msgCopyright . '</small><br /><small><a href="/community_guidelines.vx">' . Vocabulary::term_community_guidelines . '</a> | <a href="http://io.v2ex.com/v2ex-doc/" target="_blank">Help</a> | <a href="http://labs.v2ex.com/" target="_blank">Developer</a> | <a href="/rules.vx">' . Vocabulary::term_rules . '</a> | <a href="/terms.vx">' . Vocabulary::term_terms . '</a> | <a href="/privacy.vx">' . Vocabulary::term_privacy . '</a> | <a href="/policies.vx">' . Vocabulary::term_policies . '</a></small><br /><a href="http://labs.v2ex.com/" target="_blank" class="var"><img src="/img/beta_jtp.gif" alt="Beta * V2EX Labs" align="absmiddle" border="0" /></a><br /></div>');
 	}
 	
 	/* E module: div#bottom tag */
@@ -1705,6 +1697,26 @@ class Page {
 				$this->vxSidebar($show = false);
 				$this->vxMenu($_menu_options);
 				$this->vxAddHot();
+				break;
+				
+			case 'add_buttons':
+				$_menu_options['modules']['new_members'] = false;
+				$_menu_options['modules']['friends'] = false;
+				$_menu_options['modules']['stats'] = false;
+				$_menu_options['modules']['fav'] = false;
+				$this->vxSidebar($show = false);
+				$this->vxMenu($_menu_options);
+				$this->vxAddButtons();
+				break;
+				
+			case 'add_sync':
+				$_menu_options['modules']['new_members'] = false;
+				$_menu_options['modules']['friends'] = false;
+				$_menu_options['modules']['stats'] = false;
+				$_menu_options['modules']['fav'] = false;
+				$this->vxSidebar($show = false);
+				$this->vxMenu($_menu_options);
+				$this->vxAddSync();
 				break;
 		}
 		echo('</div>');
@@ -10025,8 +10037,28 @@ class Page {
 		_v_d_e();
 		
 		_v_b_l_s();
-		_v_d_e();
+		echo('<div style="float: right; padding: 3px 10px 3px 10px; font-size: 12px; background-color: #F0F0F0; -moz-border-radius: 5px; color: #999;">');
+		echo('<a href="/add">热门收藏</a> | <a href="/buttons/add">安装浏览器按钮</a>');
+		if ($this->User->vxIsLogin()) {
+			if ($User->usr_id == $this->User->usr_id) {
+				echo(' | 我的收藏');
+			} else {
+				echo(' | ' . $User->usr_nick_plain . ' 的收藏');
+			}
+			echo(' | <a href="/add/post">添加新链接</a> | <a href="/sync/add">同步</a>');
+		}
+		echo('&nbsp;&nbsp;<a href="/feed/add">' . _vo_ico_silk('feed') . '</a>');
+		echo('</div>');
 		
+		echo('<span class="text_large">');
+		_v_ico_silk('add');
+		echo(' ADD</span>');
+		echo(' <span class="tip_i">');
+		echo(' 网址收藏夹 ...');
+		echo('</span>');
+		_v_hr();
+		_v_d_e();
+		Widget::vxAddAbout();
 		_v_d_e();
 	}
 	
@@ -10039,8 +10071,82 @@ class Page {
 		_v_d_e();
 		
 		_v_b_l_s();
+		
+		echo('<div style="float: right; padding: 3px 10px 3px 10px; font-size: 12px; background-color: #F0F0F0; -moz-border-radius: 5px; color: #999;">');
+		echo('热门收藏 | <a href="/buttons/add">安装浏览器按钮</a>');
+		if ($this->User->vxIsLogin()) {
+			echo(' | <a href="/add/own">我的收藏</a> | <a href="/add/post">添加新链接</a> | <a href="/sync/add">同步</a>');
+		}
+		echo('&nbsp;&nbsp;<a href="/feed/add">' . _vo_ico_silk('feed') . '</a>');
+		echo('</div>');
+		
+		echo('<span class="text_large">');
+		_v_ico_silk('add');
+		echo(' ADD</span>');
+		echo(' <span class="tip_i">');
+		echo(' 网址收藏夹 ...');
+		echo('</span>');
+		_v_hr();
+		_v_d_e();
+		Widget::vxAddAbout();
+		_v_d_e();
+	}
+	
+	public function vxAddButtons() {
+		_v_m_s();
+		
+		_v_b_l_s();
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/add">ADD</a> &gt; 安装浏览器按钮 <span class="tip_i"><small>alpha</small></span>');
 		_v_d_e();
 		
+		_v_b_l_s();
+		
+		echo('<div style="float: right; padding: 3px 10px 3px 10px; font-size: 12px; background-color: #F0F0F0; -moz-border-radius: 5px; color: #999;">');
+		echo('<a href="/add">热门收藏</a> | 安装浏览器按钮');
+		if ($this->User->vxIsLogin()) {
+			echo(' | <a href="/add/own">我的收藏</a> | <a href="/add/post">添加新链接</a> | <a href="/sync/add">同步</a>');
+		}
+		echo('&nbsp;&nbsp;<a href="/feed/add">' . _vo_ico_silk('feed') . '</a>');
+		echo('</div>');
+		
+		echo('<span class="text_large">');
+		_v_ico_silk('add');
+		echo(' ADD</span>');
+		echo(' <span class="tip_i">');
+		echo(' 网址收藏夹 ...');
+		echo('</span>');
+		_v_hr();
+		_v_d_e();
+		Widget::vxAddAbout();
+		_v_d_e();
+	}
+	
+	public function vxAddSync() {
+		_v_m_s();
+		
+		_v_b_l_s();
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; ADD &gt; 同步 <span class="tip_i"><small>alpha</small></span>');
+		_v_d_e();
+		
+		_v_b_l_s();
+		
+		echo('<div style="float: right; padding: 3px 10px 3px 10px; font-size: 12px; background-color: #F0F0F0; -moz-border-radius: 5px; color: #999;">');
+		echo('<a href="/add">热门收藏</a> | <a href="/buttons/add">安装浏览器按钮</a>');
+		echo(' | <a href="/add/own">我的收藏</a> | <a href="/add/post">添加新链接</a> | 同步');
+		echo('&nbsp;&nbsp;<a href="/feed/add">' . _vo_ico_silk('feed') . '</a>');
+		echo('</div>');
+		
+		echo('<span class="text_large">');
+		_v_ico_silk('add');
+		echo(' ADD</span>');
+		echo(' <span class="tip_i">');
+		echo(' 网址收藏夹 ...');
+		echo('</span>');
+		_v_hr();
+		_v_d_e();
+		Widget::vxAddAbout();
 		_v_d_e();
 	}
 	

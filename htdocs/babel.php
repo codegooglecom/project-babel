@@ -1933,7 +1933,16 @@ switch ($m) {
 			} else {
 				$u = mysql_real_escape_string($u);
 			}
-			$User = $p->User->vxGetUserInfoByNick($u);
+			if (strtolower($u) == 'own') {
+				if ($p->User->vxIsLogin()) {
+					$User = $p->User->vxGetUserInfoByNick($p->User->usr_nick);
+				} else {
+					$User = false;
+					$hot = true;
+				}
+			} else {
+				$User = $p->User->vxGetUserInfoByNick($u);
+			}
 			if (!$User) {
 				$hot = true;
 			}
@@ -1958,6 +1967,25 @@ switch ($m) {
 		$p->vxTop();
 		$p->vxContainer('add_hot');
 		break;
+		
+	case 'add_buttons':
+		$p->vxHead($msgSiteTitle = '安装浏览器按钮');
+		$p->vxBodyStart();
+		$p->vxTop();
+		$p->vxContainer('add_buttons');
+		break;
+		
+	case 'add_sync':
+		if (!$p->User->vxIsLogin()) {
+			die($p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetAddSync())));
+			break;
+		} else {
+			$p->vxHead($msgSiteTitle = '同步');
+			$p->vxBodyStart();
+			$p->vxTop();
+			$p->vxContainer('add_sync');
+			break;
+		}
 }
 
 if ($global_has_bottom) {
