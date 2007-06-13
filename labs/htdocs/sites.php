@@ -57,6 +57,30 @@ require_once('inc/functions.php');
 
 <blockquote><span class="tip">客齐集的 YY 社区</span></blockquote>
 
+<?php _v_ico_silk('bullet_black'); ?> <strong>我们的氧气</strong> - <a href="http://www.ouro2.cn/" target="_blank">www.ouro2.cn</a>
+
+<blockquote><span class="tip">Our O<sup>2</sup></span></blockquote>
+
+<?php _v_ico_silk('bullet_black'); ?> <strong>杭州电子科技大学非官方学生论坛</strong> - <a href="http://www.inhdu.cn/" target="_blank">www.inhdu.cn</a>
+
+<blockquote><span class="tip"><a href="http://www.blogkid.cn/" target="_blank">BlogKid</a> 的母校</span></blockquote>
+
+<?php _v_ico_silk('bullet_black'); ?> <strong>Cafeteria</strong> - <a href="http://cafeteria.3lavie.org/" target="_blank">cafeteria.3lavie.org</a>
+
+<blockquote><span class="tip">On bavarde ici!</span></blockquote>
+
+<?php _v_ico_silk('bullet_black'); ?> <strong>YAMML</strong> - <a href="http://www.yamml.com/" target="_blank">www.yamml.com</a>
+
+<blockquote><span class="tip">You are all my life.</span></blockquote>
+
+<?php _v_ico_silk('bullet_black'); ?> <strong>CSUer</strong> - <a href="http://www.csuer.org/" target="_blank">www.csuer.org</a>
+
+<blockquote><span class="tip">中南大学非官方不正式社区</span></blockquote>
+
+<?php _v_ico_silk('bullet_black'); ?> <strong>Xzone</strong> - <a href="http://xzone.oioj.org/" target="_blank">xzone.oioj.org</a>
+
+<blockquote><span class="tip">我爱我家 @ 威海</span></blockquote>
+
 </div>
 
 </div>
