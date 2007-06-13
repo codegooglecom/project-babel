@@ -84,7 +84,7 @@ define('BABEL_ADS_LIMIT_HITS', 31);
 define('BABEL_PASSWD_LIMIT', 5);
 
 /* theme */
-define('BABEL_THEME', 'Graphite');
+define('BABEL_THEME', 'Uranium');
 
 define('BABEL_MSG_PRICE', 5);
 define('BABEL_PST_PRICE', 5);

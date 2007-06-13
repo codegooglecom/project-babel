@@ -48,7 +48,7 @@ class Widget {
 		echo('<span class="tip">');
 		echo('你有很多话要说。你每天的生活都很精彩。你总能发现别人没有注意到的细节。<br /><br />那就尽情说吧，这个世界在听。');
 		_v_hr();
-		echo("<span class=" . '"tip"' . '><small>What are you doing?</small> | 同类优质服务&nbsp;&nbsp;<span class="tip_i"><img src="/img/favicons/twitter.png" align="absmiddle" /><a href="http://www.twitter.com/" target="_blank" class="t">&nbsp;Twitter&nbsp;<img src="/img/ext.png" border="0" align="absmiddle" />&nbsp;</a></span></span>');
+		echo("<span class=" . '"tip"' . '><small>What are you doing?</small> | 同类优质服务&nbsp;&nbsp;<span class="tip_i"><img src="/img/favicons/twitter.png" align="absmiddle" /><a href="http://www.twitter.com/" target="_blank">&nbsp;Twitter&nbsp;<img src="/img/ext.png" border="0" align="absmiddle" />&nbsp;</a></span></span>');
 		echo('</span>');
 		_v_d_e();
 		/* End: About Ing */
@@ -63,13 +63,37 @@ class Widget {
 		echo('<span class="tip">');
 		echo('PIX 是一个帮助你保存图片的工具，图片是具有超级表现力的事物。<br /><br />PIX 并不提供无限空间，你只能在 PIX 中上传最多 <strong>' . BABEL_PIX_UPLOAD_LIMIT . '</strong> 张照片，因此，PIX 意味着精挑细选。');
 		_v_hr();
-		echo("<span class=" . '"tip"' . '><small>Show Yourself</small> | 同类优质服务&nbsp;&nbsp;<span class="tip_i"><img src="/img/favicons/flickr.png" align="absmiddle" /><a href="http://www.flickr.com/" target="_blank" class="t">&nbsp;Flickr&nbsp;<img src="/img/ext.png" border="0" align="absmiddle" />&nbsp;</a> | <img src="/img/favicons/photobucket.png" align="absmiddle" /><a href="http://www.photobucket.com/" target="_blank" class="t">&nbsp;Photobucket&nbsp;<img src="/img/ext.png" border="0" align="absmiddle" />&nbsp;</a></span></span>');
+		echo("<span class=" . '"tip"' . '><small>Show Yourself</small> | 同类优质服务&nbsp;&nbsp;<span class="tip_i"><img src="/img/favicons/flickr.png" align="absmiddle" /><a href="http://www.flickr.com/" target="_blank">&nbsp;Flickr&nbsp;<img src="/img/ext.png" border="0" align="absmiddle" />&nbsp;</a> | <img src="/img/favicons/photobucket.png" align="absmiddle" /><a href="http://www.photobucket.com/" target="_blank">&nbsp;Photobucket&nbsp;<img src="/img/ext.png" border="0" align="absmiddle" />&nbsp;</a></span></span>');
 		echo('</span>');
 		_v_d_e();
 		/* End: About Pix */
 	}
 	
 	public static function vxZenAbout() {
+	}
+	
+	public static function vxBitAbout() {
+	}
+	
+	public static function vxAddAbout() {
+		/* Start: About Add */
+		_v_b_l_s();
+		_v_ico_silk('add');
+		echo(' 关于 ADD <span class="tip_i"><small>alpha</small></span>');
+		echo('<br /><br />');
+		echo('<span class="tip">');
+		echo('ADD 是一个帮助你收藏和整理网址的工具。');
+		_v_hr();
+		echo('<span class="tip"><small>Keep your useful links</small> | 同类优质服务&nbsp;&nbsp;<span class="tip_i"><img src="/img/favicons/delicious.png" align="absmiddle" /><a href="http://del.icio.us/" target="_blank"> del.icio.us <img src="/img/ext.png" align="absmiddle" border="0" /> </a></span></span>');
+		echo('</span>');
+		_v_d_e();
+		/* End: About Add */
+	}
+	
+	public static function vxProAbout() {
+	}
+	
+	public static function vxEgoAbout() {
 	}
 }
 ?>

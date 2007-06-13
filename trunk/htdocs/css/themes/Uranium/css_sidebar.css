@@ -1,0 +1,101 @@
+body, html {
+margin: 0px;
+padding: 0px;
+background-color: #FFF;
+color: #000;
+font-family: Verdana, "Lucida Grande", "Lucida Sans", sans, Hei;
+}
+
+img.portrait {
+background-color: #FFF;
+padding: 2px;
+border: 1px solid #E0E0E0;
+}
+
+div#single {
+padding-top: 0px;
+margin: 0px 0px 0px 0px;
+}
+
+.entry_odd {
+padding: 3px;
+}
+
+.entry_even {
+padding: 3px;
+background-color: #F5F5F5;
+-webkit-border-radius: 7px;
+-moz-border-radius: 7px;
+}
+
+div.blank {
+padding: 7px;
+background-color: #FFF;
+background-image: url("/img/bg_silver.png");
+background-repeat: repeat-x;
+font-size: 12px;
+}
+
+a.var:link, a.var:active, a.var:visited {
+border: none;
+text-decoration: none;
+color: inherit;
+}
+
+a.var:hover {
+border: none;
+text-decoration: none;
+color: inherit;
+text-decoration: underline;
+}
+
+div#debug {
+border-top: 2px solid #999;
+background-color: #000;
+font-size: 10px;
+color: #FFF;
+clear: both;
+opacity: .85;
+padding: 5px;
+}
+
+div#debug table {
+border: 1px solid #CCC;
+}
+
+.tip_i {
+font-size: 12px;
+color: #CCC;
+text-shadow: none;
+}
+
+a:link, a:active, a:visited {
+color: #577DE4;
+text-decoration: underline;
+}
+
+a:hover {
+color: #00C;
+text-decoration: underline;
+}
+
+h1 {
+padding: 5px;
+margin: 10px 0px 0px 0px;
+background-color: #F9F9F9;
+border-top: 1px solid #CCC;
+border-left: 1px solid #CCC;
+border-right: 1px solid #CCC;
+font-size: 12px;
+font-weight: normal;
+}
+
+div.code {
+padding: 7px;
+font-family: "Luxi Mono", "Monaco", "Courier New";
+border-bottom: 1px solid #CCC;
+border-left: 1px solid #CCC;
+border-right: 1px solid #CCC;
+font-size: 10px;
+white-space: pre;
+}

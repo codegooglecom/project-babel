@@ -22,7 +22,7 @@ class Vocabulary {
 	const site_name = 'V2EX';
 	const site_title = 'V2EX | Project Babel';
 	const site_title_mobile = 'V2EX Mobile';
-	const site_copyright = 'Project Babel | v0.5-pre Monster Inc | Copyright © 2007 Xin Liu (a.k.a. <a href="http://www.livid.cn/" target="_blank">Livid</a>)';
+	const site_copyright = 'Project Babel | v0.6-dev Fibonacci Farm | Copyright © 2007 Xin Liu (a.k.a. <a href="http://www.livid.cn/" target="_blank">Livid</a>)';
 	
 	const site_banner = "<a href=\"/\" target=\"_self\" class=\"var\"><img src=\"/img/top_logo_carbon.gif\" border=\"0\" alt=\"V2EX\" onclick=\"location.href='/';\" style=\"cursor: hand;\" align=\"absmiddle\" onmouseover=\"focusGo();\" /></a>";
 	
@@ -104,16 +104,16 @@ class Vocabulary {
 	const term_latest_answered_topic = '最新被回复主题';
 	const term_latestfav = '最新收藏';
 	
-	const term_community_guidelines = 'V2EX 社区指导原则';
+	const term_community_guidelines = 'Community Guidelines';
 	const term_partners = '广告合作伙伴';
 	const term_newfeatures = '新功能';
 	
 	const term_babel_downloads = '程序下载';
 	
-	const term_rules = '电子公告服务规则';
-	const term_terms = '使用规则';
-	const term_privacy = '隐私权保护规则';
-	const term_policies = '禁止性内容规则';
+	const term_rules = 'Rules';
+	const term_terms = 'Terms of Use';
+	const term_privacy = 'Privacy';
+	const term_policies = 'Policies';
 	
 	const term_out_of_money = '没有铜币没有银币没有金币';
 }
