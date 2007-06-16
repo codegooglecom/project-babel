@@ -57,28 +57,29 @@ if (V2EX_BABEL == 1) {
 	require_once('Zend/Http/Client.php');
 	
 	/* 3rdparty cores */
-	require(BABEL_PREFIX . '/libs/magpierss/rss_fetch.inc');
-	require(BABEL_PREFIX . '/libs/smarty/libs/Smarty.class.php');
-	require(BABEL_PREFIX . '/libs/kses/kses.php');
+	require_once(BABEL_PREFIX . '/libs/magpierss/rss_fetch.inc');
+	require_once(BABEL_PREFIX . '/libs/smarty/libs/Smarty.class.php');
+	require_once(BABEL_PREFIX . '/libs/kses/kses.php');
 	
 	/* built-in cores */
-	require('core/Vocabularies.php');
-	require('core/Utilities.php');
-	require('core/Shortcuts.php');
-	require('core/AirmailCore.php');
-	require('core/UserCore.php');
-	require('core/LanguageCore.php');
-	require('core/NodeCore.php');
-	require('core/GeoCore.php');
-	require('core/ProjectCore.php');
-	require('core/TopicCore.php');
-	require('core/ChannelCore.php');
-	require('core/URLCore.php');
-	require('core/ZenCore.php');
-	require('core/FunCore.php');
-	require('core/WidgetCore.php');
-	require('core/ImageCore.php');
-	require('core/ValidatorCore.php');
+	require_once('core/Vocabularies.php');
+	require_once('core/Utilities.php');
+	require_once('core/Shortcuts.php');
+	require_once('core/AirmailCore.php');
+	require_once('core/UserCore.php');
+	require_once('core/LanguageCore.php');
+	require_once('core/NodeCore.php');
+	require_once('core/GeoCore.php');
+	require_once('core/ProjectCore.php');
+	require_once('core/TopicCore.php');
+	require_once('core/ChannelCore.php');
+	require_once('core/URLCore.php');
+	require_once('core/ZenCore.php');
+	require_once('core/FunCore.php');
+	require_once('core/WidgetCore.php');
+	require_once('core/ImageCore.php');
+	require_once('core/ValidatorCore.php');
+	require_once('core/BookmarkCore.php');
 } else {
 	die('<strong>Project Babel</strong><br /><br />Made by <a href="http://labs.v2ex.com/">V2EX</a> | software for internet');
 }
@@ -1716,7 +1717,27 @@ class Page {
 				$_menu_options['modules']['fav'] = false;
 				$this->vxSidebar($show = false);
 				$this->vxMenu($_menu_options);
-				$this->vxAddSync();
+				$this->vxAddSync($options);
+				break;
+				
+			case 'add_add':
+				$_menu_options['modules']['new_members'] = false;
+				$_menu_options['modules']['friends'] = false;
+				$_menu_options['modules']['stats'] = false;
+				$_menu_options['modules']['fav'] = false;
+				$this->vxSidebar($show = false);
+				$this->vxMenu($_menu_options);
+				$this->vxAddAdd();
+				break;
+				
+			case 'add_save':
+				$_menu_options['modules']['new_members'] = false;
+				$_menu_options['modules']['friends'] = false;
+				$_menu_options['modules']['stats'] = false;
+				$_menu_options['modules']['fav'] = false;
+				$this->vxSidebar($show = false);
+				$this->vxMenu($_menu_options);
+				$this->vxAddSave();
 				break;
 		}
 		echo('</div>');
@@ -3045,7 +3066,7 @@ class Page {
 				$css_color = rand_gray(2, 4);
 			}
 			if ((time() - $Topic->tpc_created) < 86400) {
-				$img_star = 'bunny.gif';
+				$img_star = 'icons/silk/new.png';
 			} else {
 				if ($Topic->tpc_uid == $this->User->usr_id) {
 					$img_star = 'star_active.png';
@@ -4408,79 +4429,79 @@ class Page {
 			echo('</td></tr>');
 		}
 		if (BABEL_FEATURE_USER_LASTFM && $O->usr_lastfm != '') {
-			require_once('Zend/Service/Audioscrobbler.php');
-			
-			$as = new Zend_Service_Audioscrobbler();
-			$as->set('user', $O->usr_lastfm);
-			$_top_artists = $as->userGetTopArtists();
-			$_recent = $as->userGetRecentTracks();
-			
-			if (count($_top_artists->artist) > 0) {
-				echo('<tr><td colspan="2" align="left" class="section_odd"><span class="text_large">');
-				echo('<div style="float: right;"><span class="tip"><small><img src="/img/favicons/lastfm.png" align="absmiddle" /> <a href="http://www.last.fm/user/' . $O->usr_lastfm . '" target="_blank" class="var">Powered by Last.fm</a></small></span></div>');
-				_v_ico_tango_32('mimetypes/audio-x-generic', 'absmiddle');
-				echo(' ' . $O->usr_nick . ' 最喜欢的艺术家');
-				echo('</span>');
-				echo('</td></tr>');
-				$edges = array();
-				for ($i = 1; $i < 1000; $i++) {
-					$edges[] = ($i * 6) + 1;
-				}
-				$i = 0;
-				foreach ($_top_artists->artist as $artist) {
-					$i++;
-					if ($i == 1) {
-						echo('<tr><td colspan="2">');
-					} else {
-						if (in_array($i, $edges)) {
-							echo('<tr><td colspan="2">');
+			$tag_cache = 'babel_user_lastfm_' . $O->usr_id;
+			if ($o_lastfm = $this->cs->get($tag_cache)) {
+			} else {
+				require_once('Zend/Service/Audioscrobbler.php');
+				$as = new Zend_Service_Audioscrobbler();
+				$as->set('user', $O->usr_lastfm);
+				$_top_artists = $as->userGetTopArtists();
+				$_recent = $as->userGetRecentTracks();
+				$o_lastfm = '';
+				if (count($_top_artists->artist) > 0) {
+					$o_lastfm .= '<tr><td colspan="2" align="left" class="section_odd"><span class="text_large">';
+					$o_lastfm .= '<div style="float: right;"><span class="tip"><small><img src="/img/favicons/lastfm.png" align="absmiddle" /> <a href="http://www.last.fm/user/' . $O->usr_lastfm . '" target="_blank" class="var">Powered by Last.fm</a></small></span></div>';
+					$o_lastfm .= _vo_ico_tango_32('mimetypes/audio-x-generic', 'absmiddle');
+					$o_lastfm .= ' ' . $O->usr_nick . ' 最喜欢的艺术家';
+					$o_lastfm .= '</span>';
+					$o_lastfm .= '</td></tr>';
+					$edges = array();
+					for ($i = 1; $i < 1000; $i++) {
+						$edges[] = ($i * 6) + 1;
+					}
+					$i = 0;
+					foreach ($_top_artists->artist as $artist) {
+						$i++;
+						if ($i == 1) {
+							$o_lastfm .= '<tr><td colspan="2">';
+						} else {
+							if (in_array($i, $edges)) {
+								$o_lastfm .= '<tr><td colspan="2">';
+							}
 						}
+						$o_lastfm .= '<a href="' . $artist->url . '" class="artist" target="_blank" title="' . $artist->name . '"><img src="' . $artist->thumbnail . '" border="0" alt="' . make_single_return($artist->name) . '" class="portrait" /><br /><small>' . $artist->name . '</small>';
+						$o_lastfm .= '<div class="tip">' . $artist->playcount . ' 次播放</div>';
+						$o_lastfm .= '</a> ';
+						if (($i % 6) == 0) {
+							$o_lastfm .= '</td></tr>';
+						}	
 					}
-					echo('<a href="' . $artist->url . '" class="artist" target="_blank" title="' . $artist->name . '"><img src="' . $artist->thumbnail . '" border="0" alt="' . make_single_return($artist->name) . '" class="portrait" /><br /><small>' . $artist->name . '</small>');
-					echo('<div class="tip">' . $artist->playcount . ' 次播放</div>');
-					echo('</a> ');
-					if (($i % 6) == 0) {
-						echo ('</td></tr>');
-					}	
-				}
-				if (($i % 6) != 0) {
-					echo ('</td></tr>');
-				}
-			}
-			
-			if (count($_recent->track) > 0) {
-				define('TMP_GLOBAL_EIGHT_HOURS', 28800);
-				echo('<tr><td colspan="2" align="left" class="section_odd"><span class="text_large">');
-				echo('<div style="float: right;"><span class="tip"><small><img src="/img/favicons/lastfm.png" align="absmiddle" /> <a href="http://www.last.fm/user/' . $O->usr_lastfm . '" target="_blank" class="var">Powered by Last.fm</a></small></span></div>');
-				_v_ico_tango_32('actions/media-playback-start', 'absmiddle');
-				echo(' ' . $O->usr_nick . ' 最近听过的音乐');
-				echo('</span>');
-				
-				$i = 0;
-				echo('<table cellpadding="0" cellspacing="0" border="0" class="fav" width="100%">');
-				foreach ($_recent->track as $track) {
-					$i++;
-					$css_class = $i % 2 == 0 ? 'even' : 'odd';
-					$css_color = rand_color();
-					echo('<tr><td colspan="2" class="section_' . $css_class . '">[ <a href="http://www.last.fm/music/' . urlencode($track->artist) . '" target="_blank" class="var" style="color: ' . $css_color . '">' . make_plaintext($track->artist) . '</a> ]');
-					if (trim($track->album) != '') {
-						echo(' <a href="http://www.last.fm/music/' . urlencode($track->artist) . '/' . urlencode($track->album) . '" target="_blank">' . make_plaintext($track->album) . '</a> -');
+					if (($i % 6) != 0) {
+						$o_lastfm .= '</td></tr>';
 					}
-					echo(' <a href="' . $track->url . '" target="_blank">' . make_plaintext($track->name) . '</a><span class="tip_i"> ... ' . make_descriptive_time(strtotime($track->date) + TMP_GLOBAL_EIGHT_HOURS) . '</span></td></tr>');
 				}
-				echo('</table>');
-				echo('</td></tr>');
+				if (count($_recent->track) > 0) {
+					define('TMP_GLOBAL_EIGHT_HOURS', 28800);
+					$o_lastfm .= '<tr><td colspan="2" align="left" class="section_odd"><span class="text_large">';
+					$o_lastfm .= '<div style="float: right;"><span class="tip"><small><img src="/img/favicons/lastfm.png" align="absmiddle" /> <a href="http://www.last.fm/user/' . $O->usr_lastfm . '" target="_blank" class="var">Powered by Last.fm</a></small></span></div>';
+					$o_lastfm .= _vo_ico_tango_32('actions/media-playback-start', 'absmiddle');
+					$o_lastfm .= ' ' . $O->usr_nick . ' 最近听过的音乐';
+					$o_lastfm .= '</span>';
+					$i = 0;
+					$o_lastfm .= '<table cellpadding="0" cellspacing="0" border="0" class="fav" width="100%">';
+					foreach ($_recent->track as $track) {
+						$i++;
+						$css_class = $i % 2 == 0 ? 'even' : 'odd';
+						$css_color = rand_color();
+						$o_lastfm .= '<tr><td colspan="2" class="section_' . $css_class . '">[ <a href="http://www.last.fm/music/' . urlencode($track->artist) . '" target="_blank" class="var" style="color: ' . $css_color . '">' . make_plaintext($track->artist) . '</a> ]';
+						if (trim($track->album) != '') {
+							$o_lastfm .= ' <a href="http://www.last.fm/music/' . urlencode($track->artist) . '/' . urlencode($track->album) . '" target="_blank">' . make_plaintext($track->album) . '</a> -';
+						}
+						$o_lastfm .= ' <a href="' . $track->url . '" target="_blank">' . make_plaintext($track->name) . '</a><span class="tip_i"> ... ' . make_descriptive_time(strtotime($track->date) + TMP_GLOBAL_EIGHT_HOURS) . '</span></td></tr>';
+					}
+					$o_lastfm .= '</table>';
+					$o_lastfm .= '</td></tr>';
+				}
+				$this->cs->save($o_lastfm, $tag_cache);
 			}
-			
+			echo $o_lastfm;
 		}
 		echo('<tr><td colspan="2" align="left" class="section_odd"><span class="tip"><img src="/img/icons/silk/user_go.png" align="absmiddle" /> ' . make_plaintext($O->usr_nick) . ' 的最后登录时间 ' . date('Y-n-j G:i:s', $O->usr_lastlogin) . '，总登录次数 ' . $O->usr_logins . ' 次。</span></td></tr>');
 		if ($O->usr_lastlogin_ua != '') {
 			echo('<tr><td colspan="2" align="left" class="section_odd"><span class="tip_i"><img src="/img/icons/silk/computer.png" align="absmiddle" /> 上次访问时所用浏览器 <small>' . make_plaintext($O->usr_lastlogin_ua) . '</small></span></td></tr>');
 		}
-		
 		echo('</table>');
 		echo('</div>');
-		
 		echo('</div>');
 	}
 	
@@ -7726,6 +7747,30 @@ class Page {
 		}
 		echo(' ... <a href="' . $Topic->feed_url . '" target="_blank">' . _vo_ico_silk('feed') . '</a>');
 		echo('</span>');
+		if ($Topic->tpc_profitable) {
+			_v_hr();
+			?>
+			<script type="text/javascript"><!--
+google_ad_client = "pub-9823529788289591";
+google_alternate_color = "FFFFFF";
+google_ad_width = 728;
+google_ad_height = 90;
+google_ad_format = "728x90_as";
+google_ad_type = "text_image";
+//2007-06-14: V2EX
+google_ad_channel = "0814641667";
+google_color_border = "FFFFFF";
+google_color_bg = "FFFFFF";
+google_color_link = "999999";
+google_color_text = "000000";
+google_color_url = "00CC00";
+//-->
+</script>
+<script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+			<?php
+		}
 		echo('</div>');
 		echo('</div>');
 
@@ -10045,7 +10090,10 @@ class Page {
 			} else {
 				echo(' | ' . $User->usr_nick_plain . ' 的收藏');
 			}
-			echo(' | <a href="/add/post">添加新链接</a> | <a href="/sync/add">同步</a>');
+			echo(' | <a href="/add/post">添加新收藏</a>');
+			if (BABEL_FEATURE_ADD_SYNC) {
+				echo(' | <a href="/sync/add">同步</a>');
+			}
 		}
 		echo('&nbsp;&nbsp;<a href="/feed/add">' . _vo_ico_silk('feed') . '</a>');
 		echo('</div>');
@@ -10057,6 +10105,16 @@ class Page {
 		echo(' 网址收藏夹 ...');
 		echo('</span>');
 		_v_hr();
+		$sql = "SELECT url_id, url_url, url_title, url_notes, url_hash, url_created, url_lastupdated FROM babel_add_url WHERE url_uid = {$User->usr_id} ORDER BY url_created DESC";
+		$rs = mysql_query($sql);
+		echo('<div style="padding: 10px; 0px 10px 20px;">');
+		while ($_url = mysql_fetch_array($rs)) {
+			echo('<div class="url_item">');
+			echo('<a href="' . make_single_return($_url['url_url']) . '" rel="nofollow" class="regular">' . make_plaintext($_url['url_title']) . '</a></div>');
+			echo('<div class="url_toolbar"><span class="tip_i"><small>... on ' . date('Y-n-j G:i:s T', $_url['url_created']) . '</small></span>');
+			echo('</div>');
+		}
+		echo('</div>');
 		_v_d_e();
 		Widget::vxAddAbout();
 		_v_d_e();
@@ -10075,7 +10133,10 @@ class Page {
 		echo('<div style="float: right; padding: 3px 10px 3px 10px; font-size: 12px; background-color: #F0F0F0; -moz-border-radius: 5px; color: #999;">');
 		echo('热门收藏 | <a href="/buttons/add">安装浏览器按钮</a>');
 		if ($this->User->vxIsLogin()) {
-			echo(' | <a href="/add/own">我的收藏</a> | <a href="/add/post">添加新链接</a> | <a href="/sync/add">同步</a>');
+			echo(' | <a href="/add/own">我的收藏</a> | <a href="/add/post">添加新收藏</a>');
+			if (BABEL_FEATURE_ADD_SYNC) {
+				echo(' | <a href="/sync/add">同步</a>');
+			}
 		}
 		echo('&nbsp;&nbsp;<a href="/feed/add">' . _vo_ico_silk('feed') . '</a>');
 		echo('</div>');
@@ -10105,24 +10166,34 @@ class Page {
 		echo('<div style="float: right; padding: 3px 10px 3px 10px; font-size: 12px; background-color: #F0F0F0; -moz-border-radius: 5px; color: #999;">');
 		echo('<a href="/add">热门收藏</a> | 安装浏览器按钮');
 		if ($this->User->vxIsLogin()) {
-			echo(' | <a href="/add/own">我的收藏</a> | <a href="/add/post">添加新链接</a> | <a href="/sync/add">同步</a>');
+			echo(' | <a href="/add/own">我的收藏</a> | <a href="/add/post">添加新收藏</a>');
+			if (BABEL_FEATURE_ADD_SYNC) {
+				echo(' | <a href="/sync/add">同步</a>');
+			}
 		}
 		echo('&nbsp;&nbsp;<a href="/feed/add">' . _vo_ico_silk('feed') . '</a>');
 		echo('</div>');
 		
 		echo('<span class="text_large">');
 		_v_ico_silk('add');
-		echo(' ADD</span>');
+		echo(' ADD/Buttons</span>');
 		echo(' <span class="tip_i">');
-		echo(' 网址收藏夹 ...');
+		echo(' 安装浏览器按钮以便更容易地添加网址 ...');
 		echo('</span>');
 		_v_hr();
+		$host = $_SERVER['SERVER_NAME'];
+		echo('你可以将下面这些按钮拖放到浏览器的书签工具栏上，之后，如果要通过 ' . Vocabulary::site_name . ' 收藏网址，只要点击按钮即可。');
+		echo('<div style="padding: 20px 0px 10px 40px; font-family: Courier;">');
+		echo('<a href="javascript:location.href=' . "'http://" . $host . "/babel.php?m=add_add&url='+encodeURIComponent(location.href)+';title='+encodeURIComponent(document.title)" . '" title="+' . Vocabulary::site_name . '" onclick="window.alert(' . "'将这个链接拖放到浏览器的书签工具栏，或者右键点击之后选择加入收藏。'" . ');return false;" class="t">+' . Vocabulary::site_name . '</a>');
+		echo('<span class="tip_i"> - 收藏按钮，点击之后即可将网址收藏到 ' . Vocabulary::site_name . '/ADD</span><br /><br />');
+		echo('<a href="http://' . $host . '/add/own" onclick="window.alert(' . "'将这个链接拖放到浏览器的书签工具栏，或者右键点击之后选择加入收藏。'" . ');return false;" class="t">我的收藏</a>');
+		echo('</div>');
 		_v_d_e();
 		Widget::vxAddAbout();
 		_v_d_e();
 	}
 	
-	public function vxAddSync() {
+	public function vxAddSync($sync) {
 		_v_m_s();
 		
 		_v_b_l_s();
@@ -10134,17 +10205,221 @@ class Page {
 		
 		echo('<div style="float: right; padding: 3px 10px 3px 10px; font-size: 12px; background-color: #F0F0F0; -moz-border-radius: 5px; color: #999;">');
 		echo('<a href="/add">热门收藏</a> | <a href="/buttons/add">安装浏览器按钮</a>');
-		echo(' | <a href="/add/own">我的收藏</a> | <a href="/add/post">添加新链接</a> | 同步');
+		echo(' | <a href="/add/own">我的收藏</a> | <a href="/add/post">添加新收藏</a> | 同步');
 		echo('&nbsp;&nbsp;<a href="/feed/add">' . _vo_ico_silk('feed') . '</a>');
 		echo('</div>');
 		
 		echo('<span class="text_large">');
 		_v_ico_silk('add');
-		echo(' ADD</span>');
+		echo(' ADD/Sync</span>');
 		echo(' <span class="tip_i">');
-		echo(' 网址收藏夹 ...');
+		echo(' 与 del.icio.us 保持同步 ...');
 		echo('</span>');
 		_v_hr();
+		switch ($sync['status']) {
+			case 'default':
+			case 'error':
+			default:
+				if ($sync['status'] == 'error') {
+					echo('<div class="notify">');
+					_v_ico_silk('exclamation');
+					echo(' 与 del.icio.us 通讯错误，请检查你刚才输入的用户名和密码</div>');
+				} else {
+					echo('你可以将你在 ' . Vocabulary::site_name . ' 的网址收藏与 del.icio.us 上的同步，只要在下面填入你的 del.icio.us 然后点击同步即可完成。');
+				}
+				echo('<div style="padding: 20px 0px 10px 40px; font-family: Courier;">');
+				echo('<form style="padding: 0px; margin: 0px; display: inline;" id="add_sync" action="/sync/add/start" method="post">');
+				echo('username: <input type="text" class="sl" name="d_u" /><br /><br />');
+				echo('password: <input type="password" class="sl" name="d_p" /><br /><br />');
+				_v_btn_f('开始同步', 'add_sync');
+				echo('</form>');
+				echo('</div>');
+				_v_hr();
+				echo('<span class="tip_i">');
+				_v_ico_silk('information');
+				echo(' ' . Vocabulary::site_name . ' 不会在服务器上存储你的 del.icio.us 用户名和密码，并且到 del.icio.us 的通讯将通过 SSL 加密进行。');
+				echo('</span>');
+				break;
+		}
+		_v_d_e();
+		Widget::vxAddAbout();
+		_v_d_e();
+	}
+	
+	public function vxAddAdd() {
+		_v_m_s();
+		
+		_v_b_l_s();
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; ADD &gt; 添加新收藏 <span class="tip_i"><small>alpha</small></span>');
+		_v_d_e();
+		
+		_v_b_l_s();
+		
+		echo('<div style="float: right; padding: 3px 10px 3px 10px; font-size: 12px; background-color: #F0F0F0; -moz-border-radius: 5px; color: #999;">');
+		echo('<a href="/add">热门收藏</a> | <a href="/buttons/add">安装浏览器按钮</a>');
+		echo(' | <a href="/add/own">我的收藏</a> | 添加新收藏');
+		if (BABEL_FEATURE_ADD_SYNC) {
+			echo(' | <a href="/sync/add">同步</a>');
+		}
+		echo('&nbsp;&nbsp;<a href="/feed/add">' . _vo_ico_silk('feed') . '</a>');
+		echo('</div>');
+		
+		echo('<span class="text_large">');
+		_v_ico_silk('add');
+		echo(' ADD/New</span>');
+		echo(' <span class="tip_i">');
+		echo(' 添加新的收藏 ...');
+		echo('</span>');
+		_v_hr();
+		$query = substr($_SERVER['QUERY_STRING'], 10, mb_strlen($_SERVER['QUERY_STRING']) - 10);
+		$parameters = Bookmark::vxParse($query);
+		echo('添加一个新的网址，粗体带有 * 号的部分是必填的。');
+		echo('<div style="padding: 20px 0px 10px 40px; font-family: Courier;">');
+		echo('<form style="padding: 0px; margin: 0px; display: inline;" id="add_add" action="/babel" method="get">');
+		echo('<input type="hidden" value="add_save" name="m" />');
+		echo('<table width="550" cellpadding="0" cellspacing="0" border="0">');
+		if (array_key_exists('url', $parameters)) {
+			$value_url = make_single_safe($parameters['url']);
+		} else {
+			$value_url = '';
+		}
+		echo('<tr>');
+		echo('<td align="right" width="80" height="30"><strong>URL*</strong>&nbsp;</td>');
+		echo('<td align="left" height="30"><input type="text" class="slll" name="url" value="' . $value_url . '" /></td>');
+		echo('</tr>');
+		if (array_key_exists('title', $parameters)) {
+			$value_title = make_single_safe($parameters['title']);
+		} else {
+			$value_title = '';
+		}
+		echo('<tr>');
+		echo('<td align="right" width="80" height="30"><strong>标题*</strong>&nbsp;</td>');
+		echo('<td align="left" height="30"><input type="text" class="slll" name="title" value="' . $value_title . '" /></td>');
+		echo('</tr>');
+		if (array_key_exists('notes', $parameters)) {
+			$value_notes = make_single_safe($parameters['notes']);
+		} else {
+			$value_notes = '';
+		}
+		echo('<tr>');
+		echo('<td align="right" width="80" height="30">备注&nbsp;</td>');
+		echo('<td align="left" height="30"><input type="text" class="slll" name="notes" value="' . $value_notes . '" /></td>');
+		echo('</tr>');
+		echo('<tr>');
+		echo('<td align="right" width="80" height="30"></td>');
+		echo('<td align="left" height="30">');
+		_v_btn_f('保存', 'add_add');
+		echo('</td>');
+		echo('</tr>');
+		echo('</table>');
+		
+		echo('</form>');
+		echo('</div>');
+		_v_hr();
+		echo('<span class="tip_i">');
+		_v_ico_silk('information');
+		echo(' 每个加入收藏的书签将消耗 10 个铜币。');
+		echo('</span>');
+		_v_d_e();
+		Widget::vxAddAbout();
+		_v_d_e();
+	}
+	
+	public function vxAddSave() {
+		_v_m_s();
+		
+		_v_b_l_s();
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; ADD &gt; 添加新收藏 <span class="tip_i"><small>alpha</small></span>');
+		_v_d_e();
+		
+		_v_b_l_s();
+		
+		echo('<div style="float: right; padding: 3px 10px 3px 10px; font-size: 12px; background-color: #F0F0F0; -moz-border-radius: 5px; color: #999;">');
+		echo('<a href="/add">热门收藏</a> | <a href="/buttons/add">安装浏览器按钮</a>');
+		echo(' | <a href="/add/own">我的收藏</a> | 添加新收藏');
+		if (BABEL_FEATURE_ADD_SYNC) {
+			echo(' | <a href="/sync/add">同步</a>');
+		}
+		echo('&nbsp;&nbsp;<a href="/feed/add">' . _vo_ico_silk('feed') . '</a>');
+		echo('</div>');
+		
+		echo('<span class="text_large">');
+		_v_ico_silk('add');
+		echo(' ADD/New</span>');
+		echo(' <span class="tip_i">');
+		echo(' 添加新的收藏 ...');
+		echo('</span>');
+		_v_hr();
+		$parameters = Bookmark::vxValidate();
+		if ($parameters['errors'] > 0) {
+			echo('添加一个新的网址，粗体带有 * 号的部分是必填的。');
+			echo('<div style="padding: 20px 0px 10px 40px; font-family: Courier;">');
+			echo('<form style="padding: 0px; margin: 0px; display: inline;" id="add_add" action="/babel" method="get">');
+			echo('<input type="hidden" value="add_save" name="m" />');
+			echo('<table width="550" cellpadding="0" cellspacing="0" border="0">');
+			if (array_key_exists('url_value', $parameters)) {
+				$value_url = make_single_return($parameters['url_value']);
+			} else {
+				$value_url = '';
+			}
+			echo('<tr>');
+			echo('<td align="right" width="80" height="30"><strong>URL*</strong>&nbsp;</td>');
+			echo('<td align="left" height="30"><input type="text" class="slll" name="url" value="' . $value_url . '" /></td>');
+			echo('</tr>');
+			if (array_key_exists('title_value', $parameters)) {
+				$value_title = make_single_return($parameters['title_value']);
+			} else {
+				$value_title = '';
+			}
+			echo('<tr>');
+			echo('<td align="right" width="80" height="30"><strong>标题*</strong>&nbsp;</td>');
+			echo('<td align="left" height="30"><input type="text" class="slll" name="title" value="' . $value_title . '" /></td>');
+			echo('</tr>');
+			if (array_key_exists('notes_value', $parameters)) {
+				$value_notes = make_single_return($parameters['notes_value']);
+			} else {
+				$value_notes = '';
+			}
+			echo('<tr>');
+			echo('<td align="right" width="80" height="30">备注&nbsp;</td>');
+			echo('<td align="left" height="30"><input type="text" class="slll" name="notes" value="' . $value_notes . '" /></td>');
+			echo('</tr>');
+			echo('<tr>');
+			echo('<td align="right" width="80" height="30"></td>');
+			echo('<td align="left" height="30">');
+			_v_btn_f('保存', 'add_add');
+			echo('</td>');
+			echo('</tr>');
+			echo('</table>');
+			echo('</form>');
+			echo('</div>');
+		} else {
+			$hash = $parameters['url_hash'];
+			$url = mysql_real_escape_string($parameters['url_value']);
+			$title = mysql_real_escape_string($parameters['title_value']);
+			$notes = mysql_real_escape_string($parameters['notes_value']);
+			$sql = 'SELECT url_id, url_uid, url_hash FROM babel_add_url WHERE url_uid = ' . $this->User->usr_id . ' AND url_hash = ' . "'" . $hash . "'";
+			$rs = mysql_query($sql);
+			if (mysql_num_rows($rs) == 1) {
+				$updated = time();
+				$sql = "UPDATE babel_add_url SET url_url = '{$url}', url_title = '{$title}', notes = '{$notes}' WHERE url_hash = '{$hash}' AND url_uid = {$this->User->usr_id}, url_lastupdated = {$updated}";
+				mysql_query($sql);
+			} else {
+				$inserted = time();
+				$sql = "INSERT INTO babel_add_url(url_uid, url_url, url_title, url_notes, url_hash, url_created, url_lastupdated) VALUES({$this->User->usr_id}, '{$url}', '{$title}', '{$notes}', '{$hash}', {$inserted}, {$inserted})";
+				mysql_query($sql);
+			}
+			_v_ico_silk('emoticon_evilgrin');
+			echo(' 收藏保存成功！接下来将自动回到你之前正在访问的网站，如果没有跳转，请点击 <a href="' . make_single_return($parameters['url_value']) . '" rel="nofollow" target="_self" class="t">这里</a>');
+			echo('<script type="text/javascript">setTimeout("location.href = ' . "'". $parameters['url_value'] . "'" . '", 31);</script>');
+		}
+		_v_hr();
+		echo('<span class="tip_i">');
+		_v_ico_silk('information');
+		echo(' 每个加入收藏的书签将消耗 10 个铜币。');
+		echo('</span>');
 		_v_d_e();
 		Widget::vxAddAbout();
 		_v_d_e();
@@ -10203,7 +10478,7 @@ class Page {
 		$o = '';
 		while ($Item = mysql_fetch_object($rs)) {
 			if ((time() - $Item->itm_time) < 86400) {
-				$img_star = '<img src="' . CDN_UI . 'img/bunny.gif" align="absmiddle" />&nbsp;';
+				$img_star = '<img src="' . CDN_UI . 'img/icons/silk/new.png" align="absmiddle" />&nbsp;';
 			} else {
 				$img_star = '';
 			}

@@ -427,6 +427,7 @@ CREATE TABLE `babel_topic` (
   `tpc_refs` int(10) unsigned NOT NULL DEFAULT '0',
   `tpc_posts` int(10) unsigned NOT NULL DEFAULT '0',
   `tpc_favs` int(10) unsigned NOT NULL DEFAULT '0',
+  `tpc_profitable` smallint(5) unsigned NOT NULL default '0',
   `tpc_followers` text,
   `tpc_flag` int(10) unsigned NOT NULL DEFAULT '0',
   `tpc_created` int(10) unsigned NOT NULL DEFAULT '0',

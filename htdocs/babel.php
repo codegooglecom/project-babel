@@ -351,8 +351,10 @@ switch ($m) {
 		$GOOGLE_AD_LEGAL = true;
 		if (isset($_GET['geo'])) {
 			$geo = strtolower(make_single_safe($_GET['geo']));
-			if (get_magic_quotes_gpc()) {
-				$geo = stripslashes($geo);
+			if (function_exists('get_magic_quotes_gpc')) {
+				if (get_magic_quotes_gpc()) {
+					$geo = stripslashes($geo);
+				}
 			}
 			if (!$p->Geo->vxIsExist($geo)) {
 				$geo = 'earth';
@@ -375,7 +377,6 @@ switch ($m) {
 			break;
 		} else {
 			$options = array();
-			
 			if (isset($_GET['do'])) {
 				$do = strtolower(trim($_GET['do']));
 				if ($do == 'me') {
@@ -414,8 +415,12 @@ switch ($m) {
 			} else {
 				if (isset($_GET['user_nick'])) {
 					$user_nick = make_single_safe($_GET['user_nick']);
-					if (get_magic_quotes_gpc()) {
-						$user_nick_real = mysql_real_escape_string(stripslashes($user_nick), $p->db);
+					if (function_exists('get_magic_quotes_gpc')) {
+						if (get_magic_quotes_gpc()) {
+							$user_nick_real = mysql_real_escape_string(stripslashes($user_nick), $p->db);
+						} else {
+							$user_nick_real = mysql_real_escape_string($user_nick, $p->db);
+						}
 					} else {
 						$user_nick_real = mysql_real_escape_string($user_nick, $p->db);
 					}
@@ -1928,8 +1933,12 @@ switch ($m) {
 			$hot = true;
 		}
 		if ($u) {
-			if (get_magic_quotes_gpc()) {
-				$u = mysql_real_escape_string(stripslashes($u));
+			if (function_exists('get_magic_quotes_gpc')) {
+				if (get_magic_quotes_gpc()) {
+					$u = mysql_real_escape_string(stripslashes($u));
+				} else {
+					$u = mysql_real_escape_string($u);
+				}
 			} else {
 				$u = mysql_real_escape_string($u);
 			}
@@ -1976,6 +1985,8 @@ switch ($m) {
 		break;
 		
 	case 'add_sync':
+		$sync = array();
+		$sync['status'] = 'default';
 		if (!$p->User->vxIsLogin()) {
 			die($p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetAddSync())));
 			break;
@@ -1983,7 +1994,68 @@ switch ($m) {
 			$p->vxHead($msgSiteTitle = '同步');
 			$p->vxBodyStart();
 			$p->vxTop();
-			$p->vxContainer('add_sync');
+			$p->vxContainer('add_sync', $sync);
+			break;
+		}
+		
+	case 'add_sync_start':
+		if (!$p->User->vxIsLogin()) {
+			die($p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetAddSync())));
+			break;
+		} else {
+			$sync = array();
+			$sync['status'] = 'default';
+			if (isset($_POST['d_u']) && isset($_POST['d_p'])) {
+				$del_user = fetch_single($_POST['d_u']);
+				$del_pass = fetch_single($_POST['d_p']);
+				if ($del_user != '' && $del_pass != '') {
+					require_once('Zend/Service/Delicious.php');
+					$del = new Zend_Service_Delicious($del_user, $del_pass);
+					try {
+						$posts = $del->getAllPosts();
+					} catch (Zend_Service_Delicious_Exception $e) {
+						$posts = false;
+						$sync['status'] = 'error';
+					}
+					if ($posts) {
+						var_dump($posts);
+						$result = Add::vxSync($p->User, $p->db, $posts);
+						var_dump($result);
+					}
+				} else {
+					$sync['status'] = 'default';
+				}
+			} else {
+				$sync['status'] = 'default';
+			}
+			$p->vxHead($msgSiteTitle = '同步');
+			$p->vxBodyStart();
+			$p->vxTop();
+			$p->vxContainer('add_sync', $sync);
+			break;
+		}
+		
+	case 'add_add':
+		if (!$p->User->vxIsLogin()) {
+			die($p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetAddAdd())));
+			break;
+		} else {
+			$p->vxHead($msgSiteTitle = '添加新收藏');
+			$p->vxBodyStart();
+			$p->vxTop();
+			$p->vxContainer('add_add');
+			break;
+		}
+		
+	case 'add_save':
+		if (!$p->User->vxIsLogin()) {
+			die($p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetAddAdd())));
+			break;
+		} else {
+			$p->vxHead($msgSiteTitle = '添加新收藏');
+			$p->vxBodyStart();
+			$p->vxTop();
+			$p->vxContainer('add_save');
 			break;
 		}
 }

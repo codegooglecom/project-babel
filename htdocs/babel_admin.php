@@ -2,16 +2,16 @@
 /* Project Babel
  *
  * Author: Livid Liu <v2ex.livid@mac.com>
- * File: /htdocs/core/Features.php
- * Usage: Controls which feature to be enabled
+ * File: /htdocs/babel_admin.php
+ * Usage: Loader for Administrator Console
  * Format: 1 tab indent(4 spaces), LF, UTF-8, no-BOM
- *  
+ *
  * Subversion Keywords:
  *
  * $Id$
- * $Date$
- * $Revision$
- * $Author$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
  * $URL$
  *
  * Copyright (C) 2006 Livid Liu <v2ex.livid@mac.com>
@@ -31,25 +31,26 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-define('BABEL_FEATURE_USER_SAVEPOINTS', true);
-define('BABEL_FEATURE_USER_COMPONENTS', true);
-define('BABEL_FEATURE_USER_SKYPE', true);
-define('BABEL_FEATURE_USER_LASTFM', true);
+define('V2EX_BABEL', 1);
+require_once('core/AdminCore.php');
 
-define('BABEL_FEATURE_NODE_STOCK', true);
+if (isset($_GET['m'])) {
+	$m = fetch_single($_GET['m']);
+	if ($m == '') {
+		$m = 'home';
+	}
+} else {
+	$m = 'home';
+}
 
-define('BABEL_FEATURE_DRY', false);
+define('__PAGE__', $m);
 
-define('BABEL_FEATURE_PIX', false);
+$a = &new Admin();
 
-define('BABEL_FEATURE_BIT', false);
-
-define('BABEL_FEATURE_EGO', false);
-
-define('BABEL_FEATURE_PRO', false);
-
-define('BABEL_FEATURE_ADD', true);
-define('BABEL_FEATURE_ADD_SYNC', false);
-
-define('BABEL_FEATURE_ALL', false);
+switch ($m) {
+	default:
+	case 'home':
+		$a->vxHome();
+		break;
+}
 ?>

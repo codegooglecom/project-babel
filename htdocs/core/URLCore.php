@@ -202,6 +202,11 @@ class URL {
 		$url = '/sync/add';
 		return $url;
 	}
+		
+	public static function vxGetAddAdd() {
+		$url = '/add/add';
+		return $url;
+	}
 }
 
 /* E URL class */

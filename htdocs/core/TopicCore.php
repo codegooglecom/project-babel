@@ -36,6 +36,7 @@ class Topic {
 	public $tpc_refs;
 	public $tpc_posts;
 	public $tpc_favs;
+	public $tpc_profitable;
 	
 	public $tpc_followers;
 	
@@ -53,7 +54,7 @@ class Topic {
 	public function __construct($topic_id, $db, $flag_format = 1, $flag_addhit = 0) {
 		$this->db =& $db;
 		
-		$sql = "SELECT tpc_id, tpc_pid, tpc_uid, tpc_title, tpc_description, tpc_content, tpc_hits, tpc_refs, tpc_posts, tpc_favs, tpc_followers, tpc_created, tpc_lastupdated, tpc_lasttouched, usr_id, usr_geo, usr_email, usr_email_notify, usr_nick, usr_gender, usr_portrait, usr_sw_notify_reply FROM babel_topic, babel_user WHERE tpc_id = {$topic_id} AND tpc_uid = usr_id";
+		$sql = "SELECT tpc_id, tpc_pid, tpc_uid, tpc_title, tpc_description, tpc_content, tpc_hits, tpc_refs, tpc_posts, tpc_favs, tpc_profitable, tpc_followers, tpc_created, tpc_lastupdated, tpc_lasttouched, usr_id, usr_geo, usr_email, usr_email_notify, usr_nick, usr_gender, usr_portrait, usr_sw_notify_reply FROM babel_topic, babel_user WHERE tpc_id = {$topic_id} AND tpc_uid = usr_id";
 		$rs = mysql_query($sql, $this->db);
 		if (mysql_num_rows($rs) == 1) {
 			$O = mysql_fetch_object($rs);
@@ -73,6 +74,7 @@ class Topic {
 			$this->tpc_refs = $O->tpc_refs;
 			$this->tpc_posts = $O->tpc_posts;
 			$this->tpc_favs = $O->tpc_favs;
+			$this->tpc_profitable = $O->tpc_profitable;
 			if ($O->tpc_followers != '') {
 				$this->tpc_followers = unserialize($O->tpc_followers);
 			} else {
@@ -122,6 +124,7 @@ class Topic {
 			$this->tpc_refs = 0;
 			$this->tpc_posts = 0;
 			$this->tpc_favs = 0;
+			$this->tpc_profitable = 0;
 			$this->tpc_followers = array();
 			$this->tpc_content = '';
 			$this->tpc_created = 0;
