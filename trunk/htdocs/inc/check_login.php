@@ -27,16 +27,24 @@ function vx_check_login() {
 	$rt['usr_password_error_msg'] = array(1 => '你忘记填写密码了', 2 => '名字或者密码有错误');
 
 	if (isset($_POST['return'])) {
-		if (get_magic_quotes_gpc()) {
-			$rt['return'] = trim(stripslashes($_POST['return']));
+		if (function_exists('get_magic_quotes_gpc')) {
+			if (get_magic_quotes_gpc()) {
+				$rt['return'] = trim(stripslashes($_POST['return']));
+			} else {
+				$rt['return'] = trim($_POST['return']);
+			}
 		} else {
 			$rt['return'] = trim($_POST['return']);
 		}
 	}
 	
 	if (isset($_POST['usr'])) {
-		if (get_magic_quotes_gpc()) {
-			$rt['usr_value'] = strtolower(make_single_safe(stripslashes($_POST['usr'])));
+		if (function_exists('get_magic_quotes_gpc')) {
+			if (get_magic_quotes_gpc()) {
+				$rt['usr_value'] = strtolower(make_single_safe(stripslashes($_POST['usr'])));
+			} else {
+				$rt['usr_value'] = strtolower(make_single_safe($_POST['usr']));
+			}
 		} else {
 			$rt['usr_value'] = strtolower(make_single_safe($_POST['usr']));
 		}
@@ -54,8 +62,12 @@ function vx_check_login() {
 	}
 	
 	if (isset($_POST['usr_password'])) {
-		if (get_magic_quotes_gpc()) {
-			$rt['usr_password_value'] = make_single_safe(stripslashes($_POST['usr_password']));
+		if (function_exists('get_magic_quotes_gpc')) {
+			if (get_magic_quotes_gpc()) {
+				$rt['usr_password_value'] = make_single_safe(stripslashes($_POST['usr_password']));
+			} else {
+				$rt['usr_password_value'] = make_single_safe($_POST['usr_password']);
+			}
 		} else {
 			$rt['usr_password_value'] = make_single_safe($_POST['usr_password']);
 		}

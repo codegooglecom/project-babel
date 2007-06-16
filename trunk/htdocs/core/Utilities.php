@@ -307,11 +307,15 @@ function make_safe_display($txt) {
 }
 
 function make_single_return($value, $strip = 1) {
-	if (get_magic_quotes_gpc()) {
-		if ($strip == 1) {
-			$value = stripslashes($value);
+	if (function_exists('get_magic_quotes_gpc')) {
+		if (get_magic_quotes_gpc()) {
+			if ($strip == 1) {
+				$value = stripslashes($value);
+			}
+			return str_replace('"', '&quot;', $value);
+		} else {
+			return str_replace('"', '&quot;', $value);
 		}
-		return str_replace('"', '&quot;', $value);
 	} else {
 		return str_replace('"', '&quot;', $value);
 	}

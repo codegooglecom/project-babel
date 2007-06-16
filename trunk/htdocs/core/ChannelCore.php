@@ -83,12 +83,15 @@ class Channel {
 	}
 	
 	public function vxTrimKijijiTitle($title) {
+		/*
 		if (mb_ereg_match('最新的客齐集广告 - (.+) - (.+)', $title)) {
 			mb_ereg('最新的客齐集广告 - (.+) - (.+)', $title, $m);
 			return $m[1] . $m[2];
 		} else {
 			return $title;
 		}
+		*/
+		return $title;
 	}
 }
 

@@ -3,6 +3,8 @@ ErrorDocument 403 /errors/403.html
 
 RewriteEngine On
 
+RewriteRule ^babel$ /babel.php [L]
+
 RewriteRule ^$ /babel.php?m=home [L]
 RewriteRule ^([0-9]+)$ /babel_mobile.php?m=home&p=$1 [L]
 RewriteRule ^index.html$ /babel.php?m=home [L]
@@ -264,5 +266,6 @@ RewriteRule ^add/([^\/]+)/page/([0-9]+)$ /babel.php?m=add&u=$1&p=$2 [L]
 RewriteRule ^add/([^\/]+)$ /babel.php?m=add&u=$1 [L]
 RewriteRule ^buttons/add$ /babel.php?m=add_buttons [L]
 RewriteRule ^sync/add$ /babel.php?m=add_sync [L]
+RewriteRule ^sync/add/start$ /babel.php?m=add_sync_start [L]
 
 RewriteRule ^url/([0-9A-Za-z\-\_]+)$ /babel.php?m=url&url_hash=$1 [L]

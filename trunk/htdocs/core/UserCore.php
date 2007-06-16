@@ -178,9 +178,15 @@ class User {
 			}
 		
 			if ($e == 0) {
-				if (get_magic_quotes_gpc()) {
-					$real_usr_email = mysql_real_escape_string(stripslashes($_COOKIE['babel_usr_email']));
-					$real_usr_password = mysql_real_escape_string($this->bf->decrypt(stripslashes($_COOKIE['babel_usr_password'])));
+				if (function_exists('get_magic_quotes_gpc')) {
+					if (get_magic_quotes_gpc()) {
+						$real_usr_email = mysql_real_escape_string(stripslashes($_COOKIE['babel_usr_email']));
+						$real_usr_password = mysql_real_escape_string($this->bf->decrypt(stripslashes($_COOKIE['babel_usr_password'])));
+					} else {
+						$real_usr_email = mysql_real_escape_string($_COOKIE['babel_usr_email']);
+						$real_usr_password = mysql_real_escape_string($this->bf->decrypt($_COOKIE['babel_usr_password']));
+
+					}
 				} else {
 					$real_usr_email = mysql_real_escape_string($_COOKIE['babel_usr_email']);
 					$real_usr_password = mysql_real_escape_string($this->bf->decrypt($_COOKIE['babel_usr_password']));
