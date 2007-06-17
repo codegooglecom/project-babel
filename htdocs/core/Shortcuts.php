@@ -55,6 +55,14 @@ function _vo_ico_buuf($icon, $align = 'absmiddle') {
 	return '<img src="/img/icons/buuf/' . $icon . '.png" align="' . $align . '" border="0" />';
 }
 
+function _v_ico_tango_16($icon, $align = 'absmiddle') {
+	echo '<img src="' . CDN_UI . 'img/icons/tango/16x16/' . $icon . '.png" align="' . $align . '" border="0" />';
+}
+
+function _vo_ico_tango_16($icon, $align = 'absmiddle') {
+	return '<img src="' . CDN_UI . 'img/icons/tango/16x16/' . $icon . '.png" align="' . $align . '" border="0" />';
+}
+
 function _v_ico_tango_22($icon, $align = 'absmiddle') {
 	echo '<img src="' . CDN_UI . 'img/icons/tango/22x22/' . $icon . '.png" align="' . $align . '" border="0" />';
 }
