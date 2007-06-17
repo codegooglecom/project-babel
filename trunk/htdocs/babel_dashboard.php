@@ -35,7 +35,7 @@ session_start();
 
 $User = new User('', '', $db);
 if (!$User->vxIsLogin()) {
-	URL::vxToRedirect(URL::vxGetLogin('/babel_dashboard.php'));
+	URL::vxToRedirect(URL::vxGetLogin('/dashboard'));
 }
 
 $_friends = array();
@@ -58,6 +58,11 @@ $all_sql = implode(',', $_all);
 <title>V2EX Dashboard</title>
 <link href="/favicon.ico" rel="shortcut icon" />
 <link href="/d/css/style.css" rel="stylesheet" type="text/css" />
+<?php
+if (MINT_LOCATION != '') {
+	echo('<script src="' . MINT_LOCATION . '" type="text/javascript"></script>');
+}
+?>
 </head>
 <body>
 <div id="top">
@@ -67,7 +72,7 @@ echo($User->usr_nick . ' <small>&lt;' . $User->usr_email . '&gt;</small>');
 echo(' | <a href="/user/modify.vx" class="white">修改个人信息与设置</a> | <a href="/logout" class="white">登出</a>');
 ?>
 	</div>
-<img src="/d/img/logo.png" />
+<a href="/dashboard" title="V2EX Dashboard"><img src="/d/img/logo.png" border="0" alt="V2EX Dashboard" /></a>
 </div>
 <div id="container">
 <div id="left">
