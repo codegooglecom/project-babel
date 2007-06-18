@@ -701,7 +701,6 @@ color: inherit;
 
 a.var:hover {
 border: none;
-text-decoration: none;
 color: inherit;
 text-decoration: underline;
 }
