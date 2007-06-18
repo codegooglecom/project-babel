@@ -149,6 +149,27 @@ $CACHE_LITE_OPTIONS_SHORT = array('cacheDir' => BABEL_PREFIX . '/cache/360/', 'l
 /* Long term cache settings (Cache_Lite in PEAR) lasting for 7200 seconds */
 $CACHE_LITE_OPTIONS_LONG = array('cacheDir' => BABEL_PREFIX . '/cache/7200/', 'lifeTime' => 7200, 'automaticCleaningFactor' => 100, 'hashedDirectoryLevel' => 3);
 
+/* Which type of tiny cache to use. */
+define('ZEND_CACHE_TYPE_TINY', 'Sqlite');
+
+/**
+ *
+ * Tiny cache settings (Zend_Cache in Zend Framework) lasting for 120 seconds.
+ * It consists two parts:
+ * Frontend & Backend
+ *
+ */
+$ZEND_CACHE_OPTIONS_TINY_FRONTEND = array('lifeTime' => 120, 'automaticSerialization' => false);
+
+/**
+ *
+ * Tiny cache: Backends
+ *
+ */
+$ZEND_CACHE_OPTIONS_TINY_BACKEND = array();
+$ZEND_CACHE_OPTIONS_TINY_BACKEND['Sqlite'] = array('cacheDBCompletePath' => BABEL_PREFIX . '/cache/120.db');
+$ZEND_CACHE_OPTIONS_TINY_BACKEND['File'] = array('cacheDir' => BABEL_PREFIX . '/cache/120/', 'hashedDirectoryLevel' => 3);
+
 /* Which type of long term cache to use. */
 define('ZEND_CACHE_TYPE_LONG', 'File');
 

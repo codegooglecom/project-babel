@@ -190,6 +190,12 @@ text-decoration: none;
 color: inherit;
 }
 
+a.var:hover {
+border: none;
+color: inherit;
+text-decoration: underline;
+}
+
 a:link, a:active, a:visited {
 color: #556;
 text-decoration: none;

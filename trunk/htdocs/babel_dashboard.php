@@ -25,11 +25,8 @@ if (@$db = mysql_connect(BABEL_DB_HOSTNAME . ':' . BABEL_DB_PORT, BABEL_DB_USERN
 	mysql_query("SET COLLATION_CONNECTION='utf8_general_ci'");
 }
 
-if (ZEND_CACHE_MEMCACHED_ENABLED == 'yes') {
-	$cl = Zend_Cache::factory('Core', 'Memcached', $ZEND_CACHE_OPTIONS_LONG_FRONTEND, $ZEND_CACHE_OPTIONS_MEMCACHED);
-} else {
-	$cl = Zend_Cache::factory('Core', ZEND_CACHE_TYPE_LONG, $ZEND_CACHE_OPTIONS_LONG_FRONTEND, $ZEND_CACHE_OPTIONS_LONG_BACKEND[ZEND_CACHE_TYPE_LONG]);
-}
+
+$c = Zend_Cache::factory('Core', ZEND_CACHE_TYPE_TINY, $ZEND_CACHE_OPTIONS_TINY_FRONTEND, $ZEND_CACHE_OPTIONS_TINY_BACKEND[ZEND_CACHE_TYPE_TINY]);
 
 session_start();
 
@@ -92,20 +89,50 @@ echo(' | <a href="/user/modify.vx" class="white">修改个人信息与设置</a>
 	<div id="contacts">
 		<?php
 		$tag_cache = 'babel_dashboard_contacts_' . $User->usr_id;
-		if ($o = $cl->load($tag_cache)) {
+		if ($o = $c->load($tag_cache)) {
 		} else {
 			$o = '';
-			$sql = "SELECT usr_id, usr_nick, usr_telephone FROM babel_user, babel_friend WHERE usr_id = frd_fid AND frd_uid = {$User->usr_id} ORDER BY usr_nick ASC";
-			$rs = mysql_query($sql);
-			$o .= '<h2 class="dark">&nbsp;' . _vo_ico_silk('group') . '&nbsp;&nbsp;我的 ' . mysql_num_rows($rs) . ' 个联系人</h2>';
+			$tag_cache_online = 'babel_dashboard_contacts_' . $User->usr_id . '_online';
+			$tag_cache_offline = 'babel_dashboard_contacts_' . $User->usr_id . '_offline';
+			if (($contacts_online = $c->load($tag_cache_online)) && ($contacts_offline = $c->load($tag_cache_offline))) {
+				$_contacts_online = unserialize($contacts_online);
+				$_contacts_offline = unserialize($contacts_offline);
+				$total = count($_contacts_online) + count($_contacts_offline);
+				$o .= '<h2 class="dark">&nbsp;' . _vo_ico_silk('group') . '&nbsp;&nbsp;我的 ' . $total . ' 个联系人</h2>';
+			} else {
+				$sql = "SELECT usr_id, usr_nick, usr_telephone FROM babel_user, babel_friend WHERE usr_id = frd_fid AND frd_uid = {$User->usr_id} ORDER BY usr_nick ASC";
+				$rs = mysql_query($sql);
+				$o .= '<h2 class="dark">&nbsp;' . _vo_ico_silk('group') . '&nbsp;&nbsp;我的 ' . mysql_num_rows($rs) . ' 个联系人</h2>';
+				$i = 0;
+				$_contacts_online = array();
+				$_contacts_offline = array();
+				while ($_contact = mysql_fetch_array($rs)) {
+					$nick = mysql_real_escape_string($_contact['usr_nick']);
+					$sql = "SELECT onl_hash FROM babel_online WHERE onl_nick = '{$nick}'";
+					$rs_online = mysql_query($sql);
+					if (mysql_num_rows($rs_online) > 0) {
+						$_contacts_online[] = $_contact;
+					} else {
+						$_contacts_offline[] = $_contact;
+					}
+					mysql_free_result($rs_online);
+				}
+				mysql_free_result($rs);
+				$c->save(serialize($_contacts_online), $tag_cache_online);
+				$c->save(serialize($_contacts_offline), $tag_cache_offline);
+			}
 			$i = 0;
-			while ($_contact = mysql_fetch_array($rs)) {
+			foreach ($_contacts_online as $_contact) {
 				$i++;
 				$css_class = ($i % 2 == 0) ? 'even' : 'odd';
-				$o .= '<div class="c_' . $css_class . '">' . make_plaintext($_contact['usr_nick']) . '</div>';
+				$o .= '<div class="c_' . $css_class . '"><img src="/d/img/status/available.png" align="absmiddle" /> <a href="/u/' . urlencode($_contact['usr_nick']) . '" class="white">' . make_plaintext($_contact['usr_nick']) . '</a></div>';
 			}
-			mysql_free_result($rs);
-			$cl->save($o, $tag_cache);
+			foreach ($_contacts_offline as $_contact) {
+				$i++;
+				$css_class = ($i % 2 == 0) ? 'even' : 'odd';
+				$o .= '<div class="c_' . $css_class . '"><img src="/d/img/status/offline.png" align="absmiddle" /> <a href="/u/' . urlencode($_contact['usr_nick']) . '" class="white">' . make_plaintext($_contact['usr_nick']) . '</a></div>';
+			}
+			$c->save($o, $tag_cache);
 		}
 		echo $o;
 		?>
@@ -170,7 +197,7 @@ echo(' | <a href="/user/modify.vx" class="white">修改个人信息与设置</a>
 		</div>
 		<?php
 		$tag_cache = 'babel_dashboard_timeline_' . $User->usr_id;
-		if ($timeline_cached = $cl->load($tag_cache)) {
+		if ($timeline_cached = $c->load($tag_cache)) {
 			$_timeline = unserialize($timeline_cached);
 		} else {
 			/* Create a new empty array for timeline. */
@@ -204,7 +231,7 @@ echo(' | <a href="/user/modify.vx" class="white">修改个人信息与设置</a>
 			}
 			/* Sort the timeline. */
 			krsort($_timeline);
-			$cl->save(serialize($_timeline), $tag_cache);
+			$c->save(serialize($_timeline), $tag_cache);
 		}
 		foreach ($_timeline as $time => $event) {
 			echo('<div class="object">');
