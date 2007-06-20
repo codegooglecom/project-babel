@@ -271,3 +271,8 @@ RewriteRule ^sync/add/start$ /babel.php?m=add_sync_start [L]
 RewriteRule ^url/([0-9A-Za-z\-\_]+)$ /babel.php?m=url&url_hash=$1 [L]
 
 RewriteRule ^dashboard$ /babel_dashboard.php [L]
+RewriteRule ^data$ /babel_data.php [L]
+
+RewriteRule ^blog/admin.vx$ /babel.php?m=blog_admin [L]
+RewriteRule ^blog/create.vx$ /babel.php?m=blog_create [L]
+RewriteRule ^blog/create/save.vx$ /babel.php?m=blog_create_save [L]

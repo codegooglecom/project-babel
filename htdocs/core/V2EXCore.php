@@ -562,6 +562,9 @@ class Page {
 			echo('<li class="top"><a href="/u/' . urlencode($this->User->usr_nick) . '" class="top">&nbsp;&nbsp;&nbsp;' . make_plaintext($this->User->usr_nick) . '&nbsp;&nbsp;&nbsp;</a>');
 			echo('<ul>');
 			echo('<li><a href="/u/' . urlencode($this->User->usr_nick) . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/house.png" align="absmiddle" border="0" /> 我的 ' . Vocabulary::site_name . ' 主页</a></li>');
+			if (BABEL_FEATURE_WEBLOG) {
+				echo('<li><a href="/blog/admin.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/anchor.png" align="absmiddle" border="0" /> 我的博客网志</a></li>');
+			}
 			echo('<li><a href="/zen/' . $this->User->usr_nick_url . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/clock.png" align="absmiddle" border="0" /> ZEN</a></li>');
 			echo('<li><a href="/ing/' . $this->User->usr_nick_url . '/friends" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/hourglass.png" align="absmiddle" border="0" /> ING</a></li>');
 			if (BABEL_FEATURE_DRY) {
@@ -571,7 +574,7 @@ class Page {
 				echo('<li><a href="/pix/' . $this->User->usr_nick_url . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/images.png" align="absmiddle" border="0" /> PIX</a></li>');
 			}
 			if (BABEL_FEATURE_ADD) {
-				echo('<li><a href="/bit" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/control_add.png" align="absmiddle" border="0" /> ADD</a></li>');
+				echo('<li><a href="/bit" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/add.png" align="absmiddle" border="0" /> ADD</a></li>');
 			}
 			if (BABEL_FEATURE_BIT) {
 				echo('<li><a href="/bit" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/control_equalizer.png" align="absmiddle" border="0" /> BIT</a></li>');
@@ -795,6 +798,9 @@ class Page {
 			}
 			echo('</a></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/comments.png" align="absmiddle" />&nbsp;<a href="/topic/archive/user/' . urlencode($this->User->usr_nick) . '">我创建的所有主题</a></li>');
+			if (BABEL_FEATURE_WEBLOG) {
+				echo('<li><img src="' . CDN_UI . 'img/icons/silk/anchor.png" align="absmiddle">&nbsp;<a href="/blog/admin.vx">我的博客网志</a> <span class="tip_i"><small>alpha</small></span></li>');
+			}
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/hourglass.png" align="absmiddle" />&nbsp;<a href="/ing/' . urlencode($this->User->usr_nick) . '/friends">ING</a> <span class="tip_i"><small>alpha</small></span></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/clock.png" align="absmiddle">&nbsp;<a href="/zen/' . urlencode($this->User->usr_nick) . '">ZEN</a> <span class="tip_i"><small>alpha</small></span></li>');
 			if (BABEL_FEATURE_DRY) {
@@ -1739,6 +1745,36 @@ class Page {
 				$this->vxMenu($_menu_options);
 				$this->vxAddSave();
 				break;
+				
+			case 'blog_admin':
+				$_menu_options['modules']['new_members'] = false;
+				$_menu_options['modules']['friends'] = false;
+				$_menu_options['modules']['stats'] = false;
+				$_menu_options['modules']['fav'] = false;
+				$this->vxSidebar($show = false);
+				$this->vxMenu($_menu_options);
+				$this->vxBlogAdmin();
+				break;
+				
+			case 'blog_create':
+				$_menu_options['modules']['new_members'] = false;
+				$_menu_options['modules']['friends'] = false;
+				$_menu_options['modules']['stats'] = false;
+				$_menu_options['modules']['fav'] = false;
+				$this->vxSidebar($show = false);
+				$this->vxMenu($_menu_options);
+				$this->vxBlogCreate();
+				break;
+				
+			case 'blog_create_save':
+				$_menu_options['modules']['new_members'] = false;
+				$_menu_options['modules']['friends'] = false;
+				$_menu_options['modules']['stats'] = false;
+				$_menu_options['modules']['fav'] = false;
+				$this->vxSidebar($show = false);
+				$this->vxMenu($_menu_options);
+				$this->vxBlogCreateSave($options);
+				break;
 		}
 		echo('</div>');
 	}
@@ -1803,7 +1839,9 @@ class Page {
 		if ($_SESSION['hits'] < 10) {
 			$o .= file_get_contents(BABEL_PREFIX . '/res/hot.html');
 		}
-
+		
+		$active = '';
+		
 		if ($style != 'remix') {
 			if ($active = $this->cs->get('babel_home_active')) {
 				// Nothing to do here.
@@ -3187,6 +3225,30 @@ class Page {
 		echo('<div class="blank">');
 		_v_ico_map();
 		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_status . '</div>');
+		echo('<div class="blank" align="left">');
+		_v_ico_silk('group');
+		echo(' 每月新注册用户数量');
+		_v_hr();
+		require_once(BABEL_PREFIX . '/res/chart_user_month.php');
+		echo('</div>');
+		echo('<div class="blank" align="left">');
+		_v_ico_silk('table_multiple');
+		echo(' 每月新主题数量');
+		_v_hr();
+		require_once(BABEL_PREFIX . '/res/chart_topic_month.php');
+		echo('</div>');
+		echo('<div class="blank" align="left">');
+		_v_ico_silk('comments');
+		echo(' 每月新回复数量');
+		_v_hr();
+		require_once(BABEL_PREFIX . '/res/chart_post_month.php');
+		echo('</div>');
+		echo('<div class="blank" align="left">');
+		_v_ico_silk('chart_bar');
+		echo(' 主题分布');
+		_v_hr();
+		require_once(BABEL_PREFIX . '/res/chart_topic_node.php');
+		echo('</div>');
 		echo('<div class="blank" align="left">');
 		_v_ico_silk("information");
 		echo(' ' . Vocabulary::term_status);
@@ -10426,6 +10488,97 @@ google_color_url = "00CC00";
 	}
 	
 	/* E: Project Add */
+	
+	/* S: Project Weblog */
+	
+	public function vxBlogAdmin() {
+		_v_m_s();
+		echo('<link type="text/css" rel="stylesheet" href="/css/themes/' . BABEL_THEME . '/css_weblog.css" />');
+		_v_b_l_s();
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; 博客网志 &gt; 控制台 <span class="tip_i"><small>alpha</small></span>');
+		_v_d_e();
+		_v_b_l_s();
+		_v_d_tr_s();
+		echo('<a href="/blog/create.vx">创建新的博客网站</a>');
+		_v_d_e();
+		_v_ico_silk('anchor');
+		echo(' 博客网志 &gt; 控制台');
+		_v_hr();
+		$sql = "SELECT blg_id, blg_name, blg_title, blg_description, blg_entries, blg_comments, blg_created, blg_lastupdated FROM babel_weblog WHERE blg_uid = {$this->User->usr_id} ORDER BY blg_lastupdated DESC";
+		$rs = mysql_query($sql) or die(mysql_error());
+		while ($_weblog = mysql_fetch_array($rs)) {
+			echo('<div class="blog_block">');
+			echo('<div class="blog_view"><span class="tip_i">');
+			_v_ico_silk('cog_edit');
+			echo(' <a href="/blog/configure/.vx">设置</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/">察看博客</a> <img src="/img/ext.png" align="absmiddle" /></span></div>');
+			echo('<table width="98%" cellpadding="0" cellspacing="0" border="0">');
+			echo('<tr>');
+			echo('<td width="114" rowspan="3" align="left">');
+			echo('<img src="/img/p_blog.png" class="blog_portrait" border="0" />');
+			echo('</td>');
+			echo('<td height="35">');
+			echo('<h1 class="ititle">' . make_plaintext($_weblog['blg_title']) . '</h1>');
+			echo('</td>');
+			echo('</tr>');
+			echo('<tr>');
+			echo('<td valign="top" height="45">');
+			
+			echo('</td>');
+			echo('</tr>');
+			echo('<tr>');
+			echo('<td valign="top" height="24"><span class="tip_i">');
+			_v_ico_silk('page_edit');
+			echo(' <a href="/blog/compose/.vx">撰写新文章</a>');
+			echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
+			_v_ico_silk('table_multiple');
+			echo(' <a href="/blog/list/.vx">管理文章</a>');
+			echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
+			_v_ico_silk('layout');
+			echo(' <a href="/blog/list/.vx">更换主题</a>');
+			echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
+			_v_ico_silk('cross');
+			echo(' <a href="/blog/destroy/.vx">彻底关闭</a>');
+			echo('</td>');
+			echo('</tr>');
+			echo('</table>');
+			_v_hr();
+			echo('<span class="tip_i">建立于 2005 年 5 月 31 日，其中 45 篇文章共获得了 4 条评论</span>');
+			echo('</div>');
+		}
+		_v_hr();
+		echo('欢迎从 <a href="http://blog.v2ex.com/weblog-project" class="t">V2EX Weblog</a> 项目的博客网志上获取帮助和更多信息！');
+		_v_d_e();
+		_v_d_e();
+	}
+	
+	public function vxBlogCreate() {
+		_v_m_s();
+		echo('<link type="text/css" rel="stylesheet" href="/css/themes/' . BABEL_THEME . '/css_weblog.css" />');
+		_v_b_l_s();
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; <a href="/blog/admin.vx">博客网志</a> &gt; 创建新的博客网站 <span class="tip_i"><small>alpha</small></span>');
+		_v_d_e();
+		_v_b_l_s();
+		_v_ico_silk('application_add');
+		echo(' 创建新的博客网站');
+		_v_hr();
+		echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
+			echo('<form action="/blog/create/save.vx" method="post" id="form_blog_create">');
+			echo('<tr><td width="100" align="right">访问地址</td><td width="400" align="left">http://blog.v2ex.com/<input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sl" name="blg_name" /></td></tr>');
+			echo('<tr><td width="100" align="right"></td><td width="400" align="left"><span class="tip_i">只能使用数字（a-z），字母（0-9），横线（-）及下划线（_）</span></td></tr>');
+			echo('<tr><td width="100" align="right">标题</td><td width="400" align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="blg_title" /></td></tr>');
+			echo('<tr><td width="100" align="right" valign="top">简介</td><td width="400" align="left"><textarea onfocus="brightBox(this);" onblur="dimBox(this);" rows="5" class="ml" name="blg_description"></textarea></td></tr>');
+			echo('<td width="500" colspan="3" valign="middle" align="right">');
+			_v_btn_f('立即创建', 'form_blog_create');
+			echo('</td></tr>');
+			echo('</form>');
+			echo('</table>');
+		_v_d_e();
+		_v_d_e();
+	}
+	
+	/* E: Project Weblog */
 	
 	/* E public modules */
 	

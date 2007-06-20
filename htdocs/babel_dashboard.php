@@ -25,7 +25,6 @@ if (@$db = mysql_connect(BABEL_DB_HOSTNAME . ':' . BABEL_DB_PORT, BABEL_DB_USERN
 	mysql_query("SET COLLATION_CONNECTION='utf8_general_ci'");
 }
 
-
 $c = Zend_Cache::factory('Core', ZEND_CACHE_TYPE_TINY, $ZEND_CACHE_OPTIONS_TINY_FRONTEND, $ZEND_CACHE_OPTIONS_TINY_BACKEND[ZEND_CACHE_TYPE_TINY]);
 
 session_start();

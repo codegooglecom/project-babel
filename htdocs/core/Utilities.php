@@ -647,6 +647,14 @@ function is_valid_geo($child) {
 	}
 }
 
+function is_valid_blog_name($name) {
+	if (preg_match('/^([a-z0-9\_\-]+)$/i', $name)) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
 function is_valid_email($email) {
 	$regex = '/^[A-Z0-9._-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z.]{2,6}$/i';
 	return (preg_match($regex, $email));

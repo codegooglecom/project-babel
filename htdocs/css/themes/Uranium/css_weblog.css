@@ -1,0 +1,15 @@
+div.blog_block {
+margin: 5px 5px 10px 5px;
+padding: 10px;
+border: 2px solid #CCC;
+-moz-border-radius: 7px;
+-webkit-border-radius: 7px;
+}
+
+.blog_portrait {
+border: 2px solid #D0D0DF;
+}
+
+.blog_view {
+float: right;
+}

@@ -37,6 +37,8 @@ define('BABEL_DB_SCHEMATA', 'babel');
  */
 define('BABEL_PREFIX', '/www/babel');
 
+define('BABEL_WEBLOG_PREFIX', '/www/weblog');
+
 /*
  *
  * You could choose from zh_cn, zh_tw and en_us now.
