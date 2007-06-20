@@ -80,6 +80,7 @@ if (V2EX_BABEL == 1) {
 	require_once('core/ImageCore.php');
 	require_once('core/ValidatorCore.php');
 	require_once('core/BookmarkCore.php');
+	require_once('core/WeblogCore.php');
 } else {
 	die('<strong>Project Babel</strong><br /><br />Made by <a href="http://labs.v2ex.com/">V2EX</a> | software for internet');
 }
@@ -10505,13 +10506,23 @@ google_color_url = "00CC00";
 		_v_ico_silk('anchor');
 		echo(' 博客网志 &gt; 控制台');
 		_v_hr();
+		if (isset($_SESSION['babel_message_weblog'])) {
+			if ($_SESSION['babel_message_weblog'] != '') {
+				echo('<div class="notify">' . $_SESSION['babel_message_weblog'] . '</div>');
+				$_SESSION['babel_message_weblog'] = '';
+			}
+		} else {
+			$_SESSION['babel_message_weblog'] = '';
+		}
 		$sql = "SELECT blg_id, blg_name, blg_title, blg_description, blg_entries, blg_comments, blg_created, blg_lastupdated FROM babel_weblog WHERE blg_uid = {$this->User->usr_id} ORDER BY blg_lastupdated DESC";
 		$rs = mysql_query($sql) or die(mysql_error());
 		while ($_weblog = mysql_fetch_array($rs)) {
 			echo('<div class="blog_block">');
 			echo('<div class="blog_view"><span class="tip_i">');
+			_v_ico_silk('picture');
+			echo(' <a href="/blog/portrait/.vx">修改图标</a>&nbsp;&nbsp;|&nbsp;&nbsp;');
 			_v_ico_silk('cog_edit');
-			echo(' <a href="/blog/configure/.vx">设置</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/">察看博客</a> <img src="/img/ext.png" align="absmiddle" /></span></div>');
+			echo(' <a href="/blog/configure/.vx">设置</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://' . BABEL_WEBLOG_SITE . '/' . $_weblog['blg_name'] . '/" target="_blank">察看博客</a> <img src="/img/ext.png" align="absmiddle" /></span></div>');
 			echo('<table width="98%" cellpadding="0" cellspacing="0" border="0">');
 			echo('<tr>');
 			echo('<td width="114" rowspan="3" align="left">');
@@ -10528,14 +10539,17 @@ google_color_url = "00CC00";
 			echo('</tr>');
 			echo('<tr>');
 			echo('<td valign="top" height="24"><span class="tip_i">');
-			_v_ico_silk('page_edit');
+			_v_ico_silk('pencil');
 			echo(' <a href="/blog/compose/.vx">撰写新文章</a>');
 			echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
 			_v_ico_silk('table_multiple');
 			echo(' <a href="/blog/list/.vx">管理文章</a>');
 			echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
 			_v_ico_silk('layout');
-			echo(' <a href="/blog/list/.vx">更换主题</a>');
+			echo(' <a href="/blog/decorate/.vx">更换主题</a>');
+			echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
+			_v_ico_silk('arrow_refresh');
+			echo(' <a href="/blog/build/' . $_weblog['blg_id'] . '.vx">重新构建</a>');
 			echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
 			_v_ico_silk('cross');
 			echo(' <a href="/blog/destroy/.vx">彻底关闭</a>');
@@ -10543,7 +10557,7 @@ google_color_url = "00CC00";
 			echo('</tr>');
 			echo('</table>');
 			_v_hr();
-			echo('<span class="tip_i">建立于 2005 年 5 月 31 日，其中 45 篇文章共获得了 4 条评论</span>');
+			echo('<span class="tip_i">建立于 ' . date('Y 年 n 月 j 日', $_weblog['blg_created']) . '，其中 ' . $_weblog['blg_entries'] . ' 篇文章共获得了 ' . $_weblog['blg_comments'] . ' 条评论</span>');
 			echo('</div>');
 		}
 		_v_hr();
@@ -10564,16 +10578,82 @@ google_color_url = "00CC00";
 		echo(' 创建新的博客网站');
 		_v_hr();
 		echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
-			echo('<form action="/blog/create/save.vx" method="post" id="form_blog_create">');
-			echo('<tr><td width="100" align="right">访问地址</td><td width="400" align="left">http://blog.v2ex.com/<input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sl" name="blg_name" /></td></tr>');
-			echo('<tr><td width="100" align="right"></td><td width="400" align="left"><span class="tip_i">只能使用数字（a-z），字母（0-9），横线（-）及下划线（_）</span></td></tr>');
-			echo('<tr><td width="100" align="right">标题</td><td width="400" align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="blg_title" /></td></tr>');
-			echo('<tr><td width="100" align="right" valign="top">简介</td><td width="400" align="left"><textarea onfocus="brightBox(this);" onblur="dimBox(this);" rows="5" class="ml" name="blg_description"></textarea></td></tr>');
-			echo('<td width="500" colspan="3" valign="middle" align="right">');
-			_v_btn_f('立即创建', 'form_blog_create');
+		echo('<form action="/blog/create/save.vx" method="post" id="form_blog_create">');
+		echo('<tr><td width="100" align="right">访问地址</td><td width="400" align="left">http://blog.v2ex.com/<input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sl" name="blg_name" /></td></tr>');
+		echo('<tr><td width="100" align="right"></td><td width="400" align="left"><span class="tip_i">只能使用数字（a-z），字母（0-9），横线（-）及下划线（_）</span></td></tr>');
+		echo('<tr><td width="100" align="right">标题</td><td width="400" align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="blg_title" /></td></tr>');
+		echo('<tr><td width="100" align="right" valign="top">简介</td><td width="400" align="left"><textarea onfocus="brightBox(this);" onblur="dimBox(this);" rows="5" class="ml" name="blg_description"></textarea></td></tr>');
+		echo('<td width="500" colspan="3" valign="middle" align="right">');
+		_v_btn_f('立即创建', 'form_blog_create');
+		echo('</td></tr>');
+		echo('</form>');
+		echo('</table>');
+		_v_hr();
+		_v_ico_silk('information');
+		echo(' 创建一个新的博客网站需要花费 ' . BABEL_BLG_PRICE . ' 个铜币');
+		_v_d_e();
+		_v_d_e();
+	}
+	
+	public function vxBlogCreateSave($rt) {
+		_v_m_s();
+		echo('<link type="text/css" rel="stylesheet" href="/css/themes/' . BABEL_THEME . '/css_weblog.css" />');
+		_v_b_l_s();
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; <a href="/blog/admin.vx">博客网志</a> &gt; 创建新的博客网站 <span class="tip_i"><small>alpha</small></span>');
+		_v_d_e();
+		_v_b_l_s();
+		_v_ico_silk('application_add');
+		echo(' 创建新的博客网站');
+		_v_hr();
+		if ($rt['out_of_money'] == 1) {
+			echo('<div class="notify">');
+			_v_ico_silk('coins');
+			echo(' 创建并维持一个新的博客网站需要至少 ' . BABEL_BLG_PRICE . ' 个铜币，而你现在的铜币不足');
+			echo('</div>');
+		}
+		echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
+		echo('<form action="/blog/create/save.vx" method="post" id="form_blog_create">');
+		if ($rt['blg_name_error'] > 0) {
+			echo('<tr><td width="100" align="right">访问地址</td><td width="400" align="left"><div class="error" style="width: 335px;">http://blog.v2ex.com/<input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sl" name="blg_name" value="' . make_single_return($rt['blg_name_value'], 0) . '" /><br />');
+			_v_ico_silk('exclamation');
+			echo(' ' . $rt['blg_name_error_msg'][$rt['blg_name_error']]);
+			echo('</div></td></tr>');
+		} else {
+			echo('<tr><td width="100" align="right">访问地址</td><td width="400" align="left">http://blog.v2ex.com/<input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sl" name="blg_name" value="' . make_single_return($rt['blg_name_value'], 0) .'" /> ');
+			_v_ico_silk('tick');
 			echo('</td></tr>');
-			echo('</form>');
-			echo('</table>');
+		}
+		echo('<tr><td width="100" align="right"></td><td width="400" align="left"><span class="tip_i">只能使用数字（a-z），字母（0-9），横线（-）及下划线（_）</span></td></tr>');
+		
+		if ($rt['blg_title_error'] > 0) {
+			echo('<tr><td width="100" align="right">标题</td><td width="400" align="left"><div class="error" style="width: 308px;"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="blg_title" value="' . make_single_return($rt['blg_title_value'], 0) . '" /><br />');
+			_v_ico_silk('exclamation');
+			echo(' ' . $rt['blg_title_error_msg'][$rt['blg_title_error']]);
+			echo('</div></td></tr>');
+		} else {
+			echo('<tr><td width="100" align="right">标题</td><td width="400" align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="blg_title" value="' . make_single_return($rt['blg_title_value'], 0) . '" /> ');
+			_v_ico_silk('tick');
+			echo('</td></tr>');
+		}
+		
+		
+		if ($rt['blg_description_error'] > 0) {
+			echo('<tr><td width="100" align="right" valign="top">简介</td><td width="400" align="left"><div class="error"><textarea onfocus="brightBox(this);" onblur="dimBox(this);" rows="5" class="ml" name="blg_description">' . make_multi_return($rt['blg_description_value'], 0) . '</textarea><br />');
+			_v_ico_silk('exclamation');
+			echo(' ' . $rt['blg_description_error_msg'][$rt['blg_description_error']]);
+			echo('</div></td></tr>');
+		} else {
+			echo('<tr><td width="100" align="right" valign="top">简介</td><td width="400" align="left"><textarea onfocus="brightBox(this);" onblur="dimBox(this);" rows="5" class="ml" name="blg_description">' . make_multi_return($rt['blg_description_value'], 0) . '</textarea></td></tr>');
+		}
+		echo('<td width="500" colspan="3" valign="middle" align="right">');
+		_v_btn_f('立即创建', 'form_blog_create');
+		echo('</td></tr>');
+		echo('</form>');
+		echo('</table>');
+		_v_hr();
+		_v_ico_silk('information');
+		echo(' 创建一个新的博客网站需要花费 ' . BABEL_BLG_PRICE . ' 个铜币');
 		_v_d_e();
 		_v_d_e();
 	}

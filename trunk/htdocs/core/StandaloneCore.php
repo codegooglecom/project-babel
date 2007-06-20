@@ -41,6 +41,8 @@ if (V2EX_BABEL == 1) {
 	require_once('HTTP/Request.php');
 	require_once('Crypt/Blowfish.php');
 	
+	require_once(BABEL_PREFIX . '/libs/smarty/libs/Smarty.class.php');
+	
 	/* 3rdparty Zend Framework cores */
 	ini_set('include_path', BABEL_PREFIX . '/libs/zf/' . ZEND_FRAMEWORK_VERSION . PATH_SEPARATOR . ini_get('include_path'));
 	require_once('Zend/Json.php');
@@ -49,6 +51,7 @@ if (V2EX_BABEL == 1) {
 	/* built-in cores */
 	require('core/Vocabularies.php');
 	require('core/Utilities.php');
+	require('core/Shortcuts.php');
 	require('core/UserCore.php');
 	require('core/NodeCore.php');
 	require('core/TopicCore.php');
@@ -58,6 +61,7 @@ if (V2EX_BABEL == 1) {
 	require('core/URLCore.php');
 	require('core/ImageCore.php');
 	require('core/ValidatorCore.php');
+	require('core/WeblogCore.php');
 } else {
 	die('<strong>Project Babel</strong><br /><br />Made by V2EX | software for internet');
 }
@@ -1133,6 +1137,25 @@ class Standalone {
 			} else {
 				$this->URL->vxToRedirect($this->URL->vxGetLogin());
 			}
+		}
+	}
+	
+	public function vxBlogBuild() {
+		if (isset($_GET['weblog_id'])) {
+			$weblog_id = intval($_GET['weblog_id']);
+			$Weblog = new Weblog($weblog_id);
+			if ($Weblog->weblog) {
+				if ($Weblog->blg_uid == $this->User->usr_id) {
+					Weblog::vxBuild($this->User->usr_id, $weblog_id);
+					return $this->URL->vxToRedirect($this->URL->vxGetBlogAdmin());
+				} else {
+					return js_alert('你没有权力对这个博客网站进行操作', '/blog/admin.vx');
+				}
+			} else {
+				return js_alert('指定的博客网站没有找到', '/blog/admin.vx');
+			}
+		} else {
+			return js_alert('指定的博客网站没有找到', '/blog/admin.vx');
 		}
 	}
 	

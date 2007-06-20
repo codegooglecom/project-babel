@@ -167,5 +167,9 @@ switch ($m) {
 	case 'geo_revert_been':
 		$s->vxGeoRevertBeen();
 		break;
+		
+	case 'blog_build':
+		$s->vxBlogBuild();
+		break;
 }
 ?>
