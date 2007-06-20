@@ -207,6 +207,16 @@ class URL {
 		$url = '/add/add';
 		return $url;
 	}
+	
+	public static function vxGetBlogAdmin() {
+		$url = '/blog/admin.vx';
+		return $url;
+	}
+	
+	public static function vxGetBlogCreate() {
+		$url = '/blog/create.vx';
+		return $url;
+	}
 }
 
 /* E URL class */

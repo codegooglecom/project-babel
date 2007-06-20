@@ -2058,6 +2058,49 @@ switch ($m) {
 			$p->vxContainer('add_save');
 			break;
 		}
+		
+	case 'blog_admin':
+		if (!$p->User->vxIsLogin()) {
+			die($p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetBlogAdmin())));
+			break;
+		} else {
+			$p->vxHead($msgSiteTitle = '我的博客网志');
+			$p->vxBodyStart();
+			$p->vxTop();
+			$p->vxContainer('blog_admin');
+			break;
+		}
+		
+	case 'blog_create':
+		if (!$p->User->vxIsLogin()) {
+			die($p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetBlogCreate())));
+			break;
+		} else {
+			$p->vxHead($msgSiteTitle = '创建新的博客网站');
+			$p->vxBodyStart();
+			$p->vxTop();
+			$p->vxContainer('blog_create');
+			break;
+		}
+		
+	case 'blog_create_save':
+		if (!$p->User->vxIsLogin()) {
+			die($p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetBlogCreate())));
+			break;
+		} else {
+			$rt = $p->Validator->vxBlogCreateCheck();
+			if ($rt['errors'] == 0) {
+				$p->Validator->vxBlogCreateInsert($p->User->usr_id, $rt['blg_name_value'], $rt['blg_title_value'], $rt['blg_description_value']);
+				die($p->URL->vxToRedirect($p->URL->vxGetBlogAdmin()));
+				break;
+			} else {
+				$p->vxHead($msgSiteTitle = '创建新的博客网站');
+				$p->vxBodyStart();
+				$p->vxTop();
+				$p->vxContainer('blog_create_save', $rt);
+				break;
+			}
+		}
 }
 
 if ($global_has_bottom) {

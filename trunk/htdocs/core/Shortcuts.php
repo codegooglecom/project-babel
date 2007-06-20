@@ -8,6 +8,10 @@ function _v_b_c_s() { echo('<div class="blank" align="center">'); }
 
 function _v_d_e() { echo('</div>'); }
 
+function _v_d_tr_s() {
+	echo('<div style="float: right; padding: 3px 10px 3px 10px; font-size: 10px; background-color: #F0F0F0; -moz-border-radius: 5px; color: #999;">');
+}
+
 function _v_h1_i($text) { return '<h1 class="ititle">' . $text . '</h1>'; }
 
 function _v_hr() { echo('<hr size="1" color="#EEE" style="color: #EEE; background-color: #EEE; height: 1px; border: 0;" />'); }

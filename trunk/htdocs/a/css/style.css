@@ -1,0 +1,31 @@
+html, body {
+background-color: #FFF;
+padding: 0px;
+margin: 0px;
+}
+
+div#top {
+clear: both;
+}
+
+div#container {
+clear: both;
+}
+
+div#left {
+float: left;
+width: 300px;
+height: 1000px;
+background-color: #000;
+}
+
+div#right {
+float: right;
+width: 180px;
+height: 1000px;
+background-color: #F0F0F0;
+}
+
+div#main {
+margin: 0px 180px 0px 300px;
+}

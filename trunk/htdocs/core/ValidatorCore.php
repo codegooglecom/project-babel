@@ -2572,6 +2572,109 @@ class Validator {
 	}
 	
 	/* E module: Dry Create Check logic */
+	
+	/* S module: Blog Create Check logic */
+	
+	public function vxBlogCreateCheck() {
+		$rt = array();
+		
+		$rt['errors'] = 0;
+		
+		/* blg_name (max: 20) */
+		$rt['blg_name_value'] = '';
+		$rt['blg_name_maxlength'] = 20;
+		$rt['blg_name_error'] = 0;
+		$rt['blg_name_error_msg'] = array(1 => '你没有写博客的访问地址', 2 => '你输入的博客的访问地址过长', 3 => '你使用了不被允许的字符', 4 => '这个访问地址已经被别人注册了');
+		
+		if (isset($_POST['blg_name'])) {
+			$rt['blg_name_value'] = strtolower(fetch_single($_POST['blg_name']));
+			if ($rt['blg_name_value'] == '') {
+				$rt['errors']++;
+				$rt['blg_name_error'] = 1;
+			} else {
+				if (mb_strlen($rt['blg_name_value'], 'UTF-8') > $rt['blg_name_maxlength']) {
+					$rt['errors']++;
+					$rt['blg_name_error'] = 2;
+				} else {
+					if (is_valid_blog_name($rt['blg_name_value'])) {
+						$sql = "SELECT blg_id FROM babel_weblog WHERE blg_name = '" . $rt['blg_name_value'] . "'";
+						$rs = mysql_query($sql);
+						if (mysql_num_rows($rs) > 0) {
+							$rt['errors']++;
+							$rt['blg_name_error'] = 4;
+						}
+						mysql_free_result($rs);
+					} else {
+						$rt['errors']++;
+						$rt['blg_name_error'] = 3;
+					}
+				}
+			}
+		} else {
+			$rt['errors']++;
+			$rt['blg_name_error'] = 1;
+		}
+		
+		/* blg_title (max: 50) */
+		
+		$rt['blg_title_value'] = '';
+		$rt['blg_title_maxlength'] = 50;
+		$rt['blg_title_error'] = 0;
+		$rt['blg_title_error_msg'] = array(1 => '你没有写博客的标题', 2 => '你输入的博客的标题过长');
+		
+		if (isset($_POST['blg_title'])) {
+			$rt['blg_title_value'] = strtolower(fetch_single($_POST['blg_title']));
+			if ($rt['blg_title_value'] == '') {
+				$rt['errors']++;
+				$rt['blg_title_error'] = 1;
+			} else {
+				if (mb_strlen($rt['blg_title_value'], 'UTF-8') > $rt['blg_title_maxlength']) {
+					$rt['errors']++;
+					$rt['blg_title_error'] = 2;
+				}
+			}
+		} else {
+			$rt['errors']++;
+			$rt['blg_title_error'] = 1;
+		}
+		
+		/* blg_description (null) (text) */
+		
+		$rt['blg_description_value'] = '';
+		$rt['blg_description_maxlength'] = 2000;
+		$rt['blg_description_error'] = 0;
+		$rt['blg_description_error_msg'] = array(2 => '你输入的博客的简介过长');
+		
+		if (isset($_POST['blg_description'])) {
+			$rt['blg_description_value'] = strtolower(fetch_multi($_POST['blg_description']));
+			if (mb_strlen($rt['blg_description_value'], 'UTF-8') > $rt['blg_description_maxlength']) {
+				$rt['errors']++;
+				$rt['blg_description_error'] = 2;
+			}
+		}
+		
+		return $rt;
+	}
+	
+	/* E module: Blog Create Check logic */
+	
+	/* S module: Blog Create Insert logic */
+	
+	public function vxBlogCreateInsert($uid, $name, $title, $description) {
+		$name = mysql_real_escape_string($name);
+		$title = mysql_real_escape_string($title);
+		$description = mysql_real_escape_string($description);
+		$time = time();
+		$sql = "INSERT INTO babel_weblog(blg_uid, blg_name, blg_title, blg_description, blg_created, blg_lastupdated) VALUES({$uid}, '{$name}', '{$title}', '{$description}', {$time}, {$time})";
+		mysql_query($sql, $this->db);
+		if (mysql_affected_rows($this->db) == 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/* E module: Blog Create Insert logic */
 }
 
 /* E Validator class */

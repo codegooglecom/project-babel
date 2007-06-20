@@ -54,3 +54,31 @@ switch ($m) {
 		break;
 }
 ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<meta http-equiv="cache-control" content="no-cache" />
+<meta name="keywords" content="V2EX, Babel, Livid, PHP, " />
+<title>V2EX Administrator Console</title>
+<link href="/favicon.ico" rel="shortcut icon" />
+<link href="/a/css/style.css" rel="stylesheet" type="text/css" />
+<?php
+if (MINT_LOCATION != '') {
+	echo('<script src="' . MINT_LOCATION . '" type="text/javascript"></script>');
+}
+?>
+</head>
+<body>
+<div id="top">
+</div>
+<div id="container">
+<div id="left"><img src="/a/img/v2ex_logo_uranium_admin.png" alt="V2EX" />
+</div>
+<div id="right">
+</div>
+<div id="main">
+</div>
+</div>
+</body>
+</html>
