@@ -93,6 +93,9 @@ define('BABEL_PST_PRICE', 5);
 define('BABEL_PST_SELF_PRICE', 3);
 define('BABEL_TPC_PRICE', 20);
 define('BABEL_TPC_UPDATE_PRICE', 5);
+define('BABEL_BLG_PRICE', 899);
+
+define('BABEL_SECURITY_RATE', 1.1);
 
 define('BABEL_ZEN_PROJECT_LIMIT', 20);
 define('BABEL_ZEN_TASK_LIMIT', 100);
@@ -130,6 +133,10 @@ define('TN_PREFIX', 'http://v2blog.com/tproxy/tproxy.php?tag=');
 /* constants for 3rdParty cores */
 define('MAGPIE_CACHE_DIR', BABEL_PREFIX . '/cache/rss');
 define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
+
+/* Weblog */
+define('BABEL_WEBLOG_SITE_ROOT', 'blog.v2ex.com');
+define('BABEL_WEBLOG_SITE_STATIC', 'www.v2ex.com');
 
 /* smarty */
 define('SMARTY_CACHING', false);

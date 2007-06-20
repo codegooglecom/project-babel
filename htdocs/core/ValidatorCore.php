@@ -2575,10 +2575,16 @@ class Validator {
 	
 	/* S module: Blog Create Check logic */
 	
-	public function vxBlogCreateCheck() {
+	public function vxBlogCreateCheck($user_money) {
 		$rt = array();
 		
 		$rt['errors'] = 0;
+		$rt['out_of_money'] = 0;
+		
+		if ($user_money < (BABEL_BLG_PRICE * BABEL_SECURITY_RATE)) {
+			$rt['errors']++;
+			$rt['out_of_money'] = 1;
+		}
 		
 		/* blg_name (max: 20) */
 		$rt['blg_name_value'] = '';
@@ -2623,7 +2629,7 @@ class Validator {
 		$rt['blg_title_error_msg'] = array(1 => '你没有写博客的标题', 2 => '你输入的博客的标题过长');
 		
 		if (isset($_POST['blg_title'])) {
-			$rt['blg_title_value'] = strtolower(fetch_single($_POST['blg_title']));
+			$rt['blg_title_value'] = fetch_single($_POST['blg_title']);
 			if ($rt['blg_title_value'] == '') {
 				$rt['errors']++;
 				$rt['blg_title_error'] = 1;
@@ -2646,7 +2652,7 @@ class Validator {
 		$rt['blg_description_error_msg'] = array(2 => '你输入的博客的简介过长');
 		
 		if (isset($_POST['blg_description'])) {
-			$rt['blg_description_value'] = strtolower(fetch_multi($_POST['blg_description']));
+			$rt['blg_description_value'] = fetch_multi($_POST['blg_description']);
 			if (mb_strlen($rt['blg_description_value'], 'UTF-8') > $rt['blg_description_maxlength']) {
 				$rt['errors']++;
 				$rt['blg_description_error'] = 2;
@@ -2668,7 +2674,9 @@ class Validator {
 		$sql = "INSERT INTO babel_weblog(blg_uid, blg_name, blg_title, blg_description, blg_created, blg_lastupdated) VALUES({$uid}, '{$name}', '{$title}', '{$description}', {$time}, {$time})";
 		mysql_query($sql, $this->db);
 		if (mysql_affected_rows($this->db) == 1) {
-			return true;
+			$exp_amount = BABEL_BLG_PRICE;
+			$exp_memo = $title;
+			return $this->User->vxPay($this->User->usr_id, -$exp_amount, 899, $exp_memo);
 		} else {
 			return false;
 		}

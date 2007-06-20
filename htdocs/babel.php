@@ -2088,9 +2088,14 @@ switch ($m) {
 			die($p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetBlogCreate())));
 			break;
 		} else {
-			$rt = $p->Validator->vxBlogCreateCheck();
+			$rt = $p->Validator->vxBlogCreateCheck($p->User->usr_money);
 			if ($rt['errors'] == 0) {
 				$p->Validator->vxBlogCreateInsert($p->User->usr_id, $rt['blg_name_value'], $rt['blg_title_value'], $rt['blg_description_value']);
+				$sql = "SELECT blg_id FROM babel_weblog WHERE blg_uid = {$p->User->usr_id} ORDER BY blg_created DESC LIMIT 1";
+				$rs = mysql_query($sql);
+				$weblog_id = mysql_result($rs, 0, 0);
+				mysql_free_result($rs);
+				Weblog::vxBuild($p->User->usr_id, $weblog_id);
 				die($p->URL->vxToRedirect($p->URL->vxGetBlogAdmin()));
 				break;
 			} else {

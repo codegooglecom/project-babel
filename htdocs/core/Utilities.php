@@ -91,6 +91,13 @@ function get_restricted($c) {
 	return $o;
 }
 
+function js_alert($msg, $dst, $header = true) {
+	if ($header) {
+		header('Content-type: text/html; charset=UTF-8');
+	}
+	echo('<script type="text/javascript">alert("' . make_multi_return($msg) . '"); location.href = "' . $dst . '";</script>');
+}
+
 // return: array
 function read_xml_religions() {
 	$_religions = array();
@@ -323,8 +330,10 @@ function make_single_return($value, $strip = 1) {
 
 function make_multi_return($value, $strip = 1) {
 	if ($strip == 1) {
-		if (get_magic_quotes_gpc()) {
-			$value = stripslashes($value);
+		if (function_exists('get_magic_quotes_gpc')) {
+			if (get_magic_quotes_gpc()) {
+				$value = stripslashes($value);
+			}
 		}
 	}
 	$value = str_replace('<', '&lt;', $value);

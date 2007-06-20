@@ -109,7 +109,7 @@ class User {
 		4 => Gain From Replied Topic
 		5 => Loopback
 		999 => Mystery Income */
-		$this->usr_expense_type_msg = array(0 => '神秘的支出', 1 => '注册得到启动资金', 2 => '创建新主题', 3 => '回复别人创建的主题', 4 => '主题被别人回复', 5 => '回复自己创建的主题', 6 => '修改主题', 7 => '主题利息收入', 8 => '发送社区短消息', 9 => '社区奖励', 100 => '百页斩', 999 => '神秘的收入', 1000 => '千页斩');
+		$this->usr_expense_type_msg = array(0 => '神秘的支出', 1 => '注册得到启动资金', 2 => '创建新主题', 3 => '回复别人创建的主题', 4 => '主题被别人回复', 5 => '回复自己创建的主题', 6 => '修改主题', 7 => '主题利息收入', 8 => '发送社区短消息', 9 => '社区奖励', 100 => '百页斩', 899 => '开设博客网站', 999 => '神秘的收入', 1000 => '千页斩');
 		
 		$this->db = $db;
 		
@@ -480,7 +480,8 @@ class User {
 	5 => Loopback
 	9 => Community Bonus
 	100 => Hundred Kills
-	999 => Mystery Income 
+	899 => Blog Establishment
+	999 => Mystery Income
 	1000 => Thousand Kills
 	*/
 	

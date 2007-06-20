@@ -1189,7 +1189,7 @@ $i->vxSetupBoard('xmpp', 'XMPP', 3, 3, 1, 2, '', "<small>eXtensible Messaging an
 	$i->vxSetupRelatedByName('xmpp', 'http://www.jabber.org/', 'Jabber');
 	$i->vxSetupRelatedByName('xmpp', 'http://talk.google.com/', 'Google Talk');
 	$i->vxSetupRelatedByName('xmpp', 'http://www.xmpp.org/', 'XMPP Standards Foundation');
-$i->vxSetupBoard('pageflakes', 'Pageflakes 飞鸽', 3, 3, 1, 2, '', '');
+$i->vxSetupBoard('pageflakes', 'Pageflakes', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('vmware', 'VMware', 3, 3, 1, 2, '', '');
 	$i->vxSetupRelatedByName('vmware', 'http://www.vmware.com/', 'VMware.com');
 $i->vxSetupBoard('fon', 'FON', 3, 3, 1, 2, '<span class="tip_i"><small>FON is the largest Wi-Fi community in the world</small></span>', '');
@@ -1208,6 +1208,7 @@ $i->vxSetupBoard('linux', 'Linux', 3, 3, 1, 2, 'Better Work, Better Play', '');
 	$i->vxSetupChannelByName('linux', 'http://www.markshuttleworth.com/feed/');
 $i->vxSetupBoard('secondlife', 'Second Life', 3, 3, 1, 2, 'Your world. Your imagination.', '');
 $i->vxSetupBoard('emacs', 'Emacs', 3, 3, 1, 2, '', '');
+$i->vxSetupBoard('wcg', 'World Community Grid', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('fah', 'Folding@Home', 3, 3, 1, 2, '', '');
 	$i->vxSetupRelatedByName('fah', 'http://folding.stanford.edu/', 'Folding@Home Distributed Computing');
 	$i->vxSetupRelatedByName('fah', 'http://fah-web.stanford.edu/cgi-bin/main.py?qtype=teampage&teamnum=56514', 'Team V2EX');
