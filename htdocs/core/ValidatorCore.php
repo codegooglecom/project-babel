@@ -2683,6 +2683,76 @@ class Validator {
 	}
 	
 	/* E module: Blog Create Insert logic */
+	
+	/* S module: Blog Config Check logic */
+	
+	public function vxBlogConfigCheck($user_money, $weblog_id) {
+		$rt = array();
+		
+		$rt['weblog_id'] = $weblog_id;
+		
+		$rt['errors'] = 0;
+		$rt['out_of_money'] = 0;
+		
+		/* blg_title (max: 50) */
+		
+		$rt['blg_title_value'] = '';
+		$rt['blg_title_maxlength'] = 50;
+		$rt['blg_title_error'] = 0;
+		$rt['blg_title_error_msg'] = array(1 => '你没有写博客的标题', 2 => '你输入的博客的标题过长');
+		
+		if (isset($_POST['blg_title'])) {
+			$rt['blg_title_value'] = fetch_single($_POST['blg_title']);
+			if ($rt['blg_title_value'] == '') {
+				$rt['errors']++;
+				$rt['blg_title_error'] = 1;
+			} else {
+				if (mb_strlen($rt['blg_title_value'], 'UTF-8') > $rt['blg_title_maxlength']) {
+					$rt['errors']++;
+					$rt['blg_title_error'] = 2;
+				}
+			}
+		} else {
+			$rt['errors']++;
+			$rt['blg_title_error'] = 1;
+		}
+		
+		/* blg_description (null) (text) */
+		
+		$rt['blg_description_value'] = '';
+		$rt['blg_description_maxlength'] = 2000;
+		$rt['blg_description_error'] = 0;
+		$rt['blg_description_error_msg'] = array(2 => '你输入的博客的简介过长');
+		
+		if (isset($_POST['blg_description'])) {
+			$rt['blg_description_value'] = fetch_multi($_POST['blg_description']);
+			if (mb_strlen($rt['blg_description_value'], 'UTF-8') > $rt['blg_description_maxlength']) {
+				$rt['errors']++;
+				$rt['blg_description_error'] = 2;
+			}
+		}
+		
+		return $rt;
+	}
+	
+	/* E module: Blog Config Check logic */
+	
+	/* S module: Blog Config Update logic */
+	
+	public function vxBlogConfigUpdate($weblog_id, $title, $description) {
+		$title = mysql_real_escape_string($title);
+		$description = mysql_real_escape_string($description);
+		$time = time();
+		$sql = "UPDATE babel_weblog SET blg_title = '{$title}', blg_description = '{$description}', blg_lastupdated = {$time}, blg_dirty = 1 WHERE blg_id = {$weblog_id}";
+		mysql_query($sql, $this->db);
+		if (mysql_affected_rows($this->db) == 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/* E module: Blog Config Update logic */
 }
 
 /* E Validator class */

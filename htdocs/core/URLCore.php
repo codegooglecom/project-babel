@@ -217,6 +217,16 @@ class URL {
 		$url = '/blog/create.vx';
 		return $url;
 	}
+	
+	public static function vxGetBlogPortrait($weblog_id) {
+		$url = '/blog/portrait/' . $weblog_id . '.vx';
+		return $url;
+	}
+	
+	public static function vxGetBlogConfig($weblog_id) {
+		$url = '/blog/config/' . $weblog_id . '.vx';
+		return $url;
+	}
 }
 
 /* E URL class */

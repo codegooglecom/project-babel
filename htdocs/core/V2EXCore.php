@@ -1776,6 +1776,36 @@ class Page {
 				$this->vxMenu($_menu_options);
 				$this->vxBlogCreateSave($options);
 				break;
+				
+			case 'blog_portrait':
+				$_menu_options['modules']['new_members'] = false;
+				$_menu_options['modules']['friends'] = false;
+				$_menu_options['modules']['stats'] = false;
+				$_menu_options['modules']['fav'] = false;
+				$this->vxSidebar($show = false);
+				$this->vxMenu($_menu_options);
+				$this->vxBlogPortrait($options);
+				break;
+				
+			case 'blog_config':
+				$_menu_options['modules']['new_members'] = false;
+				$_menu_options['modules']['friends'] = false;
+				$_menu_options['modules']['stats'] = false;
+				$_menu_options['modules']['fav'] = false;
+				$this->vxSidebar($show = false);
+				$this->vxMenu($_menu_options);
+				$this->vxBlogConfig($options);
+				break;
+				
+			case 'blog_config_save':
+				$_menu_options['modules']['new_members'] = false;
+				$_menu_options['modules']['friends'] = false;
+				$_menu_options['modules']['stats'] = false;
+				$_menu_options['modules']['fav'] = false;
+				$this->vxSidebar($show = false);
+				$this->vxMenu($_menu_options);
+				$this->vxBlogConfigSave($options);
+				break;
 		}
 		echo('</div>');
 	}
@@ -4724,7 +4754,9 @@ class Page {
 		_v_ico_map();
 		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . urlencode($this->User->usr_nick) . '">' . make_plaintext($this->User->usr_nick) . '</a> &gt; ' . Vocabulary::action_modifyprofile . '</div>');
 		echo('<div class="blank" align="left">');
-		echo('<span class="text_large"><img src="/img/ico_smile.gif" align="absmiddle" class="home" />上传头像</span>');
+		echo('<span class="text_large">');
+		_v_ico_tango_32('actions/go-up', 'absmiddle', 'home');
+		echo('上传头像</span>');
 		echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
 		echo('<form enctype="multipart/form-data" action="/recv/portrait.vx" method="post" id="form_user_portrait">');
 		echo('<tr><td width="200" align="right">现在的样子</td><td width="200" align="left">');
@@ -4756,7 +4788,9 @@ class Page {
 		echo('</div>');
 		
 		echo('<div class="blank" align="left">');
-		echo('<span class="text_large"><img src="/img/ico_geo.gif" align="absmiddle" class="home" />会员所在地修改</span>');
+		echo('<span class="text_large">');
+		_v_ico_tango_32('categories/applications-internet', 'absmiddle', 'home');
+		echo('会员所在地修改</span>');
 		echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
 		echo('<tr><td width="200" align="right">当前所在地</td><td width="200" align="left"><a href="/geo/' . $this->User->usr_geo . '" class="o">' . $this->Geo->map["name"][$this->User->usr_geo] . '</a></td>');
 		
@@ -4789,7 +4823,9 @@ class Page {
 		echo('</div>');
 		
 		echo('<div class="blank" align="left">');
-		echo('<span class="text_large"><a name="settings"><img src="/img/ico_conf.gif" align="absmiddle" class="home" border="0" /></a>会员信息修改</span>');
+		echo('<span class="text_large"><a name="settings"></a>');
+		_v_ico_tango_32('categories/preferences-system', 'absmiddle', 'home');
+		echo('会员信息修改</span>');
 		echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
 		echo('<form action="/user/update.vx" method="post" id="form_user_info">');
 		echo('<tr><td width="200" align="right">真实姓名</td><td width="200" align="left"><input tabindex="1" type="text" maxlength="80" class="sl" name="usr_full" value="' . make_single_return($this->User->usr_full) . '" /></td>');
@@ -10514,22 +10550,35 @@ google_color_url = "00CC00";
 		} else {
 			$_SESSION['babel_message_weblog'] = '';
 		}
-		$sql = "SELECT blg_id, blg_name, blg_title, blg_description, blg_entries, blg_comments, blg_created, blg_lastupdated FROM babel_weblog WHERE blg_uid = {$this->User->usr_id} ORDER BY blg_lastupdated DESC";
+		$sql = "SELECT blg_id, blg_name, blg_title, blg_description, blg_portrait, blg_entries, blg_comments, blg_builds, blg_dirty, blg_created, blg_lastupdated FROM babel_weblog WHERE blg_uid = {$this->User->usr_id} ORDER BY blg_lastupdated DESC";
 		$rs = mysql_query($sql) or die(mysql_error());
 		while ($_weblog = mysql_fetch_array($rs)) {
 			echo('<div class="blog_block">');
 			echo('<div class="blog_view"><span class="tip_i">');
 			_v_ico_silk('picture');
-			echo(' <a href="/blog/portrait/.vx">修改图标</a>&nbsp;&nbsp;|&nbsp;&nbsp;');
+			echo(' <a href="/blog/portrait/' . $_weblog['blg_id'] . '.vx">图标</a>');
+			echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
+			_v_ico_silk('layout');
+			echo(' <a href="/blog/decorate/.vx">主题</a>');
+			echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
 			_v_ico_silk('cog_edit');
-			echo(' <a href="/blog/configure/.vx">设置</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://' . BABEL_WEBLOG_SITE . '/' . $_weblog['blg_name'] . '/" target="_blank">察看博客</a> <img src="/img/ext.png" align="absmiddle" /></span></div>');
+			echo(' <a href="/blog/config/' . $_weblog['blg_id'] . '.vx">设置</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://' . BABEL_WEBLOG_SITE . '/' . $_weblog['blg_name'] . '/" target="_blank">查看</a> <img src="/img/ext.png" align="absmiddle" /></span></div>');
 			echo('<table width="98%" cellpadding="0" cellspacing="0" border="0">');
 			echo('<tr>');
 			echo('<td width="114" rowspan="3" align="left">');
-			echo('<img src="/img/p_blog.png" class="blog_portrait" border="0" />');
+			if ($_weblog['blg_portrait'] != '') {
+				echo('<img src="/img/b/' . $_weblog['blg_portrait'] . '.' . BABEL_PORTRAIT_EXT . '" class="blog_portrait" border="0" />');
+			} else {
+				echo('<img src="/img/p_blog.png" class="blog_portrait" border="0" />');
+			}
 			echo('</td>');
 			echo('<td height="35">');
 			echo('<h1 class="ititle">' . make_plaintext($_weblog['blg_title']) . '</h1>');
+			if (intval($_weblog['blg_dirty']) == 1) {
+				echo(' <span class="tip_i">');
+				_v_ico_silk('error');
+				echo(' 需要重新构建</span>');
+			}
 			echo('</td>');
 			echo('</tr>');
 			echo('<tr>');
@@ -10544,9 +10593,6 @@ google_color_url = "00CC00";
 			echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
 			_v_ico_silk('table_multiple');
 			echo(' <a href="/blog/list/.vx">管理文章</a>');
-			echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
-			_v_ico_silk('layout');
-			echo(' <a href="/blog/decorate/.vx">更换主题</a>');
 			echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
 			_v_ico_silk('arrow_refresh');
 			echo(' <a href="/blog/build/' . $_weblog['blg_id'] . '.vx">重新构建</a>');
@@ -10582,7 +10628,7 @@ google_color_url = "00CC00";
 		echo('<tr><td width="100" align="right">访问地址</td><td width="400" align="left">http://blog.v2ex.com/<input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sl" name="blg_name" /></td></tr>');
 		echo('<tr><td width="100" align="right"></td><td width="400" align="left"><span class="tip_i">只能使用数字（a-z），字母（0-9），横线（-）及下划线（_）</span></td></tr>');
 		echo('<tr><td width="100" align="right">标题</td><td width="400" align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="blg_title" /></td></tr>');
-		echo('<tr><td width="100" align="right" valign="top">简介</td><td width="400" align="left"><textarea onfocus="brightBox(this);" onblur="dimBox(this);" rows="5" class="ml" name="blg_description"></textarea></td></tr>');
+		echo('<tr><td width="100" align="right" valign="top">简介</td><td width="400" align="left"><textarea onfocus="brightBox(this);" onblur="dimBox(this);" rows="10" class="ml" name="blg_description"></textarea></td></tr>');
 		echo('<td width="500" colspan="3" valign="middle" align="right">');
 		_v_btn_f('立即创建', 'form_blog_create');
 		echo('</td></tr>');
@@ -10639,12 +10685,12 @@ google_color_url = "00CC00";
 		
 		
 		if ($rt['blg_description_error'] > 0) {
-			echo('<tr><td width="100" align="right" valign="top">简介</td><td width="400" align="left"><div class="error"><textarea onfocus="brightBox(this);" onblur="dimBox(this);" rows="5" class="ml" name="blg_description">' . make_multi_return($rt['blg_description_value'], 0) . '</textarea><br />');
+			echo('<tr><td width="100" align="right" valign="top">简介</td><td width="400" align="left"><div class="error"><textarea onfocus="brightBox(this);" onblur="dimBox(this);" rows="10" class="ml" name="blg_description">' . make_multi_return($rt['blg_description_value'], 0) . '</textarea><br />');
 			_v_ico_silk('exclamation');
 			echo(' ' . $rt['blg_description_error_msg'][$rt['blg_description_error']]);
 			echo('</div></td></tr>');
 		} else {
-			echo('<tr><td width="100" align="right" valign="top">简介</td><td width="400" align="left"><textarea onfocus="brightBox(this);" onblur="dimBox(this);" rows="5" class="ml" name="blg_description">' . make_multi_return($rt['blg_description_value'], 0) . '</textarea></td></tr>');
+			echo('<tr><td width="100" align="right" valign="top">简介</td><td width="400" align="left"><textarea onfocus="brightBox(this);" onblur="dimBox(this);" rows="10" class="ml" name="blg_description">' . make_multi_return($rt['blg_description_value'], 0) . '</textarea></td></tr>');
 		}
 		echo('<td width="500" colspan="3" valign="middle" align="right">');
 		_v_btn_f('立即创建', 'form_blog_create');
@@ -10654,6 +10700,117 @@ google_color_url = "00CC00";
 		_v_hr();
 		_v_ico_silk('information');
 		echo(' 创建一个新的博客网站需要花费 ' . BABEL_BLG_PRICE . ' 个铜币');
+		_v_d_e();
+		_v_d_e();
+	}
+	
+	public function vxBlogPortrait($Weblog) {
+		_v_m_s();
+		echo('<link type="text/css" rel="stylesheet" href="/css/themes/' . BABEL_THEME . '/css_weblog.css" />');
+		_v_b_l_s();
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; <a href="/blog/admin.vx">博客网志</a> &gt; <a href="/blog/config/' . $Weblog->blg_id . '.vx">' . make_plaintext($Weblog->blg_title) . '</a> &gt; 修改图标 <span class="tip_i"><small>alpha</small></span>');
+		_v_d_e();
+		_v_b_l_s();
+		echo('<span class="text_large">');
+		_v_ico_tango_32('actions/go-up', 'absmiddle', 'home');
+		echo('修改图标</span>');
+		echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
+		echo('<form enctype="multipart/form-data" action="/blog/portrait/save/' . $Weblog->blg_id . '.vx" method="post" id="form_blog_portrait">');
+		echo('<tr><td width="200" align="right">现在的图标</td><td width="200" align="left">');
+		if ($Weblog->blg_portrait != '') {
+			echo('<img src="/img/b/' . $Weblog->blg_portrait . '.' . BABEL_PORTRAIT_EXT . '?' . rand(1000, 9999) . '" class="blog_portrait" />&nbsp;&nbsp;<img src="/img/b/' . $Weblog->blg_portrait . '_s.' . BABEL_PORTRAIT_EXT . '?' . rand(1000, 9999) . '" class="blog_portrait" />&nbsp;&nbsp;<img src="/img/b/' . $Weblog->blg_portrait . '_n.' . BABEL_PORTRAIT_EXT . '?' . rand(1000, 9999) . '" class="blog_portrait" />');
+		} else {
+			echo('<img src="/img/p_blog.png" class="blog_portrait" />&nbsp;&nbsp;<img src="/img/p_blog_s.png" class="blog_portrait" />&nbsp;&nbsp;<img src="/img/p_blog_n.png" class="blog_portrait" />');
+		}
+		echo('</td>');
+
+		echo('<td width="150" rowspan="4" valign="middle" align="right">');
+		
+		_v_btn_f('上传图标', 'form_blog_portrait');
+		
+		echo('</td></tr>');
+		
+		echo('<tr><td width="200" align="right">选择一张你喜欢的图片</td><td width="200" align="left"><input tabindex="1" type="file" name="blg_portrait" size="14" /></td></tr>');
+
+		echo('</form>');
+		echo('<tr><td height="10" colspan="2"></td></tr>');
+		echo('</table>');
+		echo('<hr size="1" color="#DDD" style="color: #DDD; background-color: #DDD; height: 1px; border: 0;" />');
+		echo('<img src="/img/icons/silk/information.png" align="absmiddle" /> 推荐你选择一张尺寸大于 100 x 100 像素的图片，系统会自动截取中间的部分并调整大小');
+		_v_d_e();
+		_v_d_e();
+	}
+	
+	public function vxBlogConfig($Weblog) {
+		_v_m_s();
+		echo('<link type="text/css" rel="stylesheet" href="/css/themes/' . BABEL_THEME . '/css_weblog.css" />');
+		_v_b_l_s();
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; <a href="/blog/admin.vx">博客网志</a> &gt; ' . make_plaintext($Weblog->blg_title) . ' &gt; 设置 <span class="tip_i"><small>alpha</small></span>');
+		_v_d_e();
+		_v_b_l_s();
+		_v_ico_silk('cog_edit');
+		echo(' 设置博客网站');
+		_v_hr();
+		echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
+		echo('<form action="/blog/config/save/' . $Weblog->blg_id . '.vx" method="post" id="form_blog_config">');
+		echo('<tr><td width="100" align="right">访问地址</td><td width="400" align="left"><a href="http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_name . '" target="_blank">http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_name . '</a> <img src="/img/ext.png" align="absmiddle" /></td></tr>');
+		echo('<tr><td width="100" align="right">标题</td><td width="400" align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="blg_title" value="' . make_single_return($Weblog->blg_title, 0) . '" /></td></tr>');
+		echo('<tr><td width="100" align="right" valign="top">简介</td><td width="400" align="left"><textarea onfocus="brightBox(this);" onblur="dimBox(this);" rows="10" class="ml" name="blg_description">' . make_multi_return($Weblog->blg_description, 0) . '</textarea></td></tr>');
+		echo('<td width="500" colspan="3" valign="middle" align="right">');
+		_v_btn_f('更新设置', 'form_blog_config');
+		echo('</td></tr>');
+		echo('</form>');
+		echo('</table>');
+		_v_hr();
+		_v_ico_silk('information');
+		echo(' 更新设置后将需要重新构建');
+		_v_d_e();
+		_v_d_e();
+	}
+	
+	public function vxBlogConfigSave($rt) {
+		$Weblog = new Weblog($rt['weblog_id']);
+		_v_m_s();
+		echo('<link type="text/css" rel="stylesheet" href="/css/themes/' . BABEL_THEME . '/css_weblog.css" />');
+		_v_b_l_s();
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; <a href="/blog/admin.vx">博客网志</a> &gt; ' . make_plaintext($Weblog->blg_title) . ' &gt; 设置 <span class="tip_i"><small>alpha</small></span>');
+		_v_d_e();
+		_v_b_l_s();
+		_v_ico_silk('cog_edit');
+		echo(' 设置博客网站');
+		_v_hr();
+		echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
+		echo('<form action="/blog/config/save/' . $rt['weblog_id'] . '.vx" method="post" id="form_blog_config">');
+		echo('<tr><td width="100" align="right">访问地址</td><td width="400" align="left"><a href="http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_name . '" target="_blank">http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_name . '</a> <img src="/img/ext.png" align="absmiddle" /></td></tr>');
+		if ($rt['blg_title_error'] > 0) {
+			echo('<tr><td width="100" align="right">标题</td><td width="400" align="left"><div class="error" style="width: 308px;"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="blg_title" value="' . make_single_return($rt['blg_title_value'], 0) . '" /><br />');
+			_v_ico_silk('exclamation');
+			echo(' ' . $rt['blg_title_error_msg'][$rt['blg_title_error']]);
+			echo('</div></td></tr>');
+		} else {
+			echo('<tr><td width="100" align="right">标题</td><td width="400" align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="blg_title" value="' . make_single_return($rt['blg_title_value'], 0) . '" /> ');
+			_v_ico_silk('tick');
+			echo('</td></tr>');
+		}
+		if ($rt['blg_description_error'] > 0) {
+			echo('<tr><td width="100" align="right" valign="top">简介</td><td width="400" align="left"><div class="error"><textarea onfocus="brightBox(this);" onblur="dimBox(this);" rows="10" class="ml" name="blg_description">' . make_multi_return($rt['blg_description_value'], 0) . '</textarea><br />');
+			_v_ico_silk('exclamation');
+			echo(' ' . $rt['blg_description_error_msg'][$rt['blg_description_error']]);
+			echo('</div></td></tr>');
+		} else {
+			echo('<tr><td width="100" align="right" valign="top">简介</td><td width="400" align="left"><textarea onfocus="brightBox(this);" onblur="dimBox(this);" rows="10" class="ml" name="blg_description">' . make_multi_return($rt['blg_description_value'], 0) . '</textarea></td></tr>');
+		}
+		echo('<td width="500" colspan="3" valign="middle" align="right">');
+		_v_btn_f('更新设置', 'form_blog_config');
+		echo('</td></tr>');
+		echo('</form>');
+		echo('</table>');
+		_v_hr();
+		_v_ico_silk('information');
+		echo(' 更新设置后将需要重新构建');
 		_v_d_e();
 		_v_d_e();
 	}

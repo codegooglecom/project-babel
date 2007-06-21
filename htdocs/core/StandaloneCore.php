@@ -1143,11 +1143,62 @@ class Standalone {
 	public function vxBlogBuild() {
 		if (isset($_GET['weblog_id'])) {
 			$weblog_id = intval($_GET['weblog_id']);
-			$Weblog = new Weblog($weblog_id);
-			if ($Weblog->weblog) {
-				if ($Weblog->blg_uid == $this->User->usr_id) {
-					Weblog::vxBuild($this->User->usr_id, $weblog_id);
-					return $this->URL->vxToRedirect($this->URL->vxGetBlogAdmin());
+			if (Weblog::vxMatchPermission($this->User->usr_id, $weblog_id)) {
+				Weblog::vxBuild($this->User->usr_id, $weblog_id);
+				return $this->URL->vxToRedirect($this->URL->vxGetBlogAdmin());
+			} else {
+				return js_alert('你没有权力对这个博客网站进行操作', '/blog/admin.vx');
+			}
+		} else {
+			return js_alert('指定的博客网站没有找到', '/blog/admin.vx');
+		}
+	}
+	
+	public function vxBlogPortraitSave() {
+		if ($this->User->vxIsLogin()) {
+			if (isset($_GET['weblog_id'])) {
+				$weblog_id = intval($_GET['weblog_id']);
+				if (Weblog::vxMatchPermission($this->User->usr_id, $weblog_id)) {
+					if (isset($_FILES['blg_portrait'])) {
+						$ul = $_FILES['blg_portrait'];
+						
+						if (substr($ul['type'], 0, 5) == 'image') {
+							switch ($ul['type']) {
+								case 'image/jpeg':
+								case 'image/jpg':
+								case 'image/pjpeg':
+									$ext = '.jpg';
+									break;
+								case 'image/gif':
+									$ext = '.gif';
+									break;
+								case 'image/png':
+								case 'image/x-png':
+									$ext = '.png';
+									break;
+								default:
+									header('Content-type: text/html; charset=UTF-8');
+									echo("<script>alert('你传的不是图片吧？');location.href='" . $this->URL->vxGetBlogPortrait($weblog_id) . "'</script>");
+									die('REDIRECTING...');
+									break;
+							}
+							move_uploaded_file($ul["tmp_name"], BABEL_PREFIX . '/tmp/' . $weblog_id . $ext);
+							
+							Image::vxGenBlogPortraits($ext, $weblog_id, $this->db);
+							
+							unlink(BABEL_PREFIX . '/tmp/' . $weblog_id . $ext);
+							$sql = "UPDATE babel_weblog SET blg_portrait = blg_id WHERE blg_id = {$weblog_id} LIMIT 1";
+							mysql_query($sql, $this->db);
+							header('Content-type: text/html; charset=UTF-8');
+							echo("<script>alert('你的博客网站的图标已经成功设置！');location.href='" . $this->URL->vxGetBlogPortrait($weblog_id) . "'</script>");
+						} else {
+							header('Content-type: text/html; charset=UTF-8');
+							echo("<script>alert('你传的不是图片吧？');location.href='" . $this->URL->vxGetBlogPortrait($weblog_id) . "'</script>");
+							die('REDIRECTING...');
+						}
+					} else {
+						header('Location: ' . $this->URL->vxGetBlogPortrait($weblog_id));
+					}
 				} else {
 					return js_alert('你没有权力对这个博客网站进行操作', '/blog/admin.vx');
 				}
@@ -1155,7 +1206,7 @@ class Standalone {
 				return js_alert('指定的博客网站没有找到', '/blog/admin.vx');
 			}
 		} else {
-			return js_alert('指定的博客网站没有找到', '/blog/admin.vx');
+			return js_alert('你还没有登录，请登录之后再进行操作', '/blog/admin.vx');
 		}
 	}
 	
