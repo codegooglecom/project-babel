@@ -1,7 +1,7 @@
 <?php
 class Weblog {
 	public function __construct($weblog_id) {
-		$sql = "SELECT blg_id, blg_uid, blg_name, blg_title, blg_description, blg_portrait, blg_theme, blg_entries, blg_comments, blg_created, blg_lastupdated, blg_lastbuilt, usr_id, usr_nick, usr_gender, usr_portrait, usr_created, usr_brief FROM babel_weblog, babel_user WHERE blg_uid = usr_id AND blg_id = {$weblog_id}";
+		$sql = "SELECT blg_id, blg_uid, blg_name, blg_title, blg_description, blg_portrait, blg_theme, blg_entries, blg_comments, blg_builds, blg_dirty, blg_created, blg_lastupdated, blg_lastbuilt, usr_id, usr_nick, usr_gender, usr_portrait, usr_created, usr_brief FROM babel_weblog, babel_user WHERE blg_uid = usr_id AND blg_id = {$weblog_id}";
 		$rs = mysql_query($sql);
 		if (mysql_num_rows($rs) == 1) {
 			$this->weblog = true;
@@ -15,9 +15,12 @@ class Weblog {
 			$this->blg_theme = $_weblog['blg_theme'];
 			$this->blg_entries = intval($_weblog['blg_entries']);
 			$this->blg_comments = intval($_weblog['blg_comments']);
+			$this->blg_builds = intval($_weblog['blg_builds']);
+			$this->blg_dirty = intval($_weblog['blg_dirty']);
 			$this->blg_created = intval($_weblog['blg_created']);
 			$this->blg_lastupdated = intval($_weblog['blg_lastupdated']);
 			$this->blg_lastbuilt = intval($_weblog['blg_lastbuilt']);
+			$this->usr_id = $_weblog['usr_id'];
 			$this->usr_nick = $_weblog['usr_nick'];
 			mysql_free_result($rs);
 			unset($_weblog);
@@ -36,8 +39,25 @@ class Weblog {
 	
 	public function vxTouchBuild() {
 		$now = time();
-		$sql = "UPDATE babel_weblog SET blg_lastbuilt = {$now} WHERE blg_id = {$this->blg_id}";
+		$sql = "UPDATE babel_weblog SET blg_lastbuilt = {$now}, blg_dirty = 0 WHERE blg_id = {$this->blg_id}";
 		mysql_unbuffered_query($sql);
+	}
+	
+	public static function vxMatchPermission($user_id, $weblog_id) {
+		$sql = "SELECT blg_uid FROM babel_weblog WHERE blg_id = {$weblog_id}";
+		$rs = mysql_query($sql);
+		if (mysql_num_rows($rs) == 1) {
+			$blg_uid = mysql_result($rs, 0, 0);
+			mysql_free_result($rs);
+			if ($blg_uid == $user_id) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			mysql_free_result($rs);
+			return false;
+		}
 	}
 	
 	public static function vxBuild($user_id, $weblog_id) {
@@ -83,7 +103,7 @@ class Weblog {
 			$Weblog->vxTouchBuild();
 			$end = microtime(true);
 			$elapsed = $end - $start;
-			$_SESSION['babel_message_weblog'] = _vo_ico_silk('tick') . ' 博客网站 ' . make_plaintext($Weblog->blg_title) . ' 重新构建成功，' . $files . ' 个文件共写入了 ' . $bytes . ' 字节，共耗时 <small>' . $elapsed . '</small> 秒，<a href="http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_title . '" class="t" target="_blank">现在查看</a> <img src="/img/ext.png" align="absmiddle" />';
+			$_SESSION['babel_message_weblog'] = _vo_ico_silk('tick') . ' 博客网站 ' . make_plaintext($Weblog->blg_title) . ' 重新构建成功，' . $files . ' 个文件共写入了 ' . $bytes . ' 字节，共耗时 <small>' . $elapsed . '</small> 秒，<a href="http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_name . '" class="t" target="_blank">现在查看</a> <img src="/img/ext.png" align="absmiddle" />';
 		}
 	}
 }

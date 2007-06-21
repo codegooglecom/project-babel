@@ -1123,6 +1123,7 @@ $i->vxSetupBoard('babel', 'Project Babel', 3, 3, 1, 2, 'way to explore | way too
 $i->vxSetupBoard('midgard', 'Project Midgard', 3, 3, 1, 2, 'way to explore | way too extreme', 'V2EX | software for internet');
 $i->vxSetupBoard('zen', 'Project Zen', 3, 3, 1, 2, 'When time matters!', 'V2EX | software for internet');
 $i->vxSetupBoard('olpc', 'One Laptop Per Child', 3, 3, 1, 2, '', '');
+$i->vxSetupBoard('iphone', 'iPhone', 3, 3, 1, 2, 'We are APPLEOHOLICS!', '');
 $i->vxSetupBoard('mac', 'Mac', 3, 3, 1, 2, 'We are APPLEOHOLICS!', '');
 	$i->vxSetupChannelByName('mac', 'http://www.sinomac.com/rss.php');
 	$i->vxSetupChannelByName('mac', 'http://feeds.feedburner.com/com/WvuX');

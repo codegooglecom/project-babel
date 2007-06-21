@@ -171,5 +171,9 @@ switch ($m) {
 	case 'blog_build':
 		$s->vxBlogBuild();
 		break;
+		
+	case 'blog_portrait_save':
+		$s->vxBlogPortraitSave();
+		break;
 }
 ?>

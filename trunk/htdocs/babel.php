@@ -2106,6 +2106,114 @@ switch ($m) {
 				break;
 			}
 		}
+		
+	case 'blog_portrait':
+		if (!$p->User->vxIsLogin()) {
+			if (isset($_GET['weblog_id'])) {
+				$weblog_id = intval($_GET['weblog_id']);
+				die($p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetBlogPortrait($weblog_id))));
+				break;
+			} else {
+				die($p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetBlogAdmin())));
+				break;
+			}
+		} else {
+			if (isset($_GET['weblog_id'])) {
+				$weblog_id = intval($_GET['weblog_id']);
+				$Weblog = new Weblog($weblog_id);
+				if ($Weblog->weblog) {
+					if ($Weblog->blg_uid == $p->User->usr_id) {
+						$p->vxHead($msgSiteTitle = '修改博客网站图标');
+						$p->vxBodyStart();
+						$p->vxTop();
+						$p->vxContainer('blog_portrait', $Weblog);
+						break;
+					} else {
+						$_SESSION['babel_message_weblog'] = '你没有权力对这个博客网站进行操作';
+						die($p->URL->vxToRedirect($p->URL->vxGetBlogAdmin()));
+						break;
+					}
+				} else {
+					die($p->URL->vxToRedirect($p->URL->vxGetBlogAdmin()));
+					break;
+				}
+			} else {
+				die($p->URL->vxToRedirect($p->URL->vxGetBlogAdmin()));
+				break;
+			}
+		}
+		
+	case 'blog_config':
+		if ($p->User->vxIsLogin()) {
+			if (isset($_GET['weblog_id'])) {
+				$weblog_id = intval($_GET['weblog_id']);
+				$Weblog = new Weblog($weblog_id);
+				if ($Weblog->weblog) {
+					if ($Weblog->blg_uid == $p->User->usr_id) {
+						$p->vxHead($msgSiteTitle = '设置博客网站');
+						$p->vxBodyStart();
+						$p->vxTop();
+						$p->vxContainer('blog_config', $Weblog);
+						break;
+					} else {
+						$_SESSION['babel_message_weblog'] = '你没有权力对这个博客网站进行操作';
+						die($p->URL->vxToRedirect($p->URL->vxGetBlogAdmin()));
+						break;
+					}
+				} else {
+					$_SESSION['babel_message_weblog'] = '指定的博客网站没有找到';
+					die($p->URL->vxToRedirect($p->URL->vxGetBlogAdmin()));
+					break;
+				}
+			} else {
+				die($p->URL->vxToRedirect($p->URL->vxGetBlogAdmin()));
+				break;
+			}
+		} else {
+			if (isset($_GET['weblog_id'])) {
+				$weblog_id = intval($_GET['weblog_id']);
+				die($p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetBlogConfig($weblog_id))));
+				break;
+			} else {
+				die($p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetBlogAdmin())));
+				break;
+			}
+		}
+		
+	case 'blog_config_save':
+		if (!$p->User->vxIsLogin()) {
+			if (isset($_GET['weblog_id'])) {
+				$weblog_id = intval($_GET['weblog_id']);
+				die($p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetBlogConfig($weblog_id))));
+			} else {
+				die($p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetBlogAdmin())));
+			}
+			break;
+		} else {
+			if (isset($_GET['weblog_id'])) {
+				$weblog_id = intval($_GET['weblog_id']);
+				if (Weblog::vxMatchPermission($p->User->usr_id, $weblog_id)) {
+					$rt = $p->Validator->vxBlogConfigCheck($p->User->usr_money, $weblog_id);
+					if ($rt['errors'] == 0) {
+						$p->Validator->vxBlogConfigUpdate($weblog_id, $rt['blg_title_value'], $rt['blg_description_value']);
+						die($p->URL->vxToRedirect($p->URL->vxGetBlogAdmin()));
+						break;
+					} else {
+						$p->vxHead($msgSiteTitle = '设置博客网站');
+						$p->vxBodyStart();
+						$p->vxTop();
+						$p->vxContainer('blog_config_save', $rt);
+						break;
+					}
+				} else {
+					$_SESSION['babel_message_weblog'] = '你没有权力对这个博客网站进行操作';
+					die($p->URL->vxToRedirect($p->URL->vxGetBlogAdmin()));
+				}
+			} else {
+				die($p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetBlogAdmin())));
+			}
+			break;
+		}
 }
 
 if ($global_has_bottom) {

@@ -453,6 +453,44 @@ class Image {
 			return true;
 		}
 	}
+	
+	public static function vxGenBlogPortraits($ext, $weblog_id, $db) {
+		global $ZEND_CACHE_OPTIONS_LONG_FRONTEND;
+		global $ZEND_CACHE_OPTIONS_LONG_BACKEND;
+		global $ZEND_CACHE_OPTIONS_MEMCACHED;
+		if (ZEND_CACHE_MEMCACHED_ENABLED == 'yes') {
+			$cache = Zend_Cache::factory('Core', 'Memcached', $ZEND_CACHE_OPTIONS_LONG_FRONTEND, $ZEND_CACHE_OPTIONS_MEMCACHED);
+		} else {
+			$cache = Zend_Cache::factory('Core', ZEND_CACHE_TYPE_LONG, $ZEND_CACHE_OPTIONS_LONG_FRONTEND, $ZEND_CACHE_OPTIONS_LONG_BACKEND[ZEND_CACHE_TYPE_LONG]);
+		}
+		Image::vxResize(BABEL_PREFIX . '/tmp/' . $weblog_id . $ext, BABEL_PREFIX . '/htdocs/img/b/' . $weblog_id . '.' . BABEL_PORTRAIT_EXT, 100, 100, 1|4, 2);
+		$content = addslashes(file_get_contents(BABEL_PREFIX . '/htdocs/img/b/' . $weblog_id . '.' . BABEL_PORTRAIT_EXT));
+		Image::vxUpdateBlogPortrait($weblog_id, $content, $db);
+		$cache->remove('weblog_portrait_' . $weblog_id);
+		Image::vxResize(BABEL_PREFIX . '/tmp/' . $weblog_id . $ext, BABEL_PREFIX . '/htdocs/img/b/' . $weblog_id . '_s.' . BABEL_PORTRAIT_EXT, 32, 32, 1|4, 2);
+		$content = addslashes(file_get_contents(BABEL_PREFIX . '/htdocs/img/b/' . $weblog_id . '_s.' . BABEL_PORTRAIT_EXT));
+		Image::vxUpdateBlogPortrait($weblog_id . '_s', $content, $db);
+		$cache->remove('weblog_portrait_' . $weblog_id . '_s');
+		Image::vxResize(BABEL_PREFIX . '/tmp/' . $weblog_id . $ext, BABEL_PREFIX . '/htdocs/img/b/' . $weblog_id . '_n.' . BABEL_PORTRAIT_EXT, 16, 16, 1|4, 2);
+		$content = addslashes(file_get_contents(BABEL_PREFIX . '/htdocs/img/b/' . $weblog_id . '_n.' . BABEL_PORTRAIT_EXT));
+		Image::vxUpdateBlogPortrait($weblog_id . '_n', $content, $db);
+		$cache->remove('weblog_portrait_' . $weblog_id . '_n');
+		$cache = null;
+	}
+	
+	public static function vxUpdateBlogPortrait($filename, $content, $db) {
+		$sql = "SELECT COUNT(*) FROM babel_weblog_portrait WHERE bgp_filename = '{$filename}'";
+		$count = mysql_result(mysql_query($sql, $db), 0, 0);
+		if ($count == 1) {
+			$sql = "UPDATE babel_weblog_portrait SET bgp_content = '{$content}' WHERE bgp_filename = '{$filename}'";
+			mysql_query($sql, $db);
+			return true;
+		} else {
+			$sql = "INSERT INTO babel_weblog_portrait(bgp_filename, bgp_content) VALUE('{$filename}', '{$content}')";
+			mysql_query($sql, $db);
+			return true;
+		}
+	}
 }
 
 /* E Image class */
