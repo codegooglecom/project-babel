@@ -868,6 +868,7 @@ $i->vxSetupBoard('simpleplan', "Simple Plan", 220, 220, 1, 2, '', '');
 $i->vxSetupBoard('oasis', "Oasis", 220, 220, 1, 2, '', '');
 $i->vxSetupBoard('rem', "REM", 220, 220, 1, 2, '', '');
 $i->vxSetupBoard('pinkfloyd', "Pink Floyd", 220, 220, 1, 2, '', '');
+$i->vxSetupBoard('direstraits', "Dire Straits", 220, 220, 1, 2, '', '');
 $i->vxSetupBoard('thedoors', "The Doors", 220, 220, 1, 2, '', '');
 $i->vxSetupBoard('police', "Police", 220, 220, 1, 2, '', '');
 $i->vxSetupBoard('limpbizkit', "Limp Bizkit", 220, 220, 1, 2, '', '');
