@@ -227,6 +227,11 @@ class URL {
 		$url = '/blog/config/' . $weblog_id . '.vx';
 		return $url;
 	}
+	
+	public static function vxGetBlogCompose($weblog_id) {
+		$url = '/blog/compose/' . $weblog_id . '.vx';
+		return $url;
+	}
 }
 
 /* E URL class */

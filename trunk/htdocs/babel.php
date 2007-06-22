@@ -2214,6 +2214,42 @@ switch ($m) {
 			}
 			break;
 		}
+		
+	case 'blog_compose':
+		if (!$p->User->vxIsLogin()) {
+			if (isset($_GET['weblog_id'])) {
+				$weblog_id = intval($_GET['weblog_id']);
+				die($p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetBlogCompose($weblog_id))));
+			} else {
+				die($p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetBlogAdmin())));
+			}
+			break;
+		} else {
+			if (isset($_GET['weblog_id'])) {
+				$weblog_id = intval($_GET['weblog_id']);
+				$Weblog = new Weblog($weblog_id);
+				if ($Weblog->weblog) {
+					if ($Weblog->blg_uid == $p->User->usr_id) {
+						$p->vxHead($msgSiteTitle = '撰写新文章');
+						$p->vxBodyStart();
+						$p->vxTop();
+						$p->vxContainer('blog_compose', $Weblog);
+						break;
+					} else {
+						$_SESSION['babel_message_weblog'] = '你没有权力对这个博客网站进行操作';
+						die($p->URL->vxToRedirect($p->URL->vxGetBlogAdmin()));
+						break;
+					}
+				} else {
+					$_SESSION['babel_message_weblog'] = '指定的博客网站没有找到';
+					die($p->URL->vxToRedirect($p->URL->vxGetBlogAdmin()));
+					break;
+				}
+			} else {
+				die($p->URL->vxToRedirect($p->URL->vxGetBlogAdmin()));
+				break;
+			}
+		}
 }
 
 if ($global_has_bottom) {

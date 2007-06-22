@@ -1806,6 +1806,16 @@ class Page {
 				$this->vxMenu($_menu_options);
 				$this->vxBlogConfigSave($options);
 				break;
+				
+			case 'blog_compose':
+				$_menu_options['modules']['new_members'] = false;
+				$_menu_options['modules']['friends'] = false;
+				$_menu_options['modules']['stats'] = false;
+				$_menu_options['modules']['fav'] = false;
+				$this->vxSidebar($show = false);
+				$this->vxMenu($_menu_options);
+				$this->vxBlogCompose($options);
+				break;
 		}
 		echo('</div>');
 	}
@@ -10589,16 +10599,16 @@ google_color_url = "00CC00";
 			echo('<tr>');
 			echo('<td valign="top" height="24"><span class="tip_i">');
 			_v_ico_silk('pencil');
-			echo(' <a href="/blog/compose/.vx">撰写新文章</a>');
+			echo(' <a href="/blog/compose/' . $_weblog['blg_id'] . '.vx">撰写新文章</a>');
 			echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
 			_v_ico_silk('table_multiple');
-			echo(' <a href="/blog/list/.vx">管理文章</a>');
+			echo(' <a href="/blog/list/' . $_weblog['blg_id'] . '.vx">管理文章</a>');
 			echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
 			_v_ico_silk('arrow_refresh');
 			echo(' <a href="/blog/build/' . $_weblog['blg_id'] . '.vx">重新构建</a>');
 			echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
 			_v_ico_silk('cross');
-			echo(' <a href="/blog/destroy/.vx">彻底关闭</a>');
+			echo(' <a href="#;" onclick="if (confirm(' . "'你确认要彻底关闭这个博客网站吗？\\n\\n这些数据被删除后将无法恢复。'" . ')) { location.href = ' . "'/blog/destroy/" . $_weblog['blg_id'] . ".vx'; } else { return false; }" . '">彻底关闭</a>');
 			echo('</td>');
 			echo('</tr>');
 			echo('</table>');
@@ -10607,7 +10617,7 @@ google_color_url = "00CC00";
 			echo('</div>');
 		}
 		_v_hr();
-		echo('欢迎从 <a href="http://blog.v2ex.com/weblog-project" class="t">V2EX Weblog</a> 项目的博客网志上获取帮助和更多信息！');
+		echo('欢迎从 <a href="http://blog.v2ex.com/weblog-project" class="t">V2EX Weblog Project</a> 的博客网志上获取帮助和更多信息！');
 		_v_d_e();
 		_v_d_e();
 	}
@@ -10811,6 +10821,42 @@ google_color_url = "00CC00";
 		_v_hr();
 		_v_ico_silk('information');
 		echo(' 更新设置后将需要重新构建');
+		_v_d_e();
+		_v_d_e();
+	}
+	
+	public function vxBlogCompose($Weblog) {
+		_v_m_s();
+		echo('<script language="javascript" type="text/javascript" src="/js/tiny_mce/tiny_mce.js"></script>');
+		echo('<script language="javascript" type="text/javascript">tinyMCE.init({ mode : "textareas", theme : "advanced", plugins : "table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,zoom,flash,searchreplace,print,contextmenu", theme_advanced_buttons1 : "copy,cut,paste,separator,bold,italic,underline,strikethrough,separator,justifyleft,justifycenter,justifyright,justifyfull", theme_advanced_buttons1_add : "separator,fontselect,fontsizeselect", theme_advanced_buttons3_add : "separator,insertdate,inserttime,preview,zoom,separator,forecolor,backcolor", theme_advanced_toolbar_location : "bottom", content_css : "/css/themes/' . BABEL_THEME . '/css_tiny_mce.css" });</script>');
+		echo('<link type="text/css" rel="stylesheet" href="/css/themes/' . BABEL_THEME . '/css_weblog.css" />');
+		_v_b_l_s();
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; <a href="/blog/admin.vx">博客网志</a> &gt; <a href="/blog/config/' . $Weblog->blg_id . '.vx">' . make_plaintext($Weblog->blg_title) . '</a> &gt; 撰写新文章 <span class="tip_i"><small>alpha</small></span>');
+		_v_d_e();
+		_v_b_l_s();
+		_v_ico_silk('pencil');
+		echo(' 撰写新文章');
+		_v_hr();
+		echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
+		echo('<form action="/blog/compose/save/' . $Weblog->blg_id . '.vx" method="post" id="form_blog_compose">');
+		echo('<tr><td width="100" align="right">标题</td><td align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="bge_title" value="" /></td></tr>');
+		echo('<tr><td width="100" align="right" valign="top">内容</td><td  align="left"><textarea cols="60" rows="25" name="bge_body"></textarea></td></tr>');
+		echo('<tr><td width="100" align="right">标签</td><td align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="bge_tags" value="" /></td></tr>');
+		echo('<tr><td width="100" align="right">状态</td><td align="left">');
+		echo('<select name="bge_status">');
+		echo('<option value="0">草稿</option>');
+		echo('<option value="1">公开发布</option>');
+		echo('</select>');
+		echo('</td></tr>');
+		echo('<td width="500" colspan="3" valign="middle" align="right">');
+		_v_btn_f('保存', 'form_blog_compose');
+		echo('</td></tr>');
+		echo('</form>');
+		echo('</table>');
+		_v_hr();
+		_v_ico_silk('information');
+		echo(' 发布新文章之后将需要重新构建');
 		_v_d_e();
 		_v_d_e();
 	}
