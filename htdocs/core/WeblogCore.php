@@ -43,6 +43,14 @@ class Weblog {
 		mysql_unbuffered_query($sql);
 	}
 	
+	public function vxUpdateEntries() {
+		$sql = "SELECT COUNT(*) FROM babel_weblog_entry WHERE bge_pid = {$this->blg_id}";
+		$count = mysql_result(mysql_query($sql), 0, 0);
+		$sql = "UPDATE babel_weblog SET blg_entries = {$count} WHERE blg_id = {$this->blg_id}";
+		mysql_unbuffered_query($sql);
+		return true;
+	}
+	
 	public static function vxMatchPermission($user_id, $weblog_id) {
 		$sql = "SELECT blg_uid FROM babel_weblog WHERE blg_id = {$weblog_id}";
 		$rs = mysql_query($sql);
@@ -58,6 +66,20 @@ class Weblog {
 			mysql_free_result($rs);
 			return false;
 		}
+	}
+	
+	public static function vxGetEditorModes() {
+		$modes = array(
+			0 => '纯文本 / Plain Text',
+			1 => '超文本 / HTML',
+			2 => 'UBB',
+			3 => 'Textile'
+		);
+		return $modes;
+	}
+	
+	public static function vxGetDefaultEditorMode() {
+		return 1;
 	}
 	
 	public static function vxBuild($user_id, $weblog_id) {

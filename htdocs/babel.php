@@ -2270,6 +2270,7 @@ switch ($m) {
 						$rt = $p->Validator->vxBlogComposeCheck();
 						if ($rt['errors'] == 0) {
 							$p->Validator->vxBlogComposeInsert($p->User->usr_id, $Weblog->blg_id, $rt['bge_title_value'], $rt['bge_body_value'], $rt['bge_status_value']);
+							$Weblog->vxUpdateEntries();
 							$sql = "SELECT bge_id FROM babel_weblog_entry WHERE bge_uid = {$p->User->usr_id} ORDER BY bge_created DESC LIMIT 1";
 							$rs = mysql_query($sql);
 							$entry_id = mysql_result($rs, 0, 0);
@@ -2301,10 +2302,43 @@ switch ($m) {
 				die($p->URL->vxToRedirect($p->URL->vxGetBlogAdmin()));
 				break;
 			}
-		
-		
-			
-			
+		}
+	
+	case 'blog_list':
+		if ($p->User->vxIsLogin()) {
+			if (isset($_GET['weblog_id'])) {
+				$weblog_id = intval($_GET['weblog_id']);
+				$Weblog = new Weblog($weblog_id);
+				if ($Weblog->weblog) {
+					if ($Weblog->blg_uid == $p->User->usr_id) {
+						$p->vxHead($msgSiteTitle = '管理文章');
+						$p->vxBodyStart();
+						$p->vxTop();
+						$p->vxContainer('blog_list', $Weblog);
+						break;
+					} else {
+						$_SESSION['babel_message_weblog'] = '你没有权力对这个博客网站进行操作';
+						die($p->URL->vxToRedirect($p->URL->vxGetBlogAdmin()));
+						break;
+					}
+				} else {
+					$_SESSION['babel_message_weblog'] = '指定的博客网站没有找到';
+					die($p->URL->vxToRedirect($p->URL->vxGetBlogAdmin()));
+					break;
+				}
+			} else {
+				die($p->URL->vxToRedirect($p->URL->vxGetBlogAdmin()));
+				break;
+			}
+		} else {
+			if (isset($_GET['weblog_id'])) {
+				$weblog_id = intval($_GET['weblog_id']);
+				die($p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetBlogList($weblog_id))));
+				break;
+			} else {
+				die($p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetBlogAdmin())));
+				break;
+			}
 		}
 }
 

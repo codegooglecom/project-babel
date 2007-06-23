@@ -1826,6 +1826,16 @@ class Page {
 				$this->vxMenu($_menu_options);
 				$this->vxBlogComposeSave($options);
 				break;
+				
+			case 'blog_list':
+				$_menu_options['modules']['new_members'] = false;
+				$_menu_options['modules']['friends'] = false;
+				$_menu_options['modules']['stats'] = false;
+				$_menu_options['modules']['fav'] = false;
+				$this->vxSidebar($show = false);
+				$this->vxMenu($_menu_options);
+				$this->vxBlogList($options);
+				break;
 		}
 		echo('</div>');
 	}
@@ -4345,7 +4355,7 @@ class Page {
 			}
 		}
 		
-		echo('<tr><td colspan="2" align="left" class="section_odd"><span class="text_large">');
+		echo('<tr><td colspan="2" align="left" class="section_odd"><span class="text_large"><a name="friends"></a>');
 		_v_ico_tango_32('emotes/face-grin');
 		echo(' ' . $O->usr_nick . ' 的朋友们</span>');
 		
@@ -9661,6 +9671,30 @@ google_color_url = "00CC00";
 	}
 	
 	public function vxIngPublic() {
+		/* start: how many pages */
+		$sql = "SELECT COUNT(*) FROM babel_ing_update";
+		$count_total = mysql_result(mysql_query($sql), 0, 0);
+		$size = BABEL_ING_PAGE;
+		if ($count_total > BABEL_ING_PAGE) {
+			if (isset($_GET['p'])) {
+				$p = intval($_GET['p']);
+				if ($p < 1) {
+					$p = 1;
+				}
+			} else {
+				$p = 1;
+			}
+			$pages = ($count_total % BABEL_ING_PAGE == 0) ? intval($count_total / BABEL_ING_PAGE) : (floor($count_total / BABEL_ING_PAGE) + 1);
+			if ($p > $pages ) {
+				$p = $pages;
+			}
+			$start = ($p - 1) * BABEL_ING_PAGE;
+		} else {
+			$pages = 1;
+			$start = 0;
+			$p = 1;
+		}
+		/* end: how many pages */
 		_v_ing_style_public();
 		_v_m_s();
 		_v_b_l_s();
@@ -9672,7 +9706,7 @@ google_color_url = "00CC00";
 		$_sources = array(1 => 'web', 2 => 'ingc');
 		$t = time() - 86400;
 		
-		$sql = "SELECT ing_id, ing_uid, ing_doing, ing_doing, ing_source, ing_created, usr_id, usr_nick, usr_gender, usr_portrait FROM babel_ing_update, babel_user WHERE usr_id = ing_uid ORDER BY ing_created DESC LIMIT 50";
+		$sql = "SELECT ing_id, ing_uid, ing_doing, ing_doing, ing_source, ing_created, usr_id, usr_nick, usr_gender, usr_portrait FROM babel_ing_update, babel_user WHERE usr_id = ing_uid ORDER BY ing_created DESC LIMIT {$start}, {$size}";
 		$rs_updates = mysql_query($sql);
 		$count = mysql_num_rows($rs_updates);
 		if ($count == 0) {
@@ -9703,6 +9737,8 @@ google_color_url = "00CC00";
 
 		echo('<div>');
 		
+		make_pages($pages, $p, '/ing/page/', '');
+		
 		$i = 0;
 		while ($_up = mysql_fetch_array($rs_updates)) {
 			$i++;
@@ -9710,7 +9746,7 @@ google_color_url = "00CC00";
 			$img_p = $_up['usr_portrait'] ? CDN_IMG . 'p/' . $_up['usr_portrait'] . '_s.jpg' : CDN_IMG . 'p_' . $_up['usr_gender'] . '_s.gif';
 			echo('<div style="min-width: 500px;" class="entry_' . $css_class . '">');
 			echo('<a href="/ing-' . $_up['ing_id'] . '.html"><img src="' . $img_p . '" align="absmiddle" alt="' . make_single_return($_up['usr_nick']) . '" class="portrait" border="0" /></a> ');
-			echo('<a href="/u/' . urlencode($_up['usr_nick']) . '" class="t">' . make_plaintext($_up['usr_nick']) . '</a> ');
+			echo('<a href="/ing/' . urlencode($_up['usr_nick']) . '" class="t">' . make_plaintext($_up['usr_nick']) . '</a> ');
 			echo(format_ubb(trim($_up['ing_doing'])) . ' <span class="tip_i">' . make_descriptive_time($_up['ing_created']) . '</span> <span class="tip"><small>from ' . $_sources[$_up['ing_source']] . '</small></span> ');
 			if ($_up['usr_id'] == $this->User->usr_id) {
 				echo('<a href="/erase/ing/' . $_up['ing_id'] . '.vx"><img src="/img/ing_trash.gif" align="absmiddle" alt="del" border="0" /></a>');
@@ -9718,7 +9754,9 @@ google_color_url = "00CC00";
 			_v_d_e();
 		}
 		mysql_free_result($rs_updates);
-		_v_hr();
+		
+		make_pages($pages, $p, '/ing/page/', '');
+		
 		if ($i > 0) {
 			_v_hr();
 			_v_ico_silk('feed');
@@ -9762,8 +9800,33 @@ google_color_url = "00CC00";
 		}
 		mysql_free_result($rs);
 		
-		$sql = "SELECT ing_id, ing_uid, ing_doing, ing_doing, ing_source, ing_created, usr_id, usr_nick, usr_gender, usr_portrait FROM babel_ing_update, babel_user WHERE usr_id = ing_uid AND ing_uid IN ({$friends_sql}) ORDER BY ing_created DESC LIMIT 50";
-		$rs_updates = mysql_query($sql) or die($sql . ':' . mysql_error());
+		/* start: how many pages */
+		$sql = "SELECT COUNT(*) FROM babel_ing_update WHERE ing_uid IN ({$friends_sql})";
+		$count_total = mysql_result(mysql_query($sql), 0, 0);
+		$size = BABEL_ING_PAGE;
+		if ($count_total > BABEL_ING_PAGE) {
+			if (isset($_GET['p'])) {
+				$p = intval($_GET['p']);
+				if ($p < 1) {
+					$p = 1;
+				}
+			} else {
+				$p = 1;
+			}
+			$pages = ($count_total % BABEL_ING_PAGE == 0) ? intval($count_total / BABEL_ING_PAGE) : (floor($count_total / BABEL_ING_PAGE) + 1);
+			if ($p > $pages ) {
+				$p = $pages;
+			}
+			$start = ($p - 1) * BABEL_ING_PAGE;
+		} else {
+			$pages = 1;
+			$start = 0;
+			$p = 1;
+		}
+		/* end: how many pages */
+		
+		$sql = "SELECT ing_id, ing_uid, ing_doing, ing_doing, ing_source, ing_created, usr_id, usr_nick, usr_gender, usr_portrait FROM babel_ing_update, babel_user WHERE usr_id = ing_uid AND ing_uid IN ({$friends_sql}) ORDER BY ing_created DESC LIMIT {$start}, {$size}";
+		$rs_updates = mysql_query($sql);
 		$count = mysql_num_rows($rs_updates);
 		if ($count == 0) {
 			$hack_height = 'height: 320px; ';
@@ -9825,10 +9888,30 @@ google_color_url = "00CC00";
 			_v_hr();
 			echo('<span class="tip_i">' . $User->usr_brief_plain . '</span>');
 		}
+		_v_hr();
+		if ($stats = $this->cl->load('babel_ing_stats_brief_' . $User->usr_id)) {
+		} else {
+			$stats = '';
+			$stats .= '<span class="tip"><small>';
+			$sql = "SELECT COUNT(*) FROM babel_ing_update WHERE ing_uid = {$User->usr_id}";
+			$count_ing = mysql_result(mysql_query($sql), 0, 0);
+			$stats .= '&#187; <a href="/ing/' . $User->usr_nick_url . '" class="regular">' . $count_ing . '</a> updates<br /><br />';
+			$sql = 'SELECT COUNT(*) FROM babel_friend WHERE frd_uid = ' . $User->usr_id;
+			$count_friends = mysql_result(mysql_query($sql), 0, 0);
+			$stats .= '&#187; <a href="/u/' . $User->usr_nick_url . '#friends" class="regular">' . $count_friends . '</a> friends<br /><br />';
+			$sql = 'SELECT COUNT(*) FROM babel_friend WHERE frd_fid = ' . $User->usr_id;
+			$count_fans = mysql_result(mysql_query($sql), 0, 0);
+			$stats .= '&#187; <a href="/who/connect/' . $User->usr_nick_url . '" class="regular">' . $count_fans . '</a> fans';
+			$stats .= '</small></span>';
+			$this->cl->save($stats, 'babel_ing_stats_brief_' . $User->usr_id);
+		}
+		echo $stats;
 		_v_d_e();
 		/* E: right user badge */
 		
 		echo('<div>');
+		
+		make_pages($pages, $p, '/ing/' . $User->usr_nick_url . '/friends/page/', '');
 		
 		$i = 0;
 		while ($_up = mysql_fetch_array($rs_updates)) {
@@ -9837,7 +9920,7 @@ google_color_url = "00CC00";
 			$img_p = $_up['usr_portrait'] ? CDN_IMG . 'p/' . $_up['usr_portrait'] . '_s.jpg' : CDN_IMG . 'p_' . $_up['usr_gender'] . '_s.gif';
 			echo('<div style="width: 61.8%; min-width: 200px; max-width: 800px;" class="entry_' . $css_class . '">');
 			echo('<a href="/ing-' . $_up['ing_id'] . '.html"><img src="' . $img_p . '" align="absmiddle" alt="' . make_single_return($_up['usr_nick']) . '" class="portrait" border="0" /></a> ');
-			echo('<a href="/u/' . urlencode($_up['usr_nick']) . '" class="t">' . make_plaintext($_up['usr_nick']) . '</a> ');
+			echo('<a href="/ing/' . urlencode($_up['usr_nick']) . '" class="t">' . make_plaintext($_up['usr_nick']) . '</a> ');
 			echo(format_ubb(trim($_up['ing_doing'])) . ' <span class="tip_i">' . make_descriptive_time($_up['ing_created']) . '</span> <span class="tip"><small>from ' . $_sources[$_up['ing_source']] . '</small></span> ');
 			if ($_up['ing_uid'] == $this->User->usr_id) {
 				echo('<a href="/erase/ing/' . $_up['ing_id'] . '.vx"><img src="/img/ing_trash.gif" align="absmiddle" alt="del" border="0" /></a>');
@@ -9845,6 +9928,9 @@ google_color_url = "00CC00";
 			_v_d_e();
 		}
 		mysql_free_result($rs_updates);
+		
+		make_pages($pages, $p, '/ing/' . $User->usr_nick_url . '/friends/page/', '');
+		
 		if ($i > 0) {
 			_v_hr();
 			_v_ico_silk('feed');
@@ -9867,6 +9953,30 @@ google_color_url = "00CC00";
 	}
 	
 	public function vxIngPersonal($User) {
+		/* start: how many pages */
+		$sql = "SELECT COUNT(*) FROM babel_ing_update WHERE ing_uid = {$User->usr_id}";
+		$count_total = mysql_result(mysql_query($sql), 0, 0);
+		$size = BABEL_ING_PAGE;
+		if ($count_total > BABEL_ING_PAGE) {
+			if (isset($_GET['p'])) {
+				$p = intval($_GET['p']);
+				if ($p < 1) {
+					$p = 1;
+				}
+			} else {
+				$p = 1;
+			}
+			$pages = ($count_total % BABEL_ING_PAGE == 0) ? intval($count_total / BABEL_ING_PAGE) : (floor($count_total / BABEL_ING_PAGE) + 1);
+			if ($p > $pages ) {
+				$p = $pages;
+			}
+			$start = ($p - 1) * BABEL_ING_PAGE;
+		} else {
+			$pages = 1;
+			$start = 0;
+			$p = 1;
+		}
+		/* end: how many pages */
 		if ($User->usr_id == $this->User->usr_id) {
 			$flag_self = true;
 		} else {
@@ -9884,18 +9994,18 @@ google_color_url = "00CC00";
 		/* S: data here!!! */
 		$_sources = array(1 => 'web', 2 => 'ingc');
 		$t = time() - 86400;
-		$sql = "SELECT ing_id, ing_uid, ing_doing, ing_doing, ing_source, ing_created, usr_id, usr_nick, usr_gender, usr_portrait FROM babel_ing_update, babel_user WHERE usr_id = ing_uid AND ing_uid = {$User->usr_id} ORDER BY ing_created DESC LIMIT 50";
+		$sql = "SELECT ing_id, ing_uid, ing_doing, ing_doing, ing_source, ing_created, usr_id, usr_nick, usr_gender, usr_portrait FROM babel_ing_update, babel_user WHERE usr_id = ing_uid AND ing_uid = {$User->usr_id} ORDER BY ing_created DESC LIMIT {$start}, {$size}";
 		$rs_updates = mysql_query($sql);
 		$count = mysql_num_rows($rs_updates);
 		if ($count == 0) {
 			if ($flag_self) {
-				$hack_height = 'height: 320px; ';
+				$hack_height = 'height: 350px; ';
 			} else {
 				$hack_height = 'height: 240px; ';
 			}
 		} else {
 			if ($count < 5) {
-				$hack_height = 'height: 350px; ';
+				$hack_height = 'height: 360px; ';
 			} else {
 				$hack_height = '';
 			}
@@ -9948,10 +10058,29 @@ google_color_url = "00CC00";
 			_v_hr();
 			echo('<span class="tip_i">' . $User->usr_brief_plain . '</span>');
 		}
+		_v_hr();
+		if ($stats = $this->cl->load('babel_ing_stats_brief_' . $User->usr_id)) {
+		} else {
+			$stats = '';
+			$stats .= '<span class="tip"><small>';
+			$stats .= '&#187; <a href="/ing/' . $User->usr_nick_url . '" class="regular">' . $count_total . '</a> updates<br /><br />';
+			$sql = 'SELECT COUNT(*) FROM babel_friend WHERE frd_uid = ' . $User->usr_id;
+			$count_friends = mysql_result(mysql_query($sql), 0, 0);
+			$stats .= '&#187; <a href="/u/' . $User->usr_nick_url . '#friends" class="regular">' . $count_friends . '</a> friends<br /><br />';
+			$sql = 'SELECT COUNT(*) FROM babel_friend WHERE frd_fid = ' . $User->usr_id;
+			$count_fans = mysql_result(mysql_query($sql), 0, 0);
+			$stats .= '&#187; <a href="/who/connect/' . $User->usr_nick_url . '" class="regular">' . $count_fans . '</a> fans';
+			$stats .= '</small></span>';
+			$this->cl->save($stats, 'babel_ing_stats_brief_' . $User->usr_id);
+		}
+		echo $stats;
+		
 		_v_d_e();
 		/* E: right user badge */
 		
 		echo('<div>');
+		
+		make_pages($pages, $p, '/ing/' . $User->usr_nick_url . '/page/', '');
 		
 		$i = 0;
 		while ($_up = mysql_fetch_array($rs_updates)) {
@@ -9968,6 +10097,9 @@ google_color_url = "00CC00";
 			_v_d_e();
 		}
 		mysql_free_result($rs_updates);
+		
+		make_pages($pages, $p, '/ing/' . $User->usr_nick_url . '/page/', '');
+		
 		if ($i > 0) {
 			_v_hr();
 			echo('<span class="tip_i">');
@@ -9976,6 +10108,9 @@ google_color_url = "00CC00";
 			echo(' | ');
 			_v_ico_silk('html');
 			echo(' <a href="#;" onclick="openOJSIngPersonal(' . "'{$this->User->usr_nick_url}'" . ')">JavaScript 输出到你的网站</a>');
+			echo(' | ');
+			_v_ico_silk('computer');
+			echo(' <a href="http://code.google.com/p/ingc" target="_blank">通过 INGC 来更新 <img src="/img/ext.png" align="absmiddle" border="0" /></a>');
 			echo('</span>');
 		}
 		_v_d_e();
@@ -10854,6 +10989,15 @@ google_color_url = "00CC00";
 		echo('<textarea class="ml" rows="30" name="bge_body"></textarea>');
 		echo('</td></tr>');
 		
+		echo('<tr><td width="100" align="right">模式</td><td align="left">');
+		echo('<select name="bge_status">');
+		echo('<option value="0">纯文本 - Plain Text</option>');
+		echo('<option value="1">超文本 - HTML</option>');
+		echo('<option value="2">UBB</option>');
+		echo('<option value="3">Textile</option>');
+		echo('</select>');
+		echo('</td></tr>');
+		
 		echo('<tr><td width="100" align="right">标签</td><td align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="bge_tags" value="" /></td></tr>');
 		echo('<tr><td width="100" align="right">状态</td><td align="left">');
 		echo('<select name="bge_status">');
@@ -10925,6 +11069,113 @@ google_color_url = "00CC00";
 		_v_hr();
 		_v_ico_silk('information');
 		echo(' 发布新文章之后将需要重新构建');
+		_v_d_e();
+		_v_d_e();
+	}
+	
+	public function vxBlogList($Weblog) {
+		_v_m_s();
+		echo('<link type="text/css" rel="stylesheet" href="/css/themes/' . BABEL_THEME . '/css_weblog.css" />');
+		_v_b_l_s();
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; 博客网志 &gt; <a href="/blog/config/' . $Weblog->blg_id . '.vx">' . make_plaintext($Weblog->blg_title) . '</a> &gt; 管理文章 <span class="tip_i"><small>alpha</small></span>');
+		_v_d_e();
+		_v_b_l_s();
+		_v_d_tr_s();
+		echo('');
+		_v_d_e();
+		_v_ico_silk('anchor');
+		echo(' 博客网志 &gt; ' . make_plaintext($Weblog->blg_title) . ' &gt; 管理文章');
+		_v_hr();
+		if (isset($_SESSION['babel_message_weblog'])) {
+			if ($_SESSION['babel_message_weblog'] != '') {
+				echo('<div class="notify">' . $_SESSION['babel_message_weblog'] . '</div>');
+				$_SESSION['babel_message_weblog'] = '';
+			}
+		} else {
+			$_SESSION['babel_message_weblog'] = '';
+		}
+		echo('<div class="blog_block">');
+		echo('<div class="blog_view"><span class="tip_i">');
+		_v_ico_silk('picture');
+		echo(' <a href="/blog/portrait/' . $Weblog->blg_id . '.vx">图标</a>');
+		echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
+		_v_ico_silk('layout');
+		echo(' <a href="/blog/decorate/.vx">主题</a>');
+		echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
+		_v_ico_silk('cog_edit');
+		echo(' <a href="/blog/config/' . $Weblog->blg_id . '.vx">设置</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_name . '/" target="_blank">查看</a> <img src="/img/ext.png" align="absmiddle" /></span></div>');
+		echo('<table width="98%" cellpadding="0" cellspacing="0" border="0">');
+		echo('<tr>');
+		echo('<td width="114" rowspan="3" align="left">');
+		if ($Weblog->blg_portrait != '') {
+			echo('<img src="/img/b/' . $Weblog->blg_portrait . '.' . BABEL_PORTRAIT_EXT . '" class="blog_portrait" border="0" />');
+		} else {
+			echo('<img src="/img/p_blog.png" class="blog_portrait" border="0" />');
+		}
+		echo('</td>');
+		echo('<td height="35">');
+		echo('<h1 class="ititle">' . make_plaintext($Weblog->blg_title) . '</h1>');
+		if (intval($Weblog->blg_dirty) == 1) {
+			echo(' <span class="tip_i">');
+			_v_ico_silk('error');
+			echo(' 需要重新构建</span>');
+		}
+		echo('</td>');
+		echo('</tr>');
+		echo('<tr>');
+		echo('<td valign="top" height="45">');
+		
+		echo('</td>');
+		echo('</tr>');
+		echo('<tr>');
+		echo('<td valign="top" height="24"><span class="tip_i">');
+		_v_ico_silk('pencil');
+		echo(' <a href="/blog/compose/' . $Weblog->blg_id . '.vx">撰写新文章</a>');
+		echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
+		_v_ico_silk('table_multiple');
+		echo(' <strong>管理文章</strong>');
+		echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
+		_v_ico_silk('arrow_refresh');
+		echo(' <a href="/blog/build/' . $Weblog->blg_id . '.vx">重新构建</a>');
+		echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
+		_v_ico_silk('cross');
+		echo(' <a href="#;" onclick="if (confirm(' . "'你确认要彻底关闭这个博客网站吗？\\n\\n这些数据被删除后将无法恢复。'" . ')) { location.href = ' . "'/blog/destroy/" . $Weblog->blg_id . ".vx'; } else { return false; }" . '">彻底关闭</a>');
+		echo('</td>');
+		echo('</tr>');
+		echo('</table>');
+		_v_hr();
+		echo('<span class="tip_i">');
+		_v_ico_silk('chart_bar');
+		echo(' 建立于 ' . date('Y 年 n 月 j 日', $Weblog->blg_created) . '，其中 ' . $Weblog->blg_entries . ' 篇文章共获得了 ' . $Weblog->blg_comments . ' 条评论</span>');
+		_v_hr();
+		$sql = "SELECT bge_id, bge_status, bge_mode, bge_comments, bge_revisions, bge_title FROM babel_weblog_entry WHERE bge_pid = {$Weblog->blg_id} ORDER BY bge_created DESC";
+		$rs = mysql_query($sql);
+		echo('<table cellpadding="0" cellspacing="0" border="0">');
+		while ($_entry = mysql_fetch_array($rs)) {
+			echo('<tr>');
+			echo('<td width="40" height="40" valign="middle" align="center">');
+			_v_ico_tango_32('mimetypes/x-office-document');
+			echo('</td>');
+			echo('<td width="400" height="40" align="left"><span class="text_large">');
+			echo(make_plaintext($_entry['bge_title']));
+			echo('</span>');
+			echo('<span class="tip_i">');
+			echo(' ... ' . $_entry['bge_revisions'] . ' 次编辑 ... ' . $_entry['bge_comments'] . ' 篇评论');
+			echo('</span>');
+			echo('&nbsp;&nbsp;&nbsp;');
+			_v_ico_silk('page_edit');
+			echo(' 编辑');
+			echo('&nbsp;&nbsp;&nbsp;');
+			_v_ico_silk('delete');
+			echo(' 删除');
+			echo('</td>');
+			echo('</tr>');
+		}
+		echo('</table>');
+		echo('</div>');
+		_v_hr();
+		echo('<span class="tip_i">我的其他博客网站</span>');
 		_v_d_e();
 		_v_d_e();
 	}
