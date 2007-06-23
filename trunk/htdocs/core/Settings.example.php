@@ -39,6 +39,8 @@ define('BABEL_PREFIX', '/www/babel');
 
 define('BABEL_WEBLOG_PREFIX', '/www/weblog');
 
+define('BABEL_WEBLOG_BUILD_INTERVAL', 10);
+
 /*
  *
  * You could choose from zh_cn, zh_tw and en_us now.
