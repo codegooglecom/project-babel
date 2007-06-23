@@ -1145,7 +1145,7 @@ class Standalone {
 			$weblog_id = intval($_GET['weblog_id']);
 			if (Weblog::vxMatchPermission($this->User->usr_id, $weblog_id)) {
 				Weblog::vxBuild($this->User->usr_id, $weblog_id);
-				return $this->URL->vxToRedirect($this->URL->vxGetBlogAdmin());
+				return $this->URL->vxToRedirect($_SERVER['HTTP_REFERER']);
 			} else {
 				return js_alert('你没有权力对这个博客网站进行操作', '/blog/admin.vx');
 			}

@@ -74,6 +74,7 @@ define('BABEL_USR_EXPENSE_PAGE', 30);
 define('BABEL_NOD_PAGE', 20);
 define('BABEL_TPC_PAGE', 60);
 define('BABEL_MSG_PAGE', 10);
+define('BABEL_ING_PAGE', 10);
 
 /* max items in savepoint collection */
 define('BABEL_SVP_LIMIT', 20);

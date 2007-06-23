@@ -776,4 +776,60 @@ function make_highlight($text, $needle, $options = null, $highlight = null)
 
     return $text;
 }
+
+function make_pages($pages, $p, $prefix, $suffix) {
+	if ($pages > 1) {
+		echo('<div class="pages">');
+		if ($p > 1) {
+			echo('<a href="' . $prefix . ($p - 1) . $suffix . '" class="nextprev">&#171; previous</a>');
+		} else {
+			echo('<span class="nextprev">&#171; previous</span>');
+		}
+		$max = $pages + 1;
+		if ($pages < 20) {
+			for ($i = 1; $i < $max; $i++) {
+				if ($p == $i) {
+					echo('<span class="current">' . $i . '</span>');
+				} else {
+					echo('<a href="' . $prefix . $i . $suffix . '">'. $i . '</a>');
+				}
+			}
+		} else {
+			if ($p < 21) {
+				for ($i = 1; $i < 21; $i++) {
+					if ($p == $i) {
+						echo('<span class="current">' . $i . '</span>');
+					} else {
+						echo('<a href="' . $prefix . $i . $suffix . '">'. $i . '</a>');
+					}
+				}
+				echo('<a href="' . $prefix . $pages . $suffix . '">'. $pages . '</a>');
+			} else {
+				echo('<a href="' . $prefix . '1' . $suffix . '">1</a>');
+				$left = $p - 7;
+				$right = $p + 7;
+				if ($right > $pages) {
+					$right = $pages;
+				}
+				$max = $right + 1;
+				for ($i = $left; $i < $max; $i++) {
+					if ($p == $i) {
+						echo('<span class="current">' . $i . '</span>');
+					} else {
+						echo('<a href="' . $prefix . $i . $suffix . '">'. $i . '</a>');
+					}
+				}
+				if ($right != $pages) {
+					echo('<a href="' . $prefix . $pages . $suffix . '">'. $pages . '</a>');
+				}
+			}
+		}
+		if ($p < $pages) {
+			echo('<a href="' . $prefix . ($p + 1) . $suffix . '" class="nextprev">next &#187;</a>');
+		} else {
+			echo('<span class="nextprev">next &#187;</span>');
+		}
+		echo('<br /></div>');
+	}
+}
 ?>

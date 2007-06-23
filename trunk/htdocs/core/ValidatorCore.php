@@ -2826,7 +2826,7 @@ class Validator {
 		} else {
 			$published = 0;
 		}
-		$sql = "INSERT INTO babel_weblog_entry(bge_pid, bge_uid, bge_title, bge_body, bge_status, bge_created, bge_lastupdated, bge_published) VALUES({$weblog_id}, {$uid}, '{$title}', '{$body}', {$status}, {$time}, {$time}, {$published})";
+		$sql = "INSERT INTO babel_weblog_entry(bge_pid, bge_uid, bge_title, bge_body, bge_status, bge_revisions, bge_created, bge_lastupdated, bge_published) VALUES({$weblog_id}, {$uid}, '{$title}', '{$body}', {$status}, 1, {$time}, {$time}, {$published})";
 		mysql_query($sql, $this->db) or die(mysql_error());
 		if (mysql_affected_rows($this->db) == 1) {
 			return true;
