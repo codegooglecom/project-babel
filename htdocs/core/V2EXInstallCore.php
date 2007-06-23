@@ -1033,6 +1033,8 @@ $i->vxSetupBoard('fireworks', 'Adobe Fireworks', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('flash', 'Adobe Flash', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('apollo', 'Adobe Apollo', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('photoshop', 'Adobe Photoshop', 3, 3, 1, 2, '', '');
+$i->vxSetupBoard('silverlight', 'Microsoft Silverlight', 3, 3, 1, 2, '', '');
+$i->vxSetupBoard('moonlight', 'Moonlight', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('eva', 'Neon Genesis Evangelion', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('c', 'C/C++', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('csharp', 'C#', 3, 3, 1, 2, '', '');

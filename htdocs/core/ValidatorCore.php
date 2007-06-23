@@ -2753,6 +2753,89 @@ class Validator {
 	}
 	
 	/* E module: Blog Config Update logic */
+	
+	/* S module: Blog Compose Check logic */
+	
+	public function vxBlogComposeCheck() {
+		$rt = array();
+		
+		$rt['errors'] = 0;
+
+		/* bge_title (max: 50) */
+		
+		$rt['bge_title_value'] = '';
+		$rt['bge_title_maxlength'] = 50;
+		$rt['bge_title_error'] = 0;
+		$rt['bge_title_error_msg'] = array(1 => '你没有写文章的标题', 2 => '你输入的文章的标题过长');
+		
+		if (isset($_POST['bge_title'])) {
+			$rt['bge_title_value'] = fetch_single($_POST['bge_title']);
+			if ($rt['bge_title_value'] == '') {
+				$rt['errors']++;
+				$rt['bge_title_error'] = 1;
+			} else {
+				if (mb_strlen($rt['bge_title_value'], 'UTF-8') > $rt['bge_title_maxlength']) {
+					$rt['errors']++;
+					$rt['bge_title_error'] = 2;
+				}
+			}
+		} else {
+			$rt['errors']++;
+			$rt['bge_title_error'] = 1;
+		}
+		
+		/* bge_body (null) (text) */
+		
+		$rt['bge_body_value'] = '';
+		$rt['bge_body_maxlength'] = 1024 * 1024 * 2;
+		$rt['bge_body_error'] = 0;
+		$rt['bge_body_error_msg'] = array(2 => '你输入的文章内容过长');
+		
+		if (isset($_POST['bge_body'])) {
+			$rt['bge_body_value'] = fetch_multi($_POST['bge_body']);
+			if (mb_strlen($rt['bge_body_value'], 'UTF-8') > $rt['bge_body_maxlength']) {
+				$rt['errors']++;
+				$rt['bge_body_error'] = 2;
+			}
+		}
+
+		/* bge_status (0 => draft, 1 => publish) */
+		
+		$rt['bge_status_value'] = 0;
+		
+		if (isset($_POST['bge_status'])) {
+			$rt['bge_status_value'] = intval($_POST['bge_status']);
+			if (!in_array($rt['bge_status_value'], array(0, 1))) {
+				$rt['bge_status_value'] = 0;
+			}
+		}
+		
+		return $rt;
+	}
+	
+	/* E module: Blog Compose Check logic */
+	
+	/* S module: Blog Compose Insert logic */
+	
+	public function vxBlogComposeInsert($uid, $weblog_id, $title, $body, $status) {
+		$title = mysql_real_escape_string($title);
+		$body = mysql_real_escape_string($body);
+		$time = time();
+		if ($status == 1) {
+			$published = $time;
+		} else {
+			$published = 0;
+		}
+		$sql = "INSERT INTO babel_weblog_entry(bge_pid, bge_uid, bge_title, bge_body, bge_status, bge_created, bge_lastupdated, bge_published) VALUES({$weblog_id}, {$uid}, '{$title}', '{$body}', {$status}, {$time}, {$time}, {$published})";
+		mysql_query($sql, $this->db) or die(mysql_error());
+		if (mysql_affected_rows($this->db) == 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/* E module: Blog Compose Insert logic */
 }
 
 /* E Validator class */

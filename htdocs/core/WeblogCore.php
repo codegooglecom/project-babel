@@ -63,7 +63,7 @@ class Weblog {
 	public static function vxBuild($user_id, $weblog_id) {
 		$start = microtime(true);
 		$Weblog = new Weblog($weblog_id);
-		if (($start - $Weblog->blg_lastbuilt) < 100) {
+		if (($start - $Weblog->blg_lastbuilt) < BABEL_WEBLOG_BUILD_INTERVAL) {
 			$_SESSION['babel_message_weblog'] = _vo_ico_silk('clock') . ' 距离上次构建时间尚不足 100 秒，本次操作取消，请等待 ' . (100 - intval($start - $Weblog->blg_lastbuilt)) . ' 秒之后再试验';
 		} else {
 			$bytes = 0;
@@ -83,12 +83,34 @@ class Weblog {
 			$s->cache_dir = BABEL_PREFIX . '/cache/smarty';
 			$s->config_dir = BABEL_PREFIX . '/cfg';
 			
+			$s->assign('ico_feed', 'http://' . BABEL_WEBLOG_SITE_STATIC . '/img/icons/silk/feed.png');
+			
 			$s->assign('site_theme', $Weblog->blg_theme);
 			$s->assign('site_static', BABEL_WEBLOG_SITE_STATIC);
+			$s->assign('site_babel', BABEL_DNS_NAME);
 			$s->assign('site_weblog_root', 'http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_name . '/');
 			$s->assign('site_title', make_plaintext($Weblog->blg_title));
+			$s->assign('site_description', make_plaintext($Weblog->blg_description));
+			
 			$s->assign('built', date('Y-n-j G:i:s T', time()));
+			
 			$s->assign('user_nick', $Weblog->usr_nick);
+			
+			$sql = "SELECT bge_id, bge_title, bge_body, bge_published, usr_id, usr_nick FROM babel_weblog_entry, babel_user WHERE bge_uid = usr_id AND bge_uid = {$Weblog->usr_id} AND bge_pid = {$Weblog->blg_id} ORDER BY bge_published DESC LIMIT 10";
+			$rs = mysql_query($sql);
+			$_entries = array();
+			$i = 0;
+			while ($_entry = mysql_fetch_array($rs)) {
+				$i++;
+				$_entries[$_entry['bge_id']] = $_entry;
+				$_entries[$_entry['bge_id']]['usr_nick_plain'] = make_plaintext($_entry['usr_nick']);
+				$_entries[$_entry['bge_id']]['usr_nick_url'] = urlencode($_entry['usr_nick']);
+				$_entries[$_entry['bge_id']]['bge_published_plain'] = date('Y-n-j G:i:s T', $_entry['bge_published']);
+			}
+			mysql_free_result($rs);
+			
+			$s->assign('entries', $_entries);
+			
 			$o_index = $s->fetch('index.smarty');
 			$files++;
 			$bytes += file_put_contents($file_index, $o_index);

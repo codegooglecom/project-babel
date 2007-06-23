@@ -1816,6 +1816,16 @@ class Page {
 				$this->vxMenu($_menu_options);
 				$this->vxBlogCompose($options);
 				break;
+				
+			case 'blog_compose_save':
+				$_menu_options['modules']['new_members'] = false;
+				$_menu_options['modules']['friends'] = false;
+				$_menu_options['modules']['stats'] = false;
+				$_menu_options['modules']['fav'] = false;
+				$this->vxSidebar($show = false);
+				$this->vxMenu($_menu_options);
+				$this->vxBlogComposeSave($options);
+				break;
 		}
 		echo('</div>');
 	}
@@ -3679,7 +3689,7 @@ class Page {
 		echo('<div class="blank" align="left">');
 		echo('<span class="text_large"><img src="' . CDN_IMG . 'ico_id.gif" align="absmiddle" class="home" />会员注册信息填写</span>');
 		_v_hr();
-		echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
+		echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 		echo('<form action="/user/create.vx" method="post" id="usrNew">');
 		echo('<tr><td width="200" align="right">电子邮件</td><td width="200" align="left"><input tabindex="1" type="text" maxlength="100" class="sl" name="usr_email" /></td>');
 		echo('<td width="150" rowspan="8" valign="middle" align="right">');
@@ -3717,7 +3727,7 @@ class Page {
 				} else {
 					echo('<div class="blank" align="left"><span class="text_large"><img src="' . CDN_IMG . 'ico_id.gif" align="absmiddle" class="home" />会员登录</span>');
 				}
-				echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
+				echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 				echo('<form action="http://' . BABEL_DNS_NAME . '/login.vx" method="post" id="Login">');
 				if (strlen($rt['return']) > 0) {
 					echo('<input type="hidden" name="return" value="' . make_single_return($rt['return']) . '" />');
@@ -3774,7 +3784,7 @@ class Page {
 			// something wrong
 
 			case 'error':
-				echo('<div class="blank" align="left"><span class="text_large"><img src="' . CDN_IMG . 'ico_important.gif" align="absmiddle" class="home" />对不起，你刚才提交的信息里有些错误</span><table cellpadding="0" cellspacing="0" border="0" class="form"><form action="http://' . BABEL_DNS_NAME . '/login.vx" method="post" id="Login">');
+				echo('<div class="blank" align="left"><span class="text_large"><img src="' . CDN_IMG . 'ico_important.gif" align="absmiddle" class="home" />对不起，你刚才提交的信息里有些错误</span><table cellpadding="5" cellspacing="0" border="0" class="form"><form action="http://' . BABEL_DNS_NAME . '/login.vx" method="post" id="Login">');
 				if (strlen($rt['return']) > 0) {
 					echo('<input type="hidden" name="return" value="' . make_single_return($rt['return']) . '" />');
 				}
@@ -3825,7 +3835,7 @@ class Page {
 			default:
 			case 'get':
 				echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_recover.gif" align="absmiddle" class="home" />通过电子邮件找回密码</span>');
-				echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
+				echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 				echo('<form action="/passwd.vx" method="post" id="form_passwd">');
 				echo('<tr><td width="200" align="right">电子邮件</td><td width="200" align="left"><input type="text" maxlength="100" class="sl" name="usr" tabindex="1" /></td><td width="150" rowspan="2" valign="middle" align="right">');
 				_v_btn_f('找回密码', 'form_passwd');
@@ -3836,7 +3846,7 @@ class Page {
 				break;
 			case 'key':
 				echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_recover.gif" align="absmiddle" class="home" />请输入新密码</span>');
-				echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
+				echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 				echo('<form action="/passwd.vx" method="post" id="form_passwd">');
 				echo('<input type="hidden" value="' . $options['key'] . '" name="key" />');
 				echo('<tr><td width="200" align="right">新密码</td><td width="200" align="left"><input type="password" maxlength="100" class="sl" name="usr_password" tabindex="1" /></td><td width="150" rowspan="2" valign="middle" align="right">');
@@ -3848,14 +3858,14 @@ class Page {
 			case 'reset':
 				if ($options['rt']['errors'] == 0) {
 					echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_smile.gif" class="home" align="absmiddle" />密码已经更新，现在请使用新密码登录</span>');
-					echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
+					echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 					echo('<form action="/login.vx" method="post" id="form_login">');
 					echo('<tr><td width="200" align="right">电子邮件或昵称</td><td width="200" align="left"><input type="text" maxlength="100" class="sl" name="usr" tabindex="1" /></td><td width="150" rowspan="2" valign="middle" align="right"><input type="image" src="/img/graphite/login.gif" alt="' . Vocabulary::action_login . '" /></td></tr><tr><td width="200" align="right">密码</td><td align="left"><input type="password" maxlength="32" class="sl" name="usr_password" tabindex="2" /></td></tr></form></table>');
 					_v_hr();
 					echo('<img src="/img/ico_tip.gif" align="absmiddle" class="ico" />会话有效时间为一个月，超过此时间之后你将需要重新登录</div>');
 				} else {
 					echo('<span class="text_large"><img src="/img/ico_recover.gif" align="absmiddle" class="home" />请输入新密码</span>');
-					echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
+					echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 					echo('<form action="/passwd.vx" method="post" id="form_passwd">');
 					echo('<input type="hidden" value="' . $options['key'] . '" name="key" />');
 					/* S result: usr_password and usr_confirm */
@@ -3968,7 +3978,7 @@ class Page {
 				
 				if ($rt['err'] > 0) {
 					echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_important.gif" align="absmiddle" class="home" />出了一点问题</span>');
-					echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
+					echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 					echo('<form action="/passwd.vx" method="post" id="form_passwd">');
 					echo('<tr><td width="200" align="right" valign="top">电子邮件</td><td width="200" align="left"><div class="error"><input type="text" maxlength="100" class="sl" name="usr" tabindex="1" />&nbsp;<img src="/img/sico_error.gif" align="absmiddle" /><br />' . $rt['err_msg'][$rt['err']] . '</div></td><td width="150" rowspan="2" valign="middle" align="right">');
 					_v_btn_f('找回密码', 'form_passwd');
@@ -4623,7 +4633,7 @@ class Page {
 			_v_ico_silk('exclamation');
 			echo(' 对不起，你刚才提交的信息里有些错误</span>');
 			_v_hr();
-			echo('<table cellpadding="0" cellspacing="0" border="0" class="form"><form action="/user/create.vx" method="post" id="usrNew">');
+			echo('<table cellpadding="5" cellspacing="0" border="0" class="form"><form action="/user/create.vx" method="post" id="usrNew">');
 
 			/* result: usr_email */
 			if ($rt['usr_email_error'] != 0) {
@@ -4720,7 +4730,7 @@ class Page {
 			$am = null;
 			
 			echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_smile.gif" align="absmiddle" class="home" />' . $this->User->usr_nick . '，恭喜你！注册成功</span>');
-			echo('<table cellpadding="0" cellspacing="0" border="0" class="form"><tr><td width="200" align="right" valign="top">电子邮件</td><td align="left">' . $this->User->usr_email . '</td></tr><tr><td width="200" align="right" valign="top">昵称</td><td align="left">' . $this->User->usr_nick . '</td></tr><tr><td width="200" align="right" valign="top">密码</td><td align="left"><div class="important">');
+			echo('<table cellpadding="5" cellspacing="0" border="0" class="form"><tr><td width="200" align="right" valign="top">电子邮件</td><td align="left">' . $this->User->usr_email . '</td></tr><tr><td width="200" align="right" valign="top">昵称</td><td align="left">' . $this->User->usr_nick . '</td></tr><tr><td width="200" align="right" valign="top">密码</td><td align="left"><div class="important">');
 			$max = rand(1, 6) * 4;
 			for ($i = 1; $i <= $max; $i++) {
 				echo($i == 0) ? '':'&nbsp;&nbsp;';
@@ -4731,7 +4741,7 @@ class Page {
 			
 			echo('<div class="blank" align="left">');
 			echo('<span class="text_large"><img src="/img/ico_smile.gif" align="absmiddle" class="home" />上传头像</span>');
-			echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
+			echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 			echo('<form enctype="multipart/form-data" action="/recv/portrait.vx" method="post" id="usrPortrait">');
 			echo('<tr><td width="200" align="right">现在的样子</td><td width="200" align="left">');
 			if ($this->User->usr_portrait != '') {
@@ -4767,7 +4777,7 @@ class Page {
 		echo('<span class="text_large">');
 		_v_ico_tango_32('actions/go-up', 'absmiddle', 'home');
 		echo('上传头像</span>');
-		echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
+		echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 		echo('<form enctype="multipart/form-data" action="/recv/portrait.vx" method="post" id="form_user_portrait">');
 		echo('<tr><td width="200" align="right">现在的样子</td><td width="200" align="left">');
 		if ($this->User->usr_portrait != '') {
@@ -4801,7 +4811,7 @@ class Page {
 		echo('<span class="text_large">');
 		_v_ico_tango_32('categories/applications-internet', 'absmiddle', 'home');
 		echo('会员所在地修改</span>');
-		echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
+		echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 		echo('<tr><td width="200" align="right">当前所在地</td><td width="200" align="left"><a href="/geo/' . $this->User->usr_geo . '" class="o">' . $this->Geo->map["name"][$this->User->usr_geo] . '</a></td>');
 		
 		echo('<td width="150" rowspan="2" valign="middle" align="right">');
@@ -4836,7 +4846,7 @@ class Page {
 		echo('<span class="text_large"><a name="settings"></a>');
 		_v_ico_tango_32('categories/preferences-system', 'absmiddle', 'home');
 		echo('会员信息修改</span>');
-		echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
+		echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 		echo('<form action="/user/update.vx" method="post" id="form_user_info">');
 		echo('<tr><td width="200" align="right">真实姓名</td><td width="200" align="left"><input tabindex="1" type="text" maxlength="80" class="sl" name="usr_full" value="' . make_single_return($this->User->usr_full) . '" /></td>');
 		
@@ -5000,7 +5010,7 @@ class Page {
 			_v_ico_silk('exclamation');
 			echo(' 对不起，你刚才提交的信息里有些错误');
 			_v_hr();
-			echo('<table cellpadding="0" cellspacing="0" border="0" class="form"><form action="/user/update.vx" method="post" id="form_user_info">');
+			echo('<table cellpadding="5" cellspacing="0" border="0" class="form"><form action="/user/update.vx" method="post" id="form_user_info">');
 
 			/* result: usr_email */
 			if ($rt['usr_full_error'] != 0) {
@@ -5237,7 +5247,7 @@ class Page {
 			echo('<img src="/img/icons/silk/information.png" align="absmiddle" /> 如果你不打算修改密码的话，就不要在密码框处填入任何信息</div>');
 		} else {
 			echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_smile.gif" align="absmiddle" class="home" />' . make_plaintext($rt['usr_nick_value']) . ' 的会员信息修改成功</span>');
-			echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
+			echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 			echo('<tr><td width="200" align="right" valign="middle">真实姓名</td><td align="left">' . make_plaintext($rt['usr_full_value']) . '</td>');
 			echo('<td width="150" rowspan="15" valign="middle" align="right">');
 			_v_btn_l('重新修改', '/user/modify.vx');
@@ -5297,7 +5307,7 @@ class Page {
 			echo('</table></div>');
 			if ($rt['pswitch'] == 'b') {
 				echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_tip.gif" align="absmiddle" class="home" />修改密码之后你现在将需要重新登录</span>');
-				echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
+				echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 				echo('<form action="/login.vx" method="post" id="Login">');
 				echo('<tr><td width="200" align="right">电子邮件或昵称</td><td width="200" align="left"><input type="text" maxlength="100" class="sl" name="usr" tabindex="1" /></td><td width="150" rowspan="2" valign="middle" align="right"><input type="image" src="/img/graphite/login.gif" alt="' . Vocabulary::action_login . '" /></td></tr><tr><td width="200" align="right">密码</td><td align="left"><input type="password" maxlength="32" class="sl" name="usr_password" tabindex="2" /></td></tr></form></table></div>');
 			} else {
@@ -7099,7 +7109,7 @@ class Page {
 			_v_ico_map();
 			echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; <a href="/board/view/' . $Node->nod_id . '.html">' . $Node->nod_title . '</a> &gt; <a href="/topic/view/' . $Topic->tpc_id . '/' . $_SESSION['babel_page_topic'] . '.html">' . make_plaintext($Topic->tpc_title) . '</a> &gt; ' . make_plaintext($Post->pst_title) . ' &gt; ' . Vocabulary::action_modifypost . '</div>');
 			echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_conf.gif" align="absmiddle" class="home" />' . Vocabulary::action_modifypost . '</span>');
-			echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
+			echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 			echo('<form action="/post/update/' . $Post->pst_id . '.vx" method="post" id="form_post_modify">');
 			echo('<tr><td width="100" align="right">标题</td><td width="400" align="left"><input type="text" class="sll" name="pst_title" value="' . make_single_return($Post->pst_title, 0) . '" /></td></tr>');
 			echo('<tr><td width="100" align="right" valign="top">回复内容</td><td width="400" align="left"><textarea rows="15" class="ml" name="pst_content">' . make_multi_return($Post->pst_content, 0) . '</textarea></td></tr>');
@@ -7152,7 +7162,7 @@ class Page {
 				_v_ico_silk('exclamation');
 				echo(' ' . Vocabulary::msg_submitwrong);
 				_v_hr();
-				echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
+				echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 				echo('<form action="/post/update/' . $Post->pst_id . '.vx" method="post" id="form_post_modify">');
 				if ($rt['pst_title_error'] > 0) {
 					echo('<tr><td width="100" align="right" valign="top">回复标题</td><td width="400" align="left"><div class="error" style="width: 308px;"><input type="text" class="sll" name="pst_title" value="' . make_single_return($rt['pst_title_value']) . '" /><br />');
@@ -7227,7 +7237,7 @@ class Page {
 			_v_ico_map();
 			echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; <a href="/board/view/' . $Node->nod_id . '.html">' . $Node->nod_title . '</a> &gt; <a href="/topic/view/' . $Topic->tpc_id . '.html">' . make_plaintext($Topic->tpc_title) . '</a> &gt; ' . Vocabulary::action_modifytopic . '</div>');
 			echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_conf.gif" align="absmiddle" class="home" />' . Vocabulary::action_modifytopic . '</span>');
-			echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
+			echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 			echo('<form action="/topic/update/' . $Topic->tpc_id . '.vx" method="post" id="form_topic_modify">');
 			echo('<tr><td width="100" align="right">标题</td><td width="400" align="left"><input type="text" class="sll" name="tpc_title" value="' . make_single_return($Topic->tpc_title, 0) . '" /></td></tr>');
 			echo('<tr><td width="100" align="right" valign="top">主题简介</td><td width="400" align="left"><textarea rows="5" class="ml" name="tpc_description">' . make_multi_return($Topic->tpc_description, 0) . '</textarea></td></tr>');
@@ -7306,7 +7316,7 @@ class Page {
 				_v_ico_silk('exclamation');
 				echo(' 对不起，你刚才提交的信息里有些错误');
 				_v_hr();
-				echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
+				echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 				echo('<form action="/topic/update/' . $Topic->tpc_id . '.vx" method="post" id="form_topic_update">');
 				if ($rt['tpc_title_error'] > 0) {
 					echo('<tr><td width="100" align="right">标题</td><td width="400" align="left"><div class="error" style="width: 308px;"><input type="text" class="sll" name="tpc_title" value="' . make_single_return($rt['tpc_title_value']) . '" /><br />');
@@ -7361,7 +7371,7 @@ class Page {
 				_v_ico_map();
 				echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; <a href="/board/view/' . $Node->nod_id . '.html">' . $Node->nod_title . '</a> &gt; ' . Vocabulary::action_newtopic . '</div>');
 				echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_conf.gif" align="absmiddle" class="home" />' . Vocabulary::action_newtopic . '</span>');
-				echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
+				echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 				echo('<form action="/topic/create/' . $Node->nod_id . '.vx" method="post" id="form_topic_create">');
 				echo('<tr><td width="100" align="right">标题</td><td width="400" align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="tpc_title" /></td></tr>');
 				echo('<tr><td width="100" align="right" valign="top">主题简介</td><td width="400" align="left"><textarea onfocus="brightBox(this);" onblur="dimBox(this);" rows="5" class="ml" name="tpc_description"></textarea></td></tr>');
@@ -7383,7 +7393,7 @@ class Page {
 				_v_ico_map();
 				echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; ' . Vocabulary::action_newtopic . '</div>');
 				echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_conf.gif" align="absmiddle" class="home" />' . Vocabulary::action_newtopic . '</span>');
-				echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
+				echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 				echo('<form action="/topic/create/' . $Section->nod_id . '.vx" method="post" id="form_topic_create">');
 				echo('<tr><td width="100" align="right">标题</td><td width="400" align="left"><input type="text" class="sll" name="tpc_title" /></td></tr>');
 				echo('<tr><td width="100" align="right">位于</td><td width="400" align="left"><select name="tpc_pid">');
@@ -7466,7 +7476,7 @@ class Page {
 			_v_ico_silk('exclamation');
 			echo(' 对不起，你刚才提交的信息里有些错误');
 			_v_hr();
-			echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
+			echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 			
 			if ($rt['mode'] == 'board') {
 				echo('<form action="/topic/create/' . $Node->nod_id . '.vx" method="post" id="form_topic_create">');
@@ -7569,7 +7579,7 @@ class Page {
 			if ($rt['autistic']) {
 				echo('<div class="notify">你正在回复的主题位于自闭模式的讨论区中，你只能回复自闭模式的讨论区中你自己创建的主题。</div>');
 			}
-			echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
+			echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 			echo('<form action="/post/create/' . $Topic->tpc_id . '.vx" method="post" id="form_post_create">');
 			if ($rt['pst_title_error'] > 0) {
 				echo('<tr><td width="100" align="right">回复标题</td><td width="400" align="left"><div class="error" style="width: 308px;"><input type="text" class="sll" name="pst_title" value="' . make_single_return($rt['pst_title_value']) . '" /><br />');
@@ -8077,7 +8087,7 @@ google_color_url = "00CC00";
 			echo('<div class="light_odd" align="left"><span class="tip">');
 			_v_ico_silk('vcard');
 			echo(' 在回复之前你需要先进行登录</span>');
-			echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
+			echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 			echo('<form action="/login.vx" method="post" id="Login">');
 			echo('<input type="hidden" name="return" value="/topic/view/' . $Topic->tpc_id . '.html" />');
 			echo('<tr><td width="200" align="right">电子邮件或昵称</td><td width="200" align="left"><input type="text" maxlength="100" class="sl" name="usr" tabindex="1" /></td><td width="150" rowspan="2" valign="middle" align="right"><input type="image" src="/img/graphite/login.gif" alt="' . Vocabulary::action_login . '" tabindex="3" /></td></tr><tr><td width="200" align="right">密码</td><td align="left"><input type="password" maxlength="32" class="sl" name="usr_password" tabindex="2" /></td></tr></form></table></div>');
@@ -10633,7 +10643,7 @@ google_color_url = "00CC00";
 		_v_ico_silk('application_add');
 		echo(' 创建新的博客网站');
 		_v_hr();
-		echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
+		echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 		echo('<form action="/blog/create/save.vx" method="post" id="form_blog_create">');
 		echo('<tr><td width="100" align="right">访问地址</td><td width="400" align="left">http://blog.v2ex.com/<input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sl" name="blg_name" /></td></tr>');
 		echo('<tr><td width="100" align="right"></td><td width="400" align="left"><span class="tip_i">只能使用数字（a-z），字母（0-9），横线（-）及下划线（_）</span></td></tr>');
@@ -10668,7 +10678,7 @@ google_color_url = "00CC00";
 			echo(' 创建并维持一个新的博客网站需要至少 ' . BABEL_BLG_PRICE . ' 个铜币，而你现在的铜币不足');
 			echo('</div>');
 		}
-		echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
+		echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 		echo('<form action="/blog/create/save.vx" method="post" id="form_blog_create">');
 		if ($rt['blg_name_error'] > 0) {
 			echo('<tr><td width="100" align="right">访问地址</td><td width="400" align="left"><div class="error" style="width: 335px;">http://blog.v2ex.com/<input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sl" name="blg_name" value="' . make_single_return($rt['blg_name_value'], 0) . '" /><br />');
@@ -10725,7 +10735,7 @@ google_color_url = "00CC00";
 		echo('<span class="text_large">');
 		_v_ico_tango_32('actions/go-up', 'absmiddle', 'home');
 		echo('修改图标</span>');
-		echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
+		echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 		echo('<form enctype="multipart/form-data" action="/blog/portrait/save/' . $Weblog->blg_id . '.vx" method="post" id="form_blog_portrait">');
 		echo('<tr><td width="200" align="right">现在的图标</td><td width="200" align="left">');
 		if ($Weblog->blg_portrait != '') {
@@ -10763,7 +10773,7 @@ google_color_url = "00CC00";
 		_v_ico_silk('cog_edit');
 		echo(' 设置博客网站');
 		_v_hr();
-		echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
+		echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 		echo('<form action="/blog/config/save/' . $Weblog->blg_id . '.vx" method="post" id="form_blog_config">');
 		echo('<tr><td width="100" align="right">访问地址</td><td width="400" align="left"><a href="http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_name . '" target="_blank">http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_name . '</a> <img src="/img/ext.png" align="absmiddle" /></td></tr>');
 		echo('<tr><td width="100" align="right">标题</td><td width="400" align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="blg_title" value="' . make_single_return($Weblog->blg_title, 0) . '" /></td></tr>');
@@ -10792,7 +10802,7 @@ google_color_url = "00CC00";
 		_v_ico_silk('cog_edit');
 		echo(' 设置博客网站');
 		_v_hr();
-		echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
+		echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 		echo('<form action="/blog/config/save/' . $rt['weblog_id'] . '.vx" method="post" id="form_blog_config">');
 		echo('<tr><td width="100" align="right">访问地址</td><td width="400" align="left"><a href="http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_name . '" target="_blank">http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_name . '</a> <img src="/img/ext.png" align="absmiddle" /></td></tr>');
 		if ($rt['blg_title_error'] > 0) {
@@ -10827,8 +10837,6 @@ google_color_url = "00CC00";
 	
 	public function vxBlogCompose($Weblog) {
 		_v_m_s();
-		echo('<script language="javascript" type="text/javascript" src="/js/tiny_mce/tiny_mce.js"></script>');
-		echo('<script language="javascript" type="text/javascript">tinyMCE.init({ mode : "textareas", theme : "advanced", plugins : "table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,zoom,flash,searchreplace,print,contextmenu", theme_advanced_buttons1 : "copy,cut,paste,separator,bold,italic,underline,strikethrough,separator,justifyleft,justifycenter,justifyright,justifyfull", theme_advanced_buttons1_add : "separator,fontselect,fontsizeselect", theme_advanced_buttons3_add : "separator,insertdate,inserttime,preview,zoom,separator,forecolor,backcolor", theme_advanced_toolbar_location : "bottom", content_css : "/css/themes/' . BABEL_THEME . '/css_tiny_mce.css" });</script>');
 		echo('<link type="text/css" rel="stylesheet" href="/css/themes/' . BABEL_THEME . '/css_weblog.css" />');
 		_v_b_l_s();
 		_v_ico_map();
@@ -10838,15 +10846,75 @@ google_color_url = "00CC00";
 		_v_ico_silk('pencil');
 		echo(' 撰写新文章');
 		_v_hr();
-		echo('<table cellpadding="0" cellspacing="0" border="0" class="form">');
+		echo('<table cellpadding="5" cellspacing="" border="0" class="form">');
 		echo('<form action="/blog/compose/save/' . $Weblog->blg_id . '.vx" method="post" id="form_blog_compose">');
 		echo('<tr><td width="100" align="right">标题</td><td align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="bge_title" value="" /></td></tr>');
-		echo('<tr><td width="100" align="right" valign="top">内容</td><td  align="left"><textarea cols="60" rows="25" name="bge_body"></textarea></td></tr>');
+		
+		echo('<tr><td width="100" align="right" valign="top">内容</td><td  align="left">');
+		echo('<textarea class="ml" rows="30" name="bge_body"></textarea>');
+		echo('</td></tr>');
+		
 		echo('<tr><td width="100" align="right">标签</td><td align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="bge_tags" value="" /></td></tr>');
 		echo('<tr><td width="100" align="right">状态</td><td align="left">');
 		echo('<select name="bge_status">');
 		echo('<option value="0">草稿</option>');
 		echo('<option value="1">公开发布</option>');
+		echo('</select>');
+		echo('</td></tr>');
+		echo('<td width="500" colspan="3" valign="middle" align="right">');
+		_v_btn_f('保存', 'form_blog_compose');
+		echo('</td></tr>');
+		echo('</form>');
+		echo('</table>');
+		_v_hr();
+		_v_ico_silk('information');
+		echo(' 发布新文章之后将需要重新构建');
+		_v_d_e();
+		_v_d_e();
+	}
+	
+	public function vxBlogComposeSave($rt) {
+		$Weblog =& $rt['Weblog'];
+		_v_m_s();
+		echo('<link type="text/css" rel="stylesheet" href="/css/themes/' . BABEL_THEME . '/css_weblog.css" />');
+		_v_b_l_s();
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; <a href="/blog/admin.vx">博客网志</a> &gt; <a href="/blog/config/' . $Weblog->blg_id . '.vx">' . make_plaintext($Weblog->blg_title) . '</a> &gt; 撰写新文章 <span class="tip_i"><small>alpha</small></span>');
+		_v_d_e();
+		_v_b_l_s();
+		_v_ico_silk('pencil');
+		echo(' 撰写新文章');
+		_v_hr();
+		echo('<table cellpadding="5" cellspacing="" border="0" class="form">');
+		echo('<form action="/blog/compose/save/' . $Weblog->blg_id . '.vx" method="post" id="form_blog_compose">');
+		if ($rt['bge_title_error'] > 0) {
+			echo('<tr><td width="100" align="right">标题</td><td width="400" align="left"><div class="error" style="width: 308px;"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="bge_title" value="' . make_single_return($rt['bge_title_value'], 0) . '" /><br />');
+			_v_ico_silk('exclamation');
+			echo(' ' . $rt['bge_title_error_msg'][$rt['bge_title_error']]);
+			echo('</div></td></tr>');
+		} else {
+			echo('<tr><td width="100" align="right">标题</td><td width="400" align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="bge_title" value="' . make_single_return($rt['bge_title_value'], 0) . '" /> ');
+			_v_ico_silk('tick');
+			echo('</td></tr>');
+		}
+		if ($rt['bge_body_error'] > 0) {
+			echo('<tr><td width="100" align="right" valign="top">内容</td><td  align="left"><div class="error"><textarea class="ml" rows="30" name="bge_body">' . make_multi_return($rt['bge_body_value'], 0) . '</textarea>');
+			_v_ico_silk('exclamation');
+			echo(' ' . $rt['bge_body_error_msg'][$rt['bge_body_error']]);
+			echo('</div></td></tr>');
+		} else {
+			echo('<tr><td width="100" align="right" valign="top">内容</td><td  align="left"><textarea class="ml" rows="30" name="bge_body">' . make_multi_return($rt['bge_body_value'], 0) . '</textarea></td></tr>');
+		}
+		echo('<tr><td width="100" align="right">标签</td><td align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="bge_tags" value="" /></td></tr>');
+		echo('<tr><td width="100" align="right">状态</td><td align="left">');
+		echo('<select name="bge_status">');
+		if ($rt['bge_status_value'] == 1) {
+			echo('<option value="0">草稿</option>');
+			echo('<option value="1" selected="selected">公开发布</option>');
+		} else {
+			echo('<option value="0" selected="selected">草稿</option>');
+			echo('<option value="1">公开发布</option>');
+		}
 		echo('</select>');
 		echo('</td></tr>');
 		echo('<td width="500" colspan="3" valign="middle" align="right">');
