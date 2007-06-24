@@ -1,5 +1,7 @@
 <?php
 class Weblog {
+	const DEFAULT_ACTION = 'list';
+	
 	public function __construct($weblog_id) {
 		$sql = "SELECT blg_id, blg_uid, blg_name, blg_title, blg_description, blg_portrait, blg_theme, blg_entries, blg_comments, blg_builds, blg_dirty, blg_created, blg_lastupdated, blg_lastbuilt, usr_id, usr_nick, usr_gender, usr_portrait, usr_created, usr_brief FROM babel_weblog, babel_user WHERE blg_uid = usr_id AND blg_id = {$weblog_id}";
 		$rs = mysql_query($sql);
@@ -118,7 +120,7 @@ class Weblog {
 			
 			$s->assign('user_nick', $Weblog->usr_nick);
 			
-			$sql = "SELECT bge_id, bge_title, bge_body, bge_published, usr_id, usr_nick FROM babel_weblog_entry, babel_user WHERE bge_uid = usr_id AND bge_uid = {$Weblog->usr_id} AND bge_pid = {$Weblog->blg_id} ORDER BY bge_published DESC LIMIT 10";
+			$sql = "SELECT bge_id, bge_title, bge_body, bge_published, usr_id, usr_nick FROM babel_weblog_entry, babel_user WHERE bge_uid = usr_id AND bge_uid = {$Weblog->usr_id} AND bge_pid = {$Weblog->blg_id} AND bge_status = 1 ORDER BY bge_published DESC LIMIT 10";
 			$rs = mysql_query($sql);
 			$_entries = array();
 			$i = 0;

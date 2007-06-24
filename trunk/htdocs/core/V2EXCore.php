@@ -1991,7 +1991,7 @@ class Page {
 			$o .= '<div class="blank">';
 			$o .= '<a href="/feed/ing">' . _vo_ico_silk('feed', 'right') . '</a>';
 			$o .= _vo_ico_silk('hourglass');
-			$o .= ' 大家在做什么 ... <a href="/ing" class="var" style="color: ' . rand_color() . '">浏览最新的 50 条更新</a>';
+			$o .= ' 大家在做什么 ... <a href="/ing" class="var" style="color: ' . rand_color() . '">浏览更多更新</a>';
 			if ($_SESSION['babel_ua']['GECKO_DETECTED'] || $_SESSION['babel_ua']['KHTML_DETECTED'] || $_SESSION['babel_ua']['OPERA_DETECTED']) {
 				$hack_width = 'width="100%" ';
 			} else {
@@ -10975,7 +10975,7 @@ google_color_url = "00CC00";
 		echo('<link type="text/css" rel="stylesheet" href="/css/themes/' . BABEL_THEME . '/css_weblog.css" />');
 		_v_b_l_s();
 		_v_ico_map();
-		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; <a href="/blog/admin.vx">博客网志</a> &gt; <a href="/blog/config/' . $Weblog->blg_id . '.vx">' . make_plaintext($Weblog->blg_title) . '</a> &gt; 撰写新文章 <span class="tip_i"><small>alpha</small></span>');
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; <a href="/blog/admin.vx">博客网志</a> &gt; <a href="/blog/' . Weblog::DEFAULT_ACTION . '/' . $Weblog->blg_id . '.vx">' . make_plaintext($Weblog->blg_title) . '</a> &gt; 撰写新文章 <span class="tip_i"><small>alpha</small></span>');
 		_v_d_e();
 		_v_b_l_s();
 		_v_ico_silk('pencil');
@@ -11023,7 +11023,7 @@ google_color_url = "00CC00";
 		echo('<link type="text/css" rel="stylesheet" href="/css/themes/' . BABEL_THEME . '/css_weblog.css" />');
 		_v_b_l_s();
 		_v_ico_map();
-		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; <a href="/blog/admin.vx">博客网志</a> &gt; <a href="/blog/config/' . $Weblog->blg_id . '.vx">' . make_plaintext($Weblog->blg_title) . '</a> &gt; 撰写新文章 <span class="tip_i"><small>alpha</small></span>');
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; <a href="/blog/admin.vx">博客网志</a> &gt; <a href="/blog/' . Weblog::DEFAULT_ACTION . '/' . $Weblog->blg_id . '.vx">' . make_plaintext($Weblog->blg_title) . '</a> &gt; 撰写新文章 <span class="tip_i"><small>alpha</small></span>');
 		_v_d_e();
 		_v_b_l_s();
 		_v_ico_silk('pencil');
@@ -11078,14 +11078,14 @@ google_color_url = "00CC00";
 		echo('<link type="text/css" rel="stylesheet" href="/css/themes/' . BABEL_THEME . '/css_weblog.css" />');
 		_v_b_l_s();
 		_v_ico_map();
-		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; 博客网志 &gt; <a href="/blog/config/' . $Weblog->blg_id . '.vx">' . make_plaintext($Weblog->blg_title) . '</a> &gt; 管理文章 <span class="tip_i"><small>alpha</small></span>');
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; <a href="/blog/admin.vx">博客网志</a> &gt; <a href="/blog/' . Weblog::DEFAULT_ACTION . '/' . $Weblog->blg_id . '.vx">' . make_plaintext($Weblog->blg_title) . '</a> &gt; 管理文章 <span class="tip_i"><small>alpha</small></span>');
 		_v_d_e();
 		_v_b_l_s();
 		_v_d_tr_s();
 		echo('');
 		_v_d_e();
 		_v_ico_silk('anchor');
-		echo(' 博客网志 &gt; ' . make_plaintext($Weblog->blg_title) . ' &gt; 管理文章');
+		echo(' 我的博客网志 &gt; ' . make_plaintext($Weblog->blg_title));
 		_v_hr();
 		if (isset($_SESSION['babel_message_weblog'])) {
 			if ($_SESSION['babel_message_weblog'] != '') {
