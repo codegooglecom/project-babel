@@ -1391,6 +1391,7 @@ $i->vxSetupBoard('lady', '女人话题', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('gonewiththewind', '飘', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('spider', '蜘蛛', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('soho', 'SOHO', 4, 4, 1, 2, '', '');
+$i->vxSetupBoard('1984', '1984', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('punk', '我们坐车不买票', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('sports', '生命在于运动', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('otaku', '御宅族', 4, 4, 1, 2, '', '');

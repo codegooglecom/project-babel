@@ -58,7 +58,7 @@ switch ($m) {
 		break;
 		
 	case 'chart_data_topic_node':
-		if ($o = $c->load('a' . __PAGE__)) {
+		if ($o = $c->load(__PAGE__)) {
 		} else {
 			$o = Data::vxDataTopicByNode();
 			$c->save($o, __PAGE__);
