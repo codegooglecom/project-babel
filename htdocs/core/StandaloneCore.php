@@ -1210,6 +1210,34 @@ class Standalone {
 		}
 	}
 	
+	public function vxBlogErase() {
+		if ($this->User->vxIsLogin()) {
+			if (isset($_GET['entry_id'])) {
+				$entry_id = intval($_GET['entry_id']);
+				$sql = "SELECT bge_id, bge_uid, bge_pid FROM babel_weblog_entry WHERE bge_id = {$entry_id}";
+				$rs = mysql_query($sql);
+				if ($_entry = mysql_fetch_array($rs)) {
+					if ($_entry['bge_uid'] == $this->User->usr_id) {
+						$sql = "DELETE FROM babel_weblog_entry WHERE bge_id = {$entry_id}";
+						mysql_unbuffered_query($sql);
+						$Weblog = new Weblog($_entry['bge_pid']);
+						$Weblog->vxSetDirty();
+						$Weblog->vxUpdateEntries();
+						URL::vxToRedirect(URL::vxGetBlogList($Weblog->blg_id));
+					} else {
+						return js_alert('你没有权力对这个博客网站进行操作', '/blog/admin.vx');
+					}
+				} else {
+					return js_alert('指定的文章没有找到', '/blog/admin.vx');
+				}
+			} else {
+				return js_alert('指定的文章没有找到', '/blog/admin.vx');
+			}
+		} else {
+			return js_alert('你还没有登录，请登录之后再进行操作', '/blog/admin.vx');
+		}
+	}
+	
 	/* E public modules */
 	
 }
