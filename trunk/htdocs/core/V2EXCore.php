@@ -10864,7 +10864,7 @@ google_color_url = "00CC00";
 		echo('<link type="text/css" rel="stylesheet" href="/css/themes/' . BABEL_THEME . '/css_weblog.css" />');
 		_v_b_l_s();
 		_v_ico_map();
-		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; <a href="/blog/admin.vx">博客网志</a> &gt; <a href="/blog/config/' . $Weblog->blg_id . '.vx">' . make_plaintext($Weblog->blg_title) . '</a> &gt; 修改图标 <span class="tip_i"><small>alpha</small></span>');
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; <a href="/blog/admin.vx">博客网志</a> &gt; <a href="/blog/' . Weblog::DEFAULT_ACTION . '/' . $Weblog->blg_id . '.vx">' . make_plaintext($Weblog->blg_title) . '</a> &gt; 修改图标 <span class="tip_i"><small>alpha</small></span>');
 		_v_d_e();
 		_v_b_l_s();
 		echo('<span class="text_large">');
@@ -10902,7 +10902,7 @@ google_color_url = "00CC00";
 		echo('<link type="text/css" rel="stylesheet" href="/css/themes/' . BABEL_THEME . '/css_weblog.css" />');
 		_v_b_l_s();
 		_v_ico_map();
-		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; <a href="/blog/admin.vx">博客网志</a> &gt; ' . make_plaintext($Weblog->blg_title) . ' &gt; 设置 <span class="tip_i"><small>alpha</small></span>');
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; <a href="/blog/admin.vx">博客网志</a> &gt; <a href="/blog/' . Weblog::DEFAULT_ACTION . '/' . $Weblog->blg_id . '.vx">' . make_plaintext($Weblog->blg_title) . '</a> &gt; 设置 <span class="tip_i"><small>alpha</small></span>');
 		_v_d_e();
 		_v_b_l_s();
 		_v_ico_silk('cog_edit');
@@ -10931,7 +10931,7 @@ google_color_url = "00CC00";
 		echo('<link type="text/css" rel="stylesheet" href="/css/themes/' . BABEL_THEME . '/css_weblog.css" />');
 		_v_b_l_s();
 		_v_ico_map();
-		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; <a href="/blog/admin.vx">博客网志</a> &gt; ' . make_plaintext($Weblog->blg_title) . ' &gt; 设置 <span class="tip_i"><small>alpha</small></span>');
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; <a href="/blog/admin.vx">博客网志</a> &gt; <a href="/blog/' . Weblog::DEFAULT_ACTION . '/' . $Weblog->blg_id . '.vx">' . make_plaintext($Weblog->blg_title) . '</a> &gt; 设置 <span class="tip_i"><small>alpha</small></span>');
 		_v_d_e();
 		_v_b_l_s();
 		_v_ico_silk('cog_edit');
@@ -11163,19 +11163,35 @@ google_color_url = "00CC00";
 			echo('<span class="tip_i">');
 			echo(' ... ' . $_entry['bge_revisions'] . ' 次编辑 ... ' . $_entry['bge_comments'] . ' 篇评论');
 			echo('</span>');
-			echo('&nbsp;&nbsp;&nbsp;');
+			echo('&nbsp;&nbsp;&nbsp;<a href="/blog/edit/' . $_entry['bge_id'] . '.vx" class="btn">');
 			_v_ico_silk('page_edit');
-			echo(' 编辑');
-			echo('&nbsp;&nbsp;&nbsp;');
+			echo(' 编辑</a>');
+			echo('&nbsp;&nbsp;&nbsp;<a href="#;" onclick="if (confirm(' . "'确认删除？'" . ')) { location.href = ' . "'/blog/erase/" . $_entry['bge_id'] . ".vx'" . '; } else { return false; }" class="btn">');
 			_v_ico_silk('delete');
-			echo(' 删除');
+			echo(' 删除</a>');
 			echo('</td>');
 			echo('</tr>');
 		}
 		echo('</table>');
 		echo('</div>');
-		_v_hr();
-		echo('<span class="tip_i">我的其他博客网站</span>');
+		$sql = "SELECT blg_id, blg_title FROM babel_weblog WHERE blg_uid = {$this->User->usr_id} AND blg_id != {$Weblog->blg_id} ORDER BY blg_title";
+		$sql_md5 = md5($sql);
+		if ($o = $this->cs->get($sql_md5)) {
+		} else {
+			$rs = mysql_query($sql);
+			$o = '';
+			if (mysql_num_rows($rs) > 0) {			
+				$o .= _vo_hr();
+				$o .= '<span class="tip_i">我的其他博客网站&nbsp;&nbsp;';
+				while ($_weblog = mysql_fetch_array($rs)) {
+					$o .= '<a href="/blog/list/' . $_weblog['blg_id'] . '.vx" class="var" style="color: ' . rand_color() . '">' . make_plaintext($_weblog['blg_title']) . '</a>&nbsp;&nbsp;';
+				}
+				$o .= '</span>';
+			}
+			mysql_free_result($rs);
+			$this->cs->save($o, $sql_md5);
+		}
+		echo $o;
 		_v_d_e();
 		_v_d_e();
 	}

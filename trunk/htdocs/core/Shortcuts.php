@@ -44,7 +44,7 @@ function _v_btn_f($label, $form) {
 }
 
 function _v_ico_silk($icon, $align = 'absmiddle') {
-	echo('<img src="' . CDN_UI . 'img/icons/silk/' . $icon . '.png" align="' . $align . '" />');
+	echo('<img src="' . CDN_UI . 'img/icons/silk/' . $icon . '.png" align="' . $align . '" border="0" />');
 }
 
 function _vo_ico_silk($icon, $align = 'absmiddle') {

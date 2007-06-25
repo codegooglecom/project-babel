@@ -53,6 +53,11 @@ class Weblog {
 		return true;
 	}
 	
+	public function vxSetDirty() {
+		$sql = "UPDATE babel_weblog SET blg_dirty = 1 WHERE blg_id = {$this->blg_id}";
+		mysql_unbuffered_query($sql);
+	}
+	
 	public static function vxMatchPermission($user_id, $weblog_id) {
 		$sql = "SELECT blg_uid FROM babel_weblog WHERE blg_id = {$weblog_id}";
 		$rs = mysql_query($sql);
