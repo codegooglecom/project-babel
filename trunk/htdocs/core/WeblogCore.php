@@ -86,7 +86,7 @@ class Weblog {
 	}
 	
 	public static function vxGetDefaultEditorMode() {
-		return 1;
+		return 0;
 	}
 	
 	public static function vxBuild($user_id, $weblog_id) {

@@ -233,6 +233,11 @@ class URL {
 		return $url;
 	}
 	
+	public static function vxGetBlogEdit($entry_id) {
+		$url = '/blog/edit/' . $entry_id . '.vx';
+		return $url;
+	}
+	
 	public static function vxGetBlogList($weblog_id) {
 		$url = '/blog/list/' . $weblog_id . '.vx';
 		return $url;

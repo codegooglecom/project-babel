@@ -2340,6 +2340,43 @@ switch ($m) {
 				break;
 			}
 		}
+		
+	case 'blog_edit':
+		if ($p->User->vxIsLogin()) {
+			if (isset($_GET['weblog_id'])) {
+				$entry_id = intval($_GET['entry_id']);
+				$Entry = new Entry($entry_id);
+				if ($Entry->entry) {
+					if ($Entry->bge_uid == $p->User->usr_id) {
+						$p->vxHead($msgSiteTitle = '编辑文章');
+						$p->vxBodyStart();
+						$p->vxTop();
+						$p->vxContainer('blog_edit', $Entry);
+						break;
+					} else {
+						$_SESSION['babel_message_weblog'] = '你没有权力对这个博客网站的文章进行操作';
+						die($p->URL->vxToRedirect($p->URL->vxGetBlogAdmin()));
+						break;
+					}
+				} else {
+					$_SESSION['babel_message_weblog'] = '指定的文章没有找到';
+					die($p->URL->vxToRedirect($p->URL->vxGetBlogAdmin()));
+					break;
+				}
+			} else {
+				die($p->URL->vxToRedirect($p->URL->vxGetBlogAdmin()));
+				break;
+			}
+		} else {
+			if (isset($_GET['entry_id'])) {
+				$entry_id = intval($_GET['entry_id']);
+				die($p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetBlogEdit($entry_id))));
+				break;
+			} else {
+				die($p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetBlogAdmin())));
+				break;
+			}
+		}
 }
 
 if ($global_has_bottom) {

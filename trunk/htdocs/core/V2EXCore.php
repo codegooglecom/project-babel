@@ -81,6 +81,7 @@ if (V2EX_BABEL == 1) {
 	require_once('core/ValidatorCore.php');
 	require_once('core/BookmarkCore.php');
 	require_once('core/WeblogCore.php');
+	require_once('core/EntryCore.php');
 } else {
 	die('<strong>Project Babel</strong><br /><br />Made by <a href="http://labs.v2ex.com/">V2EX</a> | software for internet');
 }
@@ -10898,6 +10899,7 @@ google_color_url = "00CC00";
 	}
 	
 	public function vxBlogConfig($Weblog) {
+		$_modes = Weblog::vxGetEditorModes();
 		_v_m_s();
 		echo('<link type="text/css" rel="stylesheet" href="/css/themes/' . BABEL_THEME . '/css_weblog.css" />');
 		_v_b_l_s();
@@ -10913,6 +10915,13 @@ google_color_url = "00CC00";
 		echo('<tr><td width="100" align="right">访问地址</td><td width="400" align="left"><a href="http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_name . '" target="_blank">http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_name . '</a> <img src="/img/ext.png" align="absmiddle" /></td></tr>');
 		echo('<tr><td width="100" align="right">标题</td><td width="400" align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="blg_title" value="' . make_single_return($Weblog->blg_title, 0) . '" /></td></tr>');
 		echo('<tr><td width="100" align="right" valign="top">简介</td><td width="400" align="left"><textarea onfocus="brightBox(this);" onblur="dimBox(this);" rows="10" class="ml" name="blg_description">' . make_multi_return($Weblog->blg_description, 0) . '</textarea></td></tr>');
+		echo('<tr><td width="100" align="right">新文章格式</td><td width="400" align="left">');
+		echo('<select name="blg_editor">');
+		foreach ($_modes as $key => $mode) {
+			echo('<option value="' . $key . '">' . $mode . '</option>');
+		}
+		echo('</select>');
+		echo('</td></tr>');
 		echo('<td width="500" colspan="3" valign="middle" align="right">');
 		_v_btn_f('更新设置', 'form_blog_config');
 		echo('</td></tr>');
@@ -11157,7 +11166,7 @@ google_color_url = "00CC00";
 			echo('<td width="40" height="40" valign="middle" align="center">');
 			_v_ico_tango_32('mimetypes/x-office-document');
 			echo('</td>');
-			echo('<td width="400" height="40" align="left"><span class="text_large">');
+			echo('<td height="40" align="left"><span class="text_large">');
 			echo(make_plaintext($_entry['bge_title']));
 			echo('</span>');
 			echo('<span class="tip_i">');

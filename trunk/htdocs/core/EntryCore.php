@@ -8,11 +8,11 @@
  *  
  * Subversion Keywords:
  *
- * $Id: V2EXCore.php 155 2007-06-23 22:46:15Z v2ex.livid $
- * $Date: 2007-06-24 06:46:15 +0800 (Sun, 24 Jun 2007) $
- * $Revision: 155 $
- * $Author: v2ex.livid $
- * $URL: https://project-babel.googlecode.com/svn/trunk/htdocs/core/V2EXCore.php $
+ * $Id$
+ * $Date$
+ * $Revision$
+ * $Author$
+ * $URL$
  *
  * Copyright (C) 2006 Livid Liu <v2ex.livid@mac.com>
  *
@@ -33,12 +33,26 @@
 
 class Entry {
 	public function __construct($entry_id) {
-		$sql = "SELECT bge_id FROM babel_weblog_entry WHERE bge_id = {$entry_id}";
+		$sql = "SELECT bge_id, bge_pid, bge_uid, bge_title, bge_body, bge_comments, bge_trackbacks, bge_tags, bge_status, bge_mode, bge_revisions, bge_hash, bge_created, bge_lastupdated, bge_published FROM babel_weblog_entry WHERE bge_id = {$entry_id}";
 		$rs = mysql_num_rows($sql);
 		if (mysql_num_rows($rs) == 1) {
 			$this->entry = true;
 			$_entry = mysql_fetch_array($rs);
-			$this->bge_id = $_entry['bge_id'];
+			$this->bge_id = intval($_entry['bge_id']);
+			$this->bge_pid = intval($_entry['bge_id']);
+			$this->bge_uid = intval($_entry['bge_id']);
+			$this->bge_title = $_entry['bge_title'];
+			$this->bge_body = $_entry['bge_body'];
+			$this->bge_comments = intval($_entry['bge_comments']);
+			$this->bge_trackbacks = intval($_entry['bge_trackbacks']);
+			$this->bge_tags = $_entry['bge_tags'];
+			$this->bge_status = intval($_entry['bge_status']);
+			$this->bge_mode = intval($_entry['bge_mode']);
+			$this->bge_revisions = intval($_entry['bge_revisions']);
+			$this->bge_hash = $_entry['bge_hash'];
+			$this->bge_created = intval($_entry['bge_created']);
+			$this->bge_lastupdated = intval($_entry['bge_lastupdated']);
+			$this->bge_published = intval($_entry['bge_published']);
 		} else {
 			$this->entry = false;
 		}
