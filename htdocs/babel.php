@@ -2195,7 +2195,7 @@ switch ($m) {
 				if (Weblog::vxMatchPermission($p->User->usr_id, $weblog_id)) {
 					$rt = $p->Validator->vxBlogConfigCheck($p->User->usr_money, $weblog_id);
 					if ($rt['errors'] == 0) {
-						$p->Validator->vxBlogConfigUpdate($weblog_id, $rt['blg_title_value'], $rt['blg_description_value']);
+						$p->Validator->vxBlogConfigUpdate($weblog_id, $rt['blg_title_value'], $rt['blg_description_value'], $rt['blg_mode_value'], $rt['blg_comment_permission_value']);
 						die($p->URL->vxToRedirect($p->URL->vxGetBlogAdmin()));
 						break;
 					} else {
@@ -2269,14 +2269,14 @@ switch ($m) {
 					if ($Weblog->blg_uid == $p->User->usr_id) {
 						$rt = $p->Validator->vxBlogComposeCheck();
 						if ($rt['errors'] == 0) {
-							$p->Validator->vxBlogComposeInsert($p->User->usr_id, $Weblog->blg_id, $rt['bge_title_value'], $rt['bge_body_value'], $rt['bge_status_value']);
+							$p->Validator->vxBlogComposeInsert($p->User->usr_id, $Weblog->blg_id, $rt['bge_title_value'], $rt['bge_body_value'], $rt['bge_mode_value'], $rt['bge_comment_permission_value'], $rt['bge_status_value']);
 							$Weblog->vxUpdateEntries();
 							$sql = "SELECT bge_id FROM babel_weblog_entry WHERE bge_uid = {$p->User->usr_id} ORDER BY bge_created DESC LIMIT 1";
 							$rs = mysql_query($sql);
 							$entry_id = mysql_result($rs, 0, 0);
 							mysql_free_result($rs);
 							Weblog::vxBuild($p->User->usr_id, $Weblog->blg_id);
-							die($p->URL->vxToRedirect($p->URL->vxGetBlogAdmin()));
+							die($p->URL->vxToRedirect($p->URL->vxGetBlogList($Weblog->blg_id)));
 							break;
 						} else {
 							$rt['Weblog'] = $Weblog;
@@ -2343,7 +2343,7 @@ switch ($m) {
 		
 	case 'blog_edit':
 		if ($p->User->vxIsLogin()) {
-			if (isset($_GET['weblog_id'])) {
+			if (isset($_GET['entry_id'])) {
 				$entry_id = intval($_GET['entry_id']);
 				$Entry = new Entry($entry_id);
 				if ($Entry->entry) {

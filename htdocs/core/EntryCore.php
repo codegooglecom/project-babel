@@ -34,13 +34,13 @@
 class Entry {
 	public function __construct($entry_id) {
 		$sql = "SELECT bge_id, bge_pid, bge_uid, bge_title, bge_body, bge_comments, bge_trackbacks, bge_tags, bge_status, bge_mode, bge_revisions, bge_hash, bge_created, bge_lastupdated, bge_published FROM babel_weblog_entry WHERE bge_id = {$entry_id}";
-		$rs = mysql_num_rows($sql);
+		$rs = mysql_query($sql);
 		if (mysql_num_rows($rs) == 1) {
 			$this->entry = true;
 			$_entry = mysql_fetch_array($rs);
 			$this->bge_id = intval($_entry['bge_id']);
-			$this->bge_pid = intval($_entry['bge_id']);
-			$this->bge_uid = intval($_entry['bge_id']);
+			$this->bge_pid = intval($_entry['bge_pid']);
+			$this->bge_uid = intval($_entry['bge_uid']);
 			$this->bge_title = $_entry['bge_title'];
 			$this->bge_body = $_entry['bge_body'];
 			$this->bge_comments = intval($_entry['bge_comments']);

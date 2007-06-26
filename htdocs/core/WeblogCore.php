@@ -3,7 +3,7 @@ class Weblog {
 	const DEFAULT_ACTION = 'list';
 	
 	public function __construct($weblog_id) {
-		$sql = "SELECT blg_id, blg_uid, blg_name, blg_title, blg_description, blg_portrait, blg_theme, blg_entries, blg_comments, blg_builds, blg_dirty, blg_created, blg_lastupdated, blg_lastbuilt, usr_id, usr_nick, usr_gender, usr_portrait, usr_created, usr_brief FROM babel_weblog, babel_user WHERE blg_uid = usr_id AND blg_id = {$weblog_id}";
+		$sql = "SELECT blg_id, blg_uid, blg_name, blg_title, blg_description, blg_portrait, blg_theme, blg_mode, blg_entries, blg_comments, blg_comment_permission, blg_builds, blg_dirty, blg_created, blg_lastupdated, blg_lastbuilt, usr_id, usr_nick, usr_gender, usr_portrait, usr_created, usr_brief FROM babel_weblog, babel_user WHERE blg_uid = usr_id AND blg_id = {$weblog_id}";
 		$rs = mysql_query($sql);
 		if (mysql_num_rows($rs) == 1) {
 			$this->weblog = true;
@@ -15,8 +15,10 @@ class Weblog {
 			$this->blg_description = $_weblog['blg_description'];
 			$this->blg_portrait = $_weblog['blg_portrait'];
 			$this->blg_theme = $_weblog['blg_theme'];
+			$this->blg_mode = intval($_weblog['blg_mode']);
 			$this->blg_entries = intval($_weblog['blg_entries']);
 			$this->blg_comments = intval($_weblog['blg_comments']);
+			$this->blg_comment_permission = intval($_weblog['blg_comment_permission']);
 			$this->blg_builds = intval($_weblog['blg_builds']);
 			$this->blg_dirty = intval($_weblog['blg_dirty']);
 			$this->blg_created = intval($_weblog['blg_created']);
@@ -76,16 +78,29 @@ class Weblog {
 	}
 	
 	public static function vxGetEditorModes() {
-		$modes = array(
+		$_modes = array(
 			0 => '纯文本 / Plain Text',
 			1 => '超文本 / HTML',
 			2 => 'UBB',
 			3 => 'Textile'
 		);
-		return $modes;
+		return $_modes;
 	}
 	
 	public static function vxGetDefaultEditorMode() {
+		return 0;
+	}
+	
+	public static function vxGetCommentPermissions() {
+		$_permissions = array(
+			0 => '评论禁止',
+			1 => '任何人都可以评论',
+			2 => '我在 V2EX 上的好友可以评论'
+		);
+		return $_permissions;
+	}
+	
+	public static function vxGetDefaultCommentPermission() {
 		return 0;
 	}
 	

@@ -2732,6 +2732,33 @@ class Validator {
 			}
 		}
 		
+		/* blg_mode */
+		$_modes = Weblog::vxGetEditorModes();
+		$mode_default = Weblog::vxGetDefaultEditorMode();
+		
+		$rt['blg_mode_value'] = $mode_default;
+		
+		if (isset($_POST['blg_mode'])) {
+			$rt['blg_mode_value'] = intval($_POST['blg_mode']);
+			if (!in_array($rt['blg_mode_value'], array_keys($_modes))) {
+				$rt['blg_mode_value'] = $mode_default;
+			}
+		}
+		
+		/* blg_comment_permission */
+		
+		$_comment_permissions = Weblog::vxGetCommentPermissions();
+		$comment_permission_default = Weblog::vxGetDefaultCommentPermission();
+		
+		$rt['blg_comment_permission_value'] = $comment_permission_default;
+		
+		if (isset($_POST['blg_comment_permission'])) {
+			$rt['blg_comment_permission_value'] = intval($_POST['blg_comment_permission']);
+			if (!in_array($rt['blg_comment_permission_value'], array_keys($_comment_permissions))) {
+				$rt['blg_comment_permission_value'] = $comment_permission_default;
+			}
+		}
+		
 		return $rt;
 	}
 	
@@ -2739,12 +2766,12 @@ class Validator {
 	
 	/* S module: Blog Config Update logic */
 	
-	public function vxBlogConfigUpdate($weblog_id, $title, $description) {
+	public function vxBlogConfigUpdate($weblog_id, $title, $description, $mode, $comment_permission) {
 		$title = mysql_real_escape_string($title);
 		$description = mysql_real_escape_string($description);
 		$time = time();
-		$sql = "UPDATE babel_weblog SET blg_title = '{$title}', blg_description = '{$description}', blg_lastupdated = {$time}, blg_dirty = 1 WHERE blg_id = {$weblog_id}";
-		mysql_query($sql, $this->db);
+		$sql = "UPDATE babel_weblog SET blg_title = '{$title}', blg_description = '{$description}', blg_mode = {$mode}, blg_comment_permission = {$comment_permission}, blg_lastupdated = {$time}, blg_dirty = 1 WHERE blg_id = {$weblog_id}";
+		mysql_query($sql, $this->db) or die(mysql_error());
 		if (mysql_affected_rows($this->db) == 1) {
 			return true;
 		} else {
@@ -2798,6 +2825,33 @@ class Validator {
 				$rt['bge_body_error'] = 2;
 			}
 		}
+		
+		/* bge_mode */
+		$_modes = Weblog::vxGetEditorModes();
+		$mode_default = Weblog::vxGetDefaultEditorMode();
+		
+		$rt['bge_mode_value'] = $mode_default;
+		
+		if (isset($_POST['bge_mode'])) {
+			$rt['bge_mode_value'] = intval($_POST['bge_mode']);
+			if (!in_array($rt['bge_mode_value'], array_keys($_modes))) {
+				$rt['bge_mode_value'] = $mode_default;
+			}
+		}
+		
+		/* bge_comment_permission */
+		
+		$_comment_permissions = Weblog::vxGetCommentPermissions();
+		$comment_permission_default = Weblog::vxGetDefaultCommentPermission();
+		
+		$rt['bge_comment_permission_value'] = $comment_permission_default;
+		
+		if (isset($_POST['bge_comment_permission'])) {
+			$rt['bge_comment_permission_value'] = intval($_POST['bge_comment_permission']);
+			if (!in_array($rt['bge_comment_permission_value'], array_keys($_comment_permissions))) {
+				$rt['bge_comment_permission_value'] = $comment_permission_default;
+			}
+		}
 
 		/* bge_status (0 => draft, 1 => publish) */
 		
@@ -2817,7 +2871,7 @@ class Validator {
 	
 	/* S module: Blog Compose Insert logic */
 	
-	public function vxBlogComposeInsert($uid, $weblog_id, $title, $body, $status) {
+	public function vxBlogComposeInsert($uid, $weblog_id, $title, $body, $mode, $comment_permission, $status) {
 		$title = mysql_real_escape_string($title);
 		$hash = md5($body);
 		$body = mysql_real_escape_string($body);
@@ -2827,8 +2881,8 @@ class Validator {
 		} else {
 			$published = 0;
 		}
-		$sql = "INSERT INTO babel_weblog_entry(bge_pid, bge_uid, bge_title, bge_body, bge_status, bge_revisions, bge_hash, bge_created, bge_lastupdated, bge_published) VALUES({$weblog_id}, {$uid}, '{$title}', '{$body}', {$status}, 1, '{$hash}', {$time}, {$time}, {$published})";
-		mysql_query($sql, $this->db) or die(mysql_error());
+		$sql = "INSERT INTO babel_weblog_entry(bge_pid, bge_uid, bge_title, bge_body, bge_mode, bge_comment_permission, bge_status, bge_revisions, bge_hash, bge_created, bge_lastupdated, bge_published) VALUES({$weblog_id}, {$uid}, '{$title}', '{$body}', {$mode}, {$comment_permission}, {$status}, 1, '{$hash}', {$time}, {$time}, {$published})";
+		mysql_query($sql, $this->db);
 		if (mysql_affected_rows($this->db) == 1) {
 			return true;
 		} else {
