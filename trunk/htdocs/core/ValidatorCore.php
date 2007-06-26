@@ -2852,7 +2852,7 @@ class Validator {
 				$rt['bge_comment_permission_value'] = $comment_permission_default;
 			}
 		}
-
+		
 		/* bge_status (0 => draft, 1 => publish) */
 		
 		$rt['bge_status_value'] = 0;
@@ -2873,7 +2873,7 @@ class Validator {
 	
 	public function vxBlogComposeInsert($uid, $weblog_id, $title, $body, $mode, $comment_permission, $status) {
 		$title = mysql_real_escape_string($title);
-		$hash = md5($body);
+		$hash = md5($title . "\n\n" . $body);
 		$body = mysql_real_escape_string($body);
 		$time = time();
 		if ($status == 1) {
@@ -2891,6 +2891,29 @@ class Validator {
 	}
 	
 	/* E module: Blog Compose Insert logic */
+	
+	/* S module: Blog Edit Update logic */
+	
+	public function vxBlogEditUpdate($entry_id, $title, $body, $mode, $comment_permission, $status) {
+		$title = mysql_real_escape_string($title);
+		$hash = md5($title . "\n\n" . $body);
+		$body = mysql_real_escape_string($body);
+		$time = time();
+		if ($status == 1) {
+			$published = $time;
+		} else {
+			$published = 0;
+		}
+		$sql = "UPDATE babel_weblog_entry SET bge_title = '{$title}', bge_body = '{$body}', bge_revisions = bge_revisions + 1, bge_mode = {$mode}, bge_comment_permission = {$comment_permission}, bge_status = {$status}, bge_lastupdated = {$time} WHERE bge_id = {$entry_id}";
+		mysql_query($sql, $this->db);
+		if (mysql_affected_rows($this->db) == 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/* E module: Blog Edit Update logic */
 }
 
 /* E Validator class */

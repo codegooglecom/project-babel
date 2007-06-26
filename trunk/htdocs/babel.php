@@ -2192,7 +2192,7 @@ switch ($m) {
 		} else {
 			if (isset($_GET['weblog_id'])) {
 				$weblog_id = intval($_GET['weblog_id']);
-				if (Weblog::vxMatchPermission($p->User->usr_id, $weblog_id)) {
+				if (Weblog::vxMatchWeblogPermission($p->User->usr_id, $weblog_id)) {
 					$rt = $p->Validator->vxBlogConfigCheck($p->User->usr_money, $weblog_id);
 					if ($rt['errors'] == 0) {
 						$p->Validator->vxBlogConfigUpdate($weblog_id, $rt['blg_title_value'], $rt['blg_description_value'], $rt['blg_mode_value'], $rt['blg_comment_permission_value']);
@@ -2377,6 +2377,45 @@ switch ($m) {
 				break;
 			}
 		}
+	
+	case 'blog_edit_save':
+		if (!$p->User->vxIsLogin()) {
+			if (isset($_GET['entry_id'])) {
+				$entry_id = intval($_GET['entry_id']);
+				die($p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetBlogEdit($entry_id))));
+			} else {
+				die($p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetBlogAdmin())));
+			}
+			break;
+		} else {
+			if (isset($_GET['entry_id'])) {
+				$entry_id = intval($_GET['entry_id']);
+				if (Weblog::vxMatchEntryPermission($p->User->usr_id, $entry_id)) {
+					$Entry = new Entry($entry_id);
+					$rt = $p->Validator->vxBlogComposeCheck();
+					$rt['Entry'] =& $Entry;
+					if ($rt['errors'] == 0) {
+						$p->Validator->vxBlogEditUpdate($entry_id, $rt['bge_title_value'], $rt['bge_body_value'], $rt['bge_mode_value'], $rt['bge_comment_permission_value'], $rt['bge_status_value']);
+						
+						die($p->URL->vxToRedirect($p->URL->vxGetBlogList($Entry->bge_pid)));
+						break;
+					} else {
+						$p->vxHead($msgSiteTitle = '编辑文章');
+						$p->vxBodyStart();
+						$p->vxTop();
+						$p->vxContainer('blog_edit_save', $rt);
+						break;
+					}
+				} else {
+					$_SESSION['babel_message_weblog'] = '你没有权力对这个博客网站进行操作';
+					die($p->URL->vxToRedirect($p->URL->vxGetBlogAdmin()));
+				}
+			} else {
+				die($p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetBlogAdmin())));
+			}
+			break;
+		}
+	
 }
 
 if ($global_has_bottom) {
