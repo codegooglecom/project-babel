@@ -1218,6 +1218,8 @@ class Standalone {
 				$rs = mysql_query($sql);
 				if ($_entry = mysql_fetch_array($rs)) {
 					if ($_entry['bge_uid'] == $this->User->usr_id) {
+						$sql = "DELETE FROM babel_weblog_entry_tag WHERE bet_eid = {$entry_id}";
+						mysql_unbuffered_query($sql);
 						$sql = "DELETE FROM babel_weblog_entry WHERE bge_id = {$entry_id}";
 						mysql_unbuffered_query($sql);
 						$Weblog = new Weblog($_entry['bge_pid']);
@@ -1228,6 +1230,37 @@ class Standalone {
 						return js_alert('你没有权力对这个博客网站进行操作', '/blog/admin.vx');
 					}
 				} else {
+					return js_alert('指定的文章没有找到', '/blog/admin.vx');
+				}
+			} else {
+				return js_alert('指定的文章没有找到', '/blog/admin.vx');
+			}
+		} else {
+			return js_alert('你还没有登录，请登录之后再进行操作', '/blog/admin.vx');
+		}
+	}
+	
+	public function vxBlogPublish() {
+		if ($this->User->vxIsLogin()) {
+			if (isset($_GET['entry_id'])) {
+				$entry_id = intval($_GET['entry_id']);
+				$sql = "SELECT bge_id, bge_uid, bge_pid, bge_title FROM babel_weblog_entry WHERE bge_id = {$entry_id}";
+				$rs = mysql_query($sql);
+				if ($_entry = mysql_fetch_array($rs)) {
+					mysql_free_result($rs);
+					if ($_entry['bge_uid'] == $this->User->usr_id) {
+						$time = time();
+						$sql = "UPDATE babel_weblog_entry SET bge_status = 1, bge_published = {$time} WHERE bge_id = {$entry_id}";
+						mysql_unbuffered_query($sql);
+						$Weblog = new Weblog($_entry['bge_pid']);
+						$Weblog->vxSetDirty();
+						$_SESSION['babel_message_weblog'] = '刚才发布了文章 <strong>' . make_plaintext($_entry['bge_title']) . '</strong>';
+						URL::vxToRedirect(URL::vxGetBlogList($Weblog->blg_id));
+					} else {
+						return js_alert('你没有权力对这个博客网站进行操作', '/blog/admin.vx');
+					}
+				} else {
+					mysql_free_result($rs);
 					return js_alert('指定的文章没有找到', '/blog/admin.vx');
 				}
 			} else {

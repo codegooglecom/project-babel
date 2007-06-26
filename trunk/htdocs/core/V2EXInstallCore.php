@@ -1393,6 +1393,7 @@ $i->vxSetupBoard('spider', '蜘蛛', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('soho', 'SOHO', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('1984', '1984', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('newspeak', '新话', 4, 4, 1, 2, '', '');
+$i->vxSetupBoard('doublethink', '双重思想', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('punk', '我们坐车不买票', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('sports', '生命在于运动', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('otaku', '御宅族', 4, 4, 1, 2, '', '');

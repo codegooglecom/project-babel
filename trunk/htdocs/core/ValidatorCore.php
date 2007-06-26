@@ -2864,6 +2864,17 @@ class Validator {
 			}
 		}
 		
+		/* bge_tags */
+		
+		$rt['bge_tags_value'] = array();
+		
+		if (isset($_POST['bge_tags'])) {
+			$tags = filter_tags(strtolower(fetch_single($_POST['bge_tags'])));
+			$tags = explode(' ', $tags);
+			$tags = array_unique($tags);
+			$rt['bge_tags_value'] = $tags;
+		}
+		
 		return $rt;
 	}
 	
@@ -2871,7 +2882,7 @@ class Validator {
 	
 	/* S module: Blog Compose Insert logic */
 	
-	public function vxBlogComposeInsert($uid, $weblog_id, $title, $body, $mode, $comment_permission, $status) {
+	public function vxBlogComposeInsert($user_id, $weblog_id, $title, $body, $mode, $comment_permission, $status, $tags = array()) {
 		$title = mysql_real_escape_string($title);
 		$hash = md5($title . "\n\n" . $body);
 		$body = mysql_real_escape_string($body);
@@ -2881,9 +2892,20 @@ class Validator {
 		} else {
 			$published = 0;
 		}
-		$sql = "INSERT INTO babel_weblog_entry(bge_pid, bge_uid, bge_title, bge_body, bge_mode, bge_comment_permission, bge_status, bge_revisions, bge_hash, bge_created, bge_lastupdated, bge_published) VALUES({$weblog_id}, {$uid}, '{$title}', '{$body}', {$mode}, {$comment_permission}, {$status}, 1, '{$hash}', {$time}, {$time}, {$published})";
+		$tags_sql = mysql_real_escape_string(implode(' ', $tags));
+		$sql = "INSERT INTO babel_weblog_entry(bge_pid, bge_uid, bge_title, bge_body, bge_mode, bge_comment_permission, bge_tags, bge_status, bge_revisions, bge_hash, bge_created, bge_lastupdated, bge_published) VALUES({$weblog_id}, {$user_id}, '{$title}', '{$body}', {$mode}, {$comment_permission}, '{$tags_sql}', {$status}, 1, '{$hash}', {$time}, {$time}, {$published})";
 		mysql_query($sql, $this->db);
 		if (mysql_affected_rows($this->db) == 1) {
+			if (count($tags) > 0) {
+				$entry_id = mysql_insert_id();
+				$sql = "DELETE FROM babel_weblog_entry_tag WHERE bet_eid = {$entry_id}";
+				mysql_unbuffered_query($sql);
+				foreach ($tags as $tag) {
+					$tag = mysql_real_escape_string($tag);
+					$sql = "INSERT INTO babel_weblog_entry_tag(bet_uid, bet_eid, bet_tag, bet_created) VALUES({$user_id}, {$entry_id}, '{$tag}', {$time})";
+					mysql_unbuffered_query($sql);
+				}
+			}
 			return true;
 		} else {
 			return false;
@@ -2894,7 +2916,7 @@ class Validator {
 	
 	/* S module: Blog Edit Update logic */
 	
-	public function vxBlogEditUpdate($entry_id, $title, $body, $mode, $comment_permission, $status) {
+	public function vxBlogEditUpdate($entry_id, $user_id, $title, $body, $mode, $comment_permission, $status, $tags) {
 		$title = mysql_real_escape_string($title);
 		$hash = md5($title . "\n\n" . $body);
 		$body = mysql_real_escape_string($body);
@@ -2904,9 +2926,23 @@ class Validator {
 		} else {
 			$published = 0;
 		}
-		$sql = "UPDATE babel_weblog_entry SET bge_title = '{$title}', bge_body = '{$body}', bge_revisions = bge_revisions + 1, bge_mode = {$mode}, bge_comment_permission = {$comment_permission}, bge_status = {$status}, bge_lastupdated = {$time} WHERE bge_id = {$entry_id}";
+		$tags_sql = mysql_real_escape_string(implode(' ', $tags));
+		if ($published != 0) {
+			$sql = "UPDATE babel_weblog_entry SET bge_title = '{$title}', bge_body = '{$body}', bge_tags = '{$tags_sql}', bge_revisions = bge_revisions + 1, bge_mode = {$mode}, bge_comment_permission = {$comment_permission}, bge_status = {$status}, bge_lastupdated = {$time}, bge_published = {$published} WHERE bge_id = {$entry_id}";
+		} else {
+			$sql = "UPDATE babel_weblog_entry SET bge_title = '{$title}', bge_body = '{$body}', bge_tags = '{$tags_sql}', bge_revisions = bge_revisions + 1, bge_mode = {$mode}, bge_comment_permission = {$comment_permission}, bge_status = {$status}, bge_lastupdated = {$time} WHERE bge_id = {$entry_id}";
+		}
 		mysql_query($sql, $this->db);
 		if (mysql_affected_rows($this->db) == 1) {
+			if (count($tags) > 0) {
+				$sql = "DELETE FROM babel_weblog_entry_tag WHERE bet_eid = {$entry_id}";
+				mysql_unbuffered_query($sql);
+				foreach ($tags as $tag) {
+					$tag = mysql_real_escape_string($tag);
+					$sql = "INSERT INTO babel_weblog_entry_tag(bet_uid, bet_eid, bet_tag, bet_created) VALUES({$user_id}, {$entry_id}, '{$tag}', {$time})";
+					mysql_unbuffered_query($sql);
+				}
+			}
 			return true;
 		} else {
 			return false;
