@@ -303,6 +303,11 @@ function filter_tags($input) {
 	return $output;
 }
 
+function filter_html($input) {
+	$output = strip_tags($input, '<p><br><br /><a><img><b><i><span><h1><h2>');
+	return $output;
+}
+
 function fetch_single($input) { // $input must be an element in GPC
 	$output = trim($input);
 	if (get_magic_quotes_gpc()) {

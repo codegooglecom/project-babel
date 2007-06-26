@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<meta http-equiv="cache-control" content="no-cache" />
+<meta name="keywords" content="V2EX, Babel, Livid, PHP, " />
+<title>{$site_title}</title>
+<link href="/favicon.ico" rel="shortcut icon" />
+<link href="{$site_weblog_root}/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top">
+	<div class="top_right">
+	</div>
+<div id="top_inside">
+<h1 class="title_main"><a href="{$site_weblog_root}" class="white">{$site_title}</a></h1>
+<h2 class="title_sub">{$site_description}</h2>
+</div>
+</div>
+<div id="container">
+<div id="left">
+	<div id="left_items">
+		<div class="left_title">TAGS</div>
+		<div class="cur"> Everything</div>
+		<div class="item"> 主题和回复</div>
+		<div class="item"> 短消息</div>
+		<div class="item"> 朋友们的状态</div>
+		<div class="item"> 朋友们在做的事情</div>
+		<div class="item"> 我收藏的频道</div>
+		<div class="sep"></div>
+		<div class="item"> 更多应用</div>
+		<div class="item"> 我的个人设置</div>
+	</div>
+</div>
+<div id="right">
+	<div id="right_items">
+		
+		<h2 class="dark">&nbsp;BLOGROLL</h2>
+		
+	</div>
+</div>
+<div id="main">
+	<div id="main_items">
+		<div class="top_right"><img src="{$ico_feed}" align="absmiddle" /> <a href="#;">Subscribe via RSS</a></div>
+		<h1 class="title_item">{$entry.bge_title_plain}</h1>
+		<div class="sub"><span class="tip"><small>By <a href="http://{$site_babel}/u/{$entry.usr_nick_url}">{$entry.usr_nick_plain}</a> on {$entry.bge_published_plain}</small></span>
+		<div class="toolbar">
+			add to del.icio.us
+		</div>
+		</div>
+		<div class="object">{$entry.bge_body_plain}</div>
+	</div>
+</div>
+</div>
+<div id="bottom_sep">
+</div>
+<div id="bottom">
+	<div id="bottom_inside">
+		Purple theme designed by <a href="http://www.livid.cn/" class="white">Livid</a>, this blog is proudly powered by <a href="http://blog.v2ex.com/weblog-project/" class="white"><strong>V2EX Weblog Project</strong></a>.<br />
+		<a href="http://www.v2ex.com/" class="white">V2EX</a> | <a href="http://blog.v2ex.com/v2ex" class="white">Blog</a> | <a href="http://labs.v2ex.com/" class="white">Labs</a> | <a href="http://code.google.com/" class="white">Developers</a><br />
+		<small>This page was built on {$built} by {$user_nick}</small>
+	</div>
+</div>
+</body>
+</html>

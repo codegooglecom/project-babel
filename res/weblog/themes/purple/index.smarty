@@ -43,7 +43,7 @@
 	<div id="main_items">
 		<div class="top_right"><img src="{$ico_feed}" align="absmiddle" /> <a href="#;">Subscribe via RSS</a></div>
 		{foreach from=$entries item=item key=key}
-		<h1 class="title_item">{$item.bge_title}</h1>
+		<h1 class="title_item"><a href="entry-{$item.bge_id}.html">{$item.bge_title}</a></h1>
 		<div class="sub"><span class="tip"><small>By <a href="http://{$site_babel}/u/{$item.usr_nick_url}">{$item.usr_nick_plain}</a> on {$item.bge_published_plain}</small></span>
 		<div class="toolbar">
 			add to del.icio.us
@@ -59,7 +59,7 @@
 <div id="bottom">
 	<div id="bottom_inside">
 		Purple theme designed by <a href="http://www.livid.cn/" class="white">Livid</a>, this blog is proudly powered by <a href="http://blog.v2ex.com/weblog-project/" class="white"><strong>V2EX Weblog Project</strong></a>.<br />
-		<a href="http://www.v2ex.com/" class="white">V2EX</a> | <a href="http://www.livid.cn/" class="white">Blog</a> | <a href="http://labs.v2ex.com/" class="white">Labs</a> | <a href="http://code.google.com/" class="white">Developers</a><br />
+		<a href="http://www.v2ex.com/" class="white">V2EX</a> | <a href="http://blog.v2ex.com/v2ex" class="white">Blog</a> | <a href="http://labs.v2ex.com/" class="white">Labs</a> | <a href="http://code.google.com/" class="white">Developers</a><br />
 		<small>This page was built on {$built} by {$user_nick}</small>
 	</div>
 </div>
