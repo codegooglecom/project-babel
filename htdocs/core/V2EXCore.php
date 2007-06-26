@@ -651,6 +651,9 @@ class Page {
 		echo('<ul>');
 		echo('<li><a href="/search.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/zoom.png" border="0" align="absmiddle" /> 搜索</a></li>');
 		echo('<li><a href="/man.html" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/book_open.png" border="0" align="absmiddle" /> 参考文档搜索</a></li>');
+		echo('<li><div class="sep">&nbsp;</div></li>');
+		echo('<li><a href="/home/style/shuffle.html" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/arrow_switch.png" border="0" align="absmiddle" /> Shuffle 首页</a></li>');
+		echo('<li><a href="/home/style/remix.html" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/arrow_rotate_anticlockwise.png" border="0" align="absmiddle" /> Remix 首页</a></li>');
 		
 		/*
 		if (@BABEL_AT == 'topic_view') {
@@ -1846,6 +1849,16 @@ class Page {
 				$this->vxSidebar($show = false);
 				$this->vxMenu($_menu_options);
 				$this->vxBlogEdit($options);
+				break;
+				
+			case 'blog_edit_save':
+				$_menu_options['modules']['new_members'] = false;
+				$_menu_options['modules']['friends'] = false;
+				$_menu_options['modules']['stats'] = false;
+				$_menu_options['modules']['fav'] = false;
+				$this->vxSidebar($show = false);
+				$this->vxMenu($_menu_options);
+				$this->vxBlogEditSave($options);
 				break;
 			
 		}
@@ -10700,7 +10713,7 @@ google_color_url = "00CC00";
 		echo('<link type="text/css" rel="stylesheet" href="/css/themes/' . BABEL_THEME . '/css_weblog.css" />');
 		_v_b_l_s();
 		_v_ico_map();
-		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; 博客网志 &gt; 控制台 <span class="tip_i"><small>alpha</small></span>');
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . $this->User->usr_nick_url . '">' . $this->User->usr_nick_plain . '</a> &gt; 博客网志 &gt; 控制台 <span class="tip_i"><small>alpha</small></span>');
 		_v_d_e();
 		_v_b_l_s();
 		_v_d_tr_s();
@@ -11034,6 +11047,7 @@ google_color_url = "00CC00";
 	
 	public function vxBlogCompose($Weblog) {
 		$_modes = Weblog::vxGetEditorModes();
+		$_comment_permissions = Weblog::vxGetCommentPermissions();
 		_v_m_s();
 		echo('<link type="text/css" rel="stylesheet" href="/css/themes/' . BABEL_THEME . '/css_weblog.css" />');
 		_v_b_l_s();
@@ -11061,6 +11075,17 @@ google_color_url = "00CC00";
 		}
 		echo('</select>');
 		echo('</td></tr>');
+		echo('<tr><td width="100" align="right">评论许可</td><td align="left">');
+		echo('<select name="bge_comment_permission">');
+		foreach ($_comment_permissions as $key => $comment_permission) {
+			if ($Weblog->blg_comment_permission == $key) {
+				echo('<option value="' . $key . '" selected="selected">' . $comment_permission . '</option>');
+			} else {
+				echo('<option value="' . $key . '">' . $comment_permission . '</option>');
+			}
+		}
+		echo('</select>');
+		echo('</td></tr>');
 		echo('<tr><td width="100" align="right">标签</td><td align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="bge_tags" value="" /></td></tr>');
 		echo('<tr><td width="100" align="right">状态</td><td align="left">');
 		echo('<select name="bge_status">');
@@ -11083,6 +11108,7 @@ google_color_url = "00CC00";
 	public function vxBlogComposeSave($rt) {
 		$Weblog =& $rt['Weblog'];
 		$_modes = Weblog::vxGetEditorModes();
+		$_comment_permissions = Weblog::vxGetCommentPermissions();
 		_v_m_s();
 		echo('<link type="text/css" rel="stylesheet" href="/css/themes/' . BABEL_THEME . '/css_weblog.css" />');
 		_v_b_l_s();
@@ -11120,6 +11146,17 @@ google_color_url = "00CC00";
 				echo('<option value="' . $key . '" selected="selected">' . $mode . '</option>');
 			} else {
 				echo('<option value="' . $key . '">' . $mode . '</option>');
+			}
+		}
+		echo('</select>');
+		echo('</td></tr>');
+		echo('<tr><td width="100" align="right">评论许可</td><td align="left">');
+		echo('<select name="bge_comment_permission">');
+		foreach ($_comment_permissions as $key => $comment_permission) {
+			if ($rt['bge_comment_permission_value'] == $key) {
+				echo('<option value="' . $key . '" selected="selected">' . $comment_permission . '</option>');
+			} else {
+				echo('<option value="' . $key . '">' . $comment_permission . '</option>');
 			}
 		}
 		echo('</select>');
@@ -11237,6 +11274,11 @@ google_color_url = "00CC00";
 			echo('</span>');
 			echo('<span class="tip_i">');
 			echo(' ... ' . $_entry['bge_revisions'] . ' 次编辑 ... ' . $_entry['bge_comments'] . ' 篇评论');
+			if ($_entry['bge_status'] == 1) {
+				echo(' ... 已发布');
+			} else {
+				echo(' ... 草稿');
+			}
 			echo('</span>');
 			echo('&nbsp;&nbsp;&nbsp;<a href="/blog/edit/' . $_entry['bge_id'] . '.vx" class="btn">');
 			_v_ico_silk('page_edit');
@@ -11244,6 +11286,11 @@ google_color_url = "00CC00";
 			echo('&nbsp;&nbsp;&nbsp;<a href="#;" onclick="if (confirm(' . "'确认删除？'" . ')) { location.href = ' . "'/blog/erase/" . $_entry['bge_id'] . ".vx'" . '; } else { return false; }" class="btn">');
 			_v_ico_silk('delete');
 			echo(' 删除</a>');
+			if ($_entry['bge_status'] == 0) {
+				echo('&nbsp;&nbsp;&nbsp;<a href="/blog/publish/' . $_entry['bge_id'] . '.vx" class="btn">');
+				_v_ico_silk('page_world');
+				echo(' 发布</a>');
+			}
 			echo('</td>');
 			echo('</tr>');
 		}
@@ -11272,6 +11319,8 @@ google_color_url = "00CC00";
 	}
 	
 	public function vxBlogEdit($Entry) {
+		$_modes = Weblog::vxGetEditorModes();
+		$_comment_permissions = Weblog::vxGetCommentPermissions();
 		$Weblog = new Weblog($Entry->bge_pid);
 		_v_m_s();
 		echo('<link type="text/css" rel="stylesheet" href="/css/themes/' . BABEL_THEME . '/css_weblog.css" />');
@@ -11286,28 +11335,123 @@ google_color_url = "00CC00";
 		echo('<table cellpadding="5" cellspacing="" border="0" class="form">');
 		echo('<form action="/blog/edit/save/' . $Entry->bge_id . '.vx" method="post" id="form_blog_edit">');
 		echo('<tr><td width="100" align="right">标题</td><td align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="bge_title" value="' . make_single_return($Entry->bge_title, 0) . '" /></td></tr>');
-		
 		echo('<tr><td width="100" align="right" valign="top">内容</td><td  align="left">');
 		echo('<textarea class="ml" rows="30" name="bge_body">' . make_multi_return($Entry->bge_body, 0) . '</textarea>');
 		echo('</td></tr>');
-		
-		echo('<tr><td width="100" align="right">模式</td><td align="left">');
-		echo('<select name="bge_status">');
-		echo('<option value="0">纯文本 - Plain Text</option>');
-		echo('<option value="1">超文本 - HTML</option>');
-		echo('<option value="2">UBB</option>');
-		echo('<option value="3">Textile</option>');
+		echo('<tr><td width="100" align="right">格式</td><td align="left">');
+		echo('<select name="bge_mode">');
+		foreach ($_modes as $key => $mode) {
+			if ($Entry->bge_mode == $key) {
+				echo('<option value="' . $key . '" selected="selected">' . $mode . '</option>');
+			} else {
+				echo('<option value="' . $key . '">' . $mode . '</option>');
+			}
+		}
 		echo('</select>');
 		echo('</td></tr>');
-		
+		echo('<tr><td width="100" align="right">评论许可</td><td align="left">');
+		echo('<select name="bge_comment_permission">');
+		foreach ($_comment_permissions as $key => $mode) {
+			if ($Entry->bge_comment_permission == $key) {
+				echo('<option value="' . $key . '" selected="selected">' . $mode . '</option>');
+			} else {
+				echo('<option value="' . $key . '">' . $mode . '</option>');
+			}
+		}
+		echo('</select>');
+		echo('</td></tr>');
 		echo('<tr><td width="100" align="right">标签</td><td align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="bge_tags" value="" /></td></tr>');
 		echo('<tr><td width="100" align="right">状态</td><td align="left">');
 		echo('<select name="bge_status">');
-		echo('<option value="0">草稿</option>');
-		echo('<option value="1">公开发布</option>');
+		if ($Entry->bge_status == 1) {
+			echo('<option value="0">草稿</option>');
+			echo('<option value="1" selected="selected">公开发布</option>');
+		} else {
+			echo('<option value="0" selected="selected">草稿</option>');
+			echo('<option value="1">公开发布</option>');
+		}
 		echo('</select>');
 		echo('</td></tr>');
-		echo('<td width="500" colspan="3" valign="middle" align="right">');
+		echo('<tr><td width="500" colspan="3" valign="middle" align="right">');
+		_v_btn_f('保存', 'form_blog_edit');
+		echo('</td></tr>');
+		echo('</form>');
+		echo('</table>');
+		_v_hr();
+		_v_ico_silk('information');
+		echo(' 编辑文章之后将需要重新构建');
+		_v_d_e();
+		_v_d_e();
+	}
+	
+	public function vxBlogEditSave($rt) {
+		$Entry =& $rt['Entry'];
+		$_modes = Weblog::vxGetEditorModes();
+		$_comment_permissions = Weblog::vxGetCommentPermissions();
+		$Weblog = new Weblog($Entry->bge_pid);
+		_v_m_s();
+		echo('<link type="text/css" rel="stylesheet" href="/css/themes/' . BABEL_THEME . '/css_weblog.css" />');
+		_v_b_l_s();
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; <a href="/blog/admin.vx">博客网志</a> &gt; <a href="/blog/' . Weblog::DEFAULT_ACTION . '/' . $Weblog->blg_id . '.vx">' . make_plaintext($Weblog->blg_title) . '</a> &gt; ' . make_plaintext($Entry->bge_title) . ' &gt; 编辑文章 <span class="tip_i"><small>alpha</small></span>');
+		_v_d_e();
+		_v_b_l_s();
+		_v_ico_silk('pencil');
+		echo(' 编辑文章');
+		_v_hr();
+		echo('<table cellpadding="5" cellspacing="" border="0" class="form">');
+		echo('<form action="/blog/edit/save/' . $Entry->bge_id . '.vx" method="post" id="form_blog_edit">');
+		if ($rt['bge_title_error'] > 0) {
+			echo('<tr><td width="100" align="right">标题</td><td align="left"><div class="error" style="width: 308px;"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="bge_title" value="' . make_single_return($rt['bge_title_value'], 0) . '" /><br />');
+			_v_ico_silk('exclamation');
+			echo(' ' . $rt['bge_title_error_msg'][$rt['bge_title_error']]);
+			echo('</div></td></tr>');
+		} else {
+			echo('<tr><td width="100" align="right">标题</td><td align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="bge_title" value="' . make_single_return($rt['bge_title_value'], 0) . '" /> ' . _vo_ico_silk('tick') . '</td></tr>');
+		}
+		if ($rt['bge_body_error'] > 0) {
+			echo('<tr><td width="100" align="right" valign="top">内容</td><td  align="left"><div class="error"><textarea class="ml" rows="30" name="bge_body">' . make_multi_return($rt['bge_body_value'], 0) . '</textarea>');
+			_v_ico_silk('exclamation');
+			echo(' ' . $rt['bge_body_error_msg'][$rt['bge_body_error']]);
+			echo('</div></td></tr>');
+		} else {
+			echo('<tr><td width="100" align="right" valign="top">内容</td><td  align="left"><textarea class="ml" rows="30" name="bge_body">' . make_multi_return($rt['bge_body_value'], 0) . '</textarea></td></tr>');
+		}
+		echo('<tr><td width="100" align="right">格式</td><td align="left">');
+		echo('<select name="bge_mode">');
+		foreach ($_modes as $key => $mode) {
+			if ($rt['bge_mode_value'] == $key) {
+				echo('<option value="' . $key . '" selected="selected">' . $mode . '</option>');
+			} else {
+				echo('<option value="' . $key . '">' . $mode . '</option>');
+			}
+		}
+		echo('</select>');
+		echo('</td></tr>');
+		echo('<tr><td width="100" align="right">评论许可</td><td align="left">');
+		echo('<select name="bge_comment_permission">');
+		foreach ($_comment_permissions as $key => $mode) {
+			if ($rt['bge_comment_permission_value'] == $key) {
+				echo('<option value="' . $key . '" selected="selected">' . $mode . '</option>');
+			} else {
+				echo('<option value="' . $key . '">' . $mode . '</option>');
+			}
+		}
+		echo('</select>');
+		echo('</td></tr>');
+		echo('<tr><td width="100" align="right">标签</td><td align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="bge_tags" value="" /></td></tr>');
+		echo('<tr><td width="100" align="right">状态</td><td align="left">');
+		echo('<select name="bge_status">');
+		if ($rt['bge_status_value'] == 1) {
+			echo('<option value="0">草稿</option>');
+			echo('<option value="1" selected="selected">公开发布</option>');
+		} else {
+			echo('<option value="0" selected="selected">草稿</option>');
+			echo('<option value="1">公开发布</option>');
+		}
+		echo('</select>');
+		echo('</td></tr>');
+		echo('<tr><td width="500" colspan="3" valign="middle" align="right">');
 		_v_btn_f('保存', 'form_blog_edit');
 		echo('</td></tr>');
 		echo('</form>');

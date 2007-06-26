@@ -33,7 +33,7 @@
 
 class Entry {
 	public function __construct($entry_id) {
-		$sql = "SELECT bge_id, bge_pid, bge_uid, bge_title, bge_body, bge_comments, bge_trackbacks, bge_tags, bge_status, bge_mode, bge_revisions, bge_hash, bge_created, bge_lastupdated, bge_published FROM babel_weblog_entry WHERE bge_id = {$entry_id}";
+		$sql = "SELECT bge_id, bge_pid, bge_uid, bge_title, bge_body, bge_comments, bge_comment_permission, bge_trackbacks, bge_tags, bge_status, bge_mode, bge_revisions, bge_hash, bge_created, bge_lastupdated, bge_published FROM babel_weblog_entry WHERE bge_id = {$entry_id}";
 		$rs = mysql_query($sql);
 		if (mysql_num_rows($rs) == 1) {
 			$this->entry = true;
@@ -44,6 +44,7 @@ class Entry {
 			$this->bge_title = $_entry['bge_title'];
 			$this->bge_body = $_entry['bge_body'];
 			$this->bge_comments = intval($_entry['bge_comments']);
+			$this->bge_comment_permission = intval($_entry['bge_comment_permission']);
 			$this->bge_trackbacks = intval($_entry['bge_trackbacks']);
 			$this->bge_tags = $_entry['bge_tags'];
 			$this->bge_status = intval($_entry['bge_status']);

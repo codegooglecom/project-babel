@@ -1143,7 +1143,7 @@ class Standalone {
 	public function vxBlogBuild() {
 		if (isset($_GET['weblog_id'])) {
 			$weblog_id = intval($_GET['weblog_id']);
-			if (Weblog::vxMatchPermission($this->User->usr_id, $weblog_id)) {
+			if (Weblog::vxMatchWeblogPermission($this->User->usr_id, $weblog_id)) {
 				Weblog::vxBuild($this->User->usr_id, $weblog_id);
 				return $this->URL->vxToRedirect($_SERVER['HTTP_REFERER']);
 			} else {

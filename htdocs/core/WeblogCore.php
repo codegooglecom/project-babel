@@ -60,13 +60,30 @@ class Weblog {
 		mysql_unbuffered_query($sql);
 	}
 	
-	public static function vxMatchPermission($user_id, $weblog_id) {
+	public static function vxMatchWeblogPermission($user_id, $weblog_id) {
 		$sql = "SELECT blg_uid FROM babel_weblog WHERE blg_id = {$weblog_id}";
 		$rs = mysql_query($sql);
 		if (mysql_num_rows($rs) == 1) {
 			$blg_uid = mysql_result($rs, 0, 0);
 			mysql_free_result($rs);
 			if ($blg_uid == $user_id) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			mysql_free_result($rs);
+			return false;
+		}
+	}
+	
+	public static function vxMatchEntryPermission($user_id, $entry_id) {
+		$sql = "SELECT bge_uid FROM babel_weblog_entry WHERE bge_id = {$entry_id}";
+		$rs = mysql_query($sql);
+		if (mysql_num_rows($rs) == 1) {
+			$bge_uid = mysql_result($rs, 0, 0);
+			mysql_free_result($rs);
+			if ($bge_uid == $user_id) {
 				return true;
 			} else {
 				return false;
