@@ -41,7 +41,7 @@
 </div>
 <div id="main">
 	<div id="main_items">
-		<div class="top_right"><img src="{$ico_feed}" align="absmiddle" /> <a href="#;">Subscribe via RSS</a></div>
+		<div class="top_right"></div>
 		<h1 class="title_item">{$entry.bge_title_plain}</h1>
 		<div class="sub"><span class="tip"><small>By <a href="http://{$site_babel}/u/{$entry.usr_nick_url}">{$entry.usr_nick_plain}</a> on {$entry.bge_published_plain}</small></span>
 		<div class="toolbar">
