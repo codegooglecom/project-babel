@@ -2269,13 +2269,15 @@ switch ($m) {
 					if ($Weblog->blg_uid == $p->User->usr_id) {
 						$rt = $p->Validator->vxBlogComposeCheck();
 						if ($rt['errors'] == 0) {
-							$p->Validator->vxBlogComposeInsert($p->User->usr_id, $Weblog->blg_id, $rt['bge_title_value'], $rt['bge_body_value'], $rt['bge_mode_value'], $rt['bge_comment_permission_value'], $rt['bge_status_value']);
+							$p->Validator->vxBlogComposeInsert($p->User->usr_id, $Weblog->blg_id, $rt['bge_title_value'], $rt['bge_body_value'], $rt['bge_mode_value'], $rt['bge_comment_permission_value'], $rt['bge_status_value'], $rt['bge_tags_value']);
 							$Weblog->vxUpdateEntries();
 							$sql = "SELECT bge_id FROM babel_weblog_entry WHERE bge_uid = {$p->User->usr_id} ORDER BY bge_created DESC LIMIT 1";
 							$rs = mysql_query($sql);
 							$entry_id = mysql_result($rs, 0, 0);
 							mysql_free_result($rs);
-							Weblog::vxBuild($p->User->usr_id, $Weblog->blg_id);
+							if ($rt['bge_status_value'] == 1) {
+								Weblog::vxBuild($p->User->usr_id, $Weblog->blg_id);
+							}
 							die($p->URL->vxToRedirect($p->URL->vxGetBlogList($Weblog->blg_id)));
 							break;
 						} else {
@@ -2395,7 +2397,11 @@ switch ($m) {
 					$rt = $p->Validator->vxBlogComposeCheck();
 					$rt['Entry'] =& $Entry;
 					if ($rt['errors'] == 0) {
-						$p->Validator->vxBlogEditUpdate($entry_id, $rt['bge_title_value'], $rt['bge_body_value'], $rt['bge_mode_value'], $rt['bge_comment_permission_value'], $rt['bge_status_value']);
+						$p->Validator->vxBlogEditUpdate($entry_id, $p->User->usr_id, $rt['bge_title_value'], $rt['bge_body_value'], $rt['bge_mode_value'], $rt['bge_comment_permission_value'], $rt['bge_status_value'], $rt['bge_tags_value']);
+						if (intval($rt['bge_status_value']) == 1) {
+							$Weblog = new Weblog($Entry->bge_pid);
+							$Weblog->vxSetDirty();
+						}
 						
 						die($p->URL->vxToRedirect($p->URL->vxGetBlogList($Entry->bge_pid)));
 						break;

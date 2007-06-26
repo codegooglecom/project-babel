@@ -275,6 +275,34 @@ function format_ubb($text, $emoticon = true) {
 	return $text;
 }
 
+function filter_tags($input) {
+	$output = trim($input);
+	$output = str_ireplace(chr(10), '', $output);
+	$output = str_ireplace(chr(13), '', $output);
+	$output = str_ireplace("'", '', $output);
+	$output = str_ireplace('"', '', $output);
+	$output = str_ireplace('\\', '', $output);
+	$output = str_ireplace('/', '', $output);
+	$output = str_ireplace('(', '', $output);
+	$output = str_ireplace(')', '', $output);
+	$output = str_ireplace('[', '', $output);
+	$output = str_ireplace(']', '', $output);
+	$output = str_ireplace(',', '', $output);
+	$output = str_ireplace('.', '', $output);
+	$output = str_ireplace('！', '', $output);
+	$output = str_ireplace('。', '', $output);
+	$output = str_ireplace('，', '', $output);
+	$output = str_ireplace('^', '', $output);
+	$output = str_ireplace('{', '', $output);
+	$output = str_ireplace('}', '', $output);
+	$output = str_ireplace('<', '', $output);
+	$output = str_ireplace('>', '', $output);
+	$output = str_ireplace('#', '', $output);
+	$output = str_ireplace('`', '', $output);
+	$output = trim($input);
+	return $output;
+}
+
 function fetch_single($input) { // $input must be an element in GPC
 	$output = trim($input);
 	if (get_magic_quotes_gpc()) {

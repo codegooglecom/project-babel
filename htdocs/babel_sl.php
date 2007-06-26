@@ -179,5 +179,9 @@ switch ($m) {
 	case 'blog_erase':
 		$s->vxBlogErase();
 		break;
+		
+	case 'blog_publish':
+		$s->vxBlogPublish();
+		break;
 }
 ?>
