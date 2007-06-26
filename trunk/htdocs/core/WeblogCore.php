@@ -135,8 +135,7 @@ class Weblog {
 			if (!file_exists($usr_dir)) {
 				mkdir($usr_dir);
 			}
-			$file_index = $usr_dir . '/index.html';
-			$file_style = $usr_dir . '/style.css';
+			
 			
 			$s = new Smarty();
 			$s->template_dir = BABEL_PREFIX . '/res/weblog/themes/' . $Weblog->blg_theme;
@@ -164,6 +163,7 @@ class Weblog {
 			while ($_entry = mysql_fetch_array($rs)) {
 				$i++;
 				$_entries[$_entry['bge_id']] = $_entry;
+				$_entries[$_entry['bge_id']]['bge_title_plain'] = make_plaintext($_entry['bge_title']);
 				$_entries[$_entry['bge_id']]['usr_nick_plain'] = make_plaintext($_entry['usr_nick']);
 				$_entries[$_entry['bge_id']]['usr_nick_url'] = urlencode($_entry['usr_nick']);
 				$_entries[$_entry['bge_id']]['bge_published_plain'] = date('Y-n-j G:i:s T', $_entry['bge_published']);
@@ -172,9 +172,43 @@ class Weblog {
 			
 			$s->assign('entries', $_entries);
 			
+			/* index.smarty */
+			$file_index = $usr_dir . '/index.html';
 			$o_index = $s->fetch('index.smarty');
 			$files++;
 			$bytes += file_put_contents($file_index, $o_index);
+			
+			/* entry.smarty */
+			$sql = "SELECT bge_id, bge_title, bge_body, bge_published, usr_id, usr_nick FROM babel_weblog_entry, babel_user WHERE bge_uid = usr_id AND bge_uid = {$Weblog->usr_id} AND bge_pid = {$Weblog->blg_id} AND bge_status = 1 ORDER BY bge_published DESC";
+			$rs = mysql_query($sql);
+			$i = 0;
+			while ($_entry = mysql_fetch_array($rs)) {
+				$_entry['bge_title_plain'] = make_plaintext($_entry['bge_title']);
+				$_entry['usr_nick_plain'] = make_plaintext($_entry['usr_nick']);
+				$_entry['usr_nick_url'] = urlencode($_entry['usr_nick']);
+				$_entry['bge_body_plain'] = make_plaintext($_entry['bge_body']);
+				$_entry['bge_published_plain'] = date('Y-n-j G:i:s T', $_entry['bge_published']);
+				switch (intval($_entry['bge_mode'])) {
+					case 0: // plain text
+						$_entry['bge_body_plain'] = nl2br(make_plaintext(trim($_entry['bge_body'])));
+						break;
+					case 1: // html
+						$_entry['bge_body_plain'] = filter_html(trim($_entry['bge_body']));
+						break;
+					case 2: // ubb
+						break;
+					case 3: // textile
+						break;
+				}
+				$file_entry = $usr_dir . '/entry-' . $_entry['bge_id'] . '.html';
+				$s->assign('entry', $_entry);
+				$o_entry = $s->fetch('entry.smarty');
+				$files++;
+				$bytes += file_put_contents($file_entry, $o_entry);
+			}
+			
+			/* style.smarty */
+			$file_style = $usr_dir . '/style.css';
 			$s->left_delimiter = '[';
 			$s->right_delimiter = ']';
 			$o_style = $s->fetch('style.smarty');
