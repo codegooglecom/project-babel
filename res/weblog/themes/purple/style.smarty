@@ -36,7 +36,6 @@ clear: both;
 
 div#bottom {
 background-image: url("http://[$site_static]/weblog-static/themes/[$site_theme]/bg_bottom.png");
-height: 100px;
 clear: both;
 }
 

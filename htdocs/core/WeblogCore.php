@@ -125,7 +125,7 @@ class Weblog {
 		$start = microtime(true);
 		$Weblog = new Weblog($weblog_id);
 		if (($start - $Weblog->blg_lastbuilt) < BABEL_WEBLOG_BUILD_INTERVAL) {
-			$_SESSION['babel_message_weblog'] = _vo_ico_silk('clock') . ' 距离上次构建时间尚不足 100 秒，本次操作取消，请等待 ' . (100 - intval($start - $Weblog->blg_lastbuilt)) . ' 秒之后再试验';
+			$_SESSION['babel_message_weblog'] = _vo_ico_silk('clock') . ' 距离上次构建时间尚不足 ' . BABEL_WEBLOG_BUILD_INTERVAL . ' 秒，本次操作取消，请等待 ' . (BABEL_WEBLOG_BUILD_INTERVAL - intval($start - $Weblog->blg_lastbuilt)) . ' 秒之后再试验';
 		} else {
 			require_once(BABEL_PREFIX . '/libs/textile/classTextile.php');
 			require_once(BABEL_PREFIX . '/libs/htmlpurifier/library/HTMLPurifier.auto.php');
@@ -164,7 +164,7 @@ class Weblog {
 			
 			$s->assign('user_nick', $Weblog->usr_nick);
 			
-			$sql = "SELECT bge_id, bge_title, bge_body, bge_mode, bge_comment_permission, bge_published, usr_id, usr_nick FROM babel_weblog_entry, babel_user WHERE bge_uid = usr_id AND bge_uid = {$Weblog->usr_id} AND bge_pid = {$Weblog->blg_id} AND bge_status = 1 ORDER BY bge_published DESC LIMIT 10";
+			$sql = "SELECT bge_id, bge_title, bge_body, bge_mode, bge_comments, bge_trackbacks, bge_comment_permission, bge_published, usr_id, usr_nick FROM babel_weblog_entry, babel_user WHERE bge_uid = usr_id AND bge_uid = {$Weblog->usr_id} AND bge_pid = {$Weblog->blg_id} AND bge_status = 1 ORDER BY bge_published DESC LIMIT 10";
 			$rs = mysql_query($sql);
 			$_entries = array();
 			$i = 0;
@@ -201,7 +201,7 @@ class Weblog {
 			$bytes += file_put_contents($file_index, $o_index);
 			
 			/* entry.smarty */
-			$sql = "SELECT bge_id, bge_title, bge_body, bge_mode, bge_comment_permission, bge_published, usr_id, usr_nick FROM babel_weblog_entry, babel_user WHERE bge_uid = usr_id AND bge_uid = {$Weblog->usr_id} AND bge_pid = {$Weblog->blg_id} AND bge_status = 1 ORDER BY bge_published DESC";
+			$sql = "SELECT bge_id, bge_title, bge_body, bge_comments, bge_trackbacks, bge_mode, bge_comment_permission, bge_published, usr_id, usr_nick FROM babel_weblog_entry, babel_user WHERE bge_uid = usr_id AND bge_uid = {$Weblog->usr_id} AND bge_pid = {$Weblog->blg_id} AND bge_status = 1 ORDER BY bge_published DESC";
 			$rs = mysql_query($sql);
 			$i = 0;
 			while ($_entry = mysql_fetch_array($rs)) {
