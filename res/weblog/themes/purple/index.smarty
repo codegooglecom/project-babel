@@ -49,7 +49,7 @@
 			add to del.icio.us
 		</div>
 		</div>
-		<div class="object">{$item.bge_body}</div>
+		<div class="object">{$item.bge_body_plain}</div>
 		{/foreach}
 	</div>
 </div>
