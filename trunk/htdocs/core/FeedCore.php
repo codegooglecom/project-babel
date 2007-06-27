@@ -44,7 +44,7 @@ if (V2EX_BABEL == 1) {
 	require_once('Benchmark/Timer.php');
 	
 	/* 3rdParty cores */
-	require(BABEL_PREFIX . '/libs/smarty/libs/Smarty.class.php');
+	require(BABEL_PREFIX . '/libs/smarty/Smarty.class.php');
 	
 	/* built-in cores */
 	require_once('core/UserCore.php');

@@ -58,7 +58,7 @@ if (V2EX_BABEL == 1) {
 	
 	/* 3rdparty cores */
 	require_once(BABEL_PREFIX . '/libs/magpierss/rss_fetch.inc');
-	require_once(BABEL_PREFIX . '/libs/smarty/libs/Smarty.class.php');
+	require_once(BABEL_PREFIX . '/libs/smarty/Smarty.class.php');
 	
 	/* built-in cores */
 	require_once('core/Vocabularies.php');
