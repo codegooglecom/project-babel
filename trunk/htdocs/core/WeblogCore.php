@@ -3,7 +3,7 @@ class Weblog {
 	const DEFAULT_ACTION = 'list';
 	
 	public function __construct($weblog_id) {
-		$sql = "SELECT blg_id, blg_uid, blg_name, blg_title, blg_description, blg_portrait, blg_theme, blg_mode, blg_entries, blg_comments, blg_comment_permission, blg_builds, blg_dirty, blg_created, blg_lastupdated, blg_lastbuilt, usr_id, usr_nick, usr_gender, usr_portrait, usr_created, usr_brief FROM babel_weblog, babel_user WHERE blg_uid = usr_id AND blg_id = {$weblog_id}";
+		$sql = "SELECT blg_id, blg_uid, blg_name, blg_title, blg_description, blg_portrait, blg_theme, blg_mode, blg_entries, blg_comments, blg_comment_permission, blg_builds, blg_dirty, blg_created, blg_lastupdated, blg_lastbuilt, blg_expire, usr_id, usr_nick, usr_gender, usr_portrait, usr_created, usr_brief FROM babel_weblog, babel_user WHERE blg_uid = usr_id AND blg_id = {$weblog_id}";
 		$rs = mysql_query($sql);
 		if (mysql_num_rows($rs) == 1) {
 			$this->weblog = true;
@@ -24,6 +24,7 @@ class Weblog {
 			$this->blg_created = intval($_weblog['blg_created']);
 			$this->blg_lastupdated = intval($_weblog['blg_lastupdated']);
 			$this->blg_lastbuilt = intval($_weblog['blg_lastbuilt']);
+			$this->blg_expire = intval($_weblog['blg_expire']);
 			$this->usr_id = $_weblog['usr_id'];
 			$this->usr_nick = $_weblog['usr_nick'];
 			mysql_free_result($rs);
@@ -193,6 +194,18 @@ class Weblog {
 			mysql_free_result($rs);
 			
 			$s->assign('entries', $_entries);
+			
+			$sql = "SELECT DISTINCT bet_tag FROM babel_weblog_entry_tag WHERE bet_eid IN (SELECT bge_id FROM babel_weblog_entry WHERE bge_pid = {$Weblog->blg_id}) ORDER BY bet_tag ASC";
+			
+			$rs = mysql_query($sql);
+			
+			$_tags = array();
+			while ($_tag = mysql_fetch_array($rs)) {
+				$_tags[] = $_tag;
+			}
+			mysql_free_result($rs);
+			
+			$s->assign('tags', $_tags);
 			
 			/* index.smarty */
 			$file_index = $usr_dir . '/index.html';

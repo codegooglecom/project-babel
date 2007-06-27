@@ -2581,11 +2581,6 @@ class Validator {
 		$rt['errors'] = 0;
 		$rt['out_of_money'] = 0;
 		
-		if ($user_money < (BABEL_BLG_PRICE * BABEL_SECURITY_RATE)) {
-			$rt['errors']++;
-			$rt['out_of_money'] = 1;
-		}
-		
 		/* blg_name (max: 20) */
 		$rt['blg_name_value'] = '';
 		$rt['blg_name_maxlength'] = 20;
@@ -2659,6 +2654,26 @@ class Validator {
 			}
 		}
 		
+		/* blg_years */
+		
+		require(BABEL_PREFIX . '/res/weblog_economy.php');
+		
+		$rt['blg_years_value'] = 1;
+		
+		if (isset($_POST['blg_years'])) {
+			$rt['blg_years_value'] = intval($_POST['blg_years']);
+			if (!in_array($rt['blg_years_value'], array_keys($_payment))) {
+				$rt['blg_years_value'] = 1;
+			}
+		}
+		
+		$rt['blg_cost'] = intval($_cost[$rt['blg_years_value']]);
+		
+		if ($user_money < $rt['blg_cost']) {
+			$rt['errors']++;
+			$rt['out_of_money'] = 1;
+		}
+		
 		return $rt;
 	}
 	
@@ -2666,16 +2681,18 @@ class Validator {
 	
 	/* S module: Blog Create Insert logic */
 	
-	public function vxBlogCreateInsert($uid, $name, $title, $description) {
+	public function vxBlogCreateInsert($uid, $name, $title, $description, $years) {
 		$name = mysql_real_escape_string($name);
 		$title = mysql_real_escape_string($title);
 		$description = mysql_real_escape_string($description);
 		$time = time();
-		$sql = "INSERT INTO babel_weblog(blg_uid, blg_name, blg_title, blg_description, blg_created, blg_lastupdated) VALUES({$uid}, '{$name}', '{$title}', '{$description}', {$time}, {$time})";
+		$expire = time() + ((86400 * 365) * $years);
+		$sql = "INSERT INTO babel_weblog(blg_uid, blg_name, blg_title, blg_description, blg_created, blg_lastupdated, blg_expire) VALUES({$uid}, '{$name}', '{$title}', '{$description}', {$time}, {$time}, {$expire})";
 		mysql_query($sql, $this->db);
 		if (mysql_affected_rows($this->db) == 1) {
-			$exp_amount = BABEL_BLG_PRICE;
-			$exp_memo = $title;
+			require(BABEL_PREFIX . '/res/weblog_economy.php');
+			$exp_amount = $_cost[$years];
+			$exp_memo = $title . ' / ' . $_payment[$years];
 			return $this->User->vxPay($this->User->usr_id, -$exp_amount, 899, $exp_memo);
 		} else {
 			return false;
@@ -2865,14 +2882,17 @@ class Validator {
 		}
 		
 		/* bge_tags */
-		
-		$rt['bge_tags_value'] = array();
-		
+
 		if (isset($_POST['bge_tags'])) {
-			$tags = filter_tags(strtolower(fetch_single($_POST['bge_tags'])));
-			$tags = explode(' ', $tags);
-			$tags = array_unique($tags);
-			$rt['bge_tags_value'] = $tags;
+			$rt['bge_tags_value'] = fetch_single($_POST['bge_tags']);
+			if ($rt['bge_tags_value'] != '') {
+				$tags = filter_tags(strtolower(fetch_single($_POST['bge_tags'])));
+				$tags = explode(' ', $tags);
+				$tags = array_unique($tags);
+				$rt['bge_tags_value'] = $tags;
+			} else {
+				$rt['bge_tags_value'] = array();
+			}
 		}
 		
 		return $rt;
@@ -2905,6 +2925,9 @@ class Validator {
 					$sql = "INSERT INTO babel_weblog_entry_tag(bet_uid, bet_eid, bet_tag, bet_created) VALUES({$user_id}, {$entry_id}, '{$tag}', {$time})";
 					mysql_unbuffered_query($sql);
 				}
+			} else {
+				$sql = "DELETE FROM babel_weblog_entry_tag WHERE bet_eid = {$entry_id}";
+				mysql_unbuffered_query($sql);
 			}
 			return true;
 		} else {
@@ -2942,6 +2965,9 @@ class Validator {
 					$sql = "INSERT INTO babel_weblog_entry_tag(bet_uid, bet_eid, bet_tag, bet_created) VALUES({$user_id}, {$entry_id}, '{$tag}', {$time})";
 					mysql_unbuffered_query($sql);
 				}
+			} else {
+				$sql = "DELETE FROM babel_weblog_entry_tag WHERE bet_eid = {$entry_id}";
+				mysql_unbuffered_query($sql);
 			}
 			return true;
 		} else {

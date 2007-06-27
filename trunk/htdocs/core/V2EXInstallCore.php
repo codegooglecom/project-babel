@@ -1543,6 +1543,7 @@ $i->vxSetupBoard('math', '数学', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('physics', '物理', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('chemistry', '化学', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('delicious', '美食 . 好酒 . 生活', 4, 4, 1, 2, '', '');
+$i->vxSetupBoard('tea', '茶', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('travel', '龙门客栈', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('dnd', '龙与地下城', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('bulaoge', '不老歌', 4, 4, 1, 2, '', '');
