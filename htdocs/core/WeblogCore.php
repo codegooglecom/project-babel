@@ -338,5 +338,44 @@ class Weblog {
 			$_SESSION['babel_message_weblog'] = _vo_ico_silk('tick') . ' 博客网站 ' . make_plaintext($Weblog->blg_title) . ' 重新构建成功，' . $files . ' 个文件共写入了 ' . $bytes . ' 字节，共耗时 <small>' . $elapsed . '</small> 秒，<a href="http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_name . '" class="t" target="_blank">现在查看</a> <img src="/img/ext.png" align="absmiddle" />';
 		}
 	}
+	
+	public static function vxDestroy($user_id, $weblog_id) {
+		$Weblog = new Weblog($weblog_id);
+		
+		/* 1: Unlink all files */
+		
+		$usr_dir = BABEL_WEBLOG_PREFIX . '/htdocs/' . $Weblog->blg_name;
+		
+		if (file_exists($usr_dir)) {
+			foreach (glob($usr_dir . '/*.html') as $filename) {
+				unlink($filename);
+			}
+			foreach (glob($usr_dir . '/*.css') as $filename) {
+				unlink($filename);
+			}
+			rmdir($usr_dir);
+		}
+		
+		/* 2: If it has portraits */
+		
+		if ($Weblog->blg_portrait != '') {
+			unlink(BABEL_PREFIX . '/htdocs/img/b/' . $Weblog->blg_portrait . '.' . BABEL_PORTRAIT_EXT);
+			unlink(BABEL_PREFIX . '/htdocs/img/b/' . $Weblog->blg_portrait . '_s.' . BABEL_PORTRAIT_EXT);
+			unlink(BABEL_PREFIX . '/htdocs/img/b/' . $Weblog->blg_portrait . '_n.' . BABEL_PORTRAIT_EXT);
+			mysql_unbuffered_query("DELETE FROM babel_weblog_portrait WHERE bgp_filename = '{$Weblog->blg_portrait}'");
+			mysql_unbuffered_query("DELETE FROM babel_weblog_portrait WHERE bgp_filename = '{$Weblog->blg_portrait}_s'");
+			mysql_unbuffered_query("DELETE FROM babel_weblog_portrait WHERE bgp_filename = '{$Weblog->blg_portrait}_n'");
+		}
+		
+		/* 3: Clean all database records */
+		
+		mysql_unbuffered_query("DELETE FROM babel_weblog_entry_tag WHERE bet_eid IN (SELECT bge_id FROM babel_weblog_entry WHERE bge_pid = {$weblog_id})");
+		
+		mysql_unbuffered_query("DELETE FROM babel_weblog_entry WHERE bge_pid = {$weblog_id}");
+		
+		mysql_unbuffered_query("DELETE FROM babel_weblog WHERE blg_id = {$weblog_id}");
+		
+		$_SESSION['babel_message_weblog'] = '博客网站 <strong>' . make_plaintext($Weblog->blg_title) . '</strong> 已经彻底关闭，全部相关数据清除完毕';
+	}
 }
 ?>

@@ -1154,6 +1154,20 @@ class Standalone {
 		}
 	}
 	
+	public function vxBlogDestroy() {
+		if (isset($_GET['weblog_id'])) {
+			$weblog_id = intval($_GET['weblog_id']);
+			if (Weblog::vxMatchWeblogPermission($this->User->usr_id, $weblog_id)) {
+				Weblog::vxDestroy($this->User->usr_id, $weblog_id);
+				return $this->URL->vxToRedirect($_SERVER['HTTP_REFERER']);
+			} else {
+				return js_alert('你没有权力对这个博客网站进行操作', '/blog/admin.vx');
+			}
+		} else {
+			return js_alert('指定的博客网站没有找到', '/blog/admin.vx');
+		}
+	}
+	
 	public function vxBlogPortraitSave() {
 		if ($this->User->vxIsLogin()) {
 			if (isset($_GET['weblog_id'])) {

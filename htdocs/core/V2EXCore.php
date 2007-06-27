@@ -10793,7 +10793,7 @@ google_color_url = "00CC00";
 			echo(' <a href="/blog/build/' . $_weblog['blg_id'] . '.vx">重新构建</a>');
 			echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
 			_v_ico_silk('cross');
-			echo(' <a href="#;" onclick="if (confirm(' . "'你确认要彻底关闭这个博客网站吗？\\n\\n这些数据被删除后将无法恢复。'" . ')) { location.href = ' . "'/blog/destroy/" . $_weblog['blg_id'] . ".vx'; } else { return false; }" . '">彻底关闭</a>');
+			echo(' <a href="#;" onclick="if (confirm(' . "'你确认要彻底关闭这个博客网站吗？\\n\\n这些数据被清除后将无法恢复。'" . ')) { location.href = ' . "'/blog/destroy/" . $_weblog['blg_id'] . ".vx'; } else { return false; }" . '">彻底关闭</a>');
 			echo('</td>');
 			echo('</tr>');
 			echo('</table>');
