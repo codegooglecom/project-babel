@@ -10824,7 +10824,18 @@ google_color_url = "00CC00";
 		echo('<tr><td width="100" align="right"></td><td width="400" align="left"><span class="tip_i">只能使用数字（a-z），字母（0-9），横线（-）及下划线（_）</span></td></tr>');
 		echo('<tr><td width="100" align="right">标题</td><td width="400" align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="blg_title" /></td></tr>');
 		echo('<tr><td width="100" align="right" valign="top">简介</td><td width="400" align="left"><textarea onfocus="brightBox(this);" onblur="dimBox(this);" rows="10" class="ml" name="blg_description"></textarea></td></tr>');
-		echo('<td width="500" colspan="3" valign="middle" align="right">');
+		echo('<tr>');
+		echo('<td width="100" align="right">付费方式</td>');
+		echo('<td width="400" align="left">');
+		require(BABEL_PREFIX . '/res/weblog_economy.php');
+		echo('<select name="blg_years">');
+		foreach ($_payment as $key => $payment) {
+			echo('<option value="' . $key . '">' . $payment . '</option>');
+		}
+		echo('</select>');
+		echo('</td>');
+		echo('</tr>');
+		echo('<tr><td width="500" colspan="3" valign="middle" align="right">');
 		_v_btn_f('立即创建', 'form_blog_create');
 		echo('</td></tr>');
 		echo('</form>');
@@ -10850,7 +10861,7 @@ google_color_url = "00CC00";
 		if ($rt['out_of_money'] == 1) {
 			echo('<div class="notify">');
 			_v_ico_silk('coins');
-			echo(' 创建并维持一个新的博客网站需要至少 ' . BABEL_BLG_PRICE . ' 个铜币，而你现在的铜币不足');
+			echo(' 根据你刚才的选择，创建并维持一个新的博客网站需要至少 ' . $rt['blg_cost'] . ' 个铜币，而你现在的铜币不足');
 			echo('</div>');
 		}
 		echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
@@ -10887,7 +10898,22 @@ google_color_url = "00CC00";
 		} else {
 			echo('<tr><td width="100" align="right" valign="top">简介</td><td width="400" align="left"><textarea onfocus="brightBox(this);" onblur="dimBox(this);" rows="10" class="ml" name="blg_description">' . make_multi_return($rt['blg_description_value'], 0) . '</textarea></td></tr>');
 		}
-		echo('<td width="500" colspan="3" valign="middle" align="right">');
+		echo('<tr>');
+		echo('<td width="100" align="right">付费方式</td>');
+		echo('<td width="400" align="left">');
+		require(BABEL_PREFIX . '/res/weblog_economy.php');
+		echo('<select name="blg_years">');
+		foreach ($_payment as $key => $payment) {
+			if ($rt['blg_years_value'] == $key) {
+				echo('<option value="' . $key . '" selected="selected">' . $payment . '</option>');
+			} else {
+				echo('<option value="' . $key . '">' . $payment . '</option>');
+			}
+		}
+		echo('</select>');
+		echo('</td>');
+		echo('</tr>');
+		echo('<tr><td width="500" colspan="3" valign="middle" align="right">');
 		_v_btn_f('立即创建', 'form_blog_create');
 		echo('</td></tr>');
 		echo('</form>');

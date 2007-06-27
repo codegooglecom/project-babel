@@ -21,6 +21,9 @@
 <div id="left">
 	<div id="left_items">
 		<div class="left_title">TAGS</div>
+		{foreach from=$tags item=item key=key}
+			<div class="item"> {$item.bet_tag}</div>
+		{/foreach}
 		<div class="cur"> Everything</div>
 		<div class="item"> 主题和回复</div>
 		<div class="item"> 短消息</div>

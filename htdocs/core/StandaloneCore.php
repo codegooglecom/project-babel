@@ -1158,7 +1158,7 @@ class Standalone {
 		if ($this->User->vxIsLogin()) {
 			if (isset($_GET['weblog_id'])) {
 				$weblog_id = intval($_GET['weblog_id']);
-				if (Weblog::vxMatchPermission($this->User->usr_id, $weblog_id)) {
+				if (Weblog::vxMatchWeblogPermission($this->User->usr_id, $weblog_id)) {
 					if (isset($_FILES['blg_portrait'])) {
 						$ul = $_FILES['blg_portrait'];
 						
