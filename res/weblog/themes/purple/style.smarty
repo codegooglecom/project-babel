@@ -63,13 +63,39 @@ cursor: pointer;
 -moz-border-radius: 5px;
 }
 
-div#left_items div.item {
+div#left_items div.item a.tag:link, div#left_items div.item a.tag:visited {
 padding: 3px;
 margin: 0px 20px 5px 3px;
 font-size: 12px;
 color: #FFF;
 cursor: pointer;
 -moz-border-radius: 5px;
+display: block;
+text-decoration: none;
+}
+
+div#left_items div.item a.tag:hover {
+background-color: #445;
+padding: 3px;
+margin: 0px 20px 5px 3px;
+font-size: 12px;
+color: #FFF;
+cursor: pointer;
+-moz-border-radius: 5px;
+display: block;
+text-decoration: none;
+}
+
+div#left_items div.item a.tag:active {
+background-color: #112;
+padding: 3px;
+margin: 0px 20px 5px 3px;
+font-size: 12px;
+color: #FFF;
+cursor: pointer;
+-moz-border-radius: 5px;
+display: block;
+text-decoration: none;
 }
 
 div#left_items div.left_title {
@@ -79,16 +105,6 @@ font-size: 16px;
 color: #A0A0AF;
 cursor: pointer;
 font-weight: bold;
-}
-
-div#left_items div.item:hover {
-background-color: #445;
-padding: 3px;
-margin: 0px 20px 5px 3px;
-font-size: 12px;
-color: #FFF;
-cursor: pointer;
--moz-border-radius: 5px;
 }
 
 div#left_items div.sep {

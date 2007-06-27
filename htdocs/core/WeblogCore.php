@@ -78,6 +78,15 @@ class Weblog {
 		}
 	}
 	
+	public static function vxMakeTagLink($tags) {
+		$_tags = explode(' ', $tags);
+		$o = '';
+		foreach ($_tags as $tag) {
+			$o .= '&nbsp;&nbsp;<a href="tag-' . $tag . '.html">' . $tag . '</a>';
+		}
+		return $o;
+	}
+	
 	public static function vxMatchEntryPermission($user_id, $entry_id) {
 		$sql = "SELECT bge_uid FROM babel_weblog_entry WHERE bge_id = {$entry_id}";
 		$rs = mysql_query($sql);
@@ -145,6 +154,13 @@ class Weblog {
 				mkdir($usr_dir);
 			}
 			
+			/* clean old files */
+			foreach (glob($usr_dir . '/*.html') as $filename) {
+				unlink($filename);
+			}
+			foreach (glob($usr_dir . '/*.css') as $filename) {
+				unlink($filename);
+			}
 			
 			$s = new Smarty();
 			$s->template_dir = BABEL_PREFIX . '/res/weblog/themes/' . $Weblog->blg_theme;
@@ -165,7 +181,21 @@ class Weblog {
 			
 			$s->assign('user_nick', $Weblog->usr_nick);
 			
-			$sql = "SELECT bge_id, bge_title, bge_body, bge_mode, bge_comments, bge_trackbacks, bge_comment_permission, bge_published, usr_id, usr_nick FROM babel_weblog_entry, babel_user WHERE bge_uid = usr_id AND bge_uid = {$Weblog->usr_id} AND bge_pid = {$Weblog->blg_id} AND bge_status = 1 ORDER BY bge_published DESC LIMIT 10";
+			$sql = "SELECT DISTINCT bet_tag FROM babel_weblog_entry_tag WHERE bet_eid IN (SELECT bge_id FROM babel_weblog_entry WHERE bge_pid = {$Weblog->blg_id}) ORDER BY bet_tag ASC";
+			
+			$rs = mysql_query($sql);
+			
+			$_tags = array();
+			while ($_tag = mysql_fetch_array($rs)) {
+				$_tags[] = $_tag;
+			}
+			mysql_free_result($rs);
+			
+			$s->assign('tags', $_tags);
+			
+			/* S: index.smarty */
+			
+			$sql = "SELECT bge_id, bge_title, bge_body, bge_mode, bge_tags, bge_comments, bge_trackbacks, bge_comment_permission, bge_published, usr_id, usr_nick FROM babel_weblog_entry, babel_user WHERE bge_uid = usr_id AND bge_uid = {$Weblog->usr_id} AND bge_pid = {$Weblog->blg_id} AND bge_status = 1 ORDER BY bge_published DESC LIMIT 10";
 			$rs = mysql_query($sql);
 			$_entries = array();
 			$i = 0;
@@ -190,31 +220,74 @@ class Weblog {
 						$_entries[$_entry['bge_id']]['bge_body_plain'] = $purifier->purify($Textile->TextileThis($_entry['bge_body']));
 						break;
 				}
+				if ($_entry['bge_tags'] == '') {
+					$_entries[$_entry['bge_id']]['bge_tags_plain'] = '';
+				} else {
+					$_entries[$_entry['bge_id']]['bge_tags_plain'] = Weblog::vxMakeTagLink($_entry['bge_tags']);
+				}
 			}
 			mysql_free_result($rs);
 			
 			$s->assign('entries', $_entries);
-			
-			$sql = "SELECT DISTINCT bet_tag FROM babel_weblog_entry_tag WHERE bet_eid IN (SELECT bge_id FROM babel_weblog_entry WHERE bge_pid = {$Weblog->blg_id}) ORDER BY bet_tag ASC";
-			
-			$rs = mysql_query($sql);
-			
-			$_tags = array();
-			while ($_tag = mysql_fetch_array($rs)) {
-				$_tags[] = $_tag;
-			}
-			mysql_free_result($rs);
-			
-			$s->assign('tags', $_tags);
-			
-			/* index.smarty */
+
 			$file_index = $usr_dir . '/index.html';
 			$o_index = $s->fetch('index.smarty');
 			$files++;
 			$bytes += file_put_contents($file_index, $o_index);
 			
-			/* entry.smarty */
-			$sql = "SELECT bge_id, bge_title, bge_body, bge_comments, bge_trackbacks, bge_mode, bge_comment_permission, bge_published, usr_id, usr_nick FROM babel_weblog_entry, babel_user WHERE bge_uid = usr_id AND bge_uid = {$Weblog->usr_id} AND bge_pid = {$Weblog->blg_id} AND bge_status = 1 ORDER BY bge_published DESC";
+			/* E: index.smarty */
+			
+			/* S: tag.smarty */
+			
+			foreach ($_tags as $tag) {
+				$s->assign('tag_cur', $tag['bet_tag']);
+				$tag_sql = mysql_real_escape_string($tag['bet_tag']);
+				$sql = "SELECT bge_id, bge_title, bge_body, bge_tags, bge_comments, bge_trackbacks, bge_mode, bge_comment_permission, bge_published, usr_id, usr_nick FROM babel_weblog_entry, babel_user WHERE bge_uid = usr_id AND bge_uid = {$Weblog->usr_id} AND bge_pid = {$Weblog->blg_id} AND bge_status = 1 AND bge_id IN (SELECT bet_eid FROM babel_weblog_entry_tag WHERE bet_tag = '{$tag_sql}') ORDER BY bge_published DESC";
+				$rs = mysql_query($sql);
+				$_entries = array();
+				$i = 0;
+				while ($_entry = mysql_fetch_array($rs)) {
+					$i++;
+					$_entries[$_entry['bge_id']] = $_entry;
+					$_entries[$_entry['bge_id']]['bge_title_plain'] = make_plaintext($_entry['bge_title']);
+					$_entries[$_entry['bge_id']]['usr_nick_plain'] = make_plaintext($_entry['usr_nick']);
+					$_entries[$_entry['bge_id']]['usr_nick_url'] = urlencode($_entry['usr_nick']);
+					$_entries[$_entry['bge_id']]['bge_published_plain'] = date('Y-n-j G:i:s T', $_entry['bge_published']);
+					switch (intval($_entry['bge_mode'])) {
+						case 0: // plain text
+							$_entries[$_entry['bge_id']]['bge_body_plain'] = make_plaintext(trim($_entry['bge_body']));
+							break;
+						case 1: // html
+							$_entries[$_entry['bge_id']]['bge_body_plain'] = $purifier->purify($_entry['bge_body']);
+							break;
+						case 2: // ubb
+							$_entries[$_entry['bge_id']]['bge_body_plain'] = format_ubb($_entry['bge_body']);
+							break;
+						case 3: // textile
+							$_entries[$_entry['bge_id']]['bge_body_plain'] = $purifier->purify($Textile->TextileThis($_entry['bge_body']));
+							break;
+					}
+					if ($_entry['bge_tags'] == '') {
+						$_entries[$_entry['bge_id']]['bge_tags_plain'] = '';
+					} else {
+						$_entries[$_entry['bge_id']]['bge_tags_plain'] = Weblog::vxMakeTagLink($_entry['bge_tags']);
+					}
+				}
+				mysql_free_result($rs);
+				
+				$s->assign('entries', $_entries);
+	
+				$file_tag = $usr_dir . '/tag-' . $tag['bet_tag'] . '.html';
+				$o_tag = $s->fetch('tag.smarty');
+				$files++;
+				$bytes += file_put_contents($file_tag, $o_tag);
+			}
+			
+			/* E: tag.smarty */
+			
+			/* S: entry.smarty */
+			
+			$sql = "SELECT bge_id, bge_title, bge_body, bge_tags, bge_comments, bge_trackbacks, bge_mode, bge_comment_permission, bge_published, usr_id, usr_nick FROM babel_weblog_entry, babel_user WHERE bge_uid = usr_id AND bge_uid = {$Weblog->usr_id} AND bge_pid = {$Weblog->blg_id} AND bge_status = 1 ORDER BY bge_published DESC";
 			$rs = mysql_query($sql);
 			$i = 0;
 			while ($_entry = mysql_fetch_array($rs)) {
@@ -236,6 +309,11 @@ class Weblog {
 					case 3: // textile
 						$_entry['bge_body_plain'] = $purifier->purify($Textile->TextileThis($_entry['bge_body']));
 						break;
+				}
+				if ($_entry['bge_tags'] == '') {
+					$_entry['bge_tags_plain'] = '';
+				} else {
+					$_entry['bge_tags_plain'] = Weblog::vxMakeTagLink($_entry['bge_tags']);
 				}
 				$file_entry = $usr_dir . '/entry-' . $_entry['bge_id'] . '.html';
 				$s->assign('entry', $_entry);
