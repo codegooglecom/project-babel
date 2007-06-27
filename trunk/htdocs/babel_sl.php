@@ -172,6 +172,10 @@ switch ($m) {
 		$s->vxBlogBuild();
 		break;
 		
+	case 'blog_destroy':
+		$s->vxBlogDestroy();
+		break;
+		
 	case 'blog_portrait_save':
 		$s->vxBlogPortraitSave();
 		break;

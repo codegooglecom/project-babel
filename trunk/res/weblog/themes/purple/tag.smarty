@@ -13,7 +13,7 @@
 	<div class="top_right">
 	</div>
 <div id="top_inside">
-<h1 class="title_main"><a href="{$site_weblog_root}" class="white">{$site_title}</a> / <span style="font-weight: 200; font-size: 80%;">{$tag_cur}</span></h1>
+<h1 class="title_main"><a href="{$site_weblog_root}" class="white">{$site_title}</a> / <span style="font-weight: 200; font-size: 90%;">{$tag_cur}</span></h1>
 <h2 class="title_sub">{$site_description}</h2>
 </div>
 </div>
