@@ -1,0 +1,6 @@
+<div id="bottom">
+	<div id="bottom_inside">
+		Purple theme designed by <a href="http://www.livid.cn/" class="white">Livid</a>, this blog is proudly powered by <a href="http://blog.v2ex.com/weblog-project/" class="white"><strong>V2EX Weblog Project</strong></a>.<br />
+		<small>This page was built on {$built} by {$user_nick}</small>
+	</div>
+</div>

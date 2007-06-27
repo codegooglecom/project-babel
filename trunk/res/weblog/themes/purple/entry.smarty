@@ -4,7 +4,7 @@
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <meta http-equiv="cache-control" content="no-cache" />
 <meta name="keywords" content="V2EX, Babel, Livid, PHP, " />
-<title>{$site_title}</title>
+<title>{$entry.bge_title_plain} - {$site_title}</title>
 <link href="/favicon.ico" rel="shortcut icon" />
 <link href="{$site_weblog_root}/style.css" rel="stylesheet" type="text/css" />
 </head>
@@ -13,7 +13,7 @@
 	<div class="top_right">
 	</div>
 <div id="top_inside">
-<h1 class="title_main"><a href="{$site_weblog_root}" class="white">{$site_title}</a></h1>
+<h1 class="title_main"><a href="{$site_weblog_root}" class="white">{$site_title}</a> / <span style="font-weight: 200; font-size: 80%;">{$entry.bge_title_plain}</span></h1>
 <h2 class="title_sub">{$site_description}</h2>
 </div>
 </div>
@@ -21,15 +21,10 @@
 <div id="left">
 	<div id="left_items">
 		<div class="left_title">TAGS</div>
-		<div class="cur"> Everything</div>
-		<div class="item"> 主题和回复</div>
-		<div class="item"> 短消息</div>
-		<div class="item"> 朋友们的状态</div>
-		<div class="item"> 朋友们在做的事情</div>
-		<div class="item"> 我收藏的频道</div>
+		{foreach from=$tags item=item key=key}
+			<div class="item"> <a href="tag-{$item.bet_tag}.html" class="tag">{$item.bet_tag}</a></div>
+		{/foreach}
 		<div class="sep"></div>
-		<div class="item"> 更多应用</div>
-		<div class="item"> 我的个人设置</div>
 	</div>
 </div>
 <div id="right">
@@ -45,7 +40,7 @@
 		<h1 class="title_item">{$entry.bge_title_plain}</h1>
 		<div class="sub"><span class="tip"><small>By <a href="http://{$site_babel}/u/{$entry.usr_nick_url}">{$entry.usr_nick_plain}</a> on {$entry.bge_published_plain} - {$entry.bge_comments} comments - {$entry.bge_trackbacks} trackbacks</small></span>
 		<div class="toolbar">
-			add to del.icio.us
+			add to del.icio.us{if $item.bge_tags_plain neq ''} - TAGS:{$item.bge_tags_plain}{/if}
 		</div>
 		</div>
 		<div class="object">{$entry.bge_body_plain}</div>
@@ -54,11 +49,6 @@
 </div>
 <div id="bottom_sep">
 </div>
-<div id="bottom">
-	<div id="bottom_inside">
-		Purple theme designed by <a href="http://www.livid.cn/" class="white">Livid</a>, this blog is proudly powered by <a href="http://blog.v2ex.com/weblog-project/" class="white"><strong>V2EX Weblog Project</strong></a>.<br />
-		<small>This page was built on {$built} by {$user_nick}</small>
-	</div>
-</div>
+{include file='bottom.smarty'}
 </body>
 </html>

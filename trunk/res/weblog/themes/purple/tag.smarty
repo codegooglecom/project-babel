@@ -4,7 +4,7 @@
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <meta http-equiv="cache-control" content="no-cache" />
 <meta name="keywords" content="V2EX, Babel, Livid, PHP, " />
-<title>{$site_title}</title>
+<title>{$site_title} / {$tag_cur}</title>
 <link href="/favicon.ico" rel="shortcut icon" />
 <link href="{$site_weblog_root}/style.css" rel="stylesheet" type="text/css" />
 </head>
@@ -13,7 +13,7 @@
 	<div class="top_right">
 	</div>
 <div id="top_inside">
-<h1 class="title_main"><a href="{$site_weblog_root}" class="white">{$site_title}</a></h1>
+<h1 class="title_main"><a href="{$site_weblog_root}" class="white">{$site_title}</a> / <span style="font-weight: 200; font-size: 80%;">{$tag_cur}</span></h1>
 <h2 class="title_sub">{$site_description}</h2>
 </div>
 </div>
@@ -22,7 +22,11 @@
 	<div id="left_items">
 		<div class="left_title">TAGS</div>
 		{foreach from=$tags item=item key=key}
-			<div class="item"> <a href="tag-{$item.bet_tag}.html" class="tag">{$item.bet_tag}</a></div>
+			{if $item.bet_tag eq $tag_cur}
+				<div class="cur"> {$item.bet_tag}</div>
+			{else}
+				<div class="item"> <a href="tag-{$item.bet_tag}.html" class="tag">{$item.bet_tag}</a></div>
+			{/if}
 		{/foreach}
 		<div class="sep"></div>
 	</div>

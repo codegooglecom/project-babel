@@ -41,7 +41,7 @@ if (V2EX_BABEL == 1) {
 	require_once('HTTP/Request.php');
 	require_once('Crypt/Blowfish.php');
 	
-	require_once(BABEL_PREFIX . '/libs/smarty/libs/Smarty.class.php');
+	require_once(BABEL_PREFIX . '/libs/smarty/Smarty.class.php');
 	
 	/* 3rdparty Zend Framework cores */
 	ini_set('include_path', BABEL_PREFIX . '/libs/zf/' . ZEND_FRAMEWORK_VERSION . PATH_SEPARATOR . ini_get('include_path'));
