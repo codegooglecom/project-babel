@@ -360,24 +360,26 @@ class Page {
 					if (($_SESSION['hits'] % 10) == 0) {
 						$this->User->vxUpdateLogin();
 					}
-					if (($_SESSION['hits'] % 31) == 0) {
-						$_date = getdate();
-						if ((preg_match('/Alexa/', $_SESSION['babel_ua']['ua'])) || ($_date['wday'] == 0) || ($_date['hours'] > 17) || ($_date['hours'] < 8)) {
-							$_adjust = intval($_SESSION['hits'] / 31);
-							$_bonus = 31 / $_adjust;
-							$this->User->vxPay($this->User->usr_id, $_bonus, 9, '单次访问达到 ' . $_SESSION['hits'] . ' 个页面的奖励');
+					if (BABEL_VISITING_AWARDING) {
+						if (($_SESSION['hits'] % 31) == 0) {
+							$_date = getdate();
+							if ((preg_match('/Alexa/', $_SESSION['babel_ua']['ua'])) || ($_date['wday'] == 0) || ($_date['hours'] > 17) || ($_date['hours'] < 8)) {
+								$_adjust = intval($_SESSION['hits'] / 31);
+								$_bonus = 31 / $_adjust;
+								$this->User->vxPay($this->User->usr_id, $_bonus, 9, '单次访问达到 ' . $_SESSION['hits'] . ' 个页面的奖励');
+							}
 						}
-					}
-					if ($_SESSION['hits'] == 100) {
-						$_date = getdate();
-						if ((preg_match('/Alexa/', $_SESSION['babel_ua']['ua'])) || ($_date['wday'] == 0) || ($_date['hours'] > 17) || ($_date['hours'] < 8)) {
-							$this->User->vxPay($this->User->usr_id, 100, 100, '百页斩！');
+						if ($_SESSION['hits'] == 100) {
+							$_date = getdate();
+							if ((preg_match('/Alexa/', $_SESSION['babel_ua']['ua'])) || ($_date['wday'] == 0) || ($_date['hours'] > 17) || ($_date['hours'] < 8)) {
+								$this->User->vxPay($this->User->usr_id, 100, 100, '百页斩！');
+							}
 						}
-					}
-					if ($_SESSION['hits'] == 1000) {
-						$_date = getdate();
-						if ((preg_match('/Alexa/', $_SESSION['babel_ua']['ua'])) || ($_date['wday'] == 0) || ($_date['hours'] > 17) || ($_date['hours'] < 8)) {
-							$this->User->vxPay($this->User->usr_id, 1000, 1000, '你踏着一千个页面的残骸冲向了银河系！');
+						if ($_SESSION['hits'] == 1000) {
+							$_date = getdate();
+							if ((preg_match('/Alexa/', $_SESSION['babel_ua']['ua'])) || ($_date['wday'] == 0) || ($_date['hours'] > 17) || ($_date['hours'] < 8)) {
+								$this->User->vxPay($this->User->usr_id, 1000, 1000, '你踏着一千个页面的残骸冲向了银河系！');
+							}
 						}
 					}
 				} else {

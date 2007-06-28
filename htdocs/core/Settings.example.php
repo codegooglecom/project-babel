@@ -96,7 +96,8 @@ define('BABEL_PST_PRICE', 5);
 define('BABEL_PST_SELF_PRICE', 3);
 define('BABEL_TPC_PRICE', 20);
 define('BABEL_TPC_UPDATE_PRICE', 5);
-define('BABEL_BLG_PRICE', 899);
+
+define('BABEL_VISITING_AWARDING', false); // This is too evil.
 
 define('BABEL_SECURITY_RATE', 1.1);
 

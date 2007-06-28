@@ -161,6 +161,9 @@ class Weblog {
 			foreach (glob($usr_dir . '/*.css') as $filename) {
 				unlink($filename);
 			}
+			foreach (glob($usr_dir . '/*.rss') as $filename) {
+				unlink($filename);
+			}
 			
 			$s = new Smarty();
 			$s->template_dir = BABEL_PREFIX . '/res/weblog/themes/' . $Weblog->blg_theme;
@@ -174,8 +177,11 @@ class Weblog {
 			$s->assign('site_static', BABEL_WEBLOG_SITE_STATIC);
 			$s->assign('site_babel', BABEL_DNS_NAME);
 			$s->assign('site_weblog_root', 'http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_name . '/');
+			$s->assign('site_url', 'http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_name . '/');
 			$s->assign('site_title', make_plaintext($Weblog->blg_title));
 			$s->assign('site_description', make_plaintext($Weblog->blg_description));
+			$s->assign('site_category', make_plaintext(Vocabulary::site_name));
+			$s->assign('site_lang', 'en');
 			
 			$s->assign('built', date('Y-n-j G:i:s T', time()));
 			
@@ -220,6 +226,7 @@ class Weblog {
 						$_entries[$_entry['bge_id']]['bge_body_plain'] = $purifier->purify($Textile->TextileThis($_entry['bge_body']));
 						break;
 				}
+				$_entries[$_entry['bge_id']]['bge_body_plain_rss'] = htmlspecialchars($_entries[$_entry['bge_id']]['bge_body_plain']);
 				if ($_entry['bge_tags'] == '') {
 					$_entries[$_entry['bge_id']]['bge_tags_plain'] = '';
 				} else {
@@ -234,6 +241,11 @@ class Weblog {
 			$o_index = $s->fetch('index.smarty');
 			$files++;
 			$bytes += file_put_contents($file_index, $o_index);
+			
+			$file_feed_main = $usr_dir . '/index.rss';
+			$o_feed_main = $s->fetch('feed.smarty');
+			$files++;
+			$bytes += file_put_contents($file_feed_main, $o_feed_main);
 			
 			/* E: index.smarty */
 			
@@ -267,6 +279,7 @@ class Weblog {
 							$_entries[$_entry['bge_id']]['bge_body_plain'] = $purifier->purify($Textile->TextileThis($_entry['bge_body']));
 							break;
 					}
+					$_entries[$_entry['bge_id']]['bge_body_plain_rss'] = htmlspecialchars($_entries[$_entry['bge_id']]['bge_body_plain']);
 					if ($_entry['bge_tags'] == '') {
 						$_entries[$_entry['bge_id']]['bge_tags_plain'] = '';
 					} else {
@@ -281,6 +294,11 @@ class Weblog {
 				$o_tag = $s->fetch('tag.smarty');
 				$files++;
 				$bytes += file_put_contents($file_tag, $o_tag);
+				
+				$file_feed_tag = $usr_dir . '/tag-' . $tag['bet_tag'] . '.rss';
+				$o_feed_tag = $s->fetch('feed_tag.smarty');
+				$files++;
+				$bytes += file_put_contents($file_feed_tag, $o_feed_tag);
 			}
 			
 			/* E: tag.smarty */
@@ -351,6 +369,9 @@ class Weblog {
 				unlink($filename);
 			}
 			foreach (glob($usr_dir . '/*.css') as $filename) {
+				unlink($filename);
+			}
+			foreach (glob($usr_dir . '/*.rss') as $filename) {
 				unlink($filename);
 			}
 			rmdir($usr_dir);
