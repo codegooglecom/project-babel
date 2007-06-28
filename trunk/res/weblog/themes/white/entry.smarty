@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<title>{$site_title}</title>
+<link href="{$site_weblog_root}style.css" rel="stylesheet" type="text/css" />
+<link href="{$site_weblog_root}index.rss" rel="alternate" type="application/rss+xml" title="{$site_title}" />
+</head>
+<body>
+<div align="center">
+<div id="main">
+	<div id="header">
+		<div id="header_inside">
+			<a href=".">{$site_title}</a>
+			<span class="desc">{$site_description}</span>
+		</div>
+	</div>
+	<div class="bar">
+		<script type="text/javascript">  babel_ing_prefix = "<small>Currently: </small>"; babel_ing_color_prefix = "#C0C0D0"; babel_ing_color_time = "#C0C0D0"; </script> <script type="text/javascript" src="http://www.v2ex.com/js/ing/Livid"> </script>
+	</div>
+	<div id="content">
+	
+	<span class="date">06/31/2007</span>
+	<span class="title"><a class="comments">500</a>&nbsp;&nbsp;<a href="entry-.html">{$entry.bge_title_plain}</a></span>
+	<div class="body">{$entry.bge_body_plain}</div>
+	
+	<div class="bar" style="text-align: center;">White theme designed by Livid, this blog is proudly powered by V2EX Weblog Project.
+	</div>
+	<div id="bottom"></div>
+</div>
+</div>
+</body>
+</html>

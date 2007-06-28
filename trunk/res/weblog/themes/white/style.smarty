@@ -1,0 +1,107 @@
+body {
+background-color: #F0F0F0;
+padding: 20px 0px 20px 0px;
+margin: 0px;
+font-family: Lucida Grande, Verdana, Tahoma, hei;
+}
+
+div#main {
+width: 500px;
+margin-left: auto;
+margin-right: auto;
+background-color: #FFF;
+border-right: 1px solid #E0E0F0;
+border-bottom: 1px solid #E0E0F0;
+}
+
+div#header {
+background-image: url("http://[$site_static]/weblog-static/themes/[$site_theme]/bg_header.gif");
+height: 80px;
+}
+
+div#header_inside {
+padding-top: 10px;
+font-size: 22px;
+font-family: "Arial Black";
+text-align: center;
+color: #99A;
+letter-spacing: -1px;
+}
+
+div#header_inside span.desc {
+display: block;
+padding-top: 5px;
+font-size: 11px;
+font-family: "Arial";
+text-align: center;
+color: #AAB;
+letter-spacing: 0px;
+}
+
+div.bar {
+padding: 5px;
+background-color: #E0E0F0;
+font-size: 11px;
+color: #A0A0B0;
+margin: 10px;
+text-align: right;
+}
+
+div#bottom {
+height: 5px;
+}
+
+div#content {
+text-align: left;
+}
+
+div.body {
+padding: 10px 15px 5px 15px;
+line-height: 18px;
+margin-bottom: 10px;
+font-size: 12px;
+color: #445;
+text-align: justify;
+}
+
+span.date {
+display: block;
+padding: 5px 5px 7px 5px;
+color: #AAA;
+font-size: 10px;
+}
+
+span.title {
+display: block;
+padding: 0px 5px 5px 10px;
+color: #99A;
+font-size: 14px;
+font-weight: bold;
+}
+
+a.comments {
+padding: 4px 5px 4px 5px;
+background-color: #667;
+color: #FFF;
+text-decoration: none;
+font-size: 9px;
+}
+
+a:link, a:visited {
+color: #99A;
+text-decoration: none;
+outline: none;
+}
+
+a:hover {
+color: #667;
+text-decoration: underline;
+outline: none;
+}
+
+a:active {
+background-color: #667;
+color: #FFF;
+text-decoration: none;
+outline: none;
+}

@@ -2,11 +2,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN">
 <head>
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
-<meta http-equiv="cache-control" content="no-cache" />
-<meta name="keywords" content="V2EX, Babel, Livid, PHP, " />
 <title>{$site_title}</title>
 <link href="/favicon.ico" rel="shortcut icon" />
-<link href="{$site_weblog_root}/style.css" rel="stylesheet" type="text/css" />
+<link href="{$site_weblog_root}style.css" rel="stylesheet" type="text/css" />
+<link href="{$site_weblog_root}index.rss" rel="alternate" type="application/rss+xml" title="{$site_title}" />
 </head>
 <body>
 <div id="top">
@@ -36,7 +35,7 @@
 </div>
 <div id="main">
 	<div id="main_items">
-		<div class="top_right"><img src="{$ico_feed}" align="absmiddle" /> <a href="#;">Subscribe via RSS</a></div>
+		<div class="top_right"><img src="{$ico_feed}" align="absmiddle" /> <a href="{$site_weblog_root}index.rss">Subscribe via RSS</a></div>
 		{foreach from=$entries item=item key=key}
 		<h1 class="title_item"><a href="entry-{$item.bge_id}.html">{$item.bge_title}</a></h1>
 		<div class="sub"><span class="tip"><small>By <a href="http://{$site_babel}/u/{$item.usr_nick_url}">{$item.usr_nick_plain}</a> on {$item.bge_published_plain} - {$item.bge_comments} comments - {$item.bge_trackbacks} trackbacks</small></span>
