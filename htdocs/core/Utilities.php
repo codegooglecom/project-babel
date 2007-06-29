@@ -702,6 +702,14 @@ function is_valid_email($email) {
 	return (preg_match($regex, $email));
 }
 
+function is_valid_url($url) {
+	if (preg_match ("/^(http\:\/\/)?([a-z0-9][a-z0-9\-]+\.)?[a-z0-9][a-z0-9\-]+[a-z0-9](\.[a-z]{2,4})+(\/[a-z0-9\.\,\-\_\%\#\?\=\&]?)?$/i", $url)) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
 function is_valid_nick($nick) {
 	$regex = "/[\\\\<>\\n\\t\\a\\r\\s\"'\\/\\.,\\-~!@#\$%^&*()_+=|\\[\\]\{\};:?]+/";
 	if (preg_match($regex, $nick)) {

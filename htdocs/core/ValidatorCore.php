@@ -2976,6 +2976,133 @@ class Validator {
 	}
 	
 	/* E module: Blog Edit Update logic */
+	
+	/* S module: Blog Comment Check logic */
+	
+	public function vxBlogCommentCheck() {
+		$rt = array();
+		
+		$rt['errors'] = 0;
+		
+		/* bec_nick (max: 20) */
+		
+		$rt['bec_nick_value'] = '';
+		$rt['bec_nick_maxlength'] = 20;
+		$rt['bec_nick_error'] = 0;
+		$rt['bec_nick_error_msg'] = array(1 => 'You forget to write something', 2 => "It's too lengthy");
+		
+		if (isset($_POST['bec_nick'])) {
+			$rt['bec_nick_value'] = fetch_single($_POST['bec_nick']);
+			if ($rt['bec_nick_value'] == '') {
+				$rt['errors']++;
+				$rt['bec_nick_error'] = 1;
+			} else {
+				if (mb_strlen($rt['bec_nick_value'], 'UTF-8') > $rt['bec_nick_maxlength']) {
+					$rt['errors']++;
+					$rt['bec_nick_error'] = 2;
+				}
+			}
+		} else {
+			$rt['errors']++;
+			$rt['bec_nick_error'] = 1;
+		}
+		
+		/* bec_email (max: 100) */
+		
+		$rt['bec_email_value'] = '';
+		$rt['bec_email_maxlength'] = 100;
+		$rt['bec_email_error'] = 0;
+		$rt['bec_email_error_msg'] = array(1 => 'You forget to leave your E-mail', 2 => "It's too lengthy", "Your E-mail address format is incorrect");
+		
+		if (isset($_POST['bec_email'])) {
+			$rt['bec_email_value'] = fetch_single($_POST['bec_email']);
+			if ($rt['bec_email_value'] == '') {
+				$rt['errors']++;
+				$rt['bec_email_error'] = 1;
+			} else {
+				if (mb_strlen($rt['bec_email_value'], 'UTF-8') > $rt['bec_email_maxlength']) {
+					$rt['errors']++;
+					$rt['bec_email_error'] = 2;
+				} else {
+					if (!is_valid_email($rt['bec_email_value'])) {
+						$rt['errors']++;
+						$rt['bec_email_error'] = 3;
+					}
+				}
+			}
+		} else {
+			$rt['errors']++;
+			$rt['bec_email_error'] = 1;
+		}
+		
+		/* bec_url (max: 200) */
+		
+		$rt['bec_url_value'] = '';
+		$rt['bec_url_maxlength'] = 200;
+		$rt['bec_url_error'] = 0;
+		$rt['bec_url_error_msg'] = array(2 => "It's too lengthy", "Your URL format is incorrect");
+		
+		if (isset($_POST['bec_url'])) {
+			$rt['bec_url_value'] = fetch_single($_POST['bec_url']);
+			if ($rt['bec_url_value'] != '') {
+				if (mb_strlen($rt['bec_url_value'], 'UTF-8') > $rt['bec_url_maxlength']) {
+					$rt['errors']++;
+					$rt['bec_url_error'] = 2;
+				} else {
+					if (!is_valid_url($rt['bec_url_value'])) {
+						$rt['errors']++;
+						$rt['bec_url_error'] = 3;
+					}
+				}
+			}
+		}
+		
+		/* bec_body (max: 2000) */
+		
+		$rt['bec_body_value'] = '';
+		$rt['bec_body_maxlength'] = 2000;
+		$rt['bec_body_error'] = 0;
+		$rt['bec_body_error_msg'] = array(1 => 'You forget to write something', 2 => "It's too lengthy");
+		
+		if (isset($_POST['bec_body'])) {
+			$rt['bec_body_value'] = fetch_single($_POST['bec_body']);
+			if ($rt['bec_body_value'] == '') {
+				$rt['errors']++;
+				$rt['bec_body_error'] = 1;
+			} else {
+				if (mb_strlen($rt['bec_body_value'], 'UTF-8') > $rt['bec_body_maxlength']) {
+					$rt['errors']++;
+					$rt['bec_body_error'] = 2;
+				}
+			}
+		} else {
+			$rt['errors']++;
+			$rt['bec_body_error'] = 1;
+		}
+		
+		return $rt;
+	}
+	
+	/* E module: Blog Comment Check logic */
+	
+	/* S module: Blog Comment Insert logic */
+	
+	public function vxBlogCommentInsert($user_id, $entry_id, $nick, $email, $url, $body) {
+		$nick = mysql_real_escape_string($nick);
+		$email = mysql_real_escape_string($email);
+		$url = mysql_real_escape_string($url);
+		$body = mysql_real_escape_string($body);
+		$time = time();
+		$sql = "INSERT INTO babel_weblog_entry_comment(bec_eid, bec_uid, bec_nick, bec_email, bec_url, bec_body, bec_status, bec_created, bec_approved) VALUES({$entry_id}, {$user_id}, '{$nick}', '{$email}', '{$url}', '{$body}', 0, {$time}, {$time})";
+		mysql_query($sql, $this->db);
+		if (mysql_affected_rows($this->db) == 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	/* E module: Blog Comment Insert logic */
 }
 
 /* E Validator class */
