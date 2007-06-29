@@ -1,0 +1,208 @@
+body {
+padding: 0px;
+margin: 0px;
+background-color: #FFF;
+font-family: Lucida Grande, Verdana, Tahoma, hei;
+}
+
+div#header {
+background-color: #474757;
+border-bottom: 2px solid #90909F;
+color: #FFF;
+font-size: 16px;
+padding: 10px;
+}
+
+div#title {
+font-size: 11px;
+padding: 5px 8px 3px 8px;
+color: #666;
+background-color: #FF9;
+border-bottom: 2px solid #FF8;
+}
+
+img.blog_portrait {
+border: 2px solid #90909F;
+}
+
+span.desc {
+color: #CCC;
+font-size: 12px;
+}
+
+a:link, a:visited {
+color: #90909F;
+text-decoration: none;
+outline: none;
+}
+
+a:hover {
+color: #676777;
+text-decoration: underline;
+outline: none;
+}
+
+a:active {
+color: #FFF;
+background-color: #90909F;
+text-decoration: none;
+outline: none;
+}
+
+a.white:link, a.white:visited {
+color: #FFF;
+text-decoration: none;
+outline: none;
+}
+
+a.white:hover {
+color: #FFF;
+text-decoration: underline;
+outline: none;
+}
+
+a.white:active {
+color: #CCC;
+text-decoration: none;
+outline: none;
+}
+
+div.comment {
+border-bottom: 1px dotted #CCC;
+margin: 0px 10px 5px 10px;
+padding: 10px;
+font-size: 12px;
+}
+
+div.author {
+font-size: 11px;
+padding-top: 5px;
+margin-top: 10px;
+color: #999;
+}
+
+div.form {
+margin: 0px 10px 5px 10px;
+padding: 10px;
+font-size: 12px;
+}
+
+div.notify {
+margin: 10px 10px 5px 10px;
+padding: 5px;
+background-color: #E0E0EF;
+color: #333;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border: 2px solid #C0C0CF;
+font-size: 11px;
+}
+
+input.sl {
+font-family: "Courier New", Courier, Hei, mono;
+font-size: 13px;
+width: 250px;
+background-color: #F7F7F7;
+color: #333;
+border-style: solid;
+border-width: 1px;
+padding: 2px;
+border-top-color: #C0C0C0;
+border-left-color: #C0C0C0;
+border-right-color: #CCC;
+border-bottom-color: #CCC;
+}
+
+input.sl:focus {
+font-family: "Courier New", Courier, Hei, mono;
+font-size: 13px;
+width: 250px;
+background-color: #FFF;
+color: #000;
+border-style: solid;
+border-width: 1px;
+padding: 2px;
+border-top-color: #3C0;
+border-left-color: #3C0;
+border-right-color: #3C0;
+border-bottom-color: #3C0;
+}
+
+textarea.ml {
+font-family: "Courier New", Courier, Hei, mono;
+font-size: 13px;
+width: 400px;
+overflow: auto;
+background-color: #F7F7F7;
+color: #333;
+border-style: solid;
+border-width: 1px;
+padding: 2px;
+border-top-color: #C0C0C0;
+border-left-color: #C0C0C0;
+border-right-color: #CCC;
+border-bottom-color: #CCC;
+}
+
+textarea.ml:focus {
+font-family: "Courier New", Courier, Hei, mono;
+font-size: 13px;
+width: 400px;
+overflow: auto;
+background-color: #FFF;
+color: #333;
+border-style: solid;
+border-width: 1px;
+padding: 2px;
+border-top-color: #3C0;
+border-left-color: #3C0;
+border-right-color: #3C0;
+border-bottom-color: #3C0;
+}
+
+div.btn_o {
+width: 100px;
+height: 26px;
+background-image: url("/img/graphite/bg.gif");
+background-color: #333;
+-moz-border-radius: 5px;
+padding: 0px;
+margin: 0px;
+}
+
+div.btn_i {
+text-align: center;
+letter-spacing: 1px;
+padding-top: 4px;
+color: #FFF;
+font-size: 12px;
+}
+
+div.btn_i a:link, div.btn_i a:visited, div.btn_i a:active {
+text-decoration: none;
+color: #F5F5F5;
+}
+
+div.btn_i a:hover {
+text-decoration: none;
+color: #FFF;
+}
+
+span.info {
+color: #666;
+line-height: 25px;
+}
+
+span.tip {
+color: #999;
+}
+
+span.tip_i {
+color: #AFAFAF;
+}
+
+input.cb {
+display: inline;
+padding: 0px;
+margin: 0px;
+}

@@ -79,12 +79,8 @@ font-size: 14px;
 font-weight: bold;
 }
 
-a.comments {
-padding: 4px 5px 4px 5px;
-background-color: #667;
-color: #FFF;
-text-decoration: none;
-font-size: 9px;
+a {
+outline: none;
 }
 
 a:link, a:visited {
@@ -104,4 +100,28 @@ background-color: #667;
 color: #FFF;
 text-decoration: none;
 outline: none;
+}
+
+a.comments:link, a.comments:visited {
+padding: 4px 5px 4px 5px;
+background-color: #667;
+color: #FFF;
+text-decoration: none;
+font-size: 9px;
+}
+
+a.comments:hover {
+padding: 4px 5px 4px 5px;
+background-color: #334;
+color: #FFF;
+text-decoration: none;
+font-size: 9px;
+}
+
+a.comments:active {
+padding: 4px 5px 4px 5px;
+background-color: #FFF;
+color: #667;
+text-decoration: none;
+font-size: 9px;
 }

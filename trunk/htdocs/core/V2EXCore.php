@@ -10772,7 +10772,7 @@ google_color_url = "00CC00";
 			echo('<td height="35">');
 			echo('<h1 class="ititle">' . make_plaintext($_weblog['blg_title']) . '</h1>');
 			if (intval($_weblog['blg_dirty']) == 1) {
-				echo(' <span class="tip_i">');
+				echo(' <span class="tip">');
 				_v_ico_silk('error');
 				echo(' 需要重新构建</span>');
 			}
@@ -10800,7 +10800,9 @@ google_color_url = "00CC00";
 			echo('</tr>');
 			echo('</table>');
 			_v_hr();
-			echo('<span class="tip_i">建立于 ' . date('Y 年 n 月 j 日', $_weblog['blg_created']) . '，其中 ' . $_weblog['blg_entries'] . ' 篇文章共获得了 ' . $_weblog['blg_comments'] . ' 条评论</span>');
+			echo('<span class="tip">');
+			_v_ico_silk('chart_bar');
+			echo(' 建立于 ' . date('Y 年 n 月 j 日', $_weblog['blg_created']) . '，其中 ' . $_weblog['blg_entries'] . ' 篇文章共获得了 ' . $_weblog['blg_comments'] . ' 条评论</span>');
 			echo('</div>');
 		}
 		_v_hr();
@@ -10844,7 +10846,7 @@ google_color_url = "00CC00";
 		echo('</table>');
 		_v_hr();
 		_v_ico_silk('information');
-		echo(' 创建一个新的博客网站需要花费 ' . BABEL_BLG_PRICE . ' 个铜币');
+		echo(' ');
 		_v_d_e();
 		_v_d_e();
 	}
@@ -10922,7 +10924,7 @@ google_color_url = "00CC00";
 		echo('</table>');
 		_v_hr();
 		_v_ico_silk('information');
-		echo(' 创建一个新的博客网站需要花费 ' . BABEL_BLG_PRICE . ' 个铜币');
+		echo(' ');
 		_v_d_e();
 		_v_d_e();
 	}
@@ -11272,7 +11274,7 @@ google_color_url = "00CC00";
 		echo('<td height="35">');
 		echo('<h1 class="ititle">' . make_plaintext($Weblog->blg_title) . '</h1>');
 		if (intval($Weblog->blg_dirty) == 1) {
-			echo(' <span class="tip_i">');
+			echo(' <span class="tip">');
 			_v_ico_silk('error');
 			echo(' 需要重新构建</span>');
 		}
@@ -11300,7 +11302,7 @@ google_color_url = "00CC00";
 		echo('</tr>');
 		echo('</table>');
 		_v_hr();
-		echo('<span class="tip_i">');
+		echo('<span class="tip">');
 		_v_ico_silk('chart_bar');
 		echo(' 建立于 ' . date('Y 年 n 月 j 日', $Weblog->blg_created) . '，其中 ' . $Weblog->blg_entries . ' 篇文章共获得了 ' . $Weblog->blg_comments . ' 条评论</span>');
 		_v_hr();
