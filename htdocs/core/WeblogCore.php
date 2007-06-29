@@ -12,6 +12,7 @@ class Weblog {
 			$this->blg_uid = intval($_weblog['blg_uid']);
 			$this->blg_name = $_weblog['blg_name'];
 			$this->blg_title = $_weblog['blg_title'];
+			$this->blg_title_plain = make_plaintext($_weblog['blg_title']);
 			$this->blg_description = $_weblog['blg_description'];
 			$this->blg_portrait = $_weblog['blg_portrait'];
 			$this->blg_theme = $_weblog['blg_theme'];

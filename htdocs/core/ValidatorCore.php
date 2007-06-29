@@ -3065,7 +3065,7 @@ class Validator {
 		$rt['bec_body_error_msg'] = array(1 => 'You forget to write something', 2 => "It's too lengthy");
 		
 		if (isset($_POST['bec_body'])) {
-			$rt['bec_body_value'] = fetch_single($_POST['bec_body']);
+			$rt['bec_body_value'] = fetch_multi($_POST['bec_body']);
 			if ($rt['bec_body_value'] == '') {
 				$rt['errors']++;
 				$rt['bec_body_error'] = 1;
@@ -3087,14 +3087,19 @@ class Validator {
 	
 	/* S module: Blog Comment Insert logic */
 	
-	public function vxBlogCommentInsert($user_id, $entry_id, $nick, $email, $url, $body) {
+	public function vxBlogCommentInsert($user_id, $entry_id, $nick, $email, $url, $body, $status) {
 		$nick = mysql_real_escape_string($nick);
 		$email = mysql_real_escape_string($email);
 		$url = mysql_real_escape_string($url);
 		$body = mysql_real_escape_string($body);
 		$time = time();
-		$sql = "INSERT INTO babel_weblog_entry_comment(bec_eid, bec_uid, bec_nick, bec_email, bec_url, bec_body, bec_status, bec_created, bec_approved) VALUES({$entry_id}, {$user_id}, '{$nick}', '{$email}', '{$url}', '{$body}', 0, {$time}, {$time})";
-		mysql_query($sql, $this->db);
+		if ($status == 1) {
+			$approved = time();
+		} else {
+			$approved = 0;
+		}
+		$sql = "INSERT INTO babel_weblog_entry_comment(bec_eid, bec_uid, bec_nick, bec_email, bec_url, bec_body, bec_status, bec_created, bec_approved) VALUES({$entry_id}, {$user_id}, '{$nick}', '{$email}', '{$url}', '{$body}', {$status}, {$time}, {$approved})";
+		mysql_query($sql, $this->db) or die(mysql_error());
 		if (mysql_affected_rows($this->db) == 1) {
 			return true;
 		} else {

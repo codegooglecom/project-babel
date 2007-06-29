@@ -42,6 +42,7 @@ class Entry {
 			$this->bge_pid = intval($_entry['bge_pid']);
 			$this->bge_uid = intval($_entry['bge_uid']);
 			$this->bge_title = $_entry['bge_title'];
+			$this->bge_title_plain = make_plaintext($_entry['bge_title']);
 			$this->bge_body = $_entry['bge_body'];
 			$this->bge_comments = intval($_entry['bge_comments']);
 			$this->bge_comment_permission = intval($_entry['bge_comment_permission']);
@@ -57,6 +58,14 @@ class Entry {
 		} else {
 			$this->entry = false;
 		}
+	}
+	
+	public function vxUpdateComments() {
+		$sql = "SELECT COUNT(*) FROM babel_weblog_entry_comment WHERE bec_eid = {$this->bge_id} AND bec_status = 1";
+		$count = mysql_result(mysql_query($sql), 0, 0);
+		$sql = "UPDATE babel_weblog_entry SET bge_comments = {$count} WHERE bge_id = {$this->bge_id}";
+		mysql_unbuffered_query($sql);
+		return true;
 	}
 }
 ?>
