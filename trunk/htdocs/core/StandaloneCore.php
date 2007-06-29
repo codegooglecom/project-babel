@@ -798,7 +798,7 @@ class Standalone {
 			$Node = null;
 		}
 		mysql_free_result($rs);
-		$sql = 'SELECT usr_id, usr_nick, usr_gender, usr_portrait, tpc_id, tpc_title, tpc_posts, tpc_created, tpc_lasttouched, nod_id, nod_title, nod_name FROM babel_user, babel_topic, babel_node WHERE tpc_uid = usr_id AND tpc_pid = nod_id AND tpc_flag IN (0, 2) AND tpc_pid NOT IN ' . BABEL_NODES_POINTLESS . ' ORDER BY tpc_lasttouched DESC LIMIT 31';
+		$sql = 'SELECT usr_id, usr_nick, usr_gender, usr_portrait, tpc_id, tpc_title, tpc_posts, tpc_created, tpc_lasttouched, nod_id, nod_title, nod_name FROM babel_user, babel_topic, babel_node WHERE tpc_uid = usr_id AND tpc_pid = nod_id AND tpc_flag IN (0, 2) AND tpc_pid NOT IN ' . BABEL_NODES_POINTLESS . ' ORDER BY tpc_lasttouched DESC LIMIT 12';
 		$rs = mysql_query($sql, $this->db);
 		$_data->topics = array();
 		$i = 0;
@@ -879,7 +879,7 @@ class Standalone {
 				$Node = null;
 			}
 			mysql_free_result($rs);
-			$sql = 'SELECT usr_id, usr_nick, usr_gender, usr_portrait, tpc_id, tpc_title, tpc_posts, tpc_created, tpc_lasttouched, nod_id, nod_title, nod_name FROM babel_user, babel_topic, babel_node WHERE tpc_uid = usr_id AND tpc_pid = nod_id AND nod_sid = ' . $section_id . ' AND tpc_flag IN (0, 2) AND tpc_pid NOT IN ' . BABEL_NODES_POINTLESS . ' ORDER BY tpc_lasttouched DESC LIMIT 31';
+			$sql = 'SELECT usr_id, usr_nick, usr_gender, usr_portrait, tpc_id, tpc_title, tpc_posts, tpc_created, tpc_lasttouched, nod_id, nod_title, nod_name FROM babel_user, babel_topic, babel_node WHERE tpc_uid = usr_id AND tpc_pid = nod_id AND nod_sid = ' . $section_id . ' AND tpc_flag IN (0, 2) AND tpc_pid NOT IN ' . BABEL_NODES_POINTLESS . ' ORDER BY tpc_lasttouched DESC LIMIT 12';
 			$rs = mysql_query($sql, $this->db);
 			$_data->topics = array();
 			$i = 0;

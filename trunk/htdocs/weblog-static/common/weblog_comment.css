@@ -9,7 +9,7 @@ div#header {
 background-color: #474757;
 border-bottom: 2px solid #90909F;
 color: #FFF;
-font-size: 16px;
+font-size: 13px;
 padding: 10px;
 }
 
@@ -27,7 +27,7 @@ border: 2px solid #90909F;
 
 span.desc {
 color: #CCC;
-font-size: 12px;
+font-size: 10px;
 }
 
 a:link, a:visited {
