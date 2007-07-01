@@ -216,6 +216,8 @@ function format_ubb($text, $emoticon = true) {
 	
 	$p[14] = '/\[youtube\]([a-zA-Z0-9\_\-]+)\[\/youtube\]/i';
 	
+	$p[15] = '/\{gtalk\}/i';
+	
 	$r[0] = '<img class="code" src="$1" border="0" />';
 	$r[1] = '<a href="$1" rel="nofollow external" class="tpc">$1</a>';
 	$r[2] = '<a href="http://$1" rel="nofollow external" class="tpc">http://$1</a>';
@@ -231,6 +233,7 @@ function format_ubb($text, $emoticon = true) {
 	$r[12] = '讨论区 [ <a href="/go/$1" class="tpc">$2</a> ]';
 	$r[13] = '<strike>$1</strike>';
 	$r[14] = '<object width="425" height="350"><param name="movie" value="http://www.youtube.com/v/$1"></param><param name="wmode" value="transparent"></param><embed src="http://www.youtube.com/v/$1" type="application/x-shockwave-flash" wmode="transparent" width="425" height="350"></embed></object>';
+	$r[15] = '<script src="http://gmodules.com/ig/ifr?url=http://www.google.com/ig/modules/googletalk.xml&amp;synd=open&amp;w=320&amp;h=480&amp;title=Google+Talk+by+V2EX&amp;border=%23ffffff%7C0px%2C1px+solid+%23998899%7C0px%2C1px+solid+%23aa99aa%7C0px%2C2px+solid+%23bbaabb%7C0px%2C2px+solid+%23ccbbcc&amp;output=js"></script>';
 	
 	$text = preg_replace($p, $r, $text);
 	
@@ -827,7 +830,7 @@ function make_pages($pages, $p, $prefix, $suffix) {
 			echo('<span class="nextprev">&#171; previous</span>');
 		}
 		$max = $pages + 1;
-		if ($pages < 20) {
+		if ($pages < 14) {
 			for ($i = 1; $i < $max; $i++) {
 				if ($p == $i) {
 					echo('<span class="current">' . $i . '</span>');
@@ -836,8 +839,8 @@ function make_pages($pages, $p, $prefix, $suffix) {
 				}
 			}
 		} else {
-			if ($p < 21) {
-				for ($i = 1; $i < 21; $i++) {
+			if ($p < 15) {
+				for ($i = 1; $i < 15; $i++) {
 					if ($p == $i) {
 						echo('<span class="current">' . $i . '</span>');
 					} else {
@@ -847,8 +850,8 @@ function make_pages($pages, $p, $prefix, $suffix) {
 				echo('<a href="' . $prefix . $pages . $suffix . '">'. $pages . '</a>');
 			} else {
 				echo('<a href="' . $prefix . '1' . $suffix . '">1</a>');
-				$left = $p - 7;
-				$right = $p + 7;
+				$left = $p - 5;
+				$right = $p + 5;
 				if ($right > $pages) {
 					$right = $pages;
 				}

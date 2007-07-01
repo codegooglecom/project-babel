@@ -449,13 +449,13 @@ class Page {
 		echo('<link rel="stylesheet" type="text/css" href="/css/themes/' . BABEL_THEME . '/css_babel.css?' . date('YnjG', time()) . '" />');
 		echo('<link rel="stylesheet" type="text/css" href="/css/themes/' . BABEL_THEME . '/css_extra.css?' . date('YnjG', time()) . '" />');
 		echo('<link rel="stylesheet" type="text/css" href="/css/themes/' . BABEL_THEME . '/css_zen.css" />');
-		echo('<link rel="stylesheet" type="text/css" href="/css/lightbox.css" media="screen" />');
+		//echo('<link rel="stylesheet" type="text/css" href="/css/lightbox.css" media="screen" />');
 		echo('<link rel="alternate" type="application/rss+xml" title="' . Vocabulary::site_name . ' RSS" href="' . $feedURL . '" />');
 		echo('<script type="text/javascript" src="/js/babel.js"></script>');
 		echo('<script type="text/javascript" src="/js/babel_zen.js"></script>');
-		echo('<script type="text/javascript" src="' . CDN_UI . 'js/prototype.js"></script>');
-		echo('<script type="text/javascript" src="' . CDN_UI . 'js/scriptaculous.js?load=effects"></script>');
-		echo('<script type="text/javascript" src="' . CDN_UI . 'js/lightbox.js"></script>');
+		//echo('<script type="text/javascript" src="' . CDN_UI . 'js/prototype.js"></script>');
+		//echo('<script type="text/javascript" src="' . CDN_UI . 'js/scriptaculous.js?load=effects"></script>');
+		//echo('<script type="text/javascript" src="' . CDN_UI . 'js/lightbox.js"></script>');
 	}
 	
 	/* E module: link and script tags */
@@ -9729,7 +9729,7 @@ google_color_url = "00CC00";
 		_v_d_e();
 		
 		/* S: data here!!! */
-		$_sources = array(1 => 'web', 2 => 'ingc');
+		include(BABEL_PREFIX . '/res/ing_sources.php');
 		$t = time() - 86400;
 		
 		$sql = "SELECT ing_id, ing_uid, ing_doing, ing_doing, ing_source, ing_created, usr_id, usr_nick, usr_gender, usr_portrait FROM babel_ing_update, babel_user WHERE usr_id = ing_uid ORDER BY ing_created DESC LIMIT {$start}, {$size}";
@@ -9814,7 +9814,7 @@ google_color_url = "00CC00";
 		_v_d_e();
 		
 		/* S: data here!!! */
-		$_sources = array(1 => 'web', 2 => 'ingc');
+		include(BABEL_PREFIX . '/res/ing_sources.php');
 		$t = time() - 86400;
 		$sql = "SELECT frd_fid FROM babel_friend WHERE frd_uid = {$User->usr_id}";
 		$rs = mysql_query($sql);
@@ -10028,7 +10028,7 @@ google_color_url = "00CC00";
 		_v_d_e();
 		
 		/* S: data here!!! */
-		$_sources = array(1 => 'web', 2 => 'ingc');
+		include(BABEL_PREFIX . '/res/ing_sources.php');
 		$t = time() - 86400;
 		$sql = "SELECT ing_id, ing_uid, ing_doing, ing_doing, ing_source, ing_created, usr_id, usr_nick, usr_gender, usr_portrait FROM babel_ing_update, babel_user WHERE usr_id = ing_uid AND ing_uid = {$User->usr_id} ORDER BY ing_created DESC LIMIT {$start}, {$size}";
 		$rs_updates = mysql_query($sql);
@@ -11008,6 +11008,13 @@ google_color_url = "00CC00";
 		echo('</select>');
 		echo('</td>');
 		echo('</tr>');
+		echo('<tr>');
+		echo('<td width="100" align="right" valign="top"><a href="/ing/' . $this->User->usr_nick_url . '" class="regular">ING</a> 集成</td>');
+		echo('<td width="400" align="left"><span class="text">');
+		echo('<input type="radio" name="blg_ing" value="1" /> 启用');
+		echo('&nbsp;&nbsp;<input type="radio" name="blg_ing" value="0" /> 关闭');
+		echo('</span></td>');
+		echo('</tr>');
 		echo('<tr><td width="500" colspan="3" valign="middle" align="right">');
 		_v_btn_f('更新设置', 'form_blog_config');
 		echo('</td></tr>');
@@ -11308,7 +11315,7 @@ google_color_url = "00CC00";
 		_v_hr();
 		$sql = "SELECT bge_id, bge_status, bge_mode, bge_comments, bge_revisions, bge_title FROM babel_weblog_entry WHERE bge_pid = {$Weblog->blg_id} ORDER BY bge_created DESC";
 		$rs = mysql_query($sql);
-		echo('<table cellpadding="0" cellspacing="0" border="0">');
+		echo('<table width="99%" cellpadding="0" cellspacing="0" border="0">');
 		while ($_entry = mysql_fetch_array($rs)) {
 			echo('<tr>');
 			echo('<td width="40" height="40" valign="middle" align="center">');
@@ -11322,20 +11329,25 @@ google_color_url = "00CC00";
 			if ($_entry['bge_status'] == 1) {
 				echo(' ... 已发布');
 			} else {
-				echo(' ... 草稿');
+				echo(' ... <span class="green">草稿</span>');
 			}
 			echo('</span>');
-			echo('&nbsp;&nbsp;&nbsp;<a href="/blog/edit/' . $_entry['bge_id'] . '.vx" class="btn">');
-			_v_ico_silk('page_edit');
-			echo(' 编辑</a>');
-			echo('&nbsp;&nbsp;&nbsp;<a href="#;" onclick="if (confirm(' . "'确认删除？'" . ')) { location.href = ' . "'/blog/erase/" . $_entry['bge_id'] . ".vx'" . '; } else { return false; }" class="btn">');
-			_v_ico_silk('delete');
-			echo(' 删除</a>');
+			echo('</td>');
+			echo('<td width="300" align="right">');
 			if ($_entry['bge_status'] == 0) {
-				echo('&nbsp;&nbsp;&nbsp;<a href="/blog/publish/' . $_entry['bge_id'] . '.vx" class="btn">');
+				echo('&nbsp;&nbsp;<a href="/blog/publish/' . $_entry['bge_id'] . '.vx" class="btn">');
 				_v_ico_silk('page_world');
 				echo(' 发布</a>');
 			}
+			echo('&nbsp;&nbsp;<a href="/blog/moderate/' . $_entry['bge_id'] . '.vx" class="btn">');
+			_v_ico_silk('comments');
+			echo(' 评论</a>');
+			echo('&nbsp;&nbsp;<a href="/blog/edit/' . $_entry['bge_id'] . '.vx" class="btn">');
+			_v_ico_silk('page_edit');
+			echo(' 编辑</a>');
+			echo('&nbsp;&nbsp;<a href="#;" onclick="if (confirm(' . "'确认删除？'" . ')) { location.href = ' . "'/blog/erase/" . $_entry['bge_id'] . ".vx'" . '; } else { return false; }" class="btn">');
+			_v_ico_silk('delete');
+			echo(' 删除</a>');
 			echo('</td>');
 			echo('</tr>');
 		}
