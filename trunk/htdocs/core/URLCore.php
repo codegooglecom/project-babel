@@ -242,6 +242,11 @@ class URL {
 		$url = '/blog/list/' . $weblog_id . '.vx';
 		return $url;
 	}
+	
+	public static function vxGetBlogModerate($entry_id) {
+		$url = '/blog/moderate/' . $entry_id . '.vx';
+		return $url;
+	}
 }
 
 /* E URL class */

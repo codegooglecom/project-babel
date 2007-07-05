@@ -3065,7 +3065,7 @@ class Validator {
 		$rt['bec_body_error_msg'] = array(1 => 'You forget to write something', 2 => "It's too lengthy");
 		
 		if (isset($_POST['bec_body'])) {
-			$rt['bec_body_value'] = fetch_multi($_POST['bec_body']);
+			$rt['bec_body_value'] = Weblog::vxFilterComment(fetch_multi($_POST['bec_body']));
 			if ($rt['bec_body_value'] == '') {
 				$rt['errors']++;
 				$rt['bec_body_error'] = 1;
@@ -3098,7 +3098,8 @@ class Validator {
 		} else {
 			$approved = 0;
 		}
-		$sql = "INSERT INTO babel_weblog_entry_comment(bec_eid, bec_uid, bec_nick, bec_email, bec_url, bec_body, bec_status, bec_created, bec_approved) VALUES({$entry_id}, {$user_id}, '{$nick}', '{$email}', '{$url}', '{$body}', {$status}, {$time}, {$approved})";
+		$ip = $_SERVER['REMOTE_ADDR'];
+		$sql = "INSERT INTO babel_weblog_entry_comment(bec_eid, bec_uid, bec_nick, bec_email, bec_url, bec_body, bec_status, bec_ip, bec_created, bec_approved) VALUES({$entry_id}, {$user_id}, '{$nick}', '{$email}', '{$url}', '{$body}', {$status}, '{$ip}', {$time}, {$approved})";
 		mysql_query($sql, $this->db) or die(mysql_error());
 		if (mysql_affected_rows($this->db) == 1) {
 			return true;

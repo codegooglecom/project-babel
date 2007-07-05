@@ -119,7 +119,7 @@ if ($Entry->entry) {
 	$rs = mysql_query($sql);
 	while ($_comment = mysql_fetch_array($rs)) {
 		echo('<div class="comment">');
-		echo($_comment['bec_body']);
+		echo(nl2br($_comment['bec_body']));
 		echo('<div class="author">By ');
 		if ($_comment['bec_url'] != '') {
 			echo('<a href="' . $_comment['bec_url'] . '" target="_blank" rel="nofollow external">' . make_plaintext($_comment['bec_nick'])) . '</a>';

@@ -13,3 +13,15 @@ border: 2px solid #D0D0DF;
 .blog_view {
 float: right;
 }
+
+.entry_comment {
+padding: 10px;
+font-size: 12px;
+border-bottom: 1px solid #EEE;
+}
+
+.comment_author {
+padding: 10px 0px 0px 0px;
+font-size: 10px;
+color: #999;
+}
