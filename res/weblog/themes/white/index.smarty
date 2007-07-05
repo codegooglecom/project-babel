@@ -25,7 +25,7 @@
 	<span class="title"><a href="#;" class="comments" onclick="openComment({$item.bge_id});">{$item.bge_comments}</a>&nbsp;&nbsp;<a href="entry-{$item.bge_id}.html">{$item.bge_title_plain}</a></span>
 	<div class="body">{$item.bge_body_plain}</div>
 	{/foreach}
-	<div class="bar" style="text-align: center;">White theme designed by Livid, this blog is proudly powered by V2EX Weblog Project.
+	<div class="bar" style="text-align: center;">White theme designed by <a href="http://www.livid.cn/"><strong>Livid</strong></a>, this blog is proudly powered by <a href="http://blog.livid.cn/weblog-project/"><strong>V2EX Weblog Project</strong></a>.
 	</div>
 	<div id="bottom"></div>
 </div>

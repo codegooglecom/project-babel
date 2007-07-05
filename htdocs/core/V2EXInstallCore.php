@@ -1238,6 +1238,7 @@ $i->vxSetupBoard('python', 'Python', 3, 3, 1, 2, 'Happy Hacking!', 'Enjoy Life!'
 	$i->vxSetupChannelByName('python', 'http://www.python.org/channews.rdf');
 $i->vxSetupBoard('java', 'Java', 3, 3, 1, 2, 'Everywhere!', '');
 	$i->vxSetupChannelByName('java', 'http://www.javaworld.com/index.xml');
+$i->vxSetupBoard('jrockit', 'JRockit', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('ideas', 'Ideas', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('openid', 'OpenID', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('mediatemple', '(mt) Media Temple', 3, 3, 1, 2, '', '');

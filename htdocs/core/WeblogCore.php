@@ -49,6 +49,14 @@ class Weblog {
 		mysql_unbuffered_query($sql);
 	}
 	
+	public function vxUpdateComments() {
+		$sql = "SELECT SUM(bge_comments) FROM babel_weblog_entry WHERE bge_pid = {$this->blg_id}";
+		$count = mysql_result(mysql_query($sql), 0, 0);
+		$sql = "UPDATE babel_weblog SET blg_comments = {$count} WHERE blg_id = {$this->blg_id}";
+		mysql_unbuffered_query($sql);
+		return true;
+	}
+	
 	public function vxUpdateEntries() {
 		$sql = "SELECT COUNT(*) FROM babel_weblog_entry WHERE bge_pid = {$this->blg_id}";
 		$count = mysql_result(mysql_query($sql), 0, 0);
@@ -110,7 +118,8 @@ class Weblog {
 			0 => '纯文本 / Plain Text',
 			1 => '超文本 / HTML',
 			2 => 'UBB',
-			3 => 'Textile'
+			3 => 'Textile',
+			4 => 'Markdown'
 		);
 		return $_modes;
 	}
@@ -139,6 +148,7 @@ class Weblog {
 			$_SESSION['babel_message_weblog'] = _vo_ico_silk('clock') . ' 距离上次构建时间尚不足 ' . BABEL_WEBLOG_BUILD_INTERVAL . ' 秒，本次操作取消，请等待 ' . (BABEL_WEBLOG_BUILD_INTERVAL - intval($start - $Weblog->blg_lastbuilt)) . ' 秒之后再试验';
 		} else {
 			require_once(BABEL_PREFIX . '/libs/textile/classTextile.php');
+			require_once(BABEL_PREFIX . '/libs/markdown/markdown.php');
 			require_once(BABEL_PREFIX . '/libs/htmlpurifier/library/HTMLPurifier.auto.php');
 			$purifier_config = HTMLPurifier_Config::createDefault();
 			$purifier_config->set('Core', 'Encoding', 'UTF-8');
@@ -225,6 +235,9 @@ class Weblog {
 						break;
 					case 3: // textile
 						$_entries[$_entry['bge_id']]['bge_body_plain'] = $purifier->purify($Textile->TextileThis($_entry['bge_body']));
+						break;
+					case 4: //
+						$_entries[$_entry['bge_id']]['bge_body_plain'] = $purifier->purify(Markdown($_entry['bge_body']));
 						break;
 				}
 				$_entries[$_entry['bge_id']]['bge_body_plain_rss'] = htmlspecialchars($_entries[$_entry['bge_id']]['bge_body_plain']);
@@ -352,6 +365,7 @@ class Weblog {
 			$s->right_delimiter = '}';
 			$Weblog->vxAddBuild();
 			$Weblog->vxTouchBuild();
+			$Weblog->vxUpdateComments();
 			$end = microtime(true);
 			$elapsed = $end - $start;
 			$_SESSION['babel_message_weblog'] = _vo_ico_silk('tick') . ' 博客网站 ' . make_plaintext($Weblog->blg_title) . ' 重新构建成功，' . $files . ' 个文件共写入了 ' . $bytes . ' 字节，共耗时 <small>' . $elapsed . '</small> 秒，<a href="http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_name . '" class="t" target="_blank">现在查看</a> <img src="/img/ext.png" align="absmiddle" />';
@@ -398,6 +412,30 @@ class Weblog {
 		mysql_unbuffered_query("DELETE FROM babel_weblog WHERE blg_id = {$weblog_id}");
 		
 		$_SESSION['babel_message_weblog'] = '博客网站 <strong>' . make_plaintext($Weblog->blg_title) . '</strong> 已经彻底关闭，全部相关数据清除完毕';
+	}
+	
+	public static function vxFilterComment($comment) {
+		require_once(BABEL_PREFIX . '/libs/htmlpurifier/library/HTMLPurifier.auto.php');
+		$purifier_config = HTMLPurifier_Config::createDefault();
+		$purifier_config->set('Core', 'Encoding', 'UTF-8');
+		$purifier_config->set('HTML', 'Doctype', 'XHTML 1.0 Transitional');
+		$purifier = new HTMLPurifier($purifier_config);		
+		
+		/* Some HTML is OK:
+		 *
+		 * a
+		 * b
+		 * blockquote
+		 * em
+		 * i
+		 * img
+		 * strong
+		 * u
+		 *
+		 */
+		$comment = strip_tags($comment, "<a><b><blockquote><em><i><img><strong><u>");
+		$comment = $purifier->purify($comment);
+		return $comment;
 	}
 }
 ?>

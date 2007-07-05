@@ -1861,7 +1861,16 @@ class Page {
 				$this->vxMenu($_menu_options);
 				$this->vxBlogEditSave($options);
 				break;
-			
+				
+			case 'blog_moderate':
+				$_menu_options['modules']['new_members'] = false;
+				$_menu_options['modules']['friends'] = false;
+				$_menu_options['modules']['stats'] = false;
+				$_menu_options['modules']['fav'] = false;
+				$this->vxSidebar($show = false);
+				$this->vxMenu($_menu_options);
+				$this->vxBlogModerate($options);
+				break;
 		}
 		echo('</div>');
 	}
@@ -10737,7 +10746,7 @@ google_color_url = "00CC00";
 		echo('<a href="/blog/create.vx">创建新的博客网站</a>');
 		_v_d_e();
 		_v_ico_silk('anchor');
-		echo(' 博客网志 &gt; 控制台');
+		echo(' 我的博客网志 &gt; 控制台');
 		_v_hr();
 		if (isset($_SESSION['babel_message_weblog'])) {
 			if ($_SESSION['babel_message_weblog'] != '') {
@@ -10770,7 +10779,7 @@ google_color_url = "00CC00";
 			}
 			echo('</td>');
 			echo('<td height="35">');
-			echo('<h1 class="ititle">' . make_plaintext($_weblog['blg_title']) . '</h1>');
+			echo('<h1 class="ititle"><a href="/blog/list/' . $_weblog['blg_id'] . '.vx">' . make_plaintext($_weblog['blg_title']) . '</a></h1>');
 			if (intval($_weblog['blg_dirty']) == 1) {
 				echo(' <span class="tip">');
 				_v_ico_silk('error');
@@ -11249,7 +11258,7 @@ google_color_url = "00CC00";
 		echo('');
 		_v_d_e();
 		_v_ico_silk('anchor');
-		echo(' 我的博客网志 &gt; ' . make_plaintext($Weblog->blg_title));
+		echo(' <a href="/blog/admin.vx">我的博客网志</a> &gt; ' . make_plaintext($Weblog->blg_title));
 		_v_hr();
 		if (isset($_SESSION['babel_message_weblog'])) {
 			if ($_SESSION['babel_message_weblog'] != '') {
@@ -11322,7 +11331,7 @@ google_color_url = "00CC00";
 			_v_ico_tango_32('mimetypes/x-office-document');
 			echo('</td>');
 			echo('<td height="40" align="left"><span class="text_large">');
-			echo(make_plaintext($_entry['bge_title']));
+			echo('<a href="/blog/moderate/' . $_entry['bge_id'] . '.vx">' . make_plaintext($_entry['bge_title']) . '</a>');
 			echo('</span>');
 			echo('<span class="tip_i">');
 			echo(' ... ' . $_entry['bge_revisions'] . ' 次编辑 ... ' . $_entry['bge_comments'] . ' 篇评论');
@@ -11341,7 +11350,7 @@ google_color_url = "00CC00";
 			}
 			echo('&nbsp;&nbsp;<a href="/blog/moderate/' . $_entry['bge_id'] . '.vx" class="btn">');
 			_v_ico_silk('comments');
-			echo(' 评论</a>');
+			echo(' 管理</a>');
 			echo('&nbsp;&nbsp;<a href="/blog/edit/' . $_entry['bge_id'] . '.vx" class="btn">');
 			_v_ico_silk('page_edit');
 			echo(' 编辑</a>');
@@ -11516,6 +11525,114 @@ google_color_url = "00CC00";
 		_v_hr();
 		_v_ico_silk('information');
 		echo(' 编辑文章之后将需要重新构建');
+		_v_d_e();
+		_v_d_e();
+	}
+	
+	public function vxBlogModerate($Entry) {
+		$Weblog = new Weblog($Entry->bge_pid);
+		_v_m_s();
+		echo('<link type="text/css" rel="stylesheet" href="/css/themes/' . BABEL_THEME . '/css_weblog.css" />');
+		_v_b_l_s();
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; <a href="/blog/admin.vx">博客网志</a> &gt; <a href="/blog/' . Weblog::DEFAULT_ACTION . '/' . $Weblog->blg_id . '.vx">' . make_plaintext($Weblog->blg_title) . '</a> &gt; ' . make_plaintext($Entry->bge_title) . ' &gt; 管理评论 <span class="tip_i"><small>alpha</small></span>');
+		_v_d_e();
+		_v_b_l_s();
+		_v_d_tr_s();
+		echo('');
+		_v_d_e();
+		_v_ico_silk('anchor');
+		echo(' 我的博客网志 &gt; <a href="/blog/list/' . $Weblog->blg_id . '.vx">' . $Weblog->blg_title_plain . '</a> &gt; ' . $Entry->bge_title_plain);
+		_v_hr();
+		if (isset($_SESSION['babel_message_weblog'])) {
+			if ($_SESSION['babel_message_weblog'] != '') {
+				echo('<div class="notify">' . $_SESSION['babel_message_weblog'] . '</div>');
+				$_SESSION['babel_message_weblog'] = '';
+			}
+		} else {
+			$_SESSION['babel_message_weblog'] = '';
+		}
+		echo('<div class="blog_block">');
+		echo('<div class="blog_view"><span class="tip_i">');
+		_v_ico_silk('picture');
+		echo(' <a href="/blog/portrait/' . $Weblog->blg_id . '.vx">图标</a>');
+		echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
+		_v_ico_silk('layout');
+		echo(' <a href="/blog/decorate/.vx">主题</a>');
+		echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
+		_v_ico_silk('cog_edit');
+		echo(' <a href="/blog/config/' . $Weblog->blg_id . '.vx">设置</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_name . '/" target="_blank">查看</a> <img src="/img/ext.png" align="absmiddle" /></span></div>');
+		echo('<table width="98%" cellpadding="0" cellspacing="0" border="0">');
+		echo('<tr>');
+		echo('<td width="46" align="left">');
+		if ($Weblog->blg_portrait != '') {
+			echo('<img src="/img/b/' . $Weblog->blg_portrait . '_s.' . BABEL_PORTRAIT_EXT . '" class="blog_portrait" border="0" />');
+		} else {
+			echo('<img src="/img/p_blog_s.png" class="blog_portrait" border="0" />');
+		}
+		echo('</td>');
+		echo('<td>');
+		echo('<h1 class="ititle"><a href="/blog/list/' . $Weblog->blg_id . '.vx">' . $Weblog->blg_title_plain . '</a></h1>');
+		if (intval($Weblog->blg_dirty) == 1) {
+			echo(' <span class="tip">');
+			_v_ico_silk('error');
+			echo(' 需要重新构建</span>');
+		}
+		echo('</td>');
+		echo('</tr>');
+		echo('</table>');
+		_v_hr();
+		echo('<table width="99%" cellpadding="0" cellspacing="0" border="0">');
+		echo('<tr>');
+		echo('<td width="40" height="40" valign="middle" align="center">');
+		_v_ico_tango_32('mimetypes/x-office-document');
+		echo('</td>');
+		echo('<td height="40" align="left"><span class="text_large">');
+		echo($Entry->bge_title_plain);
+		echo('</span>');
+		echo('<span class="tip_i">');
+		echo(' ... ' . $Entry->bge_revisions . ' 次编辑 ... ' . $Entry->bge_comments . ' 篇评论');
+		if ($Entry->bge_status == 1) {
+			echo(' ... 已发布');
+		} else {
+			echo(' ... <span class="green">草稿</span>');
+		}
+		echo('</span>');
+		echo('</td>');
+		echo('<td width="300" align="right">');
+		if ($Entry->bge_status == 0) {
+			echo('&nbsp;&nbsp;<a href="/blog/publish/' . $Entry->bge_id . '.vx" class="btn">');
+			_v_ico_silk('page_world');
+			echo(' 发布</a>');
+		}
+		echo('&nbsp;&nbsp;<a href="/blog/moderate/' . $Entry->bge_id . '.vx" class="btn">');
+		_v_ico_silk('comments');
+		echo(' 评论</a>');
+		echo('&nbsp;&nbsp;<a href="/blog/edit/' . $Entry->bge_id . '.vx" class="btn">');
+		_v_ico_silk('page_edit');
+		echo(' 编辑</a>');
+		echo('&nbsp;&nbsp;<a href="#;" onclick="if (confirm(' . "'确认删除？'" . ')) { location.href = ' . "'/blog/erase/" . $Entry->bge_id . ".vx'" . '; } else { return false; }" class="btn">');
+		_v_ico_silk('delete');
+		echo(' 删除</a>');
+		echo('</td>');
+		echo('</tr>');
+		echo('</table>');
+		_v_hr();
+		$sql = "SELECT bec_id, bec_nick, bec_url, bec_body, bec_status, bec_ip, bec_created FROM babel_weblog_entry_comment WHERE bec_eid = {$Entry->bge_id} ORDER BY bec_created DESC";
+		$rs = mysql_query($sql);
+		while ($_comment = mysql_fetch_array($rs)) {
+			echo('<div class="entry_comment">');
+			echo(nl2br(trim($_comment['bec_body'])));
+			echo('<div class="comment_author">By ');
+			if ($_comment['bec_url'] == '') {
+				echo($_comment['bec_nick']);
+			} else {
+				echo('<a href="' . $_comment['bec_url'] . '" class="regular" target="_blank">' . $_comment['bec_nick'] . '</a>');
+			}
+			echo(' at ' . date('r', $_comment['bec_created']) . ' from ' . $_comment['bec_ip'] . ' - <a href="/blog/comment/erase/' . $_comment['bec_id'] . '.vx" class="regular">delete</a> - <a href="/blog/comment/spam/' . $_comment['bec_id'] . '.vx" class="regular">spam</a></div>');
+			echo('</div>');
+		}
+		echo('</div>');
 		_v_d_e();
 		_v_d_e();
 	}

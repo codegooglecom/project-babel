@@ -20,6 +20,11 @@ if (@$db = mysql_connect(BABEL_DB_HOSTNAME . ':' . BABEL_DB_PORT, BABEL_DB_USERN
 
 $User = new User('', '', $db);
 
+header('Content-type: text/html; charset=UTF-8');
+
+echo('<html><head><meta http-equiv="content-type" content="text/html;charset=UTF-8" /></head>');
+echo('<body>');
+
 if ($User->vxIsLogin()) {
 	if ($User->usr_id == 1) {
 		echo('Welcome.<br /><br />');
@@ -43,4 +48,6 @@ if ($User->vxIsLogin()) {
 } else {
 	die('403');
 }
+
+echo('</body></html>');
 ?>
