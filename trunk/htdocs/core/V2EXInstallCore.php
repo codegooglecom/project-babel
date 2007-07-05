@@ -895,6 +895,7 @@ $i->vxSetupBoard('g-star', "G-STAR", 71, 71, 1, 2, 'RAW', '');
 	$i->vxSetupRelatedByName('g-star', 'http://www.g-star.com/', "G-STAR RAW");
 $i->vxSetupBoard('converse', "Converse", 71, 71, 1, 2, '', '');
 	$i->vxSetupRelatedByName('converse', 'http://www.conslive.com/', '匡威网上专卖店');
+$i->vxSetupBoard('pony', "PONY", 71, 71, 1, 2, '', '');
 $i->vxSetupBoard('gas', "GAS", 71, 71, 1, 2, '', '');
 $i->vxSetupBoard('nike', "Nike", 71, 71, 1, 2, '', '');
 $i->vxSetupBoard('superlovers', "SUPER LOVERS", 71, 71, 1, 2, '', '');
