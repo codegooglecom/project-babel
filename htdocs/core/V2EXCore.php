@@ -11623,13 +11623,21 @@ google_color_url = "00CC00";
 		while ($_comment = mysql_fetch_array($rs)) {
 			echo('<div class="entry_comment">');
 			echo(nl2br(trim($_comment['bec_body'])));
-			echo('<div class="comment_author">By ');
+			if ($_comment['bec_status'] == 1) {
+				echo('<div class="comment_author">By ');
+			} else {
+				echo('<div class="comment_author_q">By ');
+			}
 			if ($_comment['bec_url'] == '') {
 				echo($_comment['bec_nick']);
 			} else {
 				echo('<a href="' . $_comment['bec_url'] . '" class="regular" target="_blank">' . $_comment['bec_nick'] . '</a>');
 			}
-			echo(' at ' . date('r', $_comment['bec_created']) . ' from ' . $_comment['bec_ip'] . ' - <a href="/blog/comment/erase/' . $_comment['bec_id'] . '.vx" class="regular">delete</a> - <a href="/blog/comment/spam/' . $_comment['bec_id'] . '.vx" class="regular">spam</a></div>');
+			echo(' at ' . date('r', $_comment['bec_created']) . ' from ' . $_comment['bec_ip'] . ' - <a href="/blog/comment/erase/' . $_comment['bec_id'] . '.vx" class="regular">delete</a> - <strong>ID: ' . $_comment['bec_id'] . '</strong>');
+			if ($_comment['bec_status'] == 0) {
+				echo(' - Needs your action - <a href="/blog/comment/approve/' . $_comment['bec_id'] . '" class="regular">approve</a>');
+			}
+			echo('</div>');
 			echo('</div>');
 		}
 		echo('</div>');
