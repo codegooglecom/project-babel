@@ -1285,6 +1285,41 @@ class Standalone {
 		}
 	}
 	
+	public function vxBlogCommentErase() {
+		$return = $_SERVER['HTTP_REFERER'];
+		if ($this->User->vxIsLogin()) {
+			if (isset($_GET['comment_id'])) {
+				$comment_id = intval($_GET['comment_id']);
+				$sql = "SELECT bec_id, bec_eid FROM babel_weblog_entry_comment WHERE bec_id = {$comment_id}";
+				$rs = mysql_query($sql);
+				if ($_comment = mysql_fetch_array($rs)) {
+					mysql_free_result($rs);
+					$sql = "SELECT bge_id, bge_uid, bge_pid FROM babel_weblog_entry WHERE bge_id = " . $_comment['bec_eid'];
+					$rs = mysql_query($sql);	
+					$_entry = mysql_fetch_array($rs);
+					mysql_free_result($rs);
+					if ($_entry['bge_uid'] == $this->User->usr_id) {
+						$sql = "DELETE FROM babel_weblog_entry_comment WHERE bec_id = " . $comment_id;
+						mysql_unbuffered_query($sql);
+						$Weblog = new Weblog($_entry['bge_pid']);
+						$Weblog->vxSetDirty();
+						$_SESSION['babel_message_weblog'] = '刚才删除了 ID 为 <strong>' . $comment_id . '</strong> 的评论，需要进行重新构建';
+						URL::vxToRedirect(URL::vxGetBlogModerate($_entry['bge_id']));
+					} else {
+						return js_alert('你没有权力对这个博客网站进行操作', '/blog/admin.vx');
+					}
+				} else {
+					mysql_free_result($rs);
+					return js_alert('指定的评论没有找到', $return);
+				}
+			} else {
+				return js_alert('指定的评论没有找到', $return);
+			}
+		} else {
+			return js_alert('你还没有登录，请登录之后再进行操作', $return);
+		}
+	}
+	
 	/* E public modules */
 	
 }

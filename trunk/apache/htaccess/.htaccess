@@ -293,3 +293,8 @@ RewriteRule ^blog/erase/([0-9]+).vx$ /babel_sl.php?m=blog_erase&entry_id=$1 [L]
 RewriteRule ^blog/publish/([0-9]+).vx$ /babel_sl.php?m=blog_publish&entry_id=$1 [L]
 RewriteRule ^blog/comment$ /babel_weblog_comment.php [L]
 RewriteRule ^blog/moderate/([0-9]+).vx$ /babel.php?m=blog_moderate&entry_id=$1 [L]
+RewriteRule ^blog/comment/erase/([0-9]+).vx$ /babel_sl.php?m=blog_comment_erase&comment_id=$1 [L]
+RewriteRule ^blog/comment/approve/([0-9]+).vx$ /babel_sl.php?m=blog_comment_approve&comment_id=$1 [L]
+RewriteRule ^blog/comment/spam/([0-9]+).vx$ /babel_sl.php?m=blog_comment_spam&comment_id=$1 [L]
+
+RewriteRule ^sidebar/ing$ /babel_sidebar_ing.php [L]

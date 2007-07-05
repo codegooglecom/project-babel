@@ -187,5 +187,17 @@ switch ($m) {
 	case 'blog_publish':
 		$s->vxBlogPublish();
 		break;
+		
+	case 'blog_comment_erase':
+		$s->vxBlogCommentErase();
+		break;
+	
+	case 'blog_comment_approve':
+		$s->vxBlogCommentApprove();
+		break;
+	
+	case 'blog_comment_spam':
+		$s->vxBlogCommentSpam();
+		break;
 }
 ?>
