@@ -2,6 +2,7 @@ body, html {
 padding: 0px;
 margin: 0px;
 background-color: #EFEFEF;
+background-image: url("/img/bg_dark.png");
 }
 
 #main {
@@ -14,7 +15,8 @@ font-family: Verdana, "Lucida Grande", "Lucida Sans", Hei, sans;
 padding: 20px 20px 20px 20px;
 width: 460px;
 background-color: #FFF;
-border: 5px solid #CFCFCF;
+-webkit-border-radius: 5px;
+-moz-border-radius: 5px;
 }
 
 #info {
@@ -73,15 +75,16 @@ margin: 0px;
 padding: 10px 10px 10px 10px;
 font-family: Verdana, "Lucida Grande", "Lucida Sans", sans;
 font-size: 10px;
+color: #FFF;
 }
 
 a:link, a:visited, a:active {
-color: #577DE4;
+color: #80808F;
 text-decoration: none;
 }
 
 a:hover {
-background-color: #577DE4;
+background-color: #90909F;
 color: #FFF;
 text-decoration: none;
 }
