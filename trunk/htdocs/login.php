@@ -132,8 +132,10 @@ if (isset($rt['return'])) {
 			}
 		}
 	} else {
-		if (!preg_match('/login$/i', $_SERVER['HTTP_REFERER'])) {
-			echo('<input type="hidden" value="' . make_single_return($_SERVER['HTTP_REFERER']) . '" name="return" />');
+		if (isset($_SERVER['HTTP_REFERER'])) {
+			if (!preg_match('/login$/i', $_SERVER['HTTP_REFERER'])) {
+				echo('<input type="hidden" value="' . make_single_return($_SERVER['HTTP_REFERER']) . '" name="return" />');
+			}
 		}
 	}
 }

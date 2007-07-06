@@ -11599,22 +11599,22 @@ google_color_url = "00CC00";
 		}
 		echo('</span>');
 		echo('</td>');
-		echo('<td width="300" align="right">');
+		echo('<td width="300" align="right"><span class="tip_i">');
 		if ($Entry->bge_status == 0) {
 			echo('&nbsp;&nbsp;<a href="/blog/publish/' . $Entry->bge_id . '.vx" class="btn">');
 			_v_ico_silk('page_world');
 			echo(' 发布</a>');
 		}
-		echo('&nbsp;&nbsp;<a href="/blog/moderate/' . $Entry->bge_id . '.vx" class="btn">');
+		echo('&nbsp;&nbsp;<strong>');
 		_v_ico_silk('comments');
-		echo(' 评论</a>');
+		echo(' 管理</strong>');
 		echo('&nbsp;&nbsp;<a href="/blog/edit/' . $Entry->bge_id . '.vx" class="btn">');
 		_v_ico_silk('page_edit');
 		echo(' 编辑</a>');
 		echo('&nbsp;&nbsp;<a href="#;" onclick="if (confirm(' . "'确认删除？'" . ')) { location.href = ' . "'/blog/erase/" . $Entry->bge_id . ".vx'" . '; } else { return false; }" class="btn">');
 		_v_ico_silk('delete');
 		echo(' 删除</a>');
-		echo('</td>');
+		echo('</span></td>');
 		echo('</tr>');
 		echo('</table>');
 		_v_hr();
@@ -11633,9 +11633,11 @@ google_color_url = "00CC00";
 			} else {
 				echo('<a href="' . $_comment['bec_url'] . '" class="regular" target="_blank">' . $_comment['bec_nick'] . '</a>');
 			}
-			echo(' at ' . date('r', $_comment['bec_created']) . ' from ' . $_comment['bec_ip'] . ' - <a href="/blog/comment/erase/' . $_comment['bec_id'] . '.vx" class="regular">delete</a> - <strong>ID: ' . $_comment['bec_id'] . '</strong>');
+			echo(' at ' . date('r', $_comment['bec_created']) . ' from ' . $_comment['bec_ip'] . ' - <strong>ID: ' . $_comment['bec_id'] . '</strong>');
 			if ($_comment['bec_status'] == 0) {
-				echo(' - Needs your action - <a href="/blog/comment/approve/' . $_comment['bec_id'] . '" class="regular">approve</a>');
+				echo(' - Needs your action - <a href="/blog/comment/approve/' . $_comment['bec_id'] . '.vx" class="regular">approve</a> - <a href="/blog/comment/erase/' . $_comment['bec_id'] . '.vx" class="regular">delete</a>');
+			} else {
+				echo(' - <a href="/blog/comment/erase/' . $_comment['bec_id'] . '.vx" class="regular">delete</a>');
 			}
 			echo('</div>');
 			echo('</div>');

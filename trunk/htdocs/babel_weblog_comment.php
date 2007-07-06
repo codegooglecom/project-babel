@@ -115,7 +115,7 @@ if ($Entry->entry) {
 	_v_ico_silk('comments');
 	echo(' ' . $Entry->bge_comments . ' responses to <strong>' . $Entry->bge_title_plain . '</strong>');
 	echo('</div>');
-	$sql = "SELECT bec_id, bec_nick, bec_body, bec_url, bec_created FROM babel_weblog_entry_comment WHERE bec_eid = {$entry_id} ORDER BY bec_created ASC";
+	$sql = "SELECT bec_id, bec_nick, bec_body, bec_url, bec_created FROM babel_weblog_entry_comment WHERE bec_eid = {$entry_id} AND bec_status = 1 ORDER BY bec_created ASC";
 	$rs = mysql_query($sql);
 	while ($_comment = mysql_fetch_array($rs)) {
 		echo('<div class="comment">');
