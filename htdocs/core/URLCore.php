@@ -223,6 +223,11 @@ class URL {
 		return $url;
 	}
 	
+	public static function vxGetBlogTheme($weblog_id) {
+		$url = '/blog/theme/' . $weblog_id . '.vx';
+		return $url;
+	}
+	
 	public static function vxGetBlogConfig($weblog_id) {
 		$url = '/blog/config/' . $weblog_id . '.vx';
 		return $url;
