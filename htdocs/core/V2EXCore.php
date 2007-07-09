@@ -11000,8 +11000,14 @@ google_color_url = "00CC00";
 		echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 		echo('<form enctype="multipart/form-data" action="/blog/theme/save/' . $Weblog->blg_id . '.vx" method="post" id="form_blog_theme">');
 		echo('<tr>');
-		echo('<td width="200" height="120" align="center"><small><input type="radio" name="blg_theme" value="white" /> white</small></td>');
-		echo('<td width="200" height="120" align="center"><small><input type="radio" name="blg_theme" value="purple" /> purple</small></td>');
+		require_once(BABEL_PREFIX . '/res/weblog_themes.php');
+		foreach ($_weblog_themes as $theme) {
+			if ($Weblog->blg_theme == $theme) {
+				echo('<td width="200" height="120" align="center" valign="middle" ><img src="/weblog-static/themes/' . $theme . '/' . $theme . '.png" style="padding: 1px; margin-bottom: 5px; background-color: #FFF; border: 3px solid #90909F;" /><br /><small><input type="radio" checked="checked" name="blg_theme" value="' . $theme . '" id="r_' . $theme . '" /> ' . $theme . '</small></td>');
+			} else {
+				echo('<td width="200" height="120" align="center" valign="middle" ><img src="/weblog-static/themes/' . $theme . '/' . $theme . '.png" style="padding: 1px; margin-bottom: 5px; background-color: #FFF; border: 3px solid #C0C0CF;" /><br /><small><input type="radio" name="blg_theme" value="' . $theme . '" id="r_' . $theme . '" /> ' . $theme . '</small></td>');
+			}
+		}
 		echo('</tr>');
 		echo('<tr><td colspan="2">');
 		_v_btn_f('保存我的选择', 'form_blog_theme');
@@ -11010,7 +11016,7 @@ google_color_url = "00CC00";
 		echo('</table>');
 		_v_hr();
 		_v_ico_silk('information');
-		echo(' 更换主题后将需要重新构建');
+		echo(' 更换主题后将需要一次完整的重新构建');
 		_v_d_e();
 		_v_d_e();
 	}
@@ -11059,8 +11065,13 @@ google_color_url = "00CC00";
 		echo('<tr>');
 		echo('<td width="100" align="right" valign="top"><a href="/ing/' . $this->User->usr_nick_url . '" class="regular">ING</a> 集成</td>');
 		echo('<td width="400" align="left"><span class="text">');
-		echo('<input type="radio" name="blg_ing" value="1" /> 启用');
-		echo('&nbsp;&nbsp;<input type="radio" name="blg_ing" value="0" /> 关闭');
+		if ($Weblog->blg_ing == 1) {
+			echo('<input type="radio" checked="checked" name="blg_ing" value="1" /> 启用');
+			echo('&nbsp;&nbsp;<input type="radio" name="blg_ing" value="0" /> 关闭');
+		} else {
+			echo('<input type="radio" name="blg_ing" value="1" /> 启用');
+			echo('&nbsp;&nbsp;<input type="radio" checked="checked" name="blg_ing" value="0" /> 关闭');
+		}
 		echo('</span></td>');
 		echo('</tr>');
 		echo('<tr><td width="500" colspan="3" valign="middle" align="right">');
@@ -11132,6 +11143,18 @@ google_color_url = "00CC00";
 		}
 		echo('</select>');
 		echo('</td>');
+		echo('</tr>');
+		echo('<tr>');
+		echo('<td width="100" align="right" valign="top"><a href="/ing/' . $this->User->usr_nick_url . '" class="regular">ING</a> 集成</td>');
+		echo('<td width="400" align="left"><span class="text">');
+		if ($rt['blg_ing_value'] == 1) {
+			echo('<input type="radio" checked="checked" name="blg_ing" value="1" /> 启用');
+			echo('&nbsp;&nbsp;<input type="radio" name="blg_ing" value="0" /> 关闭');
+		} else {
+			echo('<input type="radio" name="blg_ing" value="1" /> 启用');
+			echo('&nbsp;&nbsp;<input type="radio" checked="checked" name="blg_ing" value="0" /> 关闭');
+		}
+		echo('</span></td>');
 		echo('</tr>');
 		echo('<tr><td width="500" colspan="3" valign="middle" align="right">');
 		_v_btn_f('更新设置', 'form_blog_config');

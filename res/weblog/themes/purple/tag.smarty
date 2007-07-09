@@ -5,6 +5,7 @@
 <title>{$site_title} / {$tag_cur}</title>
 <link href="/favicon.ico" rel="shortcut icon" />
 <link href="{$site_weblog_root}style.css" rel="stylesheet" type="text/css" />
+<link href="{$site_weblog_root}tag-{$tag_cur}.rss" rel="alternate" type="application/rss+xml" title="{$site_title} / {$tag_cur}" />
 </head>
 <body>
 <div id="top">

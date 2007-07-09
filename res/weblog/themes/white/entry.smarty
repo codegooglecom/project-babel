@@ -16,17 +16,20 @@
 			<span class="desc">{$site_description}</span>
 		</div>
 	</div>
+	{if $user_ing eq 1}
 	<div class="bar">
-		<script type="text/javascript">  babel_ing_prefix = "<small>Currently: </small>"; babel_ing_color_prefix = "#C0C0D0"; babel_ing_color_time = "#C0C0D0"; </script> <script type="text/javascript" src="http://www.v2ex.com/js/ing/Livid"> </script>
+		<script type="text/javascript">  babel_ing_prefix = "<small>Currently: </small>"; babel_ing_color_prefix = "#C0C0D0"; babel_ing_color_time = "#C0C0D0"; </script> <script type="text/javascript" src="http://{$site_babel}/js/ing/{$user_nick}"> </script>
 	</div>
+	{/if}
 	<div id="content">
 	
-	<span class="date">06/31/2007</span>
+	<span class="date">{$item.bge_published_plain_long}</span>
 	<span class="title"><a href="#;" class="comments" onclick="openComment({$entry.bge_id});">{$entry.bge_comments}</a>&nbsp;&nbsp;{$entry.bge_title_plain}</span>
-	<div class="body">{$entry.bge_body_plain}</div>
-	
-	<div class="bar" style="text-align: center;">White theme designed by Livid, this blog is proudly powered by V2EX Weblog Project.
+	<div class="body">{$entry.bge_body_plain}
+		<div class="tags">TAGS:{$entry.bge_tags_plain}</div>
 	</div>
+	
+	{include file="designer.smary"}
 	<div id="bottom"></div>
 </div>
 </div>

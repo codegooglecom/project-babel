@@ -1203,6 +1203,8 @@ $i->vxSetupBoard('fon', 'FON', 3, 3, 1, 2, '<span class="tip_i"><small>FON is th
 	$i->vxSetupRelatedByName('fon', 'http://www.fon.com/', 'FON');
 $i->vxSetupBoard('maemo', 'Maemo', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('openwrt', 'OpenWrt', 3, 3, 1, 2, '<span class="tip_i"><small>Wireless Freedom</small></span>', '');
+$i->vxSetupBoard('pownce', "Pownce", 3, 3, 1, 2, '', '');
+$i->vxSetupBoard('rubik', "Rubik's Cube", 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('linux', 'Linux', 3, 3, 1, 2, 'Better Work, Better Play', '');
 	$i->vxSetupChannelByName('linux', 'http://www.linux.com/index.rss');
 	$i->vxSetupChannelByName('linux', 'http://gnomefiles.org/gnomefiles.xml');
@@ -1364,6 +1366,7 @@ $i->vxSetupBoard('sai', 'Sai', 4, 4, 1, 2, '', '');
 	$i->vxSetupChannelByName('sai', 'http://blog.orzotl.com/1/action_rss.html');
 $i->vxSetupBoard('harukimurakami', '村上春树', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('jeanpaulsartre', 'Jean-Paul Sartre', 4, 4, 1, 2, '', '');
+$i->vxSetupBoard('afterdark', '天黑以后', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('m2099', 'm2099', 4, 4, 1, 2, '', '');
 	$i->vxSetupRelatedByName('m2099', 'http://www.m2099.com/', 'm2099');
 $i->vxSetupBoard('triangle', '三角地', 4, 4, 1, 2, '', '');

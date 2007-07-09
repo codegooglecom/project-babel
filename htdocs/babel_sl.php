@@ -199,5 +199,9 @@ switch ($m) {
 	case 'blog_comment_spam':
 		$s->vxBlogCommentSpam();
 		break;
+		
+	case 'blog_theme_save':
+		$s->vxBlogThemeSave();
+		break;
 }
 ?>

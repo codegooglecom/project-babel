@@ -47,12 +47,34 @@ margin: 10px;
 text-align: right;
 }
 
+div.designer {
+padding: 5px;
+background-color: #F0F0FF;
+font-size: 10px;
+color: #A0A0B0;
+margin: 10px;
+text-align: right;
+}
+
 div#bottom {
 height: 5px;
 }
 
 div#content {
 text-align: left;
+}
+
+div.tagged {
+padding: 0px 5px 0px 5px;
+line-height: 18px;
+font-size: 11px;
+color: #C0C0CF;
+text-align: center;
+}
+
+div.tagged span.tag {
+color: #60606F;
+font-weight: bold;
 }
 
 div.body {
@@ -62,6 +84,12 @@ margin-bottom: 10px;
 font-size: 12px;
 color: #445;
 text-align: justify;
+}
+
+div.tags {
+padding: 10px 0px 0px 0px;
+font-size: 10px;
+color: #C0C0CF;
 }
 
 span.date {
