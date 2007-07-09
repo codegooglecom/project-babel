@@ -2143,6 +2143,42 @@ switch ($m) {
 			}
 		}
 		
+	case 'blog_theme':
+		if (!$p->User->vxIsLogin()) {
+			if (isset($_GET['weblog_id'])) {
+				$weblog_id = intval($_GET['weblog_id']);
+				die($p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetBlogTheme($weblog_id))));
+				break;
+			} else {
+				die($p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetBlogAdmin())));
+				break;
+			}
+		} else {
+			if (isset($_GET['weblog_id'])) {
+				$weblog_id = intval($_GET['weblog_id']);
+				$Weblog = new Weblog($weblog_id);
+				if ($Weblog->weblog) {
+					if ($Weblog->blg_uid == $p->User->usr_id) {
+						$p->vxHead($msgSiteTitle = '选择博客网站主题');
+						$p->vxBodyStart();
+						$p->vxTop();
+						$p->vxContainer('blog_theme', $Weblog);
+						break;
+					} else {
+						$_SESSION['babel_message_weblog'] = '你没有权力对这个博客网站进行操作';
+						die($p->URL->vxToRedirect($p->URL->vxGetBlogAdmin()));
+						break;
+					}
+				} else {
+					die($p->URL->vxToRedirect($p->URL->vxGetBlogAdmin()));
+					break;
+				}
+			} else {
+				die($p->URL->vxToRedirect($p->URL->vxGetBlogAdmin()));
+				break;
+			}
+		}
+		
 	case 'blog_config':
 		if ($p->User->vxIsLogin()) {
 			if (isset($_GET['weblog_id'])) {

@@ -1080,6 +1080,7 @@ $i->vxSetupBoard('zope', 'Zope/Plone', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('portable', '移动设备技术', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('httpd', 'Apache HTTP Server', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('lucene', 'Apache Lucene', 3, 3, 1, 2, '', '');
+$i->vxSetupBoard('nutch', 'Nutch', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('lenya', 'Apache Lenya', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('ant', 'Apache Ant', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('forrest', 'Apache Forrest', 3, 3, 1, 2, '', '');
@@ -1239,6 +1240,7 @@ $i->vxSetupBoard('python', 'Python', 3, 3, 1, 2, 'Happy Hacking!', 'Enjoy Life!'
 	$i->vxSetupChannelByName('python', 'http://www.python.org/channews.rdf');
 $i->vxSetupBoard('java', 'Java', 3, 3, 1, 2, 'Everywhere!', '');
 	$i->vxSetupChannelByName('java', 'http://www.javaworld.com/index.xml');
+$i->vxSetupBoard('javafx', 'JavaFX', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('jrockit', 'JRockit', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('ideas', 'Ideas', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('openid', 'OpenID', 3, 3, 1, 2, '', '');

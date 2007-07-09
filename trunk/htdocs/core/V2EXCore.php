@@ -1792,6 +1792,16 @@ class Page {
 				$this->vxBlogPortrait($options);
 				break;
 				
+			case 'blog_theme':
+				$_menu_options['modules']['new_members'] = false;
+				$_menu_options['modules']['friends'] = false;
+				$_menu_options['modules']['stats'] = false;
+				$_menu_options['modules']['fav'] = false;
+				$this->vxSidebar($show = false);
+				$this->vxMenu($_menu_options);
+				$this->vxBlogTheme($options);
+				break;
+				
 			case 'blog_config':
 				$_menu_options['modules']['new_members'] = false;
 				$_menu_options['modules']['friends'] = false;
@@ -10765,7 +10775,7 @@ google_color_url = "00CC00";
 			echo(' <a href="/blog/portrait/' . $_weblog['blg_id'] . '.vx">图标</a>');
 			echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
 			_v_ico_silk('layout');
-			echo(' <a href="/blog/decorate/.vx">主题</a>');
+			echo(' <a href="/blog/theme/' . $_weblog['blg_id'] . '.vx">主题</a>');
 			echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
 			_v_ico_silk('cog_edit');
 			echo(' <a href="/blog/config/' . $_weblog['blg_id'] . '.vx">设置</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://' . BABEL_WEBLOG_SITE . '/' . $_weblog['blg_name'] . '/" target="_blank">查看</a> <img src="/img/ext.png" align="absmiddle" /></span></div>');
@@ -10972,6 +10982,35 @@ google_color_url = "00CC00";
 		echo('</table>');
 		echo('<hr size="1" color="#DDD" style="color: #DDD; background-color: #DDD; height: 1px; border: 0;" />');
 		echo('<img src="/img/icons/silk/information.png" align="absmiddle" /> 推荐你选择一张尺寸大于 100 x 100 像素的图片，系统会自动截取中间的部分并调整大小');
+		_v_d_e();
+		_v_d_e();
+	}
+	
+	public function vxBlogTheme($Weblog) {
+		_v_m_s();
+		echo('<link type="text/css" rel="stylesheet" href="/css/themes/' . BABEL_THEME . '/css_weblog.css" />');
+		_v_b_l_s();
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; <a href="/blog/admin.vx">博客网志</a> &gt; <a href="/blog/' . Weblog::DEFAULT_ACTION . '/' . $Weblog->blg_id . '.vx">' . make_plaintext($Weblog->blg_title) . '</a> &gt; 选择主题 <span class="tip_i"><small>alpha</small></span>');
+		_v_d_e();
+		_v_b_l_s();
+		echo('<span class="text_large">');
+		_v_ico_tango_32('mimetypes/x-office-drawing-template', 'absmiddle', 'home');
+		echo('选择主题</span>');
+		echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
+		echo('<form enctype="multipart/form-data" action="/blog/theme/save/' . $Weblog->blg_id . '.vx" method="post" id="form_blog_theme">');
+		echo('<tr>');
+		echo('<td width="200" height="120" align="center"><small><input type="radio" name="blg_theme" value="white" /> white</small></td>');
+		echo('<td width="200" height="120" align="center"><small><input type="radio" name="blg_theme" value="purple" /> purple</small></td>');
+		echo('</tr>');
+		echo('<tr><td colspan="2">');
+		_v_btn_f('保存我的选择', 'form_blog_theme');
+		echo('</td></tr>');
+		echo('</form>');
+		echo('</table>');
+		_v_hr();
+		_v_ico_silk('information');
+		echo(' 更换主题后将需要重新构建');
 		_v_d_e();
 		_v_d_e();
 	}
@@ -11274,7 +11313,7 @@ google_color_url = "00CC00";
 		echo(' <a href="/blog/portrait/' . $Weblog->blg_id . '.vx">图标</a>');
 		echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
 		_v_ico_silk('layout');
-		echo(' <a href="/blog/decorate/.vx">主题</a>');
+		echo(' <a href="/blog/theme/' . $Weblog->blg_id . '.vx">主题</a>');
 		echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
 		_v_ico_silk('cog_edit');
 		echo(' <a href="/blog/config/' . $Weblog->blg_id . '.vx">设置</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_name . '/" target="_blank">查看</a> <img src="/img/ext.png" align="absmiddle" /></span></div>');
@@ -11558,7 +11597,7 @@ google_color_url = "00CC00";
 		echo(' <a href="/blog/portrait/' . $Weblog->blg_id . '.vx">图标</a>');
 		echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
 		_v_ico_silk('layout');
-		echo(' <a href="/blog/decorate/.vx">主题</a>');
+		echo(' <a href="/blog/theme/' . $Weblog->blg_id . '.vx">主题</a>');
 		echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
 		_v_ico_silk('cog_edit');
 		echo(' <a href="/blog/config/' . $Weblog->blg_id . '.vx">设置</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_name . '/" target="_blank">查看</a> <img src="/img/ext.png" align="absmiddle" /></span></div>');
