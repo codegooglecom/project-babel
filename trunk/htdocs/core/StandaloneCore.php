@@ -1358,6 +1358,48 @@ class Standalone {
 		}
 	}
 	
+	public function vxBlogThemeSave() {
+		$return = $_SERVER['HTTP_REFERER'];
+		if ($this->User->vxIsLogin()) {
+			if (isset($_GET['weblog_id'])) {
+				$weblog_id = intval($_GET['weblog_id']);
+				$sql = "SELECT blg_id, blg_uid, blg_title, blg_theme FROM babel_weblog WHERE blg_id = {$weblog_id}";
+				$rs = mysql_query($sql);
+				if ($_weblog = mysql_fetch_array($rs)) {
+					mysql_free_result($rs);
+					if ($_weblog['blg_uid'] == $this->User->usr_id) {
+						if (isset($_POST['blg_theme'])) {
+							$blg_theme = fetch_single($_POST['blg_theme']);
+							require(BABEL_PREFIX . '/res/weblog_themes.php');
+							if (in_array($blg_theme, $_weblog_themes)) {
+								if ($_weblog['blg_theme'] != $blg_theme) {
+									$sql = "UPDATE babel_weblog SET blg_theme = '{$blg_theme}', blg_dirty = 1 WHERE blg_id = {$weblog_id} LIMIT 1";
+									mysql_unbuffered_query($sql);
+									$_SESSION['babel_message_weblog'] = '博客网站 ' . make_plaintext($_weblog['blg_title']) . ' 已更换为使用 ' . $blg_theme . ' 主题，现在请重新构建以使用新主题';
+								}
+								return URL::vxToRedirect(URL::vxGetBlogList($_weblog['blg_id']));
+							} else {
+								$_SESSION['babel_message_weblog'] = '所指定的博客网站主题并不存在';
+								return URL::vxToRedirect(URL::vxGetBlogList($_weblog['blg_id']));
+							}
+						} else {
+							return URL::vxToRedirect(URL::vxGetBlogList($_weblog['blg_id']));
+						}
+					} else {
+						return js_alert('你没有权力对这个博客网站进行操作', '/blog/admin.vx');
+					}
+				} else {
+					mysql_free_result($rs);
+					return js_alert('指定的博客网站没有找到', '/blog/admin.vx');
+				}
+			} else {
+				return js_alert('指定的博客网站没有找到', '/blog/admin.vx');
+			}
+		} else {
+			return js_alert('你还没有登录，请登录之后再进行操作', URL::vxGetLogin(URL::vxGetBlogAdmin));
+		}
+	}
+	
 	/* E public modules */
 	
 }

@@ -2231,7 +2231,7 @@ switch ($m) {
 				if (Weblog::vxMatchWeblogPermission($p->User->usr_id, $weblog_id)) {
 					$rt = $p->Validator->vxBlogConfigCheck($p->User->usr_money, $weblog_id);
 					if ($rt['errors'] == 0) {
-						$p->Validator->vxBlogConfigUpdate($weblog_id, $rt['blg_title_value'], $rt['blg_description_value'], $rt['blg_mode_value'], $rt['blg_comment_permission_value']);
+						$p->Validator->vxBlogConfigUpdate($weblog_id, $rt['blg_title_value'], $rt['blg_description_value'], $rt['blg_mode_value'], $rt['blg_comment_permission_value'], $rt['blg_ing_value']);
 						die($p->URL->vxToRedirect($p->URL->vxGetBlogAdmin()));
 						break;
 					} else {

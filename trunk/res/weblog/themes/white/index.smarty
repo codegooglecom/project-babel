@@ -16,17 +16,18 @@
 			<span class="desc">{$site_description}</span>
 		</div>
 	</div>
+	{if $user_ing eq 1}
 	<div class="bar">
-		<script type="text/javascript">  babel_ing_prefix = "<small>Currently: </small>"; babel_ing_color_prefix = "#C0C0D0"; babel_ing_color_time = "#C0C0D0"; </script> <script type="text/javascript" src="http://www.v2ex.com/js/ing/Livid"> </script>
+		<script type="text/javascript">  babel_ing_prefix = "<small>Currently: </small>"; babel_ing_color_prefix = "#C0C0D0"; babel_ing_color_time = "#C0C0D0"; </script> <script type="text/javascript" src="http://{$site_babel}/js/ing/{$user_nick}"> </script>
 	</div>
+	{/if}
 	<div id="content">
 	{foreach from=$entries item=item key=key}
-	<span class="date">06/31/2007</span>
+	<span class="date">{$item.bge_published_plain_short}</span>
 	<span class="title"><a href="#;" class="comments" onclick="openComment({$item.bge_id});">{$item.bge_comments}</a>&nbsp;&nbsp;<a href="entry-{$item.bge_id}.html">{$item.bge_title_plain}</a></span>
 	<div class="body">{$item.bge_body_plain}</div>
 	{/foreach}
-	<div class="bar" style="text-align: center;">White theme designed by <a href="http://www.livid.cn/"><strong>Livid</strong></a>, this blog is proudly powered by <a href="http://blog.livid.cn/weblog-project/"><strong>V2EX Weblog Project</strong></a>.
-	</div>
+	{include file="designer.smary"}
 	<div id="bottom"></div>
 </div>
 </div>

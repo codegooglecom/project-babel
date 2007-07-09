@@ -3,7 +3,7 @@ class Weblog {
 	const DEFAULT_ACTION = 'list';
 	
 	public function __construct($weblog_id) {
-		$sql = "SELECT blg_id, blg_uid, blg_name, blg_title, blg_description, blg_portrait, blg_theme, blg_mode, blg_entries, blg_comments, blg_comment_permission, blg_builds, blg_dirty, blg_created, blg_lastupdated, blg_lastbuilt, blg_expire, usr_id, usr_nick, usr_gender, usr_portrait, usr_created, usr_brief FROM babel_weblog, babel_user WHERE blg_uid = usr_id AND blg_id = {$weblog_id}";
+		$sql = "SELECT blg_id, blg_uid, blg_name, blg_title, blg_description, blg_portrait, blg_theme, blg_mode, blg_entries, blg_comments, blg_comment_permission, blg_builds, blg_dirty, blg_ing, blg_created, blg_lastupdated, blg_lastbuilt, blg_expire, usr_id, usr_nick, usr_gender, usr_portrait, usr_created, usr_brief FROM babel_weblog, babel_user WHERE blg_uid = usr_id AND blg_id = {$weblog_id}";
 		$rs = mysql_query($sql);
 		if (mysql_num_rows($rs) == 1) {
 			$this->weblog = true;
@@ -22,6 +22,7 @@ class Weblog {
 			$this->blg_comment_permission = intval($_weblog['blg_comment_permission']);
 			$this->blg_builds = intval($_weblog['blg_builds']);
 			$this->blg_dirty = intval($_weblog['blg_dirty']);
+			$this->blg_ing = intval($_weblog['blg_ing']);
 			$this->blg_created = intval($_weblog['blg_created']);
 			$this->blg_lastupdated = intval($_weblog['blg_lastupdated']);
 			$this->blg_lastbuilt = intval($_weblog['blg_lastbuilt']);
@@ -178,7 +179,10 @@ class Weblog {
 			
 			$s = new Smarty();
 			$s->template_dir = BABEL_PREFIX . '/res/weblog/themes/' . $Weblog->blg_theme;
-			$s->compile_dir = BABEL_PREFIX . '/tplc';
+			if (!is_dir(BABEL_PREFIX . '/tplc/' . $Weblog->blg_theme)) {
+				mkdir(BABEL_PREFIX . '/tplc/' . $Weblog->blg_theme);
+			}
+			$s->compile_dir = BABEL_PREFIX . '/tplc/' . $Weblog->blg_theme;
 			$s->cache_dir = BABEL_PREFIX . '/cache/smarty';
 			$s->config_dir = BABEL_PREFIX . '/cfg';
 			
@@ -197,6 +201,8 @@ class Weblog {
 			$s->assign('built', date('Y-n-j G:i:s T', time()));
 			
 			$s->assign('user_nick', $Weblog->usr_nick);
+			
+			$s->assign('user_ing', $Weblog->blg_ing);
 			
 			$sql = "SELECT DISTINCT bet_tag FROM babel_weblog_entry_tag WHERE bet_eid IN (SELECT bge_id FROM babel_weblog_entry WHERE bge_pid = {$Weblog->blg_id}) ORDER BY bet_tag ASC";
 			
@@ -246,6 +252,8 @@ class Weblog {
 				} else {
 					$_entries[$_entry['bge_id']]['bge_tags_plain'] = Weblog::vxMakeTagLink($_entry['bge_tags']);
 				}
+				$_entries[$_entry['bge_id']]['bge_published_plain_short'] = date('m/d/Y', $_entry['bge_published']);
+				$_entries[$_entry['bge_id']]['bge_published_plain_long'] = date('m/d/Y H:i:s T', $_entry['bge_published']);
 			}
 			mysql_free_result($rs);
 			
@@ -299,11 +307,14 @@ class Weblog {
 					} else {
 						$_entries[$_entry['bge_id']]['bge_tags_plain'] = Weblog::vxMakeTagLink($_entry['bge_tags']);
 					}
+					$_entries[$_entry['bge_id']]['bge_published_plain_short'] = date('m/d/Y', $_entry['bge_published']);
+					$_entries[$_entry['bge_id']]['bge_published_plain_long'] = date('m/d/Y H:i:s T', $_entry['bge_published']);
 				}
 				mysql_free_result($rs);
 				
 				$s->assign('entries', $_entries);
-	
+				$s->assign('count_tag_cur', $i);
+				
 				$file_tag = $usr_dir . '/tag-' . $tag['bet_tag'] . '.html';
 				$o_tag = $s->fetch('tag.smarty');
 				$files++;
@@ -368,7 +379,7 @@ class Weblog {
 			$Weblog->vxUpdateComments();
 			$end = microtime(true);
 			$elapsed = $end - $start;
-			$_SESSION['babel_message_weblog'] = _vo_ico_silk('tick') . ' 博客网站 ' . make_plaintext($Weblog->blg_title) . ' 重新构建成功，' . $files . ' 个文件共写入了 ' . $bytes . ' 字节，共耗时 <small>' . $elapsed . '</small> 秒，<a href="http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_name . '" class="t" target="_blank">现在查看</a> <img src="/img/ext.png" align="absmiddle" />';
+			$_SESSION['babel_message_weblog'] = _vo_ico_silk('tick') . ' 博客网站 ' . make_plaintext($Weblog->blg_title) . ' 基于 ' . $Weblog->blg_theme . ' 主题重新构建成功，' . $files . ' 个文件共写入了 ' . $bytes . ' 字节，共耗时 <small>' . $elapsed . '</small> 秒，<a href="http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_name . '" class="t" target="_blank">现在查看</a> <img src="/img/ext.png" align="absmiddle" />';
 		}
 	}
 	

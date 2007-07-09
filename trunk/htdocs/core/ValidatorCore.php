@@ -2776,6 +2776,17 @@ class Validator {
 			}
 		}
 		
+		/* blg_ing */
+		
+		$rt['blg_ing_value'] = 0;
+		
+		if (isset($_POST['blg_ing'])) {
+			$rt['blg_ing_value'] = intval($_POST['blg_ing']);
+			if ($rt['blg_ing_value'] != 0 && $rt['blg_ing_value'] != 1) {
+				$rt['blg_ing_value'] = 0;
+			}
+		}
+		
 		return $rt;
 	}
 	
@@ -2783,11 +2794,11 @@ class Validator {
 	
 	/* S module: Blog Config Update logic */
 	
-	public function vxBlogConfigUpdate($weblog_id, $title, $description, $mode, $comment_permission) {
+	public function vxBlogConfigUpdate($weblog_id, $title, $description, $mode, $comment_permission, $ing) {
 		$title = mysql_real_escape_string($title);
 		$description = mysql_real_escape_string($description);
 		$time = time();
-		$sql = "UPDATE babel_weblog SET blg_title = '{$title}', blg_description = '{$description}', blg_mode = {$mode}, blg_comment_permission = {$comment_permission}, blg_lastupdated = {$time}, blg_dirty = 1 WHERE blg_id = {$weblog_id}";
+		$sql = "UPDATE babel_weblog SET blg_title = '{$title}', blg_description = '{$description}', blg_mode = {$mode}, blg_comment_permission = {$comment_permission}, blg_lastupdated = {$time}, blg_dirty = 1, blg_ing = {$ing} WHERE blg_id = {$weblog_id}";
 		mysql_query($sql, $this->db) or die(mysql_error());
 		if (mysql_affected_rows($this->db) == 1) {
 			return true;
