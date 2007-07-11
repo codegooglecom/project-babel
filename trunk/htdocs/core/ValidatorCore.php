@@ -2906,6 +2906,11 @@ class Validator {
 			}
 		}
 		
+		/* bge_published_date & bge_published_time */
+		
+		if ($rt['']) {
+		}
+		
 		return $rt;
 	}
 	
