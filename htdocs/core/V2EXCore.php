@@ -10749,14 +10749,18 @@ google_color_url = "00CC00";
 		echo('<link type="text/css" rel="stylesheet" href="/css/themes/' . BABEL_THEME . '/css_weblog.css" />');
 		_v_b_l_s();
 		_v_ico_map();
-		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . $this->User->usr_nick_url . '">' . $this->User->usr_nick_plain . '</a> &gt; 博客网志 &gt; 控制台 <span class="tip_i"><small>alpha</small></span>');
+		$sql = "SELECT blg_id, blg_name, blg_title, blg_description, blg_portrait, blg_entries, blg_comments, blg_builds, blg_dirty, blg_created, blg_lastupdated FROM babel_weblog WHERE blg_uid = {$this->User->usr_id} ORDER BY blg_lastupdated DESC";
+		$rs = mysql_query($sql);
+		$count_weblog = mysql_num_rows($rs);
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . $this->User->usr_nick_url . '">' . $this->User->usr_nick_plain . '</a> &gt; 博客网志 <span class="tip_i"><small>alpha</small></span>');
 		_v_d_e();
 		_v_b_l_s();
 		_v_d_tr_s();
 		echo('<a href="/blog/create.vx">创建新的博客网站</a>');
 		_v_d_e();
-		_v_ico_silk('anchor');
-		echo(' 我的博客网志 &gt; 控制台');
+		echo('<h1 class="ititle">');
+		_v_ico_tango_32('categories/applications-internet');
+		echo(' 控制台</h1> <span class="tip_i">' . $count_weblog . ' 个博客网站</span>');
 		_v_hr();
 		if (isset($_SESSION['babel_message_weblog'])) {
 			if ($_SESSION['babel_message_weblog'] != '') {
@@ -10766,8 +10770,6 @@ google_color_url = "00CC00";
 		} else {
 			$_SESSION['babel_message_weblog'] = '';
 		}
-		$sql = "SELECT blg_id, blg_name, blg_title, blg_description, blg_portrait, blg_entries, blg_comments, blg_builds, blg_dirty, blg_created, blg_lastupdated FROM babel_weblog WHERE blg_uid = {$this->User->usr_id} ORDER BY blg_lastupdated DESC";
-		$rs = mysql_query($sql) or die(mysql_error());
 		while ($_weblog = mysql_fetch_array($rs)) {
 			echo('<div class="blog_block">');
 			echo('<div class="blog_view"><span class="tip_i">');
@@ -11175,17 +11177,18 @@ google_color_url = "00CC00";
 		echo('<link type="text/css" rel="stylesheet" href="/css/themes/' . BABEL_THEME . '/css_weblog.css" />');
 		_v_b_l_s();
 		_v_ico_map();
-		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; <a href="/blog/admin.vx">博客网志</a> &gt; <a href="/blog/' . Weblog::DEFAULT_ACTION . '/' . $Weblog->blg_id . '.vx">' . make_plaintext($Weblog->blg_title) . '</a> &gt; 撰写新文章 <span class="tip_i"><small>alpha</small></span>');
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; <a href="/blog/admin.vx">博客网志</a> &gt; <a href="/blog/' . Weblog::DEFAULT_ACTION . '/' . $Weblog->blg_id . '.vx">' . make_plaintext($Weblog->blg_title) . '</a> &gt; ');
+		echo('撰写新文章 <span class="tip_i"><small>alpha</small></span>');
 		_v_d_e();
 		_v_b_l_s();
-		_v_ico_silk('pencil');
-		echo(' 撰写新文章');
-		_v_hr();
-		echo('<table cellpadding="5" cellspacing="" border="0" class="form">');
+		echo('<div align="left"><table cellpadding="5" cellspacing="" border="0" class="form">');
 		echo('<form action="/blog/compose/save/' . $Weblog->blg_id . '.vx" method="post" id="form_blog_compose">');
-		echo('<tr><td width="100" align="right">标题</td><td align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="bge_title" value="" /></td></tr>');
-		echo('<tr><td width="100" align="right" valign="top">内容</td><td  align="left">');
-		echo('<textarea class="ml" rows="30" name="bge_body"></textarea>');
+		echo('<tr><td colspan="2" align="left"><h1 class="ititle">');
+		_v_ico_tango_32('actions/document-new');
+		echo(' 撰写新文章</h1></td></tr>');
+		echo('<tr><td colspan="2" align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sllt" name="bge_title" value="" /></td></tr>');
+		echo('<tr><td colspan="2" align="left">');
+		echo('<textarea class="ml" style="width: 550px;" rows="30" name="bge_body"></textarea>');
 		echo('</td></tr>');
 		echo('<tr><td width="100" align="right">格式</td><td align="left">');
 		echo('<select name="bge_mode">');
@@ -11216,14 +11219,14 @@ google_color_url = "00CC00";
 		echo('<option value="1">公开发布</option>');
 		echo('</select>');
 		echo('</td></tr>');
-		echo('<tr><td width="500" colspan="3" valign="middle" align="right">');
-		_v_btn_f('保存', 'form_blog_compose');
+		echo('<tr><td width="100" align="right">发布时间</td><td align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sl" name="bge_published_date" value="" /> <input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sl" name="bge_published_time" value="" /></td></tr>');
+		echo('<tr><td width="500" colspan="2" valign="middle" align="right" class="toolbar">');
+		echo('<input type="submit" value="保存" class="btn_white" /> ');
+		echo('<input type="button" value="取消" class="btn_white" onclick="location.href=' . "'/blog/list/{$Weblog->blg_id}.vx'" . ';" />');
 		echo('</td></tr>');
+		echo('<input type="hidden" name="bge_status_old" value="0" />');
 		echo('</form>');
-		echo('</table>');
-		_v_hr();
-		_v_ico_silk('information');
-		echo(' 发布新文章之后将需要重新构建');
+		echo('</table></div>');
 		_v_d_e();
 		_v_d_e();
 	}
@@ -11239,29 +11242,14 @@ google_color_url = "00CC00";
 		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; <a href="/blog/admin.vx">博客网志</a> &gt; <a href="/blog/' . Weblog::DEFAULT_ACTION . '/' . $Weblog->blg_id . '.vx">' . make_plaintext($Weblog->blg_title) . '</a> &gt; 撰写新文章 <span class="tip_i"><small>alpha</small></span>');
 		_v_d_e();
 		_v_b_l_s();
-		_v_ico_silk('pencil');
-		echo(' 撰写新文章');
-		_v_hr();
-		echo('<table cellpadding="5" cellspacing="" border="0" class="form">');
+		echo('<div align="left"><table cellpadding="5" cellspacing="" border="0" class="form">');
 		echo('<form action="/blog/compose/save/' . $Weblog->blg_id . '.vx" method="post" id="form_blog_compose">');
-		if ($rt['bge_title_error'] > 0) {
-			echo('<tr><td width="100" align="right">标题</td><td width="400" align="left"><div class="error" style="width: 308px;"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="bge_title" value="' . make_single_return($rt['bge_title_value'], 0) . '" /><br />');
-			_v_ico_silk('exclamation');
-			echo(' ' . $rt['bge_title_error_msg'][$rt['bge_title_error']]);
-			echo('</div></td></tr>');
-		} else {
-			echo('<tr><td width="100" align="right">标题</td><td width="400" align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="bge_title" value="' . make_single_return($rt['bge_title_value'], 0) . '" /> ');
-			_v_ico_silk('tick');
-			echo('</td></tr>');
-		}
-		if ($rt['bge_body_error'] > 0) {
-			echo('<tr><td width="100" align="right" valign="top">内容</td><td  align="left"><div class="error"><textarea class="ml" rows="30" name="bge_body">' . make_multi_return($rt['bge_body_value'], 0) . '</textarea>');
-			_v_ico_silk('exclamation');
-			echo(' ' . $rt['bge_body_error_msg'][$rt['bge_body_error']]);
-			echo('</div></td></tr>');
-		} else {
-			echo('<tr><td width="100" align="right" valign="top">内容</td><td  align="left"><textarea class="ml" rows="30" name="bge_body">' . make_multi_return($rt['bge_body_value'], 0) . '</textarea></td></tr>');
-		}
+		echo('<tr><td colspan="2" align="left"><h1 class="ititle">');
+		_v_ico_tango_32('actions/document-new');
+		echo(' 撰写新文章</h1></td></tr>');
+		echo('<tr><td colspan="2" align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sllt" name="bge_title" value="' . make_single_return($rt['bge_title_value'], 0) . '" />');
+		echo('</td></tr>');
+		echo('<tr><td colspan="2" align="left"><textarea class="ml" rows="30" name="bge_body" style="width: 550px;">' . make_multi_return($rt['bge_body_value'], 0) . '</textarea></td></tr>');
 		echo('<tr><td width="100" align="right">格式</td><td align="left">');
 		echo('<select name="bge_mode">');
 		foreach ($_modes as $key => $mode) {
@@ -11296,14 +11284,14 @@ google_color_url = "00CC00";
 		}
 		echo('</select>');
 		echo('</td></tr>');
-		echo('<tr><td width="500" colspan="3" valign="middle" align="right">');
-		_v_btn_f('保存', 'form_blog_compose');
+		echo('<tr><td width="100" align="right">发布时间</td><td align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sl" name="bge_published_date" value="" /> <input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sl" name="bge_published_time" value="" /></td></tr>');
+		echo('<tr><td width="500" colspan="2" valign="middle" align="right" class="toolbar">');
+		echo('<input type="submit" value="保存" class="btn_white" /> ');
+		echo('<input type="button" value="取消" class="btn_white" onclick="location.href=' . "'/blog/list/{$Weblog->blg_id}.vx'" . ';" />');
 		echo('</td></tr>');
+		echo('<input type="hidden" name="bge_status_old" value="0" />');
 		echo('</form>');
-		echo('</table>');
-		_v_hr();
-		_v_ico_silk('information');
-		echo(' 发布新文章之后将需要重新构建');
+		echo('</table></div>');
 		_v_d_e();
 		_v_d_e();
 	}
@@ -11313,14 +11301,16 @@ google_color_url = "00CC00";
 		echo('<link type="text/css" rel="stylesheet" href="/css/themes/' . BABEL_THEME . '/css_weblog.css" />');
 		_v_b_l_s();
 		_v_ico_map();
-		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; <a href="/blog/admin.vx">博客网志</a> &gt; <a href="/blog/' . Weblog::DEFAULT_ACTION . '/' . $Weblog->blg_id . '.vx">' . make_plaintext($Weblog->blg_title) . '</a> &gt; 管理文章 <span class="tip_i"><small>alpha</small></span>');
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; <a href="/blog/admin.vx">博客网志</a> &gt; <a href="/blog/' . Weblog::DEFAULT_ACTION . '/' . $Weblog->blg_id . '.vx">' . make_plaintext($Weblog->blg_title) . '</a> <span class="tip_i"><small>alpha</small></span>');
 		_v_d_e();
 		_v_b_l_s();
 		_v_d_tr_s();
 		echo('');
 		_v_d_e();
-		_v_ico_silk('anchor');
-		echo(' <a href="/blog/admin.vx">我的博客网志</a> &gt; ' . make_plaintext($Weblog->blg_title));
+		echo('');
+		_v_ico_tango_32('categories/applications-internet');
+		echo(' <a href="/blog/admin.vx">控制台</a> &gt; <h1 class="ititle">' . make_plaintext($Weblog->blg_title));
+		echo('</h1>');
 		_v_hr();
 		if (isset($_SESSION['babel_message_weblog'])) {
 			if ($_SESSION['babel_message_weblog'] != '') {
@@ -11503,11 +11493,9 @@ google_color_url = "00CC00";
 		echo('<tr><td width="500" colspan="3" valign="middle" align="right">');
 		_v_btn_f('保存', 'form_blog_edit');
 		echo('</td></tr>');
+		echo('<input type="hidden" name="bge_status_old" value="' . $Weblog->bge_status . '" />');
 		echo('</form>');
 		echo('</table>');
-		_v_hr();
-		_v_ico_silk('information');
-		echo(' 编辑文章之后将需要重新构建');
 		_v_d_e();
 		_v_d_e();
 	}
@@ -11582,11 +11570,9 @@ google_color_url = "00CC00";
 		echo('<tr><td width="500" colspan="3" valign="middle" align="right">');
 		_v_btn_f('保存', 'form_blog_edit');
 		echo('</td></tr>');
+		echo('<input type="hidden" name="bge_status_old" value="' . $Weblog->bge_status . '" />');
 		echo('</form>');
 		echo('</table>');
-		_v_hr();
-		_v_ico_silk('information');
-		echo(' 编辑文章之后将需要重新构建');
 		_v_d_e();
 		_v_d_e();
 	}
