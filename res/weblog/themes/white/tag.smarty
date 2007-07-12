@@ -30,7 +30,7 @@
 		<div class="tags">TAGS:{$item.bge_tags_plain}</div>
 	</div>
 	{/foreach}
-	{include file="designer.smary"}
+	{include file="designer.smarty"}
 	<div id="bottom"></div>
 </div>
 </div>

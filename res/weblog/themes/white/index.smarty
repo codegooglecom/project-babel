@@ -27,7 +27,7 @@
 	<span class="title"><a href="#;" class="comments" onclick="openComment({$item.bge_id});">{$item.bge_comments}</a>&nbsp;&nbsp;<a href="entry-{$item.bge_id}.html">{$item.bge_title_plain}</a></span>
 	<div class="body">{$item.bge_body_plain}</div>
 	{/foreach}
-	{include file="designer.smary"}
+	{include file="designer.smarty"}
 	<div id="bottom"></div>
 </div>
 </div>
