@@ -62,6 +62,7 @@ if (V2EX_BABEL == 1) {
 	require('core/ImageCore.php');
 	require('core/ValidatorCore.php');
 	require('core/WeblogCore.php');
+	require('core/EntryCore.php');
 } else {
 	die('<strong>Project Babel</strong><br /><br />Made by V2EX | software for internet');
 }
