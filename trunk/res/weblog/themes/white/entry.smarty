@@ -29,7 +29,7 @@
 		{if $entry.bge_tags_plain neq ''}<div class="tags">TAGS:{$entry.bge_tags_plain}</div>{/if}
 	</div>
 	
-	{include file="designer.smary"}
+	{include file="designer.smarty"}
 	<div id="bottom"></div>
 </div>
 </div>
