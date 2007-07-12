@@ -23,10 +23,10 @@
 	{/if}
 	<div id="content">
 	
-	<span class="date">{$item.bge_published_plain_long}</span>
+	<span class="date">{$entry.bge_published_plain_long}</span>
 	<span class="title"><a href="#;" class="comments" onclick="openComment({$entry.bge_id});">{$entry.bge_comments}</a>&nbsp;&nbsp;{$entry.bge_title_plain}</span>
 	<div class="body">{$entry.bge_body_plain}
-		<div class="tags">TAGS:{$entry.bge_tags_plain}</div>
+		{if $entry.bge_tags_plain neq ''}<div class="tags">TAGS:{$entry.bge_tags_plain}</div>{/if}
 	</div>
 	
 	{include file="designer.smary"}

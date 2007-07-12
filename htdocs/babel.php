@@ -2305,7 +2305,7 @@ switch ($m) {
 					if ($Weblog->blg_uid == $p->User->usr_id) {
 						$rt = $p->Validator->vxBlogComposeCheck();
 						if ($rt['errors'] == 0) {
-							$p->Validator->vxBlogComposeInsert($p->User->usr_id, $Weblog->blg_id, $rt['bge_title_value'], $rt['bge_body_value'], $rt['bge_mode_value'], $rt['bge_comment_permission_value'], $rt['bge_status_value'], $rt['bge_tags_value']);
+							$p->Validator->vxBlogComposeInsert($p->User->usr_id, $Weblog->blg_id, $rt['bge_title_value'], $rt['bge_body_value'], $rt['bge_mode_value'], $rt['bge_comment_permission_value'], $rt['bge_status_value'], $rt['published'], $rt['bge_tags_value']);
 							$Weblog->vxUpdateEntries();
 							$sql = "SELECT bge_id FROM babel_weblog_entry WHERE bge_uid = {$p->User->usr_id} ORDER BY bge_created DESC LIMIT 1";
 							$rs = mysql_query($sql);
@@ -2433,7 +2433,7 @@ switch ($m) {
 					$rt = $p->Validator->vxBlogComposeCheck();
 					$rt['Entry'] =& $Entry;
 					if ($rt['errors'] == 0) {
-						$p->Validator->vxBlogEditUpdate($entry_id, $p->User->usr_id, $rt['bge_title_value'], $rt['bge_body_value'], $rt['bge_mode_value'], $rt['bge_comment_permission_value'], $rt['bge_status_value'], $rt['bge_tags_value']);
+						$p->Validator->vxBlogEditUpdate($entry_id, $p->User->usr_id, $rt['bge_title_value'], $rt['bge_body_value'], $rt['bge_mode_value'], $rt['bge_comment_permission_value'], $rt['bge_status_value'], $rt['published'], $Entry->bge_status, $rt['bge_tags_value']);
 						if (intval($rt['bge_status_value']) == 1) {
 							$Weblog = new Weblog($Entry->bge_pid);
 							$Weblog->vxSetDirty();
