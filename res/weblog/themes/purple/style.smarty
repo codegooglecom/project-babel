@@ -139,6 +139,13 @@ border-right: 2px solid #222;
 -moz-border-radius: 0px 7px 7px 0px;
 }
 
+div#right_items div.item {
+background-color: #383838;
+padding: 10px 10px 10px 10px;
+font-size: 11px;
+color: #FFF;
+}
+
 div#right_new {
 background-color: #222;
 color: #FFF;
@@ -265,6 +272,14 @@ text-decoration: none;
 a.white:hover {
 color: #FFF;
 text-decoration: underline;
+}
+
+img.p {
+border: 2px solid #474757;
+}
+
+span.big {
+font-size: 150%;
 }
 
 input.sl {
