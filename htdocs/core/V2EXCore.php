@@ -565,7 +565,7 @@ class Page {
 			echo('<li class="top"><a href="/u/' . urlencode($this->User->usr_nick) . '" class="top">&nbsp;&nbsp;&nbsp;' . make_plaintext($this->User->usr_nick) . '&nbsp;&nbsp;&nbsp;</a>');
 			echo('<ul>');
 			echo('<li><a href="/u/' . urlencode($this->User->usr_nick) . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/house.png" align="absmiddle" border="0" /> 我的 ' . Vocabulary::site_name . ' 主页</a></li>');
-			if (BABEL_FEATURE_WEBLOG) {
+			if (BABEL_FEATURE_NEXUS) {
 				echo('<li><a href="/blog/admin.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/anchor.png" align="absmiddle" border="0" /> 我的博客网志</a></li>');
 			}
 			echo('<li><a href="/zen/' . $this->User->usr_nick_url . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/clock.png" align="absmiddle" border="0" /> ZEN</a></li>');
@@ -804,7 +804,7 @@ class Page {
 			}
 			echo('</a></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/comments.png" align="absmiddle" />&nbsp;<a href="/topic/archive/user/' . urlencode($this->User->usr_nick) . '">我创建的所有主题</a></li>');
-			if (BABEL_FEATURE_WEBLOG) {
+			if (BABEL_FEATURE_NEXUS) {
 				echo('<li><img src="' . CDN_UI . 'img/icons/silk/anchor.png" align="absmiddle">&nbsp;<a href="/blog/admin.vx">我的博客网志</a> <span class="tip_i"><small>alpha</small></span></li>');
 			}
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/hourglass.png" align="absmiddle" />&nbsp;<a href="/ing/' . urlencode($this->User->usr_nick) . '/friends">ING</a> <span class="tip_i"><small>alpha</small></span></li>');
@@ -10827,7 +10827,7 @@ google_color_url = "00CC00";
 			echo('</div>');
 		}
 		_v_hr();
-		echo('欢迎从 <a href="http://blog.v2ex.com/weblog-project" class="t">V2EX Weblog Project</a> 的博客网志上获取帮助和更多信息！');
+		echo('欢迎从 <a href="http://blog.v2ex.com/nexus" class="t">Project Nexus</a> 的博客网志上获取帮助和更多信息！');
 		_v_d_e();
 		_v_d_e();
 	}
