@@ -39,7 +39,7 @@
 		<h1 class="title_item">{$entry.bge_title_plain}</h1>
 		<div class="sub"><span class="tip"><small>By <a href="http://{$site_babel}/u/{$entry.usr_nick_url}">{$entry.usr_nick_plain}</a> on {$entry.bge_published_plain} - <a href="#;" onclick="openComment({$entry.bge_id});">{$entry.bge_comments} comments</a> - {$entry.bge_trackbacks} trackbacks</small></span>
 		<div class="toolbar">
-			<a href="http://del.icio.us/post?v=4;url={$entry.url_url};title={$entry.bge_title_url}" rel="nofollow external">add to del.icio.us</a>{if $entry.bge_tags_plain neq ''} - TAGS:{$entry.bge_tags_plain}{/if}
+			<img src="http://{$site_static}/weblog-static/common/delicious.png" align="absmiddle" /> <a href="http://del.icio.us/post?v=4;url={$entry.url_url};title={$entry.bge_title_url}" rel="nofollow external">add to del.icio.us</a>{if $entry.bge_tags_plain neq ''} &nbsp; <img src="http://{$site_static}/weblog-static/common/tag.png" align="absmiddle" /> tags:{$entry.bge_tags_plain}{/if}
 		</div>
 		</div>
 		<div class="object">{$entry.bge_body_plain}</div>
