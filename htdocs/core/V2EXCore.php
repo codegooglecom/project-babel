@@ -9772,7 +9772,7 @@ google_color_url = "00CC00";
 			echo('<a href="/ing/' . $this->User->usr_nick_url . '/friends">With Friends</a> | ');
 		}
 		echo('Everyone');
-		echo('&nbsp;&nbsp;<a href="/fav/ing">' . _vo_ico_silk('heart') . '</a>');
+		//echo('&nbsp;&nbsp;<a href="/fav/ing">' . _vo_ico_silk('heart') . '</a>');
 		echo('&nbsp;&nbsp;<a href="/feed/ing">' . _vo_ico_silk('feed') . '</a>');
 		echo('</div>');
 		
@@ -9796,10 +9796,10 @@ google_color_url = "00CC00";
 			echo(format_ubb(trim($_up['ing_doing'])) . ' <span class="tip_i">' . make_descriptive_time($_up['ing_created']) . '</span> <span class="tip"><small>from ' . $_sources[$_up['ing_source']] . '</small></span> ');
 			if ($_up['usr_id'] == $this->User->usr_id) {
 				echo('<a href="/erase/ing/' . $_up['ing_id'] . '.vx"><img src="/img/ing_trash.gif" align="absmiddle" alt="del" border="0" /></a>');
-			}
+			}/*
 			if ($this->User->vxIsLogin()) {
 				echo(' <a href="/fav/ing/' . $_up['ing_id'] . '.vx"><img src="/img/ing_fav.gif" align="absmiddle" alt="fav" border="0" /></a>');
-			}
+			}*/
 			_v_d_e();
 		}
 		mysql_free_result($rs_updates);
@@ -9891,9 +9891,9 @@ google_color_url = "00CC00";
 		echo('<div class="blank" align="left" style="' . $hack_height . '">');
 		echo('<div style="float: right; padding: 3px 10px 3px 10px; font-size: 10px; background-color: #F0F0F0; -moz-border-radius: 5px; color: #999;">');
 		echo('<a href="/ing/' . $User->usr_nick_url . '">' . $User->usr_nick_plain . '</a> | With Friends | <a href="/ing">Everyone</a>');
-		if ($this->User->vxIsLogin()) {
+		/*if ($this->User->vxIsLogin()) {
 			echo('&nbsp;&nbsp;<a href="/fav/ing">' . _vo_ico_silk('heart') . '</a>');
-		}
+		}*/
 		echo('&nbsp;&nbsp;<a href="/feed/ing/friends/' . $User->usr_nick_url . '">' . _vo_ico_silk('feed') . '</a>');
 		echo('</div>');
 		
@@ -9976,10 +9976,10 @@ google_color_url = "00CC00";
 			echo(format_ubb(trim($_up['ing_doing'])) . ' <span class="tip_i">' . make_descriptive_time($_up['ing_created']) . '</span> <span class="tip"><small>from ' . $_sources[$_up['ing_source']] . '</small></span> ');
 			if ($_up['ing_uid'] == $this->User->usr_id) {
 				echo('<a href="/erase/ing/' . $_up['ing_id'] . '.vx"><img src="/img/ing_trash.gif" align="absmiddle" alt="del" border="0" /></a>');
-			}
+			}/*
 			if ($this->User->vxIsLogin()) {
 				echo(' <a href="/fav/ing/' . $_up['ing_id'] . '.vx"><img src="/img/ing_fav.gif" align="absmiddle" alt="fav" border="0" /></a>');
-			}
+			}*/
 			_v_d_e();
 		}
 		mysql_free_result($rs_updates);
@@ -10070,9 +10070,9 @@ google_color_url = "00CC00";
 		echo('<div class="blank" align="left" style="' . $hack_height . '">');
 		echo('<div style="float: right; padding: 3px 10px 3px 10px; font-size: 10px; background-color: #F0F0F0; -moz-border-radius: 5px; color: #999;">');
 		echo($User->usr_nick_plain . ' | <a href="/ing/' . $User->usr_nick_url . '/friends">With Friends</a> | <a href="/ing">Everyone</a>');
-		if ($this->User->vxIsLogin()) {
+		/*if ($this->User->vxIsLogin()) {
 			echo('&nbsp;&nbsp;<a href="/fav/ing">' . _vo_ico_silk('heart') . '</a>');
-		}
+		}*/
 		echo('&nbsp;&nbsp;<a href="/feed/ing/' . $User->usr_nick_url . '">' . _vo_ico_silk('feed') . '</a>');
 		echo('</div>');
 
@@ -10151,10 +10151,10 @@ google_color_url = "00CC00";
 			echo(format_ubb(trim($_up['ing_doing'])) . ' <span class="tip_i">' . make_descriptive_time($_up['ing_created']) . '</span> <span class="tip"><small>from ' . $_sources[$_up['ing_source']] . '</small></span> ');
 			if ($flag_self) {
 				echo('<a href="/erase/ing/' . $_up['ing_id'] . '.vx"><img src="/img/ing_trash.gif" align="absmiddle" alt="del" border="0" /></a>');
-			}
+			}/*
 			if ($this->User->vxIsLogin()) {
 				echo(' <a href="/fav/ing/' . $_up['ing_id'] . '.vx"><img src="/img/ing_fav.gif" align="absmiddle" alt="fav" border="0" /></a>');
-			}
+			}*/
 			_v_d_e();
 		}
 		mysql_free_result($rs_updates);
