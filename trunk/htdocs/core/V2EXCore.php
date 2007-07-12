@@ -11689,10 +11689,15 @@ google_color_url = "00CC00";
 		echo('</span></td>');
 		echo('</tr>');
 		echo('</table>');
-		_v_hr();
-		$sql = "SELECT bec_id, bec_nick, bec_url, bec_body, bec_status, bec_ip, bec_created FROM babel_weblog_entry_comment WHERE bec_eid = {$Entry->bge_id} ORDER BY bec_created DESC";
+		
+		$sql = "SELECT bec_id, bec_uid, bec_nick, bec_url, bec_body, bec_status, bec_ip, bec_created FROM babel_weblog_entry_comment WHERE bec_eid = {$Entry->bge_id} ORDER BY bec_created DESC";
 		$rs = mysql_query($sql);
+		$i = 0;
 		while ($_comment = mysql_fetch_array($rs)) {
+			$i++;
+			if ($i == 1) {
+				_v_hr();
+			}
 			echo('<div class="entry_comment">');
 			echo(nl2br(trim($_comment['bec_body'])));
 			if ($_comment['bec_status'] == 1) {
@@ -11700,10 +11705,14 @@ google_color_url = "00CC00";
 			} else {
 				echo('<div class="comment_author_q">By ');
 			}
+			if ($_comment['bec_uid'] != 0) {
+				_v_ico_silk('user');
+				echo(' ');
+			}
 			if ($_comment['bec_url'] == '') {
 				echo($_comment['bec_nick']);
 			} else {
-				echo('<a href="' . $_comment['bec_url'] . '" class="regular" target="_blank">' . $_comment['bec_nick'] . '</a>');
+				echo('<a href="' . $_comment['bec_url'] . '" class="regular" target="_blank" rel="nofollow external">' . $_comment['bec_nick'] . '</a>');
 			}
 			echo(' at ' . date('r', $_comment['bec_created']) . ' from ' . $_comment['bec_ip'] . ' - <strong>ID: ' . $_comment['bec_id'] . '</strong>');
 			if ($_comment['bec_status'] == 0) {
@@ -11713,6 +11722,13 @@ google_color_url = "00CC00";
 			}
 			echo('</div>');
 			echo('</div>');
+		}
+		if ($i == 0) {
+			_v_hr();
+			echo('<span class="tip_i">');
+			_v_ico_silk('information');
+			echo(' 目前这篇文章还没有收到任何评论');
+			echo('</span>');
 		}
 		echo('</div>');
 		_v_d_e();

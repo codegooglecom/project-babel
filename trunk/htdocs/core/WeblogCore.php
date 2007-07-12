@@ -29,6 +29,10 @@ class Weblog {
 			$this->blg_expire = intval($_weblog['blg_expire']);
 			$this->usr_id = $_weblog['usr_id'];
 			$this->usr_nick = $_weblog['usr_nick'];
+			$this->usr_brief = $_weblog['usr_brief'];
+			$this->usr_gender = $_weblog['usr_gender'];
+			$this->usr_portrait = $_weblog['usr_portrait'];
+			$this->usr_created = intval($_weblog['usr_created']);
 			mysql_free_result($rs);
 			unset($_weblog);
 		} else {
@@ -201,6 +205,22 @@ class Weblog {
 			$s->assign('built', date('Y-n-j G:i:s T', time()));
 			
 			$s->assign('user_nick', $Weblog->usr_nick);
+			$s->assign('user_nick_plain', make_plaintext($Weblog->usr_nick));
+			$s->assign('user_nick_url', urlencode($Weblog->usr_nick));
+			
+			$s->assign('user_brief_plain', make_plaintext($Weblog->usr_brief));
+			
+			$s->assign('user_created_plain_short', date('n/j/Y', $Weblog->usr_created));
+			
+			if ($Weblog->usr_portrait == '') {
+				$s->assign('user_portrait', '/img/p_' . $Weblog->usr_gender . '.gif');
+				$s->assign('user_portrait_s', '/img/p_' . $Weblog->usr_gender . '_s.gif');
+				$s->assign('user_portrait_n', '/img/p_' . $Weblog->usr_gender . '_n.gif');
+			} else {
+				$s->assign('user_portrait', '/img/p/' . $Weblog->usr_portrait . '.' . BABEL_PORTRAIT_EXT);
+				$s->assign('user_portrait_s', '/img/p/' . $Weblog->usr_portrait . '_s.' . BABEL_PORTRAIT_EXT);
+				$s->assign('user_portrait_n', '/img/p/' . $Weblog->usr_portrait . '_n.' . BABEL_PORTRAIT_EXT);
+			}
 			
 			$s->assign('user_ing', $Weblog->blg_ing);
 			
@@ -225,7 +245,10 @@ class Weblog {
 			while ($_entry = mysql_fetch_array($rs)) {
 				$i++;
 				$_entries[$_entry['bge_id']] = $_entry;
+				$_entries[$_entry['bge_id']]['url'] = 'http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_name . '/entry-' . $_entry['bge_id'] . '.html';
+				$_entries[$_entry['bge_id']]['url_url'] = urlencode($_entries[$_entry['bge_id']]['url']);
 				$_entries[$_entry['bge_id']]['bge_title_plain'] = make_plaintext($_entry['bge_title']);
+				$_entries[$_entry['bge_id']]['bge_title_url'] = urlencode($_entry['bge_title']);
 				$_entries[$_entry['bge_id']]['usr_nick_plain'] = make_plaintext($_entry['usr_nick']);
 				$_entries[$_entry['bge_id']]['usr_nick_url'] = urlencode($_entry['usr_nick']);
 				$_entries[$_entry['bge_id']]['bge_published_plain'] = date('Y-n-j G:i:s T', $_entry['bge_published']);
@@ -283,7 +306,10 @@ class Weblog {
 				while ($_entry = mysql_fetch_array($rs)) {
 					$i++;
 					$_entries[$_entry['bge_id']] = $_entry;
+					$_entries[$_entry['bge_id']]['url'] = 'http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_name . '/entry-' . $_entry['bge_id'] . '.html';
+					$_entries[$_entry['bge_id']]['url_url'] = urlencode($_entries[$_entry['bge_id']]['url']);
 					$_entries[$_entry['bge_id']]['bge_title_plain'] = make_plaintext($_entry['bge_title']);
+					$_entries[$_entry['bge_id']]['bge_title_url'] = urlencode($_entry['bge_title']);
 					$_entries[$_entry['bge_id']]['usr_nick_plain'] = make_plaintext($_entry['usr_nick']);
 					$_entries[$_entry['bge_id']]['usr_nick_url'] = urlencode($_entry['usr_nick']);
 					$_entries[$_entry['bge_id']]['bge_published_plain'] = date('Y-n-j G:i:s T', $_entry['bge_published']);
@@ -334,7 +360,10 @@ class Weblog {
 			$rs = mysql_query($sql);
 			$i = 0;
 			while ($_entry = mysql_fetch_array($rs)) {
+				$_entry['url'] = 'http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_name . '/entry-' . $_entry['bge_id'] . '.html';
+				$_entry['url_url'] = urlencode($_entry['url']);
 				$_entry['bge_title_plain'] = make_plaintext($_entry['bge_title']);
+				$_entry['bge_title_url'] = urlencode($_entry['bge_title']);
 				$_entry['usr_nick_plain'] = make_plaintext($_entry['usr_nick']);
 				$_entry['usr_nick_url'] = urlencode($_entry['usr_nick']);
 				$_entry['bge_body_plain'] = make_plaintext($_entry['bge_body']);
