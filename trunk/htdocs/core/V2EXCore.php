@@ -11171,6 +11171,9 @@ google_color_url = "00CC00";
 	}
 	
 	public function vxBlogCompose($Weblog) {
+		$now = time();
+		$now_date = date('Y-n-j', $now);
+		$now_time = date('G:i:s', $now);
 		$_modes = Weblog::vxGetEditorModes();
 		$_comment_permissions = Weblog::vxGetCommentPermissions();
 		_v_m_s();
@@ -11219,7 +11222,7 @@ google_color_url = "00CC00";
 		echo('<option value="1">公开发布</option>');
 		echo('</select>');
 		echo('</td></tr>');
-		echo('<tr><td width="100" align="right">发布时间</td><td align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sl" name="bge_published_date" value="" /> <input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sl" name="bge_published_time" value="" /></td></tr>');
+		echo('<tr><td width="100" align="right">发布时间</td><td align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sl" name="bge_published_date" value="' . $now_date . '" /> <input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sl" name="bge_published_time" value="' . $now_time . '" /></td></tr>');
 		echo('<tr><td width="500" colspan="2" valign="middle" align="right" class="toolbar">');
 		echo('<input type="submit" value="保存" class="btn_white" /> ');
 		echo('<input type="button" value="取消" class="btn_white" onclick="location.href=' . "'/blog/list/{$Weblog->blg_id}.vx'" . ';" />');
@@ -11235,6 +11238,8 @@ google_color_url = "00CC00";
 		$Weblog =& $rt['Weblog'];
 		$_modes = Weblog::vxGetEditorModes();
 		$_comment_permissions = Weblog::vxGetCommentPermissions();
+		$published_date = date('Y-n-j', $rt['published']);
+		$published_time = date('G:i:s', $rt['published']);
 		_v_m_s();
 		echo('<link type="text/css" rel="stylesheet" href="/css/themes/' . BABEL_THEME . '/css_weblog.css" />');
 		_v_b_l_s();
@@ -11246,10 +11251,17 @@ google_color_url = "00CC00";
 		echo('<form action="/blog/compose/save/' . $Weblog->blg_id . '.vx" method="post" id="form_blog_compose">');
 		echo('<tr><td colspan="2" align="left"><h1 class="ititle">');
 		_v_ico_tango_32('actions/document-new');
-		echo(' 撰写新文章</h1></td></tr>');
-		echo('<tr><td colspan="2" align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sllt" name="bge_title" value="' . make_single_return($rt['bge_title_value'], 0) . '" />');
+		echo(' 撰写新文章</h1> <span class="tip_i">刚才提交的数据中有些问题需要修正</span></td></tr>');
+		echo('<tr><td colspan="2" align="right"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sllt" name="bge_title" value="' . make_single_return($rt['bge_title_value'], 0) . '" />');
+		if ($rt['bge_title_error'] > 0) {
+			echo('<br /><span class="tip_i">' . _vo_ico_silk('exclamation') . ' ' . $rt['bge_title_error_msg'][$rt['bge_title_error']] . '</span>');
+		}
 		echo('</td></tr>');
-		echo('<tr><td colspan="2" align="left"><textarea class="ml" rows="30" name="bge_body" style="width: 550px;">' . make_multi_return($rt['bge_body_value'], 0) . '</textarea></td></tr>');
+		echo('<tr><td colspan="2" align="right"><textarea class="ml" rows="30" name="bge_body" style="width: 550px;">' . make_multi_return($rt['bge_body_value'], 0) . '</textarea>');
+		if ($rt['bge_body_error'] > 0) {
+			echo('<br /><span class="tip_i">' . _vo_ico_silk('exclamation') . ' ' . $rt['bge_body_error_msg'][$rt['bge_body_error']] . '</span>');
+		}
+		echo('</td></tr>');
 		echo('<tr><td width="100" align="right">格式</td><td align="left">');
 		echo('<select name="bge_mode">');
 		foreach ($_modes as $key => $mode) {
@@ -11284,7 +11296,7 @@ google_color_url = "00CC00";
 		}
 		echo('</select>');
 		echo('</td></tr>');
-		echo('<tr><td width="100" align="right">发布时间</td><td align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sl" name="bge_published_date" value="" /> <input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sl" name="bge_published_time" value="" /></td></tr>');
+		echo('<tr><td width="100" align="right">发布时间</td><td align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sl" name="bge_published_date" value="' . $published_date . '" /> <input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sl" name="bge_published_time" value="' . $published_time . '" /></td></tr>');
 		echo('<tr><td width="500" colspan="2" valign="middle" align="right" class="toolbar">');
 		echo('<input type="submit" value="保存" class="btn_white" /> ');
 		echo('<input type="button" value="取消" class="btn_white" onclick="location.href=' . "'/blog/list/{$Weblog->blg_id}.vx'" . ';" />');
@@ -11440,6 +11452,13 @@ google_color_url = "00CC00";
 		$_modes = Weblog::vxGetEditorModes();
 		$_comment_permissions = Weblog::vxGetCommentPermissions();
 		$Weblog = new Weblog($Entry->bge_pid);
+		if (($Entry->bge_status == 1) && ($Entry->bge_published != 0)) {
+			$published_date = date('Y-n-j', $Entry->bge_published);
+			$published_time = date('G:i:s', $Entry->bge_published);
+		} else {
+			$published_date = date('Y-n-j', time());
+			$published_time = date('G:i:s', time());
+		}
 		_v_m_s();
 		echo('<link type="text/css" rel="stylesheet" href="/css/themes/' . BABEL_THEME . '/css_weblog.css" />');
 		_v_b_l_s();
@@ -11447,14 +11466,14 @@ google_color_url = "00CC00";
 		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; <a href="/blog/admin.vx">博客网志</a> &gt; <a href="/blog/' . Weblog::DEFAULT_ACTION . '/' . $Weblog->blg_id . '.vx">' . make_plaintext($Weblog->blg_title) . '</a> &gt; ' . make_plaintext($Entry->bge_title) . ' &gt; 编辑文章 <span class="tip_i"><small>alpha</small></span>');
 		_v_d_e();
 		_v_b_l_s();
-		_v_ico_silk('pencil');
-		echo(' 编辑文章');
-		_v_hr();
-		echo('<table cellpadding="5" cellspacing="" border="0" class="form">');
+		echo('<div align="left"><table cellpadding="5" cellspacing="" border="0" class="form">');
 		echo('<form action="/blog/edit/save/' . $Entry->bge_id . '.vx" method="post" id="form_blog_edit">');
-		echo('<tr><td width="100" align="right">标题</td><td align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="bge_title" value="' . make_single_return($Entry->bge_title, 0) . '" /></td></tr>');
-		echo('<tr><td width="100" align="right" valign="top">内容</td><td  align="left">');
-		echo('<textarea class="ml" rows="30" name="bge_body">' . make_multi_return($Entry->bge_body, 0) . '</textarea>');
+		echo('<tr><td colspan="2" align="left"><h1 class="ititle">');
+		_v_ico_tango_32('actions/document-properties');
+		echo(' 编辑文章</h1></td></tr>');
+		echo('<tr><td colspan="2" align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sllt" name="bge_title" value="' . make_single_return($Entry->bge_title, 0) . '" /></td></tr>');
+		echo('<tr><td colspan="2" align="left">');
+		echo('<textarea class="ml" rows="30" name="bge_body" style="width: 550px;">' . make_multi_return($Entry->bge_body, 0) . '</textarea>');
 		echo('</td></tr>');
 		echo('<tr><td width="100" align="right">格式</td><td align="left">');
 		echo('<select name="bge_mode">');
@@ -11490,10 +11509,12 @@ google_color_url = "00CC00";
 		}
 		echo('</select>');
 		echo('</td></tr>');
-		echo('<tr><td width="500" colspan="3" valign="middle" align="right">');
-		_v_btn_f('保存', 'form_blog_edit');
+		echo('<tr><td width="100" align="right">发布时间</td><td align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sl" name="bge_published_date" value="' . $published_date . '" /> <input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sl" name="bge_published_time" value="' . $published_time . '" /></td></tr>');
+		echo('<tr><td width="500" colspan="2" valign="middle" align="right" class="toolbar">');
+		echo('<input type="submit" value="保存" class="btn_white" /> ');
+		echo('<input type="button" value="取消" class="btn_white" onclick="location.href=' . "'/blog/list/{$Weblog->blg_id}.vx'" . ';" /> ');
+		echo('<input type="button" value="删除" class="btn_white" onclick="if (confirm(' . "'确认删除？'" . ')) { location.href = ' . "'/blog/erase/24.vx'" . '; } else { return false; }" />');
 		echo('</td></tr>');
-		echo('<input type="hidden" name="bge_status_old" value="' . $Weblog->bge_status . '" />');
 		echo('</form>');
 		echo('</table>');
 		_v_d_e();
@@ -11505,6 +11526,13 @@ google_color_url = "00CC00";
 		$_modes = Weblog::vxGetEditorModes();
 		$_comment_permissions = Weblog::vxGetCommentPermissions();
 		$Weblog = new Weblog($Entry->bge_pid);
+		if ($Entry->bge_published != 0) {
+			$published_date = date('Y-n-j', $Entry->bge_published);
+			$published_time = date('G:i:s', $Entry->bge_published);
+		} else {
+			$published_date = date('Y-n-j', time());
+			$published_time = date('G:i:s', time());
+		}
 		_v_m_s();
 		echo('<link type="text/css" rel="stylesheet" href="/css/themes/' . BABEL_THEME . '/css_weblog.css" />');
 		_v_b_l_s();
@@ -11512,27 +11540,21 @@ google_color_url = "00CC00";
 		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; <a href="/blog/admin.vx">博客网志</a> &gt; <a href="/blog/' . Weblog::DEFAULT_ACTION . '/' . $Weblog->blg_id . '.vx">' . make_plaintext($Weblog->blg_title) . '</a> &gt; ' . make_plaintext($Entry->bge_title) . ' &gt; 编辑文章 <span class="tip_i"><small>alpha</small></span>');
 		_v_d_e();
 		_v_b_l_s();
-		_v_ico_silk('pencil');
-		echo(' 编辑文章');
-		_v_hr();
-		echo('<table cellpadding="5" cellspacing="" border="0" class="form">');
+		echo('<div align="left"><table cellpadding="5" cellspacing="" border="0" class="form">');
 		echo('<form action="/blog/edit/save/' . $Entry->bge_id . '.vx" method="post" id="form_blog_edit">');
+		echo('<tr><td colspan="2" align="left"><h1 class="ititle">');
+		_v_ico_tango_32('actions/document-new');
+		echo(' 撰写新文章</h1> <span class="tip_i">刚才提交的数据中有些问题需要修正</span></td></tr>');
+		echo('<tr><td colspan="2" align="right"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sllt" name="bge_title" value="' . make_single_return($rt['bge_title_value'], 0) . '" />');
 		if ($rt['bge_title_error'] > 0) {
-			echo('<tr><td width="100" align="right">标题</td><td align="left"><div class="error" style="width: 308px;"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="bge_title" value="' . make_single_return($rt['bge_title_value'], 0) . '" /><br />');
-			_v_ico_silk('exclamation');
-			echo(' ' . $rt['bge_title_error_msg'][$rt['bge_title_error']]);
-			echo('</div></td></tr>');
-		} else {
-			echo('<tr><td width="100" align="right">标题</td><td align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="bge_title" value="' . make_single_return($rt['bge_title_value'], 0) . '" /> ' . _vo_ico_silk('tick') . '</td></tr>');
+			echo('<br /><span class="tip_i">' . _vo_ico_silk('exclamation') . ' ' . $rt['bge_title_error_msg'][$rt['bge_title_error']] . '</span>');
 		}
+		echo('</td></tr>');
+		echo('<tr><td colspan="2" align="right"><textarea class="ml" rows="30" name="bge_body" style="width: 550px;">' . make_multi_return($rt['bge_body_value'], 0) . '</textarea>');
 		if ($rt['bge_body_error'] > 0) {
-			echo('<tr><td width="100" align="right" valign="top">内容</td><td  align="left"><div class="error"><textarea class="ml" rows="30" name="bge_body">' . make_multi_return($rt['bge_body_value'], 0) . '</textarea>');
-			_v_ico_silk('exclamation');
-			echo(' ' . $rt['bge_body_error_msg'][$rt['bge_body_error']]);
-			echo('</div></td></tr>');
-		} else {
-			echo('<tr><td width="100" align="right" valign="top">内容</td><td  align="left"><textarea class="ml" rows="30" name="bge_body">' . make_multi_return($rt['bge_body_value'], 0) . '</textarea></td></tr>');
+			echo('<br /><span class="tip_i">' . _vo_ico_silk('exclamation') . ' ' . $rt['bge_body_error_msg'][$rt['bge_body_error']] . '</span>');
 		}
+		echo('</td></tr>');
 		echo('<tr><td width="100" align="right">格式</td><td align="left">');
 		echo('<select name="bge_mode">');
 		foreach ($_modes as $key => $mode) {
@@ -11567,12 +11589,14 @@ google_color_url = "00CC00";
 		}
 		echo('</select>');
 		echo('</td></tr>');
-		echo('<tr><td width="500" colspan="3" valign="middle" align="right">');
-		_v_btn_f('保存', 'form_blog_edit');
+		echo('<tr><td width="100" align="right">发布时间</td><td align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sl" name="bge_published_date" value="' . $published_date . '" /> <input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sl" name="bge_published_time" value="' . $published_time . '" /></td></tr>');
+		echo('<tr><td colspan="2" valign="middle" align="right" class="toolbar">');
+		echo('<input type="submit" value="保存" class="btn_white" /> ');
+		echo('<input type="button" value="取消" class="btn_white" onclick="location.href=' . "'/blog/list/{$Weblog->blg_id}.vx'" . ';" /> ');
+		echo('<input type="button" value="删除" class="btn_white" onclick="if (confirm(' . "'确认删除？'" . ')) { location.href = ' . "'/blog/erase/24.vx'" . '; } else { return false; }" />');
 		echo('</td></tr>');
-		echo('<input type="hidden" name="bge_status_old" value="' . $Weblog->bge_status . '" />');
 		echo('</form>');
-		echo('</table>');
+		echo('</table></div>');
 		_v_d_e();
 		_v_d_e();
 	}

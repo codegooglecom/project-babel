@@ -358,6 +358,8 @@ class Weblog {
 				} else {
 					$_entry['bge_tags_plain'] = Weblog::vxMakeTagLink($_entry['bge_tags']);
 				}
+				$_entry['bge_published_plain_short'] = date('m/d/Y', $_entry['bge_published']);
+				$_entry['bge_published_plain_long'] = date('m/d/Y H:i:s T', $_entry['bge_published']);
 				$file_entry = $usr_dir . '/entry-' . $_entry['bge_id'] . '.html';
 				$s->assign('entry', $_entry);
 				$o_entry = $s->fetch('entry.smarty');

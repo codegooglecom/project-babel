@@ -2908,7 +2908,15 @@ class Validator {
 		
 		/* bge_published_date & bge_published_time */
 		
-		if ($rt['']) {
+		if (isset($_POST['bge_published_date']) && isset($_POST['bge_published_time'])) {
+			$rt['bge_published_date_value'] = fetch_single($_POST['bge_published_date']);
+			$rt['bge_published_time_value'] = fetch_single($_POST['bge_published_time']);
+			$rt['published'] = strtotime($rt['bge_published_date_value'] . ' ' . $rt['bge_published_time_value']);
+			if (($rt['published'] - mktime(0, 0, 0, 5, 31, 1985, 0)) < 3600) {
+				$rt['published'] = time();
+			}
+		} else {
+			$rt['published'] = time();
 		}
 		
 		return $rt;
@@ -2918,14 +2926,12 @@ class Validator {
 	
 	/* S module: Blog Compose Insert logic */
 	
-	public function vxBlogComposeInsert($user_id, $weblog_id, $title, $body, $mode, $comment_permission, $status, $tags = array()) {
+	public function vxBlogComposeInsert($user_id, $weblog_id, $title, $body, $mode, $comment_permission, $status, $published, $tags = array()) {
 		$title = mysql_real_escape_string($title);
 		$hash = md5($title . "\n\n" . $body);
 		$body = mysql_real_escape_string($body);
 		$time = time();
-		if ($status == 1) {
-			$published = $time;
-		} else {
+		if ($status == 0) {
 			$published = 0;
 		}
 		$tags_sql = mysql_real_escape_string(implode(' ', $tags));
@@ -2955,15 +2961,19 @@ class Validator {
 	
 	/* S module: Blog Edit Update logic */
 	
-	public function vxBlogEditUpdate($entry_id, $user_id, $title, $body, $mode, $comment_permission, $status, $tags) {
+	public function vxBlogEditUpdate($entry_id, $user_id, $title, $body, $mode, $comment_permission, $status, $published, $status_old, $tags) {
 		$title = mysql_real_escape_string($title);
 		$hash = md5($title . "\n\n" . $body);
 		$body = mysql_real_escape_string($body);
 		$time = time();
-		if ($status == 1) {
-			$published = $time;
+		if ($status_old == 0) {
+			if ($status == 0) {
+				$published = 0;
+			}
 		} else {
-			$published = 0;
+			if ($status == 0) {
+				$published = 0;
+			}
 		}
 		$tags_sql = mysql_real_escape_string(implode(' ', $tags));
 		if ($published != 0) {
