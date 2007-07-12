@@ -16,6 +16,7 @@ require_once('core/ValidatorCore.php');
 require_once('core/UserCore.php');
 require_once('core/WeblogCore.php');
 require_once('core/EntryCore.php');
+require_once('core/Vocabularies.php');
 
 if (isset($_GET['entry_id'])) {
 	$entry_id = intval($_GET['entry_id']);
@@ -40,7 +41,34 @@ if ($entry_id != 0) {
 	$Entry = new Entry($entry_id);
 	if ($Entry->entry) {
 		$Weblog = new Weblog($Entry->bge_pid);
+		$error_friend = false;
 		if ($Entry->bge_comment_permission > 0) {
+			if ($Entry->bge_comment_permission == 2) {
+				if ($User->vxIsLogin()) {
+					if ($User->usr_id == $Entry->bge_uid) {
+						$flag_permit = true;
+					} else {
+						$sql = "SELECT frd_fid FROM babel_friend WHERE frd_uid = {$Entry->bge_uid} AND frd_fid = {$User->usr_id}";
+						$rs = mysql_query($sql);
+						if (mysql_num_rows($rs) == 1) {
+							$flag_permit = true;
+						} else {
+							$flag_permit = false;
+							$error_friend = true;
+						}
+						mysql_free_result($rs);
+					}
+				} else {
+					$flag_permit = false;
+					$error_friend = true;
+				}
+			} else {
+				$flag_permit = true;
+			}
+		} else {
+			$flag_permit = false;
+		}
+		if ($flag_permit) {
 			if (isset($_COOKIE['babel_weblog_comment_default'])) {
 				$_default = unserialize(fetch_multi($_COOKIE['babel_weblog_comment_default']));
 			} else {
@@ -49,14 +77,25 @@ if ($entry_id != 0) {
 					$_default['nick'] = $User->usr_nick;
 					$_default['email'] = $User->usr_email;
 					$_default['url'] = '';
+					$_default['remember'] = true;
 				} else {
 					$_default['nick'] = '';
 					$_default['email'] = '';
 					$_default['url'] = '';
+					$_default['remember'] = false;
 				}
-				setcookie('babel_weblog_comment_default', serialize($_default), (time() + (86400 * 30)), '/');
+				if ($_default['remember']) {
+					setcookie('babel_weblog_comment_default', serialize($_default), (time() + (86400 * 30)), '/');
+				}
 			}
 			if (strtoupper($_SERVER['REQUEST_METHOD']) == 'POST') {
+				$remember = false;
+				if (isset($_POST['remember'])) {
+					$remember_value = strtolower(fetch_single($_POST['remember']));
+					if ($remember_value == 'on') {
+						$remember = true;
+					}
+				}
 				$Validator = new Validator($db, $User);
 				$rt = $Validator->vxBlogCommentCheck();
 				if ($rt['errors'] == 0) {
@@ -71,16 +110,36 @@ if ($entry_id != 0) {
 					}
 					$Validator->vxBlogCommentInsert($user_id, $entry_id, $rt['bec_nick_value'], $rt['bec_email_value'], $rt['bec_url_value'], $rt['bec_body_value'], $status);
 					$Entry->vxUpdateComments();
-					$_default['nick'] = $rt['bec_nick_value'];
-					$_default['email'] = $rt['bec_email_value'];
-					$_default['url'] = $rt['bec_url_value'];
+					if ($remember) {
+						$_default['nick'] = $rt['bec_nick_value'];
+						$_default['email'] = $rt['bec_email_value'];
+						$_default['url'] = $rt['bec_url_value'];
+						$_default['remember'] = true;
+					} else {
+						$_default['nick'] = '';
+						$_default['email'] = '';
+						$_default['url'] = '';
+						$_default['remember'] = false;
+					}
 					setcookie('babel_weblog_comment_default', serialize($_default), (time() + (86400 * 30)), '/');
 					header('Location: /blog/comment?entry_id=' . $Entry->bge_id);
 					die();
+				} else {
+					if ($remember) {
+						$_default['nick'] = $rt['bec_nick_value'];
+						$_default['email'] = $rt['bec_email_value'];
+						$_default['url'] = $rt['bec_url_value'];
+						$_default['remember'] = true;
+					} else {
+						$_default['nick'] = '';
+						$_default['email'] = '';
+						$_default['url'] = '';
+						$_default['remember'] = false;
+					}
+					setcookie('babel_weblog_comment_default', serialize($_default), (time() + (86400 * 30)), '/');
 				}
 			}
 		}
-
 	} else {
 		$entry_id = 0;
 	}
@@ -132,7 +191,7 @@ if ($Entry->entry) {
 	mysql_free_result($rs);
 }
 if ($Entry->entry) {
-	if ($Entry->bge_comment_permission > 0) {
+	if ($flag_permit) {
 		if (strtoupper($_SERVER['REQUEST_METHOD']) == 'POST') {
 			if ($rt['errors'] > 0) {
 				echo('<div class="notify">');
@@ -149,8 +208,18 @@ if ($Entry->entry) {
 				echo('<tr><td width="300">Website URL</td></tr>');
 				echo('<tr><td width="300"><input type="text" name="bec_url" class="sl" value="' . make_single_return($rt['bec_url_value'], 0) . '" /></td></tr>');
 				echo('<tr><td width="300">Comment&nbsp;&nbsp;<span class="tip"><small>Some HTML is OK.</small></span></td></tr>');
-				echo('<tr><td width="500" colspan="2"><textarea class="ml" rows="10" name="bec_body">' . make_multi_return($rt['bec_nick_value'], 0) . '</textarea></td></tr>');
-				echo('<tr><td width="500" colspan="2" align="left"><span class="info"><input class="cb" type="checkbox" /> <small>Remember me on this computer.</info></td></tr>');
+				echo('<tr><td width="500" colspan="2"><textarea class="ml" rows="10" name="bec_body">' . make_multi_return($rt['bec_body_value'], 0) . '</textarea></td></tr>');
+				if (!$User->vxIsLogin()) {
+					echo('<tr><td width="500" colspan="2" align="left"><span class="info">');
+					if ($remember) { 
+						echo('<input checked="checked" class="cb" type="checkbox" name="remember" />');
+					} else {
+						echo('<input class="cb" type="checkbox" name="remember" />');
+					}
+					echo(' <small>Remember me on this computer.</info></td></tr>');
+				} else {
+					echo('<input type="hidden" name="remember" value="on" />');
+				}
 				echo('<tr><td width="500" colspan="2" align="left">');
 				_v_btn_f('Post', 'form_blog_comment');
 				echo('</td></tr>');
@@ -181,7 +250,17 @@ if ($Entry->entry) {
 			echo('<tr><td width="300"><input type="text" name="bec_url" class="sl" value="' . make_single_return($_default['url'], 0) . '" /></td></tr>');
 			echo('<tr><td width="300">Comment&nbsp;&nbsp;<span class="tip"><small>Some HTML is OK.</small></span></td></tr>');
 			echo('<tr><td width="500" colspan="2"><textarea class="ml" rows="10" name="bec_body"></textarea></td></tr>');
-			echo('<tr><td width="500" colspan="2" align="left"><span class="info"><input class="cb" type="checkbox" /> <small>Remember me on this computer.</info></td></tr>');
+			if (!$User->vxIsLogin()) {
+				echo('<tr><td width="500" colspan="2" align="left"><span class="info">');
+				if ($_default['remember']) {
+					echo('<input checked="checked" class="cb" type="checkbox" name="remember" />');
+				} else {
+					echo('<input class="cb" type="checkbox" name="remember" />');
+				}
+				echo(' <small>Remember me on this computer.</info></td></tr>');
+			} else {
+				echo('<input type="hidden" name="remember" value="on" />');
+			}
 			echo('<tr><td width="500" colspan="2" align="left">');
 			_v_btn_f('Post', 'form_blog_comment');
 			echo('</td></tr>');
@@ -192,7 +271,11 @@ if ($Entry->entry) {
 	} else {
 		echo('<div class="form"><span class="info">');
 		_v_ico_silk('information');
-		echo(' Comment for this entry is closed.</span></div>');
+		if ($error_friend) {
+			echo(' Comment for this entry is only available to the author\'s friends on <a href="http://' . BABEL_DNS_NAME . '/" target="_blank">' . Vocabulary::site_name . '</a>.</span></div>');
+		} else {
+			echo(' Comment for this entry is closed.</span></div>');
+		}
 	}
 }
 echo('</body></html>');

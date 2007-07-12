@@ -1126,6 +1126,7 @@ $i->vxSetupBoard('babel', 'Project Babel', 3, 3, 1, 2, 'way to explore | way too
 	$i->vxSetupChannelByName('babel', 'http://www.betanews.com/rss2');
 	$i->vxSetupChannelByName('babel', 'http://webkit.opendarwin.org/blog/?feed=rss2');
 $i->vxSetupBoard('midgard', 'Project Midgard', 3, 3, 1, 2, 'way to explore | way too extreme', 'V2EX | software for internet');
+$i->vxSetupBoard('nexus', 'Project Nexus', 3, 3, 1, 2, 'way to explore | way too extreme', 'V2EX | software for internet');
 $i->vxSetupBoard('zen', 'Project Zen', 3, 3, 1, 2, 'When time matters!', 'V2EX | software for internet');
 $i->vxSetupBoard('olpc', 'One Laptop Per Child', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('iphone', 'iPhone', 3, 3, 1, 2, 'We are APPLEOHOLICS!', '');
