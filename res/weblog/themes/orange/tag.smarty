@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<title>{$site_title} / {$tag_cur}</title>
+<link href="/favicon.ico" rel="shortcut icon" />
+<link href="{$site_weblog_root}style.css" rel="stylesheet" type="text/css" />
+<link href="{$site_weblog_root}tag-{$tag_cur}.rss" rel="alternate" type="application/rss+xml" title="{$site_title}" />
+<script src="http://{$site_static}/weblog-static/common/weblog.js" type="text/javascript"> </script>
+</script>
+</head>
+<body>
+<div id="top">
+	<h1 id="blog_title"><a href="{$site_weblog_root}" class="white">{$site_title}</a></h1>
+	<h2 id="blog_description">{$site_description}</h2>
+</div>
+<div align="center">
+<div id="main">
+	<div id="left"></div>
+	<div id="right">
+		<h2 class="r_title">Subscribe</h2>
+			<div class="r_item"><img src="{$ico_feed}" align="absmiddle" /> Subscribe via <a href="{$site_weblog_root}index.rss">RSS 2.0</a></div>
+		<h2 class="r_title">About Me</h2>
+			<div class="r_item"><img src="http://{$site_babel}{$user_portrait_s}" align="left" style="margin: 0px 5px 0px 0px;" /> <span class="big"><a href="http://{$site_babel}/u/{$user_nick_url}" target="_blank">{$user_nick_plain}</a></span><br />Since {$user_created_plain_short}<br /><br />{$user_brief_plain}</div>
+		<h2 class="r_title">Tags</h2>
+			<div class="r_item">
+			{foreach from=$tags item=item key=key}
+				{if $item.bet_tag eq $tag_cur}
+					{$item.bet_tag}<br />
+				{else}
+					<a href="tag-{$item.bet_tag}.html">{$item.bet_tag}</a><br />
+				{/if}
+			{/foreach}
+			</div>
+		<!--<h2 class="r_title">Archive</h2>-->
+		{if $license_show eq 1}<h2 class="r_title">License</h2>
+			<div class="r_item">{$license_code}</div>{/if}
+	</div>
+	<div id="center">
+		{foreach from=$entries item=item key=key}
+		<h1 class="c_title"><a href="entry-{$item.bge_id}.html">{$item.bge_title}</a></h1>
+		
+		<div class="author">Posted by <strong><a href="http://{$site_babel}/u/{$item.usr_nick_url}">{$item.usr_nick_plain}</a></strong> on {$item.bge_published_plain}{if $item.bge_tags_plain_comma neq ''} in {$item.bge_tags_plain_comma}{/if}</div>
+		
+		<div class="content">{$item.bge_body_plain}</div>
+		
+		<div class="permalink"><a href="entry-{$item.bge_id}.html">Permalink</a> | <a href="#;" onclick="openComment({$item.bge_id});">{$item.bge_comments} comments</a> | <img src="http://{$site_static}/weblog-static/common/delicious.png" align="absmiddle" /> <a href="http://del.icio.us/post?v=4;url={$item.url_url};title={$item.bge_title_url}" rel="nofollow external">add to del.icio.us</a></div>
+		{/foreach}
+	</div>
+</div>
+</div>
+<div id="bottom">
+	Orange theme designed by <a href="http://www.livid.cn/">Livid</a>, this blog is proudly powered by <a href="http://nexus.v2ex.com/nexus/"><strong>Project Nexus</strong></a>.
+</div>
+</body>
+</html>

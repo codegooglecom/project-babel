@@ -3,7 +3,7 @@ class Weblog {
 	const DEFAULT_ACTION = 'list';
 	
 	public function __construct($weblog_id) {
-		$sql = "SELECT blg_id, blg_uid, blg_name, blg_title, blg_description, blg_portrait, blg_theme, blg_mode, blg_entries, blg_comments, blg_comment_permission, blg_builds, blg_dirty, blg_ing, blg_created, blg_lastupdated, blg_lastbuilt, blg_expire, usr_id, usr_nick, usr_gender, usr_portrait, usr_created, usr_brief FROM babel_weblog, babel_user WHERE blg_uid = usr_id AND blg_id = {$weblog_id}";
+		$sql = "SELECT blg_id, blg_uid, blg_name, blg_title, blg_description, blg_portrait, blg_theme, blg_license, blg_license_show, blg_mode, blg_entries, blg_comments, blg_comment_permission, blg_builds, blg_dirty, blg_ing, blg_created, blg_lastupdated, blg_lastbuilt, blg_expire, usr_id, usr_nick, usr_gender, usr_portrait, usr_created, usr_brief FROM babel_weblog, babel_user WHERE blg_uid = usr_id AND blg_id = {$weblog_id}";
 		$rs = mysql_query($sql);
 		if (mysql_num_rows($rs) == 1) {
 			$this->weblog = true;
@@ -16,6 +16,11 @@ class Weblog {
 			$this->blg_description = $_weblog['blg_description'];
 			$this->blg_portrait = $_weblog['blg_portrait'];
 			$this->blg_theme = $_weblog['blg_theme'];
+			$this->blg_license = $_weblog['blg_license'];
+			if ($this->blg_license == '') {
+				$this->blg_license = Weblog::vxGetDefaultLicense();
+			}
+			$this->blg_license_show = intval($_weblog['blg_license_show']);
 			$this->blg_mode = intval($_weblog['blg_mode']);
 			$this->blg_entries = intval($_weblog['blg_entries']);
 			$this->blg_comments = intval($_weblog['blg_comments']);
@@ -101,6 +106,20 @@ class Weblog {
 		return $o;
 	}
 	
+	public static function vxMakeTagLinkComma($tags) {
+		$_tags = explode(' ', $tags);
+		$o = '';
+		$i = 0;
+		foreach ($_tags as $tag) {
+			$i++;
+			if ($i != 1) {
+				$o .= ', ';
+			}
+			$o .= '<a href="tag-' . $tag . '.html">' . $tag . '</a>';
+		}
+		return $o;
+	}
+	
 	public static function vxMatchEntryPermission($user_id, $entry_id) {
 		$sql = "SELECT bge_uid FROM babel_weblog_entry WHERE bge_id = {$entry_id}";
 		$rs = mysql_query($sql);
@@ -146,6 +165,75 @@ class Weblog {
 		return 0;
 	}
 	
+	public static function vxGetLicenses() {
+		$_licenses = array(
+			'by-nc-nd' => 'Attribution Non-commercial No Derivatives (by-nc-nd)',
+			'by-nc-sa' => 'Attribution Non-commercial Share Alike (by-nc-sa)',
+			'by-nc' => 'Attribution Non-commercial (by-nc)',
+			'by-nd' => 'Attribution No Derivatives (by-nd)',
+			'by-sa' => 'Attribution Share Alike (by-sa)',
+			'by' => 'Attribution (by)'
+		);
+		return $_licenses;
+	}
+	
+	public static function vxGetLicenseCode($license) {
+		switch ($license) {
+			case 'by-nc-nd':
+				return '<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">
+<img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-nd/3.0/80x15.png" />
+</a>
+<br />This 
+<span xmlns:dc="http://purl.org/dc/elements/1.1/" href="http://purl.org/dc/dcmitype/" rel="dc:type">work</span> is licensed under a 
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/3.0/">Creative Commons Attribution-Noncommercial-No Derivative Works 3.0 License</a>.';
+				break;
+			case 'by-nc-sa':
+				return '<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">
+<img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc-sa/3.0/80x15.png" />
+</a>
+<br />This 
+<span xmlns:dc="http://purl.org/dc/elements/1.1/" href="http://purl.org/dc/dcmitype/" rel="dc:type">work</span> is licensed under a 
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative Commons Attribution-Noncommercial-Share Alike 3.0 License</a>.';
+				break;
+			case 'by-nc':
+				return '<a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/">
+<img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/3.0/80x15.png" />
+</a>
+<br />This 
+<span xmlns:dc="http://purl.org/dc/elements/1.1/" href="http://purl.org/dc/dcmitype/" rel="dc:type">work</span> is licensed under a 
+<a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/">Creative Commons Attribution-Noncommercial 3.0 License</a>.';
+				break;
+			case 'by-nd':
+				return '<a rel="license" href="http://creativecommons.org/licenses/by-nd/3.0/">
+<img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nd/3.0/80x15.png" />
+</a>
+<br />This 
+<span xmlns:dc="http://purl.org/dc/elements/1.1/" href="http://purl.org/dc/dcmitype/" rel="dc:type">work</span> is licensed under a 
+<a rel="license" href="http://creativecommons.org/licenses/by-nd/3.0/">Creative Commons Attribution-No Derivative Works 3.0 License</a>.';
+				break;
+			case 'by-sa':
+				return '<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">
+<img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/80x15.png" />
+</a>
+<br />This 
+<span xmlns:dc="http://purl.org/dc/elements/1.1/" href="http://purl.org/dc/dcmitype/" rel="dc:type">work</span> is licensed under a 
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-Share Alike 3.0 License</a>.';
+				break;
+			case 'by':
+				return '<a rel="license" href="http://creativecommons.org/licenses/by/3.0/">
+<img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by/3.0/80x15.png" />
+</a>
+<br />This 
+<span xmlns:dc="http://purl.org/dc/elements/1.1/" href="http://purl.org/dc/dcmitype/" rel="dc:type">work</span> is licensed under a 
+<a rel="license" href="http://creativecommons.org/licenses/by/3.0/">Creative Commons Attribution 3.0 License</a>.';
+				break;
+		}
+	}
+	
+	public static function vxGetDefaultLicense() {
+		return 'by';
+	}
+	
 	public static function vxBuild($user_id, $weblog_id) {
 		$start = microtime(true);
 		$Weblog = new Weblog($weblog_id);
@@ -165,7 +253,7 @@ class Weblog {
 			$files = 0;
 			
 			/* check user home directory */
-			$usr_dir = BABEL_WEBLOG_PREFIX . '/htdocs/' . $Weblog->blg_name;
+			$usr_dir = BABEL_WEBLOG_PREFIX . '/' . BABEL_WEBLOG_WWWROOT . '/' . $Weblog->blg_name;
 			if (!file_exists($usr_dir)) {
 				mkdir($usr_dir);
 			}
@@ -201,6 +289,9 @@ class Weblog {
 			$s->assign('site_description', make_plaintext($Weblog->blg_description));
 			$s->assign('site_category', make_plaintext(Vocabulary::site_name));
 			$s->assign('site_lang', 'en');
+			
+			$s->assign('license_show', $Weblog->blg_license_show);
+			$s->assign('license_code', Weblog::vxGetLicenseCode($Weblog->blg_license));
 			
 			$s->assign('built', date('Y-n-j G:i:s T', time()));
 			
@@ -275,6 +366,11 @@ class Weblog {
 				} else {
 					$_entries[$_entry['bge_id']]['bge_tags_plain'] = Weblog::vxMakeTagLink($_entry['bge_tags']);
 				}
+				if ($_entry['bge_tags'] == '') {
+					$_entries[$_entry['bge_id']]['bge_tags_plain_comma'] = '';
+				} else {
+					$_entries[$_entry['bge_id']]['bge_tags_plain_comma'] = Weblog::vxMakeTagLinkComma($_entry['bge_tags']);
+				}
 				$_entries[$_entry['bge_id']]['bge_published_plain_short'] = date('m/d/Y', $_entry['bge_published']);
 				$_entries[$_entry['bge_id']]['bge_published_plain_long'] = date('m/d/Y H:i:s T', $_entry['bge_published']);
 			}
@@ -333,6 +429,11 @@ class Weblog {
 					} else {
 						$_entries[$_entry['bge_id']]['bge_tags_plain'] = Weblog::vxMakeTagLink($_entry['bge_tags']);
 					}
+					if ($_entry['bge_tags'] == '') {
+						$_entries[$_entry['bge_id']]['bge_tags_plain_comma'] = '';
+					} else {
+						$_entries[$_entry['bge_id']]['bge_tags_plain_comma'] = Weblog::vxMakeTagLinkComma($_entry['bge_tags']);
+					}
 					$_entries[$_entry['bge_id']]['bge_published_plain_short'] = date('m/d/Y', $_entry['bge_published']);
 					$_entries[$_entry['bge_id']]['bge_published_plain_long'] = date('m/d/Y H:i:s T', $_entry['bge_published']);
 				}
@@ -386,6 +487,11 @@ class Weblog {
 					$_entry['bge_tags_plain'] = '';
 				} else {
 					$_entry['bge_tags_plain'] = Weblog::vxMakeTagLink($_entry['bge_tags']);
+				}
+				if ($_entry['bge_tags'] == '') {
+					$_entry['bge_tags_plain_comma'] = '';
+				} else {
+					$_entry['bge_tags_plain_comma'] = Weblog::vxMakeTagLinkComma($_entry['bge_tags']);
 				}
 				$_entry['bge_published_plain_short'] = date('m/d/Y', $_entry['bge_published']);
 				$_entry['bge_published_plain_long'] = date('m/d/Y H:i:s T', $_entry['bge_published']);

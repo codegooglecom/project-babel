@@ -1,0 +1,161 @@
+body {
+background-color: #FFF;
+padding: 0px;
+margin: 0px;
+font-family: "Lucida Grande", Verdana, "Lucida Sans", sans, Hei;
+}
+
+div#top {
+background-color: #F60;
+padding: 10px;
+border-bottom: 2px solid #F90;
+height: 50px;
+clear: both;
+margin-bottom: 20px;
+}
+
+h1#blog_title {
+color: #FFF;
+margin: 5px 0px 5px 0px;
+font-size: 16px;
+}
+
+h2#blog_description {
+color: #FFF;
+margin: 5px 0px 5px 0px;
+font-size: 12px;
+font-weight: normal;
+}
+
+div#main {
+clear: both;
+}
+
+div#left {
+float: left;
+}
+
+div#center {
+margin: 0px 222px 0px 20px;
+background-color: #FFF;
+text-align: left;
+padding: 0px 0px 20px 0px
+}
+
+h1.c_title {
+margin: 2px 0px 2px 0px;
+font-size: 25px;
+font-weight: bold;
+font-family: "Lucida Grande", Verdana;
+}
+
+div.author {
+padding: 5px 0px 5px 0px;
+font-size: 12px;
+color: #777;
+}
+
+div.author strong {
+color: #333;
+}
+
+div.content {
+margin-right: 30px;
+padding: 10px 0px 15px 0px;
+font-size: 12px;
+color: #333;
+line-height: 20px;
+}
+
+div.permalink {
+padding: 5px 0px 25px 0px;
+font-size: 12px;
+color: #777;
+}
+
+div#right {
+float: right;
+margin-right: 20px;
+margin-bottom: 20px;
+width: 200px;
+border: 1px solid #CCC;
+padding: 10px;
+text-align: left;
+}
+
+h2.r_title {
+color: #F60;
+font-size: 14px;
+font-weight: bold;
+font-family: "Lucida Grande", Verdana;
+margin: 0px 0px 5px 0px;
+}
+
+div.r_item {
+padding: 5px 0px 10px 20px;
+font-size: 12px;
+line-height: 18px;
+color: #666;
+}
+
+div#bottom {
+border-top: 1px dotted #CCC;
+text-align: center;
+padding: 10px;
+font-size: 12px;
+color: #333;
+clear: both;
+}
+
+a:link {
+color: #34A;
+border-bottom: 1px dotted #34A;
+text-decoration: none;
+}
+
+a:visited {
+color: #349;
+border-bottom: 1px dotted #349;
+text-decoration: none;
+}
+
+a:hover {
+color: #F60;
+border-bottom: 1px solid #F60;
+text-decoration: none;
+}
+
+a:active {
+text-decoration: none;
+background-color: #F90;
+color: #FFF;
+}
+
+span.big {
+font-size: 120%;
+}
+
+a.white:link {
+color: #FFF;
+border: none;
+text-decoration: none;
+}
+
+a.white:visited {
+color: #FFF;
+border: none;
+text-decoration: none;
+}
+
+a.white:hover {
+color: #FFF;
+border: none;
+text-decoration: none;
+}
+
+a.white:active {
+background-color: #F30;
+color: #FFF;
+border: none;
+text-decoration: none;
+}
