@@ -1,1 +1,5 @@
-<div class="designer" style="text-align: center;">White theme designed by <a href="http://www.livid.cn/"><strong>Livid</strong></a>, this blog is proudly powered by <a href="http://nexus.v2ex.com/nexus/"><strong>Project Nexus</strong></a>.</div>
+{if $license_show eq 1}<div class="license">{$license_code}</div>{/if}
+
+<div class="designer" style="text-align: center;">
+White theme designed by <a href="http://www.livid.cn/"><strong>Livid</strong></a>, this blog is proudly powered by <a href="http://nexus.v2ex.com/nexus/"><strong>Project Nexus</strong></a>.</div>
+

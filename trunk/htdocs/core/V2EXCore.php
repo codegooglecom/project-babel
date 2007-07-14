@@ -10827,7 +10827,7 @@ google_color_url = "00CC00";
 			echo('</div>');
 		}
 		_v_hr();
-		echo('欢迎从 <a href="http://blog.v2ex.com/nexus" class="t">Project Nexus</a> 的博客网志上获取帮助和更多信息！');
+		echo('欢迎从 <a href="http://nexus.v2ex.com/nexus" class="t">Project Nexus</a> 的博客网志上获取帮助和更多信息！');
 		_v_d_e();
 		_v_d_e();
 	}
@@ -10845,8 +10845,8 @@ google_color_url = "00CC00";
 		_v_hr();
 		echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 		echo('<form action="/blog/create/save.vx" method="post" id="form_blog_create">');
-		echo('<tr><td width="100" align="right">访问地址</td><td width="400" align="left">http://blog.v2ex.com/<input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sl" name="blg_name" /></td></tr>');
-		echo('<tr><td width="100" align="right"></td><td width="400" align="left"><span class="tip_i">只能使用数字（a-z），字母（0-9），横线（-）及下划线（_）</span></td></tr>');
+		echo('<tr><td width="100" align="right">访问地址</td><td width="400" align="left">http://' . BABEL_WEBLOG_SITE . '/<input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sl" name="blg_name" /></td></tr>');
+		echo('<tr><td width="100" align="right"></td><td width="400" align="left"><span class="tip_i">只能使用字母（a-z），数字（0-9），横线（-）及下划线（_）</span></td></tr>');
 		echo('<tr><td width="100" align="right">标题</td><td width="400" align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="blg_title" /></td></tr>');
 		echo('<tr><td width="100" align="right" valign="top">简介</td><td width="400" align="left"><textarea onfocus="brightBox(this);" onblur="dimBox(this);" rows="10" class="ml" name="blg_description"></textarea></td></tr>');
 		echo('<tr>');
@@ -10892,16 +10892,16 @@ google_color_url = "00CC00";
 		echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 		echo('<form action="/blog/create/save.vx" method="post" id="form_blog_create">');
 		if ($rt['blg_name_error'] > 0) {
-			echo('<tr><td width="100" align="right">访问地址</td><td width="400" align="left"><div class="error" style="width: 335px;">http://blog.v2ex.com/<input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sl" name="blg_name" value="' . make_single_return($rt['blg_name_value'], 0) . '" /><br />');
+			echo('<tr><td width="100" align="right" valign="top">访问地址</td><td width="400" align="left">http://' . BABEL_WEBLOG_SITE . '/<input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sl" name="blg_name" value="' . make_single_return($rt['blg_name_value'], 0) . '" /><div class="error">');
 			_v_ico_silk('exclamation');
 			echo(' ' . $rt['blg_name_error_msg'][$rt['blg_name_error']]);
 			echo('</div></td></tr>');
 		} else {
-			echo('<tr><td width="100" align="right">访问地址</td><td width="400" align="left">http://blog.v2ex.com/<input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sl" name="blg_name" value="' . make_single_return($rt['blg_name_value'], 0) .'" /> ');
+			echo('<tr><td width="100" align="right">访问地址</td><td width="400" align="left">http://' . BABEL_WEBLOG_SITE . '/<input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sl" name="blg_name" value="' . make_single_return($rt['blg_name_value'], 0) .'" /> ');
 			_v_ico_silk('tick');
 			echo('</td></tr>');
 		}
-		echo('<tr><td width="100" align="right"></td><td width="400" align="left"><span class="tip_i">只能使用数字（a-z），字母（0-9），横线（-）及下划线（_）</span></td></tr>');
+		echo('<tr><td width="100" align="right"></td><td width="400" align="left"><span class="tip_i">只能使用字母（a-z），数字（0-9），横线（-）及下划线（_）</span></td></tr>');
 		
 		if ($rt['blg_title_error'] > 0) {
 			echo('<tr><td width="100" align="right">标题</td><td width="400" align="left"><div class="error" style="width: 308px;"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="blg_title" value="' . make_single_return($rt['blg_title_value'], 0) . '" /><br />');
@@ -11026,6 +11026,7 @@ google_color_url = "00CC00";
 	public function vxBlogConfig($Weblog) {
 		$_modes = Weblog::vxGetEditorModes();
 		$_comment_permissions = Weblog::vxGetCommentPermissions();
+		$_licenses = Weblog::vxGetLicenses();
 		_v_m_s();
 		echo('<link type="text/css" rel="stylesheet" href="/css/themes/' . BABEL_THEME . '/css_weblog.css" />');
 		_v_b_l_s();
@@ -11063,6 +11064,34 @@ google_color_url = "00CC00";
 		}
 		echo('</select>');
 		echo('</td>');
+		echo('</tr>');
+		echo('<tr><td width="100" align="right" valign="top">授权协议</td><td width="400" align="left">');
+		echo('<select name="blg_license">');
+		foreach ($_licenses as $name => $license) {
+			if ($Weblog->blg_license == $name) {
+				echo('<option value="' . $name . '" selected="selected">' . $license . '</option>');
+			} else {
+				echo('<option value="' . $name . '">' . $license . '</option>');
+			}
+		}
+		echo('</select>');
+		echo(' ');
+		echo('<a href="http://creativecommons.org/about/licenses/meet-the-licenses" target="_blank">');
+		_v_ico_silk('information');
+		echo('</a>');
+		echo('</td>');
+		echo('</tr>');
+		echo('<tr>');
+		echo('<td width="100" align="right" valign="top"></td>');
+		echo('<td width="400" align="left"><span class="text">');
+		if ($Weblog->blg_license_show == 1) {
+			echo('<input type="radio" checked="checked" name="blg_license_show" value="1" /> 显示');
+			echo('&nbsp;&nbsp;<input type="radio" name="blg_license_show" value="0" /> 不显示');
+		} else {
+			echo('<input type="radio" name="blg_license_show" value="1" /> 显示');
+			echo('&nbsp;&nbsp;<input type="radio" checked="checked" name="blg_license_show" value="0" /> 不显示');
+		}
+		echo('</span></td>');
 		echo('</tr>');
 		echo('<tr>');
 		echo('<td width="100" align="right" valign="top"><a href="/ing/' . $this->User->usr_nick_url . '" class="regular">ING</a> 集成</td>');
@@ -11144,6 +11173,22 @@ google_color_url = "00CC00";
 			}
 		}
 		echo('</select>');
+		echo('</td>');
+		echo('</tr>');
+		echo('<tr><td width="100" align="right" valign="top">授权协议</td><td width="400" align="left">');
+		echo('<select name="blg_license">');
+		foreach ($_licenses as $name => $license) {
+			if ($rt['blg_license_value'] == $name) {
+				echo('<option value="' . $name . '" selected="selected">' . $license . '</option>');
+			} else {
+				echo('<option value="' . $name . '">' . $license . '</option>');
+			}
+		}
+		echo('</select>');
+		echo(' ');
+		echo('<a href="http://creativecommons.org/about/licenses/meet-the-licenses" target="_blank">');
+		_v_ico_silk('information');
+		echo('</a>');
 		echo('</td>');
 		echo('</tr>');
 		echo('<tr>');

@@ -47,6 +47,15 @@ margin: 10px;
 text-align: right;
 }
 
+div.license {
+padding: 2px;
+background-color: #FFF;
+font-size: 10px;
+color: #A0A0B0;
+line-height: 16px;
+text-align: center;
+}
+
 div.designer {
 padding: 5px;
 background-color: #F0F0FF;

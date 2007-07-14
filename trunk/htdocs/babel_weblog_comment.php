@@ -181,6 +181,9 @@ if ($Entry->entry) {
 		echo(nl2br($_comment['bec_body']));
 		echo('<div class="author">By ');
 		if ($_comment['bec_url'] != '') {
+			if (strtolower(substr($_comment['bec_url'], 0, 7)) != 'http://') {
+				$_comment['bec_url'] = 'http://' . $_comment['bec_url'];
+			}
 			echo('<a href="' . $_comment['bec_url'] . '" target="_blank" rel="nofollow external">' . make_plaintext($_comment['bec_nick'])) . '</a>';
 		} else {
 			echo(make_plaintext($_comment['bec_nick']));

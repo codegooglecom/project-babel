@@ -3,7 +3,7 @@ var getObj = function(objId) {
 }
 
 var openComment = function(entryId) {
-	newWin = window.open("http://v-dev.v2ex.com/blog/comment?entry_id=" + entryId, "winComment", "width=580,height=450,scrollbars=yes");
+	newWin = window.open("http://www.v2ex.com/blog/comment?entry_id=" + entryId, "winComment", "width=580,height=450,scrollbars=yes");
 	newWin.moveTo(40, 40);
 	newWin.focus();
 }

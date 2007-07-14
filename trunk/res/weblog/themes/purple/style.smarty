@@ -264,12 +264,12 @@ color: #001;
 text-decoration: underline;
 }
 
-a.white:link, a.white:active, a.white:visited {
+a.white:link, a.white:active, a.white:visited, div.license a:link, div.license a:active, div.license a:visited {
 color: #FFF;
 text-decoration: none;
 }
 
-a.white:hover {
+a.white:hover, div.license a:hover {
 color: #FFF;
 text-decoration: underline;
 }
