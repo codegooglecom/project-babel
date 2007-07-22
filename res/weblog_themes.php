@@ -2,6 +2,7 @@
 $_weblog_themes = array(
 	'white',
 	'purple',
-	'orange'
+	'orange',
+	'dust'
 );
 ?>

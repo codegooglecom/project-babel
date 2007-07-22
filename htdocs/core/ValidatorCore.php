@@ -3161,6 +3161,106 @@ class Validator {
 	}
 	
 	/* E module: Blog Comment Insert logic */
+	
+	/* S module: Send Money Check logic */
+	
+	public function vxSendMoneyCheck() {
+		$rt = array();
+		
+		$rt['errors'] = 0;
+		
+		$rt['who_value'] = '';
+		$rt['who_object'] = null;
+		$rt['who_error'] = 0;
+		$rt['who_error_msg'] = array(1 => '你没有输入收款人的名字', 2 => '不能汇款给自己', 3 => '汇款人不存在');
+		
+		if (isset($_POST['who'])) {
+			$rt['who_value'] = fetch_single($_POST['who']);
+			if ($rt['who_value'] != '') {
+				$sql = "SELECT usr_id, usr_nick, usr_email, usr_money FROM babel_user WHERE usr_nick = '" . mysql_real_escape_string($rt['who_value']) . "'";
+				$rs = mysql_query($sql);
+				if ($Object = mysql_fetch_object($rs)) {
+					if ($Object->usr_id != $this->User->usr_id) {
+						$rt['who_object'] = $Object;
+					} else {
+						$rt['errors']++;
+						$rt['who_error'] = 2;
+					}
+				} else {
+					$rt['errors']++;
+					$rt['who_error'] = 3;
+				}
+				mysql_free_result($rs);
+			} else {
+				$rt['errors']++;
+				$rt['who_error'] = 1;
+			}
+		} else {
+			$rt['errors']++;
+			$rt['who_error'] = 1;
+		}
+		
+		$rt['amount_value'] = -1;
+		$rt['amount_error'] = 0;
+		$rt['amount_error_msg'] = array(1 => '你没有输入汇款数额', 2 => '每次汇款数额至少为 100 铜币', 3 => '汇款数额超出了你持有的铜币数量');
+		
+		if (isset($_POST['amount'])) {
+			$rt['amount_value'] = abs(intval($_POST['amount']));
+			if ($rt['amount_value'] != 0) {
+				if ($rt['amount_value'] >= 100) {
+					$rate = Validator::vxSendMoneyRate($this->User->usr_created, $this->User->usr_money);
+					if (($rt['amount_value'] * (1 + $rate)) > $this->User->usr_money) {
+						$rt['fee_value'] = 0;
+						$rt['errors']++;
+						$rt['amount_error'] = 3;
+					} else {
+						$rt['fee_value'] = $rt['amount_value'] * $rate;
+					}
+				} else {
+					$rt['errors']++;
+					$rt['amount_error'] = 2;
+				}
+			} else {
+				$rt['errors']++;
+				$rt['amount_error'] = 1;
+			}
+		} else {
+			$rt['errors']++;
+			$rt['amount_error'] = 1;
+		}
+		
+		$rt['confirm'] = 0;
+		
+		if (isset($_POST['confirm'])) {
+			$confirm = intval($_POST['confirm']);
+			if ($confirm == 1) {
+				$rt['confirm'] = 1;
+			}
+		}
+		
+		return $rt;
+	}
+	
+	public static function vxSendMoneyRate($created, $money) {
+		$rate = -1;
+		$now = time();
+		$duration = round(($now - $created) / 86400);
+		if ($money > 10000 && ($duration > 200)) {
+			return $rate = 0;
+		}
+		if ($money > 5000 && ($duration > 100)) {
+			return $rate = 0.02;
+		}
+		if ($money > 2000 && ($duration > 30)) {
+			return $rate = 0.05;
+		}
+		if ($money > 1800) {
+			return $rate = 0.08;
+		}
+		return $rate;
+	}
+	
+	/* E module: Send Money Check logic */
 }
 
 /* E Validator class */

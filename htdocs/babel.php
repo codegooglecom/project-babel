@@ -2494,7 +2494,73 @@ switch ($m) {
 				break;
 			}
 		}
-	
+		
+	case 'bank_transfer':
+		if ($p->User->vxIsLogin()) {
+			$p->vxHead($msgSiteTitle = $p->lang->send_money());
+			$p->vxBodyStart();
+			$p->vxTop();
+			$p->vxContainer('bank_transfer');
+			break;
+		} else {
+			$p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetBankTransfer()));
+			break;
+		}
+		
+	case 'bank_transfer_confirm':
+		if ($p->User->vxIsLogin()) {
+			if ($p->User->usr_money >= 1800) {
+				$rt = $p->Validator->vxSendMoneyCheck();
+				if (($rt['errors'] == 0) && ($rt['confirm'] == 1)) {
+					$p->User->vxPay($p->User->usr_id, -$rt['amount_value'], 500, $p->User->usr_id . ':' . make_plaintext($rt['who_object']->usr_nick));
+					if ($rt['fee_value'] > 0) {
+						$p->User->vxPay($p->User->usr_id, -$rt['fee_value'], 502, '');
+					}
+					$p->User->vxPay($rt['who_object']->usr_id, $rt['amount_value'], 501, $p->User->usr_id . ':' . make_plaintext($p->User->usr_nick));
+					$mail = array();
+					$mail['subject'] = '收到来自 ' . $p->User->usr_nick . ' 的新汇款';
+					$mail['body'] = $rt['who_object']->usr_nick . "，你好！\n\n你在北京时间 " . date('Y-n-j G:i:s', time()) . " 收到了一笔来自 " . $p->User->usr_nick . " 的汇款，因此我们发送此邮件给你。\n\n-----------------------------------------------\n数额：" . $rt['amount_value'] . " 铜币\n-----------------------------------------------\n\n你可以点击下面的地址查看你目前在 " . Vocabulary::site_name . " 的经济状况。\n\nhttp://" . BABEL_DNS_NAME . $p->URL->vxGetExpenseView() . "\n\n备注：铜币是 " . Vocabulary::site_name . " 的虚拟货币单位。" . BABEL_AM_SIGNATURE;
+					$receiver = $rt['who_object']->usr_email;
+					$am = new Airmail($receiver, $mail['subject'], $mail['body'], $p->db);
+					$am->vxSend();
+					$am = null;
+					if (BABEL_DEBUG) {
+						if (isset($_SESSION['babel_debug_log'])) {
+							$_SESSION['babel_debug_log'][time() . '.' . rand(111, 999)] = 'babel - mail sent to: ' . $receiver;
+						} else {
+							$_SESSION['babel_debug_log'] = array();
+							$_SESSION['babel_debug_log'][time() . '.' . rand(111, 999)] = 'babel - mail sent to: ' . $receiver;
+						}
+					}
+					$mail['subject'] = '汇款已发送到 ' . $rt['who_object']->usr_nick;
+					$mail['body'] = $p->User->usr_nick . "，你好！\n\n你在北京时间 " . date('Y-n-j G:i:s', time()) . " 向 " . $rt['who_object']->usr_nick . " 发送了一笔汇款，因此我们发送此邮件给你。\n\n-----------------------------------------------\n数额：" . $rt['amount_value'] . " 铜币\n-----------------------------------------------\n\n你可以点击下面的地址查看你目前在 " . Vocabulary::site_name . " 的经济状况。\n\nhttp://" . BABEL_DNS_NAME . $p->URL->vxGetExpenseView() . "\n\n备注：铜币是 " . Vocabulary::site_name . " 的虚拟货币单位。" . BABEL_AM_SIGNATURE;
+					$receiver = $p->User->usr_email;
+					$am = new Airmail($receiver, $mail['subject'], $mail['body'], $p->db);
+					$am->vxSend();
+					$am = null;
+					if (BABEL_DEBUG) {
+						if (isset($_SESSION['babel_debug_log'])) {
+							$_SESSION['babel_debug_log'][time() . '.' . rand(111, 999)] = 'babel - mail sent to: ' . $receiver;
+						} else {
+							$_SESSION['babel_debug_log'] = array();
+							$_SESSION['babel_debug_log'][time() . '.' . rand(111, 999)] = 'babel - mail sent to: ' . $receiver;
+						}
+					}
+					$p->URL->vxToRedirect($p->URL->vxGetExpenseView());
+				} else {
+					$p->vxHead($msgSiteTitle = $p->lang->send_money());
+					$p->vxBodyStart();
+					$p->vxTop();
+					$p->vxContainer('bank_transfer_confirm', $rt);
+				}
+			} else {
+				$p->URL->vxToRedirect($p->URL->vxGetBankTransfer());
+			}
+			break;
+		} else {
+			$p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetBankTransfer()));
+			break;
+		}
 }
 
 if ($global_has_bottom) {

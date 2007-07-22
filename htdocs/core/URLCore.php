@@ -252,6 +252,16 @@ class URL {
 		$url = '/blog/moderate/' . $entry_id . '.vx';
 		return $url;
 	}
+	
+	public static function vxGetBankTransfer() {
+		$url = '/bank/transfer.vx';
+		return $url;
+	}
+	
+	public static function vxGetBankTransferConfirm() {
+		$url = '/bank/transfer/confirm.vx';
+		return $url;
+	}
 }
 
 /* E URL class */

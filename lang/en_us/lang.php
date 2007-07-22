@@ -30,7 +30,7 @@ class lang implements Language {
 				$s = floor($i / 100);
 				$r = $i - (100 * $s);
 				if ($r > 0) {
-					return '<small>' . $s . '</small> s <small>' . $c . '</small> c';
+					return '<small>' . $s . '</small> s <small>' . $r . '</small> c';
 				} else {
 					return '<small>' . $s . '</small> s';
 				}
@@ -78,6 +78,22 @@ class lang implements Language {
 	
 	public function hits($i) {
 		return $i . ' hits';
+	}
+	
+	public function my_profile($site_name) {
+		return 'My ' . $site_name . ' profile';
+	}
+	
+	public function my_topics() {
+		return 'My topics';
+	}
+	
+	public function my_blogs() {
+		return 'My weblogs';
+	}
+	
+	public function send_money() {
+		return 'Send money';
 	}
 }
 
