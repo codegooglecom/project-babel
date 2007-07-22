@@ -525,7 +525,7 @@ class Weblog {
 		
 		/* 1: Unlink all files */
 		
-		$usr_dir = BABEL_WEBLOG_PREFIX . '/htdocs/' . $Weblog->blg_name;
+		$usr_dir = BABEL_WEBLOG_PREFIX . '/' . BABEL_WEBLOG_WWWROOT . '/' . $Weblog->blg_name;
 		
 		if (file_exists($usr_dir)) {
 			foreach (glob($usr_dir . '/*.html') as $filename) {
@@ -553,11 +553,13 @@ class Weblog {
 		
 		/* 3: Clean all database records */
 		
-		mysql_unbuffered_query("DELETE FROM babel_weblog_entry_tag WHERE bet_eid IN (SELECT bge_id FROM babel_weblog_entry WHERE bge_pid = {$weblog_id})");
+		mysql_unbuffered_query("DELETE FROM babel_weblog_entry_comment WHERE bec_eid IN (SELECT bge_id FROM babel_weblog_entry WHERE bge_pid = {$weblog_id})"); // comments
 		
-		mysql_unbuffered_query("DELETE FROM babel_weblog_entry WHERE bge_pid = {$weblog_id}");
+		mysql_unbuffered_query("DELETE FROM babel_weblog_entry_tag WHERE bet_eid IN (SELECT bge_id FROM babel_weblog_entry WHERE bge_pid = {$weblog_id})"); // tags
 		
-		mysql_unbuffered_query("DELETE FROM babel_weblog WHERE blg_id = {$weblog_id}");
+		mysql_unbuffered_query("DELETE FROM babel_weblog_entry WHERE bge_pid = {$weblog_id}"); // entries
+		
+		mysql_unbuffered_query("DELETE FROM babel_weblog WHERE blg_id = {$weblog_id}"); // weblog
 		
 		$_SESSION['babel_message_weblog'] = '博客网站 <strong>' . make_plaintext($Weblog->blg_title) . '</strong> 已经彻底关闭，全部相关数据清除完毕';
 	}

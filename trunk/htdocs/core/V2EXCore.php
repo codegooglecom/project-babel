@@ -564,9 +564,9 @@ class Page {
 		if ($this->User->vxIsLogin()) {
 			echo('<li class="top"><a href="/u/' . urlencode($this->User->usr_nick) . '" class="top">&nbsp;&nbsp;&nbsp;' . make_plaintext($this->User->usr_nick) . '&nbsp;&nbsp;&nbsp;</a>');
 			echo('<ul>');
-			echo('<li><a href="/u/' . urlencode($this->User->usr_nick) . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/house.png" align="absmiddle" border="0" /> 我的 ' . Vocabulary::site_name . ' 主页</a></li>');
+			echo('<li><a href="/u/' . urlencode($this->User->usr_nick) . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/house.png" align="absmiddle" border="0" /> ' . $this->lang->my_profile(Vocabulary::site_name) . '</a></li>');
 			if (BABEL_FEATURE_NEXUS) {
-				echo('<li><a href="/blog/admin.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/anchor.png" align="absmiddle" border="0" /> 我的博客网志</a></li>');
+				echo('<li><a href="/blog/admin.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/anchor.png" align="absmiddle" border="0" /> ' . $this->lang->my_blogs() . '</a></li>');
 			}
 			echo('<li><a href="/zen/' . $this->User->usr_nick_url . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/clock.png" align="absmiddle" border="0" /> ZEN</a></li>');
 			echo('<li><a href="/ing/' . $this->User->usr_nick_url . '/friends" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/hourglass.png" align="absmiddle" border="0" /> ING</a></li>');
@@ -582,9 +582,12 @@ class Page {
 			if (BABEL_FEATURE_BIT) {
 				echo('<li><a href="/bit" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/control_equalizer.png" align="absmiddle" border="0" /> BIT</a></li>');
 			}
-			echo('<li><a href="/topic/archive/user/' . urlencode($this->User->usr_nick) . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/comments.png" align="absmiddle" border="0" /> 我创建的所有主题</a></li>');
+			echo('<li><a href="/topic/archive/user/' . urlencode($this->User->usr_nick) . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/comments.png" align="absmiddle" border="0" /> ' . $this->lang->my_topics() . '</a></li>');
 			echo('<li><a href="/topic/favorite.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/star.png" align="absmiddle" border="0" /> 我的收藏夹</a></li>');
 			echo('<li><a href="/expense/view.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/coins_delete.png" align="absmiddle" border="0" /> 消费记录</a></li>');
+			if ($this->User->usr_money >= 1800) {
+				echo('<li><a href="/bank/transfer.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/coins.png" align="absmiddle" border="0" /> ' . $this->lang->send_money() . '</a></li>');
+			}
 			if ($_SESSION['hits'] > 0) {
 				echo('<li><a href="/session/stats.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/page_copy.png" align="absmiddle" border="0" /> 本次访问了 <small>' . $_SESSION['hits'] . '</small> 个页面</a></li>');
 			}
@@ -1254,6 +1257,26 @@ class Page {
 				$this->vxSidebar();
 				$this->vxMenu($_menu_options);
 				$this->vxSorry('money');
+				break;
+				
+			case 'bank_transfer':
+				$_menu_options['modules']['friends'] = false;
+				$_menu_options['modules']['links'] = false;
+				$_menu_options['modules']['new_members'] = false;
+				$_menu_options['modules']['stats'] = false;
+				$this->vxSidebar();
+				$this->vxMenu($_menu_options);
+				$this->vxBankTransfer();
+				break;
+			
+			case 'bank_transfer_confirm':
+				$_menu_options['modules']['friends'] = false;
+				$_menu_options['modules']['links'] = false;
+				$_menu_options['modules']['new_members'] = false;
+				$_menu_options['modules']['stats'] = false;
+				$this->vxSidebar();
+				$this->vxMenu($_menu_options);
+				$this->vxBankTransferConfirm($options);
 				break;
 			
 			case 'geo_home':
@@ -3732,6 +3755,157 @@ class Page {
 	}
 	
 	/* E module: Sorry block */
+	
+	/* S module: Bank Transfer */
+	
+	public function vxBankTransfer() {
+		echo('<div id="main">');
+		echo('<div class="blank">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->lang->send_money() . '</div>');
+		echo('<div class="blank">');
+		echo('<span class="text_large">');
+		_v_ico_tango_32('actions/go-next');
+		echo(' ' . $this->lang->send_money());
+		echo('</span>');
+		_v_hr();
+		echo('<span class="tip">');
+		echo('你可以使用本功能向其他 ' . Vocabulary::site_name . ' 会员汇 ' . Vocabulary::site_name . ' 上的虚拟货币（单位为铜币）。<br /><br />根据你目前持有的铜币数量及注册时间，在汇款过程中可能需要收取一定手续费：');
+		echo('<ul style="list-style: square;">');
+		echo('<li><strong>0%</strong> 手续费 - 注册时间超过 200 天，铜币数量超过 10000</li>');
+		echo('<li><strong>2%</strong> 手续费 - 注册时间超过 100 天，铜币数量超过 5000</li>');
+		echo('<li><strong>5%</strong> 手续费 - 注册时间超过 30 天，铜币数量超过 2000</li>');
+		echo('<li><strong>8%</strong> 手续费 - 注册时间不限，铜币数量超过 1800</li>');
+		echo('</ul>');
+		echo('如果你所持有的铜币数量小于 1800，则不能使用汇款服务。');
+		echo('</span>');
+		if ($this->User->usr_money >= 1800) {
+			_v_hr();
+			$duration = round((time() - $this->User->usr_created) / 86400);
+			$rate = Validator::vxSendMoneyRate($this->User->usr_created, $this->User->usr_money);
+			echo('<form action="/bank/transfer/confirm.vx" method="post" id="form_send_money">');
+			echo('<span class="text_large">我现在持有 ' . intval($this->User->usr_money) . ' 铜币，注册时间 ' . $duration . ' 天，我的汇款手续费率为 ' . ($rate * 100) . '%</span>');
+			echo('<blockquote>');
+			echo('收款人 <span class="tip_i">请输入对方的 V2EX 会员账号的名字</span><br />');
+			_v_ico_silk('user');
+			echo('&nbsp;<input type="text" class="sll" name="who" /><br /><br />');
+			echo('数额 <span class="tip_i">请输入以铜币为单位的汇款数额</span><br />');
+			_v_ico_silk('coins');
+			echo('&nbsp;<input type="text" class="sll" name="amount" />');
+			echo('</blockquote>');
+			_v_btn_f('汇款', 'form_send_money');
+			echo('<input type="hidden" value="0" name="confirm" />');
+			echo('</form>');
+		}
+		echo('</div>');
+		echo('<div class="blank">');
+		echo('<span class="text_large">');
+		_v_ico_tango_32('apps/help-browser');
+		echo(' 帮助');
+		echo('</span>');
+		_v_hr();
+		echo('Q: 请为我解释一下 ' . Vocabulary::site_name . ' 的货币系统？');
+		echo('<blockquote><span class="tip">');
+		echo('A: ' . Vocabulary::site_name . ' 的虚拟货币系统的最小单位为铜币，每 100 个铜币等于 1 个银币，每 100 个银币等于 1 个金币。根据当前的货币政策，新会员在注册初始将获得 ' . BABEL_USR_INITIAL_MONEY . ' 个铜币。社区内的很多功能和设施的使用都将消耗或者获得铜币。');
+		echo('</span></blockquote>');
+		echo('</div>');
+		echo('</div>');
+	}
+	
+	/* E module: Bank Transfer */
+	
+	/* S module: Bank Transfer Confirm */
+	
+	public function vxBankTransferConfirm($rt) {
+		echo('<div id="main">');
+		echo('<div class="blank">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->lang->send_money() . '</div>');
+		echo('<div class="blank">');
+		echo('<span class="text_large">');
+		_v_ico_tango_32('actions/go-next');
+		echo(' ' . $this->lang->send_money());
+		echo('</span>');
+		_v_hr();
+		echo('<span class="tip">');
+		if ($rt['errors'] > 0) {
+			echo('你可以使用本功能向其他 ' . Vocabulary::site_name . ' 会员汇 ' . Vocabulary::site_name . ' 上的虚拟货币（单位为铜币）。<br /><br />根据你目前持有的铜币数量及注册时间，在汇款过程中可能需要收取一定手续费：');
+			echo('<ul style="list-style: square;">');
+			echo('<li><strong>0%</strong> 手续费 - 注册时间超过 200 天，铜币数量超过 10000</li>');
+			echo('<li><strong>2%</strong> 手续费 - 注册时间超过 100 天，铜币数量超过 5000</li>');
+			echo('<li><strong>5%</strong> 手续费 - 注册时间超过 30 天，铜币数量超过 2000</li>');
+			echo('<li><strong>8%</strong> 手续费 - 注册时间不限，铜币数量超过 1800</li>');
+			echo('</ul>');
+			echo('如果你所持有的铜币数量小于 1800，则不能使用汇款服务。');
+		} else {
+			echo('请确认本次汇款的细节无误之后，点击“确认汇款”。');
+		}
+		echo('</span>');
+		_v_hr();
+		$duration = round((time() - $this->User->usr_created) / 86400);
+		$rate = Validator::vxSendMoneyRate($this->User->usr_created, $this->User->usr_money);
+		echo('<form action="/bank/transfer/confirm.vx" method="post" id="form_send_money">');
+		if ($rt['errors'] == 0) {
+			echo('<blockquote>');
+			echo('收款人 <span class="tip_i">用户编号 #' . $rt['who_object']->usr_id . '</span><br />');
+			_v_ico_silk('user');
+			echo('&nbsp;<input readonly="readonly" class="sll" type="text" value="' . make_single_return($rt['who_value'], 0) . '" name="who" />');
+			echo('<br /><br />');
+			echo('数额 <br />');
+			_v_ico_silk('coins');
+			echo('&nbsp;<input readonly="readonly" class="sll" type="text" value="' . make_single_return($rt['amount_value'], 0) . '" name="amount" /><br /><br />');
+			echo('服务费 <br />');
+			_v_ico_silk('emoticon_smile');
+			echo('&nbsp;' . make_single_return($rt['fee_value'], 0) . '');
+			echo('</blockquote>');
+			_v_btn_f('确认汇款', 'form_send_money');
+			echo('<input type="hidden" value="1" name="confirm" />');
+		} else {
+			echo('<blockquote>');
+			echo('收款人 ');
+			if ($rt['who_error'] > 0) {
+				echo('<small class="red">' . _vo_ico_silk('exclamation') . ' ' . $rt['who_error_msg'][$rt['who_error']] . '</small>');
+			} else {
+				echo('<span class="tip_i">请输入对方的 V2EX 会员账号的名字</span>');
+			}
+			echo('<br />');
+			_v_ico_silk('user');
+			echo('&nbsp;<input type="text" class="sll" name="who" value="' . make_single_return($rt['who_value'], 0) . '" /><br /><br />');
+			echo('数额 ');
+			if ($rt['amount_error'] > 0) {
+				echo('<small class="red">' . _vo_ico_silk('exclamation') . ' ' . $rt['amount_error_msg'][$rt['amount_error']] . '</small>');
+			} else {
+				echo('<span class="tip_i">请输入以铜币为单位的汇款数额</span>');
+			}
+			echo('<br />');
+			_v_ico_silk('coins');
+			echo('&nbsp;<input type="text" class="sll" name="amount" value="' . make_single_return($rt['amount_value'], 0) . '" />');
+			echo('</blockquote>');
+			_v_btn_f('汇款', 'form_send_money');
+		}
+		echo('</form>');
+		_v_hr();
+		echo('<span class="tip_i">');
+		_v_ico_silk('information');
+		echo(' 我现在持有 ' . intval($this->User->usr_money) . ' 铜币，注册时间 ' . $duration . ' 天，我的汇款手续费率为 ' . ($rate * 100) . '%</span>');
+		echo('</div>');
+		if ($rt['errors'] > 0) {
+			echo('<div class="blank">');
+			echo('<span class="text_large">');
+			_v_ico_tango_32('apps/help-browser');
+			echo(' 帮助');
+			echo('</span>');
+			_v_hr();
+			echo('Q: 请为我解释一下 ' . Vocabulary::site_name . ' 的货币系统？');
+			echo('<blockquote><span class="tip">');
+			echo('A: ' . Vocabulary::site_name . ' 的虚拟货币系统的最小单位为铜币，每 100 个铜币等于 1 个银币，每 100 个银币等于 1 个金币。根据当前的货币政策，新会员在注册初始将获得 ' . BABEL_USR_INITIAL_MONEY . ' 个铜币。社区内的很多功能和设施的使用都将消耗或者获得铜币。');
+			echo('</span></blockquote>');
+			echo('</div>');
+		}
+		echo('</div>');
+	}
+	
+	/* E module: Bank Transfer Confirm */
 	
 	/* S module: Signup block */
 	
@@ -8289,6 +8463,22 @@ google_color_url = "00CC00";
 					break;
 				case 8:
 					echo('收件人：<strong>' . $Expense->exp_memo . '</strong>');
+					break;
+				case 500:
+					$_tmp = explode(':', $Expense->exp_memo);
+					if (count($_tmp) > 1) {
+						echo('收款人：<strong>' . $_tmp[1] . '</strong>');
+					} else {
+						echo($Expense->exp_memo);
+					}
+					break;
+				case 501:
+					$_tmp = explode(':', $Expense->exp_memo);
+					if (count($_tmp) > 1) {
+						echo('汇款人：<strong>' . $_tmp[1] . '</strong>');
+					} else {
+						echo($Expense->exp_memo);
+					}
 					break;
 			}
 			echo('</span></td>');

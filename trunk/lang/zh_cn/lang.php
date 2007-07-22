@@ -52,6 +52,22 @@ class lang implements Language {
 	public function hits($i) {
 		return $i . ' 次点击';
 	}
+	
+	public function my_profile($site_name) {
+		return '我的 ' . $site_name . ' 主页';
+	}
+	
+	public function my_topics() {
+		return '我创建的所有主题';
+	}
+	
+	public function my_blogs() {
+		return '我的博客网志';
+	}
+	
+	public function send_money() {
+		return '转账';
+	}
 }
 
 ?>
