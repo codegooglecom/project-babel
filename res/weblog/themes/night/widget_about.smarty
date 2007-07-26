@@ -1,0 +1,3 @@
+<h3 class="label">About Me</h3>
+
+<div class="widget"><img src="http://{$site_babel}{$user_portrait_s}" align="left" style="margin: 0px 5px 0px 0px;" /> <span class="big"><a href="http://{$site_babel}/u/{$user_nick_url}" class="light">{$user_nick_plain}</a></span><br />Since {$user_created_plain_short}<br /><br />{$user_brief_plain}</div>
