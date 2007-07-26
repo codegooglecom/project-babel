@@ -11191,16 +11191,28 @@ google_color_url = "00CC00";
 		echo('选择主题</span>');
 		echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 		echo('<form enctype="multipart/form-data" action="/blog/theme/save/' . $Weblog->blg_id . '.vx" method="post" id="form_blog_theme">');
-		echo('<tr>');
 		require_once(BABEL_PREFIX . '/res/weblog_themes.php');
+		$i = 0;
 		foreach ($_weblog_themes as $theme) {
+			$i++;
+			if ($i == 1) {
+				echo('<tr>');
+			}
+			if (($i > 3) && (($i % 3) == 1)) {
+				echo('<tr>');
+			}
 			if ($Weblog->blg_theme == $theme) {
 				echo('<td width="200" height="120" align="center" valign="middle" ><img src="/weblog-static/themes/' . $theme . '/' . $theme . '.png" style="padding: 1px; margin-bottom: 5px; background-color: #FFF; border: 3px solid #90909F;" /><br /><small><input type="radio" checked="checked" name="blg_theme" value="' . $theme . '" id="r_' . $theme . '" /> ' . $theme . '</small></td>');
 			} else {
 				echo('<td width="200" height="120" align="center" valign="middle" ><img src="/weblog-static/themes/' . $theme . '/' . $theme . '.png" style="padding: 1px; margin-bottom: 5px; background-color: #FFF; border: 3px solid #C0C0CF;" /><br /><small><input type="radio" name="blg_theme" value="' . $theme . '" id="r_' . $theme . '" /> ' . $theme . '</small></td>');
 			}
+			if (($i % 3) == 0) {
+				echo('</tr>');
+			}
 		}
-		echo('</tr>');
+		if (($i % 3) != 0) {
+			echo('</tr>');
+		}
 		echo('<tr><td colspan="2">');
 		_v_btn_f('保存我的选择', 'form_blog_theme');
 		echo('</td></tr>');

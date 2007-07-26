@@ -3,6 +3,7 @@ $_weblog_themes = array(
 	'white',
 	'purple',
 	'orange',
-	'dust'
+	'dust',
+	'night'
 );
 ?>

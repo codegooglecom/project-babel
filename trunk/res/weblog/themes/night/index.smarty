@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN">
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<title>{$site_title}</title>
+<link href="/favicon.ico" rel="shortcut icon" />
+<link href="{$site_weblog_root}style.css" rel="stylesheet" type="text/css" />
+<link href="{$site_weblog_root}index.rss" rel="alternate" type="application/rss+xml" title="{$site_title}" />
+<script src="http://{$site_static}/weblog-static/common/weblog.js" type="text/javascript"> </script>
+</head>
+<body>
+<div align="left">
+<div id="left"></div>
+<div id="right">
+<div id="side">
+	<div class="inside">
+		
+		{include file='widget_about.smarty'}
+		
+		<h3 class="label">Tags</h3>
+		
+		<div class="widget">
+		{foreach from=$tags item=item key=key}
+			<a href="tag-{$item.bet_tag}.html" class="light">{$item.bet_tag}</a><br />
+		{/foreach}
+		</div>
+		
+		<h3 class="label">License</h3>
+		
+		{if $license_show eq 1}
+		<div class="widget"><small>{$license_code}</small></div>
+		{/if}
+		
+		<a href="http://nexus.v2ex.com/nexus/" target="_blank"><img src="http://{$site_static}/weblog-static/themes/{$site_theme}/nexus.gif" alt="Powered by NEXUS" border="0" /></a>
+	</div>
+</div>
+<div id="main">
+
+	<div id="top"><span class="title">{$site_title}</span></div>
+
+	{foreach from=$entries item=item key=key}
+	<h2 class="title"><a href="entry-{$item.bge_id}.html">{$item.bge_title}</a></h2>
+	<span class="author">Posted by <a href="http://{$site_babel}/u/{$item.usr_nick_url}">{$item.usr_nick_plain}</a> on {$item.bge_published_plain} - <a href="#;" onclick="openComment({$item.bge_id});">{$item.bge_comments} comments</a>{if $item.bge_tags neq ''} - tags: {$item.bge_tags_plain_comma}{/if}</span>
+	<div class="entry">
+	{$item.bge_body_plain}
+	</div>
+	{/foreach}
+	
+	<div id="bottom"><em>Night</em> theme designed by <a href="http://www.livid.cn/" target="_blank">Livid</a>, this blog is proudly powered by <a href="http://nexus.v2ex.com/nexus/" target="_blank">Project Nexus</a>.</div>
+</div>
+</div>
+</div>
+</body>
+</html>
