@@ -522,7 +522,11 @@ class Page {
 			echo('<div id="top_right"><a href="/signup.html" class="tr">' . $this->lang->register() . '</a> <a href="/passwd.vx" class="tr">' . $this->lang->password_recovery() . '</a> <a href="/login" class="tr">' . $this->lang->login() . '</a></div>');
 		}
 		
-		if ($this->User->usr_sw_shell == 1 && !in_array(__PAGE__, array('search', 'ing_personal', 'ing_friends', 'topic_view')) ) {
+		echo('<div id="bottom_right">');
+		echo('<a href="/nexus"><img src="' . CDN_UI . 'img/nexus_tiny.png" border="0" alt="Nexus Weblogging" /></a>');
+		echo('</div>');
+		
+		if ($this->User->usr_sw_shell == 1 && !in_array(__PAGE__, array('search', 'ing_personal', 'ing_friends', 'ing_public', 'topic_view')) ) {
 			echo('<script type="text/javascript">setTimeout("focusGo();", 500);</script>');
 		}
 		
@@ -577,7 +581,7 @@ class Page {
 				echo('<li><a href="/pix/' . $this->User->usr_nick_url . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/images.png" align="absmiddle" border="0" /> PIX</a></li>');
 			}
 			if (BABEL_FEATURE_ADD) {
-				echo('<li><a href="/bit" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/add.png" align="absmiddle" border="0" /> ADD</a></li>');
+				echo('<li><a href="/add/' . $this->User->usr_nick_url . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/add.png" align="absmiddle" border="0" /> ADD</a></li>');
 			}
 			if (BABEL_FEATURE_BIT) {
 				echo('<li><a href="/bit" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/control_equalizer.png" align="absmiddle" border="0" /> BIT</a></li>');
@@ -1030,6 +1034,18 @@ class Page {
 				$this->vxSidebar();
 				$this->vxMenu();
 				$this->vxHot();
+				break;
+				
+			case 'nexus_portal':
+				$this->vxSidebar();
+				$this->vxMenu();
+				$this->vxNexusPortal();
+				break;
+				
+			case 'nexus_tag':
+				$this->vxSidebar();
+				$this->vxMenu();
+				$this->vxNexusTag($options);
 				break;
 				
 			case 'new_features':
@@ -1959,6 +1975,122 @@ class Page {
 	}
 	
 	/* E module: Hot block */
+	
+	/* S module: Nexus Portal block */
+	
+	public function vxNexusPortal() {
+		echo('<div id="main">');
+		echo('<div class="blank">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; Nexus');
+		echo('</div>');
+		echo('<div class="blank">');
+		echo('<img src="/img/nexus.png" alt="NEXUS Weblogging: For Professional Bloggers" />');
+		_v_hr();
+		echo('<blockquote>');
+		echo('Nexus 是一个全新的 Weblogging 平台，静态构建方式使得 Nexus 具有超级优异的性能，同时 Nexus 还提供了大量的漂亮简洁的外观主题。一切都在进化中，每天。<a href="/blog/admin.vx" class="regular">现在就开始体验 Nexus 吧！</a>');
+		echo('</blockquote>');
+		_v_hr();
+		echo('<h1 class="silver">Latest Updated Weblogs</h1>');
+		echo('<table cellpadding="0" cellspacing="0" border="0">');
+		echo('<tr>');
+		$sql = "SELECT blg_id, blg_name, blg_title, blg_portrait FROM babel_weblog WHERE blg_entries > 0 AND blg_portrait != '' ORDER BY blg_lastbuilt DESC LIMIT 5";
+		$rs = mysql_query($sql);
+		while ($_weblog = mysql_fetch_array($rs)) {
+			echo('<td width="140" height="140" align="center" valign="top" style="padding-top: 10px;"><a href="http://' . BABEL_WEBLOG_SITE . '/' . $_weblog['blg_name'] . '" class="weblog"><img src="/img/b/' . $_weblog['blg_portrait'] . '.jpg" class="portrait" style="margin-bottom: 5px;" /><br /><small>' . make_plaintext($_weblog['blg_title']) . '</a></small></td>');
+		}
+		mysql_free_result($rs);
+		echo('</tr>');
+		echo('</table>');
+		echo('<h1 class="silver">Latest Published Entries</h1>');
+		echo('<blockquote>');
+		$sql = "SELECT bge_id, bge_title, bge_created, usr_nick, blg_title, blg_name, blg_portrait FROM babel_weblog_entry, babel_user, babel_weblog WHERE bge_status = 1 AND bge_uid = usr_id AND blg_id = bge_pid ORDER BY bge_published DESC LIMIT 10";
+		$rs = mysql_query($sql);
+		while ($_entry = mysql_fetch_array($rs)) {
+			$img_p = ($_entry['blg_portrait'] == '') ? '/img/p_blog_n.png' : '/img/b/' . $_entry['blg_portrait'] . '_n.jpg';
+			echo('<div style="padding: 2px;">');
+			echo('<img src="' . $img_p . '" align="absmiddle" border="0" class="portrait" />');
+			echo(' <a href="http://' . BABEL_WEBLOG_SITE . '/' . $_entry['blg_name'] . '/entry-' . $_entry['bge_id'] . '.html">' . $_entry['bge_title'] . '</a>');
+			echo(' <span class="tip_i"><small>Posted by <a href="/u/' . urlencode($_entry['usr_nick']) . '">' . $_entry['usr_nick'] . '</a> on ' . date('M-j G:i:s T', $_entry['bge_created']) . '</small></span>');
+			echo('</div>');
+		}
+		echo('</blockquote>');
+		echo('<h1 class="silver">Recent Popular Tags</h1>');
+		echo('<div style="padding: 10px;">');
+		$start = time() - (86400 * 7);
+		$sql = "SELECT bet_tag, COUNT(bet_tag) AS bet_tag_count FROM babel_weblog_entry_tag WHERE bet_tag IN (SELECT bet_tag FROM babel_weblog_entry_tag WHERE bet_created > {$start}) GROUP BY bet_tag ORDER BY rand() DESC";
+		$rs = mysql_query($sql);
+		while ($_tag = mysql_fetch_array($rs)) {
+			echo('<a href="/nexus/tag/' . urlencode($_tag['bet_tag']) . '" class="var" style="color: ' . Weblog::vxGetPortalTagColor($_tag['bet_tag_count']) . '; font-size: ' . (12 + floor($_tag['bet_tag_count'] / 3)) . 'px">' . $_tag['bet_tag'] . '</a> ');
+		}
+		mysql_free_result($rs);
+		echo('</div>');
+		echo('<h1 class="silver">Daily New Entries Trend</h1>');
+		require_once(BABEL_PREFIX . '/res/chart_entry_daily.php');
+		echo('</div>');
+		echo('</div>');
+	}
+	
+	/* E module: Nexus Portal block */
+	
+	/* S module: Nexus Tag block */
+	
+	public function vxNexusTag($_tag) {
+		echo('<div id="main">');
+		echo('<div class="blank">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/nexus">Nexus</a> &gt; ' . make_plaintext($_tag['tag']));
+		echo('</div>');
+		echo('<div class="blank">');
+		echo('<img src="/img/nexus.png" alt="NEXUS Weblogging: For Professional Bloggers" />');
+		_v_hr();
+		echo('<h1 class="silver">' . $_tag['count'] . ' Entries Tagged <em>' . make_plaintext($_tag['tag']) . '</em></h1>');
+		echo('<blockquote>');
+		$tag_sql = mysql_real_escape_string($_tag['tag']);
+		$sql = "SELECT bge_id, bge_title, bge_created, usr_nick, blg_title, blg_name, blg_portrait FROM babel_weblog_entry, babel_user, babel_weblog, babel_weblog_entry_tag WHERE bge_status = 1 AND bge_uid = usr_id AND blg_id = bge_pid AND bet_tag = '{$tag_sql}' AND bet_eid = bge_id ORDER BY bge_published DESC";
+		$rs = mysql_query($sql);
+		while ($_entry = mysql_fetch_array($rs)) {
+			$img_p = ($_entry['blg_portrait'] == '') ? '/img/p_blog_n.png' : '/img/b/' . $_entry['blg_portrait'] . '_n.jpg';
+			echo('<div style="padding: 2px;">');
+			echo('<img src="' . $img_p . '" align="absmiddle" border="0" class="portrait" />');
+			echo(' <a href="http://' . BABEL_WEBLOG_SITE . '/' . $_entry['blg_name'] . '/entry-' . $_entry['bge_id'] . '.html">' . $_entry['bge_title'] . '</a>');
+			echo(' <span class="tip_i"><small>Posted by <a href="/u/' . urlencode($_entry['usr_nick']) . '">' . $_entry['usr_nick'] . '</a> on ' . date('M-j G:i:s T', $_entry['bge_created']) . '</small></span>');
+			echo('</div>');
+		}
+		echo('</blockquote>');
+		echo('<h1 class="silver">Find Entries Via Tag</h1>');
+		echo('<blockquote>');
+		echo('<script type="text/javascript">');
+		echo('var findTag = function() { o = getObj("target_tag"); if (o.value.length != 0) { location.href = "/nexus/tag/" + o.value + ""; return false; } else { return false; } }');
+		echo('</script>');
+		echo('<table cellpadding="0" cellspacing="0" border="0">');
+		echo('<form method="get" id="form_find_tag" onsubmit="return findTag();">');
+		echo('<tr>');
+		echo('<td>');
+		echo('<input type="text" class="sll" id="target_tag" />');
+		echo('</td>');
+		echo('<td>');
+		echo('<input type="submit" value="Find" />');
+		echo('</td>');
+		echo('</tr>');
+		echo('</form>');
+		echo('</table>');
+		echo('</blockquote>');
+		echo('<h1 class="silver">Recent Popular Tags</h1>');
+		echo('<div style="padding: 10px;">');
+		$start = time() - (86400 * 7);
+		$sql = "SELECT bet_tag, COUNT(bet_tag) AS bet_tag_count FROM babel_weblog_entry_tag WHERE bet_tag IN (SELECT bet_tag FROM babel_weblog_entry_tag WHERE bet_created > {$start}) GROUP BY bet_tag ORDER BY rand() DESC";
+		$rs = mysql_query($sql);
+		while ($_tag = mysql_fetch_array($rs)) {
+			echo('<a href="/nexus/tag/' . urlencode($_tag['bet_tag']) . '" class="var" style="color: ' . Weblog::vxGetPortalTagColor($_tag['bet_tag_count']) . '; font-size: ' . (12 + floor($_tag['bet_tag_count'] / 3)) . 'px">' . $_tag['bet_tag'] . '</a> ');
+		}
+		mysql_free_result($rs);
+		echo('</div>');
+		echo('</div>');
+		echo('</div>');
+	}
+	
+	/* E module: Nexus Tag block */
 	
 	/* S module: Home block */
 	
@@ -10012,6 +10144,9 @@ google_color_url = "00CC00";
 			_v_ico_silk('feed');
 			echo(' <a href="/feed/ing">RSS</a></li>');
 		}
+		if ($this->User->vxIsLogin()) {
+			echo('<img src="/img/spacer.gif" onload="getObj(' . "'doing'" . ').focus();" style="display: none;" />');
+		}
 		_v_d_e();
 
 		_v_d_e();
@@ -10618,7 +10753,7 @@ google_color_url = "00CC00";
 		_v_ico_silk('add');
 		echo(' ADD</span>');
 		echo(' <span class="tip_i">');
-		echo(' 网址收藏夹 ...');
+		echo(' ' . $User->usr_nick_plain . ' 的网址收藏夹 ...');
 		echo('</span>');
 		_v_hr();
 		$sql = "SELECT url_id, url_url, url_title, url_notes, url_hash, url_created, url_lastupdated FROM babel_add_url WHERE url_uid = {$User->usr_id} ORDER BY url_created DESC";
@@ -10627,7 +10762,11 @@ google_color_url = "00CC00";
 		while ($_url = mysql_fetch_array($rs)) {
 			echo('<div class="url_item">');
 			echo('<a href="' . make_single_return($_url['url_url']) . '" rel="nofollow" class="regular">' . make_plaintext($_url['url_title']) . '</a></div>');
-			echo('<div class="url_toolbar"><span class="tip_i"><small>... on ' . date('Y-n-j G:i:s T', $_url['url_created']) . '</small></span>');
+			echo('<div class="url_toolbar"><span class="tip_i"><small>... on ' . date('Y-n-j G:i:s T', $_url['url_created']));
+			if ($this->User->usr_id == $User->usr_id) {
+				echo(' - <a href="" class="zen_rm">X del</a>');
+			}
+			echo('</small></span>');
 			echo('</div>');
 		}
 		echo('</div>');
@@ -10703,6 +10842,7 @@ google_color_url = "00CC00";
 		echo('<a href="javascript:location.href=' . "'http://" . $host . "/babel.php?m=add_add&url='+encodeURIComponent(location.href)+';title='+encodeURIComponent(document.title)" . '" title="+' . Vocabulary::site_name . '" onclick="window.alert(' . "'将这个链接拖放到浏览器的书签工具栏，或者右键点击之后选择加入收藏。'" . ');return false;" class="t">+' . Vocabulary::site_name . '</a>');
 		echo('<span class="tip_i"> - 收藏按钮，点击之后即可将网址收藏到 ' . Vocabulary::site_name . '/ADD</span><br /><br />');
 		echo('<a href="http://' . $host . '/add/own" onclick="window.alert(' . "'将这个链接拖放到浏览器的书签工具栏，或者右键点击之后选择加入收藏。'" . ');return false;" class="t">我的收藏</a>');
+		echo('<span class="tip_i"> - 点击之后即可看到自己的最新收藏</span>');
 		echo('</div>');
 		_v_d_e();
 		Widget::vxAddAbout();

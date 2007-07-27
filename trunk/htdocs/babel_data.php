@@ -75,6 +75,15 @@ switch ($m) {
 		echo $o;
 		break;
 		
+	case 'chart_data_entry_daily':
+		if ($o = $c->load(__PAGE__)) {
+		} else {
+			$o = Data::vxDataEntryDaily();
+			$c->save($o, __PAGE__);
+		}
+		echo $o;
+		break;
+		
 	case 'chart_settings_user':
 		echo Data::vxChartSettings('user');
 		break;
@@ -89,6 +98,10 @@ switch ($m) {
 		
 	case 'chart_settings_post':
 		echo Data::vxChartSettings('post');
+		break;
+		
+	case 'chart_settings_entry_daily':
+		echo Data::vxChartSettings('entry_daily');
 		break;
 }
 
