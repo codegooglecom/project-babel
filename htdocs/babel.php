@@ -97,6 +97,33 @@ switch ($m) {
 		$p->vxTop();
 		$p->vxContainer('hot');
 		break;
+		
+	case 'nexus_portal':
+		$GOOGLE_AD_LEGAL = true;
+		$p->vxHead('Nexus');
+		$p->vxBodyStart();
+		$p->vxTop();
+		$p->vxContainer('nexus_portal');
+		break;
+		
+	case 'nexus_tag':
+		$GOOGLE_AD_LEGAL = true;
+		if (isset($_GET['tag'])) {
+			$tag = fetch_single($_GET['tag']);
+			$tag_sql = mysql_real_escape_string($tag);
+			$sql = "SELECT COUNT(*) FROM babel_weblog_entry_tag WHERE bet_tag = '{$tag_sql}'";
+			$count = mysql_result(mysql_query($sql), 0, 0);
+			$_tag = array();
+			$_tag['tag'] = $tag;
+			$_tag['count'] = $count;
+			$p->vxHead('Nexus / ' . $count . ' entries tagged ' . make_plaintext($tag));
+		} else {
+			$p->vxHead('Nexus');
+		}
+		$p->vxBodyStart();
+		$p->vxTop();
+		$p->vxContainer('nexus_tag', $_tag);
+		break;
 
 	case 'topic_latest':
 		$GOOGLE_AD_LEGAL = true;

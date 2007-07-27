@@ -86,19 +86,40 @@ class Data {
 		return $o;
 	}
 	
+	public function vxDataEntryDaily($days = 20) {
+		$_now = getdate();
+		$today = mktime(0, 0, 0, $_now['mon'], $_now['mday'], $_now['year']);
+		$_days = array();
+		$_data = array();
+		for ($i = 0; $i < $days; $i++) {
+			$day = $today - ($i * 86400);
+			$day_after = $day + 86400;
+			$_days[] = $day;
+			$sql = "SELECT COUNT(*) FROM babel_weblog_entry WHERE bge_created > {$day} AND bge_created <= {$day_after}";
+			$count = mysql_result(mysql_query($sql), 0, 0);
+			$_data[$day] = $count;
+		}
+		return Data::vxData2Amchart(array_reverse($_data, true), 'day');
+	}
+	
 	public static function vxChartSettings($type) {
 		$settings = file_get_contents(BABEL_PREFIX . '/res/chart_settings_' . $type . '.xml');
 		return $settings;
 	}
 	
-	public static function vxData2Amchart($data) {
+	public static function vxData2Amchart($data, $format = 'mon') {
 		$o = '';
 		$o .= '<chart>';
 		$o .= '<series>';
 		$i = 0;
 		foreach ($data as $key => $value) {
 			$i++;
-			$o .= '<value xid="' . $i . '">' . date('Y-n', $key) . '</value>';
+			if ($format == 'mon') {
+				$o .= '<value xid="' . $i . '">' . date('Y-n', $key) . '</value>';
+			}
+			if ($format == 'day') {
+				$o .= '<value xid="' . $i . '">' . date('n-j', $key) . '</value>';
+			}
 		}
 		$o .= '</series>';
 		$o .= '<graphs>';

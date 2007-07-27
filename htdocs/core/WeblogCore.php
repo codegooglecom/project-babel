@@ -587,5 +587,21 @@ class Weblog {
 		$comment = $purifier->purify($comment);
 		return $comment;
 	}
+	
+	public static function vxGetPortalTagColor($count) {
+		/* count range: 1 to 30 */
+		/* color range: 90 - (0 - 60) */
+		if ($count > 30) {
+			$color = 30;
+		} else {
+			if ($count == 1) {
+				$color = 120;
+			} else {
+				$color = 90 - (($count / 30) * 60);
+			}
+		}
+		$color_hi = $color + 16;
+		return "rgb({$color}, {$color}, {$color_hi})";
+	}
 }
 ?>

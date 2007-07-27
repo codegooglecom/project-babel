@@ -238,12 +238,12 @@ padding: 1px 5px 5px 5px;
 }
 
 a.regular:link, a.regular:visited, a.regular:active {
-color: #00C;
-text-decoration: none;
+color: #676777;
+text-decoration: underline;
 }
 
 a.regular:hover {
-color: #00C;
+color: #90909F;
 text-decoration: underline;
 }
 
@@ -321,4 +321,12 @@ color: #FFF;
 -moz-border-radius: 3px;
 border-right: 1px solid #334;
 border-bottom: 1px solid #334;
+}
+
+h1.silver {
+background-image: url("/d/img/h1_bg.png");
+padding: 5px 5px 5px 5px;
+margin: 0px 0px 5px 0px;
+font-size: 14px;
+font-weight: bold;
 }

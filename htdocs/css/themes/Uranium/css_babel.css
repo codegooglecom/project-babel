@@ -185,6 +185,12 @@ padding: 12px 12px 0px 0px;
 color: #667;
 }
 
+div#bottom_right {
+position: absolute;
+top: 62px;
+right: 5px;
+}
+
 div#top_center {
 position: absolute;
 top: 0px;
@@ -691,7 +697,7 @@ color: #333;
 
 a:hover {
 text-decoration: none;
-color: #577DE7;
+color: #90909F;
 }
 
 a.var:link, a.var:active, a.var:visited {
@@ -1656,7 +1662,7 @@ border-right: 1px solid #FFF;
 border-bottom: 1px solid #FFF;
 }
 
-a.friend:hover img.portrait {
+a.friend:hover img.portrait, a.weblog:hover img.portrait {
 border: 3px solid #AAA;
 }
 
