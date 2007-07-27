@@ -14,6 +14,10 @@
 <div id="right">
 <div id="side">
 	<div class="inside">
+	
+		<h3 class="label">Subscribe</h3>
+		
+		<div class="widget"><img src="{$ico_feed}" align="absmiddle" /> <a href="{$site_weblog_root}tag-{$tag_cur}.rss" class="light">RSS 2.0</a></div>
 		
 		{include file='widget_about.smarty'}
 		
