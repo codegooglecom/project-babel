@@ -69,7 +69,7 @@
     <color>#FFFFFF</color>                                    <!-- [#FFFFFF] (hex color code) -->
     <alpha></alpha>                                           <!-- [0] (0 - 100) use 0 if you are using custom swf or jpg for background -->
     <border_color>#000000</border_color>                      <!-- [#FFFFFF] (hex color code) -->
-    <border_alpha>15</border_alpha>                           <!-- [0] (0 - 100) -->
+    <border_alpha>0</border_alpha>                           <!-- [0] (0 - 100) -->
     <file></file>                                             <!-- [] (filename) swf or jpg file of a background. Do not use progressive jpg file, it will be not visible with flash player 7 -->
                                                               <!-- The chart will look for this file in amcolumn_path folder (amcolumn_path is set in HTML) -->
   </background>

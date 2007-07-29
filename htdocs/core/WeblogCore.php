@@ -106,7 +106,7 @@ class Weblog {
 		return $o;
 	}
 	
-	public static function vxMakeTagLinkComma($tags) {
+	public static function vxMakeTagLinkComma($tags, $output = 'entry') {
 		$_tags = explode(' ', $tags);
 		$o = '';
 		$i = 0;
@@ -115,7 +115,12 @@ class Weblog {
 			if ($i != 1) {
 				$o .= ', ';
 			}
-			$o .= '<a href="tag-' . $tag . '.html">' . $tag . '</a>';
+			if ($output == 'entry') {
+				$o .= '<a href="tag-' . urlencode($tag) . '.html">' . $tag . '</a>';
+			}
+			if ($output == 'nexus_portal_tag') {
+				$o .= '<a href="/nexus/tag/' . urlencode($tag) . '">' . $tag . '</a>';
+			}
 		}
 		return $o;
 	}
