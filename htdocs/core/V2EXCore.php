@@ -220,6 +220,7 @@ class Page {
 			$this->svp_count = $count_a['svp_count'];
 			$this->usr_count = $count_a['usr_count'];
 			$this->ing_count = $count_a['ing_count'];
+			$this->blg_count = $count_a['blg_count'];
 		} else {
 			$sql = "SELECT COUNT(pst_id) FROM babel_post";
 			$rs = mysql_query($sql, $this->db);
@@ -251,6 +252,11 @@ class Page {
 			$this->ing_count = mysql_result($rs, 0, 0);
 			mysql_free_result($rs);
 			
+			$sql = "SELECT COUNT(blg_id) FROM babel_weblog";
+			$rs = mysql_query($sql, $this->db);
+			$this->blg_count = mysql_result($rs, 0, 0);
+			mysql_free_result($rs);
+			
 			$count_a = array();
 			$count_a['pst_count'] = $this->pst_count;
 			$count_a['tpc_count'] = $this->tpc_count;
@@ -258,6 +264,7 @@ class Page {
 			$count_a['svp_count'] = $this->svp_count;
 			$count_a['usr_count'] = $this->usr_count;
 			$count_a['ing_count'] = $this->ing_count;
+			$count_a['blg_count'] = $this->blg_count;
 			
 			$this->cs->save(serialize($count_a), 'count');
 		}
@@ -965,6 +972,7 @@ class Page {
 			echo('<li>收藏 <small>' . $this->fav_count . '</small></li>');
 			echo('<li>据点 <small>' . $this->svp_count . '</small></li>');
 			echo('<li><a href="/ing">印迹</a> <small>' . $this->ing_count . '</small></li>');
+			echo('<li><a href="/nexus">博客</a> <small>' . $this->blg_count . '</small></li>');
 			echo('</ul></li>');
 		}
 		if ($_module_extra_links) {
@@ -2035,7 +2043,6 @@ class Page {
 		echo('<div style="padding: 10px;">');
 		$cache_tag = 'babel_nexus_tags_popular' . rand(1,9);
 		if ($o = $this->cs->get($cache_tag)) {
-			echo('hit');
 		} else {
 			$start = time() - (86400 * 7);
 			$sql = "SELECT bet_tag, COUNT(bet_tag) AS bet_tag_count FROM babel_weblog_entry_tag WHERE bet_tag IN (SELECT bet_tag FROM babel_weblog_entry_tag WHERE bet_created > {$start}) GROUP BY bet_tag ORDER BY rand() DESC";
@@ -2100,15 +2107,40 @@ class Page {
 		echo('</form>');
 		echo('</table>');
 		echo('</blockquote>');
+		$cache_tag = 'babel_nexus_tags_related_' . md5($_tag['tag']);
+		if ($o = $this->cs->get($cache_tag)) {
+		} else {
+			$sql = "SELECT bet_tag, COUNT(bet_tag) AS bet_tag_count FROM babel_weblog_entry_tag WHERE bet_tag IN (SELECT DISTINCT bet_tag FROM babel_weblog_entry_tag WHERE bet_eid IN (SELECT bet_eid FROM babel_weblog_entry_tag WHERE bet_tag = '{$tag_sql}') AND bet_tag != '{$tag_sql}') GROUP BY bet_tag ORDER BY rand()";
+			$rs = mysql_query($sql);
+			$o = '';
+			while ($_tag = mysql_fetch_array($rs)) {
+				$o .= '<a href="/nexus/tag/' . urlencode($_tag['bet_tag']) . '" class="var" style="color: ' . Weblog::vxGetPortalTagColor($_tag['bet_tag_count']) . '; font-size: ' . (12 + floor($_tag['bet_tag_count'] / 3)) . 'px">' . $_tag['bet_tag'] . '</a> ';
+			}
+			mysql_free_result($rs);
+			$this->cs->save($o, $cache_tag);
+		}
+		if ($o != '') {
+			echo('<h1 class="silver">Related Tags</h1>');
+			echo('<div style="padding: 10px;">');
+			echo $o;
+			echo('</div>');
+		}
 		echo('<h1 class="silver">Recent Popular Tags</h1>');
 		echo('<div style="padding: 10px;">');
-		$start = time() - (86400 * 7);
-		$sql = "SELECT bet_tag, COUNT(bet_tag) AS bet_tag_count FROM babel_weblog_entry_tag WHERE bet_tag IN (SELECT bet_tag FROM babel_weblog_entry_tag WHERE bet_created > {$start}) GROUP BY bet_tag ORDER BY rand() DESC";
-		$rs = mysql_query($sql);
-		while ($_tag = mysql_fetch_array($rs)) {
-			echo('<a href="/nexus/tag/' . urlencode($_tag['bet_tag']) . '" class="var" style="color: ' . Weblog::vxGetPortalTagColor($_tag['bet_tag_count']) . '; font-size: ' . (12 + floor($_tag['bet_tag_count'] / 3)) . 'px">' . $_tag['bet_tag'] . '</a> ');
+		$cache_tag = 'babel_nexus_tags_popular_' . rand(1,9);
+		if ($o = $this->cs->get($cache_tag)) {
+		} else {
+			$start = time() - (86400 * 7);
+			$sql = "SELECT bet_tag, COUNT(bet_tag) AS bet_tag_count FROM babel_weblog_entry_tag WHERE bet_tag IN (SELECT bet_tag FROM babel_weblog_entry_tag WHERE bet_created > {$start}) GROUP BY bet_tag ORDER BY rand()";
+			$rs = mysql_query($sql);
+			$o = '';
+			while ($_tag = mysql_fetch_array($rs)) {
+				$o .= '<a href="/nexus/tag/' . urlencode($_tag['bet_tag']) . '" class="var" style="color: ' . Weblog::vxGetPortalTagColor($_tag['bet_tag_count']) . '; font-size: ' . (12 + floor($_tag['bet_tag_count'] / 3)) . 'px">' . $_tag['bet_tag'] . '</a> ';
+			}
+			mysql_free_result($rs);
+			$this->cs->save($o, $cache_tag);
 		}
-		mysql_free_result($rs);
+		echo $o;
 		echo('</div>');
 		echo('</div>');
 		echo('</div>');
