@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="mode">v2ex</entry>
+	<!-- dbType: mysql | derby -->
+	<entry key="dbType">derby</entry>
+	<entry key="dbHome">/src/midgard/db</entry>
+	<entry key="dbServer">localhost</entry>
+	<entry key="dbPort">3306</entry>
+	<entry key="dbUsername">root</entry>
+	<entry key="dbPassword"></entry>
+	<entry key="dbSchemata"></entry>
+	<entry key="xmppServer">gmail.com</entry>
+	<entry key="xmppUsername"></entry>
+	<entry key="xmppPassword"></entry>
+	<entry key="xmppStatus">V2EX | software for internet</entry>
+</properties>

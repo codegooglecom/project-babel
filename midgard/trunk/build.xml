@@ -1,0 +1,126 @@
+<project name="Project Midgard" default="dist" basedir=".">
+  <description>
+    Project Midgard is a Gtalk agent for V2EX
+  </description>
+  <!-- set global properties for this build -->
+  <property name="src" location="src"/>
+  <property name="conf" location="conf"/>
+  <property name="build" location="build"/>
+  <property name="dist" location="dist"/>
+  <property name="extlib" location="extlib"/>
+  <property name="derby.home" location="/opt/derby"/>
+  
+  <target name="init">
+    <!-- Create the time stamp -->
+    <tstamp/>
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build}"/>
+  </target>
+
+  <target name="compile" depends="init"
+        description="Compile the source" >
+    <!-- Compile the java code from ${src} into ${build} -->
+    
+    <javac encoding="UTF-8" srcdir="${src}" destdir="${build}">
+      <classpath>
+        <pathelement location="${extlib}/smack.jar" />
+        <pathelement location="${extlib}/smackx.jar" />
+        <pathelement location="${extlib}/mysql.jar" />
+        <pathelement location="${extlib}/rome.jar" />
+        <pathelement location="${extlib}/jdom.jar" />
+        <pathelement location="${extlib}/commons-cli.jar" />
+        <pathelement location="${extlib}/commons-collections.jar" />
+        <pathelement location="${extlib}/commons-lang.jar" />
+        <pathelement location="${extlib}/commons-io.jar" />
+        <pathelement location="${extlib}/commons-httpclient.jar" />
+        <pathelement location="${extlib}/commons-logging.jar" />
+        <pathelement location="${extlib}/commons-codec.jar" />
+        <pathelement location="${extlib}/jakarta-oro.jar" />
+        <pathelement location="${extlib}/derby.jar" />
+        <pathelement location="${extlib}/derbytools.jar" />
+        <pathelement location="${extlib}/jcfd.jar" />
+        <pathelement location="${extlib}/sha4j.jar" />
+        <pathelement location="${extlib}/hsqldb.jar" />
+        <pathelement location="${extlib}/lucene-core.jar" />
+        <pathelement location="${extlib}/log4j.jar" />
+        <pathelement location="${conf}" />
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="dist" depends="compile"
+        description="Generate the distribution" >
+    <!-- Create the distribution directory -->
+    <mkdir dir="${dist}/lib"/>
+    
+    <!-- Create referecnes to external libraries -->
+    <manifestclasspath property="jar.classpath"
+                       jarfile="${dist}/lib/midgard-${DSTAMP}.jar">
+      <classpath>
+        <pathelement location="${extlib}/smack.jar" />
+        <pathelement location="${extlib}/smackx.jar" />
+        <pathelement location="${extlib}/mysql.jar" />
+        <pathelement location="${extlib}/rome.jar" />
+        <pathelement location="${extlib}/jdom.jar" />
+        <pathelement location="${extlib}/commons-cli.jar" />
+        <pathelement location="${extlib}/commons-collections.jar" />
+        <pathelement location="${extlib}/commons-lang.jar" />
+        <pathelement location="${extlib}/commons-io.jar" />
+        <pathelement location="${extlib}/commons-httpclient.jar" />
+        <pathelement location="${extlib}/commons-logging.jar" />
+        <pathelement location="${extlib}/commons-codec.jar" />
+        <pathelement location="${extlib}/jakarta-oro.jar" />
+        <pathelement location="${extlib}/derby.jar" />
+        <pathelement location="${extlib}/derbytools.jar" />
+        <pathelement location="${extlib}/jcfd.jar" />
+        <pathelement location="${extlib}/sha4j.jar" />
+        <pathelement location="${extlib}/hsqldb.jar" />
+        <pathelement location="${extlib}/lucene-core.jar" />
+        <pathelement location="${extlib}/log4j.jar" />
+        <pathelement location="${conf}" />
+      </classpath>
+    </manifestclasspath>
+    
+    <!-- Put everything in ${build} into the midgard-${DSTAMP}.jar file -->
+    <jar jarfile="${dist}/lib/midgard-${DSTAMP}.jar" basedir="${build}">
+      <manifest>
+        <attribute name="Main-Class" value="com.v2ex.midgard.Talker" />
+        <attribute name="Class-Path" value="${jar.classpath}" />
+      </manifest>
+    </jar>
+    <copy file="${dist}/lib/midgard-${DSTAMP}.jar" tofile="${dist}/lib/midgard-current.jar" />
+  </target>
+
+  <target name="clean"
+        description="Clean up" >
+    <!-- Delete the ${build} and ${dist} directory trees -->
+    <delete dir="${build}"/>
+    <delete dir="${dist}"/>
+  </target>
+  
+  <target name="test" depends="dist"
+        description="Run in test environment" >
+    <!-- Load from ${dist} and ${extlib} -->
+    <java jar="${dist}/lib/midgard-current.jar" fork="true">
+      <jvmarg value="-client" />
+      <jvmarg value="-Dfile.encoding=UTF8" />
+    </java>
+  </target>
+  
+  <target name="run"
+        description="Run in production environment" >
+    <!-- Load from ${dist} and ${extlib} -->
+    <java jar="${dist}/lib/midgard-current.jar" fork="true">
+      <jvmarg value="-server" />
+      <jvmarg value="-Dfile.encoding=UTF8" />
+    </java>
+  </target>
+  
+  <target name="fetch-extlib"
+        description="Get external libraries" >
+    <exec dir="${extlib}" executable="wget">
+      <arg value="--input-file=${conf}/extlib.urls"/>
+      <arg value="-nc"/>
+    </exec>
+  </target>
+</project>
