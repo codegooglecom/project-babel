@@ -1993,37 +1993,61 @@ class Page {
 		_v_hr();
 		echo('<h1 class="silver">Latest Updated Weblogs</h1>');
 		echo('<table cellpadding="0" cellspacing="0" border="0">');
-		echo('<tr>');
-		$sql = "SELECT blg_id, blg_name, blg_title, blg_portrait FROM babel_weblog WHERE blg_entries > 0 AND blg_portrait != '' ORDER BY blg_lastbuilt DESC LIMIT 5";
+		$sql = "SELECT blg_id, blg_name, blg_title, blg_portrait FROM babel_weblog WHERE blg_entries > 0 AND blg_portrait != '' ORDER BY blg_lastbuilt DESC LIMIT 20";
 		$rs = mysql_query($sql);
+		$i = 0;
 		while ($_weblog = mysql_fetch_array($rs)) {
+			$i++;
+			if ($i == 1) {
+				echo('<tr>');
+			}
+			if ($i > 1 && (($i % 5) == 1)) {
+				echo('<tr>');
+			}
 			echo('<td width="140" height="140" align="center" valign="top" style="padding-top: 10px;"><a href="http://' . BABEL_WEBLOG_SITE . '/' . $_weblog['blg_name'] . '" class="weblog"><img src="/img/b/' . $_weblog['blg_portrait'] . '.jpg" class="portrait" style="margin-bottom: 5px;" /><br /><small>' . make_plaintext($_weblog['blg_title']) . '</a></small></td>');
+			if (($i > 1) && (($i % 5) == 0)) {
+				echo('</tr>');
+			}
+		}
+		if (($i % 5) != 0) {
+			echo('</tr>');
 		}
 		mysql_free_result($rs);
-		echo('</tr>');
 		echo('</table>');
 		echo('<h1 class="silver">Latest Published Entries</h1>');
 		echo('<blockquote>');
-		$sql = "SELECT bge_id, bge_title, bge_created, usr_nick, blg_title, blg_name, blg_portrait FROM babel_weblog_entry, babel_user, babel_weblog WHERE bge_status = 1 AND bge_uid = usr_id AND blg_id = bge_pid ORDER BY bge_published DESC LIMIT 10";
+		$sql = "SELECT bge_id, bge_title, bge_created, bge_tags, bge_status, usr_nick, blg_title, blg_name, blg_portrait FROM babel_weblog_entry, babel_user, babel_weblog WHERE bge_status = 1 AND bge_uid = usr_id AND blg_id = bge_pid ORDER BY bge_published DESC LIMIT 10";
 		$rs = mysql_query($sql);
 		while ($_entry = mysql_fetch_array($rs)) {
 			$img_p = ($_entry['blg_portrait'] == '') ? '/img/p_blog_n.png' : '/img/b/' . $_entry['blg_portrait'] . '_n.jpg';
 			echo('<div style="padding: 2px;">');
 			echo('<img src="' . $img_p . '" align="absmiddle" border="0" class="portrait" />');
 			echo(' <a href="http://' . BABEL_WEBLOG_SITE . '/' . $_entry['blg_name'] . '/entry-' . $_entry['bge_id'] . '.html">' . $_entry['bge_title'] . '</a>');
-			echo(' <span class="tip_i"><small>Posted by <a href="/u/' . urlencode($_entry['usr_nick']) . '">' . $_entry['usr_nick'] . '</a> on ' . date('M-j G:i:s T', $_entry['bge_created']) . '</small></span>');
+			echo(' <span class="tip_i"><small>Posted by <a href="/u/' . urlencode($_entry['usr_nick']) . '">' . $_entry['usr_nick'] . '</a> on ' . date('M-j G:i:s T', $_entry['bge_created']) . '</small>');
+			if ($_entry['bge_tags'] != '') {
+				echo(' in '. Weblog::vxMakeTagLinkComma($_entry['bge_tags'], 'nexus_portal_tag'));
+			}
+			echo('</span>');
 			echo('</div>');
 		}
 		echo('</blockquote>');
 		echo('<h1 class="silver">Recent Popular Tags</h1>');
 		echo('<div style="padding: 10px;">');
-		$start = time() - (86400 * 7);
-		$sql = "SELECT bet_tag, COUNT(bet_tag) AS bet_tag_count FROM babel_weblog_entry_tag WHERE bet_tag IN (SELECT bet_tag FROM babel_weblog_entry_tag WHERE bet_created > {$start}) GROUP BY bet_tag ORDER BY rand() DESC";
-		$rs = mysql_query($sql);
-		while ($_tag = mysql_fetch_array($rs)) {
-			echo('<a href="/nexus/tag/' . urlencode($_tag['bet_tag']) . '" class="var" style="color: ' . Weblog::vxGetPortalTagColor($_tag['bet_tag_count']) . '; font-size: ' . (12 + floor($_tag['bet_tag_count'] / 3)) . 'px">' . $_tag['bet_tag'] . '</a> ');
+		$cache_tag = 'babel_nexus_tags_popular' . rand(1,9);
+		if ($o = $this->cs->get($cache_tag)) {
+			echo('hit');
+		} else {
+			$start = time() - (86400 * 7);
+			$sql = "SELECT bet_tag, COUNT(bet_tag) AS bet_tag_count FROM babel_weblog_entry_tag WHERE bet_tag IN (SELECT bet_tag FROM babel_weblog_entry_tag WHERE bet_created > {$start}) GROUP BY bet_tag ORDER BY rand() DESC";
+			$rs = mysql_query($sql);
+			$o = '';
+			while ($_tag = mysql_fetch_array($rs)) {
+				$o .= '<a href="/nexus/tag/' . urlencode($_tag['bet_tag']) . '" class="var" style="color: ' . Weblog::vxGetPortalTagColor($_tag['bet_tag_count']) . '; font-size: ' . (12 + floor($_tag['bet_tag_count'] / 3)) . 'px">' . $_tag['bet_tag'] . '</a> ';
+			}
+			mysql_free_result($rs);
+			$this->cs->save($o, $cache_tag);
 		}
-		mysql_free_result($rs);
+		echo $o;
 		echo('</div>');
 		echo('<h1 class="silver">Daily New Entries Trend</h1>');
 		require_once(BABEL_PREFIX . '/res/chart_entry_daily.php');

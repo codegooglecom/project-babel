@@ -372,6 +372,7 @@ function make_multi_return($value, $strip = 1) {
 			}
 		}
 	}
+	$value = str_replace('&', '&amp;', $value);
 	$value = str_replace('<', '&lt;', $value);
 	$value = str_replace('>', '&gt;', $value);
 	return $value;
