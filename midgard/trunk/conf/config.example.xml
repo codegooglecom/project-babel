@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
+	<!-- mode: v2ex | avalon -->
 	<entry key="mode">v2ex</entry>
 	<!-- dbType: mysql | derby -->
-	<entry key="dbType">derby</entry>
+	<entry key="dbEnable">yes</entry>
+	<entry key="dbType">mysql</entry>
 	<entry key="dbHome">/src/midgard/db</entry>
 	<entry key="dbServer">localhost</entry>
 	<entry key="dbPort">3306</entry>
 	<entry key="dbUsername">root</entry>
 	<entry key="dbPassword"></entry>
 	<entry key="dbSchemata"></entry>
+	<entry key="cacheRepo">/src/midgard/cache/repo</entry>
 	<entry key="xmppServer">gmail.com</entry>
 	<entry key="xmppUsername"></entry>
 	<entry key="xmppPassword"></entry>
