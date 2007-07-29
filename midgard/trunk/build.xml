@@ -5,9 +5,13 @@
   <!-- set global properties for this build -->
   <property name="src" location="src"/>
   <property name="conf" location="conf"/>
+  <property name="db" location="db"/>
+  <property name="cache" location="cache"/>
   <property name="build" location="build"/>
   <property name="dist" location="dist"/>
   <property name="extlib" location="extlib"/>
+  <property name="index" location="index"/>
+  <property name="log" location="log"/>
   <property name="derby.home" location="/opt/derby"/>
   
   <target name="init">
@@ -15,6 +19,11 @@
     <tstamp/>
     <!-- Create the build directory structure used by compile -->
     <mkdir dir="${build}"/>
+    <mkdir dir="${extlib}"/>
+    <mkdir dir="${log}"/>
+    <mkdir dir="${db}"/>
+    <mkdir dir="${cache}"/>
+    <mkdir dir="${index}"/>
   </target>
 
   <target name="compile" depends="init"
