@@ -30,7 +30,7 @@
         description="Compile the source" >
     <!-- Compile the java code from ${src} into ${build} -->
     
-    <javac encoding="UTF-8" srcdir="${src}" destdir="${build}">
+    <javac encoding="UTF-8" srcdir="${src}" destdir="${build}" debug="on" debuglevel="lines,vars,source">
       <classpath>
         <pathelement location="${extlib}/smack.jar" />
         <pathelement location="${extlib}/smackx.jar" />

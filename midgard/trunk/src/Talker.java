@@ -61,7 +61,7 @@ class Talker {
 			log.info("Connecting to database server");
 			String dbType = p.getProperty("dbType");
 			log.info("Database type is set to <" + dbType + ">");
-			String dbName = p.getProperty("dbName");
+			String dbHome = p.getProperty("dbHome");
 			String dbServer = p.getProperty("dbServer");
 			String dbPort = p.getProperty("dbPort");
 			String dbUsername = p.getProperty("dbUsername");
@@ -75,7 +75,7 @@ class Talker {
 					this.db = DriverManager.getConnection("jdbc:mysql://" + dbServer + ":" + dbPort + "/" + dbSchemata + "?" + "user=" + dbUsername +  "&password=" + dbPassword + "&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8");
 				} else if (dbType.equals("derby")) {
 					Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();
-					this.db = DriverManager.getConnection("jdbc:derby:" + dbName + ";create=true");
+					this.db = DriverManager.getConnection("jdbc:derby:" + dbHome + ";create=true");
 					this.db.setAutoCommit(false);
 				} else {
 					log.error("Database type <" + dbType + "> is not supported");
