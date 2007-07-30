@@ -2033,7 +2033,7 @@ class Page {
 			echo(' <a href="http://' . BABEL_WEBLOG_SITE . '/' . $_entry['blg_name'] . '/entry-' . $_entry['bge_id'] . '.html">' . $_entry['bge_title'] . '</a>');
 			echo(' <span class="tip_i"><small>Posted by <a href="/u/' . urlencode($_entry['usr_nick']) . '">' . $_entry['usr_nick'] . '</a> on ' . date('M-j G:i:s T', $_entry['bge_created']) . '</small>');
 			if ($_entry['bge_tags'] != '') {
-				echo(' in '. Weblog::vxMakeTagLinkComma($_entry['bge_tags'], 'nexus_portal_tag'));
+				echo('<small> in '. Weblog::vxMakeTagLinkComma($_entry['bge_tags'], 'nexus_portal_tag') . '</small>');
 			}
 			echo('</span>');
 			echo('</div>');
@@ -2078,14 +2078,18 @@ class Page {
 		echo('<h1 class="silver">' . $_tag['count'] . ' Entries Tagged <em>' . make_plaintext($_tag['tag']) . '</em></h1>');
 		echo('<blockquote>');
 		$tag_sql = mysql_real_escape_string($_tag['tag']);
-		$sql = "SELECT bge_id, bge_title, bge_created, usr_nick, blg_title, blg_name, blg_portrait FROM babel_weblog_entry, babel_user, babel_weblog, babel_weblog_entry_tag WHERE bge_status = 1 AND bge_uid = usr_id AND blg_id = bge_pid AND bet_tag = '{$tag_sql}' AND bet_eid = bge_id ORDER BY bge_published DESC";
+		$sql = "SELECT bge_id, bge_title, bge_created, bge_tags, usr_nick, blg_title, blg_name, blg_portrait FROM babel_weblog_entry, babel_user, babel_weblog, babel_weblog_entry_tag WHERE bge_status = 1 AND bge_uid = usr_id AND blg_id = bge_pid AND bet_tag = '{$tag_sql}' AND bet_eid = bge_id ORDER BY bge_published DESC";
 		$rs = mysql_query($sql);
 		while ($_entry = mysql_fetch_array($rs)) {
 			$img_p = ($_entry['blg_portrait'] == '') ? '/img/p_blog_n.png' : '/img/b/' . $_entry['blg_portrait'] . '_n.jpg';
 			echo('<div style="padding: 2px;">');
 			echo('<img src="' . $img_p . '" align="absmiddle" border="0" class="portrait" />');
 			echo(' <a href="http://' . BABEL_WEBLOG_SITE . '/' . $_entry['blg_name'] . '/entry-' . $_entry['bge_id'] . '.html">' . $_entry['bge_title'] . '</a>');
-			echo(' <span class="tip_i"><small>Posted by <a href="/u/' . urlencode($_entry['usr_nick']) . '">' . $_entry['usr_nick'] . '</a> on ' . date('M-j G:i:s T', $_entry['bge_created']) . '</small></span>');
+			echo(' <span class="tip_i"><small>Posted by <a href="/u/' . urlencode($_entry['usr_nick']) . '">' . $_entry['usr_nick'] . '</a> on ' . date('M-j G:i:s T', $_entry['bge_created']) . '</small>');
+			if ($_entry['bge_tags'] != '') {
+				echo('<small> in '. Weblog::vxMakeTagLinkComma($_entry['bge_tags'], 'nexus_portal_tag') . '</small>');
+			}
+			echo('</span>');
 			echo('</div>');
 		}
 		echo('</blockquote>');
