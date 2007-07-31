@@ -1,5 +1,8 @@
 <?php
 class lang implements Language {
+	public function lang() {
+		return '简体中文';
+	}
 	
 	public function login() {
 		return '登录';
@@ -53,8 +56,16 @@ class lang implements Language {
 		return $i . ' 次点击';
 	}
 	
-	public function my_profile($site_name) {
-		return '我的 ' . $site_name . ' 主页';
+	public function posts($i) {
+		return $i . ' 篇回复';
+	}
+
+	public function expenses() {
+		return '消费记录';
+	}	
+	
+	public function my_profile($site) {
+		return '我的 ' . $site . ' 主页';
 	}
 	
 	public function my_topics() {
@@ -65,9 +76,40 @@ class lang implements Language {
 		return '我的博客网志';
 	}
 	
+	public function my_messages() {
+		return '我的消息';
+	}
+	
+	public function my_friends() {
+		return '我的朋友';
+	}
+	
 	public function send_money() {
 		return '转账';
 	}
+	
+	public function join_discussion() {
+		return '参与讨论';
+	}
+	
+	public function browse_node($name, $title) {
+		return '浏览讨论区 <a href="' . urlencode($name) . '" class="regular">' . make_plaintext($title) . '</a>';
+	}
+	
+	public function more_hot_topics() {
+		return '浏览更多最热话题';
+	}
+	
+	public function create_new_topic() {
+		return '创建新主题';
+	}
+	
+	public function favorite_this_topic() {
+		return '收藏本主题';
+	}
+	
+	public function my_favorites() {
+		return '我的收藏夹';
+	}
 }
-
 ?>
