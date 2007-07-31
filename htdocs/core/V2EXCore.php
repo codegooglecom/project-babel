@@ -800,7 +800,6 @@ class Page {
 			$_module_online = true;
 			$_module_mybloglog = false;
 		}
-		
 		global $GOOGLE_AD_LEGAL;
 		echo('<div id="menu" align="center">');
 		echo('<div class="menu_inner" align="left">');
@@ -812,14 +811,15 @@ class Page {
 		if ($this->User->vxIsLogin()) {
 			echo('<div class="menu_inner" align="left"><ul class="menu">');
 		
-			echo('<li><img src="' . CDN_UI . 'img/icons/silk/email.png" align="absmiddle" />&nbsp;<a href="javascript:openMessage();">我的消息');
+			echo('<li><img src="' . CDN_UI . 'img/icons/silk/email.png" align="absmiddle" />&nbsp;<a href="javascript:openMessage();">' . $this->lang->my_messages());
 			if ($this->p_msg_count > 0) {
 				echo(' <small class="fade">(' . $this->p_msg_count . ')</small>');
 			}
 			echo('</a></li>');
-			echo('<li><img src="' . CDN_UI . 'img/icons/silk/comments.png" align="absmiddle" />&nbsp;<a href="/topic/archive/user/' . urlencode($this->User->usr_nick) . '">我创建的所有主题</a></li>');
+			echo('<li><img src="' . CDN_UI . 'img/icons/silk/house.png" align="absmiddle" />&nbsp;<a href="/u/' . urlencode($this->User->usr_nick) . '">' . $this->lang->my_profile(Vocabulary::site_name) . '</a></li>');
+			echo('<li><img src="' . CDN_UI . 'img/icons/silk/comments.png" align="absmiddle" />&nbsp;<a href="/topic/archive/user/' . urlencode($this->User->usr_nick) . '">' . $this->lang->my_topics() . '</a></li>');
 			if (BABEL_FEATURE_NEXUS) {
-				echo('<li><img src="' . CDN_UI . 'img/icons/silk/anchor.png" align="absmiddle">&nbsp;<a href="/blog/admin.vx">我的博客网志</a> <span class="tip_i"><small>alpha</small></span></li>');
+				echo('<li><img src="' . CDN_UI . 'img/icons/silk/anchor.png" align="absmiddle">&nbsp;<a href="/blog/admin.vx">' . $this->lang->my_blogs() . '</a> <span class="tip_i"><small>alpha</small></span></li>');
 			}
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/hourglass.png" align="absmiddle" />&nbsp;<a href="/ing/' . urlencode($this->User->usr_nick) . '/friends">ING</a> <span class="tip_i"><small>alpha</small></span></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/clock.png" align="absmiddle">&nbsp;<a href="/zen/' . urlencode($this->User->usr_nick) . '">ZEN</a> <span class="tip_i"><small>alpha</small></span></li>');
@@ -835,8 +835,7 @@ class Page {
 			if (BABEL_FEATURE_BIT) {
 				echo('<li><img src="' . CDN_UI . 'img/icons/silk/control_equalizer.png" align="absmiddle">&nbsp;<a href="/bit">BIT</a> <span class="tip_i"><small>alpha</small></span></li>');
 			}
-			echo('<li><img src="' . CDN_UI . 'img/icons/silk/house.png" align="absmiddle" />&nbsp;<a href="/u/' . urlencode($this->User->usr_nick) . '">我的 ' . Vocabulary::site_name . ' 主页</a></li>');
-			echo('<li><img src="' . CDN_UI . 'img/icons/silk/coins_delete.png" align="absmiddle" />&nbsp;<a href="/expense/view.vx">消费记录</a></li>');
+			echo('<li><img src="' . CDN_UI . 'img/icons/silk/coins_delete.png" align="absmiddle" />&nbsp;<a href="/expense/view.vx">' . $this->lang->expenses() .'</a></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/coins_add.png" align="absmiddle" />&nbsp;<a href="#;" onclick="openTopWealth();">社区财富排行</a></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/world.png" align="absmiddle" />&nbsp;<a href="/geo/' . $this->User->usr_geo . '">' . $this->Geo->map['name'][$this->User->usr_geo] . '</a> <span class="tip_i"><small>portal</small></span></li>');
 			echo('<li>');
@@ -857,7 +856,7 @@ class Page {
 				if (count($_favs) > 0) {
 					echo('<div class="menu_fav" align="left">');
 					echo($fimg);
-					echo(' <a href="/topic/favorite.vx">我的收藏夹</a><table width="99%" cellpadding="0" cellspacing="0" border="0" class="fav">');
+					echo(' <a href="/topic/favorite.vx">' . $this->lang->my_favorites() . '</a><table width="99%" cellpadding="0" cellspacing="0" border="0" class="fav">');
 					foreach ($_favs as $Fav) {
 						switch ($Fav->fav_type) {
 							case 1:
@@ -873,7 +872,7 @@ class Page {
 				} else {
 					echo('<div class="menu_fav" align="left">');
 					echo($fimg);
-					echo(' <a href="/topic/favorite.vx">我的收藏夹</a></div>');
+					echo(' <a href="/topic/favorite.vx">' . $this->lang->my_favorites() . '</a></div>');
 				}
 			} else {
 				$sql = "SELECT fav_title, fav_res, fav_type FROM babel_favorite WHERE fav_uid = {$this->User->usr_id} AND fav_type IN (1,2) ORDER BY fav_created DESC";
@@ -883,7 +882,7 @@ class Page {
 				if ($my_fav_nodes > 0) {
 					echo('<div class="menu_fav" align="left">');
 					echo($fimg);
-					echo(' <a href="/topic/favorite.vx">我的收藏夹</a><table width="99%" cellpadding="0" cellspacing="0" border="0" class="fav">');
+					echo(' <a href="/topic/favorite.vx">' . $this->lang->my_favorites() . '</a><table width="99%" cellpadding="0" cellspacing="0" border="0" class="fav">');
 					while ($Fav = mysql_fetch_object($rs)) {
 						switch ($Fav->fav_type) {
 							case 1:
@@ -900,18 +899,17 @@ class Page {
 				} else {
 					echo('<div class="menu_fav" align="left">');
 					echo($fimg);
-					echo(' <a href="/topic/favorite.vx">我的收藏夹</a></div>');
+					echo(' <a href="/topic/favorite.vx">' . $this->lang->my_favorites() . '</a></div>');
 				}
 				$this->cs->save(serialize($_favs), 'user_favs_' . $this->User->usr_id);
 				mysql_free_result($rs);
 			}
 		}
-		
 		if ($this->User->vxIsLogin() && $_module_friends) {
-			if (count($this->User->usr_friends) > 0 && $this->User->usr_sw_right_friends == 1) {
+			if ((count($this->User->usr_friends) > 0) && ($this->User->usr_sw_right_friends == 1)) {
 				echo('<div class="menu_inner" align="left">');
 				echo('<img src="' . CDN_UI . 'img/icons/silk/heart.png" align="absmiddle" />');
-				echo('&nbsp;我的朋友们');
+				echo('&nbsp;' . $this->lang->my_friends());
 				_v_hr();
 				echo('<table cellpadding="0" cellspacing="0" border="0">');
 				echo('<tr><td>');
@@ -930,6 +928,7 @@ class Page {
 				echo('<img src="' . CDN_UI . 'img/icons/silk/heart_add.png" align="absmiddle" />&nbsp;<a href="/who/connect/' . $this->User->usr_nick . '">谁把我加为好友？</a>');
 				echo('</div>');
 			}
+		} else {
 		}
 		
 		echo('<div class="menu_inner" align="left"><ul class="menu">');
@@ -1025,7 +1024,6 @@ class Page {
 		$_menu_options['modules']['stats'] = true;
 		$_menu_options['modules']['fav'] = true;
 		$_menu_options['modules']['logins'] = true;
-		$_menu_options['modules']['friends'] = false;
 		$_menu_options['modules']['online'] = false;
 		$_menu_options['modules']['mybloglog'] = false;
 		echo('<div id="wrap">');
@@ -2164,7 +2162,7 @@ class Page {
 		$active = '';
 		
 		if ($style != 'remix') {
-			if ($active = $this->cs->get('babel_home_active')) {
+			if ($active = $this->cs->get('babel_home_active_a')) {
 				// Nothing to do here.
 			} else {
 				$active = '';
@@ -2175,7 +2173,7 @@ class Page {
 					$Hot = mysql_fetch_object($rs);
 					$img_p = $Hot->usr_portrait ? CDN_IMG . 'p/' . $Hot->usr_portrait . '_n.jpg' : CDN_IMG . 'p_' . $Hot->usr_gender . '_n.gif';
 					$active .= '<div class="blank" align="left">';
-					$active .= '<h1 class="ititle"><img src="' . $img_p . '" align="absmiddle" class="portrait" />&nbsp;<a href="/topic/view/' . $Hot->tpc_id . '.html" style="color: ' . rand_color() . ';" class="var">' . make_plaintext($Hot->tpc_title) . '</a></h1><span class="tip_i"> <hr size="1" color="#EEE" style="color: #EEE; background-color: #EEE; height: 1px; border: 0;" />... <a href="/topic/view/' . $Hot->tpc_id . '.html#reply" class="t">' . $Hot->tpc_posts . ' 篇回复</a> | <a href="/topic/view/' . $Hot->tpc_id . '.html#replyForm" class="t">我要参与讨论</a> | 浏览讨论区 <a href="/go/' . $Hot->nod_name . '" class="t">' . $Hot->nod_title . '</a> | <a href="/topic/archive/user/' . $Hot->usr_nick . '" class="t">' . make_plaintext($Hot->usr_nick) . '</a> 的个人专辑 | <a href="/hot.html" class="t">浏览更多最热话题</a>';
+					$active .= '<h1 class="ititle"><img src="' . $img_p . '" align="absmiddle" class="portrait" />&nbsp;<a href="/topic/view/' . $Hot->tpc_id . '.html" style="color: ' . rand_color() . ';" class="var">' . make_plaintext($Hot->tpc_title) . '</a></h1><span class="tip_i"> <hr size="1" color="#EEE" style="color: #EEE; background-color: #EEE; height: 1px; border: 0;" />... <a href="/topic/view/' . $Hot->tpc_id . '.html#reply" class="regular">' . $this->lang->posts($Hot->tpc_posts) . '</a> | <a href="/topic/view/' . $Hot->tpc_id . '.html#replyForm" class="regular">' . $this->lang->join_discussion() . '</a> | ' . $this->lang->browse_node($Hot->nod_name, $Hot->nod_title) . ' | <a href="/topic/archive/user/' . $Hot->usr_nick . '" class="regular">' . make_plaintext($Hot->usr_nick) . '</a> | <a href="/hot.html" class="regular">' . $this->lang->more_hot_topics() . '</a>';
 					$active .= '</span></div>';
 					$_SESSION['babel_hot'] = array();
 					$_SESSION['babel_hot']['title'] = $Hot->tpc_title;
@@ -8261,7 +8259,7 @@ class Page {
 		
 		/* S: new */
 		
-		echo('<a href="/topic/new/' . $Topic->tpc_pid . '.vx" class="h">在本讨论区创建新主题</a>');
+		echo('<a href="/topic/new/' . $Topic->tpc_pid . '.vx" class="h">' . $this->lang->create_new_topic() . '</a>');
 		
 		/* E: new */
 		
@@ -8271,7 +8269,7 @@ class Page {
 			if ($Fav > 0) {
 				echo('<div id="tpcFav" style="display: inline;"><a onclick="removeFavoriteTopic(' . $Fav . ')" href="#;" class="h">X&nbsp;我不再喜欢这篇主题</a></div>');
 			} else {
-				echo('<div id="tpcFav" style="display: inline;"><a onclick="addFavoriteTopic(' . $Topic->tpc_id . ')" href="#;" class="h">:) 我喜欢这篇主题</a></div>');
+				echo('<div id="tpcFav" style="display: inline;"><a onclick="addFavoriteTopic(' . $Topic->tpc_id . ')" href="#;" class="h">' . $this->lang->favorite_this_topic() . '</a></div>');
 			}
 		}
 		
@@ -8500,7 +8498,7 @@ google_color_url = "00CC00";
 				}
 			} else {
 				echo('<div class="' . $_tmp . '"><form action="/post/create/' . $Topic->tpc_id . '.vx" method="post" id="form_topic_reply"><span style="color: ' . rand_color() . ';"><img src="' . $img_usr_portrait . '" align="absmiddle" style="border-left: 2px solid ' . rand_color(0, 1) . '; padding: 0px 5px 0px 5px;" />现在回复楼主道：<input type="text" class="sll" name="pst_title" value="Re: ' . make_single_return($Topic->tpc_title, 0) . '" /><br /><br /><textarea name="pst_content" rows="10" class="quick" id="taQuick"></textarea><input type="hidden" name="p_cur" value="' . $p['cur'] . '" /><div align="left" style="margin: 10px 0px 0px 0px; padding-left: 390px;">');
-				_v_btn_f('立即回复', 'form_topic_reply');
+				_v_btn_f($this->lang->reply(), 'form_topic_reply');
 				echo('</div></span></form></div>');
 			}
 		} else {

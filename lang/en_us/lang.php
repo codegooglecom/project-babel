@@ -1,6 +1,8 @@
 <?php
-
 class lang implements Language {
+	public function lang() {
+		return 'English';
+	}
 	
 	public function login() {
 		return 'Sign In';
@@ -80,8 +82,16 @@ class lang implements Language {
 		return $i . ' hits';
 	}
 	
-	public function my_profile($site_name) {
-		return 'My ' . $site_name . ' profile';
+	public function posts($i) {
+		return $i . ' replies';
+	}
+	
+	public function expenses() {
+		return 'Expenses';
+	}
+	
+	public function my_profile($site) {
+		return 'My profile';
 	}
 	
 	public function my_topics() {
@@ -92,9 +102,40 @@ class lang implements Language {
 		return 'My weblogs';
 	}
 	
+	public function my_messages() {
+		return 'My messages';
+	}
+	
+	public function my_friends() {
+		return 'My friends';
+	}
+	
 	public function send_money() {
 		return 'Send money';
 	}
+	
+	public function join_discussion() {
+		return 'Join discussion';
+	}
+	
+	public function browse_node($name, $title) {
+		return 'Browse <a href="' . urlencode($name) . '" class="regular">' . make_plaintext($title) . '</a>';
+	}
+	
+	public function more_hot_topics() {
+		return 'More hot topics';
+	}
+	
+	public function create_new_topic() {
+		return 'Create new topic';
+	}
+	
+	public function favorite_this_topic() {
+		return 'Favorite this topic';
+	}
+	
+	public function my_favorites() {
+		return 'My favorites';
+	}
 }
-
 ?>
