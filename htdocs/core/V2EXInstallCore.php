@@ -1335,6 +1335,7 @@ $i->vxSetupBoard('ps3', 'PlayStation 3', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('wii', 'Wii', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('xbox360', 'Xbox 360', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('xbox', 'Xbox', 3, 3, 1, 2, '', '');
+$i->vxSetupBoard('mgs', 'Metal Gear Solid', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('simcity', 'SimCity', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('diablo', 'Diablo', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('wow', 'World of Warcraft', 3, 3, 1, 2, '魔兽世界', '');

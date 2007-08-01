@@ -46,6 +46,10 @@ class lang implements Language {
 		return 'Register';
 	}
 	
+	public function search() {
+		return 'Search';
+	}
+	
 	public function settings() {
 		return 'Settings';
 	}
@@ -110,8 +114,28 @@ class lang implements Language {
 		return 'My friends';
 	}
 	
+	public function my_favorites() {
+		return 'My favorites';
+	}
+	
 	public function send_money() {
 		return 'Send money';
+	}
+	
+	public function top_wealth() {
+		return 'Top wealth';
+	}
+	
+	public function top_topics() {
+		return 'Top topics';
+	}
+	
+	public function latest_topics() {
+		return 'Latest topics';
+	}
+	
+	public function latest_members() {
+		return 'Latest members';
 	}
 	
 	public function join_discussion() {
@@ -134,8 +158,12 @@ class lang implements Language {
 		return 'Favorite this topic';
 	}
 	
-	public function my_favorites() {
-		return 'My favorites';
+	public function be_the_first_one_to_reply() {
+		return 'No reply yet. Be the first one to reply?';
+	}
+	
+	public function who_adds_me() {
+		return '<small>Who adds me as friend?</small>';
 	}
 }
 ?>

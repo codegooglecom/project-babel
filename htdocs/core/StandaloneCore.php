@@ -1158,7 +1158,7 @@ class Standalone {
 	public function vxBlogDestroy() {
 		if (isset($_GET['weblog_id'])) {
 			$weblog_id = intval($_GET['weblog_id']);
-			if (Weblog::vxMatchWeblogPermission($this->User->usr_id, $weblog_id)) {
+			if (Weblog::vxMatchWeblogPermission($this->User->usr_id, $weblog_id) || $this->User->usr_id == 1) {
 				Weblog::vxDestroy($this->User->usr_id, $weblog_id);
 				return $this->URL->vxToRedirect($_SERVER['HTTP_REFERER']);
 			} else {

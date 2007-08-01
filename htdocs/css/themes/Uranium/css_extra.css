@@ -239,7 +239,7 @@ padding: 1px 5px 5px 5px;
 
 a.regular:link, a.regular:visited, a.regular:active {
 color: #676777;
-text-decoration: underline;
+text-decoration: none;
 }
 
 a.regular:hover {
