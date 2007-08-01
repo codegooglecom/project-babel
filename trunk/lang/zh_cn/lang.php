@@ -20,6 +20,10 @@ class lang implements Language {
 		return '注册';
 	}
 	
+	public function search() {
+		return '搜索';
+	}
+	
 	public function settings() {
 		return '修改信息与设置';
 	}
@@ -84,8 +88,28 @@ class lang implements Language {
 		return '我的朋友';
 	}
 	
+	public function my_favorites() {
+		return '我的收藏夹';
+	}
+	
 	public function send_money() {
-		return '转账';
+		return '汇款';
+	}
+	
+	public function top_wealth() {
+		return '社区财富排行';
+	}
+	
+	public function top_topics() {
+		return '最强主题排行';
+	}
+	
+	public function latest_topics() {
+		return '最新主题';
+	}
+	
+	public function latest_members() {
+		return '最新注册会员';
 	}
 	
 	public function join_discussion() {
@@ -108,8 +132,12 @@ class lang implements Language {
 		return '收藏本主题';
 	}
 	
-	public function my_favorites() {
-		return '我的收藏夹';
+	public function be_the_first_one_to_reply() {
+		return '目前这个主题还没有回复，或许你可以帮楼主加盖一层？';
+	}
+	
+	public function who_adds_me() {
+		return '谁把我加为好友？';
 	}
 }
 ?>

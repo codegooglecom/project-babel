@@ -836,7 +836,7 @@ class Page {
 				echo('<li><img src="' . CDN_UI . 'img/icons/silk/control_equalizer.png" align="absmiddle">&nbsp;<a href="/bit">BIT</a> <span class="tip_i"><small>alpha</small></span></li>');
 			}
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/coins_delete.png" align="absmiddle" />&nbsp;<a href="/expense/view.vx">' . $this->lang->expenses() .'</a></li>');
-			echo('<li><img src="' . CDN_UI . 'img/icons/silk/coins_add.png" align="absmiddle" />&nbsp;<a href="#;" onclick="openTopWealth();">社区财富排行</a></li>');
+			echo('<li><img src="' . CDN_UI . 'img/icons/silk/coins_add.png" align="absmiddle" />&nbsp;<a href="#;" onclick="openTopWealth();">' . $this->lang->top_wealth() . '</a></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/world.png" align="absmiddle" />&nbsp;<a href="/geo/' . $this->User->usr_geo . '">' . $this->Geo->map['name'][$this->User->usr_geo] . '</a> <span class="tip_i"><small>portal</small></span></li>');
 			echo('<li>');
 			_v_hr();
@@ -925,19 +925,19 @@ class Page {
 				echo('</td></tr>');
 				echo('</table>');
 				_v_hr();
-				echo('<img src="' . CDN_UI . 'img/icons/silk/heart_add.png" align="absmiddle" />&nbsp;<a href="/who/connect/' . $this->User->usr_nick . '">谁把我加为好友？</a>');
+				echo('<img src="' . CDN_UI . 'img/icons/silk/heart_add.png" align="absmiddle" />&nbsp;<a href="/who/connect/' . $this->User->usr_nick . '">' . $this->lang->who_adds_me() . '</a>');
 				echo('</div>');
 			}
 		} else {
 		}
 		
 		echo('<div class="menu_inner" align="left"><ul class="menu">');
-		echo('<li><img src="' . CDN_UI . 'img/icons/silk/zoom.png" align="absmiddle" />&nbsp;<a href="/search.vx">搜索</a></li>');
+		echo('<li><img src="' . CDN_UI . 'img/icons/silk/zoom.png" align="absmiddle" />&nbsp;<a href="/search.vx">' . $this->lang->search() . '</a></li>');
 		echo('<li><img src="' . CDN_UI . 'img/icons/silk/feed.png" align="absmiddle" />&nbsp;<a href="' . BABEL_FEED_URL . '" target="_blank">RSS 种子输出</a></li>');
 		echo('<li><img src="' . CDN_UI . 'img/icons/silk/weather_sun.png" align="absmiddle" />&nbsp;<a href="/topic/fresh.html">最新 virgin 主题</a></li>');
-		echo('<li><img src="' . CDN_UI . 'img/icons/silk/award_star_gold_1.png" align="absmiddle" />&nbsp;<a href="/topic/top.html">' . Vocabulary::term_toptopic . '</a></li>');
+		echo('<li><img src="' . CDN_UI . 'img/icons/silk/award_star_gold_1.png" align="absmiddle" />&nbsp;<a href="/topic/top.html">' . $this->lang->top_topics() . '</a></li>');
 		if ($_module_new_members) {
-			echo('<li><img src="' . CDN_UI . 'img/icons/silk/user_add.png" align="absmiddle" />&nbsp;最新注册会员<ul class="items">');
+			echo('<li><img src="' . CDN_UI . 'img/icons/silk/user_add.png" align="absmiddle" />&nbsp;' . $this->lang->latest_members() . '<ul class="items">');
 			$sql = 'SELECT usr_id, usr_nick, usr_gender, usr_portrait, usr_created FROM babel_user ORDER BY usr_created DESC LIMIT 5';
 			$rs = mysql_query($sql, $this->db);
 			$c = '';
@@ -8476,7 +8476,7 @@ google_color_url = "00CC00";
 					echo('<div id="vxReplyTip"><a name="replyForm" class="img"><img src="/img/spacer.gif" width="1" height="1" style="display: none;" /></a><span class="tip_i">这是一个自闭模式的讨论区，你可能无法参与所有的主题。</span></div>');
 				}
 			} else {
-				echo('<div id="vxReplyTip"><a name="replyForm" class="img"><img src="/img/spacer.gif" width="1" height="1" style="display: none;" /></a><span class="tip_i">目前这个主题还没有回复，或许你可以帮楼主加盖一层？</span></div>');
+				echo('<div id="vxReplyTip"><a name="replyForm" class="img"><img src="/img/spacer.gif" width="1" height="1" style="display: none;" /></a><span class="tip_i">' . $this->lang->be_the_first_one_to_reply() . '</span></div>');
 			}
 		}
 		$i++;
