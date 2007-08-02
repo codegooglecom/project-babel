@@ -23,6 +23,9 @@ function vx_check_login() {
 		case 'en_us':
 			$rt['usr_error_msg'] = array(1 => 'Please type your user ID');
 			break;
+		case 'pl_pl':
+			$rt['usr_error_msg'] = array(1 => 'Proszę wpisać nazwę (ID) użytkownika');
+			break;
 	}
 	$rt['usr_password_value'] = '';
 	/* usr_password_error:
@@ -38,6 +41,9 @@ function vx_check_login() {
 		default:
 		case 'en_us':
 			$rt['usr_password_error_msg'] = array(1 => 'Please type your password', 2 => 'User ID or password is wrong');
+			break;
+		case 'pl_pl':
+			$rt['usr_password_error_msg'] = array(1 => 'Proszę wpisać hasło', 2 => 'Podana nazwa użytkownika lub hasło jest nieprawidłowe.');
 			break;
 	}
 
