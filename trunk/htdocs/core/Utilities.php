@@ -598,51 +598,102 @@ function make_desc_time($unix_timestamp) {
 function make_descriptive_time($unix_timestamp) {
 	$now = time();
 	$diff = $now - $unix_timestamp;
-	
-	if ($diff > (86400 * 30)) {
-		$m_span = intval($diff / (86400 * 30));
-		$d_diff = $diff % ($m_span * (86400 * 30));
-		if ($d_diff > 86400) {
-			$d_span = intval($d_diff / 86400);
-			return $m_span . ' 月 ' . $d_span . ' 天前';
-		} else {
-			return $m_span . ' 月前';
-		}
+	switch (BABEL_LANG) {
+		case 'zh_tw':
+		case 'zh_cn':
+			if ($diff > (86400 * 30)) {
+				$m_span = intval($diff / (86400 * 30));
+				$d_diff = $diff % ($m_span * (86400 * 30));
+				if ($d_diff > 86400) {
+					$d_span = intval($d_diff / 86400);
+					return $m_span . ' 月 ' . $d_span . ' 天前';
+				} else {
+					return $m_span . ' 月前';
+				}
+			}
+			
+			if ($diff > 86400) {
+				$d_span = intval($diff / 86400);
+				$h_diff = $diff % 86400;
+				if ($h_diff > 3600) {
+					$h_span = intval($h_diff / 3600);
+					return $d_span . ' 天 ' . $h_span . ' 小时前';
+				} else {
+					return $d_span . ' 天前';
+				}
+			}
+			
+			if ($diff > 3600) {
+				$h_span = intval($diff / 3600);
+				$m_diff = $diff % 3600;
+				if ($m_diff > 60) {
+					$m_span = intval($m_diff / 60);
+					return $h_span . ' 小时 ' . $m_span . ' 分钟前';
+				} else {
+					return $h_span . ' 小时前';
+				}
+			}
+			
+			if ($diff > 60) {
+				$span = floor($diff / 60);
+				$secs = $diff % 60;
+				if ($secs > 0) {
+					return $span . ' 分 ' . $secs . ' 秒前';
+				} else {
+					return $span . ' 分钟前';
+				}
+			}
+			
+			return $diff . ' 秒前';
+			break;
+		default:
+		case 'en_us':
+			if ($diff > (86400 * 30)) {
+				$m_span = intval($diff / (86400 * 30));
+				$d_diff = $diff % ($m_span * (86400 * 30));
+				if ($d_diff > 86400) {
+					$d_span = intval($d_diff / 86400);
+					return $m_span . ' mons ' . $d_span . ' days ago';
+				} else {
+					return $m_span . ' mons ago';
+				}
+			}
+			
+			if ($diff > 86400) {
+				$d_span = intval($diff / 86400);
+				$h_diff = $diff % 86400;
+				if ($h_diff > 3600) {
+					$h_span = intval($h_diff / 3600);
+					return $d_span . ' days ' . $h_span . ' hours ago';
+				} else {
+					return $d_span . ' days ago';
+				}
+			}
+			
+			if ($diff > 3600) {
+				$h_span = intval($diff / 3600);
+				$m_diff = $diff % 3600;
+				if ($m_diff > 60) {
+					$m_span = intval($m_diff / 60);
+					return $h_span . ' hours ' . $m_span . ' mins ago';
+				} else {
+					return $h_span . ' hours ago';
+				}
+			}
+			
+			if ($diff > 60) {
+				$span = floor($diff / 60);
+				$secs = $diff % 60;
+				if ($secs > 0) {
+					return $span . ' mins ' . $secs . ' secs ago';
+				} else {
+					return $span . ' mins ago';
+				}
+			}
+			
+			return $diff . ' secs ago';
+			break;
 	}
-	
-	if ($diff > 86400) {
-		$d_span = intval($diff / 86400);
-		$h_diff = $diff % 86400;
-		if ($h_diff > 3600) {
-			$h_span = intval($h_diff / 3600);
-			return $d_span . ' 天 ' . $h_span . ' 小时前';
-		} else {
-			return $d_span . ' 天前';
-		}
-	}
-	
-	if ($diff > 3600) {
-		$h_span = intval($diff / 3600);
-		$m_diff = $diff % 3600;
-		if ($m_diff > 60) {
-			$m_span = intval($m_diff / 60);
-			return $h_span . ' 小时 ' . $m_span . ' 分钟前';
-		} else {
-			return $h_span . ' 小时前';
-		}
-	}
-	
-	if ($diff > 60) {
-		$span = floor($diff / 60);
-		$secs = $diff % 60;
-		if ($secs > 0) {
-			return $span . ' 分 ' . $secs . ' 秒前';
-		} else {
-			return $span . ' 分钟前';
-		}
-	}
-	
-	return $diff . ' 秒前';
 }
 
 function rand_color($color_start = 0, $color_end = 3) {
