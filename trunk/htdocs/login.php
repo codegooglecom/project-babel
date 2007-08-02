@@ -6,6 +6,7 @@ require_once ('core/Settings.php');
 require_once ('core/Vocabularies.php');
 require_once ('core/Utilities.php');
 require_once ('core/Shortcuts.php');
+require_once('core/LanguageCore.php');
 
 // New age lightweight functions.
 require_once ('inc/check_login.php');
@@ -63,6 +64,10 @@ if (strtoupper($_SERVER['REQUEST_METHOD']) == 'POST') {
 		setcookie('babel_usr_password', '', 0, '/');
 	}
 }
+
+require_once(BABEL_PREFIX . '/lang/' . BABEL_LANG . '/lang.php');
+
+$lang = new lang();		
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 TRANSITIONAL//EN"
        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -88,25 +93,25 @@ switch ($rt['mode']) {
 <div id="main" align="center">
 
 	<div id="v2ex" align="left">
-		<div class="title"><?php echo Vocabulary::site_name ?> 登录</div>
+		<div class="title"><?php echo Vocabulary::site_name ?> <?php echo $lang->login(); ?></div>
 		<?php _v_hr() ?>
 		<table width="100%" cellpadding="5" cellspacing="0" class="login_form_t">
 			<form action="/login.php" method="post">
 			<tr>
-				<td width="80" align="right">用户名:</td>
+				<td width="80" align="right"><?php echo $lang->user_id(); ?>:</td>
 				<td align="left"><input name="usr" type="text" class="line" onfocus="this.style.borderColor = '#0C0'; this.style.backgroundColor = '#FFF';" onblur="this.style.borderColor = '#999'; this.style.backgroundColor = '#F5F5F5';" maxlength="100" /></td>
 			</tr>
 			<tr>
-				<td width="80" align="right">密码:</td>
+				<td width="80" align="right"><?php echo $lang->password(); ?>:</td>
 				<td align="left"><input name="usr_password" type="password" class="line" onfocus="this.style.borderColor = '#0C0'; this.style.backgroundColor = '#FFF';" onblur="this.style.borderColor = '#999'; this.style.backgroundColor = '#F5F5F5';" maxlength="32" /></td>
 			</tr>
 			<tr>
 				<td width="80"></td>
-				<td align="left"><span class="tip"><a href="/passwd.vx">我忘记了密码</a> &nbsp;|&nbsp; <a href="/signup.html">注册</a> &nbsp;|&nbsp; <a href="/">游客</a></span></td>
+				<td align="left"><span class="tip"><a href="/passwd.vx"><?php echo $lang->password_recovery(); ?></a> &nbsp;|&nbsp; <a href="/signup.html"><?php echo $lang->register(); ?></a> &nbsp;|&nbsp; <a href="/"><?php echo $lang->take_a_tour(); ?></a></span></td>
 			</tr>
 			<tr>
 				<td width="80"></td>
-				<td valign="middle"><input type="image" src="/img/graphite/login.gif" alt="登录" /></td>
+				<td valign="middle"><input type="image" src="/img/graphite/login_<?php echo BABEL_LANG ?>.gif" alt="<?php echo $lang->login(); ?>" /></td>
 			</tr>
 <?php
 if (isset($rt['return'])) {
@@ -157,10 +162,10 @@ if (isset($rt['return'])) {
 <body>
 <div id="main" align="center">
 <div id="v2ex" align="left">
-<div class="title"><?php echo Vocabulary::site_name ?> 登录成功</div>
+<div class="title"><?php echo $lang->signed_in(Vocabulary::site_name); ?></div>
 <?php
 _v_hr();
-echo('<div id="info">正在自动跳转到 <a href="/">' . Vocabulary::site_name . '</a> 首页，或者你可以 <a href="/">点击这里</a> 进行手动跳转</div>');
+echo('<div id="info">' . $lang->now_auto_redirecting(Vocabulary::site_name) . '</div>');
 ?>
 </div>
 
@@ -181,7 +186,7 @@ setTimeout('location.href = "/"', 300);
 <div id="main" align="center">
 
 	<div id="v2ex" align="left">
-		<div class="title"><?php echo Vocabulary::site_name ?> 登录</div>
+		<div class="title"><?php echo Vocabulary::site_name ?> <?php echo $lang->login(); ?></div>
 		<?php _v_hr() ?>
 <?php
 echo('<div id="info">');
@@ -197,20 +202,20 @@ echo('</div>');
 		<table width="100%" cellpadding="5" cellspacing="0" class="login_form_t">
 			<form action="/login.php" method="post">
 			<tr>
-				<td width="80" align="right">用户名:</td>
+				<td width="80" align="right"><?php echo $lang->user_id(); ?>:</td>
 				<td align="left"><input name="usr" type="text" class="line" onfocus="this.style.borderColor = '#0C0'; this.style.backgroundColor = '#FFF';" onblur="this.style.borderColor = '#999'; this.style.backgroundColor = '#F5F5F5';" maxlength="100" /></td>
 			</tr>
 			<tr>
-				<td width="80" align="right">密码:</td>
+				<td width="80" align="right"><?php echo $lang->password(); ?>:</td>
 				<td align="left"><input name="usr_password" type="password" class="line" onfocus="this.style.borderColor = '#0C0'; this.style.backgroundColor = '#FFF';" onblur="this.style.borderColor = '#999'; this.style.backgroundColor = '#F5F5F5';" maxlength="32" /></td>
 			</tr>
 			<tr>
 				<td width="80"></td>
-				<td align="left"><span class="tip"><a href="/passwd.vx">我忘记了密码</a> &nbsp;|&nbsp; <a href="/signup.html">注册</a> &nbsp;|&nbsp; <a href="/">游客</a></span></td>
+				<td align="left"><span class="tip"><a href="/passwd.vx"><?php echo $lang->password_recovery(); ?></a> &nbsp;|&nbsp; <a href="/signup.html"><?php echo $lang->register(); ?></a> &nbsp;|&nbsp; <a href="/"><?php echo $lang->take_a_tour(); ?></a></span></td>
 			</tr>
 			<tr>
 				<td width="80"></td>
-				<td valign="middle"><input type="image" src="/img/graphite/login.gif" alt="登录" /></td>
+				<td valign="middle"><input type="image" src="/img/graphite/login_<?php echo BABEL_LANG; ?>.gif" alt="<?php echo $lang->login(); ?>" /></td>
 			</tr>
 <?php
 if (isset($rt['return'])) {
@@ -248,16 +253,16 @@ if (isset($rt['return'])) {
 <div id="main" align="center">
 
 	<div id="v2ex" align="left">
-		<div class="title">你已经从 <?php echo Vocabulary::site_name ?> 登出</div>
+		<div class="title"><?php echo $lang->you_have_signed_out(Vocabulary::site_name); ?></div>
 		<?php _v_hr() ?>
 		<div id="logout">
-			<p>没有任何个人信息被留在你现在使用过的计算机上，请对你的隐私放心。</p>
-			<p><?php echo Vocabulary::site_name ?> 欢迎你随时再度访问！</p>
+			<p><?php echo $lang->privacy_ok(); ?></p>
+			<p><?php echo $lang->welcome_back_anytime(); ?></p>
 			<p>
-				<li><a href="/login">重新登录</a></li>
-				<li><a href="/">返回 <?php echo Vocabulary::site_name ?> 首页</a></li>
-				<li><a href="/new_features.html" target="_blank">新功能</a></li>
-				<li><a href="http://io.v2ex.com/v2ex-doc/index.html" target="_blank">帮助</a> <img src="/img/ext.png" align="absmiddle" /></li>
+				<li><a href="/login"><?php echo $lang->sign_in_again(); ?></a></li>
+				<li><a href="/"><?php echo $lang->return_home(Vocabulary::site_name); ?></a></li>
+				<li><a href="/new_features.html" target="_blank"><?php echo $lang->new_features(); ?></a></li>
+				<li><a href="http://io.v2ex.com/v2ex-doc/index.html" target="_blank"><?php echo $lang->help(); ?></a> <img src="/img/ext.png" align="absmiddle" /></li>
 				
 			</p>
 		</div>

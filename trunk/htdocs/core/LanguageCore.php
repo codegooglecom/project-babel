@@ -2,13 +2,26 @@
 interface Language {
 	public function lang();
 	public function login();
+	public function signed_in($site);
 	public function logout();
+	public function now_auto_redirecting($site);
+	public function sign_in_again();
+	public function you_have_signed_out($site);
+	public function privacy_ok();
+	public function welcome_back_anytime();
+	public function return_home($site);
+	public function home($site);
+	public function help();
+	public function new_features();
+	public function user_id();
+	public function password();
+	public function take_a_tour();
+	public function about($site);
 	public function copper($i);
 	public function register();
 	public function search();
 	public function settings();
 	public function password_recovery();
-	public function new_features();
 	public function timtowtdi();
 	public function reply();
 	public function login_and_reply();
