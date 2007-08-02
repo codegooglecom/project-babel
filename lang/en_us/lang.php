@@ -40,6 +40,14 @@ class lang implements Language {
 		return 'Return Home';
 	}
 	
+	public function shuffle_home() {
+		return 'Shuffle Front Page';
+	}
+	
+	public function remix_home() {
+		return 'Remix Front Page';
+	}
+	
 	public function home($site) {
 		return $site . ' Home';
 	}
@@ -66,6 +74,10 @@ class lang implements Language {
 	
 	public function about($site) {
 		return 'About ' . $site;
+	}
+	
+	public function rss() {
+		return 'RSS';
 	}
 	
 	public function copper($i) {
@@ -106,8 +118,78 @@ class lang implements Language {
 		return 'Search';
 	}
 	
+	public function ref_search() {
+		return 'References Search';
+	}
+	
+	public function tools() {
+		return 'Tools';
+	}
+	
+	public function members_total() {
+		return 'Members Total';
+	}
+	
+	public function discussions() {
+		return 'Discussions';
+	}
+	
+	public function favorites() {
+		return 'Favorites';
+	}
+	
+	public function Savepoints() {
+		return 'Savepoints';
+	}
+	
+	public function ing_updates() {
+		return 'Ing Updates';
+	}
+	
+	public function weblogs() {
+		return 'Weblogs';
+	}
+	
+	public function online_total() {
+		return 'Online Total';
+	}
+	
+	public function anonymous() {
+		return 'Anonymous';
+	}
+	
+	public function registered() {
+		return 'Registered';
+	}
+	
+	public function system_status() {
+		return 'System Status';
+	}
+	
+	public function online_count($i) {
+		return $i . ' Online';
+	}
+	
+	public function session_count($i) {
+		return '' . $i . ' Pages Visted';
+	}
+	
+	
+	
+	public function login_history() {
+		return 'Login History';
+	}
+	
+	public function upload_portrait() {
+		return 'Upload Portrait';
+	}
+	
 	public function settings() {
 		return 'Settings';
+	}
+	
+	public function set_location() {
+		return 'Set Location';
 	}
 	
 	public function password_recovery() {
@@ -186,6 +268,14 @@ class lang implements Language {
 		return 'Latest Topics';
 	}
 	
+	public function latest_replied() {
+		return 'Latest Replied';
+	}
+	
+	public function latest_unanswered() {
+		return 'Latest Unanswered';
+	}
+	
 	public function latest_members() {
 		return 'Latest Members';
 	}
@@ -202,12 +292,20 @@ class lang implements Language {
 		return 'More Hot Topics';
 	}
 	
+	public function member_show() {
+		return 'Member Show';
+	}
+	
 	public function create_new_topic() {
-		return 'Create new topic';
+		return 'Create New Topic';
+	}
+	
+	public function create_new_topic_in($title) {
+		return '<small>Create New Topic in ' . $title . '</small>';
 	}
 	
 	public function favorite_this_topic() {
-		return 'Favorite this topic';
+		return 'Favorite This Topic';
 	}
 	
 	public function be_the_first_one_to_reply() {

@@ -552,13 +552,13 @@ class Page {
 		echo('<li><a href="/" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $this->lang->home(Vocabulary::site_name) . '</a></li>');
 		echo('<li><div class="sep">&nbsp;</div></li>');
 		echo('<li><a href="/topic/latest.html" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $this->lang->latest_topics() . '</a></li>');
-		echo('<li><a href="/topic/answered/latest.html" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最新回复列表</a></li>');
-		echo('<li><a href="/topic/fresh.html" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最新 virgin 主题</a></li>');	
+		echo('<li><a href="/topic/answered/latest.html" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $this->lang->latest_replied() . '</a></li>');
+		echo('<li><a href="/topic/fresh.html" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $this->lang->latest_unanswered() . '</a></li>');	
 		if ($this->User->vxIsLogin()) {
 			echo('<li><div class="sep">&nbsp;</div></li>');
-			echo('<li><a href="/online/view.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $this->online_count . ' 人在线</a></li>');
+			echo('<li><a href="/online/view.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $this->lang->online_count($this->online_count) . '</a></li>');
 			if ($this->User->usr_id == 1) {
-				echo('<li><a href="/status.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;系统状态</a></li>');
+				echo('<li><a href="/status.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $this->lang->system_status() . '</a></li>');
 			}
 		} else {
 			echo('<li><div class="sep">&nbsp;</div></li>');
@@ -594,20 +594,20 @@ class Page {
 				echo('<li><a href="/bit" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/control_equalizer.png" align="absmiddle" border="0" /> BIT</a></li>');
 			}
 			echo('<li><a href="/topic/archive/user/' . urlencode($this->User->usr_nick) . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/comments.png" align="absmiddle" border="0" /> ' . $this->lang->my_topics() . '</a></li>');
-			echo('<li><a href="/topic/favorite.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/star.png" align="absmiddle" border="0" /> 我的收藏夹</a></li>');
-			echo('<li><a href="/expense/view.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/coins_delete.png" align="absmiddle" border="0" /> 消费记录</a></li>');
+			echo('<li><a href="/topic/favorite.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/star.png" align="absmiddle" border="0" /> ' . $this->lang->my_favorites() . '</a></li>');
+			echo('<li><a href="/expense/view.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/coins_delete.png" align="absmiddle" border="0" /> ' . $this->lang->expenses() . '</a></li>');
 			if ($this->User->usr_money >= 1800) {
 				echo('<li><a href="/bank/transfer.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/coins.png" align="absmiddle" border="0" /> ' . $this->lang->send_money() . '</a></li>');
 			}
 			if ($_SESSION['hits'] > 0) {
-				echo('<li><a href="/session/stats.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/page_copy.png" align="absmiddle" border="0" /> 本次访问了 <small>' . $_SESSION['hits'] . '</small> 个页面</a></li>');
+				echo('<li><a href="/session/stats.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/page_copy.png" align="absmiddle" border="0" /> ' . $this->lang->session_count($_SESSION['hits']) . '</a></li>');
 			}
 			echo('<li><div class="sep">&nbsp;</div></li>');
 			echo('<li><a href="/geo/' . $this->User->usr_geo . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/world.png" align="absmiddle" border="0" /> ' . $this->Geo->map['name'][$this->User->usr_geo] . '</a></li>');
 			echo('<li><div class="sep">&nbsp;</div></li>');
-			echo('<li><a href="/user/modify.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;上传头像</a></li>');
+			echo('<li><a href="/user/modify.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $this->lang->upload_portrait() . '</a></li>');
 			echo('<li><a href="/user/modify.vx#settings" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $this->lang->settings() . '</a></li>');
-			echo('<li><a href="/user/move.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;修改我的所在地</a></li>');
+			echo('<li><a href="/user/move.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $this->lang->set_location() . '</a></li>');
 			if ($_favs = $this->cs->get('user_favs_' . $this->User->usr_id)) {
 				$_favs = unserialize($_favs);
 				if (count($_favs) > 0) {
@@ -641,7 +641,7 @@ class Page {
 					$nav .= '<li><a href="/go/' . $Node['nod_name'] . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . make_plaintext($Node['nod_title']) . '</a></li>';
 				}
 				$nav .= '<li><div class="sep">&nbsp;</div></li>';
-				$nav .= '<li><a href="/topic/new/' . $Section['nod_id'] . '.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在' . make_plaintext($Section['nod_title']) . '创建新主题</a></li>';
+				$nav .= '<li><a href="/topic/new/' . $Section['nod_id'] . '.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $this->lang->create_new_topic_in(make_plaintext($Section['nod_title'])) . '</a></li>';
 				$nav .= '</ul></li>';
 				$Section = null;
 			}
@@ -662,13 +662,13 @@ class Page {
 		echo('</li>');
 		echo('</ul></li>');
 		*/
-		echo('<li class="top"><a href="#" class="top">&nbsp;&nbsp;&nbsp;工具&nbsp;&nbsp;&nbsp;</a>');
+		echo('<li class="top"><a href="#" class="top">&nbsp;&nbsp;&nbsp;' . $this->lang->tools() . '&nbsp;&nbsp;&nbsp;</a>');
 		echo('<ul>');
-		echo('<li><a href="/search.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/zoom.png" border="0" align="absmiddle" /> 搜索</a></li>');
-		echo('<li><a href="/man.html" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/book_open.png" border="0" align="absmiddle" /> 参考文档搜索</a></li>');
+		echo('<li><a href="/search.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/zoom.png" border="0" align="absmiddle" /> ' . $this->lang->search() . '</a></li>');
+		echo('<li><a href="/man.html" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/book_open.png" border="0" align="absmiddle" /> ' . $this->lang->ref_search() . '</a></li>');
 		echo('<li><div class="sep">&nbsp;</div></li>');
-		echo('<li><a href="/home/style/shuffle.html" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/arrow_switch.png" border="0" align="absmiddle" /> Shuffle 首页</a></li>');
-		echo('<li><a href="/home/style/remix.html" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/arrow_rotate_anticlockwise.png" border="0" align="absmiddle" /> Remix 首页</a></li>');
+		echo('<li><a href="/home/style/shuffle.html" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/arrow_switch.png" border="0" align="absmiddle" /> ' . $this->lang->shuffle_home() . '</a></li>');
+		echo('<li><a href="/home/style/remix.html" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/arrow_rotate_anticlockwise.png" border="0" align="absmiddle" /> ' . $this->lang->remix_home() . '</a></li>');
 		
 		/*
 		if (@BABEL_AT == 'topic_view') {
@@ -933,8 +933,8 @@ class Page {
 		
 		echo('<div class="menu_inner" align="left"><ul class="menu">');
 		echo('<li><img src="' . CDN_UI . 'img/icons/silk/zoom.png" align="absmiddle" />&nbsp;<a href="/search.vx">' . $this->lang->search() . '</a></li>');
-		echo('<li><img src="' . CDN_UI . 'img/icons/silk/feed.png" align="absmiddle" />&nbsp;<a href="' . BABEL_FEED_URL . '" target="_blank">RSS 种子输出</a></li>');
-		echo('<li><img src="' . CDN_UI . 'img/icons/silk/weather_sun.png" align="absmiddle" />&nbsp;<a href="/topic/fresh.html">最新 virgin 主题</a></li>');
+		echo('<li><img src="' . CDN_UI . 'img/icons/silk/feed.png" align="absmiddle" />&nbsp;<a href="' . BABEL_FEED_URL . '" target="_blank">' . $this->lang->rss() . '</a></li>');
+		echo('<li><img src="' . CDN_UI . 'img/icons/silk/weather_sun.png" align="absmiddle" />&nbsp;<a href="/topic/fresh.html">' . $this->lang->latest_unanswered() . '</a></li>');
 		echo('<li><img src="' . CDN_UI . 'img/icons/silk/award_star_gold_1.png" align="absmiddle" />&nbsp;<a href="/topic/top.html">' . $this->lang->top_topics() . '</a></li>');
 		if ($_module_new_members) {
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/user_add.png" align="absmiddle" />&nbsp;' . $this->lang->latest_members() . '<ul class="items">');
@@ -950,9 +950,9 @@ class Page {
 			echo('</ul></li>');
 		}
 		if ($_module_online) {
-			echo('<li><img src="' . CDN_UI . 'img/icons/silk/user_comment.png" align="absmiddle" />&nbsp;<a href="/online/view.vx">在线总数 <small>' . $this->online_count . '</small></a><ul class="items">');
-			echo('<li>游客 <small>' . $this->online_count_anon . '</small></li>');
-			echo('<li>注册会员 <small>' . $this->online_count_reg . '</small></li></ul></li>');
+			echo('<li><img src="' . CDN_UI . 'img/icons/silk/user_comment.png" align="absmiddle" />&nbsp;<a href="/online/view.vx">' . $this->lang->online_total() . ' <small>' . $this->online_count . '</small></a><ul class="items">');
+			echo('<li>' . $this->lang->anonymous() . ' <small>' . $this->online_count_anon . '</small></li>');
+			echo('<li>' . $this->lang->registered() . ' <small>' . $this->online_count_reg . '</small></li></ul></li>');
 		}
 		/* if ($_module_links) {
 			echo('<li><img src="' . CDN_IMG . 'pico_web.gif" align="absmiddle" />&nbsp;友情链接<ul class="items">');
@@ -963,15 +963,15 @@ class Page {
 			echo('</ul></li>');
 		} */
 		if ($_module_logins) {
-			echo('<li><img src="' . CDN_UI . 'img/icons/silk/user_go.png" align="absmiddle" />&nbsp;<a href="/user/logins.html">' . Vocabulary::term_userlogins . '</a></li>');
+			echo('<li><img src="' . CDN_UI . 'img/icons/silk/user_go.png" align="absmiddle" />&nbsp;<a href="/user/logins.html">' . $this->lang->login_history() . '</a></li>');
 		}
 		if ($_module_stats) {
-			echo('<li><img src="' . CDN_UI . 'img/icons/silk/user_gray.png" align="absmiddle" />&nbsp;<a href="/who/join.html">注册会员总数</a> <a href="/who/join.html" class="t"><small>' . $this->usr_count . '</small></a><ul class="items">');
-			echo('<li>讨论 <small>' . ($this->tpc_count + $this->pst_count) . '</small></li>');
-			echo('<li>收藏 <small>' . $this->fav_count . '</small></li>');
-			echo('<li>据点 <small>' . $this->svp_count . '</small></li>');
-			echo('<li><a href="/ing">印迹</a> <small>' . $this->ing_count . '</small></li>');
-			echo('<li><a href="/nexus">博客</a> <small>' . $this->blg_count . '</small></li>');
+			echo('<li><img src="' . CDN_UI . 'img/icons/silk/user_gray.png" align="absmiddle" />&nbsp;<a href="/who/join.html">' . $this->lang->members_total() . '</a> <a href="/who/join.html" class="t"><small>' . $this->usr_count . '</small></a><ul class="items">');
+			echo('<li>' . $this->lang->discussions() . ' <small>' . ($this->tpc_count + $this->pst_count) . '</small></li>');
+			echo('<li>' . $this->lang->favorites() . ' <small>' . $this->fav_count . '</small></li>');
+			echo('<li>' . $this->lang->savepoints() . ' <small>' . $this->svp_count . '</small></li>');
+			echo('<li><a href="/ing" class="regular">' . $this->lang->ing_updates() . '</a> <small>' . $this->ing_count . '</small></li>');
+			echo('<li><a href="/nexus" class="regular">' . $this->lang->weblogs() . '</a> <small>' . $this->blg_count . '</small></li>');
 			echo('</ul></li>');
 		}
 		if ($_module_extra_links) {
@@ -1000,9 +1000,6 @@ class Page {
 			echo('<script type="text/javascript" src="http://pub.mybloglog.com/comm2.php?mblID=' . MBL_ID . '&amp;c_width=160&amp;c_sn_opt=y&amp;c_rows=6&amp;c_img_size=h&amp;c_heading_text=Recent+V2EXers&amp;c_color_heading_bg=FFFFFF&amp;c_color_heading=999999&amp;c_color_link_bg=FFFFFF&amp;c_color_link=0033FF&amp;c_color_bottom_bg=FFFFFF"></script>');
 		}
 		echo('</div>');
-		
-		
-		
 		/*
 		echo('<script language="javascript" src="/js/awstats_misc_tracker.js" type="text/javascript"></script>
 <noscript><img src="/js/awstats_misc_tracker.js?nojs=y" height="0" width="0" border="0" style="display: none" alt="Made By Livid" /></noscript>');
@@ -2715,7 +2712,7 @@ class Page {
 	private function vxHomePortraits() {
 		$o = '';
 		
-		$o .= '<div class="blank" align="left"><img src="' . CDN_UI . 'img/icons/silk/group.png" align="absmiddle" /> 会员头像展示 ...';
+		$o .= '<div class="blank" align="left"><img src="' . CDN_UI . 'img/icons/silk/group.png" align="absmiddle" /> ' . $this->lang->member_show() . ' ...';
 		if ($_SESSION['babel_ua']['GECKO_DETECTED'] || $_SESSION['babel_ua']['KHTML_DETECTED'] || $_SESSION['babel_ua']['OPERA_DETECTED']) {
 			$hack_width = 'width="100%" ';
 		} else {
@@ -3364,7 +3361,7 @@ class Page {
 		if ($this->User->vxIsLogin()) {
 			echo('<div class="geo_home_entry_odd">&nbsp;&nbsp;&nbsp;&nbsp;<img src="/img/gt.gif" align="absmiddle" />&nbsp;你没有访问本讨论区的授权</div>');
 		} else {
-			echo('<div class="geo_home_entry_odd">&nbsp;&nbsp;&nbsp;&nbsp;<img src="/img/gt.gif" align="absmiddle" />&nbsp;你尚未登录，请先 <a href="/login"><img src="/img/graphite/login.gif" border="0" alt="' . $this->lang->login() . '" align="absmiddle" /></a></div>');
+			echo('<div class="geo_home_entry_odd">&nbsp;&nbsp;&nbsp;&nbsp;<img src="/img/gt.gif" align="absmiddle" />&nbsp;你尚未登录，请先 <a href="/login"><img src="/img/graphite/login_' . BABEL_LANG . '.gif" border="0" alt="' . $this->lang->login() . '" align="absmiddle" /></a></div>');
 		}
 		_v_hr();
 		echo('<img src="/img/pico_left.gif" align="absmiddle" /> <a href="/">返回首页</a>');
@@ -4151,7 +4148,7 @@ class Page {
 				if (strlen($rt['return']) > 0) {
 					echo('<input type="hidden" name="return" value="' . make_single_return($rt['return']) . '" />');
 				}
-				echo('<tr><td width="200" align="right">电子邮件或昵称</td><td width="200" align="left"><input type="text" maxlength="100" class="sl" name="usr" tabindex="1" /></td><td width="150" rowspan="2" valign="middle" align="right"><input type="image" src="' . CDN_IMG . 'graphite/login.gif" alt="' . Vocabulary::action_login . '" /></td></tr><tr><td width="200" align="right">密码</td><td align="left"><input type="password" maxlength="32" class="sl" name="usr_password" tabindex="2" /></td></tr></form></table></div>');
+				echo('<tr><td width="200" align="right">电子邮件或昵称</td><td width="200" align="left"><input type="text" maxlength="100" class="sl" name="usr" tabindex="1" /></td><td width="150" rowspan="2" valign="middle" align="right"><input type="image" src="' . CDN_IMG . 'graphite/login_' . BABEL_LANG . '.gif" alt="' . Vocabulary::action_login . '" /></td></tr><tr><td width="200" align="right">密码</td><td align="left"><input type="password" maxlength="32" class="sl" name="usr_password" tabindex="2" /></td></tr></form></table></div>');
 				echo('<div class="blank"><img src="' . CDN_IMG . 'ico_important.gif" align="absmiddle" class="ico" /><a href="/passwd.vx">忘记密码了？点这里找回你的密码</a></div>');
 				echo('<div class="blank"><img src="' . CDN_IMG . 'ico_tip.gif" align="absmiddle" class="ico" />会话有效时间为一个月，超过此时间之后你将需要重新登录</div>');
 				break;
@@ -8509,7 +8506,7 @@ google_color_url = "00CC00";
 			echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 			echo('<form action="/login.vx" method="post" id="Login">');
 			echo('<input type="hidden" name="return" value="/topic/view/' . $Topic->tpc_id . '.html" />');
-			echo('<tr><td width="200" align="right">电子邮件或昵称</td><td width="200" align="left"><input type="text" maxlength="100" class="sl" name="usr" tabindex="1" /></td><td width="150" rowspan="2" valign="middle" align="right"><input type="image" src="/img/graphite/login.gif" alt="' . Vocabulary::action_login . '" tabindex="3" /></td></tr><tr><td width="200" align="right">密码</td><td align="left"><input type="password" maxlength="32" class="sl" name="usr_password" tabindex="2" /></td></tr></form></table></div>');
+			echo('<tr><td width="200" align="right">电子邮件或昵称</td><td width="200" align="left"><input type="text" maxlength="100" class="sl" name="usr" tabindex="1" /></td><td width="150" rowspan="2" valign="middle" align="right"><input type="image" src="/img/graphite/login_' . BABEL_LANG . '.gif" alt="' . Vocabulary::action_login . '" tabindex="3" /></td></tr><tr><td width="200" align="right">密码</td><td align="left"><input type="password" maxlength="32" class="sl" name="usr_password" tabindex="2" /></td></tr></form></table></div>');
 		}
 		echo('<div class="light_odd" style="margin-bottom: 5px; " align="left">');
 		echo('<a href="#;" onclick="window.scrollTo(0,0);" class="t">回到顶部</a> | ');

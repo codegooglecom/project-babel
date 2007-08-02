@@ -40,6 +40,14 @@ class lang implements Language {
 		return $site . ' 첫페이지로 돌아가기';
 	}
 	
+	public function shuffle_home() {
+		return 'Shuffle Front Page';
+	}
+	
+	public function remix_home() {
+		return 'Remix Front Page';
+	}
+	
 	public function home($site) {
 		return $site . ' 첫페이지';
 	}
@@ -68,6 +76,10 @@ class lang implements Language {
 		return $site . ' 소개';
 	}
 	
+	public function rss() {
+		return 'RSS';
+	}
+	
 	public function copper($i) {
 		return '<small>' . $i . '</small> 동전';
 	}
@@ -80,8 +92,76 @@ class lang implements Language {
 		return '검색';
 	}
 	
+	public function ref_search() {
+		return 'References Search';
+	}
+	
+	public function tools() {
+		return 'Tools';
+	}
+	
+	public function members_total() {
+		return 'Members Total';
+	}
+	
+	public function discussions() {
+		return 'Discussions';
+	}
+	
+	public function favorites() {
+		return 'Favorites';
+	}
+	
+	public function Savepoints() {
+		return 'Savepoints';
+	}
+	
+	public function ing_updates() {
+		return 'Ing Updates';
+	}
+	
+	public function weblogs() {
+		return 'Weblogs';
+	}
+	
+	public function online_total() {
+		return 'Online Total';
+	}
+	
+	public function anonymous() {
+		return 'Anonymous';
+	}
+	
+	public function registered() {
+		return 'Registered';
+	}
+	
+	public function system_status() {
+		return 'System Status';
+	}
+	
+	public function online_count($i) {
+		return $i . ' Online';
+	}
+	
+	public function session_count($i) {
+		return '' . $i . ' Pages Visited';
+	}
+	
+	public function login_history() {
+		return 'Login History';
+	}
+	
+	public function upload_portrait() {
+		return 'Upload Portrait';
+	}
+	
 	public function settings() {
 		return '개인정보와 개인설정 변경';
+	}
+	
+	public function set_location() {
+		return 'Set Location';
 	}
 	
 	public function password_recovery() {
@@ -160,6 +240,14 @@ class lang implements Language {
 		return '최근 글';
 	}
 	
+	public function latest_replied() {
+		return 'Latest Replied';
+	}
+	
+	public function latest_unanswered() {
+		return 'Latest Unanswered';
+	}
+	
 	public function latest_members() {
 		return '최근 가입한 회원';
 	}
@@ -176,8 +264,16 @@ class lang implements Language {
 		return '더 많은 화제보기';
 	}
 	
+	public function member_show() {
+		return 'Member Show';
+	}
+	
 	public function create_new_topic() {
 		return '새글쓰기';
+	}
+	
+	public function create_new_topic_in($title) {
+		return '<small>Create New Topic in ' . $title . '</small>';
 	}
 	
 	public function favorite_this_topic() {

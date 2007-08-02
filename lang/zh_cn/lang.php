@@ -40,6 +40,14 @@ class lang implements Language {
 		return '返回 ' . $site . ' 首页';
 	}
 	
+	public function shuffle_home() {
+		return 'Shuffle 首页';
+	}
+	
+	public function remix_home() {
+		return 'Remix 首页';
+	}
+	
 	public function home($site) {
 		return $site . ' 首页';
 	}
@@ -68,6 +76,10 @@ class lang implements Language {
 		return '关于 ' . $site;
 	}
 	
+	public function rss() {
+		return 'RSS';
+	}
+	
 	public function copper($i) {
 		return '<small>' . $i . '</small> 铜币';
 	}
@@ -80,8 +92,76 @@ class lang implements Language {
 		return '搜索';
 	}
 	
+	public function ref_search() {
+		return '参考文档搜索';
+	}
+	
+	public function tools() {
+		return '工具';
+	}
+	
+	public function members_total() {
+		return '注册会员总数';
+	}
+	
+	public function discussions() {
+		return '讨论';
+	}
+	
+	public function favorites() {
+		return '收藏';
+	}
+	
+	public function Savepoints() {
+		return '据点';
+	}
+	
+	public function ing_updates() {
+		return '印迹';
+	}
+	
+	public function weblogs() {
+		return '博客';
+	}
+	
+	public function online_total() {
+		return '在线会员总数';
+	}
+	
+	public function anonymous() {
+		return '游客';
+	}
+	
+	public function registered() {
+		return '会员';
+	}
+	
+	public function system_status() {
+		return '系统状态';
+	}
+	
+	public function online_count($i) {
+		return $i . ' 人在线';
+	}
+	
+	public function session_count($i) {
+		return '本次访问了 <small>' . $i . '</small> 页';
+	}
+	
+	public function login_history() {
+		return '会员登录历史';
+	}
+	
+	public function upload_portrait() {
+		return '上传头像';
+	}
+	
 	public function settings() {
 		return '修改信息与设置';
+	}
+	
+	public function set_location() {
+		return '设置我的所在地';
 	}
 	
 	public function password_recovery() {
@@ -160,6 +240,14 @@ class lang implements Language {
 		return '最新主题';
 	}
 	
+	public function latest_replied() {
+		return '最新被回复主题';
+	}
+	
+	public function latest_unanswered() {
+		return '最新无回复主题';
+	}
+	
 	public function latest_members() {
 		return '最新注册会员';
 	}
@@ -176,8 +264,16 @@ class lang implements Language {
 		return '浏览更多最热话题';
 	}
 	
+	public function member_show() {
+		return '会员头像展示';
+	}
+	
 	public function create_new_topic() {
 		return '创建新主题';
+	}
+	
+	public function create_new_topic_in($title) {
+		return '在' . $title . '创建新主题';
 	}
 	
 	public function favorite_this_topic() {
