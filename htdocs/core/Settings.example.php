@@ -37,10 +37,6 @@ define('BABEL_DB_SCHEMATA', 'babel');
  */
 define('BABEL_PREFIX', '/www/babel');
 
-define('BABEL_WEBLOG_PREFIX', '/www/weblog');
-
-define('BABEL_WEBLOG_BUILD_INTERVAL', 10);
-
 /*
  *
  * You could choose from zh_cn, zh_tw and en_us now.
@@ -138,9 +134,12 @@ define('TN_PREFIX', 'http://v2blog.com/tproxy/tproxy.php?tag=');
 define('MAGPIE_CACHE_DIR', BABEL_PREFIX . '/cache/rss');
 define('MAGPIE_OUTPUT_ENCODING', 'UTF-8');
 
-/* Weblog */
-define('BABEL_WEBLOG_SITE_ROOT', 'blog.v2ex.com');
-define('BABEL_WEBLOG_SITE_STATIC', 'www.v2ex.com');
+/* Nexus */
+define('BABEL_WEBLOG_SITE', 'b-dev.v2ex.com');
+define('BABEL_WEBLOG_SITE_STATIC', 'v-dev.v2ex.com');
+define('BABEL_WEBLOG_PREFIX', '/www/weblog');
+define('BABEL_WEBLOG_WWWROOT', 'htdocs');
+define('BABEL_WEBLOG_BUILD_INTERVAL', 10);
 
 /* smarty */
 define('SMARTY_CACHING', false);
