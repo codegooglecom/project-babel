@@ -15,8 +15,15 @@ function vx_check_login() {
 	1 => empty
 	999 => unspecific */
 	$rt['usr_error'] = 0;
-	$rt['usr_error_msg'] = array(1 => '你忘记填写用户名了');
-	
+	switch (BABEL_LANG) {
+		case 'zh_cn':
+			$rt['usr_error_msg'] = array(1 => '你忘记填写用户名了');
+			break;
+		default:
+		case 'en_us':
+			$rt['usr_error_msg'] = array(1 => 'Please type your user ID');
+			break;
+	}
 	$rt['usr_password_value'] = '';
 	/* usr_password_error:
 	0 => no error
@@ -24,7 +31,15 @@ function vx_check_login() {
 	2 => mismatch
 	999 => unspecific */
 	$rt['usr_password_error'] = 0;
-	$rt['usr_password_error_msg'] = array(1 => '你忘记填写密码了', 2 => '名字或者密码有错误');
+	switch (BABEL_LANG) {
+		case 'zh_cn':
+			$rt['usr_password_error_msg'] = array(1 => '你忘记填写密码了', 2 => '名字或者密码有错误');
+			break;
+		default:
+		case 'en_us':
+			$rt['usr_password_error_msg'] = array(1 => 'Please type your password', 2 => 'User ID or password is wrong');
+			break;
+	}
 
 	if (isset($_POST['return'])) {
 		if (function_exists('get_magic_quotes_gpc')) {

@@ -1,91 +1,91 @@
 <?php
 class lang implements Language {
 	public function lang() {
-		return '简体中文';
+		return '한국어';
 	}
 	
 	public function login() {
-		return '登录';
+		return '로그인';
 	}
 	
 	public function signed_in($site) {
-		return $site . ' 登录成功';
+		return $site . ' 로그인 성공';
 	}
 	
 	public function logout() {
-		return '登出';
+		return '로그아웃';
 	}
 	
 	public function now_auto_redirecting($site) {
-		return '正在自动跳转到 <a href="/">' . $site . '</a> 首页，或者你可以 <a href="/">点击这里</a> 进行手动跳转';
+		return '<a href="/">' . $site . '</a> 첫페이지로 이동중입니다, 또는 <a href="/">여기</a>를 클릭하여 이동할수도 있습니다';
 	}
 	
 	public function sign_in_again() {
-		return '重新登录';
+		return '다시 로그인하기';
 	}
 	
 	public function you_have_signed_out($site) {
-		return '你已经从 ' . $site . ' 登出';
+		return $site . ' 에서 로그아웃 하실수 있습니다';
 	}
 	
 	public function privacy_ok() {
-		return '没有任何个人信息被留在你现在使用过的计算机上，请对你的隐私放心。';
+		return '모든 쿠키가 컴퓨터에서 삭제되였습니다.';
 	}
 	
 	public function welcome_back_anytime() {
-		return '欢迎随时回来！';
+		return '다시 돌아오기를 환영합니다！';
 	}
 	
 	public function return_home($site) {
-		return '返回 ' . $site . ' 首页';
+		return $site . ' 첫페이지로 돌아가기';
 	}
 	
 	public function home($site) {
-		return $site . ' 首页';
+		return $site . ' 첫페이지';
 	}
 	
 	public function help() {
-		return '帮助';
+		return '도움';
 	}
 	
 	public function new_features() {
-		return '新功能介绍';
+		return '새 기능소개';
 	}
 	
 	public function user_id() {
-		return '用户名';
+		return '이름';
 	}
 	
 	public function password() {
-		return '密码';
+		return '페스워드';
 	}
 	
 	public function take_a_tour() {
-		return '游客';
+		return '손님';
 	}
 	
 	public function about($site) {
-		return '关于 ' . $site;
+		return $site . ' 소개';
 	}
 	
 	public function copper($i) {
-		return '<small>' . $i . '</small> 铜币';
+		return '<small>' . $i . '</small> 동전';
 	}
 	
 	public function register() {
-		return '注册';
+		return '회원가입';
 	}
 	
 	public function search() {
-		return '搜索';
+		return '검색';
 	}
 	
 	public function settings() {
-		return '修改信息与设置';
+		return '개인정보와 개인설정 변경';
 	}
 	
 	public function password_recovery() {
-		return '找回密码';
+		return '페스워드 다시설정';
 	}
 
 	public function timtowtdi() {
@@ -93,103 +93,103 @@ class lang implements Language {
 	}
 	
 	public function reply() {
-		return '回复主题';
+		return '댓글달기';
 	}
 	
 	public function login_and_reply() {
-		return '登录后回复主题';
+		return '로그인후 댓글달기';
 	}
 	
 	public function switch_description() {
-		return '切换简介显示';
+		return '소개 페이지로 이동';
 	}
 	
 	public function jump_to_replies() {
-		return '跳到回复';
+		return '댓글로 이동';
 	}
 	
 	public function hits($i) {
-		return $i . ' 次点击';
+		return $i . ' 번 클릭';
 	}
 	
 	public function posts($i) {
-		return $i . ' 篇回复';
+		return $i . ' 개 댓글';
 	}
 
 	public function expenses() {
-		return '消费记录';
+		return '소비기록';
 	}	
 	
 	public function my_profile($site) {
-		return '我的 ' . $site . ' 主页';
+		return '나의 ' . $site . ' 페이지';
 	}
 	
 	public function my_topics() {
-		return '我创建的所有主题';
+		return '나의 포스트';
 	}
 	
 	public function my_blogs() {
-		return '我的博客网志';
+		return '나의 블로그';
 	}
 	
 	public function my_messages() {
-		return '我的消息';
+		return '나의 쪼지';
 	}
 	
 	public function my_friends() {
-		return '我的朋友';
+		return '내친구';
 	}
 	
 	public function my_favorites() {
-		return '我的收藏夹';
+		return '나의 저장함';
 	}
 	
 	public function send_money() {
-		return '汇款';
+		return '송금';
 	}
 	
 	public function top_wealth() {
-		return '社区财富排行';
+		return '포럼부자';
 	}
 	
 	public function top_topics() {
-		return '最强主题排行';
+		return '최강포스트';
 	}
 	
 	public function latest_topics() {
-		return '最新主题';
+		return '최근 글';
 	}
 	
 	public function latest_members() {
-		return '最新注册会员';
+		return '최근 가입한 회원';
 	}
 	
 	public function join_discussion() {
-		return '参与讨论';
+		return '토론에 참가하기';
 	}
 	
 	public function browse_node($name, $title) {
-		return '浏览讨论区 <a href="' . urlencode($name) . '" class="regular">' . make_plaintext($title) . '</a>';
+		return '포럼 <a href="' . urlencode($name) . '" class="regular">' . make_plaintext($title) . '</a> 보기';
 	}
 	
 	public function more_hot_topics() {
-		return '浏览更多最热话题';
+		return '더 많은 화제보기';
 	}
 	
 	public function create_new_topic() {
-		return '创建新主题';
+		return '새글쓰기';
 	}
 	
 	public function favorite_this_topic() {
-		return '收藏本主题';
+		return '이 글 저장하기';
 	}
 	
 	public function be_the_first_one_to_reply() {
-		return '目前这个主题还没有回复，或许你可以帮楼主加盖一层？';
+		return '이 글에는 아직 댓글이없습니다,댓글 써주세요>.<';
 	}
 	
 	public function who_adds_me() {
-		return '谁把我加为好友？';
+		return '누가 나를 친구로 하고 있는가?';
 	}
 }
 ?>

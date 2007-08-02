@@ -1,15 +1,71 @@
 <?php
 class lang implements Language {
 	public function lang() {
-		return 'English';
+		return 'US English';
 	}
 	
 	public function login() {
 		return 'Sign In';
 	}
 	
+	public function signed_in($site) {
+		return 'You have signed in ' . $site;
+	}
+	
 	public function logout() {
 		return 'Sign Out';
+	}
+	
+	public function now_auto_redirecting($site) {
+		return '<small>Now auto redirecting to <a href="/">' . $site . '</a> home page, or you can <a href="/">click here</a> to manual redirect</small>';
+	}
+	
+	public function sign_in_again() {
+		return 'Sign In Again';
+	}
+	
+	public function you_have_signed_out($site) {
+		return 'You have signed out from ' . $site;
+	}
+	
+	public function privacy_ok() {
+		return '<small>No personal information is stored on this computer now.</small>';
+	}
+	
+	public function welcome_back_anytime() {
+		return 'Welcome back anytime!';
+	}
+	
+	public function return_home($site) {
+		return 'Return Home';
+	}
+	
+	public function home($site) {
+		return $site . ' Home';
+	}
+	
+	public function help() {
+		return 'Help';
+	}
+	
+	public function new_features() {
+		return 'New Features';
+	}
+	
+	public function user_id() {
+		return 'User ID';
+	}
+	
+	public function password() {
+		return 'Password';
+	}
+	
+	public function take_a_tour() {
+		return 'Take a Tour';
+	}
+	
+	public function about($site) {
+		return 'About ' . $site;
 	}
 	
 	public function copper($i) {
@@ -43,7 +99,7 @@ class lang implements Language {
 	}
 	
 	public function register() {
-		return 'Register';
+		return 'Sign Up';
 	}
 	
 	public function search() {
@@ -58,10 +114,6 @@ class lang implements Language {
 		return 'Password Recovery';
 	}
 	
-	public function new_features() {
-		return 'New Features';
-	}
-	
 	public function timtowtdi() {
 		return "There's more than one way to do it";
 	}
@@ -71,15 +123,15 @@ class lang implements Language {
 	}
 	
 	public function login_and_reply() {
-		return 'Sign in and reply';
+		return 'Sign In and Reply';
 	}
 	
 	public function switch_description() {
-		return 'Switch description';
+		return 'Switch Description';
 	}
 	
 	public function jump_to_replies() {
-		return 'Jump to replies';
+		return 'Jump to Replies';
 	}
 	
 	public function hits($i) {
@@ -95,51 +147,51 @@ class lang implements Language {
 	}
 	
 	public function my_profile($site) {
-		return 'My profile';
+		return 'My Profile';
 	}
 	
 	public function my_topics() {
-		return 'My topics';
+		return 'My Topics';
 	}
 	
 	public function my_blogs() {
-		return 'My weblogs';
+		return 'My Weblogs';
 	}
 	
 	public function my_messages() {
-		return 'My messages';
+		return 'My Messages';
 	}
 	
 	public function my_friends() {
-		return 'My friends';
+		return 'My Friends';
 	}
 	
 	public function my_favorites() {
-		return 'My favorites';
+		return 'My Favorites';
 	}
 	
 	public function send_money() {
-		return 'Send money';
+		return 'Send Money';
 	}
 	
 	public function top_wealth() {
-		return 'Top wealth';
+		return 'Top Wealth';
 	}
 	
 	public function top_topics() {
-		return 'Top topics';
+		return 'Top Topics';
 	}
 	
 	public function latest_topics() {
-		return 'Latest topics';
+		return 'Latest Topics';
 	}
 	
 	public function latest_members() {
-		return 'Latest members';
+		return 'Latest Members';
 	}
 	
 	public function join_discussion() {
-		return 'Join discussion';
+		return 'Join Discussion';
 	}
 	
 	public function browse_node($name, $title) {
@@ -147,7 +199,7 @@ class lang implements Language {
 	}
 	
 	public function more_hot_topics() {
-		return 'More hot topics';
+		return 'More Hot Topics';
 	}
 	
 	public function create_new_topic() {

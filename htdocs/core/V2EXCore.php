@@ -548,10 +548,10 @@ class Page {
 		echo('<ul id="nav_menu">');
 		echo('<li class="top"><a href="/" class="top">&nbsp;&nbsp;&nbsp;<strong>' . Vocabulary::site_name . '</strong>&nbsp;&nbsp;&nbsp;</a>');
 		echo('<ul>');
-		echo('<li><a href="/new_features.html" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;关于 ' . Vocabulary::site_name . '</a></li>');
-		echo('<li><a href="/" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . Vocabulary::site_name . ' 首页</a></li>');
+		echo('<li><a href="/new_features.html" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $this->lang->about(Vocabulary::site_name) . '</a></li>');
+		echo('<li><a href="/" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $this->lang->home(Vocabulary::site_name) . '</a></li>');
 		echo('<li><div class="sep">&nbsp;</div></li>');
-		echo('<li><a href="/topic/latest.html" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最新主题列表</a></li>');
+		echo('<li><a href="/topic/latest.html" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $this->lang->latest_topics() . '</a></li>');
 		echo('<li><a href="/topic/answered/latest.html" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最新回复列表</a></li>');
 		echo('<li><a href="/topic/fresh.html" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最新 virgin 主题</a></li>');	
 		if ($this->User->vxIsLogin()) {
