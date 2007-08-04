@@ -26,6 +26,9 @@ function vx_check_login() {
 		case 'pl_pl':
 			$rt['usr_error_msg'] = array(1 => 'Proszę wpisać nazwę (ID) użytkownika');
 			break;
+		case 'ko_kr':
+			$rt['usr_error_msg'] = array(1 => '이름을 적어주세요');
+			break;
 	}
 	$rt['usr_password_value'] = '';
 	/* usr_password_error:
@@ -44,6 +47,9 @@ function vx_check_login() {
 			break;
 		case 'pl_pl':
 			$rt['usr_password_error_msg'] = array(1 => 'Proszę wpisać hasło', 2 => 'Podana nazwa użytkownika lub hasło jest nieprawidłowe.');
+			break;
+		case 'ko_kr':
+			$rt['usr_password_error_msg'] = array(1 => '페스워드가 정확하지않습니다', 2 => '이름 또는 페스워드가 정확하지않습니다');
 			break;
 	}
 
