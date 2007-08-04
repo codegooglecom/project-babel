@@ -1403,21 +1403,22 @@ class Standalone {
 	}
 	
 	public function vxSetLang() {
-		if ($this->User->vxIsLogin()) {
-			if (isset($_GET['lang'])) {
-				$lang = strtolower(fetch_single($_GET['lang']));
-				include(BABEL_PREFIX . '/res/supported_languages.php');
-				if (in_array($lang, array_keys($_languages))) {
-					$sql = "UPDATE babel_user SET usr_lang = '{$lang}' WHERE usr_id = {$this->User->usr_id}";
-					mysql_unbuffered_query($sql);
-					return URL::vxToRedirect('/');
-				} else {
-					return URL::vxToRedirect('/');
-				}
-			} else {
+		if (isset($_GET['lang'])) {
+			$lang = strtolower(fetch_single($_GET['lang']));
+			include(BABEL_PREFIX . '/res/supported_languages.php');
+			if (!in_array($lang, array_keys($_languages))) {
+				$lang = BABEL_LANG_DEFAULT;
 			}
+			if ($this->User->vxIsLogin()) {
+				$sql = "UPDATE babel_user SET usr_lang = '{$lang}' WHERE usr_id = {$this->User->usr_id}";
+				mysql_unbuffered_query($sql);
+			}
+			$_SESSION['babel_lang'] = $lang;
+		}
+		if (isset($_SERVER['HTTP_REFERER'])) {
+			return header('Location: ' . $_SERVER['HTTP_REFERER']);
 		} else {
-			return URL::vxToRedirect('/');
+			return header('Location: /');
 		}
 	}
 	

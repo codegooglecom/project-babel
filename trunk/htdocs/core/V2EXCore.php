@@ -171,7 +171,20 @@ class Page {
 			$_SESSION['babel_debug_profiling'] = false;
 		}
 		$this->User = new User('', '', $this->db);
-		define('BABEL_LANG', $this->User->usr_lang);
+		if ($this->User->vxIsLogin()) {
+			define('BABEL_LANG', $this->User->usr_lang);
+		} else {
+			include(BABEL_PREFIX . '/res/supported_languages.php');
+			if (isset($_SESSION['babel_lang'])) {
+				if (in_array($_SESSION['babel_lang'], array_keys($_languages))) {
+					define('BABEL_LANG', $_SESSION['babel_lang']);
+				} else {
+					define('BABEL_LANG', BABEL_LANG_DEFAULT);
+				}
+			} else {
+				define('BABEL_LANG', BABEL_LANG_DEFAULT);
+			}
+		}
 		require_once(BABEL_PREFIX . '/lang/' . BABEL_LANG . '/lang.php');
 		$this->lang = new lang();
 		if ($this->User->vxIsLogin()) {
@@ -675,7 +688,14 @@ class Page {
 		*/
 		echo('</ul>');
 		echo('</li>');
-		
+		echo('<li class="top"><a href="#" class="top">&nbsp;&nbsp;&nbsp;Switch Language&nbsp;&nbsp;&nbsp;</a>');
+		echo('<ul>');
+		include(BABEL_PREFIX . '/res/supported_languages.php');
+		foreach ($_languages as $lang => $language) {
+			echo('<li><a href="/set/lang/' . $lang . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $language . '</a></li>');
+		}
+		echo('</ul>');
+
 		/* Gmail: */
 		/*
 		$client = new Zend_Http_Client('https://mail.google.com/mail/feed/atom');
@@ -699,7 +719,7 @@ class Page {
 		*/
 		echo('</ul>');
 		/*
-		echo(' <img src="' . CDN_UI . 'img/icons/flag/us.png" align="absmiddle" alt="American English" />');
+		echo(' <img src="' . CDN_UI . 'img/icons/flag/us.png" align="absmiddle" alt="American English" />');	
 		echo(' <img src="' . CDN_UI . 'img/icons/flag/cn.png" align="absmiddle" alt="Simplified Chinese" />');
 		echo(' <img src="' . CDN_UI . 'img/icons/flag/jp.png" align="absmiddle" alt="Japanese" />');
 		echo(' <img src="' . CDN_UI . 'img/icons/flag/fr.png" align="absmiddle" alt="French" />');

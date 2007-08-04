@@ -1,4 +1,15 @@
 <?php
+/* Now supported: */
+$_languages = array(
+	'zh_cn' => '简体中文',
+	'en_us' => 'US English',
+	'ja_jp' => '日本語',
+	'ko_kr' => '한국어',
+	'pl_pl' => 'Polski'
+);
+
+/* Plan to support:
+
 $_languages = array(
 	'zh_cn' => '简体中文',
 	'zh_tw' => '正体中文',
@@ -11,4 +22,6 @@ $_languages = array(
 	'pt_pt' => 'Português',
 	'pl_pl' => 'Polski'
 );
+
+*/
 ?>
