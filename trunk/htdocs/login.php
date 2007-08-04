@@ -3,6 +3,9 @@ define('V2EX_BABEL', 1);
 
 // Old school Project Babel stuff.
 require_once ('core/Settings.php');
+
+define('BABEL_LANG', 'en_us');
+
 require_once ('core/Vocabularies.php');
 require_once ('core/Utilities.php');
 require_once ('core/Shortcuts.php');

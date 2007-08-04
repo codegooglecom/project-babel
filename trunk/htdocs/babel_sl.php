@@ -203,5 +203,9 @@ switch ($m) {
 	case 'blog_theme_save':
 		$s->vxBlogThemeSave();
 		break;
+		
+	case 'set_lang':
+		$s->vxSetLang();
+		break;
 }
 ?>

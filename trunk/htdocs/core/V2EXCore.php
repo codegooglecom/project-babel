@@ -131,11 +131,7 @@ class Page {
 		}
 
 		check_env();
-		
-		require_once(BABEL_PREFIX . '/lang/' . BABEL_LANG . '/lang.php');
-		
-		$this->lang = new lang();
-		
+
 		if (@$this->db = mysql_connect(BABEL_DB_HOSTNAME . ':' . BABEL_DB_PORT, BABEL_DB_USERNAME, BABEL_DB_PASSWORD)) {
 			mysql_select_db(BABEL_DB_SCHEMATA);
 			mysql_query("SET NAMES utf8");
@@ -175,6 +171,9 @@ class Page {
 			$_SESSION['babel_debug_profiling'] = false;
 		}
 		$this->User = new User('', '', $this->db);
+		define('BABEL_LANG', $this->User->usr_lang);
+		require_once(BABEL_PREFIX . '/lang/' . BABEL_LANG . '/lang.php');
+		$this->lang = new lang();
 		if ($this->User->vxIsLogin()) {
 			$sql = "SELECT usr_id, usr_gender, usr_nick, usr_portrait FROM babel_user, babel_friend WHERE usr_id = frd_fid AND frd_uid = {$this->User->usr_id} ORDER BY frd_created ASC";
 			$rs = mysql_query($sql);
@@ -186,11 +185,9 @@ class Page {
 			$this->User->usr_friends = $_friends;
 		}
 		$this->Validator =  new Validator($this->db, $this->User);
-		
 		if (!isset($_SESSION['babel_ua'])) {
 			$_SESSION['babel_ua'] = $this->Validator->vxGetUserAgent();
 		}
-
 		$sql = 'DELETE FROM babel_online WHERE onl_lastmoved < ' . (time() - BABEL_USR_ONLINE_DURATION);
 		mysql_query($sql, $this->db);
 		$sql = "SELECT onl_hash FROM babel_online WHERE onl_hash = '" . mysql_real_escape_string(session_id()) . "'";
@@ -8167,20 +8164,21 @@ class Page {
 			echo('<br /><small class="na">disconnected</small>');
 		}
 		mysql_free_result($rs);
-		echo('</td><td valign="top" align="right" class="text">');
+		echo('</td><td valign="top" align="right" class="text"><span class="tip_i">');
 		if ($this->User->vxIsLogin()) {
 			echo('<a href="#replyForm" onclick="jumpReply();">' . $this->lang->reply() . '</a>');
 		} else {
-			echo('<a href="/login//topic/view/' . $Topic->tpc_id . '.html">' . $this->lang->login_and_reply() . '</a>');	
+			echo('<a href="/login//topic/view/' . $Topic->tpc_id . '.html" class="regular">' . $this->lang->login_and_reply() . '</a>');	
 		}
 		echo(' | ');
 		if (strlen($Topic->tpc_description) > 0) {
-			echo('<a href="#" onclick="switchDisplay(' . "'" . 'tpcBrief' . "'" . ');">' . $this->lang->switch_description() . '</a> | ');
+			echo('<a href="#" onclick="switchDisplay(' . "'" . 'tpcBrief' . "'" . ');" class="regular">' . $this->lang->switch_description() . '</a> | ');
 		}
-		echo('<a href="#reply">' . $this->lang->jump_to_replies() . '</a>');
+		echo('<a href="#reply" class="regular">' . $this->lang->jump_to_replies() . '</a>');
 		if ($Topic->tpc_posts > 0) {
 			echo('<small class="fade">(' . $Topic->tpc_posts . ')</small>');
 		}
+		echo('</span>');
 		echo('<div class="brief" id="tpcBrief">' . $Topic->tpc_description . '</div><table cellpadding="0" cellspacing="0" border="0"><tr><td width="40" height="30" class="lt"></td><td height="30" class="ct"></td><td width="40" height="30" class="rt"></td></tr><tr><td width="40" class="lm" valign="top"><img src="/img/td_arrow.gif" /></td><td class="origin" valign="top">');
 		if ($Fav > 0) {
 			echo(_vo_ico_silk('star') . '&nbsp;');
@@ -8357,17 +8355,17 @@ google_color_url = "00CC00";
 		}
 		$_SESSION['babel_page_topic'] = $p['cur'];
 		if ($Topic->tpc_reply_count > 0) {
-			echo('<div id="vxReplyTop">本主题共有 ' . $Topic->tpc_posts . ' 条回复 | <a href="#;" onclick="window.scrollTo(0,0);">回到顶部</a> | ');
+			echo('<div id="vxReplyTop"><span class="tip_i">本主题共有 ' . $Topic->tpc_posts . ' 条回复 | <a href="#;" onclick="window.scrollTo(0,0);" class="regular">回到顶部</a> | ');
 			if ($this->User->vxIsLogin()) {
-				echo('<a href="#replyForm" onclick="jumpReply();">回复主题</a>');
+				echo('<a href="#replyForm" onclick="jumpReply();" class="regular">回复主题</a>');
 			} else {
-				echo('<a href="/login//topic/view/' . $Topic->tpc_id . '.html">登录后回复主题</a>');	
+				echo('<a href="/login//topic/view/' . $Topic->tpc_id . '.html" class="regular">登录后回复主题</a>');	
 			}
 			if ($p['total'] > 1) {
 				echo('<br /><br />');
 				$this->vxDrawPages($p);
 			}
-			echo('</div>');
+			echo('</span></div>');
 			$i = 0;
 			while ($Reply = mysql_fetch_object($rs)) {
 				$i++;
@@ -8508,24 +8506,24 @@ google_color_url = "00CC00";
 			echo('<input type="hidden" name="return" value="/topic/view/' . $Topic->tpc_id . '.html" />');
 			echo('<tr><td width="200" align="right">电子邮件或昵称</td><td width="200" align="left"><input type="text" maxlength="100" class="sl" name="usr" tabindex="1" /></td><td width="150" rowspan="2" valign="middle" align="right"><input type="image" src="/img/graphite/login_' . BABEL_LANG . '.gif" alt="' . Vocabulary::action_login . '" tabindex="3" /></td></tr><tr><td width="200" align="right">密码</td><td align="left"><input type="password" maxlength="32" class="sl" name="usr_password" tabindex="2" /></td></tr></form></table></div>');
 		}
-		echo('<div class="light_odd" style="margin-bottom: 5px; " align="left">');
-		echo('<a href="#;" onclick="window.scrollTo(0,0);" class="t">回到顶部</a> | ');
+		echo('<div class="light_odd" style="margin-bottom: 5px;" align="left"><span class="tip_i">');
+		echo('<a href="#;" onclick="window.scrollTo(0,0);" class="regular">回到顶部</a> | ');
 		if (isset($_SESSION['babel_page_node_' . $Node->nod_id])) {
-			echo('<a href="/board/view/' . $Node->nod_id . '/' . $_SESSION['babel_page_node_' . $Node->nod_id] . '.html" class="t">' . make_plaintext($Node->nod_title) . '</a>');
+			echo('<a href="/board/view/' . $Node->nod_id . '/' . $_SESSION['babel_page_node_' . $Node->nod_id] . '.html" class="regular">' . make_plaintext($Node->nod_title) . '</a>');
 		} else {
 			$_SESSION['babel_page_node_' . $Node->nod_id] = 1;
-			echo('<a href="/go/' . $Node->nod_name . '" class="t">' . make_plaintext($Node->nod_title) . '</a>');
+			echo('<a href="/go/' . $Node->nod_name . '" class="regular">' . make_plaintext($Node->nod_title) . '</a>');
 		}
-		echo(' | <a href="/" class="t">回到首页</a>');
+		echo(' | <a href="/" class="regular">回到首页</a>');
 		if ($this->User->vxIsLogin()) {
-			echo(' | <a href="/user/modify.vx" class="t">修改信息与设置</a>');
+			echo(' | <a href="/user/modify.vx" class="regular">修改信息与设置</a>');
 		} else {
-			echo(' | <a href="/signup.html" class="t">注册</a> | <a href="/passwd.vx" class="t">忘记密码</a>');
+			echo(' | <a href="/signup.html" class="regular">注册</a> | <a href="/passwd.vx" class="regular">忘记密码</a>');
 		}
-		echo('</div>');
+		echo('</span></div>');
 		
 		if (isset($_SESSION['babel_hot'])) {
-			echo('<span class="tip_i">' . _vo_ico_silk('award_star_gold_1') . ' 当前热门主题&nbsp;&nbsp;<a href="/topic/view/' . $_SESSION['babel_hot']['id'] . '.html" class="t">' . make_plaintext($_SESSION['babel_hot']['title']) . '</a> ... ' . $_SESSION['babel_hot']['posts'] . ' 篇回复</span>');
+			echo('<span class="tip_i">' . _vo_ico_silk('award_star_gold_1') . ' 当前热门主题&nbsp;&nbsp;<a href="/topic/view/' . $_SESSION['babel_hot']['id'] . '.html" class="regular">' . make_plaintext($_SESSION['babel_hot']['title']) . '</a> ... ' . $_SESSION['babel_hot']['posts'] . ' 篇回复</span>');
 		}
 		echo('</div>');
 	}

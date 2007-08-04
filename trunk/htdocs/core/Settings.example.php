@@ -38,12 +38,23 @@ define('BABEL_DB_SCHEMATA', 'babel');
 define('BABEL_PREFIX', '/www/babel');
 
 /*
+ * UI: default language
+ * 
+ * Choose from:
  *
- * You could choose from zh_cn, zh_tw and en_us now.
- * But it's not complete yet.
+ * de_de
+ * en_us
+ * es_es
+ * fr_fr
+ * ja_jp
+ * ko_kr
+ * pl_pl
+ * pt_pt
+ * zh_cn
+ * zh_tw
  *
  */
-define('BABEL_LANG', 'zh_cn');
+define('BABEL_LANG_DEFAULT', 'en_us');
 
 if (($_SERVER['SERVER_ADDR'] == '::1') | ($_SERVER['SERVER_ADDR'] == '127.0.0.1') | ($_SERVER['SERVER_ADDR'] == '192.168.31.150')) {
 	define('BABEL_DEBUG', true);
