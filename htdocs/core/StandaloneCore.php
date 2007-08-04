@@ -88,6 +88,7 @@ class Standalone {
 		session_set_cookie_params(2592000);
 		session_start();
 		$this->User = new User('', '', $this->db);
+		define('BABEL_LANG', $this->User->usr_lang);
 		$this->Validator =  new Validator($this->db, $this->User);
 		if (!isset($_SESSION['babel_ua'])) {
 			$_SESSION['babel_ua'] = $this->Validator->vxGetUserAgent();
@@ -1398,6 +1399,25 @@ class Standalone {
 			}
 		} else {
 			return js_alert('你还没有登录，请登录之后再进行操作', URL::vxGetLogin(URL::vxGetBlogAdmin));
+		}
+	}
+	
+	public function vxSetLang() {
+		if ($this->User->vxIsLogin()) {
+			if (isset($_GET['lang'])) {
+				$lang = strtolower(fetch_single($_GET['lang']));
+				include(BABEL_PREFIX . '/res/supported_languages.php');
+				if (in_array($lang, array_keys($_languages))) {
+					$sql = "UPDATE babel_user SET usr_lang = '{$lang}' WHERE usr_id = {$this->User->usr_id}";
+					mysql_unbuffered_query($sql);
+					return URL::vxToRedirect('/');
+				} else {
+					return URL::vxToRedirect('/');
+				}
+			} else {
+			}
+		} else {
+			return URL::vxToRedirect('/');
 		}
 	}
 	

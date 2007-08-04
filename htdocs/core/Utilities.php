@@ -53,6 +53,20 @@ function check_node_permission($node_id, $User, $restricted) {
 	}
 }
 
+function get_accept_lang() {
+	$lang = array();
+	if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+		$_tmp = explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
+		foreach ($_tmp as $item) {
+			$__tmp = explode(';', $item);
+			$lang[] = str_replace('-', '_', $__tmp[0]);
+		}
+	} else {
+		$lang[] = BABEL_LANG_DEFAULT;
+	}
+	return $lang;
+}
+
 function get_mem_info() {
 	$info = file_get_contents('/proc/meminfo');
 	preg_match('/MemTotal:([\s]+)([0-9]+) kB/i', $info, $z);
