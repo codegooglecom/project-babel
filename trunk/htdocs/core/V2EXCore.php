@@ -8057,8 +8057,8 @@ class Page {
 		echo('<div id="main">');
 		echo('<div class="blank">');
 		_v_ico_map();
-		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_toptopic . '</div>');
-		echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_top.gif" align="absmiddle" align="" class="ico" />' . Vocabulary::term_toptopic . '</span></div>');
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->lang->top_topics() . '</div>');
+		echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_top.gif" align="absmiddle" align="" class="ico" />' . $this->lang->top_topics() . '</span></div>');
 		echo('<table width="100%" border="0" cellpadding="0" cellspacing="2" class="board">');
 		echo('<tr><td width="50%" align="left" valign="top" class="container"><table width="100%" cellpadding="0" cellspacing="0" border="0" class="drawer"><tr><td height="18" class="orange">最多回复主题 Top 50</td></tr>');
 		$sql = "SELECT tpc_id, tpc_pid, tpc_uid, tpc_title, tpc_hits, tpc_posts FROM babel_topic WHERE tpc_flag IN (0, 2) ORDER BY tpc_posts DESC LIMIT 50";

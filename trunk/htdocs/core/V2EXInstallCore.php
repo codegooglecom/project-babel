@@ -1182,6 +1182,7 @@ $i->vxSetupBoard('zfs', 'ZFS', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('svn', 'Subversion', 3, 3, 1, 2, '', '');
 	$i->vxSetupChannelByName('svn', 'http://feeds.feedburner.com/Submerged');
 $i->vxSetupBoard('cg', '计算机图形学', 3, 3, 1, 2, '', '');
+$i->vxSetupBoard('sdl', 'Simple DirectMedia Layer', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('imagemagick', 'ImageMagick', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('3g', '3G', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('rss', 'RSS', 3, 3, 1, 2, '', '');

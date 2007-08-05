@@ -214,9 +214,10 @@ class Node {
 						$max = count($_nodes_keys);
 					}
 					while ($i < $max) {
-						$i++;
+						
 						$css_color = rand_color();
 						$o .= '<a href="/go/' . $_nodes_names[$_nodes_keys[$i]] . '" class="var" style="color: ' . $css_color . '">' . make_plaintext($_nodes_titles[$_nodes_keys[$i]]) . '</a> <small>(' . $_nodes[$_nodes_keys[$i]] . ')</small> ';
+						$i++;
 					}
 				} else {
 					$o = '';
