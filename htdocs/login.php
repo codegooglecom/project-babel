@@ -1,10 +1,21 @@
 <?php
 define('V2EX_BABEL', 1);
 
-// Old school Project Babel stuff.
 require_once ('core/Settings.php');
 
-define('BABEL_LANG', 'en_us');
+session_start();
+
+include(BABEL_PREFIX . '/res/supported_languages.php');
+
+if (isset($_SESSION['babel_lang'])) {
+	if (in_array($_SESSION['babel_lang'], array_keys($_languages))) {
+		define('BABEL_LANG', $_SESSION['babel_lang']);
+	} else {
+		define('BABEL_LANG', BABEL_LANG_DEFAULT);
+	}
+} else {
+	define('BABEL_LANG', BABEL_LANG_DEFAULT);
+}
 
 require_once ('core/Vocabularies.php');
 require_once ('core/Utilities.php');
