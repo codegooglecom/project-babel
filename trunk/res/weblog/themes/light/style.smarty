@@ -1,0 +1,126 @@
+html, body {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+}
+
+body,ul,ol,dl,h1,h2,h3,h4,h5,h6,td,th,
+caption,pre,p,blockquote,input,textarea {
+    font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
+    font-size: 14px;
+    line-height: 1.3em;
+}
+
+blockquote {
+	margin: 10px 6px 10px 4px;
+	padding: 10px 10px 16px 6px;
+	border-left: 2px solid #EAEAEA;
+}
+
+h1,h2,h3,h4,h5,h6 { 
+  font-family: Helvetica, Arial, "Lucida Grande", Verdana, sans-serif;
+  clear: both;
+}
+
+#container {
+    background-color: #333;
+}
+
+div#main {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 600px;
+    background-color: #FFF;
+    border-right: 1px solid #A9A9A9;
+}
+
+div#main a { color: #125AA7; text-decoration: none; outline: none; }
+div#main a:hover { color: #000; }
+
+div#side {
+    position: absolute;
+    top: 60px;
+    left: 601px;
+    width: 240px;
+    color: #EAEAEA;
+}
+
+div#side a { color: #F0F0F0; text-decoration: none; outline: none; }
+div#side a:hover { color: #FFF; border-bottom: 1px solid #FFF; }
+
+h1#title {
+    font-weight: bolder;
+    font-size: 26px;
+    background-color: #FBFBFB;
+    border: 1px solid #F9F9F9;
+    margin: 10px;
+    padding: 10px 20px;
+    text-align: right;
+    color: #666;
+}
+
+h1#title a {
+	color: #666;
+}
+
+h1#title a:hover {
+	text-decoration: line-through;
+}
+
+h2.title {
+    margin: 10px 12px 0px 12px;
+    font-weight: bold;
+    font-size: 18px;
+    color: #125AA7;
+    padding: 2px 5px 2px 5px;
+    border-bottom: 1px solid #F5F5F5;
+}
+
+h3.label {
+    color: #FAFAFA;
+    margin: 1px 0 9px 10px;
+    padding: 2px 0 4px 10px;
+    border-bottom: 1px solid #555;
+}
+
+div.widget {
+    margin: 0 8px 10px 32px;
+}
+
+div.attribute {
+    font-size: 10px;
+    padding: 2px 12px 2px 12px;
+    color: #CCC;
+}
+
+div.entry {
+    margin: 0px 12px 0px 12px;
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-bottom: 20px;
+}
+
+img.icon {
+    vertical-align: middle;
+    margin: 0 4px;
+}
+
+div#designer {
+    margin: 2px 20px;
+    font-size: 10px;
+    text-align: right;
+}
+
+div#summary img {
+    float: left;
+    margin: 0 10px 10px 0;
+}
+
+div#ing {
+	text-align: right;
+	font-size: 12px;
+	margin: 20px 20px 10px;
+	color: #777;
+}

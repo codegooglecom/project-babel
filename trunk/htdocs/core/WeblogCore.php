@@ -368,12 +368,9 @@ class Weblog {
 				$_entries[$_entry['bge_id']]['bge_body_plain_rss'] = htmlspecialchars($_entries[$_entry['bge_id']]['bge_body_plain']);
 				if ($_entry['bge_tags'] == '') {
 					$_entries[$_entry['bge_id']]['bge_tags_plain'] = '';
-				} else {
-					$_entries[$_entry['bge_id']]['bge_tags_plain'] = Weblog::vxMakeTagLink($_entry['bge_tags']);
-				}
-				if ($_entry['bge_tags'] == '') {
 					$_entries[$_entry['bge_id']]['bge_tags_plain_comma'] = '';
 				} else {
+					$_entries[$_entry['bge_id']]['bge_tags_plain'] = Weblog::vxMakeTagLink($_entry['bge_tags']);
 					$_entries[$_entry['bge_id']]['bge_tags_plain_comma'] = Weblog::vxMakeTagLinkComma($_entry['bge_tags']);
 				}
 				$_entries[$_entry['bge_id']]['bge_published_plain_short'] = date('m/d/Y', $_entry['bge_published']);
