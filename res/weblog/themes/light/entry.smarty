@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<title>{$site_title}</title>
+<link href="/favicon.ico" rel="shortcut icon" />
+<link href="{$site_weblog_root}style.css" rel="stylesheet" type="text/css" />
+<link href="{$site_weblog_root}index.rss" rel="alternate" type="application/rss+xml" title="{$site_title}" />
+<script src="http://{$site_static}/weblog-static/common/weblog.js" type="text/javascript"> </script>
+</head>
+<body id="container">
+    <div id="side">
+        
+        <h3 class="label">Subscribe</h3>
+        <div class="widget">
+            <img src="{$ico_feed}" class="icon" /> <a href="{$site_weblog_root}index.rss">RSS 2.0</a>
+        </div>
+        
+        <h3 class="label">About Me</h3>
+        <div class="widget" id="summary">
+            <img src="http://{$site_babel}{$user_portrait_s}" align="left" style="margin: 0px 5px 0px 0px;" /><a href="http://{$site_babel}/u/{$user_nick_url}">{$user_nick_plain}</a><br />Since {$user_created_plain_short}<br /><br />{$user_brief_plain}
+        </div>
+        
+        <h3 class="label">Tags</h3>
+        <div class="widget">
+            {foreach from=$tags item=item key=key}
+			<a href="tag-{$item.bet_tag}.html">{$item.bet_tag}</a><br />
+            {/foreach}
+        </div>
+        
+        {if $license_show eq 1}
+        <h3 class="label">License</h3>
+        <div class="widget"><small>{$license_code}</small></div>
+		{/if}
+    </div>
+    <div id="main">
+        <div id="ing">
+            <script type="text/javascript">  babel_ing_prefix = "<small>Currently: </small>"; babel_ing_color_prefix = "#C0C0D0"; babel_ing_color_time = "#C0C0D0"; </script> <script type="text/javascript" src="http://{$site_babel}/js/ing/{$user_nick}"> </script>
+        </div>
+        
+        <h1 id="title"><a href="index.html" class="white">{$site_title}</a></h1>
+        
+        <h2 class="title">{$entry.bge_title}</h2>
+        <div class="attribute">
+            Posted by <a href="http://{$site_babel}/u/{$item.usr_nick_url}">{$entry.usr_nick_plain}</a> on {$entry.bge_published_plain} - <a href="#;" onclick="openComment({$item.bge_id});">{$entry.bge_comments} comments</a>{if $entry.bge_tags neq ''} - tags: {$entry.bge_tags_plain_comma}{/if}
+        </div>
+        <div class="entry">
+            {$entry.bge_body_plain}
+        </div>
+        
+        <div id="designer">Light theme designed by <a href="http://www.leechael.org/" target="_blank">Leechael</a>, this blog is proudly powered by <a href="http://nexus.v2ex.com/nexus/">Project Nexus</a>.</div>
+    </div>
+</body>
+</html>

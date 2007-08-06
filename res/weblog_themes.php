@@ -4,6 +4,7 @@ $_weblog_themes = array(
 	'purple',
 	'orange',
 	'dust',
-	'night'
+	'night',
+	'light'
 );
 ?>
