@@ -6,7 +6,8 @@ $_languages = array(
 	'de_de' => 'Deutsch',
 	'ja_jp' => '日本語',
 	'ko_kr' => '한국어',
-	'pl_pl' => 'Polski'
+	'pl_pl' => 'Polski',
+	'hr_hr' => 'Hrvatski'
 );
 
 /* Plan to support:
@@ -22,6 +23,7 @@ $_languages = array(
 	'ko_kr' => '한국어',
 	'pt_pt' => 'Português',
 	'pl_pl' => 'Polski'
+	'hr_hr' => 'Hrvatski'
 );
 
 */
