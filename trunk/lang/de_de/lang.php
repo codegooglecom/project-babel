@@ -152,8 +152,6 @@ class lang implements Language {
 		return '' . $i . ' Pages Visted';
 	}
 	
-	
-	
 	public function login_history() {
 		return 'Login History';
 	}
@@ -200,6 +198,14 @@ class lang implements Language {
 	
 	public function posts($i) {
 		return $i . ' Antworten';
+	}
+	
+	public function me() {
+		return 'Me';
+	}
+	
+	public function topic_creator() {
+		return 'Topic Creator';
 	}
 	
 	public function expenses() {
@@ -274,6 +280,10 @@ class lang implements Language {
 		return 'Hot Topics'; // TODO
 	}
 	
+	public function current_hottest_topic() {
+		return 'Current Hottest Topic';
+	}
+	
 	public function member_show() {
 		return 'Member Show';
 	}
@@ -294,8 +304,23 @@ class lang implements Language {
 		return 'Momentan wird das Thema noch nicht antwortet. Vielleicht möchten Sie es tun?';
 	}
 	
+	public function wanna_say_something() {
+		return 'Wanna say something?';
+	}
+	
+	public function you_can_only_answer_your_own() {
+		return 'You can only reply to your own topics in this *autistic* node.';
+	}
+	public function this_is_an_autistic_node() {
+		return 'This is an autistic node, you may only reply to your own topics.';
+	}
+	
 	public function who_adds_me() {
 		return '<small>wer hat mich in die Freundliste hinzugefügt?</small>';
+	}
+	
+	public function login_before_reply() {
+		return 'Please sign in before you reply to the topic';
 	}
 }
 ?>

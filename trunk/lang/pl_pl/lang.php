@@ -68,6 +68,10 @@ class lang implements Language {
 		return 'Hasło';
 	}
 	
+	public function email_or_nick() {
+		return 'E-mail or Nickname';
+	}
+	
 	public function take_a_tour() {
 		return 'Powrót';
 	}
@@ -224,6 +228,14 @@ class lang implements Language {
 		return $i . ' odpowiedzi';
 	}
 	
+	public function me() {
+		return 'Me';
+	}
+	
+	public function topic_creator() {
+		return 'Topic Creator';
+	}
+	
 	public function expenses() {
 		return 'Koszty';
 	}
@@ -296,6 +308,10 @@ class lang implements Language {
 		return 'Hot Topics';
 	}
 	
+	public function current_hottest_topic() {
+		return 'Current Hottest Topic';
+	}
+	
 	public function member_show() {
 		return 'Member Show';
 	}
@@ -316,8 +332,23 @@ class lang implements Language {
 		return 'Brak odpowiedzi. Chcesz być pierwszy?';
 	}
 	
+	public function wanna_say_something() {
+		return 'Wanna say something?';
+	}
+	
+	public function you_can_only_answer_your_own() {
+		return 'You can only reply to your own topics in this *autistic* node.';
+	}
+	public function this_is_an_autistic_node() {
+		return 'This is an autistic node, you may only reply to your own topics.';
+	}
+	
 	public function who_adds_me() {
 		return '<small>Kto dodał mnie do przyjaciół?</small>';
+	}
+	
+	public function login_before_reply() {
+		return 'Please sign in first before you reply to the topic';
 	}
 }
 ?>

@@ -8454,10 +8454,10 @@ google_color_url = "00CC00";
 				echo('<a href="/u/' . urlencode($Reply->usr_nick) . '"><img src="' . $img_p . '" align="absmiddle" style="margin-right: 10px;" border="0" /></a>');
 				echo('<strong><a href="/u/' . urlencode($Reply->usr_nick) . '" style="color: ' . rand_color() . '" class="var">' . make_plaintext($Reply->usr_nick) . '</a></strong>');
 				if ($this->User->usr_id == $Reply->usr_id) {
-					echo(' <span class="tip_i">我</span>');
+					echo(' <span class="tip_i">' . $topic->me() . '</span>');
 				}
 				if ($Topic->usr_id == $Reply->usr_id) {
-					echo(' <span class="tip_i">楼主</span>');
+					echo(' <span class="tip_i">' . $this->lang->topic_creator() . '</span>');
 				}
 				echo(' <span class="tip_i"><a href="/geo/' . urlencode($Reply->usr_geo) . '" class="var">' . $this->Geo->map['name'][$Reply->usr_geo] . '</a></span>');
 				echo('<div style="margin-bottom: -5px;"></div>');
@@ -8472,19 +8472,19 @@ google_color_url = "00CC00";
 			}
 			if ($this->Validator->vxIsAutisticNode($Node->nod_id, $this->cs)) {
 				if ($this->User->usr_id == $Topic->tpc_uid) {
-					echo('<div id="vxReplyTip"><a name="replyForm" class="img"><img src="/img/spacer.gif" width="1" height="1" style="display: none;" /></a><span class="tip_i">这是一个自闭模式的讨论区，你可以且只能回复你自己创建的主题。</span></div>');
+					echo('<div id="vxReplyTip"><a name="replyForm" class="img"><img src="/img/spacer.gif" width="1" height="1" style="display: none;" /></a><span class="tip_i">' . $this->lang->you_can_only_answer_your_own() . '</span></div>');
 				} else {
-					echo('<div id="vxReplyTip"><a name="replyForm" class="img"><img src="/img/spacer.gif" width="1" height="1" style="display: none;" /></a><span class="tip_i">这是一个自闭模式的讨论区，你可能无法参与所有的主题。</span></div>');
+					echo('<div id="vxReplyTip"><a name="replyForm" class="img"><img src="/img/spacer.gif" width="1" height="1" style="display: none;" /></a><span class="tip_i">' . $this->lang->this_is_an_autistic_node() . '</span></div>');
 				}
 			} else {
-				echo('<div id="vxReplyTip"><a name="replyForm" class="img"><img src="/img/spacer.gif" width="1" height="1" style="display: none;" /></a><span class="tip_i">看完之后有话想说？那就帮楼主加盖一层吧！</span></div>');
+				echo('<div id="vxReplyTip"><a name="replyForm" class="img"><img src="/img/spacer.gif" width="1" height="1" style="display: none;" /></a><span class="tip_i">' . $this->lang->wanna_say_something() . '</span></div>');
 			}
 		} else {
 			if ($this->Validator->vxIsAutisticNode($Node->nod_id, $this->cs)) {
 				if ($this->User->usr_id == $Topic->tpc_uid) {
-					echo('<div id="vxReplyTip"><a name="replyForm" class="img"><img src="/img/spacer.gif" width="1" height="1" style="display: none;" /></a><span class="tip_i">这是一个自闭模式的讨论区，你可以且只能回复你自己创建的主题。</span></div>');
+					echo('<div id="vxReplyTip"><a name="replyForm" class="img"><img src="/img/spacer.gif" width="1" height="1" style="display: none;" /></a><span class="tip_i">' . $this->lang->you_can_only_answer_your_own() . '</span></div>');
 				} else {
-					echo('<div id="vxReplyTip"><a name="replyForm" class="img"><img src="/img/spacer.gif" width="1" height="1" style="display: none;" /></a><span class="tip_i">这是一个自闭模式的讨论区，你可能无法参与所有的主题。</span></div>');
+					echo('<div id="vxReplyTip"><a name="replyForm" class="img"><img src="/img/spacer.gif" width="1" height="1" style="display: none;" /></a><span class="tip_i">' . $this->lang->this_is_an_autistic_node() . '</span></div>');
 				}
 			} else {
 				echo('<div id="vxReplyTip"><a name="replyForm" class="img"><img src="/img/spacer.gif" width="1" height="1" style="display: none;" /></a><span class="tip_i">' . $this->lang->be_the_first_one_to_reply() . '</span></div>');
@@ -8520,7 +8520,7 @@ google_color_url = "00CC00";
 			echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 			echo('<form action="/login.vx" method="post" id="Login">');
 			echo('<input type="hidden" name="return" value="/topic/view/' . $Topic->tpc_id . '.html" />');
-			echo('<tr><td width="200" align="right">电子邮件或昵称</td><td width="200" align="left"><input type="text" maxlength="100" class="sl" name="usr" tabindex="1" /></td><td width="150" rowspan="2" valign="middle" align="right"><input type="image" src="/img/graphite/login_' . BABEL_LANG . '.gif" alt="' . Vocabulary::action_login . '" tabindex="3" /></td></tr><tr><td width="200" align="right">密码</td><td align="left"><input type="password" maxlength="32" class="sl" name="usr_password" tabindex="2" /></td></tr></form></table></div>');
+			echo('<tr><td width="200" align="right">' . $this->lang->email_or_nick() . '</td><td width="200" align="left"><input type="text" maxlength="100" class="sl" name="usr" tabindex="1" /></td><td width="150" rowspan="2" valign="middle" align="right"><input type="image" src="/img/graphite/login_' . BABEL_LANG . '.gif" alt="' . Vocabulary::action_login . '" tabindex="3" /></td></tr><tr><td width="200" align="right">' . $this->lang->password() . '</td><td align="left"><input type="password" maxlength="32" class="sl" name="usr_password" tabindex="2" /></td></tr></form></table></div>');
 		}
 		echo('<div class="light_odd" style="margin-bottom: 5px;" align="left"><span class="tip_i">');
 		echo('<a href="#;" onclick="window.scrollTo(0,0);" class="regular">回到顶部</a> | ');
@@ -8530,16 +8530,16 @@ google_color_url = "00CC00";
 			$_SESSION['babel_page_node_' . $Node->nod_id] = 1;
 			echo('<a href="/go/' . $Node->nod_name . '" class="regular">' . make_plaintext($Node->nod_title) . '</a>');
 		}
-		echo(' | <a href="/" class="regular">回到首页</a>');
+		echo(' | <a href="/" class="regular">' . $this->lang->return_home(Vocabulary::site_name) . '</a>');
 		if ($this->User->vxIsLogin()) {
-			echo(' | <a href="/user/modify.vx" class="regular">修改信息与设置</a>');
+			echo(' | <a href="/user/modify.vx" class="regular">' . $this->lang->settings() . '</a>');
 		} else {
-			echo(' | <a href="/signup.html" class="regular">注册</a> | <a href="/passwd.vx" class="regular">忘记密码</a>');
+			echo(' | <a href="/signup.html" class="regular">' . $this->lang->register() . '</a> | <a href="/passwd.vx" class="regular">' . $this->lang->password_recovery() . '</a>');
 		}
 		echo('</span></div>');
 		
 		if (isset($_SESSION['babel_hot'])) {
-			echo('<span class="tip_i">' . _vo_ico_silk('award_star_gold_1') . ' 当前热门主题&nbsp;&nbsp;<a href="/topic/view/' . $_SESSION['babel_hot']['id'] . '.html" class="regular">' . make_plaintext($_SESSION['babel_hot']['title']) . '</a> ... ' . $_SESSION['babel_hot']['posts'] . ' 篇回复</span>');
+			echo('<span class="tip_i">' . _vo_ico_silk('award_star_gold_1') . ' ' . $this->lang->current_hottest_topic() . '&nbsp;&nbsp;<a href="/topic/view/' . $_SESSION['babel_hot']['id'] . '.html" class="regular">' . make_plaintext($_SESSION['babel_hot']['title']) . '</a> ... ' . $this->lang->posts($_SESSION['babel_hot']['posts']) . '</span>');
 		}
 		echo('</div>');
 	}

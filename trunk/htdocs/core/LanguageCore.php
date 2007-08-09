@@ -50,6 +50,8 @@ interface Language {
 	public function jump_to_replies();
 	public function hits($i);
 	public function posts($i);
+	public function me();
+	public function topic_creator();
 	public function expenses();
 	public function my_profile($site);
 	public function my_topics();
@@ -68,11 +70,15 @@ interface Language {
 	public function browse_node($name, $title);
 	public function more_hot_topics();
 	public function hot_topics();
+	public function current_hottest_topic();
 	public function member_show();
 	public function create_new_topic();
 	public function create_new_topic_in($title);
 	public function favorite_this_topic();
 	public function be_the_first_one_to_reply();
+	public function wanna_say_something();
+	public function you_can_only_answer_your_own();
+	public function this_is_an_autistic_node();
 	public function who_adds_me();
 	public function login_before_reply();
 }
