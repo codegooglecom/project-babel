@@ -69,7 +69,7 @@ class lang implements Language {
 	}
 	
 	public function email_or_nick() {
-		return 'E-mail or Nickname';
+		return '電子メールかニックネーム';
 	}
 	
 	public function take_a_tour() {
@@ -129,23 +129,23 @@ class lang implements Language {
 	}
 	
 	public function online_total() {
-		return 'Online Total';
+		return 'オンラインの総計';
 	}
 	
 	public function anonymous() {
-		return 'Anonymous';
+		return '匿名';
 	}
 	
 	public function registered() {
-		return 'Registered';
+		return '会員登録する';
 	}
 	
 	public function system_status() {
-		return 'System Status';
+		return 'システムの状態';
 	}
 	
 	public function online_count($i) {
-		return $i . ' Online';
+		return $i . ' 人オンライン';
 	}
 	
 	public function session_count($i) {
@@ -157,7 +157,7 @@ class lang implements Language {
 	}
 	
 	public function upload_portrait() {
-		return 'Upload Portrait';
+		return '肖像アップロード';
 	}
 	
 	public function settings() {
@@ -198,6 +198,14 @@ class lang implements Language {
 	
 	public function posts($i) {
 		return $i . ' のレス';
+	}
+	
+	public function me() {
+		return '自分';
+	}
+	
+	public function topic_creator() {
+		return '記事の所有者';
 	}
 	
 	public function expenses() {
@@ -249,7 +257,7 @@ class lang implements Language {
 	}
 	
 	public function latest_unanswered() {
-		return 'Latest Unanswered';
+		return '最新テーマに返答していません';
 	}
 	
 	public function latest_members() {
@@ -269,7 +277,11 @@ class lang implements Language {
 	}
 	
 	public function hot_topics() {
-		return '';
+		return 'Hot Topics';
+	}
+	
+	public function current_hottest_topic() {
+		return 'Current Hottest Topic';
 	}
 	
 	public function member_show() {
@@ -292,12 +304,23 @@ class lang implements Language {
 		return 'またレスがありませんが、コメントしてあげましょう？';
 	}
 	
+	public function wanna_say_something() {
+		return 'この記事を読んだ後何か言いたい事がありますか。それならこの記事に投稿してください。';
+	}
+	
+	public function you_can_only_answer_your_own() {
+		return 'この掲示板は自閉的なモードです。あなたは自分で投稿した記事に投稿することしかできません。';
+	}
+	public function this_is_an_autistic_node() {
+		return 'この掲示板は自閉的なモードです。あなたはすべての記事に投稿することができません。';
+	}
+	
 	public function who_adds_me() {
 		return '誰に友人リストに登録された？';
 	}
 	
 	public function login_before_reply() {
-		return 'Please login before you reply to the topic'; // TODO
+		return '返答の前にあなたは登録をまず進めなければなりません';
 	}
 }
 ?>

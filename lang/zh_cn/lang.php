@@ -68,6 +68,10 @@ class lang implements Language {
 		return '密码';
 	}
 	
+	public function email_or_nick() {
+		return '电子邮件或昵称';
+	}
+	
 	public function take_a_tour() {
 		return '游客';
 	}
@@ -195,6 +199,14 @@ class lang implements Language {
 	public function posts($i) {
 		return $i . ' 篇回复';
 	}
+	
+	public function me() {
+		return '我';
+	}
+	
+	public function topic_creator() {
+		return '楼主';
+	}
 
 	public function expenses() {
 		return '消费记录';
@@ -268,6 +280,10 @@ class lang implements Language {
 		return '热门主题';
 	}
 	
+	public function current_hottest_topic() {
+		return '当前热门主题';
+	}
+	
 	public function member_show() {
 		return '会员头像展示';
 	}
@@ -288,6 +304,17 @@ class lang implements Language {
 		return '目前这个主题还没有回复，或许你可以帮楼主加盖一层？';
 	}
 	
+	public function wanna_say_something() {
+		return '看完之后有话想说？那就帮楼主加盖一层吧！';
+	}
+	
+	public function you_can_only_answer_your_own() {
+		return '这是一个自闭模式的讨论区，你可以且只能回复你自己创建的主题。';
+	}
+	public function this_is_an_autistic_node() {
+		return '这是一个自闭模式的讨论区，你可能无法参与所有的主题。';
+	}
+
 	public function who_adds_me() {
 		return '谁把我加为好友？';
 	}

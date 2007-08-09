@@ -68,6 +68,10 @@ class lang implements Language {
 		return 'Lozinka';
 	}
 	
+	public function email_or_nick() {
+		return 'E-mail or Nickname';
+	}
+	
 	public function take_a_tour() {
 		return 'Napravite turu';
 	}
@@ -224,6 +228,14 @@ class lang implements Language {
 		return $i . ' odgovora';
 	}
 	
+	public function me() {
+		return 'Me';
+	}
+	
+	public function topic_creator() {
+		return 'Topic Creator';
+	}
+	
 	public function expenses() {
 		return 'Trokovi';
 	}
@@ -292,6 +304,14 @@ class lang implements Language {
 		return 'Vie Aktualnih Tema';
 	}
 	
+	public function hot_topics() {
+		return 'Hot Topics';
+	}
+	
+	public function current_hottest_topic() {
+		return 'Current Hottest Topic';
+	}
+	
 	public function member_show() {
 		return 'Pogledajte Èlana';
 	}
@@ -312,8 +332,23 @@ class lang implements Language {
 		return 'Za sada nema odgvora. Da li æete Vi biti prvi?';
 	}
 	
+	public function wanna_say_something() {
+		return 'Wanna say something?';
+	}
+	
+	public function you_can_only_answer_your_own() {
+		return 'You can only reply to your own topics in this *autistic* node.';
+	}
+	public function this_is_an_autistic_node() {
+		return 'This is an autistic node, you may only reply to your own topics.';
+	}
+	
 	public function who_adds_me() {
 		return '<small>Tko me je dodao kao prijatelja?</small>';
+	}
+	
+	public function login_before_reply() {
+		return 'Please sign in first before you reply to the topic';
 	}
 }
 ?>
