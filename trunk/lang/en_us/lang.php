@@ -292,6 +292,10 @@ class lang implements Language {
 		return 'More Hot Topics';
 	}
 	
+	public function hot_topics() {
+		return 'Hot Topics';
+	}
+	
 	public function member_show() {
 		return 'Member Show';
 	}

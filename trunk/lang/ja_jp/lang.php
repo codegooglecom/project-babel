@@ -264,6 +264,10 @@ class lang implements Language {
 		return '人気トピックをみる';
 	}
 	
+	public function hot_topics() {
+		return '';
+	}
+	
 	public function member_show() {
 		return 'Member Show';
 	}

@@ -266,6 +266,10 @@ class lang implements Language {
 		return 'Heißeste Themen besuchen';
 	}
 	
+	public function hot_topics() {
+		return 'Hot Topics'; // TODO
+	}
+	
 	public function member_show() {
 		return 'Member Show';
 	}

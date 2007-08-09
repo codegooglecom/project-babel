@@ -17,7 +17,7 @@ class lang implements Language {
 	}
 	
 	public function now_auto_redirecting($site) {
-		return '<small>Upravo Vas preusmjeravamo na <a href="/">' . $site . '</a> poèetnu stranicu. Ako želite, kliknite <a href="/">ovdje</a> da bi ste se ruèno preusmjerili.</small>';
+		return '<small>Upravo Vas preusmjeravamo na <a href="/">' . $site . '</a> poÃ¨etnu stranicu. Ako Âželite, kliknite <a href="/">ovdje</a> da bi ste se ruÃ¨no preusmjerili.</small>';
 	}
 	
 	public function sign_in_again() {
@@ -29,23 +29,23 @@ class lang implements Language {
 	}
 	
 	public function privacy_ok() {
-		return '<small>Na ovom raèunalu sada nije spremljen nijedan osobni podatak.</small>';
+		return '<small>Na ovom raÃ¨unalu sada nije spremljen nijedan osobni podatak.</small>';
 	}
 	
 	public function welcome_back_anytime() {
-		return 'Bilo kada ste ponovno dobrodošli!';
+		return 'Bilo kada ste ponovno dobrodoÂšli!';
 	}
 	
 	public function return_home($site) {
-		return 'Vratite se na poèetnu stranicu';
+		return 'Vratite se na poÃ¨etnu stranicu';
 	}
 	
 	public function shuffle_home() {
-		return 'Razbacajte Poèetnu Stranicu';
+		return 'Razbacajte PoÃ¨etnu Stranicu';
 	}
 	
 	public function remix_home() {
-		return 'Pomješajte Poèetnu Stranicu';
+		return 'PomjeÂšajte PoÃ¨etnu Stranicu';
 	}
 	
 	public function home($site) {
@@ -53,7 +53,7 @@ class lang implements Language {
 	}
 	
 	public function help() {
-		return 'Pomoæ';
+		return 'PomoÃ¦';
 	}
 	
 	public function new_features() {
@@ -61,7 +61,7 @@ class lang implements Language {
 	}
 	
 	public function user_id() {
-		return 'Korisnièka indentifikacija';
+		return 'KorisniÃ¨ka indentifikacija';
 	}
 	
 	public function password() {
@@ -111,7 +111,7 @@ class lang implements Language {
 	}
 	
 	public function register() {
-		return 'Uèlanite Se';
+		return 'UÃ¨lanite Se';
 	}
 	
 	public function search() {
@@ -127,7 +127,7 @@ class lang implements Language {
 	}
 	
 	public function members_total() {
-		return 'Ukupni Broj Èlanova';
+		return 'Ukupni Broj Ãˆlanova';
 	}
 	
 	public function discussions() {
@@ -159,7 +159,7 @@ class lang implements Language {
 	}
 	
 	public function registered() {
-		return 'Uèlanjen';
+		return 'UÃ¨lanjen';
 	}
 	
 	public function system_status() {
@@ -171,7 +171,7 @@ class lang implements Language {
 	}
 	
 	public function session_count($i) {
-		return '' . $i . ' Stranica Posjeæeno';
+		return '' . $i . ' Stranica PosjeÃ¦eno';
 	}
 	
 	
@@ -185,7 +185,7 @@ class lang implements Language {
 	}
 	
 	public function settings() {
-		return 'Podešavanja';
+		return 'PodeÂšavanja';
 	}
 	
 	public function set_location() {
@@ -197,7 +197,7 @@ class lang implements Language {
 	}
 	
 	public function timtowtdi() {
-		return "Postoje više riješenja.";
+		return "Postoje viÂše rijeÂšenja.";
 	}
 	
 	public function reply() {
@@ -213,7 +213,7 @@ class lang implements Language {
 	}
 	
 	public function jump_to_replies() {
-		return 'Skoèite na odgovore';
+		return 'SkoÃ¨ite na odgovore';
 	}
 	
 	public function hits($i) {
@@ -225,7 +225,7 @@ class lang implements Language {
 	}
 	
 	public function expenses() {
-		return 'Troškovi';
+		return 'TroÂškovi';
 	}
 	
 	public function my_profile($site) {
@@ -253,7 +253,7 @@ class lang implements Language {
 	}
 	
 	public function send_money() {
-		return 'Pošaljite Novac';
+		return 'PoÂšaljite Novac';
 	}
 	
 	public function top_wealth() {
@@ -277,23 +277,23 @@ class lang implements Language {
 	}
 	
 	public function latest_members() {
-		return 'Zadnji Èlanovi';
+		return 'Zadnji Ãˆlanovi';
 	}
 	
 	public function join_discussion() {
-		return 'Pridružite se Raspravi';
+		return 'PridruÂžite se Raspravi';
 	}
 	
 	public function browse_node($name, $title) {
-		return 'Pretražite <a href="' . urlencode($name) . '" class="regular">' . make_plaintext($title) . '</a>';
+		return 'PretraÂžite <a href="' . urlencode($name) . '" class="regular">' . make_plaintext($title) . '</a>';
 	}
 	
 	public function more_hot_topics() {
-		return 'Više Aktualnih Tema';
+		return 'ViÂše Aktualnih Tema';
 	}
 	
 	public function member_show() {
-		return 'Pogledajte Èlana';
+		return 'Pogledajte Ãˆlana';
 	}
 	
 	public function create_new_topic() {
@@ -309,7 +309,7 @@ class lang implements Language {
 	}
 	
 	public function be_the_first_one_to_reply() {
-		return 'Za sada nema odgvora. Da li æete Vi biti prvi?';
+		return 'Za sada nema odgvora. Da li Ã¦ete Vi biti prvi?';
 	}
 	
 	public function who_adds_me() {
