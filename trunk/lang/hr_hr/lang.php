@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 class lang implements Language {
 	public function lang() {
 		return 'Hrvatski';
@@ -17,7 +17,7 @@ class lang implements Language {
 	}
 	
 	public function now_auto_redirecting($site) {
-		return '<small>Upravo Vas preusmjeravamo na <a href="/">' . $site . '</a> poèetnu stranicu. Ako elite, kliknite <a href="/">ovdje</a> da bi ste se ruèno preusmjerili.</small>';
+		return '<small>Upravo Vas preusmjeravamo na <a href="/">' . $site . '</a> početnu stranicu. Ako želite, kliknite <a href="/">ovdje</a> da bi ste se ručno preusmjerili.</small>';
 	}
 	
 	public function sign_in_again() {
@@ -29,23 +29,23 @@ class lang implements Language {
 	}
 	
 	public function privacy_ok() {
-		return '<small>Na ovom raèunalu sada nije spremljen nijedan osobni podatak.</small>';
+		return '<small>Na ovom računalu sada nije spremljen nijedan osobni podatak.</small>';
 	}
 	
 	public function welcome_back_anytime() {
-		return 'Bilo kada ste ponovno dobrodoli!';
+		return 'Bilo kada ste ponovno dobrodošli!';
 	}
 	
 	public function return_home($site) {
-		return 'Vratite se na poèetnu stranicu';
+		return 'Vratite se na početnu stranicu';
 	}
 	
 	public function shuffle_home() {
-		return 'Razbacajte Poèetnu Stranicu';
+		return 'Razbacajte Početnu Stranicu';
 	}
 	
 	public function remix_home() {
-		return 'Pomjeajte Poèetnu Stranicu';
+		return 'Pomješajte Početnu Stranicu';
 	}
 	
 	public function home($site) {
@@ -53,7 +53,7 @@ class lang implements Language {
 	}
 	
 	public function help() {
-		return 'Pomoæ';
+		return 'Pomoć';
 	}
 	
 	public function new_features() {
@@ -61,7 +61,7 @@ class lang implements Language {
 	}
 	
 	public function user_id() {
-		return 'Korisnièka indentifikacija';
+		return 'Korisnička indentifikacija';
 	}
 	
 	public function password() {
@@ -115,7 +115,7 @@ class lang implements Language {
 	}
 	
 	public function register() {
-		return 'Uèlanite Se';
+		return 'Učlanite Se';
 	}
 	
 	public function search() {
@@ -131,7 +131,7 @@ class lang implements Language {
 	}
 	
 	public function members_total() {
-		return 'Ukupni Broj Èlanova';
+		return 'Ukupni Broj Članova';
 	}
 	
 	public function discussions() {
@@ -163,7 +163,7 @@ class lang implements Language {
 	}
 	
 	public function registered() {
-		return 'Uèlanjen';
+		return 'Učlanjen';
 	}
 	
 	public function system_status() {
@@ -175,10 +175,8 @@ class lang implements Language {
 	}
 	
 	public function session_count($i) {
-		return '' . $i . ' Stranica Posjeæeno';
+		return '' . $i . ' Stranica Posjećeno';
 	}
-	
-	
 	
 	public function login_history() {
 		return 'Povijest Prijava';
@@ -189,7 +187,7 @@ class lang implements Language {
 	}
 	
 	public function settings() {
-		return 'Podeavanja';
+		return 'Podešavanja';
 	}
 	
 	public function set_location() {
@@ -201,7 +199,7 @@ class lang implements Language {
 	}
 	
 	public function timtowtdi() {
-		return "Postoje vie rijeenja.";
+		return "Postoje više riješenja.";
 	}
 	
 	public function reply() {
@@ -217,7 +215,7 @@ class lang implements Language {
 	}
 	
 	public function jump_to_replies() {
-		return 'Skoèite na odgovore';
+		return 'Skočite na odgovore';
 	}
 	
 	public function hits($i) {
@@ -237,7 +235,7 @@ class lang implements Language {
 	}
 	
 	public function expenses() {
-		return 'Trokovi';
+		return 'Troškovi';
 	}
 	
 	public function my_profile($site) {
@@ -265,7 +263,7 @@ class lang implements Language {
 	}
 	
 	public function send_money() {
-		return 'Poaljite Novac';
+		return 'Pošaljite Novac';
 	}
 	
 	public function top_wealth() {
@@ -289,19 +287,19 @@ class lang implements Language {
 	}
 	
 	public function latest_members() {
-		return 'Zadnji Èlanovi';
+		return 'Zadnji Članovi';
 	}
 	
 	public function join_discussion() {
-		return 'Pridruite se Raspravi';
+		return 'Pridružite se Raspravi';
 	}
 	
 	public function browse_node($name, $title) {
-		return 'Pretraite <a href="' . urlencode($name) . '" class="regular">' . make_plaintext($title) . '</a>';
+		return 'Pretražite <a href="' . urlencode($name) . '" class="regular">' . make_plaintext($title) . '</a>';
 	}
 	
 	public function more_hot_topics() {
-		return 'Vie Aktualnih Tema';
+		return 'Više Aktualnih Tema';
 	}
 	
 	public function hot_topics() {
@@ -313,7 +311,7 @@ class lang implements Language {
 	}
 	
 	public function member_show() {
-		return 'Pogledajte Èlana';
+		return 'Pogledajte Člana';
 	}
 	
 	public function create_new_topic() {
@@ -329,7 +327,7 @@ class lang implements Language {
 	}
 	
 	public function be_the_first_one_to_reply() {
-		return 'Za sada nema odgvora. Da li æete Vi biti prvi?';
+		return 'Za sada nema odgvora. Da li ćete Vi biti prvi?';
 	}
 	
 	public function wanna_say_something() {
@@ -348,7 +346,7 @@ class lang implements Language {
 	}
 	
 	public function login_before_reply() {
-		return 'Please sign in first before you reply to the topic';
+		return 'Please sign in before you reply to the topic';
 	}
 }
 ?>
