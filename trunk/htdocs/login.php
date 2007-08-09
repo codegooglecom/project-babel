@@ -112,11 +112,11 @@ switch ($rt['mode']) {
 		<table width="100%" cellpadding="5" cellspacing="0" class="login_form_t">
 			<form action="/login.php" method="post">
 			<tr>
-				<td width="80" align="right"><?php echo $lang->user_id(); ?>:</td>
+				<td width="80" align="right"><?php echo $lang->user_id(); ?></td>
 				<td align="left"><input name="usr" type="text" class="line" onfocus="this.style.borderColor = '#0C0'; this.style.backgroundColor = '#FFF';" onblur="this.style.borderColor = '#999'; this.style.backgroundColor = '#F5F5F5';" maxlength="100" /></td>
 			</tr>
 			<tr>
-				<td width="80" align="right"><?php echo $lang->password(); ?>:</td>
+				<td width="80" align="right"><?php echo $lang->password(); ?></td>
 				<td align="left"><input name="usr_password" type="password" class="line" onfocus="this.style.borderColor = '#0C0'; this.style.backgroundColor = '#FFF';" onblur="this.style.borderColor = '#999'; this.style.backgroundColor = '#F5F5F5';" maxlength="32" /></td>
 			</tr>
 			<tr>
@@ -216,11 +216,11 @@ echo('</div>');
 		<table width="100%" cellpadding="5" cellspacing="0" class="login_form_t">
 			<form action="/login.php" method="post">
 			<tr>
-				<td width="80" align="right"><?php echo $lang->user_id(); ?>:</td>
+				<td width="80" align="right"><?php echo $lang->user_id(); ?></td>
 				<td align="left"><input name="usr" type="text" class="line" onfocus="this.style.borderColor = '#0C0'; this.style.backgroundColor = '#FFF';" onblur="this.style.borderColor = '#999'; this.style.backgroundColor = '#F5F5F5';" maxlength="100" /></td>
 			</tr>
 			<tr>
-				<td width="80" align="right"><?php echo $lang->password(); ?>:</td>
+				<td width="80" align="right"><?php echo $lang->password(); ?></td>
 				<td align="left"><input name="usr_password" type="password" class="line" onfocus="this.style.borderColor = '#0C0'; this.style.backgroundColor = '#FFF';" onblur="this.style.borderColor = '#999'; this.style.backgroundColor = '#F5F5F5';" maxlength="32" /></td>
 			</tr>
 			<tr>

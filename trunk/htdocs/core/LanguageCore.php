@@ -17,6 +17,7 @@ interface Language {
 	public function new_features();
 	public function user_id();
 	public function password();
+	public function email_or_nick();
 	public function take_a_tour();
 	public function about($site);
 	public function rss();
@@ -66,11 +67,13 @@ interface Language {
 	public function join_discussion();
 	public function browse_node($name, $title);
 	public function more_hot_topics();
+	public function hot_topics();
 	public function member_show();
 	public function create_new_topic();
 	public function create_new_topic_in($title);
 	public function favorite_this_topic();
 	public function be_the_first_one_to_reply();
 	public function who_adds_me();
+	public function login_before_reply();
 }
 ?>

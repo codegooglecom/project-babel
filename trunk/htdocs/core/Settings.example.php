@@ -134,6 +134,9 @@ define('MBL_ID', '');
 /* "x" in Pheedo's code */
 define('PHEEDO_X', '');
 
+/* Flickr API key */
+define('FLICKR_API_KEY', '');
+
 /* dict api */
 define('DICT_API_ENABLED', 'no');
 

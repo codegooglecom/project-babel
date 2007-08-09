@@ -68,6 +68,10 @@ class lang implements Language {
 		return 'Password';
 	}
 	
+	public function email_or_nick() {
+		return 'E-mail or Nickname';
+	}
+	
 	public function take_a_tour() {
 		return 'Take a Tour';
 	}
@@ -285,7 +289,7 @@ class lang implements Language {
 	}
 	
 	public function browse_node($name, $title) {
-		return 'Browse <a href="' . urlencode($name) . '" class="regular">' . make_plaintext($title) . '</a>';
+		return 'Browse <a href="/go/' . urlencode($name) . '" class="regular">' . make_plaintext($title) . '</a>';
 	}
 	
 	public function more_hot_topics() {
@@ -318,6 +322,10 @@ class lang implements Language {
 	
 	public function who_adds_me() {
 		return '<small>Who adds me as friend?</small>';
+	}
+	
+	public function login_before_reply() {
+		return 'Please sign in before you reply to the topic';
 	}
 }
 ?>

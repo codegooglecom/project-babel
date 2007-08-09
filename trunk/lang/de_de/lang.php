@@ -68,6 +68,10 @@ class lang implements Language {
 		return 'Passwort';
 	}
 	
+	public function email_or_nick() {
+		return 'E-mail or Nickname';
+	}
+	
 	public function take_a_tour() {
 		return 'Gast';
 	}
@@ -259,7 +263,7 @@ class lang implements Language {
 	}
 	
 	public function browse_node($name, $title) {
-		return 'kategorie <a href="' . urlencode($name) . '" class="regular">' . make_plaintext($title) . '</a>';
+		return 'kategorie <a href="/go/' . urlencode($name) . '" class="regular">' . make_plaintext($title) . '</a>';
 	}
 	
 	public function more_hot_topics() {

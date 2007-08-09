@@ -257,11 +257,15 @@ class lang implements Language {
 	}
 	
 	public function browse_node($name, $title) {
-		return '浏览讨论区 <a href="' . urlencode($name) . '" class="regular">' . make_plaintext($title) . '</a>';
+		return '浏览讨论区 <a href="/go/' . urlencode($name) . '" class="regular">' . make_plaintext($title) . '</a>';
 	}
 	
 	public function more_hot_topics() {
-		return '浏览更多最热话题';
+		return '浏览更多最热主题';
+	}
+	
+	public function hot_topics() {
+		return '热门主题';
 	}
 	
 	public function member_show() {
@@ -286,6 +290,10 @@ class lang implements Language {
 	
 	public function who_adds_me() {
 		return '谁把我加为好友？';
+	}
+	
+	public function login_before_reply() {
+		return '在回复之前你需要先进行登录';
 	}
 }
 ?>

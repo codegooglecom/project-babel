@@ -285,7 +285,7 @@ class lang implements Language {
 	}
 	
 	public function browse_node($name, $title) {
-		return 'Przeglądaj <a href="' . urlencode($name) . '" class="regular">' . make_plaintext($title) . '</a>';
+		return 'Przeglądaj <a href="/go/' . urlencode($name) . '" class="regular">' . make_plaintext($title) . '</a>';
 	}
 	
 	public function more_hot_topics() {
