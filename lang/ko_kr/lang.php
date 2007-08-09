@@ -264,6 +264,10 @@ class lang implements Language {
 		return '더 많은 화제보기';
 	}
 	
+	public function hot_topics() {
+		return 'Hot Topics'; // TODO
+	}
+	
 	public function member_show() {
 		return 'Member Show';
 	}
