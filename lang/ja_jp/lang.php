@@ -68,6 +68,10 @@ class lang implements Language {
 		return 'パスワード';
 	}
 	
+	public function email_or_nick() {
+		return 'E-mail or Nickname';
+	}
+	
 	public function take_a_tour() {
 		return '匿名ユーザ';
 	}
@@ -257,7 +261,7 @@ class lang implements Language {
 	}
 	
 	public function browse_node($name, $title) {
-		return 'カテゴリをみる <a href="' . urlencode($name) . '" class="regular">' . make_plaintext($title) . '</a>';
+		return 'カテゴリをみる <a href="/go/' . urlencode($name) . '" class="regular">' . make_plaintext($title) . '</a>';
 	}
 	
 	public function more_hot_topics() {
@@ -290,6 +294,10 @@ class lang implements Language {
 	
 	public function who_adds_me() {
 		return '誰に友人リストに登録された？';
+	}
+	
+	public function login_before_reply() {
+		return 'Please login before you reply to the topic'; // TODO
 	}
 }
 ?>

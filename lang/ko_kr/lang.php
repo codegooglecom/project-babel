@@ -257,7 +257,7 @@ class lang implements Language {
 	}
 	
 	public function browse_node($name, $title) {
-		return '포럼 <a href="' . urlencode($name) . '" class="regular">' . make_plaintext($title) . '</a> 보기';
+		return '포럼 <a href="/go/' . urlencode($name) . '" class="regular">' . make_plaintext($title) . '</a> 보기';
 	}
 	
 	public function more_hot_topics() {

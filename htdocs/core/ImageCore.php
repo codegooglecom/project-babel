@@ -46,11 +46,13 @@ define("CM_LEFT_OR_TOP",1);           // Clipping method: left or top
 define("CM_MIDDLE",2);                // Clipping method: middle
 define("CM_RIGHT_OR_BOTTOM",3);       // Clipping method: right or bottom
 
+require_once('Zend/Service/Flickr.php');
+
 /* S Image class */
 
 class Image {
 	public function vxFlickrImageURL($text) {
-		$p_img = '/http\:\/\/farm([0-9]+)\.static\.flickr\.com\/([a-zA-Z0-9]*)\/([a-zA-Z0-9]*)\_([a-zA-Z0-9]*)\_m\.jpg/';
+		$p_img = '/http\:\/\/farm([0-9]+)\.static\.flickr\.com\/([a-zA-Z0-9]*)\/([a-zA-Z0-9]*)\_([a-zA-Z0-9]*)\_s\.jpg/';
 		preg_match($p_img, $text, $img);
 		if (intval($img[1]) == 1) {
 			$host = '68.142.213.135';
@@ -86,48 +88,37 @@ class Image {
 				break;
 		}
 		
-		$rss = "http://www.flickr.com/services/feeds/photos_public.gne?tags={$tag}&format=rss_200";
+		$Flickr = new Zend_Service_Flickr(FLICKR_API_KEY);
 		
-		$Flickr = fetch_rss($rss);
-		$c = count($Flickr->items);
-		if ($b > $c) {
-			$b = $c;
-		}
-		if ($c > 0) {
+		$_photos = $Flickr->tagSearch($tag);
+
+		if (count($_photos) > 0) {
 			$f = '';
 			$f .= '<tr><td align="left" class="hf" colspan="' . $colspan . '" style="border-top: 1px solid #EEE;">';
 			
-			$f .= '<a href="http://www.flickr.com/photos/tags/' . $tag . '" target="_blank"><img src="/img/flickr_logo.gif" border="0" align="absmiddle" /></a>&nbsp;&nbsp;&nbsp;<span class="tip_i">以下照片版权属于 Flickr 网站上照片的作者，并受法律保护。</span>';
+			$f .= '<a href="http://www.flickr.com/photos/tags/' . $tag . '" target="_blank"><img src="/img/flickr_logo.gif" border="0" align="absmiddle" /></a>&nbsp;&nbsp;&nbsp;<span class="tip_i">These photos are taken by various authors on <a href="http://www.flickr.com/" target="_blank" class="regular">Flickr</a> and sharing under a Creative Commons license.</span>';
 			$f .= '</td></tr>';
 			
 			$f .= '<tr><td align="left" class="hf" colspan="' . $colspan . '">';
-			for ($i = 0; $i < $b; $i++) {
-				$Photo = $Flickr->items[$i];
-				$url = Image::vxFlickrImageURL($Photo["media"]["text"]);
-				if (isset($Photo['media']['title'])) {
-					$f .= '<a href="' . $Photo['link'] . '" class="friend" target="_blank" title="' . make_single_return($Photo['media']['title']) . ' ~by ' . $Photo['media']['credit'] . '"><img src="' . $url['img'] . '" align="absmiddle" class="portrait" alt="' . make_single_return($Photo['media']['title']) . ' ~by ' . $Photo['media']['credit'] . '" /><br />';
-				} else {
-					$f .= '<a href="' . $Photo['link'] . '" class="friend" target="_blank" title="~by ' . $Photo['media']['credit'] . '"><img src="' . $url['img'] . '" align="absmiddle" class="portrait" alt="~by ' . $Photo['media']['credit'] . '" /><br />';
+			$i = 0;
+			foreach ($_photos as $Photo) {
+				$i++;
+				if ($i > $b) {
+					break;
 				}
-				if (isset($Photo['media']['title'])) {
-					if (mb_strlen($Photo['media']['title'], 'UTF-8') > 10) {
-						$f .= mb_substr($Photo['media']['title'], 0, 10, 'UTF-8') . ' ...';
-					} else {
-						$f .= $Photo['media']['title'];
-					}
+				$url = Image::vxFlickrImageURL($Photo->Square->uri);
+				$f .= '<a href="' . $Photo->Square->clickUri . '" class="friend" target="_blank"><img src="' . $url["img"] . '" align="absmiddle" class="portrait" /><br /><small>';
+				if (mb_strlen($Photo->title, 'UTF-8') > 10) {
+					$f .= mb_substr($Photo->title, 0, 10, 'UTF-8') . ' ...';
 				} else {
-					if (strlen($Photo['media']['credit']) > 10) {
-						$f .= mb_substr($Photo['media']['credit'], 0, 10, 'UTF-8') . ' ...';
-					} else {
-						$f .= $Photo['media']['credit'];
-					}
+					$f .= $Photo->title;
 				}
-				$f .= '</a>';
+				$f .= '</small></a>';
 			}
 			
 			$f .= '</td></tr>';
 			
-			$f .= '<tr><td align="left" class="hf" colspan="' . $colspan . '"><span class="tip_i">感谢他们发现的生活的精彩瞬间！更多精彩照片请访问 <a href="http://www.flickr.com/" target="_blank">Flickr.com</a> <img src="/img/fico_flickr.gif" align="absmiddle" border="0" /></span></td></tr>';
+			$f .= '<tr><td align="left" class="hf" colspan="' . $colspan . '"><span class="tip_i">Thanks them for sharing these great moments, for more great shots please visit <a href="http://www.flickr.com/" target="_blank" class="regular">Flickr.com</a> <img src="/img/fico_flickr.gif" align="absmiddle" border="0" /></span></td></tr>';
 		} else {
 			$f = '';
 			$f .= '<tr><td align="left" class="hf" colspan="' . $colspan . '" style="border-top: 1px solid #EEE;">';

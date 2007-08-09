@@ -29,6 +29,9 @@ function vx_check_login() {
 		case 'ko_kr':
 			$rt['usr_error_msg'] = array(1 => '이름을 적어주세요');
 			break;
+		case 'ja_jp':
+			$rt['usr_error_msg'] = array(1 => 'ID を入カしてください');
+			break;
 	}
 	$rt['usr_password_value'] = '';
 	/* usr_password_error:
@@ -50,6 +53,9 @@ function vx_check_login() {
 			break;
 		case 'ko_kr':
 			$rt['usr_password_error_msg'] = array(1 => '페스워드가 정확하지않습니다', 2 => '이름 또는 페스워드가 정확하지않습니다');
+			break;
+		case 'ja_jp':
+			$rt['usr_password_error_msg'] = array(1 => 'パスワードを入カしてください', 2 => '入力されたＩＤか、パスワードが間違っています');
 			break;
 	}
 

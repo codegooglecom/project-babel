@@ -1968,30 +1968,24 @@ class Page {
 	/* S module: Hot block */
 	
 	public function vxHot() {
-		$o = '<div id="main">';
-		
-		$o .= '<div class="blank" align="left">';
-		
-		$o .= _vo_ico_map();
-		
-		$o .= ' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_hottopic . '</div>';
-		
+		echo('<div id="main">');
+		echo('<div class="blank" align="left">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->lang->hot_topics() . '</div>');
 		$sql = "SELECT tpc_id, tpc_title, tpc_posts, nod_id, nod_name, nod_title, usr_id, usr_nick, usr_portrait, usr_gender FROM babel_topic, babel_node, babel_user WHERE tpc_uid = usr_id AND tpc_flag IN (0, 2) AND tpc_pid = nod_id AND tpc_posts > 10 AND tpc_pid NOT IN " . BABEL_NODES_POINTLESS . " ORDER BY tpc_lasttouched DESC LIMIT 100";
-		
 		$rs = mysql_query($sql);
-		
-		while ($Hot = mysql_fetch_object($rs))  {
-			$img_p = $Hot->usr_portrait ? CDN_IMG . 'p/' . $Hot->usr_portrait . '_n.jpg' : CDN_IMG . 'p_' . $Hot->usr_gender . '_n.gif';
-			$o .= '<div class="blank" align="left">';
-			$o .= '<span class="text_large"><img src="' . $img_p . '" align="absmiddle" class="portrait" />&nbsp;<a href="/topic/view/' . $Hot->tpc_id . '.html" style="color: ' . rand_color() . '" class="var">' . make_plaintext($Hot->tpc_title) . '</a></span><span class="tip_i"><hr size="1" color="#EEE" style="color: #EEE; background-color: #EEE; height: 1px; border: 0;" />... <a href="/topic/view/' . $Hot->tpc_id . '.html#reply" class="t">' . $Hot->tpc_posts . ' 篇回复</a> | <a href="/topic/view/' . $Hot->tpc_id . '.html#replyForm" class="t">我要参与讨论</a> | 浏览讨论区 <a href="/go/' . $Hot->nod_name . '" class="t">' . $Hot->nod_title . '</a> | <a href="/topic/archive/user/' . $Hot->usr_nick . '" class="t">' . make_plaintext($Hot->usr_nick) . '</a> 的个人专辑';
-			$o .= '</span></div>';
+		$_topics = array();
+		while ($_topic = mysql_fetch_array($rs))  {
+			$_topics[] = $_topic;
 		}
-		
 		mysql_free_result($rs);
-		
-		$o .= '</div>';
-		
-		echo $o;
+		foreach ($_topics as $_topic) {
+			$img_p = $_topic['usr_portrait'] ? CDN_IMG . 'p/' . $_topic['usr_portrait'] . '_n.jpg' : CDN_IMG . 'p_' . $_topic['usr_gender'] . '_n.gif';
+			echo('<div class="blank" align="left">');
+			echo('<span class="text_large"><img src="' . $img_p . '" align="absmiddle" class="portrait" />&nbsp;<a href="/topic/view/' . $_topic['tpc_id'] . '.html" style="color: ' . rand_color() . '" class="var">' . make_plaintext($_topic['tpc_title']) . '</a></span><span class="tip_i"><hr size="1" color="#EEE" style="color: #EEE; background-color: #EEE; height: 1px; border: 0;" />... <a href="/topic/view/' . $_topic['tpc_id'] . '.html#reply" class="t">' . $this->lang->posts($_topic['tpc_posts']) . '</a> | <a href="/topic/view/' . $_topic['tpc_id'] . '.html#replyForm" class="t">' . $this->lang->join_discussion() . '</a> | ' . $this->lang->browse_node($_topic['nod_name'], $_topic['nod_title']) . ' | <a href="/topic/archive/user/' . urlencode($_topic['usr_nick']) . '" class="t">' . make_plaintext($_topic['usr_nick']) . '</a>');
+			echo('</span></div>');
+		}
+		echo('</div>');
 	}
 	
 	/* E module: Hot block */
@@ -2008,7 +2002,7 @@ class Page {
 		echo('<img src="/img/nexus.png" alt="NEXUS Weblogging: For Professional Bloggers" />');
 		_v_hr();
 		echo('<blockquote>');
-		echo('Nexus 是一个全新的 Weblogging 平台，静态构建方式使得 Nexus 具有超级优异的性能，同时 Nexus 还提供了大量的漂亮简洁的外观主题。一切都在进化中，每天。<a href="/blog/admin.vx" class="regular">现在就开始体验 Nexus 吧！</a>');
+		echo('Nexus is a new weblogging tool for you. <a href="/blog/admin.vx" class="regular">Experience</a> it now!');
 		echo('</blockquote>');
 		_v_hr();
 		echo('<h1 class="silver">Latest Updated Weblogs</h1>');
@@ -2263,7 +2257,7 @@ class Page {
 			$o .= '<div class="blank">';
 			$o .= '<a href="/feed/ing">' . _vo_ico_silk('feed', 'right') . '</a>';
 			$o .= _vo_ico_silk('hourglass');
-			$o .= ' 大家在做什么 ... <a href="/ing" class="var" style="color: ' . rand_color() . '">浏览更多更新</a>';
+			$o .= ' ING ... <a href="/ing" class="var" style="color: ' . rand_color() . '">浏览更多更新</a>';
 			if ($_SESSION['babel_ua']['GECKO_DETECTED'] || $_SESSION['babel_ua']['KHTML_DETECTED'] || $_SESSION['babel_ua']['OPERA_DETECTED']) {
 				$hack_width = 'width="100%" ';
 			} else {
@@ -2439,7 +2433,7 @@ class Page {
 			$l = '<div id="main">';
 			$l .= '<div class="blank" align="left">';
 			$l .= _vo_ico_map();
-			$l .= ' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_latesttopic . '</div>';
+			$l .= ' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->lang->latest_topics() . '</div>';
 			$l .= '<div class="blank"><img src="' . CDN_IMG . 'pico_fresh.gif" class="portrait" align="absmiddle" /> 所有讨论区最新的 100 个主题 ... ';
 			
 			if ($_SESSION['babel_ua']['GECKO_DETECTED'] || $_SESSION['babel_ua']['KHTML_DETECTED'] || $_SESSION['babel_ua']['OPERA_DETECTED']) {
@@ -2498,7 +2492,7 @@ class Page {
 			$l = '<div id="main">';
 			$l .= '<div class="blank" align="left">';
 			$l .= _vo_ico_map();
-			$l .= ' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_latest_answered_topic . '</div>';
+			$l .= ' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->lang->latest_replied() . '</div>';
 			$l .= '<div class="blank"><img src="' . CDN_IMG . 'pico_fresh.gif" class="portrait" align="absmiddle" /> 所有讨论区最新被回复的 100 个主题 ... ';
 			
 			if ($_SESSION['babel_ua']['GECKO_DETECTED'] || $_SESSION['babel_ua']['KHTML_DETECTED'] || $_SESSION['babel_ua']['OPERA_DETECTED']) {
@@ -2525,7 +2519,7 @@ class Page {
 				
 				$_o = $Fresh->tpc_posts ? '，' . $Fresh->tpc_posts . ' 篇回复' : '，尚无回复';
 				
-				$_o .= '，' . $Fresh->tpc_hits . ' 次点击';
+				$_o .= '，' . $this->lang->hits($Fresh->tpc_hits);
 				
 				$l = $l . $_o;
 				
@@ -6443,7 +6437,8 @@ class Page {
 					if ($p['total'] > 1) {
 					echo(' ... ');
 					}
-					echo('<img src="/img/icons/silk/feed.png" align="absmiddle" alt="RSS" /> <a href="/feed/board/' . $Node->nod_name . '.rss">RSS 种子输出</a></span>');
+					_v_ico_silk('feed');
+					echo(' <a href="/feed/board/' . $Node->nod_name . '.rss">RSS</a></span>');
 				}
 				_v_hr();
 				echo('</td></tr>');
@@ -6547,7 +6542,8 @@ class Page {
 					if ($p['total'] > 1) {
 					echo(' ... ');
 					}
-					echo('<img src="/img/icons/silk/feed.png" align="absmiddle" alt="RSS" /> <a href="/feed/board/' . $Node->nod_name . '.rss">RSS 种子输出</a></span>');
+					_v_ico_silk('feed');
+					echo(' <a href="/feed/board/' . $Node->nod_name . '.rss">RSS</a></span>');
 				}
 				echo('</td></tr>');
 			}
@@ -8520,7 +8516,7 @@ google_color_url = "00CC00";
 			_v_hr();
 			echo('<div class="light_odd" align="left"><span class="tip">');
 			_v_ico_silk('vcard');
-			echo(' 在回复之前你需要先进行登录</span>');
+			echo(' ' . $this->lang->login_before_reply() . '</span>');
 			echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 			echo('<form action="/login.vx" method="post" id="Login">');
 			echo('<input type="hidden" name="return" value="/topic/view/' . $Topic->tpc_id . '.html" />');
