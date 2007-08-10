@@ -979,6 +979,7 @@ $i->vxSetupBoard('qujing', '曲靖', 2, 2, 1, 2, '', '');
 $i->vxSetupBoard('taiyuan', '太原', 2, 2, 1, 2, '', '');
 $i->vxSetupBoard('shijiazhuang', '石家庄', 2, 2, 1, 2, '', '');
 $i->vxSetupBoard('wuhan', '武汉', 2, 2, 1, 2, '', '');
+$i->vxSetupBoard('xiangfan', '襄樊', 2, 2, 1, 2, '', '');
 $i->vxSetupBoard('tianjin', '天津', 2, 2, 1, 2, '', '');
 $i->vxSetupBoard('hongkong', '香港', 2, 2, 1, 2, '', '');
 $i->vxSetupBoard('macau', '澳门', 2, 2, 1, 2, '', '');
