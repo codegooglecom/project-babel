@@ -19,6 +19,8 @@ interface Language {
 	public function email();
 	public function password();
 	public function password_again();
+	public function new_password();
+	public function new_password_again();
 	public function gender();
 	public function gender_categories(); // return: array
 	public function confirmation_code();
@@ -88,5 +90,6 @@ interface Language {
 	public function this_is_an_autistic_node();
 	public function who_adds_me();
 	public function login_before_reply();
+	public function please_check();
 }
 ?>

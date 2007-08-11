@@ -34,6 +34,21 @@ if (!$User->vxIsLogin()) {
 	URL::vxToRedirect(URL::vxGetLogin('/dashboard'));
 }
 
+if ($User->vxIsLogin()) {
+	define('BABEL_LANG', $User->usr_lang);
+} else {
+	include(BABEL_PREFIX . '/res/supported_languages.php');
+	if (isset($_SESSION['babel_lang'])) {
+		if (in_array($_SESSION['babel_lang'], array_keys($_languages))) {
+			define('BABEL_LANG', $_SESSION['babel_lang']);
+		} else {
+			define('BABEL_LANG', BABEL_LANG_DEFAULT);
+		}
+	} else {
+		define('BABEL_LANG', BABEL_LANG_DEFAULT);
+	}
+}
+
 $_friends = array();
 $sql = "SELECT frd_fid FROM babel_friend WHERE frd_uid = {$User->usr_id}";
 $rs = mysql_query($sql);
