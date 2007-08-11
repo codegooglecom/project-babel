@@ -4114,7 +4114,7 @@ class Page {
 		_v_ico_map();
 		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->lang->register() . '</div>');
 		echo('<div class="blank" align="left">');
-		echo('<span class="text_large"><img src="' . CDN_IMG . 'ico_id.gif" align="absmiddle" class="home" />会员注册信息填写</span>');
+		echo('<span class="text_large"><img src="' . CDN_IMG . 'ico_id.gif" align="absmiddle" class="home" />' . Vocabulary::site_name . ' ' . $this->lang->register() . '</span>');
 		_v_hr();
 		echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 		echo('<form action="/user/create.vx" method="post" id="usrNew">');
@@ -4125,12 +4125,12 @@ class Page {
 		echo('<tr><td width="200" align="right">' . $this->lang->user_id() . '</td><td align="left"><input tabindex="2" type="text" maxlength="20" class="sl" name="usr_nick" /></td></tr>');
 		echo('<tr><td width="200" align="right">' . $this->lang->password() . '</td><td align="left"><input tabindex="3" type="password" maxlength="32" class="sl" name="usr_password" /></td></tr>');
 		echo('<tr><td width="200" align="right">' . $this->lang->password_again() . '</td><td align="left"><input tabindex="4" type="password" maxlength="32" class="sl" name="usr_confirm" /></td></tr>');
-		echo('<tr><td width="200" align="right" valign="top">性别</td><td align="left"><select tabindex="5" maxlength="20" size="6" name="usr_gender"><option value="0" selected="selected">未知</option><option value="1">男性</option><option value="2">女性</option><option value="5">女性改（变）为男性</option><option value="6">男性改（变）为女性</option><option value="9">未说明</option></select></td></tr>');
-		echo('<tr><td width="200" align="right">确认码</td><td align="left"><input tabindex="6" type="password" maxlength="32" class="sl" name="c" /></td></tr><tr><td width="200" align="right"></td><td align="left"><div class="important"><img src="/c/' . rand(1111,9999) . '.' . rand(1111,9999) . '.png" /><ol class="items"><li>请按照上图输入确认码</li><li>确认码不区分大小写</li><li>确认码中不包含数字</li><li>专为人类设计</li></ul></div></td></tr>');
+		echo('<tr><td width="200" align="right" valign="top">' . $this->lang->gender() . '</td><td align="left"><select tabindex="5" maxlength="20" size="6" name="usr_gender"><option value="0" selected="selected">未知</option><option value="1">男性</option><option value="2">女性</option><option value="5">女性改（变）为男性</option><option value="6">男性改（变）为女性</option><option value="9">未说明</option></select></td></tr>');
+		echo('<tr><td width="200" align="right">' . $this->lang->confirmation_code() . '</td><td align="left"><input tabindex="6" type="password" maxlength="32" class="sl" name="c" /></td></tr><tr><td width="200" align="right"></td><td align="left"><div class="important"><img src="/c/' . rand(1111,9999) . '.' . rand(1111,9999) . '.png" /><ol class="items">' . $this->lang->confirmation_code_tips() . '</ol></div></td></tr>');
 		echo('</form></table>');
 		_v_hr();
 		_v_ico_silk('information');
-		echo(' 点击“注册新会员”，即表示你完全同意我们的 <a href="/terms.vx" class="t">' . Vocabulary::term_terms . '</a> 和 <a href="/privacy.vx" class="t">' . Vocabulary::term_privacy . '</a>，并且你不厌恶也不会反对我们的 <a href="/community_guidelines.vx" class="t">社区指导原则</a></div>');
+		echo(' ' . $this->lang->register_agreement() . '</div>');
 		echo('</div>');
 	}
 	

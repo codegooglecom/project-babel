@@ -64,12 +64,40 @@ class lang implements Language {
 		return '用户名';
 	}
 	
+	public function email() {
+		return '电子邮件';
+	}
+	
 	public function password() {
 		return '密码';
 	}
 	
+	public function password_again() {
+		return '重复密码';
+	}
+	
+	public function gender() {
+		return '性别';
+	}
+	
+	public function gender_categories() {
+		return array();
+	}
+	
+	public function confirmation_code() {
+		return '确认码';
+	}
+	
+	public function confirmation_code_tips() {
+		return '<li>请按照上图输入确认码</li><li>确认码不区分大小写</li><li>确认码中不包含数字</li><li>专为人类设计</li>';
+	}
+	
 	public function email_or_nick() {
 		return '电子邮件或昵称';
+	}
+	
+	public function register_agreement() {
+		return '点击“注册新会员”，即表示你完全同意我们的 <a href="/terms.vx" class="regular">Terms of Use</a> 和 <a href="/privacy.vx" class="regular">Privacy Policy</a>，并且你不厌恶也不会反对我们的 <a href="/communtiy_guidelines.vx" class="regular">Community Guidelines</a>。';
 	}
 	
 	public function take_a_tour() {
