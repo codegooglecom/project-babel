@@ -76,8 +76,28 @@ class lang implements Language {
 		return 'Password Again';
 	}
 	
+	public function gender() {
+		return 'Gender';
+	}
+	
+	public function gender_categories() {
+		return array();
+	}
+	
+	public function confirmation_code() {
+		return 'Confirmation Code';
+	}
+	
+	public function confirmation_code_tips() {
+		return '<li>Please type what you read</li><li>Case insensitive</li><li>No numbers</li><li>Only for human</li>';
+	}
+	
 	public function email_or_nick() {
 		return 'E-mail or Nickname';
+	}
+	
+	public function register_agreement() {
+		return 'By clicking "Sign Up", you\'re agreeing to our <a href="/terms.vx" class="regular">terms of use</a>, <a href="/privacy.vx" class="regular">privacy policy</a> and <a href="/community_guidelines.vx" class="regular">community guidelines</a>.';
 	}
 	
 	public function take_a_tour() {

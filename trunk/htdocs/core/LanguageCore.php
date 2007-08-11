@@ -19,7 +19,12 @@ interface Language {
 	public function email();
 	public function password();
 	public function password_again();
+	public function gender();
+	public function gender_categories(); // return: array
+	public function confirmation_code();
+	public function confirmation_code_tips();
 	public function email_or_nick();
+	public function register_agreement();
 	public function take_a_tour();
 	public function about($site);
 	public function rss();
