@@ -64,6 +64,10 @@ class lang implements Language {
 		return 'Korisnička indentifikacija';
 	}
 	
+	public function email() {
+		return 'E-mail';
+	}
+	
 	public function password() {
 		return 'Lozinka';
 	}
