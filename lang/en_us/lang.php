@@ -76,12 +76,20 @@ class lang implements Language {
 		return 'Password Again';
 	}
 	
+	public function new_password() {
+		return 'New Password';
+	}
+	
+	public function new_password_again() {
+		return 'New Password Again';
+	}
+	
 	public function gender() {
 		return 'Gender';
 	}
 	
 	public function gender_categories() {
-		return array();
+		return array(0 => 'Unknown', 1 => 'Male', 2 => 'Female', 5 => 'Female changed to Male', 6 => 'Male changed to Female', 9 => 'Not to tell');
 	}
 	
 	public function confirmation_code() {
@@ -377,6 +385,10 @@ class lang implements Language {
 	
 	public function login_before_reply() {
 		return 'Please sign in before you reply to the topic';
+	}
+	
+	public function please_check() {
+		return 'Sorry, please check your input, something needs to be corrected';
 	}
 }
 ?>

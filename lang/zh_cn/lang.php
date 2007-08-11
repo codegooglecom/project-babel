@@ -81,7 +81,7 @@ class lang implements Language {
 	}
 	
 	public function gender_categories() {
-		return array();
+		return array(0 => '未知', 1 => '男性', 2 => '女性', 5 => '女性改（变）为男性', 6 => '男性改（变）为女性', 9 => '未说明');
 	}
 	
 	public function confirmation_code() {
@@ -349,6 +349,10 @@ class lang implements Language {
 	
 	public function login_before_reply() {
 		return '在回复之前你需要先进行登录';
+	}
+	
+	public function please_check() {
+		return '对不起，请检查一下你刚才的输入，有些错误需要解决';
 	}
 }
 ?>

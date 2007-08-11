@@ -4125,7 +4125,16 @@ class Page {
 		echo('<tr><td width="200" align="right">' . $this->lang->user_id() . '</td><td align="left"><input tabindex="2" type="text" maxlength="20" class="sl" name="usr_nick" /></td></tr>');
 		echo('<tr><td width="200" align="right">' . $this->lang->password() . '</td><td align="left"><input tabindex="3" type="password" maxlength="32" class="sl" name="usr_password" /></td></tr>');
 		echo('<tr><td width="200" align="right">' . $this->lang->password_again() . '</td><td align="left"><input tabindex="4" type="password" maxlength="32" class="sl" name="usr_confirm" /></td></tr>');
-		echo('<tr><td width="200" align="right" valign="top">' . $this->lang->gender() . '</td><td align="left"><select tabindex="5" maxlength="20" size="6" name="usr_gender"><option value="0" selected="selected">未知</option><option value="1">男性</option><option value="2">女性</option><option value="5">女性改（变）为男性</option><option value="6">男性改（变）为女性</option><option value="9">未说明</option></select></td></tr>');
+		echo('<tr><td width="200" align="right" valign="top">' . $this->lang->gender() . '</td><td align="left"><select tabindex="5" maxlength="20" size="6" name="usr_gender">');
+		$_gender_categories = $this->lang->gender_categories();
+		foreach ($_gender_categories as $gender_code => $gender) {
+			if ($gender_code == 0) {
+				echo('<option value="' . $gender_code . '" selected="selected">' . $gender . '</option>');
+			} else {
+				echo('<option value="' . $gender_code . '">' . $gender . '</option>');
+			}
+		}
+		echo('</select></td></tr>');
 		echo('<tr><td width="200" align="right">' . $this->lang->confirmation_code() . '</td><td align="left"><input tabindex="6" type="password" maxlength="32" class="sl" name="c" /></td></tr><tr><td width="200" align="right"></td><td align="left"><div class="important"><img src="/c/' . rand(1111,9999) . '.' . rand(1111,9999) . '.png" /><ol class="items">' . $this->lang->confirmation_code_tips() . '</ol></div></td></tr>');
 		echo('</form></table>');
 		_v_hr();
@@ -5053,52 +5062,52 @@ class Page {
 		echo('<div id="main">');
 		echo('<div class="blank">');
 		_v_ico_map();
-		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::action_signup . '</div>');
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->lang->register() . '</div>');
 
 		if ($rt['errors'] != 0) {
 			echo('<div class="blank" align="left">');
 			_v_ico_silk('exclamation');
-			echo(' 对不起，你刚才提交的信息里有些错误</span>');
+			echo(' ' . $this->lang->please_check() . '</span>');
 			_v_hr();
 			echo('<table cellpadding="5" cellspacing="0" border="0" class="form"><form action="/user/create.vx" method="post" id="usrNew">');
 
 			/* result: usr_email */
 			if ($rt['usr_email_error'] != 0) {
-				echo('<tr><td width="200" align="right" valign="top">电子邮件</td><td align="left"><div class="error"><input type="text" tabindex="1" maxlength="100" class="sl" name="usr_email" value="' . make_single_return($rt['usr_email_value']) . '" /><br />');
+				echo('<tr><td width="200" align="right" valign="top">' . $this->lang->email() . '</td><td align="left"><div class="error"><input type="text" tabindex="1" maxlength="100" class="sl" name="usr_email" value="' . make_single_return($rt['usr_email_value']) . '" /><br />');
 				_v_ico_silk('exclamation');
 				echo(' ' . $rt['usr_email_error_msg'][$rt['usr_email_error']] . '</div></td>');
 			} else {
-				echo('<tr><td width="200" align="right">电子邮件</td><td align="left"><input type="text" tabindex="1" maxlength="100" class="sl" name="usr_email" value="' . make_single_return($rt['usr_email_value']) . '" />&nbsp;');
+				echo('<tr><td width="200" align="right">' . $this->lang->email() . '</td><td align="left"><input type="text" tabindex="1" maxlength="100" class="sl" name="usr_email" value="' . make_single_return($rt['usr_email_value']) . '" />&nbsp;');
 				_v_ico_silk('tick');
 				echo('</td>');
 			}
 			
 			/* cell: submit button */
 			echo('<td width="150" rowspan="8" valign="middle" align="right">');
-			_v_btn_f('注册新会员', 'usrNew');
+			_v_btn_f($this->lang->register(), 'usrNew');
 			echo('</td></tr>');
 			
 			/* result: usr_nick */
 			if ($rt['usr_nick_error'] != 0) {
-				echo('<tr><td width="200" align="right" valign="top">昵称</td><td align="left"><div class="error"><input type="text" tabindex="2" maxlength="20" class="sl" name="usr_nick" value="' . make_single_return($rt['usr_nick_value']) . '" /><br />'); 
+				echo('<tr><td width="200" align="right" valign="top">' . $this->lang->user_id() . '</td><td align="left"><div class="error"><input type="text" tabindex="2" maxlength="20" class="sl" name="usr_nick" value="' . make_single_return($rt['usr_nick_value']) . '" /><br />'); 
 				_v_ico_silk('exclamation');
 				echo(' ' . $rt['usr_nick_error_msg'][$rt['usr_nick_error']] . '</div></td></tr>');
 			} else {
-				echo('<tr><td width="200" align="right">昵称</td><td align="left"><input type="text" tabindex="2" maxlength="20" class="sl" name="usr_nick" value="' . make_single_return($rt['usr_nick_value']) . '" />&nbsp;');
+				echo('<tr><td width="200" align="right">' . $this->lang->user_id() . '</td><td align="left"><input type="text" tabindex="2" maxlength="20" class="sl" name="usr_nick" value="' . make_single_return($rt['usr_nick_value']) . '" />&nbsp;');
 				_v_ico_silk('tick');
 				echo('</td></tr>');
 			}
 			
 			/* result: usr_password */
 			if ($rt['usr_password_error'] != 0) {
-				echo('<tr><td width="200" align="right" valign="top">密码</td><td align="left"><div class="error"><input type="password" tabindex="3" maxlength="32" class="sl" name="usr_password" value="' . make_single_return($rt['usr_password_value']) . '"/><br />');
+				echo('<tr><td width="200" align="right" valign="top">' . $this->lang->password() . '</td><td align="left"><div class="error"><input type="password" tabindex="3" maxlength="32" class="sl" name="usr_password" value="' . make_single_return($rt['usr_password_value']) . '"/><br />');
 				_v_ico_silk('exclamation');
 				echo(' ' . $rt['usr_password_error_msg'][$rt['usr_password_error']] . '</td></tr>');
 			} else {
 				if ($rt['usr_confirm_error'] != 0) {
-					echo('<tr><td width="200" align="right">密码</td><td align="left"><input type="password" tabindex="3" maxlength="32" class="sl" name="usr_password" value="' . make_single_return($rt['usr_password_value']) . '" /></td></tr>');
+					echo('<tr><td width="200" align="right">' . $this->lang->password() . '</td><td align="left"><input type="password" tabindex="3" maxlength="32" class="sl" name="usr_password" value="' . make_single_return($rt['usr_password_value']) . '" /></td></tr>');
 				} else {
-					echo('<tr><td width="200" align="right">密码</td><td align="left"><input type="password" tabindex="3" maxlength="32" class="sl" name="usr_password" value="' . make_single_return($rt['usr_password_value']) . '" />&nbsp;');
+					echo('<tr><td width="200" align="right">' . $this->lang->password() . '</td><td align="left"><input type="password" tabindex="3" maxlength="32" class="sl" name="usr_password" value="' . make_single_return($rt['usr_password_value']) . '" />&nbsp;');
 					_v_ico_silk('tick');
 					echo('</td></tr>');
 				}
@@ -5107,26 +5116,26 @@ class Page {
 			/* result: usr_confirm */
 			if ($rt['usr_password_error'] == 0) {
 				if ($rt['usr_confirm_error'] != 0) {
-					echo('<tr><td width="200" align="right" valign="top">重复密码</td><td align="left""><div class="error"><input type="password" tabindex="4" maxlength="32" class="sl" name="usr_confirm" value="' . make_single_return($rt['usr_confirm_value']) . '" /><br />');
+					echo('<tr><td width="200" align="right" valign="top">' . $this->lang->password_again() . '</td><td align="left""><div class="error"><input type="password" tabindex="4" maxlength="32" class="sl" name="usr_confirm" value="' . make_single_return($rt['usr_confirm_value']) . '" /><br />');
 					_v_ico_silk('exclamation');
 					echo (' ' . $rt['usr_confirm_error_msg'][$rt['usr_confirm_error']] . '</div></td></tr>');
 				} else {
-					echo('<tr><td width="200" align="right">重复密码</td><td align="left""><input type="password" tabindex="4" maxlength="32" class="sl" name="usr_confirm" value="' . make_single_return($rt['usr_confirm_value']) . '" />&nbsp;');
+					echo('<tr><td width="200" align="right">' . $this->lang->password_again() . '</td><td align="left""><input type="password" tabindex="4" maxlength="32" class="sl" name="usr_confirm" value="' . make_single_return($rt['usr_confirm_value']) . '" />&nbsp;');
 					_v_ico_silk('tick');
 					echo('</td></tr>');
 				}
 			} else {
-				echo('<tr><td width="200" align="right">重复密码</td><td align="left""><input type="password" tabindex="4" maxlength="32" class="sl" name="usr_confirm" /></td></tr>');
+				echo('<tr><td width="200" align="right">' . $this->lang->password_again() . '</td><td align="left""><input type="password" tabindex="4" maxlength="32" class="sl" name="usr_confirm" /></td></tr>');
 			}
 
 			/* result: usr_gender */
-			echo('<tr><td width="200" align="right" valign="top">性别</td><td align="left"><select tabindex="5" maxlength="20" size="6" name="usr_gender">');
-			$gender_a = array(0 => '未知', 1 => '男性', 2 => '女性', 5 => '女性改变为男性', 6 => '男性改变为女性', 9 => '未说明');
-			foreach ($gender_a as $c => $g) {
-				if ($c == $rt['usr_gender_value']) {
-					echo('<option value="' . $c . '" selected="selected">' . $g . '</option>');
+			echo('<tr><td width="200" align="right" valign="top">' . $this->lang->gender() . '</td><td align="left"><select tabindex="5" maxlength="20" size="6" name="usr_gender">');
+			$_gender_categories = $this->lang->gender_categories();
+			foreach ($_gender_categories as $gender_code => $gender) {
+				if ($gender_code == $rt['usr_gender_value']) {
+					echo('<option value="' . $gender_code . '" selected="selected">' . $gender . '</option>');
 				} else {
-					echo('<option value="' . $c . '">' . $g . '</option>');
+					echo('<option value="' . $gender_code . '">' . $gender . '</option>');
 				}
 			}
 			echo('</select></td></tr>');
@@ -5134,11 +5143,11 @@ class Page {
 			/* S result: c */
 			
 			if ($rt['c_error'] > 0) {
-				echo('<tr><td width="200" align="right">确认码</td><td align="left"><input tabindex="6" type="password" maxlength="32" class="sl" name="c" /></td></tr><tr><td width="200" align="right"></td><td align="left"><div class="error"><img src="/c/' . rand(1111,9999) . '.' . rand(1111,9999) . '.png" /><br />');
+				echo('<tr><td width="200" align="right">' . $this->lang->confirmation_code() . '</td><td align="left"><input tabindex="6" type="password" maxlength="32" class="sl" name="c" /></td></tr><tr><td width="200" align="right"></td><td align="left"><div class="error"><img src="/c/' . rand(1111,9999) . '.' . rand(1111,9999) . '.png" /><br />');
 				_v_ico_silk('exclamation');
 				echo('&nbsp;' . $rt['c_error_msg'][$rt['c_error']] . '</div></td></tr>');
 			} else {
-				echo('<tr><td width="200" align="right">确认码</td><td align="left"><input tabindex="6" type="password" maxlength="32" class="sl" name="c" value="' . $rt['c_value'] . '" />&nbsp;');
+				echo('<tr><td width="200" align="right">' . $this->lang->confirmation_code() . '</td><td align="left"><input tabindex="6" type="password" maxlength="32" class="sl" name="c" value="' . $rt['c_value'] . '" />&nbsp;');
 				_v_ico_silk('tick');
 				echo('</td></tr><tr><td width="200" align="right"></td><td align="left"><img src="/c/' . rand(1111,9999) . '.' . rand(1111,9999) . '.png" /></td></tr>');
 			}
@@ -5146,7 +5155,7 @@ class Page {
 			echo('</form></table>');
 			_v_hr();
 			_v_ico_silk('information');
-			echo(' 点击“注册新会员”，即表示你完全同意我们的 <a href="/terms.vx" class="t">' . Vocabulary::term_terms . '</a> 和 <a href="/privacy.vx" class="t">' . Vocabulary::term_privacy . '</a>，并且你不厌恶也不会反对我们的 <a href="/community_guidelines.vx" class="t">社区指导原则</a><br /><br />电子邮件地址将作为你登录时候使用的识别之一，这里的大部分功能依赖于一个真实的电子邮件地址，因此一个真实的电子邮件地址很有必要，而至于昵称，则可以任意设置随心换</div>');
+			echo(' ' . $this->lang->register_agreement() . '</div>');
 		} else {
 			$mail = array();
 			$mail['subject'] = "{$this->User->usr_nick} 你好，欢迎来到 " . Vocabulary::site_name;
@@ -5157,7 +5166,7 @@ class Page {
 			$am = null;
 			
 			echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_smile.gif" align="absmiddle" class="home" />' . $this->User->usr_nick . '，恭喜你！注册成功</span>');
-			echo('<table cellpadding="5" cellspacing="0" border="0" class="form"><tr><td width="200" align="right" valign="top">电子邮件</td><td align="left">' . $this->User->usr_email . '</td></tr><tr><td width="200" align="right" valign="top">昵称</td><td align="left">' . $this->User->usr_nick . '</td></tr><tr><td width="200" align="right" valign="top">密码</td><td align="left"><div class="important">');
+			echo('<table cellpadding="5" cellspacing="0" border="0" class="form"><tr><td width="200" align="right" valign="top">' . $this->lang->email() . '</td><td align="left">' . $this->User->usr_email . '</td></tr><tr><td width="200" align="right" valign="top">' . $this->lang->user_id() . '</td><td align="left">' . $this->User->usr_nick . '</td></tr><tr><td width="200" align="right" valign="top">' . $this->lang->password() . '</td><td align="left"><div class="important">');
 			$max = rand(1, 6) * 4;
 			for ($i = 1; $i <= $max; $i++) {
 				echo($i == 0) ? '':'&nbsp;&nbsp;';
@@ -5167,7 +5176,7 @@ class Page {
 			echo('<br /><br />在你更改密码之前，你将使用这个长度为 ' . mb_strlen($rt['usr_password_value'], 'utf-8') . ' 个字符的密码进行登录，请花些时间记住这个密码</div></td></tr></table></div>');
 			
 			echo('<div class="blank" align="left">');
-			echo('<span class="text_large"><img src="/img/ico_smile.gif" align="absmiddle" class="home" />上传头像</span>');
+			echo('<span class="text_large"><img src="/img/ico_smile.gif" align="absmiddle" class="home" />' . $this->lang->upload_portrait() . '</span>');
 			echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 			echo('<form enctype="multipart/form-data" action="/recv/portrait.vx" method="post" id="usrPortrait">');
 			echo('<tr><td width="200" align="right">现在的样子</td><td width="200" align="left">');
@@ -5243,7 +5252,7 @@ class Page {
 		
 		echo('<td width="150" rowspan="2" valign="middle" align="right">');
 		
-		_v_btn_l('修改所在地', '/user/move.vx');
+		_v_btn_l($this->lang->set_location(), '/user/move.vx');
 		
 		echo('</td></tr>');
 		
@@ -5285,7 +5294,7 @@ class Page {
 		echo('</td></tr>');
 		// E button.
 		
-		echo('<tr><td width="200" align="right">昵称</td><td align="left"><input tabindex="2" type="text" maxlength="20" class="sl" name="usr_nick" value="' . make_single_return($this->User->usr_nick) . '" /></td></tr>');
+		echo('<tr><td width="200" align="right">' . $this->lang->user_id() . '</td><td align="left"><input tabindex="2" type="text" maxlength="20" class="sl" name="usr_nick" value="' . make_single_return($this->User->usr_nick) . '" /></td></tr>');
 		echo('<tr><td width="200" align="right">自我简介</td><td align="left"><input tabindex="3" type="text" maxlength="100" class="sl" name="usr_brief" value="' . make_single_return($this->User->usr_brief) . '" /></td></tr>');
 		echo('<tr><td width="200" align="right">家庭住址</td><td align="left"><input tabindex="4" type="text" maxlength="100" class="sl" name="usr_addr" value="' . make_single_return($this->User->usr_addr) . '" /></td></tr>');
 		echo('<tr><td width="200" align="right">电话</td><td align="left"><input tabindex="5" type="text" maxlength="40" class="sl" name="usr_telephone" value="' . make_single_return($this->User->usr_telephone) . '" /></td></tr>');
@@ -5412,8 +5421,8 @@ class Page {
 		}
 		echo('</td></tr>');
 		*/
-		echo('<tr><td width="200" align="right">新密码</td><td align="left"><input tabindex="20" type="password" maxlength="32" class="sl" name="usr_password_new" /></td></tr>');
-		echo('<tr><td width="200" align="right">重复新密码</td><td align="left"><input tabindex="21" type="password" maxlength="32" class="sl" name="usr_confirm_new" /></td></tr>');
+		echo('<tr><td width="200" align="right">' . $this->lang->new_password() . '</td><td align="left"><input tabindex="20" type="password" maxlength="32" class="sl" name="usr_password_new" /></td></tr>');
+		echo('<tr><td width="200" align="right">' . $this->lang->new_password_again() . '</td><td align="left"><input tabindex="21" type="password" maxlength="32" class="sl" name="usr_confirm_new" /></td></tr>');
 		echo('<tr><td height="10" colspan="2"></td></tr>');
 		echo('</form></table>');
 		echo('<hr size="1" color="#DDD" style="color: #DDD; background-color: #DDD; height: 1px; border: 0;" />');

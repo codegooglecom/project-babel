@@ -278,6 +278,7 @@ CREATE TABLE `babel_node` (
   `nod_level` int(10) unsigned NOT NULL DEFAULT '2',
   `nod_name` varchar(100) NOT NULL DEFAULT 'node',
   `nod_title` varchar(100) NOT NULL DEFAULT 'Untitled node',
+  `nod_title_localized` text,
   `nod_description` text,
   `nod_header` text,
   `nod_footer` text,
@@ -599,6 +600,125 @@ CREATE TABLE `babel_zen_task` (
   KEY `INDEX_PID` (`zta_pid`),
   KEY `INDEX_PROGRESS` (`zta_progress`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='Babel ZEN Task Table';
+
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `babel_weblog`
+-- 
+
+CREATE TABLE `babel_weblog` (
+`blg_id` int(10) unsigned NOT NULL auto_increment,
+`blg_uid` int(10) unsigned NOT NULL default '0',
+`blg_title` varchar(50) NOT NULL default '',
+`blg_description` text,
+`blg_name` varchar(20) NOT NULL default '',
+`blg_portrait` varchar(20) default NULL,
+`blg_theme` varchar(20) NOT NULL default 'purple',
+`blg_license` varchar(50) default NULL,
+`blg_license_show` tinyint(3) unsigned NOT NULL default '0',
+`blg_mode` int(10) unsigned NOT NULL default '0',
+`blg_entries` int(10) unsigned NOT NULL default '0',
+`blg_comments` int(10) unsigned NOT NULL default '0',
+`blg_comment_permission` int(10) unsigned NOT NULL default '0',
+`blg_builds` int(10) unsigned NOT NULL default '0',
+`blg_dirty` tinyint(3) unsigned NOT NULL default '0',
+`blg_ing` tinyint(3) unsigned NOT NULL default '0',
+`blg_created` int(10) unsigned NOT NULL default '0',
+`blg_lastupdated` int(10) unsigned NOT NULL default '0',
+`blg_lastbuilt` int(10) unsigned NOT NULL default '0',
+`blg_expire` int(10) unsigned NOT NULL default '0',
+PRIMARY KEY (`blg_id`),
+UNIQUE KEY `INDEX_NAME` (`blg_name`),
+KEY `INDEX_UID` (`blg_uid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Babel Weblog';
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `babel_weblog_entry`
+-- 
+
+CREATE TABLE `babel_weblog_entry` (
+`bge_id` int(10) unsigned NOT NULL auto_increment,
+`bge_pid` int(10) unsigned NOT NULL default '0',
+`bge_uid` int(10) unsigned NOT NULL default '0',
+`bge_title` varchar(50) default NULL,
+`bge_body` text,
+`bge_comments` int(10) unsigned NOT NULL default '0',
+`bge_comment_permission` int(10) unsigned NOT NULL default '0',
+`bge_trackbacks` int(10) unsigned NOT NULL default '0',
+`bge_tags` varchar(200) default NULL,
+`bge_status` int(10) unsigned NOT NULL default '0',
+`bge_mode` int(10) unsigned NOT NULL default '0',
+`bge_revisions` int(10) unsigned NOT NULL default '0',
+`bge_hash` varchar(32) default NULL,
+`bge_created` int(10) unsigned NOT NULL default '0',
+`bge_lastupdated` int(10) unsigned NOT NULL default '0',
+`bge_published` int(10) unsigned NOT NULL default '0',
+PRIMARY KEY (`bge_id`),
+KEY `INDEX_PID` (`bge_pid`),
+KEY `INDEX_UID` (`bge_uid`),
+KEY `INDEX_HASH` (`bge_hash`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Babel Weblog Entry';
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `babel_weblog_entry_comment`
+-- 
+
+CREATE TABLE `babel_weblog_entry_comment` (
+`bec_id` int(10) unsigned NOT NULL auto_increment,
+`bec_eid` int(10) unsigned NOT NULL default '0',
+`bec_uid` int(10) unsigned NOT NULL default '0',
+`bec_nick` varchar(20) NOT NULL default '',
+`bec_email` varchar(100) NOT NULL default '',
+`bec_url` varchar(200) default NULL,
+`bec_body` text NOT NULL,
+`bec_status` int(10) unsigned NOT NULL default '0',
+`bec_ip` varchar(15) NOT NULL default '0.0.0.0',
+`bec_created` int(10) unsigned NOT NULL default '0',
+`bec_approved` int(10) unsigned NOT NULL default '0',
+PRIMARY KEY (`bec_id`),
+KEY `INDEX_EID` (`bec_eid`),
+KEY `INDEX_UID` (`bec_uid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Babel Weblog Entry Comment';
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `babel_weblog_entry_tag`
+-- 
+
+CREATE TABLE `babel_weblog_entry_tag` (
+`bet_id` int(10) unsigned NOT NULL auto_increment,
+`bet_tag` varchar(20) NOT NULL default '',
+`bet_uid` int(10) unsigned NOT NULL default '0',
+`bet_eid` int(10) unsigned NOT NULL default '0',
+`bet_created` int(10) unsigned NOT NULL default '0',
+PRIMARY KEY (`bet_id`),
+KEY `INDEX_TAG` (`bet_tag`),
+KEY `INDEX_UID` (`bet_uid`),
+KEY `INDEX_EID` (`bet_eid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Babel Weblog Entry Tag';
+
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `babel_weblog_portrait`
+-- 
+
+CREATE TABLE `babel_weblog_portrait` (
+`bgp_id` int(10) unsigned NOT NULL auto_increment,
+`bgp_filename` varchar(40) default NULL,
+`bgp_content` blob NOT NULL,
+PRIMARY KEY (`bgp_id`),
+UNIQUE KEY `INDEX_FILENAME` (`bgp_filename`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
 
 -- 
 -- Table structure for table `babel_ing_update`

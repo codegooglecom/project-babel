@@ -280,7 +280,7 @@ switch ($m) {
 		if ($p->User->vxIsLogin()) {
 			$p->URL->vxToRedirect($p->URL->vxGetUserOwnHome());
 		} else {
-			$p->vxHead($msgSiteTitle = Vocabulary::action_signup);
+			$p->vxHead($msgSiteTitle = $p->lang->register());
 			$p->vxBodyStart();
 			$p->vxTop();
 			$p->vxContainer('signup');
@@ -488,7 +488,7 @@ switch ($m) {
 
 	case 'user_create':
 		if (strtoupper($_SERVER['REQUEST_METHOD']) != 'POST') {
-			$p->vxHead($msgSiteTitle = Vocabulary::action_signup);
+			$p->vxHead($msgSiteTitle = $p->lang->register());
 			$p->vxBodyStart();
 			$p->vxTop();
 			$p->vxContainer('signup');
@@ -501,7 +501,7 @@ switch ($m) {
 				$p->User->vxPay($p->User->usr_id, BABEL_USR_INITIAL_MONEY, 1);
 				$p->User->vxSessionStart();
 			}
-			$p->vxHead($msgSiteTitle = Vocabulary::action_signup);
+			$p->vxHead($msgSiteTitle = $p->lang->register());
 			$p->vxBodyStart();
 			$p->vxTop();
 			$p->vxContainer('user_create', $options = $rt);

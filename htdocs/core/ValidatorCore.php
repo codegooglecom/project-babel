@@ -827,7 +827,15 @@ class Validator {
 		4 => conflict
 		999 => unspeicific */
 		$rt['usr_email_error'] = 0;
-		$rt['usr_email_error_msg'] = array(1 => '你忘记填写电子邮件地址了', 2 => '你的电子邮件地址太长了', 3 => '你的电子邮件地址看起来有问题', 4 => '这个电子邮件地址已经注册过了');
+		switch (BABEL_LANG) {
+			case 'zh_cn':
+				$rt['usr_email_error_msg'] = array(1 => '你忘记填写电子邮件地址了', 2 => '你的电子邮件地址太长了', 3 => '你的电子邮件地址看起来有问题', 4 => '这个电子邮件地址已经注册过了');
+				break;
+			default:
+			case 'en_us':
+				$rt['usr_email_error_msg'] = array(1 => 'Please input your E-mail', 2 => 'This E-mail address is too long', 3 => 'This is not an E-mail address', 4 => 'This E-mail address is registered');
+				break;
+		}
 		
 		$rt['usr_nick_value'] = '';
 		/* usr_nick_error:
@@ -838,8 +846,15 @@ class Validator {
 		4 => conflict
 		999 => unspecific */
 		$rt['usr_nick_error'] = 0;
-		$rt['usr_nick_error_msg'] = array(1 => '你忘记填写昵称了', 2 => '你的昵称太长了，精简一下吧', 3 => '你的昵称中包含了不被允许的字符', 4 => '你填写的这个昵称被别人用了');
-		
+		switch (BABEL_LANG) {
+			case 'zh_cn':
+				$rt['usr_nick_error_msg'] = array(1 => '你忘记填写昵称了', 2 => '你的昵称太长了，精简一下吧', 3 => '你的昵称中包含了不被允许的字符', 4 => '你填写的这个昵称被别人用了');
+				break;
+			default:
+			case 'en_us':
+				$rt['usr_nick_error_msg'] = array(1 => 'Please set your nickname', 2 => 'This nickname is too long', 3 => 'Illegal characters in the nickname', 4 => 'This nickname has been taken');
+				break;
+		}
 		$rt['usr_password_value'] = '';
 		$rt['usr_confirm_value'] = '';
 		/* usr_password_error:
@@ -850,7 +865,15 @@ class Validator {
 		4 => not identical
 		999 => unspecific */
 		$rt['usr_password_error'] = 0;
-		$rt['usr_password_error_msg'] = array(1 => '你忘记填写密码了', 2 => '你的这个密码太长了，缩减一下吧', 3 => '你填写的密码中包含了不被允许的字符', 4 => '你所填写的两个密码不匹配');
+		switch (BABEL_LANG) {
+			case 'zh_cn':
+				$rt['usr_password_error_msg'] = array(1 => '你忘记填写密码了', 2 => '你的这个密码太长了，缩减一下吧', 3 => '你填写的密码中包含了不被允许的字符', 4 => '你所填写的两个密码不匹配');
+				break;
+			default:
+			case 'en_us':
+				$rt['usr_password_error_msg'] = array(1 => 'Please set your password', 2 => 'This password is too long', 3 => 'Illegal characters in the password', 4 => 'Two passwords are not identical');
+				break;
+		}
 		/* usr_confirm_error:
 		0 => no error
 		1 => empty
@@ -859,12 +882,27 @@ class Validator {
 		4 => not identical
 		999 => unspecific */
 		$rt['usr_confirm_error'] = 0;
-		$rt['usr_confirm_error_msg'] = array(1 => '你忘记填写密码确认了', 2 => '你的这个密码确认太长了，缩减一下吧', 3 => '你填写的密码中包含了不被允许的字符', 4 => '你所填写的两个密码不匹配');
+		switch (BABEL_LANG) {
+			case 'zh_cn':
+				$rt['usr_confirm_error_msg'] = array(1 => '你忘记填写密码确认了', 2 => '你的这个密码确认太长了，缩减一下吧', 3 => '你填写的密码中包含了不被允许的字符', 4 => '你所填写的两个密码不匹配');
+				break;
+			default:
+			case 'en_us':
+				$rt['usr_confirm_error_msg'] = array(1 => 'Please input password again', 2 => 'This password is too long', 3 => 'Illegal characters in the password', 4 => 'Two passwords are not identical');
+				break;
+		}
 		
 		$rt['c_value'] = 0;
 		$rt['c_error'] = 0;
-		$rt['c_error_msg'] = array(1 => '你忘记填写确认码了', 4 => '你填写的确认码是错的');
-		
+		switch (BABEL_LANG) {
+			case 'zh_cn':
+				$rt['c_error_msg'] = array(1 => '你忘记填写确认码了', 4 => '你填写的确认码是错的');
+				break;
+			default:
+			case 'en_us':
+				$rt['c_error_msg'] = array(1 => 'Please input confirmation code', 4 => 'Your input is not correct');
+				break;
+		}
 		/* check: c */
 		if (isset($_POST['c'])) {
 			$rt['c_value'] = strtolower(trim($_POST['c']));
