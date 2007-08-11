@@ -16,7 +16,9 @@ interface Language {
 	public function help();
 	public function new_features();
 	public function user_id();
+	public function email();
 	public function password();
+	public function password_again();
 	public function email_or_nick();
 	public function take_a_tour();
 	public function about($site);

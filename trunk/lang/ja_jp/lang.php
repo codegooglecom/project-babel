@@ -64,8 +64,16 @@ class lang implements Language {
 		return 'ユーザ名';
 	}
 	
+	public function email() {
+		return 'E-mail';
+	}
+	
 	public function password() {
 		return 'パスワード';
+	}
+	
+	public function password_again() {
+		return 'Password Again';
 	}
 	
 	public function email_or_nick() {
