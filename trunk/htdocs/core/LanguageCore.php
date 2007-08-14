@@ -88,8 +88,13 @@ interface Language {
 	public function wanna_say_something();
 	public function you_can_only_answer_your_own();
 	public function this_is_an_autistic_node();
+	public function you_cannot_reply_autistic();
 	public function who_adds_me();
 	public function login_before_reply();
 	public function please_check();
+	public function go_to_top();
+	public function no_reply_yet();
+	public function one_s_savepoints($user);
+	public function one_s_friends($user);
 }
 ?>
