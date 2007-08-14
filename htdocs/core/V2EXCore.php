@@ -3859,7 +3859,7 @@ class Page {
 		echo('<div id="main">');
 		echo('<div class="blank">');
 		_v_ico_map();
-		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_newfeatures . '</div>');
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->lang->new_features() . '</div>');
 		include(BABEL_PREFIX . '/res/new_features.html');
 		echo('</div>');
 	}
@@ -4699,7 +4699,7 @@ class Page {
 		if (BABEL_FEATURE_USER_COMPONENTS) {
 			echo('<tr><td colspan="2" align="left" class="section_odd"><span class="text_large">');
 			_v_ico_tango_32('places/start-here');
-			echo(' ' . $O->usr_nick . ' 的网上据点<a name="svp" /></span></td></tr>');
+			echo(' ' . $this->lang->one_s_savepoints($O->usr_nick) . ' <a name="svp" /></span></td></tr>');
 			
 			$msgs = array(0 => '新据点添加失败，你可以再试一次，或者是到 <a href="/go/babel">Developer Corner</a> 向我们报告错误', 1 => '新据点添加成功', 2 => '你刚才想添加的据点已经存在于你的列表中', 3 => '目前，每个人只能添加至多 ' . BABEL_SVP_LIMIT . ' 个据点，你可以试着删除掉一些过去添加的，我们正在扩展系统的能力以支持更多的据点', 4 => '要删除的据点不存在', 5 => '你不能删除别人的据点', 6 => '据点删除成功', 7 => '据点删除失败，你可以再试一次，或者是到 <a href="/go/babel">Developer Corner</a> 向我们报告错误', 9 => '不需要输入前面的 http:// 协议名称，直接添加网址就可以了，比如 www.livid.cn 这样的地址');
 			
@@ -4783,7 +4783,7 @@ class Page {
 		
 		echo('<tr><td colspan="2" align="left" class="section_odd"><span class="text_large"><a name="friends"></a>');
 		_v_ico_tango_32('emotes/face-grin');
-		echo(' ' . $O->usr_nick . ' 的朋友们</span>');
+		echo(' ' . $this->lang->one_s_friends($O->usr_nick) . '</span>');
 		
 		if (isset($_GET['do'])) {
 			$do = strtolower(make_single_safe($_GET['do']));
@@ -8191,7 +8191,7 @@ class Page {
 		mysql_free_result($rs);
 		echo('</td><td valign="top" align="right" class="text"><span class="tip_i">');
 		if ($this->User->vxIsLogin()) {
-			echo('<a href="#replyForm" onclick="jumpReply();">' . $this->lang->reply() . '</a>');
+			echo('<a href="#replyForm" onclick="jumpReply();" class="regular">' . $this->lang->reply() . '</a>');
 		} else {
 			echo('<a href="/login//topic/view/' . $Topic->tpc_id . '.html" class="regular">' . $this->lang->login_and_reply() . '</a>');	
 		}
@@ -8380,9 +8380,16 @@ google_color_url = "00CC00";
 		}
 		$_SESSION['babel_page_topic'] = $p['cur'];
 		if ($Topic->tpc_reply_count > 0) {
-			echo('<div id="vxReplyTop"><span class="tip_i">本主题共有 ' . $Topic->tpc_posts . ' 条回复 | <a href="#;" onclick="window.scrollTo(0,0);" class="regular">回到顶部</a> | ');
+			echo('<div id="vxReplyTop"><span class="tip_i">');
+			if ($Topic->tpc_posts > 0) {
+				echo($this->lang->posts($Topic->tpc_posts));
+			} else {
+				echo($this->lang->no_reply_yet());
+			}
+			echo(' | ');
+			echo('<a href="#;" onclick="window.scrollTo(0,0);" class="regular">' . $this->lang->go_to_top() . '</a> | ');
 			if ($this->User->vxIsLogin()) {
-				echo('<a href="#replyForm" onclick="jumpReply();" class="regular">回复主题</a>');
+				echo('<a href="#replyForm" onclick="jumpReply();" class="regular">' . $this->lang->reply() . '</a>');
 			} else {
 				echo('<a href="/login//topic/view/' . $Topic->tpc_id . '.html" class="regular">登录后回复主题</a>');	
 			}
@@ -8511,13 +8518,13 @@ google_color_url = "00CC00";
 			if ($this->Validator->vxIsAutisticNode($Node->nod_id, $this->cs)) {
 				if ($this->User->usr_id == $Topic->tpc_uid) {
 					echo('<div class="' . $_tmp . '"><form action="/post/create/' . $Topic->tpc_id . '.vx" method="post" id="form_topic_reply"><span style="color: ' . rand_color() . ';"><img src="' . $img_usr_portrait . '" align="absmiddle" style="border-left: 2px solid ' . rand_color(0, 1) . '; padding: 0px 5px 0px 5px;" />现在继续回复道：<input type="text" class="sll" name="pst_title" value="Re: ' . make_single_return($Topic->tpc_title, 0) . '" /><br /><br /><textarea name="pst_content" rows="10" class="quick" id="taQuick"></textarea><input type="hidden" name="p_cur" value="' . $p['cur'] . '" /><div align="left" style="margin: 10px 0px 0px 0px; padding-left: 390px;">');
-					_v_btn_f('立即回复', 'form_topic_reply');
+					_v_btn_f($this->lang->reply(), 'form_topic_reply');
 					echo('</div></span></form></div>');
 				} else {
-					echo('<div class="' . $_tmp . '">你不能回复自闭模式讨论区中别人创建的主题。</div>');
+					echo('<div class="' . $_tmp . '">' . $this->lang->you_cannot_reply_autistic() . '</div>');
 				}
 			} else {
-				echo('<div class="' . $_tmp . '"><form action="/post/create/' . $Topic->tpc_id . '.vx" method="post" id="form_topic_reply"><span style="color: ' . rand_color() . ';"><img src="' . $img_usr_portrait . '" align="absmiddle" style="border-left: 2px solid ' . rand_color(0, 1) . '; padding: 0px 5px 0px 5px;" />现在回复楼主道：<input type="text" class="sll" name="pst_title" value="Re: ' . make_single_return($Topic->tpc_title, 0) . '" /><br /><br /><textarea name="pst_content" rows="10" class="quick" id="taQuick"></textarea><input type="hidden" name="p_cur" value="' . $p['cur'] . '" /><div align="left" style="margin: 10px 0px 0px 0px; padding-left: 390px;">');
+				echo('<div class="' . $_tmp . '"><form action="/post/create/' . $Topic->tpc_id . '.vx" method="post" id="form_topic_reply"><span style="color: ' . rand_color() . ';"><img src="' . $img_usr_portrait . '" align="absmiddle" style="border-left: 2px solid ' . rand_color(0, 1) . '; padding: 0px 5px 0px 5px;" /> <input type="text" class="sll" name="pst_title" value="Re: ' . make_single_return($Topic->tpc_title, 0) . '" /><br /><br /><textarea name="pst_content" rows="10" class="quick" id="taQuick"></textarea><input type="hidden" name="p_cur" value="' . $p['cur'] . '" /><div align="left" style="margin: 10px 0px 0px 0px; padding-left: 390px;">');
 				_v_btn_f($this->lang->reply(), 'form_topic_reply');
 				echo('</div></span></form></div>');
 			}
@@ -8532,7 +8539,7 @@ google_color_url = "00CC00";
 			echo('<tr><td width="200" align="right">' . $this->lang->email_or_nick() . '</td><td width="200" align="left"><input type="text" maxlength="100" class="sl" name="usr" tabindex="1" /></td><td width="150" rowspan="2" valign="middle" align="right"><input type="image" src="/img/graphite/login_' . BABEL_LANG . '.gif" alt="' . Vocabulary::action_login . '" tabindex="3" /></td></tr><tr><td width="200" align="right">' . $this->lang->password() . '</td><td align="left"><input type="password" maxlength="32" class="sl" name="usr_password" tabindex="2" /></td></tr></form></table></div>');
 		}
 		echo('<div class="light_odd" style="margin-bottom: 5px;" align="left"><span class="tip_i">');
-		echo('<a href="#;" onclick="window.scrollTo(0,0);" class="regular">回到顶部</a> | ');
+		echo('<a href="#;" onclick="window.scrollTo(0,0);" class="regular">' . $this->lang->go_to_top() . '</a> | ');
 		if (isset($_SESSION['babel_page_node_' . $Node->nod_id])) {
 			echo('<a href="/board/view/' . $Node->nod_id . '/' . $_SESSION['babel_page_node_' . $Node->nod_id] . '.html" class="regular">' . make_plaintext($Node->nod_title) . '</a>');
 		} else {

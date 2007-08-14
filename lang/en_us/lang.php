@@ -375,6 +375,11 @@ class lang implements Language {
 	public function you_can_only_answer_your_own() {
 		return 'You can only reply to your own topics in this *autistic* node.';
 	}
+	
+	public function you_cannot_reply_autistic() {
+		return 'You cannot reply to other\'s topics in *autistic* node.';
+	}
+	
 	public function this_is_an_autistic_node() {
 		return 'This is an autistic node, you may only reply to your own topics.';
 	}
@@ -389,6 +394,22 @@ class lang implements Language {
 	
 	public function please_check() {
 		return 'Sorry, please check your input, something needs to be corrected';
+	}
+	
+	public function go_to_top() {
+		return 'Go to Top';
+	}
+	
+	public function no_reply_yet() {
+		return 'No reply yet';
+	}
+	
+	public function one_s_savepoints($user) {
+		return "{$user}'s Savepoints";
+	}
+	
+	public function one_s_friends($user) {
+		return "{$user}'s Friends";
 	}
 }
 ?>

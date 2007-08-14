@@ -76,6 +76,14 @@ class lang implements Language {
 		return '重复密码';
 	}
 	
+	public function new_password() {
+		return '新密码';
+	}
+	
+	public function new_password_again() {
+		return '重复新密码';
+	}
+	
 	public function gender() {
 		return '性别';
 	}
@@ -347,12 +355,32 @@ class lang implements Language {
 		return '谁把我加为好友？';
 	}
 	
+	public function you_cannot_reply_autistic() {
+		return '你不能回复自闭模式讨论区中别人创建的主题。';
+	}
+	
 	public function login_before_reply() {
 		return '在回复之前你需要先进行登录';
 	}
 	
 	public function please_check() {
 		return '对不起，请检查一下你刚才的输入，有些错误需要解决';
+	}
+	
+	public function go_to_top() {
+		return '回到顶部';
+	}
+	
+	public function no_reply_yet() {
+		return '本主题目前尚无回复';
+	}
+	
+	public function one_s_savepoints($user) {
+		return "{$user} 的网上据点";
+	}
+	
+	public function one_s_friends($user) {
+		return "{$user} 的朋友们";
 	}
 }
 ?>
