@@ -1031,7 +1031,7 @@ $i->vxSetupBoard('kiel', 'Kiel', 2, 2, 1, 2, '', '');
 $i->vxSetupBoard('seoul', 'Seoul', 2, 2, 1, 2, '', '');
 
 // mechanus
-$i->vxSetupBoard('3dsmax', '3dsmax', 3, 3, 1, 2, '', '');
+$i->vxSetupBoard('3dsmax', '3ds Max', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('maya', 'Maya', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('dreamweaver', 'Adobe Dreamweaver', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('fireworks', 'Adobe Fireworks', 3, 3, 1, 2, '', '');
@@ -1422,6 +1422,7 @@ $i->vxSetupBoard('pointless', '无要点', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('qna', '问与答', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('8r8c', '八荣八耻', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('english', 'English', 4, 4, 1, 2, '', '');
+$i->vxSetupBoard('japanese', '日本語', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('german', 'German', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('branding', '品牌建立', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('1kg', '多背一公斤', 4, 4, 1, 2, '', '');
