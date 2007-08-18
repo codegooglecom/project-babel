@@ -8382,19 +8382,12 @@ google_color_url = "00CC00";
 		$_SESSION['babel_page_topic'] = $p['cur'];
 		if ($Topic->tpc_reply_count > 0) {
 			echo('<div id="vxReplyTop"><span class="tip_i">');
-
 			if ($Topic->tpc_posts > 0) {
-
 				echo($this->lang->posts($Topic->tpc_posts));
-
 			} else {
-
 				echo($this->lang->no_reply_yet());
-
 			}
-
 			echo(' | ');
-
 			echo('<a href="#;" onclick="window.scrollTo(0,0);" class="regular">' . $this->lang->go_to_top() . '</a> | ');
 			if ($this->User->vxIsLogin()) {
 				echo('<a href="#replyForm" onclick="jumpReply();" class="regular">' . $this->lang->reply() . '</a>');

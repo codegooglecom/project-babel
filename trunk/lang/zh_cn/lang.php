@@ -75,23 +75,15 @@ class lang implements Language {
 	public function password_again() {
 		return '重复密码';
 	}
-	
 
 	public function new_password() {
-
 		return '新密码';
-
 	}
-
 	
-
 	public function new_password_again() {
-
 		return '重复新密码';
-
 	}
 
-	
 	public function gender() {
 		return '性别';
 	}
@@ -370,7 +362,6 @@ class lang implements Language {
 	public function you_cannot_reply_autistic() {
 		return '你不能回复自闭模式讨论区中别人创建的主题。';
 	}
-
 	
 	public function login_before_reply() {
 		return '在回复之前你需要先进行登录';
