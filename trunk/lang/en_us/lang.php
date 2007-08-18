@@ -182,7 +182,7 @@ class lang implements Language {
 		return 'Favorites';
 	}
 	
-	public function Savepoints() {
+	public function savepoints() {
 		return 'Savepoints';
 	}
 	
@@ -196,6 +196,18 @@ class lang implements Language {
 	
 	public function online_total() {
 		return 'Online Total';
+	}
+	
+	public function online_now() {
+		return 'Online Now';
+	}
+	
+	public function online_details() {
+		return '';
+	}
+	
+	public function disconnected() {
+		return 'Disconnected';
 	}
 	
 	public function anonymous() {
@@ -217,8 +229,6 @@ class lang implements Language {
 	public function session_count($i) {
 		return '' . $i . ' Pages Visted';
 	}
-	
-	
 	
 	public function login_history() {
 		return 'Login History';
@@ -356,6 +366,14 @@ class lang implements Language {
 		return 'Member Show';
 	}
 	
+	public function member_list() {
+		return 'Member List';
+	}
+	
+	public function member_count($count) {
+		return $count . ' members total';
+	}
+	
 	public function create_new_topic() {
 		return 'Create New Topic';
 	}
@@ -412,6 +430,10 @@ class lang implements Language {
 		return 'No reply yet';
 	}
 
+	public function member_num($num) {
+		return '#<strong>' . $num . '</strong> Member of ' . Vocabulary::site_name;
+	}
+	
 	public function one_s_savepoints($user) {
 		return "{$user}'s Savepoints";
 	}
@@ -422,6 +444,10 @@ class lang implements Language {
 	
 	public function one_s_recent_topics($user) {
 		return "{$user}'s Recent Topics";
+	}
+	
+	public function one_s_recent_discussions($user) {
+		return "{$user}'s Recent Discussions";
 	}
 }
 ?>

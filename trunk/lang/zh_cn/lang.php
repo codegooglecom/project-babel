@@ -156,7 +156,7 @@ class lang implements Language {
 		return '收藏';
 	}
 	
-	public function Savepoints() {
+	public function savepoints() {
 		return '据点';
 	}
 	
@@ -170,6 +170,18 @@ class lang implements Language {
 	
 	public function online_total() {
 		return '在线会员总数';
+	}
+	
+	public function online_now() {
+		return '当前在线';
+	}
+	
+	public function online_details() {
+		return '';
+	}
+	
+	public function disconnected() {
+		return '当前不在线';
 	}
 	
 	public function anonymous() {
@@ -328,6 +340,14 @@ class lang implements Language {
 		return '会员头像展示';
 	}
 	
+	public function member_list() {
+		return '会员列表';
+	}
+	
+	public function member_count($count) {
+		return '共 ' . $count . ' 位注册会员';
+	}
+	
 	public function create_new_topic() {
 		return '创建新主题';
 	}
@@ -383,6 +403,10 @@ class lang implements Language {
 		return '本主题目前尚无回复';
 	}
 
+	public function member_num($num) {
+		return Vocabulary::site_name . ' 的第 <strong>' . $num . '</strong> 号会员';
+	}
+	
 	public function one_s_savepoints($user) {
 		return "{$user} 的网上据点";
 	}
@@ -394,5 +418,15 @@ class lang implements Language {
 	public function one_s_recent_topics($user) {
 		return "{$user} 最近创建的主题";
 	}
+
+	public function one_s_recent_discussions($user) {
+		return "{$user} 最近参与的讨论";
+	}
+	
+	public function one_s_components($user) {
+		return "{$user} 的成分分析";
+	}
+	
+	
 }
 ?>

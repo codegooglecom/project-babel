@@ -39,10 +39,13 @@ interface Language {
 	public function members_total();
 	public function discussions();
 	public function favorites();
-	public function Savepoints();
+	public function savepoints();
 	public function ing_updates();
 	public function weblogs();
 	public function online_total();
+	public function online_now();
+	public function online_details();
+	public function disconnected();
 	public function anonymous();
 	public function registered();
 	public function system_status();
@@ -82,6 +85,8 @@ interface Language {
 	public function hot_topics();
 	public function current_hottest_topic();
 	public function member_show();
+	public function member_list();
+	public function member_count($count);
 	public function create_new_topic();
 	public function create_new_topic_in($title);
 	public function favorite_this_topic();
@@ -96,8 +101,10 @@ interface Language {
 	public function go_to_top();
 	public function switch_language();
 	public function no_reply_yet();
+	public function member_num($num);
 	public function one_s_savepoints($user);
 	public function one_s_friends($user);
 	public function one_s_recent_topics($user);
+	public function one_s_recent_discussions($user);
 }
 ?>
