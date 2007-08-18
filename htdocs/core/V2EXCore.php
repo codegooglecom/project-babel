@@ -4473,13 +4473,13 @@ class Page {
 
 		if ($Online = mysql_fetch_object($rs)) {
 			$_flag_online = true;
-			$_o = '当前在线，于 ' . make_descriptive_time($Online->onl_created) . '进入 ' . Vocabulary::site_name . '，最后活动时间是在 ' . make_descriptive_time($Online->onl_lastmoved);
+			$_o = '当前在线 ... 于 ' . make_descriptive_time($Online->onl_created) . '进入 ' . Vocabulary::site_name . '，最后活动时间是在 ' . make_descriptive_time($Online->onl_lastmoved);
 			if ($this->User->usr_id == 1) {
-				$_o .= '，IP 地址 ' . $Online->onl_ip;
+				$_o .= ' ... IP 地址 ' . $Online->onl_ip;
 			}
 		} else {
 			$_flag_online = false;
-			$_o = '当前不在线';
+			$_o = strtolower($this->lang->disconnected());
 		}
 		
 		mysql_free_result($rs);
@@ -4504,7 +4504,7 @@ class Page {
 			echo('<div style="float: right;"><script type="text/javascript" src="http://download.skype.com/share/skypebuttons/js/skypeCheck.js"></script>
 <a href="skype:' . make_single_return($O->usr_skype) . '?call"><img src="http://mystatus.skype.com/smallclassic/' . urlencode($O->usr_skype) . '" style="border: none;" width="114" height="20" alt="' . make_single_return($O->usr_nick) . ' 的 Skype" /></a></div>');
 		}
-		echo('<span class="text"><img src="' . $img_p_n . '" class="portrait" align="absmiddle" /> ' . Vocabulary::site_name . ' 的第 <strong>' . $O->usr_id . '</strong> 号会员，' . $_o . '</span>');
+		echo('<span class="text"><img src="' . $img_p_n . '" class="portrait" align="absmiddle" /> ' . $this->lang->member_num($O->usr_id) . ' ... ' . $_o . '</span>');
 		
 		if ($_SESSION['babel_ua']['GECKO_DETECTED'] || $_SESSION['babel_ua']['KHTML_DETECTED'] || $_SESSION['babel_ua']['OPERA_DETECTED']) {
 			
@@ -4923,15 +4923,15 @@ class Page {
 			$i++;
 			$css_color = rand_color();
 			$css_td_class = $i % 2 ? 'section_even' : 'section_odd';
-			$txt_fresh = $Topic->tpc_posts ? $Topic->tpc_posts . ' 篇回复' : '尚无回复';
-			echo('<tr><td align="left" class="' . $css_td_class . '">[ <a href="/board/view/' . $Topic->nod_id . '.html" class="var" style="color: ' . $css_color . '">' . $Topic->nod_title . '</a> ]&nbsp;<a href="/topic/view/' . $Topic->tpc_id . '.html">' . $Topic->tpc_title . '</a> <span class="tip_i">... ' . make_descriptive_time($Topic->tpc_created) . '，' . $txt_fresh . '</span></td></tr>');
+			$txt_fresh = $Topic->tpc_posts ? $this->lang->posts($Topic->tpc_posts) : $this->lang->no_reply_yet();
+			echo('<tr><td align="left" class="' . $css_td_class . '">[ <a href="/board/view/' . $Topic->nod_id . '.html" class="var" style="color: ' . $css_color . '">' . $Topic->nod_title . '</a> ]&nbsp;<a href="/topic/view/' . $Topic->tpc_id . '.html">' . $Topic->tpc_title . '</a> <span class="tip_i">... ' . make_descriptive_time($Topic->tpc_created) . ' ... ' . $txt_fresh . '</span></td></tr>');
 		}
 		echo('</table>');
 		echo('</td></tr>');
 		
 		echo('<tr><td colspan="2" align="left" class="section_odd"><span class="text_large">');
 		_v_ico_tango_32('apps/internet-group-chat');
-		echo(' ' . $O->usr_nick . ' 最近参与的讨论</span>');
+		echo(' ' . $this->lang->one_s_recent_discussions($O->usr_nick) . '</span>');
 		echo('<table cellpadding="0" cellspacing="0" border="0" class="fav" width="100%">');
 		
 		$i = 0;
@@ -4939,13 +4939,13 @@ class Page {
 			$i++;
 			$css_color = rand_color();
 			$css_td_class = $i % 2 ? 'section_odd' : 'section_even';
-			$txt_fresh = $_reply['tpc_posts'] ? $_reply['tpc_posts'] . ' 篇回复' : '尚无回复';
-			echo('<tr><td align="left" class="' . $css_td_class . '">[ <a href="/board/view/' . $_reply['nod_id'] . '.html" class="var" style="color: ' . $css_color . '">' . $_reply['nod_title_plain'] . '</a> ]&nbsp;<a href="/topic/view/' . $_reply['tpc_id'] . '.html">' . $_reply['tpc_title_plain'] . '</a> <span class="tip_i">... ' . make_descriptive_time($_reply['pst_created']) . '，' . $txt_fresh . '</span></td></tr>');
+			$txt_fresh = $_reply['tpc_posts'] ? $this->lang->posts($_reply['tpc_posts']) : $this->lang->no_reply_yet();
+			echo('<tr><td align="left" class="' . $css_td_class . '">[ <a href="/board/view/' . $_reply['nod_id'] . '.html" class="var" style="color: ' . $css_color . '">' . $_reply['nod_title_plain'] . '</a> ]&nbsp;<a href="/topic/view/' . $_reply['tpc_id'] . '.html">' . $_reply['tpc_title_plain'] . '</a> <span class="tip_i">... ' . make_descriptive_time($_reply['pst_created']) . ' ... ' . $txt_fresh . '</span></td></tr>');
 		}
 		
 		echo('</table>');
 		echo('</td></tr>');
-		if (BABEL_FEATURE_USER_COMPONENTS) {
+		if (BABEL_FEATURE_USER_COMPONENTS && (BABEL_LANG == 'zh_cn' || BABEL_LANG == 'zh_tw')) {
 			echo('<tr><td colspan="2" align="left" class="section_odd">');
 			echo('<div style="float: right;"><span class="tip_i"><small>Kuso Only</small></span></div>');
 			echo('<span class="text_large">');
@@ -8916,7 +8916,7 @@ google_color_url = "00CC00";
 		echo('<div id="main">');
 		echo('<div class="blank" align="left">');
 		_v_ico_map();
-		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_member . '列表');
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->lang->member_list());
 		
 		_v_hr();
 		
@@ -8997,7 +8997,7 @@ google_color_url = "00CC00";
 			$this->vxDrawPages($p);
 		}
 		_v_hr();
-		echo('<span class="tip_i"><img src="/img/icons/silk/information.png" align="absmiddle" /> 共 ' . $this->usr_count . ' 名注册会员</small>');
+		echo('<span class="tip_i"><img src="/img/icons/silk/information.png" align="absmiddle" /> ' . $this->lang->member_count($this->usr_count) . '</small>');
 		echo('</div>');
 		echo('</div>');
 		
