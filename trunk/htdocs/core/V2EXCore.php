@@ -688,7 +688,7 @@ class Page {
 		*/
 		echo('</ul>');
 		echo('</li>');
-		echo('<li class="top"><a href="#" class="top">&nbsp;&nbsp;&nbsp;Switch Language&nbsp;&nbsp;&nbsp;</a>');
+		echo('<li class="top"><a href="#" class="top">&nbsp;&nbsp;&nbsp;' . $this->lang->switch_language() . '&nbsp;&nbsp;&nbsp;</a>');
 		echo('<ul>');
 		include(BABEL_PREFIX . '/res/supported_languages.php');
 		foreach ($_languages as $lang => $language) {
@@ -4266,15 +4266,16 @@ class Page {
 		echo('<div id="main">');
 		echo('<div class="blank" align="left">');
 		_v_ico_map();
-		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::action_passwd . '</div>');
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->lang->password_recovery() . '</div>');
 		switch ($options['mode']) {
 			default:
 			case 'get':
-				echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_recover.gif" align="absmiddle" class="home" />通过电子邮件找回密码</span>');
+				echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_recover.gif" align="absmiddle" class="home" />' . $this->lang->password_recovery() . '</span>');
+				_v_hr();
 				echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 				echo('<form action="/passwd.vx" method="post" id="form_passwd">');
 				echo('<tr><td width="200" align="right">电子邮件</td><td width="200" align="left"><input type="text" maxlength="100" class="sl" name="usr" tabindex="1" /></td><td width="150" rowspan="2" valign="middle" align="right">');
-				_v_btn_f('找回密码', 'form_passwd');
+				_v_btn_f($this->lang->go_on(), 'form_passwd');
 				echo('</td></tr></form></table>');
 				_v_hr();
 				echo('<img src="/img/ico_tip.gif" align="absmiddle" class="home" />你可以通过输入注册时候使用的电子邮件地址来找回密码<br />
@@ -4285,9 +4286,9 @@ class Page {
 				echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 				echo('<form action="/passwd.vx" method="post" id="form_passwd">');
 				echo('<input type="hidden" value="' . $options['key'] . '" name="key" />');
-				echo('<tr><td width="200" align="right">新密码</td><td width="200" align="left"><input type="password" maxlength="100" class="sl" name="usr_password" tabindex="1" /></td><td width="150" rowspan="2" valign="middle" align="right">');
-				_v_btn_f('重设密码', 'form_passwd');
-				echo('</td></tr><tr><td width="200" align="right">重复密码</td><td align="left"><input type="password" tabindex="2" maxlength="32" class="sl" name="usr_confirm" /></td></tr></form></table>');
+				echo('<tr><td width="200" align="right">' . $this->lang->new_password() . '</td><td width="200" align="left"><input type="password" maxlength="100" class="sl" name="usr_password" tabindex="1" /></td><td width="150" rowspan="2" valign="middle" align="right">');
+				_v_btn_f($this->lang->go_on(), 'form_passwd');
+				echo('</td></tr><tr><td width="200" align="right">' . $this->lang->new_password_again() . '</td><td align="left"><input type="password" tabindex="2" maxlength="32" class="sl" name="usr_confirm" /></td></tr></form></table>');
 				_v_hr();
 				echo('<img src="/img/ico_tip.gif" align="absmiddle" class="ico" />请输入新密码两遍之后，点击 [ 重设密码 ] 为会员 <span class="tip"><em>' . $options['target']->usr_nick . '</em></span> 重新设置密码</div>');
 				break;
@@ -4915,7 +4916,7 @@ class Page {
 		
 		echo('<tr><td colspan="2" align="left" class="section_odd"><span class="text_large">');
 		_v_ico_tango_32('categories/applications-multimedia');
-		echo(' ' . $O->usr_nick . ' 最近创建的主题</span>');
+		echo(' ' . $this->lang->one_s_recent_topics($O->usr_nick) . '</span>');
 		echo('<table cellpadding="0" cellspacing="0" border="0" class="fav" width="100%">');
 		$i = 0;
 		while ($Topic = mysql_fetch_object($rs_created)) {
@@ -8381,12 +8382,19 @@ google_color_url = "00CC00";
 		$_SESSION['babel_page_topic'] = $p['cur'];
 		if ($Topic->tpc_reply_count > 0) {
 			echo('<div id="vxReplyTop"><span class="tip_i">');
+
 			if ($Topic->tpc_posts > 0) {
+
 				echo($this->lang->posts($Topic->tpc_posts));
+
 			} else {
+
 				echo($this->lang->no_reply_yet());
+
 			}
+
 			echo(' | ');
+
 			echo('<a href="#;" onclick="window.scrollTo(0,0);" class="regular">' . $this->lang->go_to_top() . '</a> | ');
 			if ($this->User->vxIsLogin()) {
 				echo('<a href="#replyForm" onclick="jumpReply();" class="regular">' . $this->lang->reply() . '</a>');
@@ -8470,7 +8478,7 @@ google_color_url = "00CC00";
 				echo('<a href="/u/' . urlencode($Reply->usr_nick) . '"><img src="' . $img_p . '" align="absmiddle" style="margin-right: 10px;" border="0" /></a>');
 				echo('<strong><a href="/u/' . urlencode($Reply->usr_nick) . '" style="color: ' . rand_color() . '" class="var">' . make_plaintext($Reply->usr_nick) . '</a></strong>');
 				if ($this->User->usr_id == $Reply->usr_id) {
-					echo(' <span class="tip_i">' . $topic->me() . '</span>');
+					echo(' <span class="tip_i">' . $this->lang->me() . '</span>');
 				}
 				if ($Topic->usr_id == $Reply->usr_id) {
 					echo(' <span class="tip_i">' . $this->lang->topic_creator() . '</span>');

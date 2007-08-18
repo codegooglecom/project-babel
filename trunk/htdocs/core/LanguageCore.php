@@ -35,6 +35,7 @@ interface Language {
 	public function search();
 	public function ref_search();
 	public function tools();
+	public function go_on();
 	public function members_total();
 	public function discussions();
 	public function favorites();
@@ -93,8 +94,10 @@ interface Language {
 	public function login_before_reply();
 	public function please_check();
 	public function go_to_top();
+	public function switch_language();
 	public function no_reply_yet();
 	public function one_s_savepoints($user);
 	public function one_s_friends($user);
+	public function one_s_recent_topics($user);
 }
 ?>
