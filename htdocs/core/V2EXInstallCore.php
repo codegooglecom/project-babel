@@ -263,6 +263,7 @@ $i->vxSetupBoard('money', '投资与理财', 452, 452, 1, 2, '', '');
 $i->vxSetupBoard('vc', '风险投资', 452, 452, 1, 2, '', '');
 $i->vxSetupBoard('lottery', '彩票', 452, 452, 1, 2, '', '');
 $i->vxSetupBoard('jobs', '我要找份好工作', 452, 452, 1, 2, '', '');
+$i->vxSetupBoard('enterprise-it', '企业信息化服务', 452, 452, 1, 2, '', '');
 $i->vxSetupBoard('sales', '销售一切', 452, 452, 1, 2, '', '');
 $i->vxSetupBoard('exchange', '以物换物', 452, 452, 1, 2, '', '');
 $i->vxSetupBoard('knack', '诀窍', 452, 452, 1, 2, '或许是小聪明，或许是大智慧', '');
