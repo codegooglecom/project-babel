@@ -44,7 +44,7 @@ interface Language {
 	public function weblogs();
 	public function online_total();
 	public function online_now();
-	public function online_details();
+	public function online_details($onl_created, $onl_lastmoved);
 	public function disconnected();
 	public function anonymous();
 	public function registered();
@@ -56,6 +56,7 @@ interface Language {
 	public function settings();
 	public function set_location();
 	public function password_recovery();
+	public function password_recovery_tips();
 	public function timtowtdi();
 	public function reply();
 	public function login_and_reply();
@@ -98,6 +99,7 @@ interface Language {
 	public function who_adds_me();
 	public function login_before_reply();
 	public function please_check();
+	public function new_topic();
 	public function go_to_top();
 	public function switch_language();
 	public function no_reply_yet();

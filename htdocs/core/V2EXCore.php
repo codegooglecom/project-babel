@@ -4274,12 +4274,12 @@ class Page {
 				_v_hr();
 				echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 				echo('<form action="/passwd.vx" method="post" id="form_passwd">');
-				echo('<tr><td width="200" align="right">电子邮件</td><td width="200" align="left"><input type="text" maxlength="100" class="sl" name="usr" tabindex="1" /></td><td width="150" rowspan="2" valign="middle" align="right">');
+				echo('<tr><td width="200" align="right">' . $this->lang->email() . '</td><td width="200" align="left"><input type="text" maxlength="100" class="sl" name="usr" tabindex="1" /></td><td width="150" rowspan="2" valign="middle" align="right">');
 				_v_btn_f($this->lang->go_on(), 'form_passwd');
 				echo('</td></tr></form></table>');
 				_v_hr();
-				echo('<img src="/img/ico_tip.gif" align="absmiddle" class="home" />你可以通过输入注册时候使用的电子邮件地址来找回密码<br />
-		如果你输入的电子邮件地址确实存在的话，我们将试着向你注册时候使用的电子邮件地址发送一封包含特殊指令的邮件，点击邮件中的地址将让可以让你复位密码，在每 24 小时内，复位密码功能（包括发送邮件）只能使用 5 次<br /><br />如果你确信无法收到我们发送给你的邮件，请你向我们的技术支持 ' . BABEL_AM_SUPPORT . ' 发送一封邮件详细描述你所遇到的问题</div>');
+				_v_ico_silk('information');
+				echo(' ' . $this->lang->password_recovery_tips() . '</div>');
 				break;
 			case 'key':
 				echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_recover.gif" align="absmiddle" class="home" />请输入新密码</span>');
@@ -4316,42 +4316,42 @@ class Page {
 					switch ($options['rt']['pswitch']) {
 						default:
 						case 'a':
-							echo('<tr><td width="200" align="right">新密码</td><td width="200" align="left"><div class="error"><input type="password" maxlength="32" class="sl" name="usr_password" tabindex="1" />&nbsp;<img src="/img/sico_error.gif" align="absmiddle" /><br />' . $options['rt']['usr_password_error_msg'][$options['rt']['usr_password_error']] . '</div></td><td width="150" rowspan="2" valign="middle" align="right">');
-							_v_btn_f('重设密码', 'form_passwd');
+							echo('<tr><td width="200" align="right">' . $this->lang->new_password() . '</td><td width="200" align="left"><div class="error"><input type="password" maxlength="32" class="sl" name="usr_password" tabindex="1" />&nbsp;<img src="/img/sico_error.gif" align="absmiddle" /><br />' . $options['rt']['usr_password_error_msg'][$options['rt']['usr_password_error']] . '</div></td><td width="150" rowspan="2" valign="middle" align="right">');
+							_v_btn_f($this->lang->continue(), 'form_passwd');
 							echo('</td></tr>');
-							echo('<tr><td width="200" align="right">重复密码</td><td width="200" align="left"><input type="password" maxlength="32" class="sl" name="usr_confirm" tabindex="2" /></td></tr>');
+							echo('<tr><td width="200" align="right">' . $this->lang->new_password_again() . '</td><td width="200" align="left"><input type="password" maxlength="32" class="sl" name="usr_confirm" tabindex="2" /></td></tr>');
 							break;
 						case 'b':
 							if ($options['rt']['usr_password_error'] == 0) {
 								if ($options['rt']['usr_confirm_error'] != 0) {
-									echo('<tr><td width="200" align="right">新密码</td><td width="200" align="left"><input type="password" maxlength="32" class="sl" name="usr_password" value="' . make_single_return($options['rt']['usr_password_value']) . '" tabindex="1" /></td><td width="150" rowspan="2" valign="middle" align="right">');
-									_v_btn_f('重设密码', 'form_passwd');
+									echo('<tr><td width="200" align="right">' . $this->lang->new_password() . '</td><td width="200" align="left"><input type="password" maxlength="32" class="sl" name="usr_password" value="' . make_single_return($options['rt']['usr_password_value']) . '" tabindex="1" /></td><td width="150" rowspan="2" valign="middle" align="right">');
+									_v_btn_f($this->lang->continue(), 'form_passwd');
 									echo('</td></tr>');
-									echo('<tr><td width="200" align="right">重复新密码</td><td width="200" align="left"><div class="error"><input type="password" maxlength="32" class="sl" name="usr_confirm" tabindex="2" />&nbsp;<img src="/img/sico_error.gif" align="absmiddle" /><br />' . $options['rt']['usr_confirm_error_msg'][$options['rt']['usr_confirm_error']] . '</div></td></tr>');
+									echo('<tr><td width="200" align="right">' . $this->lang->new_password_again() . '</td><td width="200" align="left"><div class="error"><input type="password" maxlength="32" class="sl" name="usr_confirm" tabindex="2" />&nbsp;<img src="/img/sico_error.gif" align="absmiddle" /><br />' . $options['rt']['usr_confirm_error_msg'][$options['rt']['usr_confirm_error']] . '</div></td></tr>');
 								} else {
-									echo('<tr><td width="200" align="right">新密码</td><td width="200" align="left""><input type="password" maxlength="32" class="sl" name="usr_password" value="' . make_single_return($options['rt']['usr_password_value']) . '" tabindex="1" />&nbsp;<img src="/img/sico_ok.gif" align="absmiddle" alt="ok" /></td><td width="150" rowspan="2" valign="middle" align="right">');
-									_v_btn_f('重设密码', 'form_passwd');
+									echo('<tr><td width="200" align="right">' . $this->lang->new_password() . '</td><td width="200" align="left""><input type="password" maxlength="32" class="sl" name="usr_password" value="' . make_single_return($options['rt']['usr_password_value']) . '" tabindex="1" />&nbsp;<img src="/img/sico_ok.gif" align="absmiddle" alt="ok" /></td><td width="150" rowspan="2" valign="middle" align="right">');
+									_v_btn_f($this->lang->continue(), 'form_passwd');
 									echo('</td></tr>');
-									echo('<tr><td width="200" align="right">重复新密码</td><td width="200" align="left""><input type="password" maxlength="32" class="sl" name="usr_confirm" value="' . make_single_return($options['rt']['usr_confirm_value']) . '" tabindex="2" />&nbsp;<img src="/img/sico_ok.gif" align="absmiddle" alt="ok" /></td></tr>');
+									echo('<tr><td width="200" align="right">' . $this->lang->new_password_again() . '</td><td width="200" align="left""><input type="password" maxlength="32" class="sl" name="usr_confirm" value="' . make_single_return($options['rt']['usr_confirm_value']) . '" tabindex="2" />&nbsp;<img src="/img/sico_ok.gif" align="absmiddle" alt="ok" /></td></tr>');
 								}
 							} else {
-								echo('<tr><td width="200" align="right">新密码</td><td width="200" align="left"><div class="error"><input type="password" maxlength="32" class="sl" name="usr_password" tabindex="1" />&nbsp;<img src="/img/sico_error.gif" align="absmiddle" /><br />' . $options['rt']['usr_password_error_msg'][$options['rt']['usr_password_error']] . '</div></td><td width="150" rowspan="2" valign="middle" align="right">');
-								_v_btn_f('重设密码', 'form_passwd');
+								echo('<tr><td width="200" align="right">' . $this->lang->new_password() . '</td><td width="200" align="left"><div class="error"><input type="password" maxlength="32" class="sl" name="usr_password" tabindex="1" />&nbsp;<img src="/img/sico_error.gif" align="absmiddle" /><br />' . $options['rt']['usr_password_error_msg'][$options['rt']['usr_password_error']] . '</div></td><td width="150" rowspan="2" valign="middle" align="right">');
+								_v_btn_f($this->lang->continue(), 'form_passwd');
 								echo('</td></tr>');
-								echo('<tr><td width="200" align="right">重复新密码</td><td width="200" align="left"><input type="password" maxlength="32" class="sl" name="usr_confirm" tabindex="2" /></td></tr>');
+								echo('<tr><td width="200" align="right">' . $this->lang->new_password_again() . '</td><td width="200" align="left"><input type="password" maxlength="32" class="sl" name="usr_confirm" tabindex="2" /></td></tr>');
 							}
 							break;
 						case 'c':
-							echo('<tr><td width="200" align="right">新密码</td><td width="200" align="left"><input type="password" maxlength="32" class="sl" name="usr_password" value="' . make_single_return($options['rt']['usr_password_value']) . '" tabindex="1" /></td><td width="150" rowspan="2" valign="middle" align="right">');
-							_v_btn_f('重设密码', 'form_passwd');
+							echo('<tr><td width="200" align="right">' . $this->lang->new_password() . '</td><td width="200" align="left"><input type="password" maxlength="32" class="sl" name="usr_password" value="' . make_single_return($options['rt']['usr_password_value']) . '" tabindex="1" /></td><td width="150" rowspan="2" valign="middle" align="right">');
+							_v_btn_f($this->lang->continue(), 'form_passwd');
 							echo('</td></tr>');
-							echo('<tr><td width="200" align="right">重复新密码</td><td width="200" align="left"><div class="error"><input type="password" maxlength="32" class="sl" name="usr_confirm" tabindex="2" />&nbsp;<img src="/img/sico_error.gif" align="absmiddle" /><br />' . $options['rt']['usr_confirm_error_msg'][$options['rt']['usr_confirm_error']] . '</div></td></tr>');
+							echo('<tr><td width="200" align="right">' . $this->lang->new_password_again() . '</td><td width="200" align="left"><div class="error"><input type="password" maxlength="32" class="sl" name="usr_confirm" tabindex="2" />&nbsp;<img src="/img/sico_error.gif" align="absmiddle" /><br />' . $options['rt']['usr_confirm_error_msg'][$options['rt']['usr_confirm_error']] . '</div></td></tr>');
 							break;
 						case 'd':
-							echo('<tr><td width="200" align="right">新密码</td><td width="200" align="left"><div class="error"><input type="password" maxlength="32" class="sl" name="usr_password" tabindex="1" />&nbsp;<img src="/img/sico_error.gif" align="absmiddle" /><br />' . $options['rt']['usr_password_error_msg'][$options['rt']['usr_password_error']] . '</div></td><td width="150" rowspan="2" valign="middle" align="right">');
-							_v_btn_f('重设密码', 'form_passwd');
+							echo('<tr><td width="200" align="right">' . $this->lang->new_password() . '</td><td width="200" align="left"><div class="error"><input type="password" maxlength="32" class="sl" name="usr_password" tabindex="1" />&nbsp;<img src="/img/sico_error.gif" align="absmiddle" /><br />' . $options['rt']['usr_password_error_msg'][$options['rt']['usr_password_error']] . '</div></td><td width="150" rowspan="2" valign="middle" align="right">');
+							_v_btn_f($this->lang->continue(), 'form_passwd');
 							echo('</td></tr>');
-							echo('<tr><td width="200" align="right">重复新密码</td><td width="200" align="left"><input type="password" maxlength="32" class="sl" name="usr_confirm" value="' . make_single_return($options['rt']['usr_confirm_value']) . '" tabindex="2" /></td></tr>');
+							echo('<tr><td width="200" align="right">' . $this->lang->new_password_again() . '</td><td width="200" align="left"><input type="password" maxlength="32" class="sl" name="usr_confirm" value="' . make_single_return($options['rt']['usr_confirm_value']) . '" tabindex="2" /></td></tr>');
 							break;
 					}
 					
@@ -4473,13 +4473,13 @@ class Page {
 
 		if ($Online = mysql_fetch_object($rs)) {
 			$_flag_online = true;
-			$_o = '当前在线 ... 于 ' . make_descriptive_time($Online->onl_created) . '进入 ' . Vocabulary::site_name . '，最后活动时间是在 ' . make_descriptive_time($Online->onl_lastmoved);
+			$_o = '<small class="lime">' . strtolower($this->lang->online_now()) . '</small> ... ' . $this->lang->online_details($Online->onl_created, $Online->onl_lastmoved);
 			if ($this->User->usr_id == 1) {
 				$_o .= ' ... IP 地址 ' . $Online->onl_ip;
 			}
 		} else {
 			$_flag_online = false;
-			$_o = strtolower($this->lang->disconnected());
+			$_o = '<small class="na">' . strtolower($this->lang->disconnected()) . '</small>';
 		}
 		
 		mysql_free_result($rs);
@@ -4923,7 +4923,7 @@ class Page {
 			$i++;
 			$css_color = rand_color();
 			$css_td_class = $i % 2 ? 'section_even' : 'section_odd';
-			$txt_fresh = $Topic->tpc_posts ? $this->lang->posts($Topic->tpc_posts) : $this->lang->no_reply_yet();
+			$txt_fresh = $Topic->tpc_posts ? $this->lang->posts($Topic->tpc_posts) : strtolower($this->lang->no_reply_yet());
 			echo('<tr><td align="left" class="' . $css_td_class . '">[ <a href="/board/view/' . $Topic->nod_id . '.html" class="var" style="color: ' . $css_color . '">' . $Topic->nod_title . '</a> ]&nbsp;<a href="/topic/view/' . $Topic->tpc_id . '.html">' . $Topic->tpc_title . '</a> <span class="tip_i">... ' . make_descriptive_time($Topic->tpc_created) . ' ... ' . $txt_fresh . '</span></td></tr>');
 		}
 		echo('</table>');
@@ -4939,7 +4939,7 @@ class Page {
 			$i++;
 			$css_color = rand_color();
 			$css_td_class = $i % 2 ? 'section_odd' : 'section_even';
-			$txt_fresh = $_reply['tpc_posts'] ? $this->lang->posts($_reply['tpc_posts']) : $this->lang->no_reply_yet();
+			$txt_fresh = $_reply['tpc_posts'] ? $this->lang->posts($_reply['tpc_posts']) : strtolower($this->lang->no_reply_yet());
 			echo('<tr><td align="left" class="' . $css_td_class . '">[ <a href="/board/view/' . $_reply['nod_id'] . '.html" class="var" style="color: ' . $css_color . '">' . $_reply['nod_title_plain'] . '</a> ]&nbsp;<a href="/topic/view/' . $_reply['tpc_id'] . '.html">' . $_reply['tpc_title_plain'] . '</a> <span class="tip_i">... ' . make_descriptive_time($_reply['pst_created']) . ' ... ' . $txt_fresh . '</span></td></tr>');
 		}
 		
@@ -7809,7 +7809,10 @@ class Page {
 				echo('<div class="blank" align="left">');
 				_v_ico_map();
 				echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; <a href="/board/view/' . $Node->nod_id . '.html">' . $Node->nod_title . '</a> &gt; ' . Vocabulary::action_newtopic . '</div>');
-				echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_conf.gif" align="absmiddle" class="home" />' . Vocabulary::action_newtopic . '</span>');
+				echo('<div class="blank" align="left"><span class="text_large">');
+				_v_ico_tango_32('actions/document-new', 'absmiddle', 'home');
+				echo($this->lang->new_topic() . '</span>');
+				_v_hr();
 				echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 				echo('<form action="/topic/create/' . $Node->nod_id . '.vx" method="post" id="form_topic_create">');
 				echo('<tr><td width="100" align="right">标题</td><td width="400" align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="tpc_title" /></td></tr>');

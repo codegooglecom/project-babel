@@ -202,8 +202,8 @@ class lang implements Language {
 		return 'Online Now';
 	}
 	
-	public function online_details() {
-		return '';
+	public function online_details($onl_created, $onl_lastmoved) {
+		return 'signed in at ' . make_descriptive_time($onl_created) . ', last moved at ' . make_descriptive_time($onl_lastmoved);
 	}
 	
 	public function disconnected() {
@@ -248,6 +248,10 @@ class lang implements Language {
 	
 	public function password_recovery() {
 		return 'Password Recovery';
+	}
+	
+	public function password_recovery_tips() {
+		return 'Please input your registered E-mail address to get your password. If the address does exist in our system, then a mail containing instructions will be sent to you, click the address in the mail and set a new password.';
 	}
 	
 	public function timtowtdi() {
@@ -418,6 +422,10 @@ class lang implements Language {
 		return 'Sorry, please check your input, something needs to be corrected';
 	}
 
+	public function new_topic() {
+		return 'New Topic';
+	}
+	
 	public function go_to_top() {
 		return 'Go to Top';
 	}
