@@ -176,8 +176,8 @@ class lang implements Language {
 		return '当前在线';
 	}
 	
-	public function online_details() {
-		return '';
+	public function online_details($onl_created, $onl_lastmoved) {
+		return '于 ' . make_descriptive_time($onl_created) . '进入 ' . Vocabulary::site_name . '，最后活动时间是在 ' . make_descriptive_time($onl_lastmoved);
 	}
 	
 	public function disconnected() {
@@ -222,6 +222,10 @@ class lang implements Language {
 	
 	public function password_recovery() {
 		return '找回密码';
+	}
+	
+	public function password_recovery_tips() {
+		return '你可以通过输入注册时候填入的电子邮件地址来找回密码。如果你输入的电子邮件地址确实存在的话，我们将向其发送一封包含特殊指令的邮件，点击邮件中的地址将即可复位密码，在每 24 小时内，复位密码功能（包括发送邮件）只能使用 5 次。';
 	}
 
 	public function timtowtdi() {
@@ -389,6 +393,10 @@ class lang implements Language {
 	
 	public function please_check() {
 		return '对不起，请检查一下你刚才的输入，有些错误需要解决';
+	}
+	
+	public function new_topic() {
+		return '创建新主题';
 	}
 
 	public function go_to_top() {
