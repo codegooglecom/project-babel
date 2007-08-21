@@ -76,6 +76,9 @@ interface Language {
 	public function send_money();
 	public function top_wealth();
 	public function top_topics();
+	public function hottest_topics();
+	public function hottest_discussion_boards();
+	public function random_discussion_boards();
 	public function latest_topics();
 	public function latest_replied();
 	public function latest_unanswered();
@@ -108,5 +111,13 @@ interface Language {
 	public function one_s_friends($user);
 	public function one_s_recent_topics($user);
 	public function one_s_recent_discussions($user);
+	public function title();
+	public function description();
+	public function content();
+	public function publish();
+	public function return_to_discussion_board();
+	public function board_stats_topics($count);
+	public function board_stats_favs($count, $name);
+	public function board_stats_favs_zero();
 }
 ?>

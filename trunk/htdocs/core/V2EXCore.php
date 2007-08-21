@@ -3394,7 +3394,7 @@ class Page {
 		echo('<div class="blank" align="left"><span class="text_large"><img src="' . CDN_IMG . 's/' . $Node->nod_name . '.gif" align="absmiddle" align="" class="ico" />' . $Node->nod_title . '</span></div>');
 		echo('<table width="100%" border="0" cellpadding="0" cellspacing="2" class="board">');
 		echo('<tr><td width="360" align="left" class="hf" valign="top">' . $Node->nod_header . '</td><td align="right" class="hf" colspan="2">');
-		_v_btn_l('创建新主题', '/topic/new/' . $Node->nod_id . '.vx');
+		_v_btn_l($this->lang->new_topic(), '/topic/new/' . $Node->nod_id . '.vx');
 		echo('</td></tr>');
 		echo('<tr>');
 		
@@ -3418,7 +3418,7 @@ class Page {
 		echo('<td align="left" valign="top" class="container">');
 		echo('<table width="100%" cellpadding="0" cellspacing="0" border="0" class="drawer">');
 		
-		echo('<tr><td height="18" class="blue">最新主题</td></tr>');
+		echo('<tr><td height="18" class="blue">' . $this->lang->latest_topics() . '</td></tr>');
 		$sql = "SELECT tpc_id, tpc_pid, tpc_uid, tpc_title, tpc_hits, tpc_posts, tpc_created FROM babel_topic WHERE tpc_pid IN ({$board_ids}) AND tpc_flag IN (0, 2) AND tpc_pid NOT IN " . BABEL_NODES_POINTLESS . " ORDER BY tpc_lasttouched DESC LIMIT 60";
 		$rs = mysql_query($sql, $this->db);
 		$i = 0;
@@ -3451,7 +3451,7 @@ class Page {
 		}
 		mysql_free_result($rs);
 		
-		echo('<tr><td height="18" class="orange">最热主题 Top 10</td></tr>');
+		echo('<tr><td height="18" class="orange">' . $this->lang->hottest_topics() . ' Top 10</td></tr>');
 		$sql = "SELECT tpc_id, tpc_pid, tpc_uid, tpc_title, tpc_hits, tpc_posts FROM babel_topic WHERE tpc_pid IN ({$board_ids}) AND tpc_flag IN (0, 2) ORDER BY tpc_posts DESC LIMIT 10";
 		$rs = mysql_query($sql, $this->db);
 		$i = 0;
@@ -3482,7 +3482,7 @@ class Page {
 		echo('</table></td>');
 		// The best boards
 		
-		echo('<td width="25%" align="left" valign="top" class="container" style="border-left: 1px solid #CCC;"><table width="100%" cellpadding="0" cellspacing="0" border="0" class="drawer"><tr><td height="18" class="orange">热门讨论区</td></tr>');
+		echo('<td width="25%" align="left" valign="top" class="container" style="border-left: 1px solid #CCC;"><table width="100%" cellpadding="0" cellspacing="0" border="0" class="drawer"><tr><td height="18" class="orange">' . $this->lang->hottest_discussion_boards() . '</td></tr>');
 		$sql = "SELECT nod_id, nod_name, nod_title, nod_topics FROM babel_node WHERE nod_sid = {$section_id} ORDER BY nod_topics DESC, nod_created ASC LIMIT 80";
 		$rs = mysql_query($sql, $this->db);
 		$i = 0;
@@ -3501,7 +3501,7 @@ class Page {
 		
 		// Random boards
 		
-		echo('<td width="25%" align="left" valign="top" class="container" style="border-left: 1px solid #CCC;"><table width="100%" cellpadding="0" cellspacing="0" border="0" class="drawer"><tr><td height="18" class="apple">随机讨论区</td></tr>');
+		echo('<td width="25%" align="left" valign="top" class="container" style="border-left: 1px solid #CCC;"><table width="100%" cellpadding="0" cellspacing="0" border="0" class="drawer"><tr><td height="18" class="apple">' . $this->lang->random_discussion_boards() . '</td></tr>');
 		$sql = "SELECT nod_id, nod_title, nod_name, nod_topics FROM babel_node WHERE nod_sid = {$section_id} ORDER BY rand() LIMIT 80";
 		$rs = mysql_query($sql, $this->db);
 		$i = 0;
@@ -4417,8 +4417,8 @@ class Page {
 					echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_important.gif" align="absmiddle" class="home" />出了一点问题</span>');
 					echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 					echo('<form action="/passwd.vx" method="post" id="form_passwd">');
-					echo('<tr><td width="200" align="right" valign="top">电子邮件</td><td width="200" align="left"><div class="error"><input type="text" maxlength="100" class="sl" name="usr" tabindex="1" />&nbsp;<img src="/img/sico_error.gif" align="absmiddle" /><br />' . $rt['err_msg'][$rt['err']] . '</div></td><td width="150" rowspan="2" valign="middle" align="right">');
-					_v_btn_f('找回密码', 'form_passwd');
+					echo('<tr><td width="200" align="right" valign="top">' . $this->lang->email() . '</td><td width="200" align="left"><div class="error"><input type="text" maxlength="100" class="sl" name="usr" tabindex="1" />&nbsp;<img src="/img/sico_error.gif" align="absmiddle" /><br />' . $rt['err_msg'][$rt['err']] . '</div></td><td width="150" rowspan="2" valign="middle" align="right">');
+					_v_btn_f($this->lang->go_on(), 'form_passwd');
 					echo('</td></tr></form></table>');
 					_v_hr();
 					echo('<img src="/img/ico_tip.gif" align="absmiddle" class="home" />你可以通过输入注册时候使用的电子邮件地址来找回密码<br />
@@ -6358,17 +6358,16 @@ class Page {
 		echo('<div style="font-size: 12px; display: inline;">&nbsp;<a href="/remix/' . $Node->nod_name . '"><img src="/img/icons/silk/shape_move_backwards.png" border="0" align="absmiddle" /></a></div>');
 		/* E: add to favorite */
 		echo('</span>');
-		echo('<br />本讨论区中共有 ' . $Node->nod_topics . ' 个主题');
+		echo('<br />');
+		echo($this->lang->board_stats_topics($Node->nod_topics));
 		/* S: how many favs */
-		echo $Node->nod_favs ? '，共有 <a href="/who/fav/node/' . $Node->nod_name . '" class="t">&nbsp;' . $Node->nod_favs . '&nbsp;</a> 人收藏了此讨论区' : '，无人收藏此讨论区';
-		echo('，<a href="/go/' . $Node->nod_name . '" class="var"><img src="/img/icons/silk/shape_move_backwards.png" align="absmiddle" border="0" /></a>&nbsp;<a href="/remix/' . $Node->nod_name . '" class="t">切换到 REMIX 模式</a>');
+		echo $Node->nod_favs ? ' ... ' . $this->lang->board_stats_favs($Node->nod_favs, $Node->nod_name) : ' ... ' . $this->lang->board_stats_favs_zero();
+		echo(' ... <a href="/go/' . $Node->nod_name . '" class="var"><img src="/img/icons/silk/shape_move_backwards.png" align="absmiddle" border="0" /></a>&nbsp;<a href="/remix/' . $Node->nod_name . '" class="t">' . $this->lang->remix_mode() . '</a>');
 		
 		/* E: how many favs */
 		if (!$Node->vxDrawChannels()) {
-			echo('，无相关频道');
+			echo(' ... 无相关频道');
 		}
-		
-		
 		
 		$sql = "SELECT rlt_url, rlt_title FROM babel_related WHERE rlt_pid = {$Node->nod_id} ORDER BY rlt_url ASC";
 		$rs = mysql_query($sql);
@@ -6397,7 +6396,7 @@ class Page {
 				echo($Node->nod_header);
 		}
 		echo('</td><td class="hf" align="right">');
-		_v_btn_l('创建新主题', '/topic/new/' . $Node->nod_id . '.vx');
+		_v_btn_l($this->lang->new_topic(), '/topic/new/' . $Node->nod_id . '.vx');
 		echo('</td></tr>');
 		$p = array();
 		$p['base'] = '/board/view/' . $board_id . '/';
@@ -7808,23 +7807,23 @@ class Page {
 				echo('<div id="main">');
 				echo('<div class="blank" align="left">');
 				_v_ico_map();
-				echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; <a href="/board/view/' . $Node->nod_id . '.html">' . $Node->nod_title . '</a> &gt; ' . Vocabulary::action_newtopic . '</div>');
+				echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; <a href="/board/view/' . $Node->nod_id . '.html">' . $Node->nod_title . '</a> &gt; ' . $this->lang->new_topic() . '</div>');
 				echo('<div class="blank" align="left"><span class="text_large">');
 				_v_ico_tango_32('actions/document-new', 'absmiddle', 'home');
 				echo($this->lang->new_topic() . '</span>');
 				_v_hr();
 				echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 				echo('<form action="/topic/create/' . $Node->nod_id . '.vx" method="post" id="form_topic_create">');
-				echo('<tr><td width="100" align="right">标题</td><td width="400" align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="tpc_title" /></td></tr>');
-				echo('<tr><td width="100" align="right" valign="top">主题简介</td><td width="400" align="left"><textarea onfocus="brightBox(this);" onblur="dimBox(this);" rows="5" class="ml" name="tpc_description"></textarea></td></tr>');
-				echo('<tr><td width="100" align="right" valign="top">主题内容</td><td width="400" align="left"><textarea onfocus="brightBox(this);" onblur="dimBox(this);" rows="15" class="ml" name="tpc_content"></textarea></td></tr>');
+				echo('<tr><td width="100" align="right">' . $this->lang->title() . '</td><td width="400" align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="tpc_title" /></td></tr>');
+				echo('<tr><td width="100" align="right" valign="top">' . $this->lang->description() . '</td><td width="400" align="left"><textarea onfocus="brightBox(this);" onblur="dimBox(this);" rows="5" class="ml" name="tpc_description"></textarea></td></tr>');
+				echo('<tr><td width="100" align="right" valign="top">' . $this->lang->content() . '</td><td width="400" align="left"><textarea onfocus="brightBox(this);" onblur="dimBox(this);" rows="15" class="ml" name="tpc_content"></textarea></td></tr>');
 				echo('<td width="500" colspan="3" valign="middle" align="right">');
-				_v_btn_f('立即创建', 'form_topic_create');
+				_v_btn_f($this->lang->publish(), 'form_topic_create');
 				echo('</td></tr>');
 				echo('</form>');
 				echo('</table>');
 				_v_hr();
-				echo('<span class="tip"><img src="/img/pico_left.gif" align="absmiddle" />&nbsp;<a href="/go/' . $Node->nod_name . '">返回讨论区 / ' . $Node->nod_title . '</a></span>');
+				echo('<span class="tip"><img src="/img/pico_left.gif" align="absmiddle" />&nbsp;<a href="/go/' . $Node->nod_name . '">' . $this->lang->return_to_discussion_board() . ' / ' . $Node->nod_title . '</a></span>');
 				echo('</div>');
 				echo('</div>');
 				break;
@@ -7833,11 +7832,11 @@ class Page {
 				echo('<div id="main">');
 				echo('<div class="blank" align="left">');
 				_v_ico_map();
-				echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; ' . Vocabulary::action_newtopic . '</div>');
-				echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_conf.gif" align="absmiddle" class="home" />' . Vocabulary::action_newtopic . '</span>');
+				echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; ' . $this->lang->new_topic() . '</div>');
+				echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_conf.gif" align="absmiddle" class="home" />' . $this->lang->new_topic() . '</span>');
 				echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 				echo('<form action="/topic/create/' . $Section->nod_id . '.vx" method="post" id="form_topic_create">');
-				echo('<tr><td width="100" align="right">标题</td><td width="400" align="left"><input type="text" class="sll" name="tpc_title" /></td></tr>');
+				echo('<tr><td width="100" align="right">' . $this->lang->title() . '</td><td width="400" align="left"><input type="text" class="sll" name="tpc_title" /></td></tr>');
 				echo('<tr><td width="100" align="right">位于</td><td width="400" align="left"><select name="tpc_pid">');
 				$Children = $Section->vxGetNodeChildren();
 				$i = 0;
@@ -7851,8 +7850,8 @@ class Page {
 				}
 				mysql_free_result($Children);
 				echo('</select></td></tr>');
-				echo('<tr><td width="100" align="right" valign="top">主题简介</td><td width="400" align="left"><textarea rows="5" class="ml" name="tpc_description"></textarea></td></tr>');
-				echo('<tr><td width="100" align="right" valign="top">主题内容</td><td width="400" align="left"><textarea rows="15" class="ml" name="tpc_content"></textarea></td></tr>');
+				echo('<tr><td width="100" align="right" valign="top">' . $this->lang->description() . '</td><td width="400" align="left"><textarea rows="5" class="ml" name="tpc_description"></textarea></td></tr>');
+				echo('<tr><td width="100" align="right" valign="top">' . $this->lang->content() . '</td><td width="400" align="left"><textarea rows="15" class="ml" name="tpc_content"></textarea></td></tr>');
 				echo('<td width="500" colspan="3" valign="middle" align="right">');
 				_v_btn_f('立即创建', 'form_topic_create');
 				echo('</td></tr>');
@@ -7911,12 +7910,12 @@ class Page {
 			} else {
 				echo('<div class="blank" align="left">');
 				_v_ico_map();
-				echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; ' . Vocabulary::action_newtopic . '</div>');
+				echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; ' . $this->lang->new_topic() . '</div>');
 			}
 
 			echo('<div class="blank" align="left">');
 			_v_ico_silk('exclamation');
-			echo(' 对不起，你刚才提交的信息里有些错误');
+			echo(' ' . $this->lang->please_check());
 			_v_hr();
 			echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 			
@@ -8395,7 +8394,7 @@ google_color_url = "00CC00";
 			if ($this->User->vxIsLogin()) {
 				echo('<a href="#replyForm" onclick="jumpReply();" class="regular">' . $this->lang->reply() . '</a>');
 			} else {
-				echo('<a href="/login//topic/view/' . $Topic->tpc_id . '.html" class="regular">登录后回复主题</a>');	
+				echo('<a href="/login//topic/view/' . $Topic->tpc_id . '.html" class="regular">' . $this->lang->login_and_reply() . '</a>');	
 			}
 			if ($p['total'] > 1) {
 				echo('<br /><br />');

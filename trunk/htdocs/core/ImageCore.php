@@ -107,13 +107,23 @@ class Image {
 					break;
 				}
 				$url = Image::vxFlickrImageURL($Photo->Square->uri);
-				$f .= '<a href="' . $Photo->Medium->clickUri . '" class="friend" target="_blank"><img src="' . $url["img"] . '" align="absmiddle" class="portrait" /><br /><small>';
-				if (mb_strlen($Photo->title, 'UTF-8') > 10) {
-					$f .= mb_substr($Photo->title, 0, 10, 'UTF-8') . ' ...';
+				if (isset($Photo->Medium->clickUri)) {
+					$f .= '<a href="' . $Photo->Medium->clickUri . '" class="friend" target="_blank"><img src="' . $url["img"] . '" align="absmiddle" class="portrait" /><br /><small>';
+					if (mb_strlen($Photo->title, 'UTF-8') > 10) {
+						$f .= mb_substr($Photo->title, 0, 10, 'UTF-8') . ' ...';
+					} else {
+						$f .= $Photo->title;
+					}
+					$f .= '</small></a>';
 				} else {
-					$f .= $Photo->title;
+					$f .= '<a href="' . $Photo->Square->clickUri . '" class="friend" target="_blank"><img src="' . $url["img"] . '" align="absmiddle" class="portrait" /><br /><small>';
+					if (mb_strlen($Photo->title, 'UTF-8') > 10) {
+						$f .= mb_substr($Photo->title, 0, 10, 'UTF-8') . ' ...';
+					} else {
+						$f .= $Photo->title;
+					}
+					$f .= '</small></a>';
 				}
-				$f .= '</small></a>';
 			}
 			
 			$f .= '</td></tr>';

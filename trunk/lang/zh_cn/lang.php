@@ -304,6 +304,18 @@ class lang implements Language {
 		return '最强主题排行';
 	}
 	
+	public function hottest_topics() {
+		return '最热主题';
+	}
+	
+	public function hottest_discussion_boards() {
+		return '最热讨论区';
+	}
+	
+	public function random_discussion_boards() {
+		return '随机讨论区';
+	}
+	
 	public function latest_topics() {
 		return '最新主题';
 	}
@@ -435,6 +447,40 @@ class lang implements Language {
 		return "{$user} 的成分分析";
 	}
 	
+	public function title() {
+		return '标题';
+	}
 	
+	public function description() {
+		return '简介';
+	}
+	
+	public function content() {
+		return '内容';
+	}
+	
+	public function publish() {
+		return '发布';
+	}
+	
+	public function return_to_discussion_board() {
+		return '返回讨论区';
+	}
+	
+	public function board_stats_topics($count) {
+		return '本讨论区共有 <strong>' . $count . '</strong> 个主题';
+	}
+	
+	public function board_stats_favs($count, $name) {
+		return '共有 <a href="/who/fav/node/' . $name . '" class="regular"><strong>' . $count . '</strong></a> 人收藏了本讨论区';
+	}
+	
+	public function board_stats_favs_zero() {
+		return '无人收藏此讨论区';
+	}
+	
+	public function remix_mode() {
+		return 'REMIX 模式';
+	}
 }
 ?>
