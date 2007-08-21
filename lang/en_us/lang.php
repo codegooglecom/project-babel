@@ -330,6 +330,18 @@ class lang implements Language {
 		return 'Top Topics';
 	}
 	
+	public function hottest_topics() {
+		return 'Hottest Topics';
+	}
+	
+	public function hottest_discussion_boards() {
+		return 'Hottest Discussion Boards';
+	}
+	
+	public function random_discussion_boards() {
+		return 'Random Discussion Boards';
+	}
+	
 	public function latest_topics() {
 		return 'Latest Topics';
 	}
@@ -456,6 +468,42 @@ class lang implements Language {
 	
 	public function one_s_recent_discussions($user) {
 		return "{$user}'s Recent Discussions";
+	}
+	
+	public function title() {
+		return 'Title';
+	}
+	
+	public function description() {
+		return 'Description';
+	}
+	
+	public function content() {
+		return 'Content';
+	}
+
+	public function publish() {
+		return 'Publish';
+	}
+	
+	public function return_to_discussion_board() {
+		return 'Return to Discussion Board';
+	}
+	
+	public function board_stats_topics($count) {
+		return '<small>This discussion has got <strong>' . $count . '</strong> topics</small>';
+	}
+	
+	public function board_stats_favs($count, $name) {
+		return '<small><a href="/who/fav/node/' . $name . '" class="regular"><strong>' . $count . '</strong></a> people\'s favorite</small>';
+	}
+	
+	public function board_stats_favs_zero() {
+		return '<small>No one favorite this</small>';
+	}
+	
+	public function remix_mode() {
+		return 'REMIX Mode';
 	}
 }
 ?>
