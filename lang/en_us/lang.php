@@ -366,6 +366,10 @@ class lang implements Language {
 		return 'Browse <a href="/go/' . urlencode($name) . '" class="regular">' . make_plaintext($title) . '</a>';
 	}
 	
+	public function more_updates() {
+		return 'More Updates';
+	}
+	
 	public function more_hot_topics() {
 		return 'More Hot Topics';
 	}
@@ -504,6 +508,18 @@ class lang implements Language {
 	
 	public function remix_mode() {
 		return 'REMIX Mode';
+	}
+	
+	public function related_sites() {
+		return 'Related Sites';
+	}
+	
+	public function related_favs() {
+		return 'Related Favorites';
+	}
+	
+	public function no_related_channel() {
+		return '<small>no related channel</small>';
 	}
 }
 ?>

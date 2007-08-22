@@ -85,6 +85,7 @@ interface Language {
 	public function latest_members();
 	public function join_discussion();
 	public function browse_node($name, $title);
+	public function more_updates();
 	public function more_hot_topics();
 	public function hot_topics();
 	public function current_hottest_topic();
@@ -119,5 +120,8 @@ interface Language {
 	public function board_stats_topics($count);
 	public function board_stats_favs($count, $name);
 	public function board_stats_favs_zero();
+	public function related_sites();
+	public function related_favs();
+	public function no_related_channel();
 }
 ?>
