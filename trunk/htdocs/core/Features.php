@@ -48,7 +48,7 @@ define('BABEL_FEATURE_EGO', false);
 
 define('BABEL_FEATURE_PRO', false);
 
-define('BABEL_FEATURE_ADD', true);
+define('BABEL_FEATURE_ADD', false);
 define('BABEL_FEATURE_ADD_SYNC', false);
 
 define('BABEL_FEATURE_ALL', false);
