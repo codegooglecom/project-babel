@@ -340,6 +340,10 @@ class lang implements Language {
 		return '浏览讨论区 <a href="/go/' . urlencode($name) . '" class="regular">' . make_plaintext($title) . '</a>';
 	}
 	
+	public function more_updates() {
+		return '浏览更多更新';
+	}
+	
 	public function more_hot_topics() {
 		return '浏览更多最热主题';
 	}
@@ -481,6 +485,18 @@ class lang implements Language {
 	
 	public function remix_mode() {
 		return 'REMIX 模式';
+	}
+	
+	public function related_sites() {
+		return '相关网站';
+	}
+	
+	public function related_favs() {
+		return '相关收藏';
+	}
+	
+	public function no_related_channel() {
+		return '无相关频道';
 	}
 }
 ?>

@@ -2257,7 +2257,7 @@ class Page {
 			$o .= '<div class="blank">';
 			$o .= '<a href="/feed/ing">' . _vo_ico_silk('feed', 'right') . '</a>';
 			$o .= _vo_ico_silk('hourglass');
-			$o .= ' ING ... <a href="/ing" class="var" style="color: ' . rand_color() . '">浏览更多更新</a>';
+			$o .= ' ING ... <a href="/ing" class="var" style="color: ' . rand_color() . '">' . $this->lang->more_updates() . '</a>';
 			if ($_SESSION['babel_ua']['GECKO_DETECTED'] || $_SESSION['babel_ua']['KHTML_DETECTED'] || $_SESSION['babel_ua']['OPERA_DETECTED']) {
 				$hack_width = 'width="100%" ';
 			} else {
@@ -6366,7 +6366,7 @@ class Page {
 		
 		/* E: how many favs */
 		if (!$Node->vxDrawChannels()) {
-			echo(' ... 无相关频道');
+			echo(' ... ' . $this->lang->no_related_channel());
 		}
 		
 		$sql = "SELECT rlt_url, rlt_title FROM babel_related WHERE rlt_pid = {$Node->nod_id} ORDER BY rlt_url ASC";
@@ -6374,7 +6374,7 @@ class Page {
 		if (mysql_num_rows($rs) > 0) {
 			_v_hr();
 			echo('<span class="chl">');
-			echo('<img src="' . CDN_UI . 'img/icons/silk/world_go.png" align="absmiddle" alt="' . make_single_return($Node->nod_title) . '" /> ' . make_plaintext($Node->nod_title) . ' 相关网站 <span class="tip_i">');
+			echo('<span class="tip_i"><img src="' . CDN_UI . 'img/icons/silk/world_go.png" align="absmiddle" /> ' . $this->lang->related_sites());
 			while ($Related = mysql_fetch_object($rs)) {
 				$css_color = rand_color();
 				echo(' ... <a style="color: ' . $css_color . '" class="var" href="' . $Related->rlt_url . '" target="_blank">' . $Related->rlt_title . '</a> <img src="' . CDN_IMG . 'ext.png" border="0" align="absmiddle" />');
@@ -6386,7 +6386,7 @@ class Page {
 		
 		mysql_free_result($rs);
 		
-		$Node->vxDrawAlsoFav($this->cl);
+		$Node->vxDrawAlsoFav($this->cl, $this->lang->related_favs());
 		
 		echo('</div>');
 		

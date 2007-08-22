@@ -141,7 +141,15 @@ class Node {
 		$rs = mysql_query($sql, $this->db);
 		$count = mysql_num_rows($rs);
 		if ($count > 0) {
-			echo($exclude != 0 ? '，' . $count . ' 个其他相关频道<br />':'，' . $count . ' 个相关频道</span>');
+			switch (BABEL_LANG) {
+				case 'en_us':
+				default:
+					echo($exclude != 0 ? ' ... <small><strong>' . $count . '</strong> more channels</small><br />':' ... <small><strong>' . $count . '</strong> related channels</small></span>');
+					break;
+				case 'zh_cn':
+					echo($exclude != 0 ? '，' . $count . ' 个其他相关频道<br />':'，' . $count . ' 个相关频道</span>');
+					break;
+			}
 			_v_hr();
 			echo('<div class="channels">');
 			while ($Channel = mysql_fetch_object($rs)) {
@@ -165,7 +173,7 @@ class Node {
 		}
 	}
 	
-	public function vxDrawAlsoFav($c) {
+	public function vxDrawAlsoFav($c, $i18n_label) {
 		$board_id = $this->nod_id;
 		
 		if ($o = $c->load('babel_node_fav_also_' . $board_id)) {
@@ -206,7 +214,7 @@ class Node {
 						$_nodes_titles[$_node['nod_id']] = $_node['nod_title'];
 					}
 					$o .= _vo_hr();
-					$o .= '<span class="tip">' . make_plaintext($this->nod_title) . '</span> <span class="tip_i">的收藏者也同时收藏了</span> ';
+					$o .= '<span class="tip_i">' . _vo_ico_silk('star') . ' ' . $i18n_label . ' ... </span> ';
 					$i = 0;
 					if (count($_nodes_keys) > 7) {
 						$max = 8;
