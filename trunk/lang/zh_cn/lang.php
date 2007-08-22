@@ -332,6 +332,10 @@ class lang implements Language {
 		return '最新注册会员';
 	}
 	
+	public function latest_favorites() {
+		return '最新的被收藏的项目';
+	}
+	
 	public function join_discussion() {
 		return '参与讨论';
 	}

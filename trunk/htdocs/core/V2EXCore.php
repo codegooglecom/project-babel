@@ -2275,17 +2275,16 @@ class Page {
 			mysql_free_result($rs);
 			$o .= '</table>';
 			$o .= '</div>';
-			$o = $o . '<div class="blank"><img src="' . CDN_UI . 'img/icons/silk/star.png" align="absmiddle" /> 在过去的几分钟里，我们在 ' . Vocabulary::site_name . ' 收藏了 ... <a href="/fav/latest.html" class="var" style="color: ' . rand_color() . '">浏览最新的 100 个收藏</a>';
+			$o = $o . '<div class="blank"><img src="' . CDN_UI . 'img/icons/silk/star.png" align="absmiddle" /> ' . $this->lang->latest_favorites() . ' ... <a href="/fav/latest.html" class="var" style="color: ' . rand_color() . '">' . $this->lang->more_favorites() . '</a>';
 			$o = $o . '<table ' . $hack_width . 'cellpadding="0" cellspacing="0" border="0" class="fav">';
 			$sql = 'SELECT usr_id, usr_gender, usr_nick, usr_portrait, fav_id, fav_type, fav_title, fav_author, fav_res, fav_created FROM babel_favorite, babel_user WHERE fav_uid = usr_id ORDER BY fav_created DESC LIMIT 10';
 			$rs = mysql_query($sql, $this->db);
-			$items = array(0 => '主题', 1 => '讨论区', 2 => '频道');
 			$items_p = array(0 => 'mico_topic.gif', 1 => 'mico_gear.gif', 2 => 'mico_news.gif');
 			$items_n = array(0 => 'topic', 1 => 'board', 2 => 'channel');
 			while ($Fav = mysql_fetch_object($rs)) {
 				$img_p = $Fav->usr_portrait ? CDN_P . 'p/' . $Fav->usr_portrait . '_n.jpg' : CDN_P . 'p_' . $Fav->usr_gender . '_n.gif';
 				$css_color = rand_color();
-				$o = $o . '<tr><td align="left">&nbsp;<img src="' . $img_p . '" alt="' . $Fav->usr_nick . '" align="absmiddle" class="portrait" />&nbsp;<a href="/u/' . urlencode($Fav->usr_nick) . '" class="var" style="color: ' . $css_color . ';">' . make_plaintext($Fav->usr_nick) . '</a> 收藏了' . $items[$Fav->fav_type] . ' <span class="tip_i">[ <img src="' . CDN_IMG . $items_p[$Fav->fav_type] . '" align="absmiddle" /> <a href="/' . $items_n[$Fav->fav_type] . '/view/' . $Fav->fav_res . '.html" style="color: ' . $css_color . ';" class="var">' . make_plaintext($Fav->fav_title) . '</a> ] ... ' . make_descriptive_time($Fav->fav_created) . '</span></td></tr>';
+				$o = $o . '<tr><td align="left">&nbsp;<img src="' . $img_p . '" alt="' . $Fav->usr_nick . '" align="absmiddle" class="portrait" />&nbsp;<a href="/u/' . urlencode($Fav->usr_nick) . '" class="var" style="color: ' . $css_color . ';">' . make_plaintext($Fav->usr_nick) . '</a> <span class="tip_i"><small>favs</small> [ <img src="' . CDN_IMG . $items_p[$Fav->fav_type] . '" align="absmiddle" /> <a href="/' . $items_n[$Fav->fav_type] . '/view/' . $Fav->fav_res . '.html" style="color: ' . $css_color . ';" class="var">' . make_plaintext($Fav->fav_title) . '</a> ] ... ' . make_descriptive_time($Fav->fav_created) . '</span></td></tr>';
 				$Fav = null;
 			}
 			mysql_free_result($rs);
@@ -2302,7 +2301,8 @@ class Page {
 	/* S module: Home Tools */
 	
 	private function vxHomeTools() {
-		$o = '<div class="blank"><span class="tip_i"><img src="' . CDN_UI . 'img/icons/silk/world.png" align="absmiddle" class="map" />&nbsp;<a href="http://www.v2ex.com/mobile.html">手机号码所在地查询</a> ... <img src="' . CDN_UI . 'img/icons/silk/book_open.png" align="absmiddle" class="map" />&nbsp;<a href="http://www.v2ex.com/man.html">参考文档藏经阁</a> ... <img src="' . CDN_UI . 'img/icons/silk/control_fastforward.png" align="absmiddle" class="map" />&nbsp;<a href="http://www.v2ex.com/timtowtdi.html">节约时间！</a></span></div>';
+		//$o = '<div class="blank"><span class="tip_i"><img src="' . CDN_UI . 'img/icons/silk/world.png" align="absmiddle" class="map" />&nbsp;<a href="http://www.v2ex.com/mobile.html">手机号码所在地查询</a> ... <img src="' . CDN_UI . 'img/icons/silk/book_open.png" align="absmiddle" class="map" />&nbsp;<a href="http://www.v2ex.com/man.html">参考文档藏经阁</a> ... <img src="' . CDN_UI . 'img/icons/silk/control_fastforward.png" align="absmiddle" class="map" />&nbsp;<a href="http://www.v2ex.com/timtowtdi.html">节约时间！</a></span></div>';
+		$o = '';
 		return $o;
 	}
 	
@@ -2545,28 +2545,26 @@ class Page {
 	/* S module: Fav Latest */
 	
 	public function vxFavLatest() {
-		if ($o = $this->cs->get('set_fav_latest')) {
+		echo('<div id="main">');
+		echo('<div class="blank" align="left">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->lang->latest_favorites() . '</div>');	
+		echo('<div class="blank">');
+		if ($_SESSION['babel_ua']['GECKO_DETECTED'] || $_SESSION['babel_ua']['KHTML_DETECTED'] || $_SESSION['babel_ua']['OPERA_DETECTED']) {
+			$hack_width = 'width="100%" ';
+		} else {
+			$hack_width = 'width="99%" ';
+		}
+		echo('<table ' . $hack_width . 'cellpadding="0" cellspacing="0" border="0" class="fav">');
+		
+		if ($o = $this->cs->get('set_fav_latest_a')) {
 			echo $o;
 		} else {
-			$o = '<div id="main">';
-			$o .= '<div class="blank" align="left">';
-			$o .= _vo_ico_map();
-			$o .= ' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_latestfav . '</div>';
-			
-			$o = $o . '<div class="blank"><img src="' . CDN_IMG . 'pico_star.gif" class="portrait" align="absmiddle" /> 最过去的几分钟里，我们在 ' . Vocabulary::site_name . ' 的最新 100 个收藏 ...';
-			
-			if ($_SESSION['babel_ua']['GECKO_DETECTED'] || $_SESSION['babel_ua']['KHTML_DETECTED'] || $_SESSION['babel_ua']['OPERA_DETECTED']) {
-				$hack_width = 'width="100%" ';
-			} else {
-				$hack_width = 'width="99%" ';
-			}
-			$o = $o . '<table ' . $hack_width . 'cellpadding="0" cellspacing="0" border="0" class="fav">';
-			
+			$o = '';
 			$sql = 'SELECT usr_id, usr_gender, usr_nick, usr_portrait, fav_id, fav_type, fav_title, fav_author, fav_res, fav_created FROM babel_favorite, babel_user WHERE fav_uid = usr_id ORDER BY fav_created DESC LIMIT 100';
 			
 			$rs = mysql_query($sql, $this->db);
 			
-			$items = array(0 => '主题', 1 => '讨论区', 2 => '频道');
 			$items_p = array(0 => 'mico_topic.gif', 1 => 'mico_gear.gif', 2 => 'mico_news.gif');
 			$items_n = array(0 => 'topic', 1 => 'board', 2 => 'channel');
 	
@@ -2576,7 +2574,7 @@ class Page {
 				
 				$css_color = rand_color();
 				
-				$o = $o . '<tr><td align="left">&nbsp;<img src="' . $img_p . '" alt="' . $Fav->usr_nick . '" align="absmiddle" class="portrait" />&nbsp;<a href="/u/' . urlencode($Fav->usr_nick) . '" class="var" style="color: ' . $css_color . ';">' . make_plaintext($Fav->usr_nick) . '</a> 收藏了' . $items[$Fav->fav_type] . ' <span class="tip_i">[ <img src="' . CDN_IMG . $items_p[$Fav->fav_type] . '" align="absmiddle" /> <a href="/' . $items_n[$Fav->fav_type] . '/view/' . $Fav->fav_res . '.html" style="color: ' . $css_color . ';" class="var">' . make_plaintext($Fav->fav_title) . '</a> ] ... ' . make_descriptive_time($Fav->fav_created) . '</span></td></tr>';
+				$o = $o . '<tr><td align="left">&nbsp;<img src="' . $img_p . '" alt="' . $Fav->usr_nick . '" align="absmiddle" class="portrait" />&nbsp;<a href="/u/' . urlencode($Fav->usr_nick) . '" class="var" style="color: ' . $css_color . ';">' . make_plaintext($Fav->usr_nick) . '</a> <span class="tip_i"><small>favs</small> [ <img src="' . CDN_IMG . $items_p[$Fav->fav_type] . '" align="absmiddle" /> <a href="/' . $items_n[$Fav->fav_type] . '/view/' . $Fav->fav_res . '.html" style="color: ' . $css_color . ';" class="var">' . make_plaintext($Fav->fav_title) . '</a> ] ... ' . make_descriptive_time($Fav->fav_created) . '</span></td></tr>';
 				
 				$Fav = null;
 			}
