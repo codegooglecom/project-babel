@@ -344,6 +344,10 @@ class lang implements Language {
 		return '浏览讨论区 <a href="/go/' . urlencode($name) . '" class="regular">' . make_plaintext($title) . '</a>';
 	}
 	
+	public function more_favorites() {
+		return '更多收藏';
+	}
+	
 	public function more_updates() {
 		return '浏览更多更新';
 	}
@@ -467,6 +471,10 @@ class lang implements Language {
 		return '标题';
 	}
 	
+	public function category() {
+		return '分类';
+	}
+	
 	public function description() {
 		return '简介';
 	}
@@ -481,6 +489,10 @@ class lang implements Language {
 	
 	public function return_to_discussion_board() {
 		return '返回讨论区';
+	}
+	
+	public function return_to_section() {
+		return '返回大区域';
 	}
 	
 	public function board_stats_topics($count) {

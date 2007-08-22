@@ -494,6 +494,10 @@ class lang implements Language {
 		return 'Title';
 	}
 	
+	public function category() {
+		return 'Category';
+	}
+	
 	public function description() {
 		return 'Description';
 	}
@@ -508,6 +512,10 @@ class lang implements Language {
 	
 	public function return_to_discussion_board() {
 		return 'Return to Discussion Board';
+	}
+	
+	public function return_to_section() {
+		return 'Return to Section';
 	}
 	
 	public function board_stats_topics($count) {

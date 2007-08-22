@@ -7835,7 +7835,7 @@ class Page {
 				echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 				echo('<form action="/topic/create/' . $Section->nod_id . '.vx" method="post" id="form_topic_create">');
 				echo('<tr><td width="100" align="right">' . $this->lang->title() . '</td><td width="400" align="left"><input type="text" class="sll" name="tpc_title" /></td></tr>');
-				echo('<tr><td width="100" align="right">位于</td><td width="400" align="left"><select name="tpc_pid">');
+				echo('<tr><td width="100" align="right">' . $this->lang->category() . '</td><td width="400" align="left"><select name="tpc_pid">');
 				$Children = $Section->vxGetNodeChildren();
 				$i = 0;
 				while ($Node = mysql_fetch_object($Children)) {
@@ -7851,12 +7851,12 @@ class Page {
 				echo('<tr><td width="100" align="right" valign="top">' . $this->lang->description() . '</td><td width="400" align="left"><textarea rows="5" class="ml" name="tpc_description"></textarea></td></tr>');
 				echo('<tr><td width="100" align="right" valign="top">' . $this->lang->content() . '</td><td width="400" align="left"><textarea rows="15" class="ml" name="tpc_content"></textarea></td></tr>');
 				echo('<td width="500" colspan="3" valign="middle" align="right">');
-				_v_btn_f('立即创建', 'form_topic_create');
+				_v_btn_f($this->lang->publish(), 'form_topic_create');
 				echo('</td></tr>');
 				echo('</form>');
 				echo('</table>');
 				_v_hr();
-				echo('<span class="tip"><img src="/img/pico_left.gif" align="absmiddle" />&nbsp;<a href="/go/' . $Section->nod_name . '">返回区域 / ' . $Section->nod_title . '</a></span>');
+				echo('<span class="tip"><img src="/img/pico_left.gif" align="absmiddle" />&nbsp;<a href="/go/' . $Section->nod_name . '">' . $this->lang->return_to_section() . ' / ' . $Section->nod_title . '</a></span>');
 				echo('</div>');
 				echo('</div>');
 				break;
@@ -7889,7 +7889,7 @@ class Page {
 
 			echo('<div class="blank" align="left">');
 			_v_ico_map();
-			echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; <a href="/board/view/' . $Node->nod_id . '.html">' . $Node->nod_title . '</a> &gt; ' . Vocabulary::action_newtopic . '</div>');
+			echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; <a href="/board/view/' . $Node->nod_id . '.html">' . $Node->nod_title . '</a> &gt; ' . $this->lang->new_topic() . '</div>');
 			echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_smile.gif" align="absmiddle" class="home" />新主题成功创建</span><br />新主题 [ <a href="/topic/view/' . $Topic->tpc_id . '.html">' . make_plaintext($Topic->tpc_title) . '</a> ] 成功创建，<strong>创建该长度为 ' . $rt['tpc_content_length'] . ' 个字符的主题花费了你的' . $usr_money_a['str'] . '</strong>，将在 3 秒内自动转向到你刚才创建的主题<br /><br /><img src="/img/pico_right.gif" align="absmiddle" />&nbsp;<a href="/topic/view/' . $Topic->tpc_id . '.html">立刻转到新主题 / ' . make_plaintext($Topic->tpc_title) . '</a><br /><br />');
 			echo('<img src="/img/pico_right.gif" align="absmiddle" />&nbsp;<a href="/go/' . $Node->nod_name . '">转到新主题所在讨论区 / ' . make_plaintext($Node->nod_title) . '</a><br /><br />');
 			echo('<img src="/img/pico_right.gif" align="absmiddle" />&nbsp;<a href="/go/' . $Section->nod_name . '">转到新主题所在区域 / ' . make_plaintext($Section->nod_title) . '</a><br /><br />');
@@ -7904,7 +7904,7 @@ class Page {
 			if ($rt['tpc_pid_error'] == 0) {
 				echo('<div class="blank" align="left">');
 				_v_ico_map();
-				echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; <a href="/board/view/' . $Node->nod_id . '.html">' . $Node->nod_title . '</a> &gt; ' . Vocabulary::action_newtopic . '</div>');
+				echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; <a href="/board/view/' . $Node->nod_id . '.html">' . $Node->nod_title . '</a> &gt; ' . $this->lang->new_topic() . '</div>');
 			} else {
 				echo('<div class="blank" align="left">');
 				_v_ico_map();
@@ -7924,11 +7924,11 @@ class Page {
 			}
 			
 			if ($rt['tpc_title_error'] > 0) {
-				echo('<tr><td width="100" align="right">标题</td><td width="400" align="left"><div class="error" style="width: 308px;"><input type="text" class="sll" name="tpc_title" value="' . make_single_return($rt['tpc_title_value']) . '" /><br />');
+				echo('<tr><td width="100" align="right">' . $this->lang->title() . '</td><td width="400" align="left"><div class="error" style="width: 308px;"><input type="text" class="sll" name="tpc_title" value="' . make_single_return($rt['tpc_title_value']) . '" /><br />');
 				_v_ico_silk('exclamation');
 				echo('&nbsp;' . $rt['tpc_title_error_msg'][$rt['tpc_title_error']] . '</div></td></tr>');
 			} else {
-				echo('<tr><td width="100" align="right">标题</td><td width="400" align="left"><input type="text" class="sll" name="tpc_title" value="' . make_single_return($rt['tpc_title_value']) . '" /></td></tr>');
+				echo('<tr><td width="100" align="right">' . $this->lang->title() . '</td><td width="400" align="left"><input type="text" class="sll" name="tpc_title" value="' . make_single_return($rt['tpc_title_value']) . '" /></td></tr>');
 			}
 			
 			if ($rt['mode'] == 'section') {
@@ -7968,27 +7968,27 @@ class Page {
 			}
 			
 			if ($rt['tpc_description_error'] > 0) {
-				echo('<tr><td width="100" align="right" valign="top">主题简介</td><td width="400" align="left"><div class="error"><textarea rows="5" class="ml" name="tpc_description">' . make_multi_return($rt['tpc_description_value']) . '</textarea><br />');
+				echo('<tr><td width="100" align="right" valign="top">' . $this->lang->description() . '</td><td width="400" align="left"><div class="error"><textarea rows="5" class="ml" name="tpc_description">' . make_multi_return($rt['tpc_description_value']) . '</textarea><br />');
 				_v_ico_silk('exclamation');
 				echo('&nbsp;' . $rt['tpc_description_error_msg'][$rt['tpc_description_error']] . '</div></td></tr>');
 			} else {
-				echo('<tr><td width="100" align="right" valign="top">主题简介</td><td width="400" align="left"><textarea rows="5" class="ml" name="tpc_description">' . make_multi_return($rt['tpc_description_value']) . '</textarea></td></tr>');
+				echo('<tr><td width="100" align="right" valign="top">' . $this->lang->description() . '</td><td width="400" align="left"><textarea rows="5" class="ml" name="tpc_description">' . make_multi_return($rt['tpc_description_value']) . '</textarea></td></tr>');
 			}
 			if ($rt['tpc_content_error'] > 0) {
-				echo('<tr><td width="100" align="right" valign="top">主题内容</td><td width="400" align="left"><div class="error"><textarea rows="15" class="ml" name="tpc_content">' . make_multi_return($rt['tpc_content_value']) . '</textarea><br />');
+				echo('<tr><td width="100" align="right" valign="top">' . $this->lang->content() . '</td><td width="400" align="left"><div class="error"><textarea rows="15" class="ml" name="tpc_content">' . make_multi_return($rt['tpc_content_value']) . '</textarea><br />');
 				_v_ico_silk('exclamation');
 				echo('&nbsp;' . $rt['tpc_content_error_msg'][$rt['tpc_content_error']] . '</div></td></tr>');
 			} else {
-				echo('<tr><td width="100" align="right" valign="top">主题内容</td><td width="400" align="left"><textarea rows="15" class="ml" name="tpc_content">' . make_multi_return($rt['tpc_content_value']) . '</textarea></td></tr>');
+				echo('<tr><td width="100" align="right" valign="top">' . $this->lang->content() . '</td><td width="400" align="left"><textarea rows="15" class="ml" name="tpc_content">' . make_multi_return($rt['tpc_content_value']) . '</textarea></td></tr>');
 			}
 			echo('<td width="500" colspan="3" valign="middle" align="right"><span class="tip">');
-			_v_btn_f('立即创建', 'form_topic_create');
+			_v_btn_f($this->lang->publish(), 'form_topic_create');
 			echo('</span></td></tr>');
 			echo('</form>');
 			echo('</table>');
 			_v_hr();
 			if ($rt['mode'] == 'board') {
-				echo('<span class="tip"><img src="/img/pico_left.gif" align="absmiddle" />&nbsp;<a href="/go/' . $Node->nod_name . '">返回讨论区 / ' . $Node->nod_title . '</a></span>');
+				echo('<span class="tip"><img src="/img/pico_left.gif" align="absmiddle" />&nbsp;<a href="/go/' . $Node->nod_name . '">' . $this->lang->return_to_discussion_board() . ' / ' . $Node->nod_title . '</a></span>');
 			} else {
 				echo('<span class="tip"><img src="/img/pico_left.gif" align="absmiddle" />&nbsp;<a href="/go/' . $Section->nod_name . '">返回区域 / ' . $Section->nod_title . '</a></span>');
 			}
