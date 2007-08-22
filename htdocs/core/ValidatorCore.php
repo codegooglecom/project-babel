@@ -1841,11 +1841,27 @@ class Validator {
 		3 => invalid characters
 		999 => unspecific */
 		$rt['tpc_title_error'] = 0;
-		$rt['tpc_title_error_msg'] = array(1 => '你忘记写标题了', 2 => '你的这个标题太长了', 3 => '你的标题中含有不被允许的字符');
+		switch (BABEL_LANG) {
+			default:
+			case 'en_us':
+				$rt['tpc_title_error_msg'] = array(1 => 'Please input title', 2 => 'This title is too long', 3 => 'Contains characters not allowed');
+				break;
+			case 'zh_cn':
+				$rt['tpc_title_error_msg'] = array(1 => '你忘记写标题了', 2 => '你的这个标题太长了', 3 => '你的标题中含有不被允许的字符');
+				break;
+		}
 		
 		$rt['tpc_pid_value'] = 0;
 		$rt['tpc_pid_error'] = 0;
-		$rt['tpc_pid_error_msg'] = array(1 => '请选择一个讨论区');
+		switch (BABEL_LANG) {
+			default:
+			case 'en_us':
+				$rt['tpc_pid_error_msg'] = array(1 => 'Please choose a category');
+				break;
+			case 'zh_cn':
+				$rt['tpc_pid_error_msg'] = array(1 => '请选择一个讨论区');
+				break;
+		}
 		
 		$rt['tpc_description_value'] = '';
 		/* tpc_description_error:
@@ -1853,7 +1869,15 @@ class Validator {
 		2 => overflow
 		999 => unspecific */
 		$rt['tpc_description_error'] = 0;
-		$rt['tpc_description_error_msg'] = array(2 => '你的这个描述太长了');
+		switch (BABEL_LANG) {
+			default:
+			case 'en_us':
+				$rt['tpc_description_error_msg'] = array(2 => 'This description is too long');
+				break;
+			case 'zh_cn':
+				$rt['tpc_description_error_msg'] = array(2 => '你的这个描述太长了');
+				break;
+		}
 		
 		$rt['tpc_content_value'] = '';
 		/* tpc_content_error:
@@ -1863,7 +1887,15 @@ class Validator {
 		999 => unspecific */
 		$rt['tpc_content_length'] = 0;
 		$rt['tpc_content_error'] = 0;
-		$rt['tpc_content_error_msg'] = array(1 => '你忘记写内容了', 2 => '你的这篇主题的内容太长了');
+		switch (BABEL_LANG) {
+			default:
+			case 'en_us':
+				$rt['tpc_content_error_msg'] = array(1 => 'Content cannot be empty', 2 => 'Too long');
+				break;
+			case 'zh_cn':
+				$rt['tpc_content_error_msg'] = array(1 => '你忘记写内容了', 2 => '你的这篇主题的内容太长了');
+				break;
+		}
 		
 		if (isset($_POST['tpc_title'])) {
 			$rt['tpc_title_value'] = make_single_safe($_POST['tpc_title']);

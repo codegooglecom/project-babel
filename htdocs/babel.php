@@ -922,7 +922,7 @@ switch ($m) {
 						if (mysql_num_rows($rs) == 1) {
 							$O = mysql_fetch_object($rs);
 							mysql_free_result($rs);
-							$p->vxHead($msgSiteTitle = Vocabulary::action_newtopic);
+							$p->vxHead($msgSiteTitle = $p->lang->new_topic());
 							$p->vxBodyStart();
 							$p->vxTop();
 							if ($O->nod_level > 1) {
@@ -973,7 +973,7 @@ switch ($m) {
 									$Node = null;
 									$p->URL->vxToRedirect($p->URL->vxGetTopicView($Topic->tpc_id));
 								} else {
-									$p->vxHead($msgSiteTitle = Vocabulary::action_newtopic);
+									$p->vxHead($msgSiteTitle = $p->lang->new_topic());
 									$p->vxBodyStart();
 									$p->vxTop();
 									$p->vxContainer('topic_create', $options = $rt);
