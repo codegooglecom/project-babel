@@ -86,6 +86,7 @@ interface Language {
 	public function latest_favorites();
 	public function join_discussion();
 	public function browse_node($name, $title);
+	public function more_favorites();
 	public function more_updates();
 	public function more_hot_topics();
 	public function hot_topics();
@@ -116,10 +117,12 @@ interface Language {
 	public function one_s_most_favorite_artists($user);
 	public function one_s_recent_listened_tracks($user);
 	public function title();
+	public function category();
 	public function description();
 	public function content();
 	public function publish();
 	public function return_to_discussion_board();
+	public function return_to_section();
 	public function board_stats_topics($count);
 	public function board_stats_favs($count, $name);
 	public function board_stats_favs_zero();
