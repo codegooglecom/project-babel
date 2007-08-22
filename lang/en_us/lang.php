@@ -474,6 +474,14 @@ class lang implements Language {
 		return "{$user}'s Recent Discussions";
 	}
 	
+	public function one_s_most_favorite_artists($user) {
+		return "{$user}'s Most Favorite Artists";
+	}
+	
+	public function one_s_recent_listened_tracks($user) {
+		return "{$user}'s Recent Listened Tracks";
+	}
+	
 	public function title() {
 		return 'Title';
 	}
@@ -520,6 +528,18 @@ class lang implements Language {
 	
 	public function no_related_channel() {
 		return '<small>no related channel</small>';
+	}
+	
+	public function update() {
+		return 'Update';
+	}
+	
+	public function last_signed_in() {
+		return 'Last signed in at';
+	}
+	
+	public function logins($count) {
+		return "{$count} logins";
 	}
 }
 ?>

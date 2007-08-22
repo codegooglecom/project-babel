@@ -112,6 +112,8 @@ interface Language {
 	public function one_s_friends($user);
 	public function one_s_recent_topics($user);
 	public function one_s_recent_discussions($user);
+	public function one_s_most_favorite_artists($user);
+	public function one_s_recent_listened_tracks($user);
 	public function title();
 	public function description();
 	public function content();
@@ -123,5 +125,8 @@ interface Language {
 	public function related_sites();
 	public function related_favs();
 	public function no_related_channel();
+	public function update();
+	public function last_signed_in();
+	public function logins($count);
 }
 ?>

@@ -4475,7 +4475,7 @@ class Page {
 			$_flag_online = true;
 			$_o = '<small class="lime">' . strtolower($this->lang->online_now()) . '</small> ... ' . $this->lang->online_details($Online->onl_created, $Online->onl_lastmoved);
 			if ($this->User->usr_id == 1) {
-				$_o .= ' ... IP 地址 ' . $Online->onl_ip;
+				$_o .= ' ... <small>' . $Online->onl_ip . '</small>';
 			}
 		} else {
 			$_flag_online = false;
@@ -4992,7 +4992,7 @@ class Page {
 					$o_lastfm .= '<tr><td colspan="2" align="left" class="section_odd"><span class="text_large">';
 					$o_lastfm .= '<div style="float: right;"><span class="tip"><small><img src="/img/favicons/lastfm.png" align="absmiddle" /> <a href="http://www.last.fm/user/' . $O->usr_lastfm . '" target="_blank" class="var">Powered by Last.fm</a></small></span></div>';
 					$o_lastfm .= _vo_ico_tango_32('mimetypes/audio-x-generic', 'absmiddle');
-					$o_lastfm .= ' ' . $O->usr_nick . ' 最喜欢的艺术家';
+					$o_lastfm .= ' ' . $this->lang->one_s_most_favorite_artists($O->usr_nick);
 					$o_lastfm .= '</span>';
 					$o_lastfm .= '</td></tr>';
 					$edges = array();
@@ -5025,7 +5025,7 @@ class Page {
 					$o_lastfm .= '<tr><td colspan="2" align="left" class="section_odd"><span class="text_large">';
 					$o_lastfm .= '<div style="float: right;"><span class="tip"><small><img src="/img/favicons/lastfm.png" align="absmiddle" /> <a href="http://www.last.fm/user/' . $O->usr_lastfm . '" target="_blank" class="var">Powered by Last.fm</a></small></span></div>';
 					$o_lastfm .= _vo_ico_tango_32('actions/media-playback-start', 'absmiddle');
-					$o_lastfm .= ' ' . $O->usr_nick . ' 最近听过的音乐';
+					$o_lastfm .= ' ' . $this->lang->one_s_recent_listened_tracks($O->usr_nick);
 					$o_lastfm .= '</span>';
 					$i = 0;
 					$o_lastfm .= '<table cellpadding="0" cellspacing="0" border="0" class="fav" width="100%">';
@@ -5046,9 +5046,9 @@ class Page {
 			}
 			echo $o_lastfm;
 		}
-		echo('<tr><td colspan="2" align="left" class="section_odd"><span class="tip"><img src="/img/icons/silk/user_go.png" align="absmiddle" /> ' . make_plaintext($O->usr_nick) . ' 的最后登录时间 ' . date('Y-n-j G:i:s', $O->usr_lastlogin) . '，总登录次数 ' . $O->usr_logins . ' 次。</span></td></tr>');
-		if ($O->usr_lastlogin_ua != '') {
-			echo('<tr><td colspan="2" align="left" class="section_odd"><span class="tip_i"><img src="/img/icons/silk/computer.png" align="absmiddle" /> 上次访问时所用浏览器 <small>' . make_plaintext($O->usr_lastlogin_ua) . '</small></span></td></tr>');
+		echo('<tr><td colspan="2" align="left" class="section_odd"><span class="tip"><img src="/img/icons/silk/user_go.png" align="absmiddle" /> ' . $this->lang->last_signed_in() . ' ' . date('Y-n-j G:i:s', $O->usr_lastlogin) . ' ... ' . $this->lang->logins($O->usr_logins) . '</span></td></tr>');
+		if ($O->usr_lastlogin_ua != '' && $this->User->usr_id == 1) {
+			echo('<tr><td colspan="2" align="left" class="section_odd"><span class="tip_i"><img src="/img/icons/silk/computer.png" align="absmiddle" /> <small>' . make_plaintext($O->usr_lastlogin_ua) . '</small></span></td></tr>');
 		}
 		echo('</table>');
 		echo('</div>');
@@ -10194,7 +10194,7 @@ google_color_url = "00CC00";
 			echo('<div align="center">');
 			echo('<form action="/recv/ing.vx" id="ing_personal" method="POST" onsubmit="return checkIngForm();">');
 			echo('<div style="background-image: url(' . "'/img/bg_ing.gif'" . '); padding-top: 3px; width: 320px; height: 35px;"><input onkeyup="checkIngType(' . "'doing', 'ing_status'" . ');" type="text" class="sll" id="doing" name="doing" maxlength="131" /></div> ');
-			_v_btn_f('更新我的状态', 'ing_personal');
+			_v_btn_f($this->lang->update(), 'ing_personal');
 			echo('<div id="ing_status"><span class="tip_i">现在还可以再输入 131 个字符</span></div>');
 			echo('<input type="hidden" name="return" value="/ing" />');
 			echo('</form>');
@@ -10336,7 +10336,7 @@ google_color_url = "00CC00";
 			echo('<div align="center">');
 			echo('<form action="/recv/ing.vx" id="ing_personal" method="POST" onsubmit="return checkIngForm();">');
 			echo('<div style="background-image: url(' . "'/img/bg_ing.gif'" . '); padding-top: 3px; width: 320px; height: 35px;"><input onkeyup="checkIngType(' . "'doing', 'ing_status'" . ');" type="text" class="sll" id="doing" name="doing" maxlength="131" /></div> ');
-			_v_btn_f('更新我的状态', 'ing_personal');
+			_v_btn_f($this->lang->update(), 'ing_personal');
 			echo('<div id="ing_status"><span class="tip_i">现在还可以再输入 131 个字符</span></div>');
 			echo('<input type="hidden" name="return" value="/ing/' . urlencode($this->User->usr_nick) . '/friends" />');
 			echo('</form>');
@@ -10510,7 +10510,7 @@ google_color_url = "00CC00";
 			echo('<div align="center">');
 			echo('<form action="/recv/ing.vx" id="ing_personal" method="POST" onsubmit="return checkIngForm();">');
 			echo('<div style="background-image: url(' . "'/img/bg_ing.gif'" . '); padding-top: 3px; width: 320px; height: 35px;"><input onkeyup="checkIngType(' . "'doing', 'ing_status'" . ');" type="text" class="sll" id="doing" name="doing" maxlength="131" /></div> ');
-			_v_btn_f('更新我的状态', 'ing_personal');
+			_v_btn_f($this->lang->update(), 'ing_personal');
 			echo('<div id="ing_status"><span class="tip_i">现在还可以再输入 131 个字符</span></div>');
 			echo('<input type="hidden" name="return" value="/ing/' . urlencode($this->User->usr_nick) . '" />');
 			echo('</form>');

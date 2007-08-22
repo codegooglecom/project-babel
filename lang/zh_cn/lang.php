@@ -451,6 +451,14 @@ class lang implements Language {
 		return "{$user} 的成分分析";
 	}
 	
+	public function one_s_most_favorite_artists($user) {
+		return "{$user} 最喜欢的艺术家";
+	}
+	
+	public function one_s_recent_listened_tracks($user) {
+		return "{$user} 最近听过的音乐";
+	}
+	
 	public function title() {
 		return '标题';
 	}
@@ -497,6 +505,18 @@ class lang implements Language {
 	
 	public function no_related_channel() {
 		return '无相关频道';
+	}
+	
+	public function update() {
+		return '更新';
+	}
+	
+	public function last_signed_in() {
+		return '最近登录';
+	}
+	
+	public function logins($count) {
+		return "{$count} 次登录";
 	}
 }
 ?>
