@@ -143,7 +143,7 @@ switch ($m) {
 		
 	case 'fav_latest':
 		$GOOGLE_AD_LEGAL = true;
-		$p->vxHead($msgSiteTitle = Vocabulary::term_latestfav);
+		$p->vxHead($msgSiteTitle = $p->lang->latest_favorites());
 		$p->vxBodyStart();
 		$p->vxTop();
 		$p->vxContainer('fav_latest');

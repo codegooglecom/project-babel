@@ -358,12 +358,20 @@ class lang implements Language {
 		return 'Latest Members';
 	}
 	
+	public function latest_favorites() {
+		return 'Latest Favorites';
+	}
+	
 	public function join_discussion() {
 		return 'Join Discussion';
 	}
 	
 	public function browse_node($name, $title) {
 		return 'Browse <a href="/go/' . urlencode($name) . '" class="regular">' . make_plaintext($title) . '</a>';
+	}
+	
+	public function more_favorites() {
+		return 'More Favorites';
 	}
 	
 	public function more_updates() {

@@ -83,6 +83,7 @@ interface Language {
 	public function latest_replied();
 	public function latest_unanswered();
 	public function latest_members();
+	public function latest_favorites();
 	public function join_discussion();
 	public function browse_node($name, $title);
 	public function more_updates();
