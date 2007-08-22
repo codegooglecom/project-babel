@@ -5211,7 +5211,8 @@ class Page {
 		echo('<div class="blank" align="left">');
 		echo('<span class="text_large">');
 		_v_ico_tango_32('actions/go-up', 'absmiddle', 'home');
-		echo('上传头像</span>');
+		echo($this->lang->upload_portrait() . '</span>');
+		_v_hr();
 		echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 		echo('<form enctype="multipart/form-data" action="/recv/portrait.vx" method="post" id="form_user_portrait">');
 		echo('<tr><td width="200" align="right">现在的样子</td><td width="200" align="left">');
@@ -5246,6 +5247,7 @@ class Page {
 		echo('<span class="text_large">');
 		_v_ico_tango_32('categories/applications-internet', 'absmiddle', 'home');
 		echo('会员所在地修改</span>');
+		_v_hr();
 		echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 		echo('<tr><td width="200" align="right">当前所在地</td><td width="200" align="left"><a href="/geo/' . $this->User->usr_geo . '" class="o">' . $this->Geo->map["name"][$this->User->usr_geo] . '</a></td>');
 		
@@ -5281,6 +5283,7 @@ class Page {
 		echo('<span class="text_large"><a name="settings"></a>');
 		_v_ico_tango_32('categories/preferences-system', 'absmiddle', 'home');
 		echo('会员信息修改</span>');
+		_v_hr();
 		echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 		echo('<form action="/user/update.vx" method="post" id="form_user_info">');
 		echo('<tr><td width="200" align="right">真实姓名</td><td width="200" align="left"><input tabindex="1" type="text" maxlength="80" class="sl" name="usr_full" value="' . make_single_return($this->User->usr_full) . '" /></td>');
