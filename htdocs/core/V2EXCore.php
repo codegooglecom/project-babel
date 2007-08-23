@@ -5240,7 +5240,8 @@ class Page {
 		echo('<tr><td height="10" colspan="2"></td></tr>');
 		echo('</table>');
 		echo('<hr size="1" color="#DDD" style="color: #DDD; background-color: #DDD; height: 1px; border: 0;" />');
-		echo('<img src="/img/icons/silk/information.png" align="absmiddle" /> 推荐你选择一张尺寸大于 100 x 100 像素的图片，系统会自动截取中间的部分并调整大小');
+		echo('<img src="/img/icons/silk/information.png" align="absmiddle" /> ');
+		echo($this->lang->upload_portrait_tips());
 		echo('</div>');
 		
 		echo('<div class="blank" align="left">');
@@ -5287,10 +5288,10 @@ class Page {
 		_v_hr();
 		echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 		echo('<form action="/user/update.vx" method="post" id="form_user_info">');
-		echo('<tr><td width="200" align="right">真实姓名</td><td width="200" align="left"><input tabindex="1" type="text" maxlength="80" class="sl" name="usr_full" value="' . make_single_return($this->User->usr_full) . '" /></td>');
+		echo('<tr><td width="200" align="right">' . $this->lang->user_fullname() . '</td><td width="200" align="left"><input tabindex="1" type="text" maxlength="80" class="sl" name="usr_full" value="' . make_single_return($this->User->usr_full) . '" /></td>');
 		
 		// S button:
-		echo('<td width="150" rowspan="22" valign="middle" align="right">');
+		echo('<td width="150" rowspan="18" valign="middle" align="right">');
 		
 		_v_btn_f($this->lang->modify(), 'form_user_info');
 		
@@ -5298,15 +5299,15 @@ class Page {
 		// E button.
 		
 		echo('<tr><td width="200" align="right">' . $this->lang->user_id() . '</td><td align="left"><input tabindex="2" type="text" maxlength="20" class="sl" name="usr_nick" value="' . make_single_return($this->User->usr_nick) . '" /></td></tr>');
-		echo('<tr><td width="200" align="right">自我简介</td><td align="left"><input tabindex="3" type="text" maxlength="100" class="sl" name="usr_brief" value="' . make_single_return($this->User->usr_brief) . '" /></td></tr>');
-		echo('<tr><td width="200" align="right">家庭住址</td><td align="left"><input tabindex="4" type="text" maxlength="100" class="sl" name="usr_addr" value="' . make_single_return($this->User->usr_addr) . '" /></td></tr>');
-		echo('<tr><td width="200" align="right">电话</td><td align="left"><input tabindex="5" type="text" maxlength="40" class="sl" name="usr_telephone" value="' . make_single_return($this->User->usr_telephone) . '" /></td></tr>');
+		echo('<tr><td width="200" align="right">' . $this->lang->user_introduction() . '</td><td align="left"><input tabindex="3" type="text" maxlength="100" class="sl" name="usr_brief" value="' . make_single_return($this->User->usr_brief) . '" /></td></tr>');
+		//echo('<tr><td width="200" align="right">家庭住址</td><td align="left"><input tabindex="4" type="text" maxlength="100" class="sl" name="usr_addr" value="' . make_single_return($this->User->usr_addr) . '" /></td></tr>');
+		//echo('<tr><td width="200" align="right">电话</td><td align="left"><input tabindex="5" type="text" maxlength="40" class="sl" name="usr_telephone" value="' . make_single_return($this->User->usr_telephone) . '" /></td></tr>');
 		echo('<tr><td width="200" align="right">Skype</td><td align="left"><input tabindex="6" type="text" maxlength="40" class="sl" name="usr_skype" value="' . make_single_return($this->User->usr_skype) . '" /></td></tr>');
 		echo('<tr><td width="200" align="right">Last.fm</td><td align="left"><input tabindex="7" type="text" maxlength="40" class="sl" name="usr_lastfm" value="' . make_single_return($this->User->usr_lastfm) . '" /></td></tr>');
-		echo('<tr><td width="200" align="right">身份证号码</td><td align="left"><input tabindex="8" type="text" maxlength="18" class="sl" name="usr_identity" value="' . make_single_return($this->User->usr_identity) . '" /></td></tr>');
+		//echo('<tr><td width="200" align="right">身份证号码</td><td align="left"><input tabindex="8" type="text" maxlength="18" class="sl" name="usr_identity" value="' . make_single_return($this->User->usr_identity) . '" /></td></tr>');
 		/* result: usr_gender */
-		echo('<tr><td width="200" align="right" valign="top">性别</td><td align="left"><select tabindex="9" maxlength="20" size="6" name="usr_gender">');
-		$gender_a = array(0 => '未知', 1 => '男性', 2 => '女性', 5 => '女性改（变）为男性', 6 => '男性改（变）为女性', 9 => '未说明');
+		echo('<tr><td width="200" align="right" valign="top">' . $this->lang->gender() . '</td><td align="left"><select tabindex="9" maxlength="20" size="6" name="usr_gender">');
+		$gender_a = $this->lang->gender_categories();
 		foreach ($gender_a as $c => $g) {
 			if ($c == $this->User->usr_gender) {
 				echo('<option value="' . $c . '" selected="selected">' . $g . '</option>');
@@ -5319,7 +5320,7 @@ class Page {
 		if ($this->User->usr_religion == '') {
 			$this->User->usr_religion = 'Unknown';
 		}
-		echo('<tr><td width="200" align="right" valign="top">信仰</td><td align="left"><select tabindex="10" maxlength="20" size="11" name="usr_religion">');
+		echo('<tr><td width="200" align="right" valign="top">' . $this->lang->religion() . '</td><td align="left"><select tabindex="10" maxlength="20" size="11" name="usr_religion">');
 		$_religions = read_xml_religions();
 		foreach ($_religions as $religion) {
 			if (strval($religion) == $this->User->usr_religion) {
@@ -5329,7 +5330,7 @@ class Page {
 			}
 		}
 		echo('</select></td></tr>');
-		echo('<tr><td width="200" align="right" valign="top">是否公开自己的信仰</td><td align="left"><select tabindex="11" maxlength="20" size="3" name="usr_religion_permission">');
+		echo('<tr><td width="200" align="right" valign="top">' . $this->lang->expose_my_religion() . '</td><td align="left"><select tabindex="11" maxlength="20" size="3" name="usr_religion_permission">');
 		$_religion_permission = array('不公开', '公开', '只向同样信仰者公开');
 		for ($i = 0; $i < 3; $i++) {
 			if ($this->User->usr_religion_permission == $i) {
@@ -5346,7 +5347,7 @@ class Page {
 		while(list( , $width) = each($w)) {
 			$ws[] = strval($width);
 		}
-		echo('<tr><td width="200" align="right" valign="top">常用屏幕宽度</td><td align="left"><select tabindex="12" maxlength="20" size="' . count($ws) . '" name="usr_width">');
+		echo('<tr><td width="200" align="right" valign="top">' . $this->lang->preferred_screen_width() . '</td><td align="left"><select tabindex="12" maxlength="20" size="' . count($ws) . '" name="usr_width">');
 		foreach ($ws as $width) {
 			if ($width == $this->User->usr_width) {
 				echo('<option value="' . $width . '" selected="selected">' . $width . '</option>');
@@ -5429,7 +5430,7 @@ class Page {
 		echo('<tr><td height="10" colspan="2"></td></tr>');
 		echo('</form></table>');
 		echo('<hr size="1" color="#DDD" style="color: #DDD; background-color: #DDD; height: 1px; border: 0;" />');
-		echo('<img src="/img/icons/silk/information.png" align="absmiddle" /> 如果你不打算修改密码的话，就不要在密码框处填入任何信息');
+		echo('<img src="/img/icons/silk/information.png" align="absmiddle" /> ' . $this->lang->change_password_tips());
 		echo('</div>');
 		echo('</div>');
 	}

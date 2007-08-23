@@ -60,6 +60,8 @@ if (V2EX_BABEL == 1) {
 
 /* S Feed class */
 
+define('BABEL_LANG', BABEL_LANG_DEFAULT);
+
 class Feed {
 	var $db;
 	var $s;
