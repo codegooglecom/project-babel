@@ -5207,7 +5207,7 @@ class Page {
 		echo('<div id="main">');
 		echo('<div class="blank">');
 		_v_ico_map();
-		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . urlencode($this->User->usr_nick) . '">' . make_plaintext($this->User->usr_nick) . '</a> &gt; ' . Vocabulary::action_modifyprofile . '</div>');
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . urlencode($this->User->usr_nick) . '">' . make_plaintext($this->User->usr_nick) . '</a> &gt; ' . $this->lang->settings() . '</div>');
 		echo('<div class="blank" align="left">');
 		echo('<span class="text_large">');
 		_v_ico_tango_32('actions/go-up', 'absmiddle', 'home');
@@ -5215,7 +5215,7 @@ class Page {
 		_v_hr();
 		echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 		echo('<form enctype="multipart/form-data" action="/recv/portrait.vx" method="post" id="form_user_portrait">');
-		echo('<tr><td width="200" align="right">现在的样子</td><td width="200" align="left">');
+		echo('<tr><td width="200" align="right">' . $this->lang->current_portrait() . '</td><td width="200" align="left">');
 		if ($this->User->usr_portrait != '') {
 			echo('<img src="/img/p/' . $this->User->usr_portrait . '.' . BABEL_PORTRAIT_EXT . '?' . rand(1000, 9999) . '" alt="' . $this->User->usr_nick . '" class="portrait" />&nbsp;&nbsp;<img src="/img/p/' . $this->User->usr_portrait . '_s.' . BABEL_PORTRAIT_EXT . '?' . rand(1000, 9999) . '" class="portrait" />&nbsp;&nbsp;<img src="/img/p/' . $this->User->usr_portrait . '_n.' . BABEL_PORTRAIT_EXT . '?' . rand(1000, 9999) . '" class="portrait" />');
 		} else {
@@ -5225,11 +5225,11 @@ class Page {
 
 		echo('<td width="150" rowspan="4" valign="middle" align="right">');
 		
-		_v_btn_f('上传头像', 'form_user_portrait');
+		_v_btn_f($this->lang->upload(), 'form_user_portrait');
 		
 		echo('</td></tr>');
 		
-		echo('<tr><td width="200" align="right">选择一张你喜欢的图片</td><td width="200" align="left"><input tabindex="1" type="file" name="usr_portrait" size="14" /></td></tr>');
+		echo('<tr><td width="200" align="right">' . $this->lang->choose_a_picture() . '</td><td width="200" align="left"><input tabindex="1" type="file" name="usr_portrait" style="width: 180px;" /></td></tr>');
 		
 		if (IM_ENABLED) {
 			echo('<tr><td width="200" align="right">对上传的图片做特效处理</td><td width="200" align="left"><input checked="checked" type="radio" name="fx" value="none" />&nbsp;&nbsp;不做任何修改</td></tr>');
@@ -5246,10 +5246,11 @@ class Page {
 		echo('<div class="blank" align="left">');
 		echo('<span class="text_large">');
 		_v_ico_tango_32('categories/applications-internet', 'absmiddle', 'home');
-		echo('会员所在地修改</span>');
+		echo($this->lang->location());
+		echo('</span>');
 		_v_hr();
 		echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
-		echo('<tr><td width="200" align="right">当前所在地</td><td width="200" align="left"><a href="/geo/' . $this->User->usr_geo . '" class="o">' . $this->Geo->map["name"][$this->User->usr_geo] . '</a></td>');
+		echo('<tr><td width="200" align="right">' . $this->lang->current_location() . '</td><td width="200" align="left"><a href="/geo/' . $this->User->usr_geo . '" class="o">' . $this->Geo->map["name"][$this->User->usr_geo] . '</a></td>');
 		
 		echo('<td width="150" rowspan="2" valign="middle" align="right">');
 		
@@ -5272,17 +5273,17 @@ class Page {
 			$this->cs->save(strval($geo_count), 'babel_geo_settle_count_' . $geo_md5);
 		}
 		
-		echo('<tr><td width="200" align="right">在' . $this->Geo->map['name'][$this->User->usr_geo] . '的人数</td><td width="200" align="left"><a href="/who/settle/' . $this->User->usr_geo . '" class="t">' . $geo_count . '</a></td>');
+		echo('<tr><td width="200" align="right"><small>' . $this->lang->people_in_the_same_area() . '</small></td><td width="200" align="left"><a href="/who/settle/' . $this->User->usr_geo . '" class="t">' . $geo_count . '</a></td>');
 		echo('<tr><td height="10" colspan="2"></td></tr>');
 		echo('</table>');
 		echo('<hr size="1" color="#DDD" style="color: #DDD; background-color: #DDD; height: 1px; border: 0;" />');
-		echo('<img src="/img/icons/silk/information.png" align="absmiddle" /> 如果你之前没有进行过任何设置，那么默认所在地就是地球');
+		echo('<img src="/img/icons/silk/information.png" align="absmiddle" /> ' . $this->lang->set_location_tips());
 		echo('</div>');
 		
 		echo('<div class="blank" align="left">');
 		echo('<span class="text_large"><a name="settings"></a>');
 		_v_ico_tango_32('categories/preferences-system', 'absmiddle', 'home');
-		echo('会员信息修改</span>');
+		echo($this->lang->personal_information_and_preferences() . '</span>');
 		_v_hr();
 		echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 		echo('<form action="/user/update.vx" method="post" id="form_user_info">');
@@ -5291,7 +5292,7 @@ class Page {
 		// S button:
 		echo('<td width="150" rowspan="22" valign="middle" align="right">');
 		
-		_v_btn_f('修改', 'form_user_info');
+		_v_btn_f($this->lang->modify(), 'form_user_info');
 		
 		echo('</td></tr>');
 		// E button.
