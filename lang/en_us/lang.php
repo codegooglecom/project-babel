@@ -238,6 +238,14 @@ class lang implements Language {
 		return 'Upload Portrait';
 	}
 	
+	public function current_portrait() {
+		return 'Current Portrait';
+	}
+	
+	public function choose_a_picture() {
+		return 'Choose a Picture';
+	}
+	
 	public function settings() {
 		return 'Settings';
 	}
@@ -510,6 +518,14 @@ class lang implements Language {
 		return 'Publish';
 	}
 	
+	public function upload() {
+		return 'Upload';
+	}
+	
+	public function modify() {
+		return 'Modify';
+	}
+	
 	public function return_to_discussion_board() {
 		return 'Return to Discussion Board';
 	}
@@ -556,6 +572,26 @@ class lang implements Language {
 	
 	public function logins($count) {
 		return "{$count} logins";
+	}
+	
+	public function location() {
+		return 'Location';
+	}
+	
+	public function current_location() {
+		return 'Current Location';
+	}
+	
+	public function people_in_the_same_area() {
+		return 'People in the Same Area';
+	}
+	
+	public function personal_information_and_preferences() {
+		return 'Personal Information and Preferences';
+	}
+	
+	public function set_location_tips() {
+		return 'Your default location is Earth';
 	}
 }
 ?>

@@ -53,6 +53,8 @@ interface Language {
 	public function session_count($i);
 	public function login_history();
 	public function upload_portrait();
+	public function current_portrait();
+	public function choose_a_picture();
 	public function settings();
 	public function set_location();
 	public function password_recovery();
@@ -121,6 +123,8 @@ interface Language {
 	public function description();
 	public function content();
 	public function publish();
+	public function upload();
+	public function modify();
 	public function return_to_discussion_board();
 	public function return_to_section();
 	public function board_stats_topics($count);
@@ -132,5 +136,9 @@ interface Language {
 	public function update();
 	public function last_signed_in();
 	public function logins($count);
+	public function location();
+	public function current_location();
+	public function people_in_the_same_area();
+	public function set_location_tips();
 }
 ?>

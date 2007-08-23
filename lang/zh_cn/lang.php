@@ -212,6 +212,14 @@ class lang implements Language {
 		return '上传头像';
 	}
 	
+	public function current_portrait() {
+		return '当前头像';
+	}
+	
+	public function choose_a_picture() {
+		return '选择一张图片';
+	}
+	
 	public function settings() {
 		return '修改信息与设置';
 	}
@@ -487,6 +495,14 @@ class lang implements Language {
 		return '发布';
 	}
 	
+	public function upload() {
+		return '上传';
+	}
+	
+	public function modify() {
+		return '修改';
+	}
+	
 	public function return_to_discussion_board() {
 		return '返回讨论区';
 	}
@@ -533,6 +549,26 @@ class lang implements Language {
 	
 	public function logins($count) {
 		return "{$count} 次登录";
+	}
+	
+	public function location() {
+		return '所在地';
+	}
+	
+	public function current_location() {
+		return '当前所在地';
+	}
+	
+	public function people_in_the_same_area() {
+		return '在同一区域的人数';
+	}
+	
+	public function personal_information_and_preferences() {
+		return '个人信息与偏好设置';
+	}
+	
+	public function set_location_tips() {
+		return '如果你之前没有进行过任何设置，那么默认所在地就是地球';
 	}
 }
 ?>

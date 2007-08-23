@@ -43,12 +43,20 @@ class Widget {
 		/* Start: About Ing */
 		_v_b_l_s();
 		_v_ico_silk('hourglass');
-		echo(' 关于 ' . Vocabulary::term_ing . ' <span class="tip_i"><small>alpha</small></span>');
+		echo(' ' . Vocabulary::term_ing . ' <span class="tip_i"><small>alpha</small></span>');
 		echo('<br /><br />');
 		echo('<span class="tip">');
-		echo('你有很多话要说。你每天的生活都很精彩。你总能发现别人没有注意到的细节。<br /><br />那就尽情说吧，这个世界在听。');
+		switch (BABEL_LANG) {
+			case 'en_us':
+			default:
+				echo("You've got things to say, your days are colorful, you care about details which others ignore.<br /><br />Say it and the world is listening.");
+				break;
+			case 'zh_cn':
+				echo('你有很多话要说。你每天的生活都很精彩。你总能发现别人没有注意到的细节。<br /><br />那就尽情说吧，这个世界在听。');
+				break;
+		}
 		_v_hr();
-		echo("<span class=" . '"tip"' . '><small>What are you doing?</small> | 同类优质服务&nbsp;&nbsp;<span class="tip_i"><img src="/img/favicons/twitter.png" align="absmiddle" /><a href="http://www.twitter.com/" target="_blank">&nbsp;Twitter&nbsp;<img src="/img/ext.png" border="0" align="absmiddle" />&nbsp;</a></span></span>');
+		echo("<span class=" . '"tip"' . '><small>What are you doing?</small> <small>See also</small>&nbsp;&nbsp;<span class="tip_i"><img src="/img/favicons/twitter.png" align="absmiddle" /><a href="http://www.twitter.com/" target="_blank">&nbsp;Twitter&nbsp;<img src="/img/ext.png" border="0" align="absmiddle" />&nbsp;</a></span></span>');
 		echo('</span>');
 		_v_d_e();
 		/* End: About Ing */

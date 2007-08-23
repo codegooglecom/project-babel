@@ -510,7 +510,7 @@ switch ($m) {
 	
 	case 'user_modify':
 		if ($p->User->vxIsLogin()) {
-			$p->vxHead($msgSiteTitle = Vocabulary::action_modifyprofile);
+			$p->vxHead($msgSiteTitle = $p->lang->settings());
 			$p->vxBodyStart();
 			$p->vxTop();
 			$p->vxContainer('user_modify');
