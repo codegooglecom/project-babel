@@ -64,6 +64,14 @@ class lang implements Language {
 		return '用户名';
 	}
 	
+	public function user_fullname() {
+		return '真实姓名';
+	}
+	
+	public function user_introduction() {
+		return '自我介绍';
+	}
+	
 	public function email() {
 		return '电子邮件';
 	}
@@ -83,6 +91,10 @@ class lang implements Language {
 	public function new_password_again() {
 		return '重复新密码';
 	}
+	
+	public function change_password_tips() {
+		return '如果你不打算修改密码的话，就不要在密码框处填入任何信息';
+	}
 
 	public function gender() {
 		return '性别';
@@ -90,6 +102,22 @@ class lang implements Language {
 	
 	public function gender_categories() {
 		return array(0 => '未知', 1 => '男性', 2 => '女性', 5 => '女性改（变）为男性', 6 => '男性改（变）为女性', 9 => '未说明');
+	}
+	
+	public function religion() {
+		return '信仰';
+	}
+	
+	public function religion_categories() {
+		return array();
+	}
+	
+	public function expose_my_religion() {
+		return '是否公开我的信仰';
+	}
+	
+	public function preferred_screen_width() {
+		return '常用屏幕宽度';
 	}
 	
 	public function confirmation_code() {
@@ -210,6 +238,10 @@ class lang implements Language {
 	
 	public function upload_portrait() {
 		return '上传头像';
+	}
+	
+	public function upload_portrait_tips() {
+		return '为了更好的效果推荐你选择一张尺寸大于 100 x 100 像素的图片，支持 GIF/PNG/JPG 格式';
 	}
 	
 	public function current_portrait() {

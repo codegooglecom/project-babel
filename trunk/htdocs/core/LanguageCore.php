@@ -16,13 +16,19 @@ interface Language {
 	public function help();
 	public function new_features();
 	public function user_id();
+	public function user_fullname();
+	public function user_introduction();
 	public function email();
 	public function password();
 	public function password_again();
 	public function new_password();
 	public function new_password_again();
+	public function change_password_tips();
 	public function gender();
 	public function gender_categories(); // return: array
+	public function religion();
+	public function religion_categories(); // return: array
+	public function expose_my_religion();
 	public function confirmation_code();
 	public function confirmation_code_tips();
 	public function email_or_nick();
@@ -53,6 +59,7 @@ interface Language {
 	public function session_count($i);
 	public function login_history();
 	public function upload_portrait();
+	public function upload_portrait_tips();
 	public function current_portrait();
 	public function choose_a_picture();
 	public function settings();

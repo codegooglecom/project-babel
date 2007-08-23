@@ -64,6 +64,14 @@ class lang implements Language {
 		return 'User ID';
 	}
 	
+	public function user_fullname() {
+		return 'Full Name';
+	}
+	
+	public function user_introduction() {
+		return 'Self Introduction';
+	}
+	
 	public function email() {
 		return 'E-mail';
 	}
@@ -84,12 +92,32 @@ class lang implements Language {
 		return 'New Password Again';
 	}
 	
+	public function change_password_tips() {
+		return "If you don't want to change your password, then leave password input fields blank";
+	}
+	
 	public function gender() {
 		return 'Gender';
 	}
 	
 	public function gender_categories() {
 		return array(0 => 'Unknown', 1 => 'Male', 2 => 'Female', 5 => 'Female changed to Male', 6 => 'Male changed to Female', 9 => 'Not to tell');
+	}
+	
+	public function religion() {
+		return 'Religion';
+	}
+	
+	public function religion_categories() {
+		return array();
+	}
+	
+	public function expose_my_religion() {
+		return 'Expose My Religion';
+	}
+	
+	public function preferred_screen_width() {
+		return 'Preferred Screen Width';
 	}
 	
 	public function confirmation_code() {
@@ -236,6 +264,10 @@ class lang implements Language {
 	
 	public function upload_portrait() {
 		return 'Upload Portrait';
+	}
+	
+	public function upload_portrait_tips() {
+		return 'For better effect please choose a picture that is larger than 100x100 pixels, JPG/GIF/PNG formats are supported';
 	}
 	
 	public function current_portrait() {
