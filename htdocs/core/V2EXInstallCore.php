@@ -1301,6 +1301,7 @@ $i->vxSetupBoard('samsung', 'Samsung', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('motorola', 'Motorola', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('seiko', 'SEIKO', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('opengl', 'OpenGL', 3, 3, 1, 2, "", '');
+$i->vxSetupBoard('openvg', 'OpenVG', 3, 3, 1, 2, "", '');
 $i->vxSetupBoard('coder', '程序员', 3, 3, 1, 2, "", '');
 	$i->vxSetupChannelByName('coder', 'http://feeds.feedburner.com/vitaminmasterfeed');
 	$i->vxSetupRelatedByName('coder', 'http://www.sun.com/', 'Sun');
