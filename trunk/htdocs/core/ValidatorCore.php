@@ -544,6 +544,7 @@ class Validator {
 		$o['GECKO_DETECTED'] = 0;
 		$o['KHTML_DETECTED'] = 0;
 		$o['OPERA_DETECTED'] = 0;
+		$o['IPHONE_DETECTED'] = 0;
 		$o['LEGACY_ENCODING'] = 0;
 		/* DEVICE_LEVEL
 		0 => bot
@@ -657,6 +658,18 @@ class Validator {
 			$o['version'] = $z[4];
 			$o['DEVICE_LEVEL'] = 3;
 			$o['OPERA_DETECTED'] = 1;
+			return $o;
+		}
+		
+		/* Apple iPhone
+		 * Example: Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+(KHTML, like Gecko) Version/3.0 Mobile/1C25 Safari/419.3 */
+		if (preg_match('/Mozilla\/5\.0 \(iPhone; U; CPU like Mac OS X; ([a-z\-]+)\) AppleWebKit\/([a-z0-9]+)\+ \(KHTML, like Gecko\) Version\/3.0 Mobile\/([a-zA-Z0-9]+) Safari\/([0-9]+\.[0-9]+)/', $ua, $z)) {
+			$o['platform'] = 'Mac OS X';
+			$o['name'] = 'Safari';
+			$o['version'] = $z[2];
+			$o['DEVICE_LEVEL'] = 3;
+			$o['KHTML_DETECTED'] = 1;
+			$o['IPHONE_DETECTED'] = 1;
 			return $o;
 		}
 	
