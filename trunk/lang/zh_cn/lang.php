@@ -602,5 +602,41 @@ class lang implements Language {
 	public function set_location_tips() {
 		return '如果你之前没有进行过任何设置，那么默认所在地就是地球';
 	}
+	
+	public function blog_compose() {
+		return '撰写新文章';
+	}
+	
+	public function blog_create() {
+		return '创建新的博客网站';
+	}
+	
+	public function blog_manage_articles() {
+		return '管理文章';
+	}
+	
+	public function blog_rebuild() {
+		return '重新构建';
+	}
+	
+	public function blog_destroy() {
+		return '彻底关闭';
+	}
+	
+	public function blog_icon() {
+		return '图标';
+	}
+	
+	public function blog_theme() {
+		return '主题';
+	}
+	
+	public function blog_settings() {
+		return '设置';
+	}
+	
+	public function blog_view() {
+		return '查看';
+	}
 }
 ?>

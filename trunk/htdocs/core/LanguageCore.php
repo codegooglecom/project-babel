@@ -147,5 +147,14 @@ interface Language {
 	public function current_location();
 	public function people_in_the_same_area();
 	public function set_location_tips();
+	public function blog_compose();
+	public function blog_create();
+	public function blog_manage_articles();
+	public function blog_rebuild();
+	public function blog_destroy();
+	public function blog_icon();
+	public function blog_theme();
+	public function blog_settings();
+	public function blog_view();
 }
 ?>

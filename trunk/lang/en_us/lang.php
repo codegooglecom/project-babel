@@ -625,5 +625,41 @@ class lang implements Language {
 	public function set_location_tips() {
 		return 'Your default location is Earth';
 	}
+	
+	public function blog_compose() {
+		return 'Compose';
+	}
+	
+	public function blog_create() {
+		return 'Create a New Weblog';
+	}
+	
+	public function blog_manage_articles() {
+		return 'Manage Articles';
+	}
+	
+	public function blog_rebuild() {
+		return 'Rebuild';
+	}
+	
+	public function blog_destroy() {
+		return 'Destroy';
+	}
+	
+	public function blog_icon() {
+		return 'Icon';
+	}
+	
+	public function blog_theme() {
+		return 'Theme';
+	}
+	
+	public function blog_settings() {
+		return 'Settings';
+	}
+	
+	public function blog_view() {
+		return 'View';
+	}
 }
 ?>
