@@ -176,12 +176,12 @@ position: absolute;
 z-index: 5;
 top: 0px;
 right: 0px;
-font-size: 12px;
+font-size: 11px;
 text-align: right;
 line-height: 12px;
 width: 500px;
 height: 40px;
-padding: 12px 12px 0px 0px;
+padding: 5px 3px 0px 0px;
 color: #667;
 }
 

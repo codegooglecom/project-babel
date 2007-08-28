@@ -135,7 +135,7 @@ class Image {
 			
 			$f .= '<a href="http://www.flickr.com/photos/tags/' . $tag . '" target="_blank"><img src="/img/flickr_logo.gif" border="0" align="absmiddle" /></a>&nbsp;&nbsp;&nbsp;<span class="tip_i">' . Vocabulary::site_name . ' 支持从 Flickr 聚合照片！想让你的照片显示在这？给照片加上 [ ' . $tag . ' ] 标签即可。</span>';
 			$f .= '</td></tr>';
-		}		
+		}
 		return $f;
 	}
 	

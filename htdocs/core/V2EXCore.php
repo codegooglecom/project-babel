@@ -543,6 +543,25 @@ class Page {
 		echo('<a href="/nexus"><img src="' . CDN_UI . 'img/nexus_tiny.png" border="0" alt="Nexus Weblogging" /></a>');
 		echo('</div>');
 		
+		echo('<div style="position: absolute; top: 25px; left: 305px;">');
+		?>
+		<script type="text/JavaScript"> 
+var alimama_pid="mm_10036854_129892_120829"; 
+var alimama_titlecolor="CCCCDD"; 
+var alimama_descolor ="FFFFFF"; 
+var alimama_bgcolor="000000"; 
+var alimama_bordercolor="000000"; 
+var alimama_linkcolor="90909F"; 
+var alimama_sizecode="12"; 
+var alimama_width=468; 
+var alimama_height=60; 
+var alimama_type=2; 
+</script> 
+<SCRIPT src="http://p.alimama.com/inf.js" type=text/javascript> 
+</script>
+		<?php
+		echo('</div>');
+		
 		if ($this->User->usr_sw_shell == 1 && !in_array(__PAGE__, array('search', 'ing_personal', 'ing_friends', 'ing_public', 'topic_view')) ) {
 			echo('<script type="text/javascript">setTimeout("focusGo();", 500);</script>');
 		}
@@ -3520,17 +3539,19 @@ class Page {
 		
 		/* S ultimate cool Flickr */
 
-		if ($this->User->usr_id == 1) {
-			$f = Image::vxFlickrBoardBlock($Node->nod_name, $this->User->usr_width, 3);
-			echo $f;
-			$this->cl->save($f, 'board_flickr_' . $Node->nod_name);
-		} else {
-			if ($f = $this->cl->load('board_flickr_' . $Node->nod_name)) {
-				echo $f;
-			} else {
+		if (FLICKR_API_KEY != '') {
+			if ($this->User->usr_id == 1) {
 				$f = Image::vxFlickrBoardBlock($Node->nod_name, $this->User->usr_width, 3);
 				echo $f;
 				$this->cl->save($f, 'board_flickr_' . $Node->nod_name);
+			} else {
+				if ($f = $this->cl->load('board_flickr_' . $Node->nod_name)) {
+					echo $f;
+				} else {
+					$f = Image::vxFlickrBoardBlock($Node->nod_name, $this->User->usr_width, 3);
+					echo $f;
+					$this->cl->save($f, 'board_flickr_' . $Node->nod_name);
+				}
 			}
 		}
 		
@@ -6568,17 +6589,19 @@ class Page {
 			/* S ultimate cool flickr */
 			
 			$tag = $Node->nod_name;
-			if ($this->User->usr_id == 1) {
-				$f = Image::vxFlickrBoardBlock($tag, $this->User->usr_width, 4);
-				echo $f;
-				$this->cl->save($f, 'go_flickr_' . $tag);
-			} else {
-				if ($f = $this->cl->load('go_flickr_' . $tag)) {
-					echo $f;
-				} else {
+			if (FLICKR_API_KEY != '') {
+				if ($this->User->usr_id == 1) {
 					$f = Image::vxFlickrBoardBlock($tag, $this->User->usr_width, 4);
 					echo $f;
 					$this->cl->save($f, 'go_flickr_' . $tag);
+				} else {
+					if ($f = $this->cl->load('go_flickr_' . $tag)) {
+						echo $f;
+					} else {
+						$f = Image::vxFlickrBoardBlock($tag, $this->User->usr_width, 4);
+						echo $f;
+						$this->cl->save($f, 'go_flickr_' . $tag);
+					}
 				}
 			}
 			
@@ -7443,17 +7466,19 @@ class Page {
 		/* S ultimate cool Flickr */
 		
 		$tag = $User->usr_nick;
-		if ($this->User->usr_id == 1) {
-			$f = Image::vxFlickrBoardBlock($tag, $this->User->usr_width, 4);
-			echo $f;
-			$this->cl->save($f, 'go_flickr_' . md5($tag));
-		} else {
-			if ($f = $this->cl->load('go_flickr_' . md5($tag))) {
-				echo $f;
-			} else {
+		if (FLICKR_API_KEY != '') {
+			if ($this->User->usr_id == 1) {
 				$f = Image::vxFlickrBoardBlock($tag, $this->User->usr_width, 4);
 				echo $f;
 				$this->cl->save($f, 'go_flickr_' . md5($tag));
+			} else {
+				if ($f = $this->cl->load('go_flickr_' . md5($tag))) {
+					echo $f;
+				} else {
+					$f = Image::vxFlickrBoardBlock($tag, $this->User->usr_width, 4);
+					echo $f;
+					$this->cl->save($f, 'go_flickr_' . md5($tag));
+				}
 			}
 		}
 		
@@ -11669,20 +11694,20 @@ google_color_url = "00CC00";
 		echo('<link type="text/css" rel="stylesheet" href="/css/themes/' . BABEL_THEME . '/css_weblog.css" />');
 		_v_b_l_s();
 		_v_ico_map();
-		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; <a href="/blog/admin.vx">博客网志</a> &gt; <a href="/blog/' . Weblog::DEFAULT_ACTION . '/' . $Weblog->blg_id . '.vx">' . make_plaintext($Weblog->blg_title) . '</a> &gt; ');
-		echo('撰写新文章 <span class="tip_i"><small>alpha</small></span>');
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; <a href="/blog/admin.vx">' . $this->lang->weblogs() . '</a> &gt; <a href="/blog/' . Weblog::DEFAULT_ACTION . '/' . $Weblog->blg_id . '.vx">' . make_plaintext($Weblog->blg_title) . '</a> &gt; ');
+		echo($this->lang->blog_compose() . ' <span class="tip_i"><small>alpha</small></span>');
 		_v_d_e();
 		_v_b_l_s();
 		echo('<div align="left"><table cellpadding="5" cellspacing="" border="0" class="form">');
 		echo('<form action="/blog/compose/save/' . $Weblog->blg_id . '.vx" method="post" id="form_blog_compose">');
 		echo('<tr><td colspan="2" align="left"><h1 class="ititle">');
 		_v_ico_tango_32('actions/document-new');
-		echo(' 撰写新文章</h1></td></tr>');
+		echo(' ' . $this->lang->blog_compose() . '</h1></td></tr>');
 		echo('<tr><td colspan="2" align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sllt" name="bge_title" value="" /></td></tr>');
 		echo('<tr><td colspan="2" align="left">');
 		echo('<textarea class="ml" style="width: 550px;" rows="30" name="bge_body"></textarea>');
 		echo('</td></tr>');
-		echo('<tr><td width="100" align="right">格式</td><td align="left">');
+		echo('<tr><td width="100" align="right">' . $this->lang->blog_format() . '</td><td align="left">');
 		echo('<select name="bge_mode">');
 		foreach ($_modes as $key => $mode) {
 			if ($Weblog->blg_mode == $key) {
@@ -11802,7 +11827,7 @@ google_color_url = "00CC00";
 		echo('<link type="text/css" rel="stylesheet" href="/css/themes/' . BABEL_THEME . '/css_weblog.css" />');
 		_v_b_l_s();
 		_v_ico_map();
-		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; <a href="/blog/admin.vx">博客网志</a> &gt; <a href="/blog/' . Weblog::DEFAULT_ACTION . '/' . $Weblog->blg_id . '.vx">' . make_plaintext($Weblog->blg_title) . '</a> <span class="tip_i"><small>alpha</small></span>');
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; <a href="/blog/admin.vx">' . $this->lang->weblogs() . '</a> &gt; <a href="/blog/' . Weblog::DEFAULT_ACTION . '/' . $Weblog->blg_id . '.vx">' . make_plaintext($Weblog->blg_title) . '</a> <span class="tip_i"><small>alpha</small></span>');
 		_v_d_e();
 		_v_b_l_s();
 		_v_d_tr_s();
@@ -11824,13 +11849,13 @@ google_color_url = "00CC00";
 		echo('<div class="blog_block">');
 		echo('<div class="blog_view"><span class="tip_i">');
 		_v_ico_silk('picture');
-		echo(' <a href="/blog/portrait/' . $Weblog->blg_id . '.vx">图标</a>');
+		echo(' <a href="/blog/portrait/' . $Weblog->blg_id . '.vx">' . $this->lang->blog_icon() . '</a>');
 		echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
 		_v_ico_silk('layout');
-		echo(' <a href="/blog/theme/' . $Weblog->blg_id . '.vx">主题</a>');
+		echo(' <a href="/blog/theme/' . $Weblog->blg_id . '.vx">' . $this->lang->blog_theme() . '</a>');
 		echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
 		_v_ico_silk('cog_edit');
-		echo(' <a href="/blog/config/' . $Weblog->blg_id . '.vx">设置</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_name . '/" target="_blank">查看</a> <img src="/img/ext.png" align="absmiddle" /></span></div>');
+		echo(' <a href="/blog/config/' . $Weblog->blg_id . '.vx">' . $this->lang->blog_settings() . '</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_name . '/" target="_blank">' . $this->lang->blog_view() . '</a> <img src="/img/ext.png" align="absmiddle" /></span></div>');
 		echo('<table width="98%" cellpadding="0" cellspacing="0" border="0">');
 		echo('<tr>');
 		echo('<td width="114" rowspan="3" align="left">');
@@ -11857,16 +11882,16 @@ google_color_url = "00CC00";
 		echo('<tr>');
 		echo('<td valign="top" height="24"><span class="tip_i">');
 		_v_ico_silk('pencil');
-		echo(' <a href="/blog/compose/' . $Weblog->blg_id . '.vx">撰写新文章</a>');
+		echo(' <a href="/blog/compose/' . $Weblog->blg_id . '.vx">' . $this->lang->blog_compose() . '</a>');
 		echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
 		_v_ico_silk('table_multiple');
-		echo(' <strong>管理文章</strong>');
+		echo(' <strong>' . $this->lang->blog_manage_articles() . '</strong>');
 		echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
 		_v_ico_silk('arrow_refresh');
-		echo(' <a href="/blog/build/' . $Weblog->blg_id . '.vx">重新构建</a>');
+		echo(' <a href="/blog/build/' . $Weblog->blg_id . '.vx">' . $this->lang->blog_rebuild() . '</a>');
 		echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
 		_v_ico_silk('cross');
-		echo(' <a href="#;" onclick="if (confirm(' . "'你确认要彻底关闭这个博客网站吗？\\n\\n这些数据被删除后将无法恢复。'" . ')) { location.href = ' . "'/blog/destroy/" . $Weblog->blg_id . ".vx'; } else { return false; }" . '">彻底关闭</a>');
+		echo(' <a href="#;" onclick="if (confirm(' . "'你确认要彻底关闭这个博客网站吗？\\n\\n这些数据被删除后将无法恢复。'" . ')) { location.href = ' . "'/blog/destroy/" . $Weblog->blg_id . ".vx'; } else { return false; }" . '">' . $this->lang->blog_destroy() . '</a>');
 		echo('</td>');
 		echo('</tr>');
 		echo('</table>');

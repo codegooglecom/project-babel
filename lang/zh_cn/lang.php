@@ -638,5 +638,9 @@ class lang implements Language {
 	public function blog_view() {
 		return '查看';
 	}
+	
+	public function blog_format() {
+		return '格式';
+	}
 }
 ?>
