@@ -15,9 +15,7 @@
 body, html {
 margin: 0px;
 padding: 0px;
-background-image: url("/d/img/bg.png");
-background-repeat: repeat-x;
-background-color: #90909F;
+background-color: #F0F0F0;
 font-family: Verdana, "Lucida Grande", "Lucida Sans", sans, Hei;
 min-width:750px;
 }
@@ -203,7 +201,7 @@ text-align: center;
 
 
 div#bottom {
-border-top: 1px solid #889;
+border-top: 1px solid #CCC;
 background-color: #FFFFFF;
 padding-top: 5px;
 padding-bottom: 10px;
