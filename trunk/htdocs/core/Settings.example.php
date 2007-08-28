@@ -119,8 +119,11 @@ define('BABEL_API_TOPIC_PRICE', 20);
 
 define('BABEL_IP_DB_LOCATION', '/www/babel/res/qqwry.dat');
 
-/* ad system powered by Google */
+/* Google AdSense */
 define('GOOGLE_AD_ENABLED', true);
+
+/* Alimama */
+define('ALIMAMA_ENABLED', true);
 
 /* legacy kijiji api */
 define('KIJIJI_LEGACY_API_SEARCH_ENABLED', false);

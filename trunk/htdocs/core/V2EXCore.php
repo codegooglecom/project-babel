@@ -543,24 +543,11 @@ class Page {
 		echo('<a href="/nexus"><img src="' . CDN_UI . 'img/nexus_tiny.png" border="0" alt="Nexus Weblogging" /></a>');
 		echo('</div>');
 		
-		echo('<div style="position: absolute; top: 25px; left: 305px;">');
-		?>
-		<script type="text/JavaScript"> 
-var alimama_pid="mm_10036854_129892_120829"; 
-var alimama_titlecolor="CCCCDD"; 
-var alimama_descolor ="FFFFFF"; 
-var alimama_bgcolor="000000"; 
-var alimama_bordercolor="000000"; 
-var alimama_linkcolor="90909F"; 
-var alimama_sizecode="12"; 
-var alimama_width=468; 
-var alimama_height=60; 
-var alimama_type=2; 
-</script> 
-<SCRIPT src="http://p.alimama.com/inf.js" type=text/javascript> 
-</script>
-		<?php
-		echo('</div>');
+		if (ALIMAMA_ENABLED) {
+			echo('<div style="position: absolute; top: 25px; width: 99%;" align="center">');
+			include(BABEL_PREFIX . '/res/alimama_top.php');
+			echo('</div>');
+		}
 		
 		if ($this->User->usr_sw_shell == 1 && !in_array(__PAGE__, array('search', 'ing_personal', 'ing_friends', 'ing_public', 'topic_view')) ) {
 			echo('<script type="text/javascript">setTimeout("focusGo();", 500);</script>');

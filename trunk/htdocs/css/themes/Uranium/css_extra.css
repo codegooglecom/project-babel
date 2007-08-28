@@ -110,13 +110,13 @@ background-image: url("/img/bg_menu.gif");
 div#nav a.top:link, a.top:visited {
 text-align: left;
 color: #000;
-padding: 3px 0px 5px 0px;
+padding: 3px 0px 4px 0px;
 text-decoration: none;
 }
 
 div#nav a.top:hover {
 color: #FFF;
-padding: 3px 0px 5px 0px;
+padding: 3px 0px 4px 0px;
 text-decoration: none;
 background-color: #667;
 background-image: url("/img/fall_navy.gif");
