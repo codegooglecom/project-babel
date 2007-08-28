@@ -156,5 +156,7 @@ interface Language {
 	public function blog_theme();
 	public function blog_settings();
 	public function blog_view();
+	public function blog_format();
+	public function blog_comment_permission();
 }
 ?>

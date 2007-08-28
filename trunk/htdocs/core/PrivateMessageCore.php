@@ -36,7 +36,6 @@ if (V2EX_BABEL == 1) {
 	require('core/MessageCore.php');
 	require('core/ChannelCore.php');
 	require('core/URLCore.php');
-	require('core/ImageCore.php');
 	require('core/ValidatorCore.php');
 } else {
 	die('<strong>Project Babel</strong><br /><br />Made by V2EX | software for internet');

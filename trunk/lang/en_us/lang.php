@@ -447,7 +447,7 @@ class lang implements Language {
 	}
 	
 	public function create_new_topic_in($title) {
-		return '<small>Create New Topic in ' . $title . '</small>';
+		return '<small>New Topic in ' . $title . '</small>';
 	}
 	
 	public function favorite_this_topic() {
@@ -660,6 +660,14 @@ class lang implements Language {
 	
 	public function blog_view() {
 		return 'View';
+	}
+	
+	public function blog_format() {
+		return 'Format';
+	}
+	
+	public function blog_comment_permission() {
+		return 'Comment Permission';
 	}
 }
 ?>
