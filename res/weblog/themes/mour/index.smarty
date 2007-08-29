@@ -37,6 +37,7 @@
 				<a href="tag-{$item.bet_tag}.html">{$item.bet_tag}</a><br />
 			{/foreach}
 		</div>
+	{include file='widget_links.smarty'}
 	{if $license_show eq 1}
 		<h3 class="label">License</h3>
 			<div class="item"><small>{$license_code}</small></div>

@@ -32,6 +32,8 @@
 		
 		{include file='widget_about.smarty'}
 		
+		{include file='widget_links.smarty'}
+		
 	</div>
 </div>
 <div id="main">

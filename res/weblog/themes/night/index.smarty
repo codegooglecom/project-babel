@@ -29,6 +29,8 @@
 		{/foreach}
 		</div>
 		
+		{include file='widget_links.smarty'}
+		
 		<h3 class="label">License</h3>
 		
 		{if $license_show eq 1}
