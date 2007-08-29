@@ -248,6 +248,11 @@ class URL {
 		return $url;
 	}
 	
+	public static function vxGetBlogLink($weblog_id) {
+		$url = '/blog/link/' . $weblog_id . '.vx';
+		return $url;
+	}
+	
 	public static function vxGetBlogModerate($entry_id) {
 		$url = '/blog/moderate/' . $entry_id . '.vx';
 		return $url;

@@ -635,7 +635,11 @@ class lang implements Language {
 	}
 	
 	public function blog_manage_articles() {
-		return 'Manage Articles';
+		return 'Articles';
+	}
+	
+	public function blog_manage_links() {
+		return 'Links';
 	}
 	
 	public function blog_rebuild() {

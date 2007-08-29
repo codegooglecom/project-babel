@@ -150,6 +150,7 @@ interface Language {
 	public function blog_compose();
 	public function blog_create();
 	public function blog_manage_articles();
+	public function blog_manage_links();
 	public function blog_rebuild();
 	public function blog_destroy();
 	public function blog_icon();
