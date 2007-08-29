@@ -1,0 +1,8 @@
+{foreach from=$links item=item key=key}
+<h3 class="label">{$item.category}</h3>
+<div class="item">
+{foreach from=$item.links item=link key=link_md5}
+<a href="{$link.url}" rel="nofollow" target="_blank">{$link.title}</a><br />
+{/foreach}
+</div>
+{/foreach}
