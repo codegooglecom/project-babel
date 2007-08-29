@@ -204,6 +204,10 @@ switch ($m) {
 		$s->vxBlogThemeSave();
 		break;
 		
+	case 'blog_link_save':
+		$s->vxBlogLinkSave();
+		break;
+		
 	case 'set_lang':
 		$s->vxSetLang();
 		break;

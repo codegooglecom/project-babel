@@ -2376,7 +2376,7 @@ switch ($m) {
 				$Weblog = new Weblog($weblog_id);
 				if ($Weblog->weblog) {
 					if ($Weblog->blg_uid == $p->User->usr_id) {
-						$p->vxHead($msgSiteTitle = '管理文章');
+						$p->vxHead($msgSiteTitle = make_plaintext($Weblog->blg_title) . ' - ' . $p->lang->blog_manage_articles());
 						$p->vxBodyStart();
 						$p->vxTop();
 						$p->vxContainer('blog_list', $Weblog);
@@ -2399,6 +2399,43 @@ switch ($m) {
 			if (isset($_GET['weblog_id'])) {
 				$weblog_id = intval($_GET['weblog_id']);
 				die($p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetBlogList($weblog_id))));
+				break;
+			} else {
+				die($p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetBlogAdmin())));
+				break;
+			}
+		}
+		
+	case 'blog_link':
+		if ($p->User->vxIsLogin()) {
+			if (isset($_GET['weblog_id'])) {
+				$weblog_id = intval($_GET['weblog_id']);
+				$Weblog = new Weblog($weblog_id);
+				if ($Weblog->weblog) {
+					if ($Weblog->blg_uid == $p->User->usr_id) {
+						$p->vxHead($msgSiteTitle = make_plaintext($Weblog->blg_title) . ' - ' . $p->lang->blog_manage_links());
+						$p->vxBodyStart();
+						$p->vxTop();
+						$p->vxContainer('blog_link', $Weblog);
+						break;
+					} else {
+						$_SESSION['babel_message_weblog'] = '你没有权力对这个博客网站进行操作';
+						die($p->URL->vxToRedirect($p->URL->vxGetBlogAdmin()));
+						break;
+					}
+				} else {
+					$_SESSION['babel_message_weblog'] = '指定的博客网站没有找到';
+					die($p->URL->vxToRedirect($p->URL->vxGetBlogAdmin()));
+					break;
+				}
+			} else {
+				die($p->URL->vxToRedirect($p->URL->vxGetBlogAdmin()));
+				break;
+			}
+		} else {
+			if (isset($_GET['weblog_id'])) {
+				$weblog_id = intval($_GET['weblog_id']);
+				die($p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetBlogLink($weblog_id))));
 				break;
 			} else {
 				die($p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetBlogAdmin())));

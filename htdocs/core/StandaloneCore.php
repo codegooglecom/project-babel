@@ -1402,6 +1402,87 @@ class Standalone {
 		}
 	}
 	
+	public function vxBlogLinkSave() {
+		$return = $_SERVER['HTTP_REFERER'];
+		header('Content-type: text/plain;charset=UTF-8');
+		if ($this->User->vxIsLogin()) {
+			if (isset($_GET['weblog_id'])) {
+				$weblog_id = intval($_GET['weblog_id']);
+				$sql = "SELECT blg_id, blg_uid, blg_title, blg_links FROM babel_weblog WHERE blg_id = {$weblog_id}";
+				$rs = mysql_query($sql);
+				if ($_weblog = mysql_fetch_array($rs)) {
+					mysql_free_result($rs);
+					if ($_weblog['blg_uid'] == $this->User->usr_id) {
+						if (isset($_POST['blg_links'])) {
+							$blg_links = fetch_multi($_POST['blg_links']);
+							if (strlen($blg_links) > 400) {
+								$_SESSION['babel_message_weblog'] = '链接描述文本过长';
+							} else {
+								$blg_links = str_replace('\|', '{$pipeline}', $blg_links);
+								$blg_links_md5 = md5($blg_links);
+								$_links = explode("\n", $blg_links);
+								$links = array();
+								$category_current = '';
+								foreach ($_links as $entry) {
+									$entry = trim($entry);
+									if ($entry != '') {
+										if (strpos($entry, '|') === false) {
+											// This is a link category:
+											$category_md5 = md5($entry);
+											if (!in_array($category_md5, $links)) {
+												$category_current = $category_md5;
+												$links[$category_md5] = array();
+												$links[$category_md5]['category'] = str_replace('{$pipeline}', '\\|', $entry);
+												$links[$category_md5]['links'] = array();
+											}
+										} else {
+											// This is a link:
+											if ($category_current == '') {
+												$category_current = md5('Blogroll');
+												$links[$category_current] = array();
+												$links[$category_current]['category'] = 'Blogroll';
+												$links[$category_current]['links'] = array();
+											}
+											$_link_info = explode('|', $entry);
+											$_link_info[0] = str_replace('{$pipeline}', '\\|', trim($_link_info[0]));
+											$_link_info[1] = str_replace('{$pipeline}', '\\|', trim($_link_info[1]));
+											if (mb_strlen($_link_info[1], 'UTF-8') > 7) {
+												if (strtolower(mb_substr($_link_info[1], 0, 7, 'UTF-8')) != 'http://') {
+													$_link_info[1] = 'http://' . $_link_info['1'];
+												}
+											} else {
+												$_link_info[1] = 'http://' . $_link_info['1'];
+											}
+											$link_md5 = md5($_link_info[1]);
+											$links[$category_current]['links'][$link_md5] = array();
+											$links[$category_current]['links'][$link_md5]['title'] = $_link_info[0];
+											$links[$category_current]['links'][$link_md5]['url'] = $_link_info[1];
+										}
+									}
+								}
+								$links_sql = mysql_real_escape_string(serialize($links));
+								$sql = "UPDATE babel_weblog SET blg_links = '{$links_sql}' WHERE blg_id = {$weblog_id}";
+								mysql_unbuffered_query($sql);
+							}
+							return URL::vxToRedirect(URL::vxGetBlogLink($_weblog['blg_id']));
+						} else {
+							return URL::vxToRedirect(URL::vxGetBlogLink($_weblog['blg_id']));
+						}
+					} else {
+						return js_alert('你没有权力对这个博客网站进行操作', '/blog/admin.vx');
+					}
+				} else {
+					mysql_free_result($rs);
+					return js_alert('指定的博客网站没有找到', '/blog/admin.vx');
+				}
+			} else {
+				return js_alert('指定的博客网站没有找到', '/blog/admin.vx');
+			}
+		} else {
+			return js_alert('你还没有登录，请登录之后再进行操作', URL::vxGetLogin(URL::vxGetBlogAdmin()));
+		}
+	}
+	
 	public function vxSetLang() {
 		if (isset($_GET['lang'])) {
 			$lang = strtolower(fetch_single($_GET['lang']));

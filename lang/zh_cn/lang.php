@@ -615,6 +615,10 @@ class lang implements Language {
 		return '管理文章';
 	}
 	
+	public function blog_manage_links() {
+		return '管理链接';
+	}
+	
 	public function blog_rebuild() {
 		return '重新构建';
 	}

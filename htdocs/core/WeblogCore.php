@@ -3,7 +3,7 @@ class Weblog {
 	const DEFAULT_ACTION = 'list';
 	
 	public function __construct($weblog_id) {
-		$sql = "SELECT blg_id, blg_uid, blg_name, blg_title, blg_description, blg_portrait, blg_theme, blg_license, blg_license_show, blg_mode, blg_entries, blg_comments, blg_comment_permission, blg_builds, blg_dirty, blg_ing, blg_created, blg_lastupdated, blg_lastbuilt, blg_expire, usr_id, usr_nick, usr_gender, usr_portrait, usr_created, usr_brief FROM babel_weblog, babel_user WHERE blg_uid = usr_id AND blg_id = {$weblog_id}";
+		$sql = "SELECT blg_id, blg_uid, blg_name, blg_title, blg_description, blg_portrait, blg_theme, blg_license, blg_license_show, blg_mode, blg_entries, blg_comments, blg_comment_permission, blg_links, blg_builds, blg_dirty, blg_ing, blg_created, blg_lastupdated, blg_lastbuilt, blg_expire, usr_id, usr_nick, usr_gender, usr_portrait, usr_created, usr_brief FROM babel_weblog, babel_user WHERE blg_uid = usr_id AND blg_id = {$weblog_id}";
 		$rs = mysql_query($sql);
 		if (mysql_num_rows($rs) == 1) {
 			$this->weblog = true;
@@ -25,6 +25,11 @@ class Weblog {
 			$this->blg_entries = intval($_weblog['blg_entries']);
 			$this->blg_comments = intval($_weblog['blg_comments']);
 			$this->blg_comment_permission = intval($_weblog['blg_comment_permission']);
+			if ($_weblog['blg_links'] != '') {
+				$this->blg_links = unserialize($_weblog['blg_links']);
+			} else {
+				$this->blg_links = array();
+			}
 			$this->blg_builds = intval($_weblog['blg_builds']);
 			$this->blg_dirty = intval($_weblog['blg_dirty']);
 			$this->blg_ing = intval($_weblog['blg_ing']);
@@ -239,6 +244,17 @@ class Weblog {
 		return 'by';
 	}
 	
+	public static function vxGenerateLinksText($links) {
+		$o = '';
+		foreach ($links as $category) {
+			$o .= $category['category'] . "\n";
+			foreach ($category['links'] as $link) {
+				$o .= $link['title'] . '|' . $link['url'] . "\n";
+			}
+		}
+		return $o;
+	}
+	
 	public static function vxBuild($user_id, $weblog_id) {
 		$start = microtime(true);
 		$Weblog = new Weblog($weblog_id);
@@ -331,6 +347,27 @@ class Weblog {
 			mysql_free_result($rs);
 			
 			$s->assign('tags', $_tags);
+			
+			$links = array();
+			
+			foreach ($Weblog->blg_links as $category) {
+				$category['category'] = str_replace('\|', '|', $category['category']);
+				$category_md5 = md5($category['category']);
+				if (count($category['links']) > 0) {
+					$links[$category_md5] = array();
+					$links[$category_md5]['category'] = make_plaintext($category['category']);
+					$links[$category_md5]['links'] = array();
+					foreach ($category['links'] as $link) {
+						$link['title'] = str_replace('\|', '|', $link['title']);
+						$link_md5 = md5($link['url']);
+						$links[$category_md5]['links'][$link_md5] = array();
+						$links[$category_md5]['links'][$link_md5]['title'] = make_plaintext($link['title']);
+						$links[$category_md5]['links'][$link_md5]['url'] = make_plaintext($link['url']);
+					}
+				}
+			}
+			
+			$s->assign('links', $links);
 			
 			/* S: index.smarty */
 			
