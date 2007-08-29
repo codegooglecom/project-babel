@@ -646,5 +646,9 @@ class lang implements Language {
 	public function blog_format() {
 		return '格式';
 	}
+	
+	public function blog_comment_permission() {
+		return '评论权限';
+	}
 }
 ?>
