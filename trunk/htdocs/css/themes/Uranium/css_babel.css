@@ -16,7 +16,7 @@ body, html {
 margin: 0px;
 padding: 0px;
 background-color: #F0F0F0;
-font-family: Verdana, "Lucida Grande", "Lucida Sans", sans, Hei;
+font-family: "Lucida Grande", Tahoma, Verdana, arial, sans-serif, hei;
 min-width:750px;
 }
 
@@ -206,7 +206,7 @@ background-color: #FFFFFF;
 padding-top: 5px;
 padding-bottom: 10px;
 clear: both;
-font-size: 12px;
+font-size: 11px;
 color: #999;
 text-align: center;
 line-height: 20px;
@@ -215,12 +215,12 @@ background-repeat: repeat-x;
 }
 
 div#bottom a:link, div#bottom a:visited, div#bottom a:active {
-color: #66D;
+color: #676777;
 text-decoration: none;
 }
 
 div#bottom a:hover {
-color: #66D;
+color: #90909F;
 text-decoration: underline;
 }
 
@@ -1762,6 +1762,7 @@ color: #FFF;
 clear: both;
 opacity: .85;
 padding: 5px;
+font-family: Verdana;
 }
 
 div#debug table {
@@ -1956,7 +1957,7 @@ background-color: #F9F9F9;
 -webkit-border-radius: 7px;
 -moz-border-radius: 7px;
 line-height: 20px;
-font-family: "Luxi Sans", "Lucida Grande", "Verdana", sans, hei;
+font-family: "Luxi Sans", "Lucida Grande", Tahoma, "Verdana", arial, sans-serif, hei;
 }
 
 span.rss_t {
@@ -1968,7 +1969,7 @@ font-family: "Luxi Serif", "Times New Roman", serif, hei;
 padding: 10px 10px 10px 20px;
 line-height: 18px;
 font-size: 13px;
-font-family: "Luxi Sans", "Lucida Grande", "Verdana", sans, hei;
+font-family: "Luxi Sans", "Lucida Grande", Tahoma, "Verdana", arial, sans-serif, hei;
 }
 
 .rss_entry_content a:link, .rss_entry_content a:active, .rss_entry_content a:visited {

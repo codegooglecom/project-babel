@@ -794,7 +794,7 @@ class Page {
 	/* S module: div#bottom tag */
 	
 	public function vxBottom($msgCopyright = Vocabulary::site_copyright) {
-		echo('<div id="bottom"><small>' . $msgCopyright . '</small><br /><small><a href="/community_guidelines.vx">' . Vocabulary::term_community_guidelines . '</a> | <a href="http://io.v2ex.com/v2ex-doc/" target="_blank">Help</a> | <a href="http://labs.v2ex.com/" target="_blank">Developer</a> | <a href="/rules.vx">' . Vocabulary::term_rules . '</a> | <a href="/terms.vx">' . Vocabulary::term_terms . '</a> | <a href="/privacy.vx">' . Vocabulary::term_privacy . '</a> | <a href="/policies.vx">' . Vocabulary::term_policies . '</a></small><br /><a href="http://labs.v2ex.com/" target="_blank" class="var"><img src="/img/beta_jtp.gif" alt="Beta * V2EX Labs" align="absmiddle" border="0" /></a><br /></div>');
+		echo('<div id="bottom">' . $msgCopyright . '<br /><a href="/community_guidelines.vx">' . Vocabulary::term_community_guidelines . '</a> &nbsp; <a href="http://io.v2ex.com/v2ex-doc/" target="_blank">Help</a> &nbsp; <a href="http://labs.v2ex.com/" target="_blank">Developer</a> &nbsp; <a href="/rules.vx">' . Vocabulary::term_rules . '</a> &nbsp; <a href="/terms.vx">' . Vocabulary::term_terms . '</a> &nbsp; <a href="/privacy.vx">' . Vocabulary::term_privacy . '</a> &nbsp; <a href="/policies.vx">' . Vocabulary::term_policies . '</a><br /><a href="http://labs.v2ex.com/" target="_blank" class="var"><img src="/img/beta_jtp.gif" alt="Beta * V2EX Labs" align="absmiddle" border="0" /></a><br /></div>');
 	}
 	
 	/* E module: div#bottom tag */
