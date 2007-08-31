@@ -369,9 +369,17 @@ class Weblog {
 			
 			$s->assign('links', $links);
 			
+			if ($Weblog->blg_theme == 'cloud') {
+				$sql_order = "ASC";
+				$sql_limit_index = "";
+			} else {
+				$sql_order = "DESC";
+				$sql_limit_index = "LIMIT 10";
+			}
+			
 			/* S: index.smarty */
 			
-			$sql = "SELECT bge_id, bge_title, bge_body, bge_mode, bge_tags, bge_comments, bge_trackbacks, bge_comment_permission, bge_published, usr_id, usr_nick FROM babel_weblog_entry, babel_user WHERE bge_uid = usr_id AND bge_uid = {$Weblog->usr_id} AND bge_pid = {$Weblog->blg_id} AND bge_status = 1 ORDER BY bge_published DESC LIMIT 10";
+			$sql = "SELECT bge_id, bge_title, bge_body, bge_mode, bge_tags, bge_comments, bge_trackbacks, bge_comment_permission, bge_published, usr_id, usr_nick FROM babel_weblog_entry, babel_user WHERE bge_uid = usr_id AND bge_uid = {$Weblog->usr_id} AND bge_pid = {$Weblog->blg_id} AND bge_status = 1 ORDER BY bge_published {$sql_order} {$sql_limit_index}";
 			$rs = mysql_query($sql);
 			$entries_count = mysql_num_rows($rs);
 			$_entries = array();
@@ -469,7 +477,7 @@ class Weblog {
 			foreach ($_tags as $tag) {
 				$s->assign('tag_cur', $tag['bet_tag']);
 				$tag_sql = mysql_real_escape_string($tag['bet_tag']);
-				$sql = "SELECT bge_id, bge_title, bge_body, bge_tags, bge_comments, bge_trackbacks, bge_mode, bge_comment_permission, bge_published, usr_id, usr_nick FROM babel_weblog_entry, babel_user WHERE bge_uid = usr_id AND bge_uid = {$Weblog->usr_id} AND bge_pid = {$Weblog->blg_id} AND bge_status = 1 AND bge_id IN (SELECT bet_eid FROM babel_weblog_entry_tag WHERE bet_tag = '{$tag_sql}') ORDER BY bge_published DESC";
+				$sql = "SELECT bge_id, bge_title, bge_body, bge_tags, bge_comments, bge_trackbacks, bge_mode, bge_comment_permission, bge_published, usr_id, usr_nick FROM babel_weblog_entry, babel_user WHERE bge_uid = usr_id AND bge_uid = {$Weblog->usr_id} AND bge_pid = {$Weblog->blg_id} AND bge_status = 1 AND bge_id IN (SELECT bet_eid FROM babel_weblog_entry_tag WHERE bet_tag = '{$tag_sql}') ORDER BY bge_published {$sql_order}";
 				$rs = mysql_query($sql);
 				$_entries = array();
 				$i = 0;
@@ -531,10 +539,23 @@ class Weblog {
 			
 			/* S: entry.smarty */
 			
-			$sql = "SELECT bge_id, bge_title, bge_body, bge_tags, bge_comments, bge_trackbacks, bge_mode, bge_comment_permission, bge_published, usr_id, usr_nick FROM babel_weblog_entry, babel_user WHERE bge_uid = usr_id AND bge_uid = {$Weblog->usr_id} AND bge_pid = {$Weblog->blg_id} AND bge_status = 1 ORDER BY bge_published DESC";
+			$sql = "SELECT bge_id, bge_title, bge_body, bge_tags, bge_comments, bge_trackbacks, bge_mode, bge_comment_permission, bge_published, usr_id, usr_nick FROM babel_weblog_entry, babel_user WHERE bge_uid = usr_id AND bge_uid = {$Weblog->usr_id} AND bge_pid = {$Weblog->blg_id} AND bge_status = 1 ORDER BY bge_published {$sql_order}";
 			$rs = mysql_query($sql);
 			$i = 0;
 			while ($_entry = mysql_fetch_array($rs)) {
+				$i++;
+				$next = $i + 1;
+				$prev = $i - 1;
+				if (isset($_ids[$next])) {
+					$_entry['next'] = $_ids[$next];
+				} else {
+					$_entry['next'] = 0;
+				}
+				if (isset($_ids[$prev])) {
+					$_entry['prev'] = $_ids[$prev];
+				} else {
+					$_entry['prev'] = 0;
+				}
 				$_entry['url'] = 'http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_name . '/entry-' . $_entry['bge_id'] . '.html';
 				$_entry['url_url'] = urlencode($_entry['url']);
 				$_entry['bge_title_plain'] = make_plaintext($_entry['bge_title']);
