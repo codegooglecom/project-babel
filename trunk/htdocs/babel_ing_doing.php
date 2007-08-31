@@ -52,6 +52,7 @@ header('Etag: ' . sha1($ing_id));
 	?></title>
 	<link rel="stylesheet" type="text/css" href="/css/themes/<?php echo BABEL_THEME; ?>/css_babel.css" />
 	<link rel="stylesheet" type="text/css" href="/css/themes/<?php echo BABEL_THEME; ?>/css_extra.css" />
+	<style type="text/css">body, html { background-image: none; backgroud-color: #F0F0F0; }</style>
 <?php
 if (MINT_LOCATION != '') {
 	echo('<script src="' . MINT_LOCATION . '" type="text/javascript"></script>');

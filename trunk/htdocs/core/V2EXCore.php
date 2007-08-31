@@ -299,37 +299,6 @@ class Page {
 	}
 	
 	public function __destruct() {
-		if (BABEL_DEBUG) {
-			$this->timer->stop();
-			echo('<div id="debug">Project Babel Debug Information - Generated on ' . date('Y-n-j G:i:s', time()) . '<br /><br />');
-			echo str_replace('silver', '#333', str_replace('="1"', '="0" cellpadding="5" cellspacing="0"', $this->timer->getOutput(false, 'html')));
-			echo('<br />');
-			if (isset($_SESSION['babel_debug_log'])) {
-				
-				krsort($_SESSION['babel_debug_log']);
-				if (count($_SESSION['babel_debug_log']) == 0) {
-					echo('Debug log is empty.');
-				} else {
-					foreach ($_SESSION['babel_debug_log'] as $_time => $_event) {
-						echo('<strong>' . date('r', $_time) . '</strong> - ' . $_event . '<br />');
-					}
-				}
-			} else {
-				$_SESSION['babel_debug_log'] = array();
-				echo('Debug log is empty.');
-			}
-			if (isset($this->db)) {
-				if ($_SESSION['babel_debug_profiling']) {
-					_v_hr();				
-					$rs = mysql_query("SHOW PROFILES");
-					while ($_p = mysql_fetch_array($rs)) {
-						echo intval($_p['Duration'] * 1000) . ' - ' . $_p['Query'] . '<br />';
-					}
-					mysql_free_result($rs);
-				}
-			}
-			echo('</div>');
-		}
 		if (@$this->db) {
 			mysql_close($this->db);
 		}
@@ -447,6 +416,7 @@ class Page {
 		if (MBL_ID != '') {
 			echo("<script type='text/javascript' src='http://track2.mybloglog.com/js/jsserv.php?mblID=" . MBL_ID . "'></script>");
 		}
+		echo('<div align="center"><div id="v2ex">');
 	}
 	
 	/* E module: body tag end */
@@ -454,6 +424,40 @@ class Page {
 	/* S module: body tag end */
 	
 	public function vxBodyEnd() {
+		
+		if (BABEL_DEBUG) {
+			$this->timer->stop();
+			echo('<div id="debug">Project Babel Debug Information - Generated on ' . date('Y-n-j G:i:s', time()) . '<br /><br />');
+			echo str_replace('silver', '#333', str_replace('="1"', '="0" cellpadding="5" cellspacing="0"', $this->timer->getOutput(false, 'html')));
+			echo('<br />');
+			if (isset($_SESSION['babel_debug_log'])) {
+				
+				krsort($_SESSION['babel_debug_log']);
+				if (count($_SESSION['babel_debug_log']) == 0) {
+					echo('Debug log is empty.');
+				} else {
+					foreach ($_SESSION['babel_debug_log'] as $_time => $_event) {
+						echo('<strong>' . date('r', $_time) . '</strong> - ' . $_event . '<br />');
+					}
+				}
+			} else {
+				$_SESSION['babel_debug_log'] = array();
+				echo('Debug log is empty.');
+			}
+			if (isset($this->db)) {
+				if ($_SESSION['babel_debug_profiling']) {
+					_v_hr();				
+					$rs = mysql_query("SHOW PROFILES");
+					while ($_p = mysql_fetch_array($rs)) {
+						echo intval($_p['Duration'] * 1000) . ' - ' . $_p['Query'] . '<br />';
+					}
+					mysql_free_result($rs);
+				}
+			}
+			echo('</div>');
+		}
+		echo('</div>');
+		echo('</div>');
 		echo('</body></html>');
 	}
 	
@@ -515,6 +519,15 @@ class Page {
 	public function vxTop($msgBanner = Vocabulary::site_banner, $keyword = '') {
 		global $GOOGLE_AD_LEGAL;
 		
+		if ($this->User->usr_sw_shell == 1 && !in_array(__PAGE__, array('search', 'ing_personal', 'ing_friends', 'ing_public', 'topic_view')) ) {
+			echo('<script type="text/javascript">setTimeout("focusGo();", 500);</script>');
+		}
+		
+		/* nav menu start: */
+		echo('<div id="top_banner" align="left">');
+		
+		$img_logo = 'v2ex_logo_uranium.png';
+
 		if ($this->User->usr_id != 0) {
 			if ($usr_share = $this->cs->get('babel_user_share_' . $this->User->usr_id)) {
 				$this->usr_share = floatval($usr_share);
@@ -539,26 +552,19 @@ class Page {
 			echo('<div id="top_right"><a href="/signup.html" class="tr">' . $this->lang->register() . '</a> <a href="/passwd.vx" class="tr">' . $this->lang->password_recovery() . '</a> <a href="/login" class="tr">' . $this->lang->login() . '</a></div>');
 		}
 		
-		echo('<div id="bottom_right" style="z-index: 20;">');
+		echo('<div style="position: absolute; top: 60px; padding-left: 880px; z-index: 5;">');
 		echo('<a href="/nexus"><img src="' . CDN_UI . 'img/nexus_tiny.png" border="0" alt="Nexus Weblogging" /></a>');
 		echo('</div>');
 		
 		if (ALIMAMA_ENABLED) {
-			echo('<div style="position: absolute; top: 25px; width: 99%; z-index: 10;" align="center">');
+			echo('<div style="position: absolute; top: 25px; padding-left: 280px; width: 468px; z-index: 10;">');
 			include(BABEL_PREFIX . '/res/alimama_top.php');
 			echo('</div>');
 		}
-		
-		if ($this->User->usr_sw_shell == 1 && !in_array(__PAGE__, array('search', 'ing_personal', 'ing_friends', 'ing_public', 'topic_view')) ) {
-			echo('<script type="text/javascript">setTimeout("focusGo();", 500);</script>');
-		}
-		
-		/* nav menu start: */
-		echo('<div id="top_banner">');
-		
-		$img_logo = 'v2ex_logo_uranium.png';
-		
-		echo('<div id="top_banner_logo"><a href="/"><img src="/img/' . $img_logo . '" border="0" alt="' . Vocabulary::site_name . '" /></a></div>');
+		echo('<div style="position: absolute; width: 270px; z-index: 20;">');
+		echo('<a href="/"><img src="/img/' . $img_logo . '" border="0" alt="' . Vocabulary::site_name . '" /></a>');
+		echo('</div>');
+
 		echo('</div>');
 		echo('<div id="nav">');
 		echo('<ul id="nav_menu">');
