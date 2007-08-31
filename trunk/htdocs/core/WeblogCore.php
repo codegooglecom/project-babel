@@ -373,11 +373,29 @@ class Weblog {
 			
 			$sql = "SELECT bge_id, bge_title, bge_body, bge_mode, bge_tags, bge_comments, bge_trackbacks, bge_comment_permission, bge_published, usr_id, usr_nick FROM babel_weblog_entry, babel_user WHERE bge_uid = usr_id AND bge_uid = {$Weblog->usr_id} AND bge_pid = {$Weblog->blg_id} AND bge_status = 1 ORDER BY bge_published DESC LIMIT 10";
 			$rs = mysql_query($sql);
+			$entries_count = mysql_num_rows($rs);
 			$_entries = array();
+			$_ids = array();
 			$i = 0;
 			while ($_entry = mysql_fetch_array($rs)) {
 				$i++;
 				$_entries[$_entry['bge_id']] = $_entry;
+				$_ids[$i] = $_entry['bge_id'];
+				if ($i == 1) {
+					$_entries[$_entry['bge_id']]['first'] = 1;
+				} else {
+					$_entries[$_entry['bge_id']]['first'] = 0;
+				}
+				if ($i == $entries_count) {
+					$_entries[$_entry['bge_id']]['last'] = 1;	
+				} else {
+					$_entries[$_entry['bge_id']]['last'] = 0;
+				}
+				if (($_entries[$_entry['bge_id']]['first'] == 0) && ($_entries[$_entry['bge_id']]['first'] == 1)) {
+					$_entries[$_entry['bge_id']]['middle'] == 1;
+				} else {
+					$_entries[$_entry['bge_id']]['middle'] == 0;
+				}
 				$_entries[$_entry['bge_id']]['url'] = 'http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_name . '/entry-' . $_entry['bge_id'] . '.html';
 				$_entries[$_entry['bge_id']]['url_url'] = urlencode($_entries[$_entry['bge_id']]['url']);
 				$_entries[$_entry['bge_id']]['bge_title_plain'] = make_plaintext($_entry['bge_title']);
@@ -414,6 +432,23 @@ class Weblog {
 				$_entries[$_entry['bge_id']]['bge_published_plain_long'] = date('m/d/Y H:i:s T', $_entry['bge_published']);
 			}
 			mysql_free_result($rs);
+			
+			$i = 0;
+			foreach ($_ids as $num => $id) {
+				$i++;
+				$next = $i + 1;
+				$prev = $i - 1;
+				if (isset($_ids[$next])) {
+					$_entries[$id]['next'] = $_ids[$next];
+				} else {
+					$_entries[$id]['next'] = 0;
+				}
+				if (isset($_ids[$prev])) {
+					$_entries[$id]['prev'] = $_ids[$prev];
+				} else {
+					$_entries[$id]['prev'] = 0;
+				}
+			}
 			
 			$s->assign('entries', $_entries);
 
