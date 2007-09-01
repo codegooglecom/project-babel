@@ -172,6 +172,9 @@ define('HOST_LINK', 'http://www.mediatemple.net/');
 
 define('BABEL_BLOWFISH_KEY', 'SoFellAutomnRain');
 
+/* How much data could a SimpleStorage piece holds? */
+define('SIMPLESTORAGE_MAX', 1048576);
+
 /* Short term cache settings (Cache_Lite in PEAR) lasting for 360 seconds */
 $CACHE_LITE_OPTIONS_SHORT = array('cacheDir' => BABEL_PREFIX . '/cache/360/', 'lifeTime' => 360, 'memoryCaching' => true, 'automaticCleaningFactor' => 100);
 

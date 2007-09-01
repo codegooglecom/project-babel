@@ -2625,6 +2625,13 @@ switch ($m) {
 			$p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetBankTransfer()));
 			break;
 		}
+	
+	case 'playground':
+		$p->vxHead('V2EX Labs Playground');
+		$p->vxBodyStart();
+		$p->vxTop();
+		$p->vxContainer('playground');
+		break;
 }
 
 if ($global_has_bottom) {

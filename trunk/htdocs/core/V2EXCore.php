@@ -60,7 +60,7 @@ if (V2EX_BABEL == 1) {
 	require_once(BABEL_PREFIX . '/libs/magpierss/rss_fetch.inc');
 	require_once(BABEL_PREFIX . '/libs/smarty/Smarty.class.php');
 	
-	/* built-in cores */
+	/* old world cores */
 	require_once('core/Vocabularies.php');
 	require_once('core/Utilities.php');
 	require_once('core/Shortcuts.php');
@@ -81,6 +81,9 @@ if (V2EX_BABEL == 1) {
 	require_once('core/BookmarkCore.php');
 	require_once('core/WeblogCore.php');
 	require_once('core/EntryCore.php');
+	
+	/* new world cores */
+	require_once('core/SimpleStorageCore.php');
 } else {
 	die('<strong>Project Babel</strong><br /><br />Made by <a href="http://labs.v2ex.com/">V2EX</a> | software for internet');
 }
@@ -1028,6 +1031,8 @@ class Page {
 			echo('</style>');
 			echo('<script type="text/javascript" src="http://pub.mybloglog.com/comm2.php?mblID=' . MBL_ID . '&amp;c_width=160&amp;c_sn_opt=y&amp;c_rows=6&amp;c_img_size=h&amp;c_heading_text=Recent+V2EXers&amp;c_color_heading_bg=FFFFFF&amp;c_color_heading=999999&amp;c_color_link_bg=FFFFFF&amp;c_color_link=0033FF&amp;c_color_bottom_bg=FFFFFF"></script>');
 		}
+		_v_hr();
+		echo('<div align="center"><a href="http://www.spreadfirefox.com/?q=affiliates&amp;id=197201&amp;t=220"><img border="0" alt="Foxkeh banners for Firefox 2" title="Foxkeh banners for Firefox 2" src="http://sfx-images.mozilla.org/affiliates/Buttons/firefox2/foxkeh-fx2-120x60.png"/></a></div>');
 		echo('</div>');
 		/*
 		echo('<script language="javascript" src="/js/awstats_misc_tracker.js" type="text/javascript"></script>
@@ -1961,6 +1966,12 @@ class Page {
 				$this->vxSidebar($show = false);
 				$this->vxMenu($_menu_options);
 				$this->vxBlogModerate($options);
+				break;
+				
+			case 'playground':
+				$this->vxSidebar();
+				$this->vxMenu($_menu_options);
+				$this->vxPlayground();
 				break;
 		}
 		echo('</div>');
@@ -12644,6 +12655,35 @@ google_color_url = "00CC00";
 	/* E module: Draw Pages logic */
 	
 	/* E private modules */
+	
+	/* S Playground */
+	
+	public function vxPlayground() {
+		_v_m_s();
+		_v_b_l_s();
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; Playground');
+		_v_d_e();
+		_v_b_l_s();
+		$ss = new SimpleStorage('testing');
+		$ss->setName('sekai');
+		$ss->set($this->User->usr_brief);
+		$ss->save();
+		echo 'NAME: ' . $ss->getName();
+		echo('<br />');
+		echo 'CONTENT: ' . $ss->get();
+		echo('<br />');
+		echo 'SIZE: ' . $ss->size;
+		echo('<br />');
+		echo 'SAVED: ' . $ss->saved;
+		echo('<br />');
+		echo 'HASH: ' . $ss->getHash();
+		echo('<br />');
+		_v_d_e();
+		_v_d_e();
+	}
+	
+	/* E Playground */
 }
 
 /* E Page class */
