@@ -575,6 +575,7 @@ class Page {
 		echo('<ul>');
 		echo('<li><a href="/new_features.html" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $this->lang->about(Vocabulary::site_name) . '</a></li>');
 		echo('<li><a href="/" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $this->lang->home(Vocabulary::site_name) . '</a></li>');
+		echo('<li><a href="/shop" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $this->lang->shop() . '</a></li>');
 		echo('<li><div class="sep">&nbsp;</div></li>');
 		echo('<li><a href="/topic/latest.html" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $this->lang->latest_topics() . '</a></li>');
 		echo('<li><a href="/topic/answered/latest.html" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $this->lang->latest_replied() . '</a></li>');
@@ -1972,6 +1973,12 @@ class Page {
 				$this->vxSidebar();
 				$this->vxMenu($_menu_options);
 				$this->vxPlayground();
+				break;
+				
+			case 'shop':
+				$this->vxSidebar();
+				$this->vxMenu($_menu_options);
+				$this->vxShop();
 				break;
 		}
 		echo('</div>');
@@ -12656,7 +12663,7 @@ google_color_url = "00CC00";
 	
 	/* E private modules */
 	
-	/* S Playground */
+	/* S new world module: Playground */
 	
 	public function vxPlayground() {
 		_v_m_s();
@@ -12683,7 +12690,63 @@ google_color_url = "00CC00";
 		_v_d_e();
 	}
 	
-	/* E Playground */
+	/* E new world module: Playground */
+	
+	/* S new world module: Shop */
+	
+	public function vxShop() {
+		require_once('core/ApplicationManagerCore.php');
+		$_applications = ApplicationManager::getApplications();
+		ApplicationManager::loadApplications($_applications);
+		_v_m_s();
+		_v_b_l_s();
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->lang->shop());
+		_v_d_e();
+		_v_b_l_s(); // Introduction
+		_v_ico_silk('information');
+		echo(' 你可以在 V2EX Shop 买到各种有用的在线应用程序和资料，一切都在持续更新中。');
+		_v_d_e();
+		_v_b_l_s(); // Shop
+		echo('<span class="text_large">Buy</span>');
+		_v_hr();
+		$i = 0;
+		foreach ($_applications as $application) {
+			$i++;
+			echo('<table cellpadding="0" cellspacing="0" border="0" width="700">');
+			echo('<tr>');
+			echo('<td width="150" height="130" align="left" valign="middle">');
+			echo('<img src="/' . ApplicationManager::APPLICATION_REPOSITORY . '/' . $application . '/icon.png" />');
+			echo('</td>');
+			echo('<td width="400" align="left" valign="top">');
+			echo('<span style="color: #999; font-size: 18px;">');
+			eval('echo app_' . $application . '::name;');
+			echo('</span>');
+			echo('<span class="tip">');
+			echo('<br /><br />');
+			eval('echo app_' . $application . '::description;');
+			echo('</span>');
+			echo('<br /><br />');
+			echo('<span class="tip_i">售价</span> <strong>');
+			eval('echo app_' . $application . '::price;');
+			echo(' 铜币</strong> &nbsp; <span class="tip_i">类型</span> <strong>应用</strong>');
+			echo('</td>');
+			echo('<td width="150" align="center">');
+			_v_btn_l('购买', '/buy');
+			echo('</td>');
+			echo('</tr>');
+			echo('</table>');
+			_v_hr();
+		}
+		_v_d_e();
+		_v_b_l_s(); // Information for Developers
+		_v_ico_silk('cog');
+		echo(' 如果你熟悉程序开发，希望开发能够被放到 V2EX Shop 中进行出售的物品，请参考 Project Babel 的 SimpleStorage 实现。');
+		_v_d_e();
+		_v_d_e();
+	}
+	
+	/* E new world module: Shop */
 }
 
 /* E Page class */

@@ -1272,6 +1272,7 @@ $i->vxSetupBoard('webdesigner', '网页设计师', 3, 3, 1, 2, '网页设计师�
 	$i->vxSetupChannelByName('webdesigner', 'http://blog.blueidea.com/rss');
 	$i->vxSetupChannelByName('webdesigner', 'http://www.seaspace.cn/index.xml');
 	$i->vxSetupRelatedByName('webdesigner', 'http://dev.opera.com/', 'Dev Opera');
+$i->vxSetupBoard('alimama', '阿里妈妈', 3, 3, 1, 2, '', '');
 $i->vxSetupBoard('asimo', 'ASIMO', 3, 3, 1, 2, "", '');
 $i->vxSetupBoard('ipod', 'iPod', 3, 3, 1, 2, "What's on your iPod?", '');
 $i->vxSetupBoard('psp', 'PlayStation Portable', 3, 3, 1, 2, "", '');

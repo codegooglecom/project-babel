@@ -267,6 +267,11 @@ class URL {
 		$url = '/bank/transfer/confirm.vx';
 		return $url;
 	}
+	
+	public static function vxGetShop() {
+		$url = '/shop';
+		return $url;
+	}
 }
 
 /* E URL class */

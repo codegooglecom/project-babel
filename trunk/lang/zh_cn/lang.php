@@ -650,5 +650,9 @@ class lang implements Language {
 	public function blog_comment_permission() {
 		return '评论权限';
 	}
+	
+	public function shop() {
+		return '商店';
+	}
 }
 ?>
