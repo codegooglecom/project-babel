@@ -673,5 +673,9 @@ class lang implements Language {
 	public function blog_comment_permission() {
 		return 'Comment Permission';
 	}
+	
+	public function shop() {
+		return 'Shop';
+	}
 }
 ?>

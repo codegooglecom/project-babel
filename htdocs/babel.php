@@ -2632,6 +2632,17 @@ switch ($m) {
 		$p->vxTop();
 		$p->vxContainer('playground');
 		break;
+		
+	case 'shop':
+		if ($p->User->vxIsLogin()) {
+			$p->vxHead($p->lang->shop());
+			$p->vxBodyStart();
+			$p->vxTop();
+			$p->vxContainer('shop');
+		} else {
+			$p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetShop()));
+		}
+		break;
 }
 
 if ($global_has_bottom) {

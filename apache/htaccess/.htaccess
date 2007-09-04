@@ -312,4 +312,6 @@ RewriteRule ^nexus/tag/(.+)$ /babel.php?m=nexus_tag&tag=$1 [L]
 
 RewriteRule ^set/lang/(.+)$ /babel_sl.php?m=set_lang&lang=$1 [L]
 
+RewriteRule ^shop$ /babel.php?m=shop [L]
+
 RewriteRule ^playground$ /babel.php?m=playground [L]

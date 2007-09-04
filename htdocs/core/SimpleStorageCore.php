@@ -9,11 +9,11 @@
  *  
  * Subversion Keywords:
  *
- * $Id: V2EXCore.php 266 2007-08-31 22:51:21Z v2ex.livid $
- * $Date: 2007-09-01 06:51:21 +0800 (Sat, 01 Sep 2007) $
- * $Revision: 266 $
- * $Author: v2ex.livid $
- * $URL: https://project-babel.googlecode.com/svn/trunk/htdocs/core/V2EXCore.php $
+ * $Id$
+ * $Date$
+ * $Revision$
+ * $Author$
+ * $URL$
  *
  * Copyright (C) 2006 Livid Liu <v2ex.livid@mac.com>
  *
@@ -31,6 +31,7 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
+ 
 if (@V2EX_BABEL != 1) {
 	die('<strong>Project Babel</strong><br /><br />Made by <a href="http://labs.v2ex.com/">V2EX</a> | software for internet');
 }
