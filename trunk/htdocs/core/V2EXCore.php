@@ -2769,26 +2769,7 @@ class Page {
 		}
 		$o .= '<table ' . $hack_width . 'cellpadding="0" cellspacing="0" border="0" class="fav">';
 		$o .= '<tr><td>';
-		switch ($this->User->usr_width) {
-			case 800:
-				$p_count = 4;
-				break;
-			case 640:
-				$p_count = 3;
-				break;
-			case 1024:
-			default:
-				$p_count = 7;
-				break;
-			case 1280:
-			case 1400:
-			case 1600:
-			case 1920:
-			case 2560:
-				$p_count = 9;
-				break;
-		}
-		
+		$p_count = 6;
 		if ($oo = $this->cs->get('babel_home_portrait_' . $p_count)) {
 		} else {		
 			$ts_month = time() - 86400 * 31;
