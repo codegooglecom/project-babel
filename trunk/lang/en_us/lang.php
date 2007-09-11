@@ -358,6 +358,10 @@ class lang implements Language {
 		return 'My Favorites';
 	}
 	
+	public function my_inventory() {
+		return 'My Inventory';
+	}
+	
 	public function send_money() {
 		return 'Send Money';
 	}

@@ -82,6 +82,7 @@ interface Language {
 	public function my_messages();
 	public function my_friends();
 	public function my_favorites();
+	public function my_inventory();
 	public function send_money();
 	public function top_wealth();
 	public function top_topics();

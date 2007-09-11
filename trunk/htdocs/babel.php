@@ -2643,6 +2643,17 @@ switch ($m) {
 			$p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetShop()));
 		}
 		break;
+		
+	case 'user_inventory':
+		if ($p->User->vxIsLogin()) {
+			$p->vxHead($p->lang->my_inventory());
+			$p->vxBodyStart();
+			$p->vxTop();
+			$p->vxContainer('user_inventory');
+		} else {
+			$p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetUserInventory()));
+		}
+		break;
 }
 
 if ($global_has_bottom) {

@@ -332,6 +332,10 @@ class lang implements Language {
 		return '我的收藏夹';
 	}
 	
+	public function my_inventory() {
+		return '我的物品栏';
+	}
+	
 	public function send_money() {
 		return '汇款';
 	}

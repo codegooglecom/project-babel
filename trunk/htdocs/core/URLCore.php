@@ -272,6 +272,11 @@ class URL {
 		$url = '/shop';
 		return $url;
 	}
+	
+	public static function vxGetUserInventory() {
+		$url = '/user/inventory.vx';
+		return $url;
+	}
 }
 
 /* E URL class */
