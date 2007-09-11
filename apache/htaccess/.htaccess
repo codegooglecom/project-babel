@@ -99,6 +99,8 @@ RewriteRule ^user/move.vx$ /babel.php?m=user_move [L]
 RewriteRule ^user/move/(.+)$ /babel.php?m=user_move&geo=$1 [L]
 RewriteRule ^user/settle/([a-zA-Z0-9\-\_]+)$ /babel_sl.php?m=user_settle&geo=$1 [L]
 
+RewriteRule ^user/inventory.vx$ /babel.php?m=user_inventory [L]
+
 RewriteRule ^recv/portrait.vx$ /babel_sl.php?m=recv_portrait [L]
 RewriteRule ^recv/savepoint.vx$ /babel_sl.php?m=recv_savepoint [L]
 

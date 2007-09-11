@@ -621,6 +621,7 @@ class Page {
 			}
 			echo('<li><a href="/topic/archive/user/' . urlencode($this->User->usr_nick) . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/comments.png" align="absmiddle" border="0" /> ' . $this->lang->my_topics() . '</a></li>');
 			echo('<li><a href="/topic/favorite.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/star.png" align="absmiddle" border="0" /> ' . $this->lang->my_favorites() . '</a></li>');
+			echo('<li><a href="/user/inventory.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/application_view_tile.png" align="absmiddle" border="0" /> ' . $this->lang->my_inventory() . '</a></li>');
 			echo('<li><a href="/expense/view.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/coins_delete.png" align="absmiddle" border="0" /> ' . $this->lang->expenses() . '</a></li>');
 			if ($this->User->usr_money >= 1800) {
 				echo('<li><a href="/bank/transfer.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/coins.png" align="absmiddle" border="0" /> ' . $this->lang->send_money() . '</a></li>');
@@ -854,6 +855,8 @@ class Page {
 			if (BABEL_FEATURE_NEXUS) {
 				echo('<li><img src="' . CDN_UI . 'img/icons/silk/anchor.png" align="absmiddle">&nbsp;<a href="/blog/admin.vx">' . $this->lang->my_blogs() . '</a> <span class="tip_i"><small>alpha</small></span></li>');
 			}
+			echo('<li><img src="' . CDN_UI . 'img/icons/silk/application_view_tile.png" align="absmiddle" />&nbsp;<a href="/user/inventory.vx">' . $this->lang->my_inventory() . '</a></li>');
+
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/hourglass.png" align="absmiddle" />&nbsp;<a href="/ing/' . urlencode($this->User->usr_nick) . '/friends">ING</a> <span class="tip_i"><small>alpha</small></span></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/clock.png" align="absmiddle">&nbsp;<a href="/zen/' . urlencode($this->User->usr_nick) . '">ZEN</a> <span class="tip_i"><small>alpha</small></span></li>');
 			if (BABEL_FEATURE_DRY) {
@@ -1019,6 +1022,8 @@ class Page {
 		_v_hr();
 		echo('<a href="http://www.spreadfirefox.com/?q=affiliates&amp;id=197201&amp;t=218"><img border="0" alt="Firefox 2" title="Firefox 2" src="' . CDN_UI . 'img/ff2o80x15.gif" /></a> ');
 		echo(' <a href="http://www.igniterealtime.org/projects/openfire/" target="_blank"><img border="0" alt="Pageflakes" title="Openfire" src="' . CDN_UI . 'img/80x15/openfire.gif" /></a>');
+		_v_hr();
+		echo('<a href="http://www.netvibes.com/subscribe.php?preconfig=be807ffafb06dda840849966af18baba" target="_blank"><img src="http://www.netvibes.com/img/add2netvibes.gif" border="none" width="91" height="17" alt="Add to Netvibes" /></a>');
 		_v_hr();
 		if (HOST_LINK == 'http://www.mediatemple.net/') {
 			echo('<div align="center"><a href="' . HOST_LINK . '" target="_blank"><img src="http://www.mediatemple.net/_images/partnerlogos/mt-160x30-dk.gif" border="0" alt="' . HOST_COMPANY . '" /></a><br /><small>Hosted by <a href="' . HOST_LINK . '" target="_blank" class="o">' . HOST_COMPANY . '</a></small></div>');
@@ -1979,6 +1984,12 @@ class Page {
 				$this->vxSidebar();
 				$this->vxMenu($_menu_options);
 				$this->vxShop();
+				break;
+				
+			case 'user_inventory':
+				$this->vxSidebar();
+				$this->vxMenu($_menu_options);
+				$this->vxUserInventory();
 				break;
 		}
 		echo('</div>');
@@ -12728,6 +12739,15 @@ google_color_url = "00CC00";
 	}
 	
 	/* E new world module: Shop */
+	
+	/* S module: User Inventory */
+	
+	public function vxUserInventory() {
+		_v_m_s();
+		_v_d_e();
+	}
+	
+	/* E module: User Inventory */
 }
 
 /* E Page class */

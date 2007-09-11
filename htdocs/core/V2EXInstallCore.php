@@ -1420,6 +1420,7 @@ $i->vxSetupBoard('otaku', '御宅族', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('pepsi', '百事可乐', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('coke', '可口可乐', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('thespiralofsilence', '沉默的螺旋', 4, 4, 1, 2, '', '');
+$i->vxSetupBoard('thewall', '迷墙', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('paranoid', '偏执狂', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('pointless', '无要点', 4, 4, 1, 2, '', '');
 $i->vxSetupBoard('qna', '问与答', 4, 4, 1, 2, '', '');
