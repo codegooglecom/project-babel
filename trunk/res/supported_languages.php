@@ -2,7 +2,8 @@
 /* Now supported: */
 $_languages = array(
 	'zh_cn' => '简体中文',
-	'en_us' => 'US English'
+	'en_us' => 'US English',
+	'de_de' => 'Deutsch'
 );
 
 /* Plan to support:
