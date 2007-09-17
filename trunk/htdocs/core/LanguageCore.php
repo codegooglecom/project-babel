@@ -19,6 +19,7 @@ interface Language {
 	public function user_fullname();
 	public function user_introduction();
 	public function email();
+	public function registered_email();
 	public function password();
 	public function password_again();
 	public function new_password();
@@ -28,7 +29,7 @@ interface Language {
 	public function gender_categories(); // return: array
 	public function religion();
 	public function religion_categories(); // return: array
-	public function expose_my_religion();
+	public function publicise_my_religion();
 	public function confirmation_code();
 	public function confirmation_code_tips();
 	public function email_or_nick();
@@ -161,5 +162,18 @@ interface Language {
 	public function blog_format();
 	public function blog_comment_permission();
 	public function shop();
+	public function top_wealth_ranking();
+	public function shuffle_cloud();
+	public function sidebar_friends();
+	public function v2ex_shell();
+	public function notify_mine();
+	public function notify_all();
+	public function notify_email();
+	public function publicise();
+	public function not_to_publicise();
+	public function publicise_to_same_religion();
+	public function on();
+	public function off();
+	public function participate();
 }
 ?>

@@ -76,6 +76,10 @@ class lang implements Language {
 		return 'E-mail';
 	}
 	
+	public function registered_email() {
+		return 'Registered E-mail';
+	}
+	
 	public function password() {
 		return 'Password';
 	}
@@ -112,8 +116,8 @@ class lang implements Language {
 		return array();
 	}
 	
-	public function expose_my_religion() {
-		return 'Expose My Religion';
+	public function publicise_my_religion() {
+		return 'Publicise My Religion';
 	}
 	
 	public function preferred_screen_width() {
@@ -680,6 +684,58 @@ class lang implements Language {
 	
 	public function shop() {
 		return 'Shop';
+	}
+	
+	public function top_wealth_ranking() {
+		return 'Top Wealth Ranking';
+	}
+	
+	public function shuffle_cloud() {
+		return 'Shuffle Cloud';
+	}
+	
+	public function sidebar_friends() {
+		return 'Friends List Sidebar';
+	}
+	
+	public function v2ex_shell() {
+		return 'V2EX Shell';
+	}
+	
+	public function notify_mine() {
+		return 'Notify Me for New Replies to Mine';
+	}
+	
+	public function notify_all() {
+		return 'Notify Me for New Replies to Involved';
+	}
+	
+	public function notify_email() {
+		return 'E-mail for Notifications';
+	}
+	
+	public function publicise() {
+		return 'Publicise';
+	}
+	
+	public function not_to_publicise() {
+		return 'Not to Publicise';
+	}
+	
+	public function publicise_to_same_religion() {
+		return 'Publicise to Same Religion Views';
+	}
+	
+	public function on() {
+		return 'On';
+	}
+	
+	public function off() {
+		return 'Off';
+	}
+	
+	public function participate() {
+		return 'Participate';
 	}
 }
 ?>

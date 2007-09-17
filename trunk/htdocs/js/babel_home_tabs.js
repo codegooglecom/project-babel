@@ -59,10 +59,10 @@ var switchHomeTab = function(tab, res, name) {
 var switchHomeTabContentLoading = function() {
 	_t = getObj("home_tab_top");
 	_t.style.padding = "5px";
-	_t.innerHTML = '<span class="tip_i"><img src="/img/loading.gif" align="absmiddle" /> 正在读取二级导航 ...</span>';
+	_t.innerHTML = '<span class="tip_i"><img src="/img/loading.gif" align="absmiddle" /> Loading ...</span>';
 	_c = getObj("home_tab_content");
 	_c.style.padding = "5px";
-	_c.innerHTML = '<span class="tip_i"><img src="/img/loading.gif" align="absmiddle" /> 正在读取最新主题 ...</span>';
+	_c.innerHTML = '<span class="tip_i"><img src="/img/loading.gif" align="absmiddle" /> Loading ...</span>';
 }
 
 var getHomeTabLatest = function() {
@@ -88,12 +88,12 @@ var cbGetHomeTabLatest = function() {
 			_t.innerHTML = _o;
 			_o = "";
 			for (var id in data.topics) {
-				_o = _o + '<div style="padding: 5px;"><img src="' + data.topics[id].usr_portrait_img + '" align="absmiddle" alt="' + data.topics[id].usr_nick_plain + '" class="portrait" /> <a href="/u/' + data.topics[id].usr_nick_plain + '" style="color: ' + data.topics[id].color + ';" class="var">' + data.topics[id].usr_nick_plain + '</a> <span class="tip_i">...</span> <a href="/go/' + data.topics[id].nod_name + '">' + data.topics[id].nod_title_plain + '</a> <span class="tip_i">... [ <a href="/topic/view/' + data.topics[id].tpc_id + '.html" style="color: ' + data.topics[id].color + ';" class="var">' + data.topics[id].tpc_title_plain + '</a> ] ... ' + data.topics[id].tpc_posts + ' 篇回复，' + data.topics[id].tpc_lasttouched_relative + '</span> </div>';
+				_o = _o + '<div style="padding: 5px;"><img src="' + data.topics[id].usr_portrait_img + '" align="absmiddle" alt="' + data.topics[id].usr_nick_plain + '" class="portrait" /> <a href="/u/' + data.topics[id].usr_nick_plain + '" style="color: ' + data.topics[id].color + ';" class="var">' + data.topics[id].usr_nick_plain + '</a> <span class="tip_i">...</span> <a href="/go/' + data.topics[id].nod_name + '">' + data.topics[id].nod_title_plain + '</a> <span class="tip_i">... [ <a href="/topic/view/' + data.topics[id].tpc_id + '.html" style="color: ' + data.topics[id].color + ';" class="var">' + data.topics[id].tpc_title_plain + '</a> ] <small>... ' + data.topics[id].tpc_posts + ' replies ... ' + data.topics[id].tpc_lasttouched_relative + '</small></span> </div>';
 			}
 			_c = getObj("home_tab_content");
 			_c.innerHTML = _o;
 		} else {
-			_o = '<span class="tip_i">数据读取失败 ...</span>';
+			_o = '<span class="tip_i">Failed to load ...</span>';
 			_c = getObj("home_tab_content");
 			_c.innerHTML = _o;
 		}
@@ -124,12 +124,12 @@ var cbGetHomeTabSection = function() {
 			_t.innerHTML = _o;
 			_o = "";
 			for (var id in data.topics) {
-				_o = _o + '<div style="padding: 5px;"><img src="' + data.topics[id].usr_portrait_img + '" align="absmiddle" alt="' + data.topics[id].usr_nick_plain + '" class="portrait" /> <a href="/u/' + data.topics[id].usr_nick_plain + '" style="color: ' + data.topics[id].color + ';" class="var">' + data.topics[id].usr_nick_plain + '</a> <span class="tip_i">...</span> <a href="/go/' + data.topics[id].nod_name + '">' + data.topics[id].nod_title_plain + '</a> <span class="tip_i">... [ <a href="/topic/view/' + data.topics[id].tpc_id + '.html" style="color: ' + data.topics[id].color + ';" class="var">' + data.topics[id].tpc_title_plain + '</a> ] ... ' + data.topics[id].tpc_posts + ' 篇回复，' + data.topics[id].tpc_lasttouched_relative + '</span> </div>';
+				_o = _o + '<div style="padding: 5px;"><img src="' + data.topics[id].usr_portrait_img + '" align="absmiddle" alt="' + data.topics[id].usr_nick_plain + '" class="portrait" /> <a href="/u/' + data.topics[id].usr_nick_plain + '" style="color: ' + data.topics[id].color + ';" class="var">' + data.topics[id].usr_nick_plain + '</a> <span class="tip_i">...</span> <a href="/go/' + data.topics[id].nod_name + '">' + data.topics[id].nod_title_plain + '</a> <span class="tip_i">... [ <a href="/topic/view/' + data.topics[id].tpc_id + '.html" style="color: ' + data.topics[id].color + ';" class="var">' + data.topics[id].tpc_title_plain + '</a> ] <small>... ' + data.topics[id].tpc_posts + ' replies ... ' + data.topics[id].tpc_lasttouched_relative + '</small></span> </div>';
 			}
 			_c = getObj("home_tab_content");
 			_c.innerHTML = _o;
 		} else {
-			_o = '<span class="tip_i">数据读取失败 ...</span>';
+			_o = '<span class="tip_i">Failed to load ...</span>';
 			_c = getObj("home_tab_content");
 			_c.innerHTML = _o;
 		}

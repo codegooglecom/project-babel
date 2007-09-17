@@ -76,6 +76,10 @@ class lang implements Language {
 		return '电子邮件';
 	}
 	
+	public function registered_email() {
+		return '注册邮箱';
+	}
+	
 	public function password() {
 		return '密码';
 	}
@@ -112,7 +116,7 @@ class lang implements Language {
 		return array();
 	}
 	
-	public function expose_my_religion() {
+	public function publicise_my_religion() {
 		return '是否公开我的信仰';
 	}
 	
@@ -657,6 +661,58 @@ class lang implements Language {
 	
 	public function shop() {
 		return '商店';
+	}
+	
+	public function top_wealth_ranking() {
+		return '社区财富排行';
+	}
+	
+	public function shuffle_cloud() {
+		return 'Shuffle 首页上的云';
+	}
+	
+	public function sidebar_friends() {
+		return '右侧边栏的好友列表';
+	}
+	
+	public function v2ex_shell() {
+		return 'V2EX Shell';
+	}
+	
+	public function notify_mine() {
+		return '邮件通知我的主题的新回复';
+	}
+	
+	public function notify_all() {
+		return '邮件通知我参与过的主题的新回复';
+	}
+	
+	public function notify_email() {
+		return '用于接收通知的邮箱';
+	}
+	
+	public function publicise() {
+		return '公开';
+	}
+	
+	public function not_to_publicise() {
+		return '不公开';
+	}
+	
+	public function publicise_to_same_religion() {
+		return '只向同样信仰者公布';
+	}
+	
+	public function on() {
+		return '开启';
+	}
+	
+	public function off() {
+		return '关闭';
+	}
+	
+	public function participate() {
+		return '参加';
 	}
 }
 ?>
