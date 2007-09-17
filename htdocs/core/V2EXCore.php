@@ -123,6 +123,7 @@ class Page {
 	/* S module: constructor and destructor */
 
 	public function __construct() {
+		session_start();
 		if (BABEL_DEBUG) {
 			$this->timer = new Benchmark_Timer();
 			$this->timer->start();
@@ -132,9 +133,7 @@ class Page {
 		} else {
 			error_reporting(0);
 		}
-
 		check_env();
-
 		if (@$this->db = mysql_connect(BABEL_DB_HOSTNAME . ':' . BABEL_DB_PORT, BABEL_DB_USERNAME, BABEL_DB_PASSWORD)) {
 			mysql_select_db(BABEL_DB_SCHEMATA);
 			mysql_query("SET NAMES utf8");
@@ -165,7 +164,6 @@ class Page {
 		} else {
 			$this->cl = Zend_Cache::factory('Core', ZEND_CACHE_TYPE_LONG, $ZEND_CACHE_OPTIONS_LONG_FRONTEND, $ZEND_CACHE_OPTIONS_LONG_BACKEND[ZEND_CACHE_TYPE_LONG]);
 		}
-		session_start();
 		if (BABEL_DEBUG) {
 			$_SESSION['babel_debug_profiling'] = true;
 			mysql_query("SET PROFILING = 1") or $_SESSION['babel_debug_profiling'] = false;
@@ -4534,7 +4532,7 @@ class Page {
 		echo('<div class="blank">');
 		if ($O->usr_skype != '') {
 			echo('<div style="float: right;"><script type="text/javascript" src="http://download.skype.com/share/skypebuttons/js/skypeCheck.js"></script>
-<a href="skype:' . make_single_return($O->usr_skype) . '?call"><img src="http://mystatus.skype.com/smallclassic/' . urlencode($O->usr_skype) . '" style="border: none;" width="114" height="20" alt="' . make_single_return($O->usr_nick) . ' 的 Skype" /></a></div>');
+<a href="skype:' . make_single_return($O->usr_skype) . '?call"><img src="http://mystatus.skype.com/smallclassic/' . urlencode($O->usr_skype) . '" style="border: none;" width="114" height="20" alt="' . make_single_return($O->usr_nick) . '\'s Skype" /></a></div>');
 		}
 		echo('<span class="text"><img src="' . $img_p_n . '" class="portrait" align="absmiddle" /> ' . $this->lang->member_num($O->usr_id) . ' ... ' . $_o . '</span>');
 		
@@ -4548,15 +4546,8 @@ class Page {
 		echo('<table ' . $hack_width . 'cellpadding="0" cellspacing="0" border="0" class="fav">');
 		echo('<tr>');
 		
-		$txt_gender = array();
-		$txt_gender[0] = '性别未知，';
-		$txt_gender[1] = '男，';
-		$txt_gender[2] = '女，';
-		$txt_gender[5] = '出生的时候是个女孩子，后来把性别改成了男的，';
-		$txt_gender[6] = '出生的时候是个男孩子，后来把性别改成了女的，';
-		$txt_gender[9] = '她，或者他，想对自己的性别保密，';
-		
-		$txt = $txt_gender[$O->usr_gender];
+		$_gender_categories = $this->lang->gender_categories();
+		$txt = '<span class="tip_i">' . $_gender_categories[$O->usr_gender] . ' | ';
 		
 		if ($count_u = $this->cs->get('count_u_' . $O->usr_id)) {
 			$count_u = unserialize($count_u);
@@ -4636,43 +4627,30 @@ class Page {
 			$this->cs->save(serialize($_followed), 'babel_user_' . $O->usr_id . '_followed');
 		}
 
-		$txt .= '在' . date(' Y 年 n 月', $O->usr_created) . '的时候来到 ' . Vocabulary::site_name . '，在过去创建了 <a href="/topic/archive/user/' . $O->usr_nick . '">' . $count_u['tpc_count'] . '</a> 个主题，发表了 ' . $count_u['pst_count'] . ' 篇回复。所在地为 [ <a href="/geo/' . $O->usr_geo . '" class="o">' . $this->Geo->map['name'][$O->usr_geo] . '</a> ]'; 
+		$txt .= 'Since ' . date('Y-n-j', $O->usr_created) . ' - Topics <a href="/topic/archive/user/' .  urlencode($O->usr_nick). '" class="regular">' . $count_u['tpc_count'] . '</a> - Replies ' . $count_u['pst_count'] . ' - <a href="/geo/' . $O->usr_geo . '" class="regular">' . $this->Geo->map['name'][$O->usr_geo] . '</a>';
+
+		// $txt .= '在' . date(' Y 年 n 月', $O->usr_created) . '的时候来到 ' . Vocabulary::site_name . '，在过去创建了 <a href="/topic/archive/user/' . $O->usr_nick . '">' . $count_u['tpc_count'] . '</a> 个主题，发表了 ' . $count_u['pst_count'] . ' 篇回复。所在地为 [ <a href="/geo/' . $O->usr_geo . '" class="o">' . $this->Geo->map['name'][$O->usr_geo] . '</a> ]'; 
 		
 		if ($O->usr_religion_permission != 0 && $O->usr_religion != 'Unknown') {
 			if ($this->User->vxIsLogin()) {
 				if ($O->usr_religion_permission = 2) {
 					if ($this->User->usr_religion == $O->usr_religion) {
-						if ($O->usr_religion == 'Irreligion') {
-							$txt .= '，无信仰';
-						} else {
-							$txt .= '，信仰 [ ' . $O->usr_religion . ' ]';
-						}
+						$txt .= ' - ' . $O->usr_religion;
 					}
 				} else {
 					if ($this->User->usr_religion == $O->usr_religion) {
-						if ($O->usr_religion == 'Irreligion') {
-							$txt .= '，无信仰';
-						} else {
-							$txt .= '，信仰 [ ' . $O->usr_religion . ' ]';
-						}
+						$txt .= ' - ' . $O->usr_religion;
 					}
 				}
 			} else {
 				if ($O->usr_religion_permission != 2) {
 					if ($this->User->usr_religion == $O->usr_religion) {
-						if ($O->usr_religion == 'Irreligion') {
-							$txt .= '，无信仰';
-						} else {
-							$txt .= '，信仰 [ ' . $O->usr_religion . ' ]';
-						}
+						$txt .= ' - ' . $O->usr_religion;
 					}
 				}
 			}
 		}
-		
-		if ($this->User->usr_id == $O->usr_id) {
-			$txt .= '<br /><span class="tip_i">你正在察看的是自己的页面，你可以把它的地址发给你的朋友，和他们共享你在 ' . Vocabulary::site_name . ' 获得的快乐！</span>';
-		}
+		$txt .= '</span>';
 		
 		echo('<td width="95" align="left" valign="top"><img src="' . $img_p . '" class="portrait" alt="' . make_single_return($O->usr_nick) . '" /></td><td align="left" valign="top">');
 		echo('<span class="text_large">' . $O->usr_nick . '</span>');
@@ -4695,7 +4673,7 @@ class Page {
 		mysql_free_result($rs);
 		
 		if ($this->User->usr_id == $O->usr_id) {
-			echo('<tr><td colspan="2" align="center" class="section_odd"><img src="/img/icons/silk/house.png" align="absmiddle" />&nbsp;你的 V2EX 主页地址&nbsp;&nbsp;&nbsp;<input type="text" class="sll" onclick="this.select()" value="http://' . BABEL_DNS_NAME . '/u/' . urlencode($O->usr_nick) . '" readonly="readonly" />&nbsp;&nbsp;&nbsp;<span class="tip_i">... 本页一共被访问了 ' . $O->usr_hits . ' 次</span></td></tr>');
+			echo('<tr><td colspan="2" align="center" class="section_odd"><img src="/img/icons/silk/house.png" align="absmiddle" />&nbsp;你的 V2EX 主页地址&nbsp;&nbsp;&nbsp;<input type="text" class="sll" onclick="this.select()" value="http://' . BABEL_DNS_NAME . '/u/' . urlencode($O->usr_nick) . '" readonly="readonly" />&nbsp;&nbsp;&nbsp;<span class="tip_i">... ' . $this->lang->hits($O->usr_hits) . '</span></td></tr>');
 		}
 		
 		if ($O->usr_brief != '') {
@@ -5243,6 +5221,10 @@ class Page {
 		_v_ico_map();
 		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . urlencode($this->User->usr_nick) . '">' . make_plaintext($this->User->usr_nick) . '</a> &gt; ' . $this->lang->settings() . '</div>');
 		echo('<div class="blank" align="left">');
+		echo('<span class="tip_i">' . $this->lang->registered_email() . '</span> ');
+		_v_ico_silk('email');
+		echo(' ' . $this->User->usr_email . '</div>');
+		echo('<div class="blank" align="left">');
 		echo('<span class="text_large">');
 		_v_ico_tango_32('actions/go-up', 'absmiddle', 'home');
 		echo($this->lang->upload_portrait() . '</span>');
@@ -5327,7 +5309,7 @@ class Page {
 		// S button:
 		echo('<td width="150" rowspan="18" valign="middle" align="right">');
 		
-		_v_btn_f($this->lang->modify(), 'form_user_info');
+		_v_btn_f($this->lang->update(), 'form_user_info');
 		
 		echo('</td></tr>');
 		// E button.
@@ -5364,8 +5346,8 @@ class Page {
 			}
 		}
 		echo('</select></td></tr>');
-		echo('<tr><td width="200" align="right" valign="top">' . $this->lang->expose_my_religion() . '</td><td align="left"><select tabindex="11" maxlength="20" size="3" name="usr_religion_permission">');
-		$_religion_permission = array('不公开', '公开', '只向同样信仰者公开');
+		echo('<tr><td width="200" align="right" valign="top">' . $this->lang->publicise_my_religion() . '</td><td align="left"><select tabindex="11" maxlength="20" size="3" name="usr_religion_permission">');
+		$_religion_permission = array($this->lang->not_to_publicise(), $this->lang->publicise(), $this->lang->publicise_to_same_religion());
 		for ($i = 0; $i < 3; $i++) {
 			if ($this->User->usr_religion_permission == $i) {
 				echo('<option value="' . $i . '" selected="selected">' . $_religion_permission[$i] . '</option>');
@@ -5393,56 +5375,56 @@ class Page {
 		
 		// switch: top_wealth
 		
-		echo('<tr><td width="200" align="right" valign="middle"><small>参加社区财富排行</small></td><td align="left">');
+		echo('<tr><td width="200" align="right" valign="middle"><small>' . $this->lang->top_wealth_ranking() . '</small></td><td align="left">');
 		if ($this->User->usr_sw_top_wealth == 1) {
-			echo('<input type="checkbox" name="usr_sw_top_wealth" tabindex="13" checked="checked" /> 参加');
+			echo('<input type="checkbox" name="usr_sw_top_wealth" tabindex="13" checked="checked" /> ' . $this->lang->participate());
 		} else {
-			echo('<input type="checkbox" name="usr_sw_top_wealth" tabindex="13" /> 参加');
+			echo('<input type="checkbox" name="usr_sw_top_wealth" tabindex="13" /> ' . $this->lang->participate());
 		}
 		echo('</td></tr>');
 		
 		// switch: shuffle_cloud
 		
-		echo('<tr><td width="200" align="right" valign="middle"><small>' . Vocabulary::term_shuffle_cloud . '</small></td><td align="left">');
+		echo('<tr><td width="200" align="right" valign="middle"><small>' . $this->lang->shuffle_cloud() . '</small></td><td align="left">');
 		if ($this->User->usr_sw_shuffle_cloud == 1) {
-			echo('<input type="checkbox" name="usr_sw_shuffle_cloud" tabindex="14" checked="checked" /> 开启');
+			echo('<input type="checkbox" name="usr_sw_shuffle_cloud" tabindex="14" checked="checked" /> ' . $this->lang->on());
 		} else {
-			echo('<input type="checkbox" name="usr_sw_shuffle_cloud" tabindex="14" /> 开启');
+			echo('<input type="checkbox" name="usr_sw_shuffle_cloud" tabindex="14" /> ' . $this->lang->on());
 		}
 		echo('</td></tr>');
 		
 		// switch: right_friends
 		
-		echo('<tr><td width="200" align="right" valign="middle"><small>' . Vocabulary::term_right_friends . '</small></td><td align="left">');
+		echo('<tr><td width="200" align="right" valign="middle"><small>' . $this->lang->sidebar_friends() . '</small></td><td align="left">');
 		if ($this->User->usr_sw_right_friends == 1) {
-			echo('<input type="checkbox" name="usr_sw_right_friends" tabindex="15" checked="checked" /> 开启');
+			echo('<input type="checkbox" name="usr_sw_right_friends" tabindex="15" checked="checked" /> ' . $this->lang->on());
 		} else {
-			echo('<input type="checkbox" name="usr_sw_right_friends" tabindex="15" /> 开启');
+			echo('<input type="checkbox" name="usr_sw_right_friends" tabindex="15" /> ' . $this->lang->on());
 		}
 		echo('</td></tr>');
 		
-		echo('<tr><td width="200" align="right" valign="middle"><small>V2EX Shell</small></td><td align="left">');
+		echo('<tr><td width="200" align="right" valign="middle"><small>' . $this->lang->v2ex_shell() . '</small></td><td align="left">');
 		if ($this->User->usr_sw_shell == 1) {
-			echo('<input type="checkbox" name="usr_sw_shell" tabindex="16" checked="checked" /> 开启');
+			echo('<input type="checkbox" name="usr_sw_shell" tabindex="16" checked="checked" /> ' . $this->lang->on());
 		} else {
-			echo('<input type="checkbox" name="usr_sw_shell" tabindex="16" /> 开启');
+			echo('<input type="checkbox" name="usr_sw_shell" tabindex="16" /> ' . $this->lang->on());
 		}
 		echo('</td></tr>');
-		echo('<tr><td width="200" align="right" valign="middle"><small>邮件通知自己的主题的新回复</small></td><td align="left">');
+		echo('<tr><td width="200" align="right" valign="middle"><small>' . $this->lang->notify_mine() . '</small></td><td align="left">');
 		if ($this->User->usr_sw_notify_reply == 1) {
-			echo('<input type="checkbox" name="usr_sw_notify_reply" tabindex="17" checked="checked" /> 开启');
+			echo('<input type="checkbox" name="usr_sw_notify_reply" tabindex="17" checked="checked" /> ' . $this->lang->on());
 		} else {
-			echo('<input type="checkbox" name="usr_sw_notify_reply" tabindex="17" /> 开启');
+			echo('<input type="checkbox" name="usr_sw_notify_reply" tabindex="17" /> ' . $this->lang->on());
 		}
 		echo('</td></tr>');
-		echo('<tr><td width="200" align="right" valign="middle"><small>邮件通知我参与过的主题的新回复</small></td><td align="left">');
+		echo('<tr><td width="200" align="right" valign="middle"><small>' . $this->lang->notify_all() . '</small></td><td align="left">');
 		if ($this->User->usr_sw_notify_reply_all == 1) {
-			echo('<input type="checkbox" name="usr_sw_notify_reply_all" tabindex="18" checked="checked" /> 开启');
+			echo('<input type="checkbox" name="usr_sw_notify_reply_all" tabindex="18" checked="checked" /> ' . $this->lang->on());
 		} else {
-			echo('<input type="checkbox" name="usr_sw_notify_reply_all" tabindex="18" /> 开启');
+			echo('<input type="checkbox" name="usr_sw_notify_reply_all" tabindex="18" /> ' . $this->lang->on());
 		}
 		echo('</td></tr>');
-		echo('<tr><td width="200" align="right">用于接收通知的邮箱</td><td align="left"><input tabindex="19" type="text" maxlength="100" class="sl" name="usr_email_notify" value="' . make_single_return($this->User->usr_email_notify) . '" /></td></tr>');
+		echo('<tr><td width="200" align="right">' . $this->lang->notify_email() . '</td><td align="left"><input tabindex="19" type="text" maxlength="100" class="sl" name="usr_email_notify" value="' . make_single_return($this->User->usr_email_notify) . '" /></td></tr>');
 		/*
 		echo('<tr><td width="200" align="right">Google Account</td><td align="left">');
 		if ($this->User->usr_google_account != '') {
