@@ -1,0 +1,145 @@
+html, body {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	text-align:center;
+}
+
+body,ul,ol,dl,h1,h2,h3,h4,h5,h6,td,th,
+caption,pre,p,blockquote,input,textarea {
+    font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
+    font-size: 14px;
+    line-height: 1.3em;
+}
+
+blockquote {
+	margin: 10px 6px 10px 4px;
+	padding: 10px 10px 16px 6px;
+	border-left: 2px solid #EAEAEA;
+}
+
+h1,h2,h3,h4,h5,h6 { 
+  font-family: Helvetica, Arial, "Lucida Grande", Verdana, sans-serif;
+  clear: both;
+}
+
+#container {
+   margin-top:10px;
+   padding:20px 0;
+   text-align: left;
+   margin:20px auto 0;
+   width:970px;
+   background: white url("http://[$site_static]/weblog-static/themes/[$site_theme]/bg.jpg") 0 0;
+   border-top:3px solid #EEE;
+}
+
+
+
+#container a { color: #2277dd; text-decoration: none; outline: none; }
+#container a:hover { color: #000; }
+#header{
+height:50px;padding:0;}
+#main {
+width: 700px;    
+float:left;	 
+}
+
+#side {      
+width: 240px;
+color: black;	 
+float:right;
+margin-right:10px;
+}
+
+#side a { color: #4169e1; text-decoration: none; outline: none; }
+#side a:hover { color: #696969; border-bottom: 1px solid #FFF; }
+
+h1#title {
+    font-weight: bolder;
+    font-size: 26px;     
+    padding: 10px 20px;    
+    color: #666;
+    width:500px;
+    float:left;
+}
+
+h1#title a {
+	color: #666;
+}
+
+h1#title a:hover {
+	text-decoration: line-through;
+}
+.avatar{
+	float:right;
+	width:400px;
+	text-align:right;
+}
+.avatar img{
+	margin: 10px 5px 0px 0px;
+	border: 3px solid #f5f5dc;
+}
+
+h2.title {
+    margin: 10px 12px 0px 12px;
+    font-weight: bold;
+    font-size: 18px;
+    color: #125AA7;
+    padding: 2px 5px 2px 10px;
+}
+
+h3.label {
+    color: #FAFAFA;
+    margin: 1px 0 9px 10px;
+    padding: 2px 0 4px 10px;
+    border-left: 3px solid #555;
+	 color: #777;
+	background-color: #eeeeee;
+}
+
+.widget {
+    margin: 0 8px 10px 15px;
+}
+
+.attribute {
+    font-size: 10px;
+    padding: 2px 20px;
+    color: #CCC;
+}
+
+.entry {
+    margin: 10px 12px 20px;
+    padding:5px 10px 20px;
+    border-bottom:1px solid #bbb;
+}
+
+img.icon {
+    vertical-align: middle;
+    margin: 0 4px;	 
+}
+
+#designer {
+    margin: 10px 0 2px;
+    font-size: 10px;
+	 clear:both;
+	background-color: black;
+	color: white;
+	padding:5px;
+}
+#designer a:hover{
+color:#fff;}
+
+#summary img {
+    float: left;
+    margin: 0 10px 10px 0;
+}
+
+#ing {
+	text-align: right;
+	font-size: 12px;
+	margin: 20px 10px 10px;
+	padding:5px;
+	color: #777;
+	background-color: #eeeeee;
+}
