@@ -7,6 +7,7 @@ $_weblog_themes = array(
 	'night',
 	'light',
 	'mour',
-	'cloud'
+	'cloud',
+	'grid'
 );
 ?>
