@@ -137,7 +137,7 @@ class lang implements Language {
 	}
 	
 	public function register_agreement() {
-		return 'By clicking "Sign Up", you\'re agreeing to our <a href="/terms.vx" class="regular">terms of use</a>, <a href="/privacy.vx" class="regular">privacy policy</a> and <a href="/community_guidelines.vx" class="regular">community guidelines</a>.';
+		return 'Before you sign up, please have some time to read the <a href="/community_guidelines.vx" class="regular">community guidelines</a>, thank you.';
 	}
 	
 	public function take_a_tour() {

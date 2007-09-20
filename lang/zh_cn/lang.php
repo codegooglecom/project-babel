@@ -137,7 +137,7 @@ class lang implements Language {
 	}
 	
 	public function register_agreement() {
-		return '点击“注册新会员”，即表示你完全同意我们的 <a href="/terms.vx" class="regular">Terms of Use</a> 和 <a href="/privacy.vx" class="regular">Privacy Policy</a>，并且你不厌恶也不会反对我们的 <a href="/communtiy_guidelines.vx" class="regular">Community Guidelines</a>。';
+		return '在注册之前请先花一些时间阅读我们的 <a href="/communtiy_guidelines.vx" class="regular">社区指南</a>，谢谢。';
 	}
 	
 	public function take_a_tour() {
