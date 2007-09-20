@@ -803,7 +803,7 @@ class Page {
 	/* S module: div#bottom tag */
 	
 	public function vxBottom($msgCopyright = Vocabulary::site_copyright) {
-		echo('<div id="bottom">' . $msgCopyright . '<br /><a href="/community_guidelines.vx">' . Vocabulary::term_community_guidelines . '</a> &nbsp; <a href="http://io.v2ex.com/v2ex-doc/" target="_blank">Help</a> &nbsp; <a href="http://labs.v2ex.com/" target="_blank">Developer</a> &nbsp; <a href="/rules.vx">' . Vocabulary::term_rules . '</a> &nbsp; <a href="/terms.vx">' . Vocabulary::term_terms . '</a> &nbsp; <a href="/privacy.vx">' . Vocabulary::term_privacy . '</a> &nbsp; <a href="/policies.vx">' . Vocabulary::term_policies . '</a><br /><a href="http://labs.v2ex.com/" target="_blank" class="var"><img src="/img/beta_jtp.gif" alt="Beta * V2EX Labs" align="absmiddle" border="0" /></a><br /></div>');
+		echo('<div id="bottom"><strong>' . $msgCopyright . '</strong>&nbsp;&nbsp;&nbsp;<a href="/community_guidelines.vx">' . Vocabulary::term_community_guidelines . '</a> &nbsp; <a href="http://io.v2ex.com/v2ex-doc/" target="_blank">Help</a> &nbsp; <a href="http://labs.v2ex.com/" target="_blank">Developer</a><br /><img src="/img/powered.png" alt="a site powered by Project Babel" align="absmiddle" border="0" style="margin-top: 10px;" /><br /></div>');
 	}
 	
 	/* E module: div#bottom tag */
@@ -1036,7 +1036,7 @@ class Page {
 			echo('<script type="text/javascript" src="http://pub.mybloglog.com/comm2.php?mblID=' . MBL_ID . '&amp;c_width=160&amp;c_sn_opt=y&amp;c_rows=6&amp;c_img_size=h&amp;c_heading_text=Recent+V2EXers&amp;c_color_heading_bg=FFFFFF&amp;c_color_heading=999999&amp;c_color_link_bg=FFFFFF&amp;c_color_link=0033FF&amp;c_color_bottom_bg=FFFFFF"></script>');
 		}
 		_v_hr();
-		echo('<div align="center"><a href="http://www.spreadfirefox.com/?q=affiliates&amp;id=197201&amp;t=220"><img border="0" alt="Foxkeh banners for Firefox 2" title="Foxkeh banners for Firefox 2" src="http://sfx-images.mozilla.org/affiliates/Buttons/firefox2/foxkeh-fx2-120x60.png"/></a></div>');
+		echo('<div align="center"><a href="http://www.spreadfirefox.com/?q=affiliates&amp;id=3028&amp;t=177"><img border="0" alt="Get Thunderbird!" title="Get Thunderbird!" src="http://sfx-images.mozilla.org/affiliates/thunderbird/reclaimyourinbox_small.png"/></a></div>');
 		echo('</div>');
 		/*
 		echo('<script language="javascript" src="/js/awstats_misc_tracker.js" type="text/javascript"></script>
@@ -1264,46 +1264,6 @@ class Page {
 				$this->vxSidebar();
 				$this->vxMenu($_menu_options);
 				$this->vxPartners();
-				break;
-			
-			case 'rules':
-				$_menu_options['modules']['friends'] = false;
-				$_menu_options['modules']['links'] = false;
-				$_menu_options['modules']['new_members'] = false;
-				$_menu_options['modules']['stats'] = false;
-				$this->vxSidebar();
-				$this->vxMenu($_menu_options);
-				$this->vxRules();
-				break;
-			
-			case 'terms':
-				$_menu_options['modules']['friends'] = false;
-				$_menu_options['modules']['links'] = false;
-				$_menu_options['modules']['new_members'] = false;
-				$_menu_options['modules']['stats'] = false;
-				$this->vxSidebar();
-				$this->vxMenu($_menu_options);
-				$this->vxTerms();
-				break;
-
-			case 'privacy':
-				$_menu_options['modules']['friends'] = false;
-				$_menu_options['modules']['links'] = false;
-				$_menu_options['modules']['new_members'] = false;
-				$_menu_options['modules']['stats'] = false;
-				$this->vxSidebar();
-				$this->vxMenu($_menu_options);
-				$this->vxPrivacy();
-				break;
-
-			case 'policies':
-				$_menu_options['modules']['friends'] = false;
-				$_menu_options['modules']['links'] = false;
-				$_menu_options['modules']['new_members'] = false;
-				$_menu_options['modules']['stats'] = false;
-				$this->vxSidebar();
-				$this->vxMenu($_menu_options);
-				$this->vxPolicies();
 				break;
 				
 			case 'out_of_money':
@@ -3908,62 +3868,6 @@ class Page {
 	}
 	
 	/* E module: There is more than one way to do it block */
-	
-	/* S module: Rules block */
-	
-	public function vxRules() {
-		echo('<div id="main">');
-		echo('<div class="blank">');
-		_v_ico_map();
-		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_rules . '</div>');
-		echo('<div class="blank">');
-		include(BABEL_PREFIX . '/res/rules.html');
-		echo('</div>');
-	}
-	
-	/* E module: Rules block */
-	
-	/* S module: Terms block */
-	
-	public function vxTerms() {
-		echo('<div id="main">');
-		echo('<div class="blank">');
-		_v_ico_map();
-		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_terms . '</div>');
-		echo('<div class="blank">');
-		include(BABEL_PREFIX . '/res/terms.html');
-		echo('</div>');
-	}
-	
-	/* E module: Terms block */
-	
-	/* S module: Privacy block */
-	
-	public function vxPrivacy() {
-		echo('<div id="main">');
-		echo('<div class="blank">');
-		_v_ico_map();
-		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_privacy . '</div>');
-		echo('<div class="blank">');
-		include(BABEL_PREFIX . '/res/privacy.html');
-		echo('</div>');
-	}
-	
-	/* E module: Privacy block */
-	
-	/* S module: Policies block */
-	
-	public function vxPolicies() {
-		echo('<div id="main">');
-		echo('<div class="blank">');
-		_v_ico_map();
-		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::term_policies . '</div>');
-		echo('<div class="blank">');
-		include(BABEL_PREFIX . '/res/policies.html');
-		echo('</div>');
-	}
-	
-	/* E module: Policies block */
 	
 	/* S module: Sorry block */
 	

@@ -333,38 +333,6 @@ switch ($m) {
 		$p->vxTop();
 		$p->vxContainer('timtowtdi');
 		break;
-	
-	case 'rules':
-		$GOOGLE_AD_LEGAL = true;
-		$p->vxHead($msgSiteTitle = Vocabulary::term_rules);
-		$p->vxBodyStart();
-		$p->vxTop();
-		$p->vxContainer('rules');
-		break;
-
-	case 'terms':
-		$GOOGLE_AD_LEGAL = true;
-		$p->vxHead($msgSiteTitle = Vocabulary::term_terms);
-		$p->vxBodyStart();
-		$p->vxTop();
-		$p->vxContainer('terms');
-		break;
-
-	case 'privacy':
-		$GOOGLE_AD_LEGAL = true;
-		$p->vxHead($msgSiteTitle = Vocabulary::term_privacy);
-		$p->vxBodyStart();
-		$p->vxTop();
-		$p->vxContainer('privacy');
-		break;
-		
-	case 'policies':
-		$GOOGLE_AD_LEGAL = true;
-		$p->vxHead($msgSiteTitle = Vocabulary::term_policies);
-		$p->vxBodyStart();
-		$p->vxTop();
-		$p->vxContainer('policies');
-		break;
 		
 	case 'out_of_money':
 		$GOOGLE_AD_LEGAL = true;

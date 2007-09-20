@@ -22,7 +22,7 @@ class Vocabulary {
 	const site_name = 'V2EX';
 	const site_title = 'V2EX | Project Babel';
 	const site_title_mobile = 'V2EX Mobile';
-	const site_copyright = 'Project Babel v0.6-dev Fibonacci Farm - Copyright © 2007 Xin <a href="http://nexus.v2ex.com/livid" target="_blank">Livid</a> Liu';
+	const site_copyright = '© 2007 <a href="http://nexus.v2ex.com/livid" target="_blank">Xin Liu</a>';
 	
 	const site_banner = "<a href=\"/\" target=\"_self\" class=\"var\"><img src=\"/img/top_logo_carbon.gif\" border=\"0\" alt=\"V2EX\" onclick=\"location.href='/';\" style=\"cursor: hand;\" align=\"absmiddle\" onmouseover=\"focusGo();\" /></a>";
 	
@@ -109,11 +109,6 @@ class Vocabulary {
 	const term_newfeatures = '新功能';
 	
 	const term_babel_downloads = '程序下载';
-	
-	const term_rules = 'Rules';
-	const term_terms = 'Terms of Use';
-	const term_privacy = 'Privacy';
-	const term_policies = 'Policies';
 	
 	const term_out_of_money = '没有铜币没有银币没有金币';
 }
