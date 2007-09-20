@@ -786,7 +786,7 @@ switch ($m) {
 		
 	case 'topic_fresh':
 		$GOOGLE_AD_LEGAL = true;
-		$p->vxHead($msgSiteTitle = Vocabulary::action_freshtopic);
+		$p->vxHead($msgSiteTitle = $p->lang->latest_unanswered());
 		$p->vxBodyStart();
 		$p->vxTop();
 		$p->vxContainer('topic_fresh');
@@ -1540,7 +1540,7 @@ switch ($m) {
 		}
 		
 	case 'who_join':
-		$p->vxHead($msgSiteTitle = Vocabulary::term_member . '列表');
+		$p->vxHead($msgSiteTitle = $p->lang->member_list());
 		$p->vxBodyStart();
 		$p->vxTop();
 		$p->vxContainer('who_join');

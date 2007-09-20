@@ -573,7 +573,9 @@ class Page {
 		echo('<ul>');
 		echo('<li><a href="/new_features.html" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $this->lang->about(Vocabulary::site_name) . '</a></li>');
 		echo('<li><a href="/" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $this->lang->home(Vocabulary::site_name) . '</a></li>');
-		echo('<li><a href="/shop" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $this->lang->shop() . '</a></li>');
+		if (BABEL_FEATURE_SHOP) {
+			echo('<li><a href="/shop" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $this->lang->shop() . '</a></li>');
+		}
 		echo('<li><div class="sep">&nbsp;</div></li>');
 		echo('<li><a href="/topic/latest.html" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $this->lang->latest_topics() . '</a></li>');
 		echo('<li><a href="/topic/answered/latest.html" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $this->lang->latest_replied() . '</a></li>');
@@ -619,7 +621,9 @@ class Page {
 			}
 			echo('<li><a href="/topic/archive/user/' . urlencode($this->User->usr_nick) . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/comments.png" align="absmiddle" border="0" /> ' . $this->lang->my_topics() . '</a></li>');
 			echo('<li><a href="/topic/favorite.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/star.png" align="absmiddle" border="0" /> ' . $this->lang->my_favorites() . '</a></li>');
-			echo('<li><a href="/user/inventory.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/application_view_tile.png" align="absmiddle" border="0" /> ' . $this->lang->my_inventory() . '</a></li>');
+			if (BABEL_FEATURE_SHOP) {
+				echo('<li><a href="/user/inventory.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/application_view_tile.png" align="absmiddle" border="0" /> ' . $this->lang->my_inventory() . '</a></li>');
+			}
 			echo('<li><a href="/expense/view.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/coins_delete.png" align="absmiddle" border="0" /> ' . $this->lang->expenses() . '</a></li>');
 			if ($this->User->usr_money >= 1800) {
 				echo('<li><a href="/bank/transfer.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/coins.png" align="absmiddle" border="0" /> ' . $this->lang->send_money() . '</a></li>');
@@ -853,8 +857,9 @@ class Page {
 			if (BABEL_FEATURE_NEXUS) {
 				echo('<li><img src="' . CDN_UI . 'img/icons/silk/anchor.png" align="absmiddle">&nbsp;<a href="/blog/admin.vx">' . $this->lang->my_blogs() . '</a> <span class="tip_i"><small>alpha</small></span></li>');
 			}
-			echo('<li><img src="' . CDN_UI . 'img/icons/silk/application_view_tile.png" align="absmiddle" />&nbsp;<a href="/user/inventory.vx">' . $this->lang->my_inventory() . '</a></li>');
-
+			if (BABEL_FEATURE_SHOP) {
+				echo('<li><img src="' . CDN_UI . 'img/icons/silk/application_view_tile.png" align="absmiddle" />&nbsp;<a href="/user/inventory.vx">' . $this->lang->my_inventory() . '</a></li>');
+			}
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/hourglass.png" align="absmiddle" />&nbsp;<a href="/ing/' . urlencode($this->User->usr_nick) . '/friends">ING</a> <span class="tip_i"><small>alpha</small></span></li>');
 			echo('<li><img src="' . CDN_UI . 'img/icons/silk/clock.png" align="absmiddle">&nbsp;<a href="/zen/' . urlencode($this->User->usr_nick) . '">ZEN</a> <span class="tip_i"><small>alpha</small></span></li>');
 			if (BABEL_FEATURE_DRY) {
@@ -5996,7 +6001,7 @@ class Page {
 		echo('<div id="main">');
 		echo('<div class="blank" align="left">');
 		_v_ico_map();
-		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::action_freshtopic . '</div>');
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->lang->latest_unanswered() . '</div>');
 		echo('<div class="blank" align="left">');
 		echo('<img src="' . CDN_UI . 'img/icons/silk/weather_sun.png" align="absmiddle" /> ' . Vocabulary::action_freshtopic . '');
 		echo(' | <span class="tip_i">整个社区中目前共有 ' . $p['items'] . ' 个 virgin 主题，其中今天到目前为止有 ' . $count_virgin_today . ' 个</span>');
@@ -6005,7 +6010,7 @@ class Page {
 		echo('</div>');
 		echo('<table width="100%" border="0" cellpadding="0" cellspacing="0" class="board">');
 		if ($p['items'] > 0) {
-			$p['size'] = BABEL_NOD_PAGE;
+			$p['size'] = 30;
 			$p['span'] = BABEL_PG_SPAN;
 			if (($p['items'] % $p['size']) == 0) {
 				$p['total'] = $p['items'] / $p['size'];
@@ -10430,9 +10435,7 @@ google_color_url = "00CC00";
 		echo('<span class="text_large">');
 		_v_ico_silk('hourglass');
 		echo(' ING</span>');
-		echo('<span class="tip_i">');
 		if ($flag_self) {
-			echo(' 告诉世界你在做什么 ...</span>');
 			_v_hr();
 			echo('<div align="center">');
 			echo('<form action="/recv/ing.vx" id="ing_personal" method="POST" onsubmit="return checkIngForm();">');
@@ -10443,7 +10446,6 @@ google_color_url = "00CC00";
 			echo('</form>');
 			echo('</div>');
 		} else {
-			echo(' ' . $User->usr_nick_plain . ' 在做什么 ...</span>');
 		}
 		_v_hr();
 		
