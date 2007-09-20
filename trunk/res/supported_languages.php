@@ -1,8 +1,8 @@
 <?php
 /* Now supported: */
 $_languages = array(
-	'zh_cn' => '简体中文',
-	'en_us' => 'US English',
+	'zh_cn' => '中文',
+	'en_us' => 'English',
 	'de_de' => 'Deutsch'
 );
 

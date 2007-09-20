@@ -34,9 +34,22 @@ function _v_btn_f($label, $form) {
 	$form_md5 = md5($form);
 	$container = 'btn_' . strval(rand(1111, 9999));
 	echo('<script type="text/javascript">');
-	echo('var i = new Image(15,15); i.src="' . CDN_UI . 'img/loading.gif";');
+	echo('var i = new Image(15,15); i.src="/img/loading.gif";');
 	echo('var f_' . $form_md5 . "_do = function() {\n");
-	echo('var c = getObj("' . $container . '"); c.innerHTML = "<img src=' . CDN_UI . 'img/loading.gif align=absmiddle /> <span class=tip_i>正在发送请求</span>";');
+	echo('var c = getObj("' . $container . '"); c.innerHTML = "<img src=' . CDN_UI . 'img/loading.gif align=absmiddle /> <span class=tip_i>');
+	switch (BABEL_LANG) {
+		case 'zh_cn':
+			echo('正在发送请求');
+			break;
+		default:
+		case 'en_us':
+			echo('Requesting');
+			break;
+		case 'de_de':
+			echo('Anfragen');
+			break;
+	}
+	echo('</span>";');
 	echo('var o = getObj("' . $form . '"); return o.submit();');
 	echo('}');
 	echo('</script>');

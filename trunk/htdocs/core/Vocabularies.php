@@ -104,7 +104,7 @@ class Vocabulary {
 	const term_latest_answered_topic = '最新被回复主题';
 	const term_latestfav = '最新收藏';
 	
-	const term_community_guidelines = 'Community Guidelines';
+	const term_community_guidelines = 'Guidelines';
 	const term_partners = '广告合作伙伴';
 	const term_newfeatures = '新功能';
 	
