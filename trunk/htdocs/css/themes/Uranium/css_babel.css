@@ -2024,6 +2024,33 @@ text-decoration: none;
 color: #FFF;
 }
 
+div.btn_2_o {
+width: 120px;
+height: 21px;
+background-image: url("/img/btn_bg.png");
+-moz-border-radius: 5px;
+background-color: #E0E0E0;
+padding: 0px;
+margin: 0px;
+}
+
+div.btn_2_i {
+text-align: center;
+padding-top: 3px;
+color: #FFF;
+font-size: 12px;
+}
+
+div.btn_2_i a:link, div.btn_2_i a:visited, div.btn_2_i a:active {
+text-decoration: none;
+color: #000;
+}
+
+div.btn_2_i a:hover {
+text-decoration: none;
+color: #333;
+}
+
 div.channels {
 display: block;
 text-align: left;
@@ -2043,4 +2070,9 @@ padding: 0px;
 ul.blog_link li {
 margin-left: 10px;
 padding-top: 5px;
+}
+
+td.col {
+line-height: 18px;
+padding: 5px;
 }
