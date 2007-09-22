@@ -25,7 +25,7 @@
 		
 		<div class="widget">
 		{foreach from=$tags item=item key=key}
-			<a href="tag-{$item.bet_tag}.html" class="light">{$item.bet_tag}</a><br />
+			<a href="{$site_url}tag-{$item.bet_tag}.html" class="light">{$item.bet_tag}</a><br />
 		{/foreach}
 		</div>
 		
