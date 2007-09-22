@@ -124,7 +124,7 @@ class Weblog {
 				$o .= '<a href="tag-' . urlencode($tag) . '.html">' . $tag . '</a>';
 			}
 			if ($output == 'nexus_portal_tag') {
-				$o .= '<a href="/nexus/tag/' . urlencode($tag) . '">' . $tag . '</a>';
+				$o .= '<a href="/nexus/tag/' . urlencode($tag) . '" rel="tag">' . $tag . '</a>';
 			}
 		}
 		return $o;
@@ -310,7 +310,7 @@ class Weblog {
 			$s->assign('site_description', make_plaintext($Weblog->blg_description));
 			$s->assign('site_category', make_plaintext(Vocabulary::site_name));
 			$s->assign('site_lang', 'en');
-			
+
 			$s->assign('license_show', $Weblog->blg_license_show);
 			$s->assign('license_code', Weblog::vxGetLicenseCode($Weblog->blg_license));
 			
@@ -400,9 +400,9 @@ class Weblog {
 					$_entries[$_entry['bge_id']]['last'] = 0;
 				}
 				if (($_entries[$_entry['bge_id']]['first'] == 0) && ($_entries[$_entry['bge_id']]['first'] == 1)) {
-					$_entries[$_entry['bge_id']]['middle'] == 1;
+					$_entries[$_entry['bge_id']]['middle'] = 1;
 				} else {
-					$_entries[$_entry['bge_id']]['middle'] == 0;
+					$_entries[$_entry['bge_id']]['middle'] = 0;
 				}
 				$_entries[$_entry['bge_id']]['url'] = 'http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_name . '/entry-' . $_entry['bge_id'] . '.html';
 				$_entries[$_entry['bge_id']]['url_url'] = urlencode($_entries[$_entry['bge_id']]['url']);
@@ -609,6 +609,18 @@ class Weblog {
 			$Weblog->vxAddBuild();
 			$Weblog->vxTouchBuild();
 			$Weblog->vxUpdateComments();
+			
+			// Ping Ping-o-Matic
+			require_once('Zend/Http/Client.php');
+			$blg_url_url = urlencode('http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_name . '/');
+			$blg_title_url = urlencode($Weblog->blg_title);
+			$ping = 'http://pingomatic.com/ping/?title=' . $blg_title_url . '&blogurl=' . $blg_url_url . '&rssurl=&chk_weblogscom=on&chk_blogs=on&chk_technorati=on&chk_feedburner=on&chk_newsgator=on&chk_feedster=on&chk_myyahoo=on&chk_blogstreet=on&chk_icerocket=on';
+			$client = new Zend_Http_Client($ping, array('timeout' => 15));
+			try {
+				$client->request();
+			} catch (Exception $e) {
+			}
+			
 			$end = microtime(true);
 			$elapsed = $end - $start;
 			$_SESSION['babel_message_weblog'] = _vo_ico_silk('tick') . ' 博客网站 ' . make_plaintext($Weblog->blg_title) . ' 基于 ' . $Weblog->blg_theme . ' 主题重新构建成功，' . $files . ' 个文件共写入了 ' . $bytes . ' 字节，共耗时 <small>' . $elapsed . '</small> 秒，<a href="http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_name . '" class="t" target="_blank">现在查看</a> <img src="/img/ext.png" align="absmiddle" />';

@@ -942,4 +942,12 @@ function make_pages($pages, $p, $prefix, $suffix) {
 		echo('<br /></div>');
 	}
 }
+
+function i18n_name($name) {
+	if (strlen($name) == 5) {
+		return $name = substr($name, 0, 2) . '-' . strtoupper(substr($name, 3, 2));
+	} else {
+		return $name;
+	}
+}
 ?>

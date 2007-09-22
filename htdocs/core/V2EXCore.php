@@ -485,7 +485,7 @@ class Page {
 	/* S module: page headers */
 	
 	public function vxHead($msgSiteTitle = '', $return = '', $feedURL = BABEL_FEED_URL) {
-		echo('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN">');
+		echo('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="' . i18n_name(BABEL_LANG) . '">');
 		echo('<head>');
 		$this->vxMeta(Vocabulary::meta_keywords, Vocabulary::meta_description, $return);
 		$this->vxTitle($msgSiteTitle);
@@ -497,7 +497,7 @@ class Page {
 	}
 	
 	public function vxHeadMini($title, $duration = '', $refresh = '') {
-		echo('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh-CN">');
+		echo('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="' . i18n_name(BABEL_LANG) . '">');
 		echo('<head>');
 		$this->vxMeta(Vocabulary::meta_keywords, Vocabulary::meta_description);
 		if ($duration != '' && $refresh != '') {
@@ -563,7 +563,7 @@ class Page {
 			echo('</div>');
 		}
 		echo('<div style="position: absolute; width: 270px; z-index: 20;">');
-		echo('<a href="/"><img src="/img/' . $img_logo . '" border="0" alt="' . Vocabulary::site_name . '" /></a>');
+		echo('<a href="/" rel="home"><img src="/img/' . $img_logo . '" border="0" alt="' . Vocabulary::site_name . '" /></a>');
 		echo('</div>');
 
 		echo('</div>');
@@ -808,6 +808,7 @@ class Page {
 	
 	public function vxBottom($msgCopyright = Vocabulary::site_copyright) {
 		echo('<div id="bottom"><strong>' . $msgCopyright . '</strong>&nbsp;&nbsp;&nbsp;<a href="/community_guidelines.vx">' . Vocabulary::term_community_guidelines . '</a> &nbsp; <a href="http://io.v2ex.com/v2ex-doc/" target="_blank">Help</a> &nbsp; <a href="http://labs.v2ex.com/" target="_blank">Developer</a><br /><img src="/img/powered.png" alt="a site powered by Project Babel" align="absmiddle" border="0" style="margin-top: 10px;" /><br /></div>');
+		include(BABEL_PREFIX . '/res/google_analytics.php');
 	}
 	
 	/* E module: div#bottom tag */
@@ -3377,6 +3378,15 @@ class Page {
 	
 	/* S module: Section View block */
 	
+	public function vxSectionViewV2($section_id) { // The latest version: 2
+		global $GOOGLE_AD_LEGAL;
+		$Node = new Node($section_id, $this->db);
+		_v_m_s();
+		_v_b_l_s();
+		_v_d_e();
+		_v_d_e();
+	}
+	
 	public function vxSectionView($section_id) {
 		global $GOOGLE_AD_LEGAL;
 		$Node = new Node($section_id, $this->db);
@@ -3484,9 +3494,9 @@ class Page {
 			$css_color = rand_color();
 			$i++;
 			if (($i % 2) == 0) {
-				echo('<tr><td class="even" height="20"><a href="/go/' . $Board->nod_name . '" style="font-size: ' . $css_font_size . 'px; color: ' . $css_color . ';" target="_self" class="var">' . $Board->nod_title . '</a>&nbsp;<small class="grey">... ' . $Board->nod_topics . '</small></td></tr>');
+				echo('<tr><td class="even" height="20"><a href="/go/' . $Board->nod_name . '" rel="tag" style="font-size: ' . $css_font_size . 'px; color: ' . $css_color . ';" target="_self" class="var">' . $Board->nod_title . '</a>&nbsp;<small class="grey">... ' . $Board->nod_topics . '</small></td></tr>');
 			} else {
-				echo('<tr><td class="odd" height="20"><a href="/go/' . $Board->nod_name . '" style="font-size: ' . $css_font_size . 'px; color: ' . $css_color . ';" target="_self" class="var">' . $Board->nod_title . '</a>&nbsp;<small class="grey">... ' . $Board->nod_topics . '</small></td></tr>');
+				echo('<tr><td class="odd" height="20"><a href="/go/' . $Board->nod_name . '" rel="tag" style="font-size: ' . $css_font_size . 'px; color: ' . $css_color . ';" target="_self" class="var">' . $Board->nod_title . '</a>&nbsp;<small class="grey">... ' . $Board->nod_topics . '</small></td></tr>');
 			}
 		}
 		mysql_free_result($rs);
@@ -8085,11 +8095,11 @@ class Page {
 		echo('<div id="main">');
 		echo('<div class="blank">');
 		_v_ico_map();
-		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/go/' . $Section->nod_name . '" target="_self">' . $Section->nod_title . '</a> &gt; ');
+		echo(' <a href="/" rel="home">' . Vocabulary::site_name . '</a> &gt; <a href="/go/' . $Section->nod_name . '" target="_self">' . $Section->nod_title . '</a> &gt; ');
 		if (isset($_SESSION['babel_page_node_' . $Node->nod_id])) {
 			echo('<a href="/board/view/' . $Node->nod_id . '/' . $_SESSION['babel_page_node_' . $Node->nod_id] . '.html">' . make_plaintext($Node->nod_title) . '</a>');	
 		} else {
-			echo('<a href="/go/' . $Node->nod_name . '">' . make_plaintext($Node->nod_title) . '</a>');
+			echo('<a href="/go/' . $Node->nod_name . '" rel="tag">' . make_plaintext($Node->nod_title) . '</a>');
 		}
 		echo(' &gt; ' . make_plaintext($Topic->tpc_title) . '</div>');
 		
@@ -9865,7 +9875,7 @@ google_color_url = "00CC00";
 	
 	public function vxMozillaSidebar() {
 		echo('<div id="single">');
-		echo('<div class="blank">');
+		echo('<div class="blank" align="left">');
 		echo('<a href="http://www.flickr.com/"><img src="' . CDN_UI . 'img/favicons/flickr.png" align="absmiddle" border="0" alt="Flickr" /></a> ');
 		echo('<a href="http://www.yahoo.com/"><img src="' . CDN_UI . 'img/favicons/yahoo.png" align="absmiddle" border="0" alt="Yahoo!" /></a> ');
 		echo('<a href="http://del.icio.us/"><img src="' . CDN_UI . 'img/favicons/delicious.png" align="absmiddle" border="0" alt="del.icio.us" /></a> ');
@@ -9922,6 +9932,7 @@ google_color_url = "00CC00";
 		echo('<a href="http://www.php.net/"><img src="' . CDN_UI . 'img/favicons/php.png" align="absmiddle" border="0" alt="PHP" /></a> ');
 		echo('</div>');
 		echo('</div>');
+		include(BABEL_PREFIX . '/res/google_analytics.php');
 	}
 
 	public function vxTopWealth() {
@@ -10005,6 +10016,7 @@ google_color_url = "00CC00";
 		echo('</span>');
 		echo('</div>');
 		echo('</div>');
+		include(BABEL_PREFIX . '/res/google_analytics.php');
 	}
 	
 	public function vxOutputJavaScriptIngPersonal() {
