@@ -3378,16 +3378,91 @@ class Page {
 	
 	/* S module: Section View block */
 	
-	public function vxSectionViewV2($section_id) { // The latest version: 2
+	public function vxSectionView($section_id) { // The latest version: 2
 		global $GOOGLE_AD_LEGAL;
 		$Node = new Node($section_id, $this->db);
 		_v_m_s();
+		echo('<div class="blank">');
+		
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $Node->nod_title . '</div>');
 		_v_b_l_s();
+		echo('<div style="float: right; padding-top: 5px; padding-right: 5px;">');
+		_v_btn_l($this->lang->new_topic(), '/topic/new/' . $Node->nod_id . '.vx');
+		echo('</div>');
+		$sql = "SELECT nod_id, nod_name, nod_title, nod_topics FROM babel_node WHERE nod_sid = {$Node->nod_id} ORDER BY nod_title ASC";
+		$rs = mysql_query($sql);
+		$_nodes = array();
+		while ($_node = mysql_fetch_array($rs)) {
+			$_nodes[] = $_node;
+		}
+		mysql_free_result($rs);
+		$total = count($_nodes);
+		$col = floor($total / 4);
+		$col_1 = $col * 1;
+		$col_2 = $col * 2;
+		$col_3 = $col * 3;
+		$col_4 = $col * 4;
+		echo('<img src="/img/seccap/' . $Node->nod_name . '.png" alt="' . $Node->nod_title . '" />');
+		_v_hr();
+		
+		echo('<h1 class="silver">Contains ' . $total . ' discussion areas</small></h1>');
+		echo('<table width="99%" cellpadding="0" cellspacing="0" style="font-size: 11px;">');
+		echo('<tr>');
+		echo('<td width="25%" valign="top" class="col">');
+		for ($i = 0; $i < $col; $i++) {
+			if (intval($_nodes[$i]['nod_topics']) > 100) {
+				echo('<strong style="font-size: 13px;">');
+			}
+			echo('<a href="/go/' . $_nodes[$i]['nod_name'] . '" class="var" rel="tag" style="color: ' . Weblog::vxGetPortalTagColor($_nodes[$i]['nod_topics']) . ';">' . $_nodes[$i]['nod_title'] . '</a><br />');
+			if (intval($_nodes[$i]['nod_topics']) > 100) {
+				echo('</strong>');
+			}
+		}
+		echo('</td>');
+		echo('<td width="25%" valign="top" class="col">');
+		for ($i = $col_1; $i < $col_2; $i++) {
+			if (intval($_nodes[$i]['nod_topics']) > 100) {
+				echo('<strong style="font-size: 13px;">');
+			}
+			echo('<a href="/go/' . $_nodes[$i]['nod_name'] . '" class="var" rel="tag" style="color: ' . Weblog::vxGetPortalTagColor($_nodes[$i]['nod_topics']) . ';">' . $_nodes[$i]['nod_title'] . '</a><br />');
+			if (intval($_nodes[$i]['nod_topics']) > 100) {
+				echo('</strong>');
+			}
+		}
+		echo('</td>');
+		echo('<td width="25%" valign="top" class="col">');
+		for ($i = $col_2; $i < $col_3; $i++) {
+			if (intval($_nodes[$i]['nod_topics']) > 100) {
+				echo('<strong style="font-size: 13px;">');
+			}
+			echo('<a href="/go/' . $_nodes[$i]['nod_name'] . '" class="var" rel="tag" style="color: ' . Weblog::vxGetPortalTagColor($_nodes[$i]['nod_topics']) . ';">' . $_nodes[$i]['nod_title'] . '</a><br />');
+			if (intval($_nodes[$i]['nod_topics']) > 100) {
+				echo('</strong>');
+			}
+		}
+		echo('</td>');
+		echo('<td width="24%" valign="top" class="col">');
+		for ($i = $col_3; $i < $total; $i++) {
+			if (intval($_nodes[$i]['nod_topics']) > 100) {
+				echo('<strong style="font-size: 13px;">');
+			}
+			echo('<a href="/go/' . $_nodes[$i]['nod_name'] . '" class="var" rel="tag" style="color: ' . Weblog::vxGetPortalTagColor($_nodes[$i]['nod_topics']) . ';">' . $_nodes[$i]['nod_title'] . '</a><br />');
+			if (intval($_nodes[$i]['nod_topics']) > 100) {
+				echo('</strong>');
+			}
+		}
+		echo('</td>');
+		echo('</tr>');
+		echo('</table>');
+		echo('<h1 class="silver">Latest Active Discussions</h1>');
+		echo('<blockquote>');
+		echo('</blockquote>');
 		_v_d_e();
 		_v_d_e();
 	}
 	
-	public function vxSectionView($section_id) {
+	public function vxSectionViewV1($section_id) {
 		global $GOOGLE_AD_LEGAL;
 		$Node = new Node($section_id, $this->db);
 		echo('<div id="main">');
