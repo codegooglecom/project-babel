@@ -3245,6 +3245,115 @@ class Validator {
 	
 	/* E module: Blog Comment Insert logic */
 	
+	/* S module: Node Edit Check logic */
+	
+	public function vxNodeEditCheck($node_id) {
+		$rt = array();
+		
+		$rt['node_id'] = $node_id;
+		
+		$rt['errors'] = 0;
+		
+		/* Check: nod_name */
+		$rt['nod_name_value'] = '';
+		$rt['nod_name_maxlength'] = 40;
+		$rt['nod_name_error'] = 0;
+		$rt['nod_name_error_msg'] = array(1 => 'Node name cannot be empty.', 2 => 'New node name is too long.', 3 => 'Node name cannot be duplicated.', 4 => 'New node name contains illegal characters.');
+		
+		if (isset($_POST['nod_name'])) {
+			$rt['nod_name_value'] = strtolower(fetch_single($_POST['nod_name']));
+			if ($rt['nod_name_value'] != '') {
+				if (strlen($rt['nod_name_value']) > $rt['nod_name_maxlength']) {
+					$rt['errors']++;
+					$rt['nod_name_error'] = 2;
+				} else {
+					
+				}
+			} else {
+				$rt['errors']++;
+				$rt['nod_name_error'] = 1;
+			}
+		} else {
+			$rt['errors']++;
+			$rt['nod_name_error'] = 1;
+		}
+		
+		/* Check: nod_title */
+		$rt['nod_title_value'] = '';
+		$rt['nod_title_maxlength'] = 50;
+		$rt['nod_title_error'] = 0;
+		$rt['nod_title_error_msg'] = array(1 => 'General title cannot be empty.', 2 => 'New title is too long.');
+		
+		if (isset($_POST['nod_title'])) {
+			$rt['nod_title_value'] = fetch_single($_POST['nod_title']);
+			if ($rt['nod_title_value'] != '') {
+				if (strlen($rt['nod_title_value']) > $rt['nod_title_maxlength']) {
+					$rt['errors']++;
+					$rt['nod_title_error'] = 2;
+				}
+			} else {
+				$rt['errors']++;
+				$rt['nod_title_error'] = 1;
+			}
+		} else {
+			$rt['errors']++;
+			$rt['nod_title_error'] = 1;
+		}
+		
+		/* Check: nod_title_en_us */
+		$rt['nod_title_en_us_value'] = '';
+		$rt['nod_title_en_us_error'] = 0;
+		$rt['nod_title_en_us_error_msg'] = array(2 => 'New title of en-US is too long.');
+		
+		if (isset($_POST['nod_title_en_us'])) {
+			$rt['nod_title_en_us_value'] = fetch_single($_POST['nod_title_en_us']);
+			if ($rt['nod_title_en_us_value'] != '') {
+				if (strlen($rt['nod_title_en_us_value']) > $rt['nod_title_maxlength']) {
+					$rt['errors']++;
+					$rt['nod_title_en_us_error'] = 2;
+				}
+			}
+		}
+		
+		/* Check: nod_title_de_de */
+		$rt['nod_title_de_de_value'] = '';
+		$rt['nod_title_de_de_error'] = 0;
+		$rt['nod_title_de_de_error_msg'] = array(2 => 'New title of de-DE is too long.');
+		
+		if (isset($_POST['nod_title_de_de'])) {
+			$rt['nod_title_de_de_value'] = fetch_single($_POST['nod_title_de_de']);
+			if ($rt['nod_title_de_de_value'] != '') {
+				if (strlen($rt['nod_title_de_de_value']) > $rt['nod_title_maxlength']) {
+					$rt['errors']++;
+					$rt['nod_title_de_de_error'] = 2;
+				}
+			}
+		}
+		
+		/* Check: nod_title_zh_cn */
+		$rt['nod_title_zh_cn_value'] = '';
+		$rt['nod_title_zh_cn_error'] = 0;
+		$rt['nod_title_zh_cn_error_msg'] = array(2 => 'New title of zh-CN is too long.');
+		
+		if (isset($_POST['nod_title_zh_cn'])) {
+			$rt['nod_title_zh_cn_value'] = fetch_single($_POST['nod_title_zh_cn']);
+			if ($rt['nod_title_zh_cn_value'] != '') {
+				if (strlen($rt['nod_title_zh_cn_value']) > $rt['nod_title_maxlength']) {
+					$rt['errors']++;
+					$rt['nod_title_zh_cn_error'] = 2;
+				}
+			}
+		}
+		
+		/* Check: nod_description */
+		/* Check: nod_header */
+		/* Check: nod_footer */
+		
+		return $rt;
+	}
+	
+	/* E module: Node Edit Check logic */
+	
 	/* S module: Send Money Check logic */
 	
 	public function vxSendMoneyCheck() {

@@ -148,6 +148,9 @@ RewriteRule ^who/connect/([^\/]+)/([0-9]+).html$ /babel.php?m=who_connect_user&u
 RewriteRule ^board/view/([0-9]*)/([0-9]*).html$ /babel.php?m=board_view&board_id=$1&p=$2 [L]
 RewriteRule ^board/view/([0-9]*).html$ /babel.php?m=board_view&board_id=$1 [L]
 
+RewriteRule ^node/edit/([0-9]*).vx$ /babel.php?m=node_edit&node_id=$1 [L]
+RewriteRule ^node/save/([0-9]*).vx$ /babel.php?m=node_save&node_id=$1 [L]
+
 RewriteRule ^section/view/([0-9]*).html$ /babel.php?m=section_view&section_id=$1 [L]
 	
 RewriteRule ^topic/top.html$ /babel.php?m=topic_top [L]

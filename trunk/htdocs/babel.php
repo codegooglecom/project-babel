@@ -667,6 +667,74 @@ switch ($m) {
 			}
 		}
 		
+	case 'node_edit':
+		if (isset($_GET['node_id'])) {
+			$node_id = abs(intval($_GET['node_id']));
+		} else {
+			$node_id = 0;
+		}
+		if ($p->User->vxIsLogin()) {
+			if ($p->User->usr_id == 1) {
+				$p->vxHead($msgSiteTitle = 'Node Editor');
+				$p->vxBodyStart();
+				$p->vxTop();
+				$p->vxContainer('node_edit', $node_id);
+				break;
+			} else {
+				$p->vxHomeBundle();
+				break;
+			}
+		} else {
+			if ($node_id != 0) {
+				$p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetNodeEdit($node_id)));
+			} else {
+				$p->URL->vxToRedirect($p->URL->vxGetLogin());
+			}
+		}
+		break;
+		
+	case 'node_save':
+		if (isset($_GET['node_id'])) {
+			$node_id = abs(intval($_GET['node_id']));
+		} else {
+			$node_id = 0;
+		}
+		if ($p->User->vxIsLogin()) {
+			if ($p->User->usr_id == 1) {
+				if ($p->Validator->vxExistNode($node_id)) {
+					if (strtoupper($_SERVER['REQUEST_METHOD']) == 'POST') {
+						$rt = $p->Validator->vxNodeEditCheck($node_id);
+						$p->vxHead($msgSiteTitle = 'Node Editor');
+						$p->vxBodyStart();
+						$p->vxTop();
+						$p->vxContainer('node_save', $rt);
+					} else {
+						$p->vxHead($msgSiteTitle = 'Node Editor');
+						$p->vxBodyStart();
+						$p->vxTop();
+						$p->vxContainer('node_edit', $node_id);
+					}
+					break;
+				} else {
+					$p->vxHead($msgSiteTitle = 'Node Not Found');
+					$p->vxBodyStart();
+					$p->vxTop();
+					$p->vxContainer('node_not_found');
+					break;
+				}
+			} else {
+				$p->vxHomeBundle();
+				break;
+			}
+		} else {
+			if ($node_id != 0) {
+				$p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetNodeEdit($node_id)));
+			} else {
+				$p->URL->vxToRedirect($p->URL->vxGetLogin());
+			}
+		}
+		break;
+		
 	case 'who_fav_node':
 		$GOOGLE_AD_LEGAL = true;
 		if (isset($_GET['node_name'])) {

@@ -21,29 +21,33 @@ if (@V2EX_BABEL != 1) {
 /* S Node class */
 
 class Node {
-	var $db;
+	public $db;
 
-	var $nod_id;
-	var $nod_pid;
-	var $nod_uid;
-	var $nod_sid;
-	var $nod_level;
-	var $nod_name;
-	var $nod_title;
-	var $nod_description;
-	var $nod_header;
-	var $nod_footer;
-	var $nod_topics;
-	var $nod_favs;
-	var $nod_created;
-	var $nod_lastupdated;
+	public $nod_id;
+	public $nod_pid;
+	public $nod_uid;
+	public $nod_sid;
+	public $nod_level;
+	public $nod_name;
+	public $nod_title;
+	public $nod_title_en_us;
+	public $nod_title_de_de;
+	public $nod_title_zh_cn;
+	public $nod_title_i18n;
+	public $nod_description;
+	public $nod_header;
+	public $nod_footer;
+	public $nod_topics;
+	public $nod_favs;
+	public $nod_created;
+	public $nod_lastupdated;
 	
-	var $usr_id;
-	var $usr_nick;
+	public $usr_id;
+	public $usr_nick;
 	
 	public function __construct($node_id, $db) {
 		$this->db =& $db;
-		$sql = "SELECT nod_id, nod_pid, nod_uid, nod_sid, nod_level, nod_name, nod_title, nod_description, nod_header, nod_footer, nod_topics, nod_favs, nod_created, nod_lastupdated, usr_id, usr_nick FROM babel_node, babel_user WHERE nod_uid = usr_id AND nod_id = {$node_id}";
+		$sql = "SELECT nod_id, nod_pid, nod_uid, nod_sid, nod_level, nod_name, nod_title, nod_title_en_us, nod_title_de_de, nod_title_zh_cn, nod_description, nod_header, nod_footer, nod_topics, nod_favs, nod_created, nod_lastupdated, usr_id, usr_nick FROM babel_node, babel_user WHERE nod_uid = usr_id AND nod_id = {$node_id}";
 		$rs = mysql_query($sql, $this->db);
 		$O = mysql_fetch_object($rs);
 		mysql_free_result($rs);
@@ -54,6 +58,28 @@ class Node {
 		$this->nod_level = $O->nod_level;
 		$this->nod_name = $O->nod_name;
 		$this->nod_title = $O->nod_title;
+		$this->nod_title_en_us = $O->nod_title_en_us;
+		$this->nod_title_de_de = $O->nod_title_de_de;
+		$this->nod_title_zh_cn = $O->nod_title_zh_cn;
+		$this->nod_title_i18n = $O->nod_title;
+		switch (BABEL_LANG) {
+			default:
+			case 'en_us':
+				if ($this->nod_title_en_us != '') {
+					$this->nod_title_i18n = $this->nod_title_en_us;
+				}
+				break;
+			case 'zh_cn':
+				if ($this->nod_title_zh_cn != '') {
+					$this->nod_title_i18n = $this->nod_title_zh_cn;
+				}
+				break;
+			case 'de_de':
+				if ($this->nod_title_de_de != '') {
+					$this->nod_title_i18n = $this->nod_title_de_de;
+				}
+				break;
+		}
 		$this->nod_description = $O->nod_description;
 		$this->nod_header = $O->nod_header;
 		$this->nod_footer = $O->nod_footer;
@@ -70,10 +96,29 @@ class Node {
 	}
 	
 	public function vxGetNodeInfo($node_id) {
-		$sql = "SELECT nod_id, nod_name, nod_title FROM babel_node WHERE nod_id = {$node_id}";
+		$sql = "SELECT nod_id, nod_name, nod_title, nod_title_en_us, nod_title_de_de, nod_title_zh_cn FROM babel_node WHERE nod_id = {$node_id}";
 		$rs = mysql_query($sql, $this->db);
 		$Node = mysql_fetch_object($rs);
 		mysql_free_result($rs);
+		$Node->nod_title_i18n = $Node->nod_title;
+		switch (BABEL_LANG) {
+			default:
+			case 'en_us':
+				if ($Node->nod_title_en_us != '') {
+					$Node->nod_title_i18n = $Node->nod_title_en_us;
+				}
+				break;
+			case 'zh_cn':
+				if ($Node->nod_title_zh_cn != '') {
+					$Node->nod_title_i18n = $Node->nod_title_zh_cn;
+				}
+				break;
+			case 'de_de':
+				if ($Node->nod_title_de_de != '') {
+					$Node->nod_title_i18n = $Node->nod_title_de_de;
+				}
+				break;
+		}
 		return $Node;
 	}
 	

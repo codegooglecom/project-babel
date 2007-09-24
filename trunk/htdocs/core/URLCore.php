@@ -277,6 +277,16 @@ class URL {
 		$url = '/user/inventory.vx';
 		return $url;
 	}
+	
+	public static function vxGetNodeEdit($node_id) {
+		$url = '/node/edit/' . $node_id . '.vx';
+		return $url;
+	}
+	
+	public static function vxGetNodeSave($node_id) {
+		$url = '/node/save/' . $node_id . '.vx';
+		return $url;
+	}
 }
 
 /* E URL class */
