@@ -34,7 +34,7 @@ var checkIngType = function(doing, status) {
 	obj1 = getObj(doing);
 	remain = 131 - obj1.value.length;
 	obj2 = getObj(status);
-	obj2.innerHTML = '<span class="tip_i">现在还可以再输入 ' + remain + ' 个字符</span>';
+	obj2.innerHTML = '<span class="tip_i"><small>' + remain + ' characters remaining</small></span>';
 }
 
 var checkIngForm = function() {
