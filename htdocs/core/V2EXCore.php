@@ -656,25 +656,32 @@ class Page {
 			echo('</ul>');
 			echo('</li>');
 		}
-		if ($nav = $this->cs->get('nav')) {
+		$cache_nav_tag = 'nav_' . md5(session_id());
+		if ($nav = $this->cs->get($cache_nav_tag)) {
 		} else {
-			$sql = "SELECT nod_id, nod_name, nod_title FROM babel_node WHERE nod_level = 1 ORDER BY nod_weight DESC";
+			$sql = "SELECT nod_id, nod_name, nod_title, nod_title_" . BABEL_LANG . " AS nod_title_i18n FROM babel_node WHERE nod_level = 1 ORDER BY nod_weight DESC";
 			$rs = mysql_query($sql);
 			$nav = '';
 			while ($Section = mysql_fetch_array($rs)) {
-				$nav .= '<li class="top"><a href="/go/' . $Section['nod_name'] . '" class="top">&nbsp;&nbsp;&nbsp;' . make_plaintext($Section['nod_title']) . '&nbsp;&nbsp;&nbsp;</a>';
-				$sql = 'SELECT nod_id, nod_name, nod_title, count(tpc_id) AS nod_topics FROM babel_node, babel_topic WHERE tpc_pid = nod_id AND nod_sid = ' . $Section['nod_id'] . ' GROUP BY nod_id ORDER BY nod_topics DESC LIMIT 8';
+				if ($Section['nod_title_i18n'] == '') {
+					$Section['nod_title_i18n'] = $Section['nod_title'];
+				}
+				$nav .= '<li class="top"><a href="/go/' . $Section['nod_name'] . '" class="top">&nbsp;&nbsp;&nbsp;' . make_plaintext($Section['nod_title_i18n']) . '&nbsp;&nbsp;&nbsp;</a>';
+				$sql = 'SELECT nod_id, nod_name, nod_title, nod_title_' . BABEL_LANG . ' AS nod_title_i18n, count(tpc_id) AS nod_topics FROM babel_node, babel_topic WHERE tpc_pid = nod_id AND nod_sid = ' . $Section['nod_id'] . ' GROUP BY nod_id ORDER BY nod_topics DESC LIMIT 8';
 				$rs_boards = mysql_query($sql);
 				$nav .= '<ul>';
 				while ($Node = mysql_fetch_array($rs_boards)) {
-					$nav .= '<li><a href="/go/' . $Node['nod_name'] . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . make_plaintext($Node['nod_title']) . '</a></li>';
+					if ($Node['nod_title_i18n'] == '') {
+						$Node['nod_title_i18n'] = $Node['nod_title'];
+					}
+					$nav .= '<li><a href="/go/' . $Node['nod_name'] . '" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . make_plaintext($Node['nod_title_i18n']) . '</a></li>';
 				}
 				$nav .= '<li><div class="sep">&nbsp;</div></li>';
-				$nav .= '<li><a href="/topic/new/' . $Section['nod_id'] . '.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $this->lang->create_new_topic_in(make_plaintext($Section['nod_title'])) . '</a></li>';
+				$nav .= '<li><a href="/topic/new/' . $Section['nod_id'] . '.vx" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $this->lang->create_new_topic() . '</a></li>';
 				$nav .= '</ul></li>';
 				$Section = null;
 			}
-			$this->cs->save($nav, 'nav');
+			$this->cs->save($nav, $cache_nav_tag);
 			mysql_free_result($rs);
 		}
 		echo $nav;
@@ -1429,6 +1436,42 @@ class Page {
 				$this->vxMenu($_menu_options);
 				$this->vxBoardView($options['board_id']);
 				break;
+			
+			case 'node_not_found':
+				$_menu_options['modules']['friends'] = false;
+				$_menu_options['modules']['links'] = false;
+				$_menu_options['modules']['new_members'] = false;
+				$_menu_options['modules']['fav'] = false;
+				$_menu_options['modules']['logins'] = false;
+				$_menu_options['modules']['stats'] = false;
+				$this->vxSidebar();
+				$this->vxMenu($_menu_options);
+				$this->vxNodeNotFound();
+				break;
+			
+			case 'node_edit':
+				$_menu_options['modules']['friends'] = false;
+				$_menu_options['modules']['links'] = false;
+				$_menu_options['modules']['new_members'] = false;
+				$_menu_options['modules']['fav'] = false;
+				$_menu_options['modules']['logins'] = false;
+				$_menu_options['modules']['stats'] = false;
+				$this->vxSidebar();
+				$this->vxMenu($_menu_options);
+				$this->vxNodeEdit($options);
+				break;
+				
+			case 'node_save':
+				$_menu_options['modules']['friends'] = false;
+				$_menu_options['modules']['links'] = false;
+				$_menu_options['modules']['new_members'] = false;
+				$_menu_options['modules']['fav'] = false;
+				$_menu_options['modules']['logins'] = false;
+				$_menu_options['modules']['stats'] = false;
+				$this->vxSidebar();
+				$this->vxMenu($_menu_options);
+				$this->vxNodeSave($options);
+				break;
 				
 			case 'who_fav_node':
 				$_menu_options['modules']['friends'] = false;
@@ -2179,6 +2222,12 @@ class Page {
 	public function vxHome($style) {
 		$o = '<div id="main">';
 		
+		$o .= '<div class="blank">';
+		$o .= '<img src="/img/welcome_001.png" />';
+		$o .= _vo_hr();
+		$o .= '<span class="tip_i"><a href="/login" class="regular"><strong>Sign In</strong></a> if you\'re already registered or <a href="/signup.html" class="regular"><strong>Create Your Free Account</strong></a> now.';
+		$o .= '</span></div>';
+		
 		if ($_SESSION['hits'] < 10) {
 			$o .= file_get_contents(BABEL_PREFIX . '/res/hot.html');
 		}
@@ -2376,40 +2425,6 @@ class Page {
 	public function vxHomeLatestTabs() {
 		$o = '<script src="/js/babel_home_tabs.js" type="text/javascript"> </script>';
 		$o .= '<div align="left" class="blank">';
-		
-		$o .= '<div style="float: right;">';
-		$o .= '<span class="tip_i"><small>V' . $this->ver . '</small></span>';
-		$o .= '</div>';
-		
-		if ($this->User->vxIsLogin()) {
-			$img_p = $this->User->usr_portrait ? CDN_IMG . 'p/' . $this->User->usr_portrait . '_n.jpg' : CDN_IMG . 'p_' . $this->User->usr_gender . '_n.gif';
-			
-			$o = $o . '<span class="text"><img src="' . $img_p . '" align="absmiddle" class="portrait" /> 欢迎，<strong>' . $this->User->usr_nick . '</strong>！';
-			
-			if ($url = $this->cs->get('fsu_' . $this->User->usr_id)) {
-				$F = unserialize($url);
-				$o .= (rand(0, 1) == 1) ? '<span class="tip">或许你会对来自朋友 [ <small><a href="/u/' . urlencode($F['usr_nick']) . '">' . $F['usr_nick'] . '</a></small> ] 的 [ <small><a href="http://' . $F['svp_url'] . '" target="_blank" re="nofollow external">http://' . $F['svp_url'] . '</a></small> ] 感兴趣吧？</span>' : '';
-			} else {
-				$sql = "SELECT usr_nick, svp_url FROM babel_user, babel_savepoint WHERE usr_id = svp_uid AND svp_uid IN (SELECT frd_fid FROM babel_friend WHERE frd_uid = {$this->User->usr_id}) ORDER BY rand() LIMIT 1";
-				$rs = mysql_query($sql);
-				if ($F = mysql_fetch_array($rs)) {
-					mysql_free_result($rs);
-					$this->cs->save(serialize($F), 'fsu_' . $this->User->usr_id);
-					$o .= (rand(0, 1) == 1) ? '<span class="tip">或许你会对来自朋友 [ <small><a href="/u/' . urlencode($F['usr_nick']) . '">' . $F['usr_nick'] . '</a></small> ] 的 [ <small><a href="http://' . $F['svp_url'] . '" target="_blank" re="nofollow external">http://' . $F['svp_url'] . '</a></small> ] 感兴趣吧？</span>' : '';
-				} else {
-					mysql_free_result($rs);
-					$sql = "SELECT COUNT(*) FROM babel_savepoint WHERE svp_uid = {$this->User->usr_id}";
-					$this->User->svp_count = mysql_result(mysql_query($sql), 0, 0);
-					if ($this->User->svp_count == 0) {
-						$o .= '<span class="tip_i">还没有添加自己的网上据点？现在 [ <a href="/u/' . urlencode($this->User->usr_nick) . '#svp">添加一个</a> ] 吧，让更多人知道你的网站！</span>';
-					}
-				}
-			}
-			
-			$o .= '</span>';
-		} else {
-			$o = $o . '<span class="text">欢迎来到 ' . Vocabulary::site_name . '！如果你已经注册，请<a href="/login.vx">登录</a>，如果还没有，' . Vocabulary::site_name . ' 欢迎你的<a href="/signup.html">加入</a> ...</span>';
-		}
 		$o .= '<ul class="tabs">';
 		$o .= '<li class="normal" id="home_tab_latest" onclick="switchHomeTab(' . "'latest', '', ''" . ')">最新讨论</li>';
 		$sql = 'SELECT nod_id, nod_name, nod_title FROM babel_node WHERE nod_level = 1 ORDER BY nod_weight DESC';
@@ -3384,9 +3399,15 @@ class Page {
 		$Node = new Node($section_id, $this->db);
 		_v_m_s();
 		echo('<div class="blank">');
-		
 		_v_ico_map();
-		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $Node->nod_title . '</div>');
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $Node->nod_title_i18n . '</div>');
+		if ($this->User->usr_id == 1) {
+			_v_b_l_s();
+			_v_ico_silk('wrench');
+			echo(' <span class="tip_i">ADMINISTRATIVE TOOLS | </span>');
+			echo('&nbsp;<a href="/node/edit/' . $Node->nod_id . '.vx" class="regular"><strong>Edit</strong></a>&nbsp;');
+			_v_d_e();
+		}
 		_v_b_l_s();
 		echo('<div style="float: right;">');
 		_v_btn_l($this->lang->new_topic(), '/topic/new/' . $Node->nod_id . '.vx');
@@ -4156,8 +4177,10 @@ class Page {
 		_v_ico_map();
 		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->lang->register() . '</div>');
 		echo('<div class="blank" align="left">');
-		echo('<span class="text_large"><img src="' . CDN_IMG . 'ico_id.gif" align="absmiddle" class="home" />' . Vocabulary::site_name . ' ' . $this->lang->register() . '</span>');
-		_v_hr();
+		echo('<h1 class="silver">');
+		_v_ico_tango_22('emotes/face-grin');
+		echo(' ' . $this->lang->register());
+		echo('</h1>');
 		echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 		echo('<form action="/user/create.vx" method="post" id="usrNew">');
 		echo('<tr><td width="200" align="right">' . $this->lang->email() . '</td><td width="200" align="left"><input tabindex="1" type="text" maxlength="100" class="sl" name="usr_email" /></td>');
@@ -4696,7 +4719,7 @@ class Page {
 		if (BABEL_FEATURE_DRY) {
 			echo('&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/color_swatch.png" align="absmiddle" alt="ZEN" />&nbsp;<a href="/dry/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">DRY</a>');
 		}
-		echo('&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/comments.png" alt="Topics" align="absmiddle" />&nbsp;<a href="/topic/archive/user/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">' . $O->usr_nick . ' 的所有主题</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/heart_add.png" align="absmiddle" />&nbsp;<a href="/who/connect/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">谁把 ' . $O->usr_nick . ' 加为好友</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/feed.png" align="absmiddle" alt="RSS" />&nbsp;<a href="/feed/user/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . '">RSS 种子输出</a></span></tr>');
+		echo('&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/comments.png" alt="Topics" align="absmiddle" />&nbsp;<a href="/topic/archive/user/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">Topics</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/heart_add.png" align="absmiddle" />&nbsp;<a href="/who/connect/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . ';">Connections</a>&nbsp;&nbsp;|&nbsp;&nbsp;<img src="' . CDN_UI . 'img/icons/silk/feed.png" align="absmiddle" alt="RSS" />&nbsp;<a href="/feed/user/' . urlencode($O->usr_nick) . '" class="var" style="color: ' . rand_color() . '">RSS</a></span></tr>');
 		$sql = "SELECT ggg_geo FROM babel_geo_going WHERE ggg_uid = {$O->usr_id} ORDER BY ggg_created DESC";
 		$rs = mysql_query($sql);
 		if (mysql_num_rows($rs) > 0) {
@@ -6350,7 +6373,6 @@ class Page {
 	
 	public function vxBoardView($board_id) {
 		global $GOOGLE_AD_LEGAL;
-		
 		$Node = new Node($board_id, $this->db);
 		$Section = $Node->vxGetNodeInfo($Node->nod_sid);
 		if ($this->User->vxIsLogin()) {
@@ -6368,8 +6390,15 @@ class Page {
 		echo('<div id="main">');
 		echo('<div class="blank">');
 		_v_ico_map();
-		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/go/' . $Section->nod_name . '" target="_self">' . $Section->nod_title . '</a> &gt; ' . $Node->nod_title);
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/go/' . $Section->nod_name . '" target="_self">' . $Section->nod_title_i18n . '</a> &gt; ' . $Node->nod_title_i18n);
 		echo('</div>');
+		if ($this->User->usr_id == 1) {
+			_v_b_l_s();
+			_v_ico_silk('wrench');
+			echo(' <span class="tip_i">ADMINISTRATIVE TOOLS | </span>');
+			echo('&nbsp;<a href="/node/edit/' . $Node->nod_id . '.vx" class="regular"><strong>Edit</strong></a>&nbsp;');
+			_v_d_e();
+		}
 		echo('<div class="blank" align="left">');
 		echo('<span class="text_large">');
 		if ($Fav > 0) {
@@ -6377,7 +6406,7 @@ class Page {
 		} else {
 			$nod_ico = 'board';
 		}
-		echo('<img src="/img/ico_' . $nod_ico . '.gif" align="absmiddle" class="home" />' . $Node->nod_title);
+		echo('<img src="/img/ico_' . $nod_ico . '.gif" align="absmiddle" class="home" />' . $Node->nod_title_i18n);
 		/* S: add to favorite */
 		if ($this->User->vxIsLogin()) {
 			if ($Fav > 0) {
@@ -6657,6 +6686,131 @@ class Page {
 	}
 	
 	/* E module: Board View block */
+	
+	/* S module: Node Not Found block */
+	
+	public function vxNodeNotFound() {
+		_v_m_s();
+		_v_b_l_s();
+		_v_ico_map();
+		echo(' <a href="/" rel="home">' . Vocabulary::site_name . '</a> &gt; Node Not Found');
+		_v_d_e();
+		_v_b_l_s();
+		echo('<h1 class="silver">');
+		_v_ico_tango_22('actions/process-stop');
+		echo(' Node Not Found');
+		echo('</h1>');
+		echo('<blockquote>');
+		echo('The requested node was not found.');
+		echo('</blockquote>');
+		_v_d_e();
+		_v_d_e();
+	}
+	
+	/* E module: Node Not Found block */
+	
+	/* S module: Node Edit block */
+	
+	public function vxNodeEdit($node_id) {
+		if (!$this->Validator->vxExistNode($node_id)) {
+			$this->vxNodeNotFound();
+		} else {
+			$Node = new Node($node_id, $this->db);
+			_v_m_s();
+			_v_b_l_s();
+			_v_ico_map();
+			if ($Node->nod_level > 1) {
+				$Section = $Node->vxGetNodeInfo($Node->nod_sid);
+				echo(' <a href="/" rel="home">' . Vocabulary::site_name . '</a> &gt <a href="/go/' . $Section->nod_name . '">' . $Section->nod_title_i18n . '</a> &gt; <a href="/go/' . $Node->nod_name . '">' . make_plaintext($Node->nod_title_i18n) . '</a> &gt; Edit');
+			} else {
+				echo(' <a href="/" rel="home">' . Vocabulary::site_name . '</a> &gt <a href="/go/' . $Node->nod_name . '">' . make_plaintext($Node->nod_title_i18n) . '</a> &gt; Edit');
+			}
+			_v_d_e();
+			_v_b_l_s();
+			echo('<h1 class="silver">');
+			_v_ico_tango_22('categories/preferences-system');
+			echo(' Node Settings');
+			echo('</h1>');
+			echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
+			echo('<form action="/node/save/' . $Node->nod_id . '.vx" method="post" id="form_node_edit">');
+			echo('<tr><td width="100" align="right">Name</td><td width="400" align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="nod_name" value="' . make_single_return($Node->nod_name, 0) . '" /></td></tr>');
+			echo('<tr><td width="100" align="right">' . $this->lang->title() . '</td><td width="400" align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="nod_title" value="' . make_single_return($Node->nod_title, 0) . '" /></td></tr>');
+			echo('<tr><td width="100" align="right">' . $this->lang->title() . ' <small>(en_us)</small></td><td width="400" align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="nod_title_en_us" value="' . make_single_return($Node->nod_title_en_us, 0) . '" /></td></tr>');
+			echo('<tr><td width="100" align="right">' . $this->lang->title() . ' <small>(de_de)</small></td><td width="400" align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="nod_title_de_de" value="' . make_single_return($Node->nod_title_de_de, 0) . '" /></td></tr>');
+			echo('<tr><td width="100" align="right">' . $this->lang->title() . ' <small>(zh_cn)</small></td><td width="400" align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="nod_title_zh_cn" value="' . make_single_return($Node->nod_title_zh_cn, 0) . '" /></td></tr>');
+			echo('<tr><td width="100" align="right" valign="top">' . $this->lang->description() . '</td><td width="400" align="left"><textarea onfocus="brightBox(this);" onblur="dimBox(this);" rows="5" class="ml" name="nod_description">' . make_multi_return($Node->nod_description, 0) . '</textarea></td></tr>');
+			echo('<tr><td width="100" align="right" valign="top">' . 'Header' . '</td><td width="400" align="left"><textarea onfocus="brightBox(this);" onblur="dimBox(this);" rows="5" class="ml" name="nod_header">' . make_multi_return($Node->nod_header, 0) . '</textarea></td></tr>');
+			echo('<tr><td width="100" align="right" valign="top">' . 'Footer' . '</td><td width="400" align="left"><textarea onfocus="brightBox(this);" onblur="dimBox(this);" rows="5" class="ml" name="nod_footer">' . make_multi_return($Node->nod_footer, 0) . '</textarea></td></tr>');
+			echo('<td width="500" colspan="3" valign="middle" align="right">');
+			_v_btn_f($this->lang->modify(), 'form_node_edit');
+			echo('</td></tr>');
+			echo('</form>');
+			echo('</table>');
+			_v_hr();
+			echo('<span class="tip"><img src="/img/pico_left.gif" align="absmiddle" />&nbsp;<a href="/go/' . $Node->nod_name . '">' . $this->lang->return_to_discussion_board() . ' / ' . $Node->nod_title . '</a></span>');
+			_v_d_e();
+			_v_d_e();
+		}
+	}
+	
+	/* E module: Node Edit block */
+	
+	/* S module: Node Save block */
+	
+	public function vxNodeSave($rt) {
+		$node_id = $rt['node_id'];
+		$Node = new Node($node_id, $this->db);
+		_v_m_s();
+		_v_b_l_s();
+		_v_ico_map();
+		if ($Node->nod_level > 1) {
+			$Section = $Node->vxGetNodeInfo($Node->nod_sid);
+			echo(' <a href="/" rel="home">' . Vocabulary::site_name . '</a> &gt <a href="/go/' . $Section->nod_name . '">' . $Section->nod_title_i18n . '</a> &gt; <a href="/go/' . $Node->nod_name . '">' . make_plaintext($Node->nod_title_i18n) . '</a> &gt; Edit');
+		} else {
+			echo(' <a href="/" rel="home">' . Vocabulary::site_name . '</a> &gt <a href="/go/' . $Node->nod_name . '">' . make_plaintext($Node->nod_title_i18n) . '</a> &gt; Edit');
+		}		
+		_v_d_e();
+		_v_b_l_s();
+		echo('<h1 class="silver">');
+		_v_ico_tango_22('categories/preferences-system');
+		echo(' Node Settings');
+		echo('</h1>');
+		echo('<div class="notify">');
+		if ($rt['errors'] > 0) {
+		} else {
+			$nod_name_sql = mysql_real_escape_string($rt['nod_name_value']);
+			$nod_title_sql = mysql_real_escape_string($rt['nod_title_value']);
+			$nod_title_en_us_sql = mysql_real_escape_string($rt['nod_title_en_us_value']);
+			$nod_title_de_de_sql = mysql_real_escape_string($rt['nod_title_de_de_value']);
+			$nod_title_zh_cn_sql = mysql_real_escape_string($rt['nod_title_zh_cn_value']);
+			$sql = "UPDATE babel_node SET nod_name = '{$nod_name_sql}', nod_title = '{$nod_title_sql}', nod_title_en_us = '{$nod_title_en_us_sql}', nod_title_de_de = '{$nod_title_de_de_sql}', nod_title_zh_cn = '{$nod_title_zh_cn_sql}' WHERE nod_id = {$Node->nod_id} LIMIT 1";
+			mysql_query($sql);
+			_v_ico_silk('tick');
+			echo(' Changes has been saved.');
+		}
+		echo('</div>');
+		echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
+		echo('<form action="/node/save/' . $Node->nod_id . '.vx" method="post" id="form_node_edit">');
+		echo('<tr><td width="100" align="right">Name</td><td width="400" align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="nod_name" value="' . make_single_return($rt['nod_name_value'], 0) . '" /></td></tr>');
+		echo('<tr><td width="100" align="right">' . $this->lang->title() . '</td><td width="400" align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="nod_title" value="' . make_single_return($rt['nod_title_value'], 0) . '" /></td></tr>');
+		echo('<tr><td width="100" align="right">' . $this->lang->title() . ' <small>(en_us)</small></td><td width="400" align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="nod_title_en_us" value="' . make_single_return($rt['nod_title_en_us_value'], 0) . '" /></td></tr>');
+		echo('<tr><td width="100" align="right">' . $this->lang->title() . ' <small>(de_de)</small></td><td width="400" align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="nod_title_de_de" value="' . make_single_return($rt['nod_title_de_de_value'], 0) . '" /></td></tr>');
+		echo('<tr><td width="100" align="right">' . $this->lang->title() . ' <small>(zh_cn)</small></td><td width="400" align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="nod_title_zh_cn" value="' . make_single_return($rt['nod_title_zh_cn_value'], 0) . '" /></td></tr>');
+		echo('<tr><td width="100" align="right" valign="top">' . $this->lang->description() . '</td><td width="400" align="left"><textarea onfocus="brightBox(this);" onblur="dimBox(this);" rows="5" class="ml" name="nod_description">' . make_multi_return($Node->nod_description, 0) . '</textarea></td></tr>');
+		echo('<tr><td width="100" align="right" valign="top">' . 'Header' . '</td><td width="400" align="left"><textarea onfocus="brightBox(this);" onblur="dimBox(this);" rows="5" class="ml" name="nod_header">' . make_multi_return($Node->nod_header, 0) . '</textarea></td></tr>');
+		echo('<tr><td width="100" align="right" valign="top">' . 'Footer' . '</td><td width="400" align="left"><textarea onfocus="brightBox(this);" onblur="dimBox(this);" rows="5" class="ml" name="nod_footer">' . make_multi_return($Node->nod_footer, 0) . '</textarea></td></tr>');
+		echo('<td width="500" colspan="3" valign="middle" align="right">');
+		_v_btn_f($this->lang->modify(), 'form_node_edit');
+		echo('</td></tr>');
+		echo('</form>');
+		echo('</table>');
+		_v_hr();
+		echo('<span class="tip"><img src="/img/pico_left.gif" align="absmiddle" />&nbsp;<a href="/go/' . $Node->nod_name . '">' . $this->lang->return_to_discussion_board() . ' / ' . $Node->nod_title . '</a></span>');
+		_v_d_e();
+		_v_d_e();
+	}
+	
+	/* E module: Node Save block */
 	
 	/* S module: Who Fav Node block */
 	
@@ -7843,10 +7997,11 @@ class Page {
 				echo('<div class="blank" align="left">');
 				_v_ico_map();
 				echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/section/view/' . $Section->nod_id . '.html">' . $Section->nod_title . '</a> &gt; <a href="/board/view/' . $Node->nod_id . '.html">' . $Node->nod_title . '</a> &gt; ' . $this->lang->new_topic() . '</div>');
-				echo('<div class="blank" align="left"><span class="text_large">');
-				_v_ico_tango_32('actions/document-new', 'absmiddle', 'home');
-				echo($this->lang->new_topic() . '</span>');
-				_v_hr();
+				echo('<div class="blank" align="left">');
+				echo('<h1 class="silver">');
+				_v_ico_tango_22('actions/document-new');
+				echo(' ' . $this->lang->new_topic());
+				echo('</h1>');
 				echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 				echo('<form action="/topic/create/' . $Node->nod_id . '.vx" method="post" id="form_topic_create">');
 				echo('<tr><td width="100" align="right">' . $this->lang->title() . '</td><td width="400" align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sll" name="tpc_title" /></td></tr>');
@@ -8188,14 +8343,13 @@ class Page {
 		echo('<div id="main">');
 		echo('<div class="blank">');
 		_v_ico_map();
-		echo(' <a href="/" rel="home">' . Vocabulary::site_name . '</a> &gt; <a href="/go/' . $Section->nod_name . '" target="_self">' . $Section->nod_title . '</a> &gt; ');
+		echo(' <a href="/" rel="home">' . Vocabulary::site_name . '</a> &gt; <a href="/go/' . $Section->nod_name . '" target="_self">' . $Section->nod_title_i18n . '</a> &gt; ');
 		if (isset($_SESSION['babel_page_node_' . $Node->nod_id])) {
-			echo('<a href="/board/view/' . $Node->nod_id . '/' . $_SESSION['babel_page_node_' . $Node->nod_id] . '.html">' . make_plaintext($Node->nod_title) . '</a>');	
+			echo('<a href="/board/view/' . $Node->nod_id . '/' . $_SESSION['babel_page_node_' . $Node->nod_id] . '.html">' . make_plaintext($Node->nod_title_i18n) . '</a>');	
 		} else {
-			echo('<a href="/go/' . $Node->nod_name . '" rel="tag">' . make_plaintext($Node->nod_title) . '</a>');
+			echo('<a href="/go/' . $Node->nod_name . '" rel="tag">' . make_plaintext($Node->nod_title_i18n) . '</a>');
 		}
 		echo(' &gt; ' . make_plaintext($Topic->tpc_title) . '</div>');
-		
 		echo('<div class="blank"><table cellpadding="0" cellspacing="0" border="0">');
 		echo('<tr><td valign="top" align="center"><a name="imgPortrait"></a>');
 		if ($Topic->usr_portrait == '') {

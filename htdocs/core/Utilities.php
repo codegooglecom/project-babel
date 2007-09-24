@@ -718,9 +718,9 @@ function rand_color($color_start = 0, $color_end = 3) {
 }
 
 function rand_gray($color_start = 1, $color_end = 3) {
-	$color = array(0 => '0', 1 => '3', 2 => '6', 3 => '9', 4 => 'C', 5 => 'F');
+	$color = array(0 => '0', 1 => '3', 2 => '6', 3 => '9', 4 => 'A', 5 => 'D');
 	$g = $color[rand($color_start, $color_end)];
-	while (($o = '#' . $g . $g . $g) != '#FFF') {
+	while (($o = '#' . $g . $g . $g) != '#DDD') {
 		return $o;
 	}
 }

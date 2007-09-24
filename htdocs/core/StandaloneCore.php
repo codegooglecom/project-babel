@@ -1490,11 +1490,14 @@ class Standalone {
 			if (!in_array($lang, array_keys($_languages))) {
 				$lang = BABEL_LANG_DEFAULT;
 			}
-			if ($this->User->vxIsLogin()) {
-				$sql = "UPDATE babel_user SET usr_lang = '{$lang}' WHERE usr_id = {$this->User->usr_id}";
-				mysql_unbuffered_query($sql);
+			if ($_SESSION['babel_lang'] != $lang) {
+				if ($this->User->vxIsLogin()) {
+					$sql = "UPDATE babel_user SET usr_lang = '{$lang}' WHERE usr_id = {$this->User->usr_id}";
+					mysql_unbuffered_query($sql);
+				}
+				@$this->cs->remove('nav_' . md5(session_id()));
+				$_SESSION['babel_lang'] = $lang;
 			}
-			$_SESSION['babel_lang'] = $lang;
 		}
 		if (isset($_SERVER['HTTP_REFERER'])) {
 			return header('Location: ' . $_SERVER['HTTP_REFERER']);

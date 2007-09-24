@@ -579,7 +579,7 @@ class lang implements Language {
 	}
 	
 	public function board_stats_favs($count, $name) {
-		return '<small><a href="/who/fav/node/' . $name . '" class="regular"><strong>' . $count . '</strong></a> mal favorisiert/small>';
+		return '<small><a href="/who/fav/node/' . $name . '" class="regular"><strong>' . $count . '</strong></a> mal favorisiert</small>';
 	}
 	
 	public function board_stats_favs_zero() {
