@@ -40,6 +40,8 @@
 		{/if}
 		
 		<a href="http://nexus.v2ex.com/nexus/" target="_blank"><img src="http://{$site_static}/weblog-static/themes/{$site_theme}/nexus.gif" alt="Powered by NEXUS" border="0" /></a>
+		
+		{$google_analytics}
 	</div>
 </div>
 <div id="main">

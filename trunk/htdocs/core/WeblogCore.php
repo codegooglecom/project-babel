@@ -336,6 +336,8 @@ class Weblog {
 			
 			$s->assign('user_ing', $Weblog->blg_ing);
 			
+			$s->assign('google_analytics', '<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script><script type="text/javascript">_uacct = "UA-841322-3"; urchinTracker();</script>');
+			
 			$sql = "SELECT DISTINCT bet_tag FROM babel_weblog_entry_tag WHERE bet_eid IN (SELECT bge_id FROM babel_weblog_entry WHERE bge_pid = {$Weblog->blg_id}) ORDER BY bet_tag ASC";
 			
 			$rs = mysql_query($sql);

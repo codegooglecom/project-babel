@@ -2059,6 +2059,7 @@ class Page {
 			echo('</span>');
 			echo('</div>');
 		}
+		mysql_free_result($rs);
 		echo('</blockquote>');
 		echo('<h1 class="silver">Recent Popular Tags</h1>');
 		echo('<div style="padding: 10px;">');
@@ -3387,7 +3388,7 @@ class Page {
 		_v_ico_map();
 		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $Node->nod_title . '</div>');
 		_v_b_l_s();
-		echo('<div style="float: right; padding-top: 5px; padding-right: 5px;">');
+		echo('<div style="float: right;">');
 		_v_btn_l($this->lang->new_topic(), '/topic/new/' . $Node->nod_id . '.vx');
 		echo('</div>');
 		$sql = "SELECT nod_id, nod_name, nod_title, nod_topics FROM babel_node WHERE nod_sid = {$Node->nod_id} ORDER BY nod_title ASC";
@@ -3405,7 +3406,27 @@ class Page {
 		$col_4 = $col * 4;
 		echo('<img src="/img/seccap/' . $Node->nod_name . '.png" alt="' . $Node->nod_title . '" />');
 		_v_hr();
-		
+		echo('<h1 class="silver">Latest Active Discussions</h1>');
+		echo('<blockquote>');
+		$sql = "SELECT tpc_id, tpc_title, tpc_created, tpc_posts, usr_nick, usr_gender, usr_portrait, nod_name, nod_title, nod_topics FROM babel_topic, babel_user, babel_node WHERE nod_id = tpc_pid AND nod_sid = {$Node->nod_id} AND tpc_uid = usr_id ORDER BY tpc_lasttouched DESC LIMIT 30";
+		$rs = mysql_query($sql);
+		while ($_topic = mysql_fetch_array($rs)) {
+			$img_p = $_topic['usr_portrait'] ? '/img/p/' . $_topic['usr_portrait'] . '_n.jpg' : '/img/p_' . $_topic['usr_gender'] . '_n.gif';
+			echo('<div style="padding: 2px;">');
+			echo('<img src="' . $img_p . '" align="absmiddle" border="0" class="portrait" />');
+			echo(' <a href="/topic/view/' . $_topic['tpc_id'] . '.html">' . make_plaintext($_topic['tpc_title']) . '</a>');
+			if (intval($_topic['tpc_posts'])) {
+				echo(' <small class="fade">(' . $_topic['tpc_posts'] . ')</small>');
+			}
+			echo(' <span class="tip_i"><small>Posted by <a href="/u/' . urlencode($_topic['usr_nick']) . '">' . $_topic['usr_nick'] . '</a> on ' . date('M-j G:i:s T', $_topic['tpc_created']) . '</small>');
+			if ($_topic['tpc_title'] != '') {
+				echo('<small> in <a href="/go/' . $_topic['nod_name'] . '" rel="tag" class="regular">' . make_plaintext($_topic['nod_title']) . '</a> (' . $_topic['nod_topics'] . ')</small>');
+			}
+			echo('</span>');
+			echo('</div>');
+		}
+		mysql_free_result($rs);
+		echo('</blockquote>');
 		echo('<h1 class="silver">Contains ' . $total . ' discussion areas</small></h1>');
 		echo('<table width="99%" cellpadding="0" cellspacing="0" style="font-size: 11px;">');
 		echo('<tr>');
@@ -3455,9 +3476,6 @@ class Page {
 		echo('</td>');
 		echo('</tr>');
 		echo('</table>');
-		echo('<h1 class="silver">Latest Active Discussions</h1>');
-		echo('<blockquote>');
-		echo('</blockquote>');
 		_v_d_e();
 		_v_d_e();
 	}
@@ -7184,7 +7202,7 @@ class Page {
 		
 		echo('<div class="blank" align="left">');
 		_v_ico_map();
-		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . urlencode($User->usr_nick) . '">' . make_plaintext($User->usr_nick) . '</a> &gt; 谁把 ' . $User->usr_nick . ' 加为好友？');
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; <a href="/u/' . urlencode($User->usr_nick) . '">' . make_plaintext($User->usr_nick) . '</a> &gt; Who are ' . $User->usr_nick . '\'s friends？');
 		
 		echo('</div>');
 		
@@ -7200,7 +7218,7 @@ class Page {
 			$this->cs->save(strval($usr_count), 'babel_who_connect_' . strval(crc32($User->usr_nick)));
 		}
 		
-		$page_size = 15;
+		$page_size = 18;
 		
 		if ($usr_count > $page_size) {
 			if (($usr_count % $page_size) == 0) {
@@ -7243,17 +7261,17 @@ class Page {
 		
 		echo('<div class="blank">');
 		echo('<img src="/img/icons/silk/heart_add.png" align="absmiddle" /> ');
-		echo('谁把 <a href="/u/' . urlencode($User->usr_nick) . '">' . make_plaintext($User->usr_nick) . '</a> 加为好友？');
+		echo('Who are <a href="/u/' . urlencode($User->usr_nick) . '">' . make_plaintext($User->usr_nick) . '</a>\'s friends？');
 		
 		if ($usr_count > 0) {
-			echo('<span class="tip_i"> ... 共 ' . $usr_count .' 人 ...</span> ');
+			echo('<span class="tip_i"> ... ' . $usr_count .' people ...</span> ');
 		}
 		
 		if ($page_current < $page_count) {
-			echo('<a href="/who/connect/' . urlencode($User->usr_nick) . '/' . ($page_current + 1) . '.html" class="t">下一页</a>&nbsp;');
+			echo('<a href="/who/connect/' . urlencode($User->usr_nick) . '/' . ($page_current + 1) . '.html" class="t">next</a>&nbsp;');
 		}
 		if ($page_current > 1) {
-			echo('&nbsp;<a href="/who/connect/' . urlencode($User->usr_nick) . '/' . ($page_current - 1) . '.html" class="t">上一页</a>');
+			echo('&nbsp;<a href="/who/connect/' . urlencode($User->usr_nick) . '/' . ($page_current - 1) . '.html" class="t">previous</a>');
 		}
 		
 		if ($page_count > 1) {
@@ -7272,7 +7290,7 @@ class Page {
 		
 		$edges = array();
 		for ($i = 1; $i < ($page_size * 2); $i++) {
-			$edges[] = ($i * 5) + 1;
+			$edges[] = ($i * 6) + 1;
 		}
 
 		foreach ($Sources as $Who) {
@@ -7282,7 +7300,7 @@ class Page {
 			}
 			$img_p = $Who->usr_portrait ? '/img/p/' . $Who->usr_portrait . '.jpg' : '/img/p_' . $Who->usr_gender . '.gif';
 			echo('<a href="/u/' . urlencode($Who->usr_nick) . '" class="friend"><img src="' . $img_p . '" class="portrait" /><br />' . $Who->usr_nick . '<div class="tip">' . $this->Geo->map['name'][$Who->usr_geo] . '</div></a>');
-			if (($i % 5) == 0) {
+			if (($i % 6) == 0) {
 				echo ('</td></tr>');
 			}
 		}
@@ -7292,10 +7310,10 @@ class Page {
 		_v_hr();
 		
 		if ($page_current < $page_count) {
-			echo('&nbsp;&nbsp;&nbsp;<a href="/who/connect/' . urlencode($User->usr_nick) . '/' . ($page_current + 1) . '.html" class="t">下一页</a>');
+			echo('&nbsp;&nbsp;&nbsp;<a href="/who/connect/' . urlencode($User->usr_nick) . '/' . ($page_current + 1) . '.html" class="t">next</a>');
 		}
 		if ($page_current > 1) {
-			echo('&nbsp;&nbsp;&nbsp;<a href="/who/connect/' . urlencode($User->usr_nick) . '/' . ($page_current - 1) . '.html" class="t">上一页</a>');
+			echo('&nbsp;&nbsp;&nbsp;<a href="/who/connect/' . urlencode($User->usr_nick) . '/' . ($page_current - 1) . '.html" class="t">previous</a>');
 		}
 		if ($page_count > 1) {
 			echo('<span class="tip_i"> ... ' . $page_current . '/' . $page_count . '</span>');
@@ -10214,7 +10232,7 @@ google_color_url = "00CC00";
 			echo('<form action="/recv/ing.vx" id="ing_personal" method="POST" onsubmit="return checkIngForm();">');
 			echo('<div style="background-image: url(' . "'/img/bg_ing.gif'" . '); padding-top: 3px; width: 320px; height: 35px;"><input onkeyup="checkIngType(' . "'doing', 'ing_status'" . ');" type="text" class="sll" id="doing" name="doing" maxlength="131" /></div> ');
 			_v_btn_f($this->lang->update(), 'ing_personal');
-			echo('<div id="ing_status"><span class="tip_i">现在还可以再输入 131 个字符</span></div>');
+			echo('<div id="ing_status" style="padding-top: 10px;"><span class="tip_i"><small>131 characters remaining</small></span></div>');
 			echo('<input type="hidden" name="return" value="/ing" />');
 			echo('</form>');
 			echo('</div>');
@@ -10356,7 +10374,7 @@ google_color_url = "00CC00";
 			echo('<form action="/recv/ing.vx" id="ing_personal" method="POST" onsubmit="return checkIngForm();">');
 			echo('<div style="background-image: url(' . "'/img/bg_ing.gif'" . '); padding-top: 3px; width: 320px; height: 35px;"><input onkeyup="checkIngType(' . "'doing', 'ing_status'" . ');" type="text" class="sll" id="doing" name="doing" maxlength="131" /></div> ');
 			_v_btn_f($this->lang->update(), 'ing_personal');
-			echo('<div id="ing_status"><span class="tip_i">现在还可以再输入 131 个字符</span></div>');
+			echo('<div id="ing_status" style="padding-top: 10px;"><span class="tip_i"><small>131 characters remaining</small></span></div>');
 			echo('<input type="hidden" name="return" value="/ing/' . urlencode($this->User->usr_nick) . '/friends" />');
 			echo('</form>');
 			echo('</div>');
@@ -10528,7 +10546,7 @@ google_color_url = "00CC00";
 			echo('<form action="/recv/ing.vx" id="ing_personal" method="POST" onsubmit="return checkIngForm();">');
 			echo('<div style="background-image: url(' . "'/img/bg_ing.gif'" . '); padding-top: 3px; width: 320px; height: 35px;"><input onkeyup="checkIngType(' . "'doing', 'ing_status'" . ');" type="text" class="sll" id="doing" name="doing" maxlength="131" /></div> ');
 			_v_btn_f($this->lang->update(), 'ing_personal');
-			echo('<div id="ing_status"><span class="tip_i">现在还可以再输入 131 个字符</span></div>');
+			echo('<div id="ing_status" style="padding-top: 10px;"><span class="tip_i"><small>131 characters remaining</small></span></div>');
 			echo('<input type="hidden" name="return" value="/ing/' . urlencode($this->User->usr_nick) . '" />');
 			echo('</form>');
 			echo('</div>');
