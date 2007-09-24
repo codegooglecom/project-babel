@@ -45,6 +45,8 @@
         <h3 class="label">License</h3>
         <div class="widget"><small>{$license_code}</small></div>
 		{/if}
+		
+		{$google_analytics}
     </div>
     <div id="main">
         
