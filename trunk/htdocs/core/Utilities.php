@@ -143,23 +143,23 @@ function exception_message($func = '') {
 		case 'permission':
 			$o .= '<h1>Babel Permission Problem</h1>';
 			global $dirs;
-			$o .= 'Babel 启动失败，请确认以下目录存在，并且可以被 web server 进程写入:<ul style="list-style: square; font-size: 15px; font-family: monospace">';
+			$o .= 'Babel failed to start, please make sure that those folders existed and can be written by web server user:<ul style="list-style: square; font-size: 15px; font-family: monospace">';
 			foreach ($dirs as $dir) {
-				$s_tmp = is_writable(BABEL_PREFIX . $dir) ? '<em class="green">ok</em>' : '<strong class="red">access denied</strong>';
+				$s_tmp = is_writable(BABEL_PREFIX . $dir) ? '<em class="green">ok</em>' : (file_exists(BABEL_PREFIX . $dir) ? '<strong class="red">access denied</strong>' : '<strong class="red">not existed</strong>');
 				$o .= '<li>' . BABEL_PREFIX . $dir . ' ... ' . $s_tmp . '</li>';
 			}
-			$o .= '</ul>如果是在 Unix 操作系统上运行 Babel，你可以使用 chmod 777 方式来更改目录权限，或将以上目录的所有者更改为 web server 进程用户。';
+			$o .= '</ul>If you are running Babel on *nix, you can use <strong>chmod 777</strong> to alter privileges, or change these folders\' owner to web server user, the username used to be <strong>www</strong> on Debian based systems.';
 			break;
 		case 'db':
 			$o .= '<h1>Babel Database Problem</h1>';
-			$o .= 'Babel 启动失败，数据库连接无法建立。数据库返回以下错误信息：';
+			$o .= 'Babel failed to start due to database connection cannot be established:';
 			$o .= '<div class="info">' . mysql_error() . '</div>';
 			break;
 		case 'world':
 			$o .= '<h1>Babel World Does Not Exist</h1>';
-			$o .= 'Babel 世界数据尚未导入，请创建你自己的 InstallCore.php 并运行一次。这样你将拥有一个最初的 Babel 世界。';
+			$o .= 'Babel world data doest not exist in database, please create your own version of InstallCore.php and run once, then you will have an initial world.';
 	}
-	$o .= '<span class="ver">&copy; 2007 <a href="http://www.v2ex.com/">V2EX</a> | Project Babel v0.5 Monster Inc</span>';
+	$o .= '<span class="ver">&copy; 2007 <a href="http://www.v2ex.com/">V2EX</a> | Project Babel v0.6 Fibonacci Farm</span>';
 	$o .= '</div></body></html>';
 	die ($o);
 }
@@ -244,7 +244,7 @@ function format_ubb($text, $emoticon = true) {
 	$r[9] = '<strong>$1</strong>';
 	$r[10] = '<em>$1</em>';
 	$r[11] = '<em>$1</em>';
-	$r[12] = '讨论区 [ <a href="/go/$1" class="tpc">$2</a> ]';
+	$r[12] = 'Discussion Area [ <a href="/go/$1" class="tpc">$2</a> ]';
 	$r[13] = '<strike>$1</strike>';
 	$r[14] = '<object width="425" height="350"><param name="movie" value="http://www.youtube.com/v/$1"></param><param name="wmode" value="transparent"></param><embed src="http://www.youtube.com/v/$1" type="application/x-shockwave-flash" wmode="transparent" width="425" height="350"></embed></object>';
 	$r[15] = '<script src="http://gmodules.com/ig/ifr?url=http://www.google.com/ig/modules/googletalk.xml&amp;synd=open&amp;w=320&amp;h=480&amp;title=Google+Talk+by+V2EX&amp;border=%23ffffff%7C0px%2C1px+solid+%23998899%7C0px%2C1px+solid+%23aa99aa%7C0px%2C2px+solid+%23bbaabb%7C0px%2C2px+solid+%23ccbbcc&amp;output=js"></script>';

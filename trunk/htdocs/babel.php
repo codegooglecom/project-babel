@@ -334,6 +334,14 @@ switch ($m) {
 		$p->vxContainer('timtowtdi');
 		break;
 		
+	case 'about':
+		$GOOGLE_AD_LEGAL = true;
+		$p->vxHead($msgSiteTitle = $p->lang->about(Vocabulary::site_name));
+		$p->vxBodyStart();
+		$p->vxTop();
+		$p->vxContainer('about');
+		break;
+		
 	case 'out_of_money':
 		$GOOGLE_AD_LEGAL = true;
 		$p->vxHead($msgSiteTitle = Vocabulary::term_out_of_money);

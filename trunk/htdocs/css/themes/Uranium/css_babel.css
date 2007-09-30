@@ -808,23 +808,19 @@ color: #000;
 padding: 2px 4px 2px 4px;
 background-color: #EFEFEF;
 text-decoration: none;
-border-left: 1px solid #F9F9F9;  
-border-top: 1px solid #F9F9F9;
-border-right: 1px solid #CFCFCF;
-border-bottom: 1px solid #CFCFCF;
+border: 2px solid #D0D0D0;
+-moz-border-radius: 5px;
 }
 
 a.g:hover {
 margin-right: 2px;
 font-size: 12px;
-color: #FFF;
+color: #000;
 padding: 2px 4px 2px 4px;
-background-color: #3366FF;
-border-left: 1px solid #3CF;  
-border-top: 1px solid #3CF;
-border-right: 1px solid #30C;
-border-bottom: 1px solid #30C;
+background-color: #DEDEDF;
+border: 2px solid #90909F;
 text-decoration: none;
+-moz-border-radius: 5px;
 }
 
 a.h, a.h:active, a.h:visited {
