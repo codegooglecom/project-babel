@@ -22,7 +22,7 @@ class Vocabulary {
 	const site_name = 'V2EX';
 	const site_title = 'V2EX | Project Babel';
 	const site_title_mobile = 'V2EX Mobile';
-	const site_copyright = '© 2007 <a href="http://nexus.v2ex.com/livid" target="_blank">Xin Liu</a>';
+	const site_copyright = '© 2007 A <a href="http://www.livid.cn/" target="_blank">Xin Liu</a> Production';
 	
 	const site_banner = "<a href=\"/\" target=\"_self\" class=\"var\"><img src=\"/img/top_logo_carbon.gif\" border=\"0\" alt=\"V2EX\" onclick=\"location.href='/';\" style=\"cursor: hand;\" align=\"absmiddle\" onmouseover=\"focusGo();\" /></a>";
 	
@@ -104,7 +104,7 @@ class Vocabulary {
 	const term_latest_answered_topic = '最新被回复主题';
 	const term_latestfav = '最新收藏';
 	
-	const term_community_guidelines = 'Guidelines';
+	const term_community_guidelines = 'Community Guidelines';
 	const term_partners = '广告合作伙伴';
 	const term_newfeatures = '新功能';
 	

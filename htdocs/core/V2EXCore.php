@@ -543,7 +543,7 @@ class Page {
 				mysql_free_result($rs);
 				$this->cs->save(strval($this->usr_share), 'babel_user_share_' . $this->User->usr_id);
 			}
-			echo('<div id="top_right"><a href="/u/' . urlencode($this->User->usr_nick) . '" class="tr">' . $this->User->usr_nick . '</a> <a href="/user/modify.vx" class="tr">' . $this->lang->settings() . '</a> <a href="/new_features.html" class="tr">' . $this->lang->new_features() . '</a> <a href="/logout.vx" class="tr">' . $this->lang->logout() . '</a> <a href="/expense/view.vx" class="tr">' . $this->lang->copper(intval($this->User->usr_money)) . '</a> ');
+			echo('<div id="top_right"><a href="/u/' . urlencode($this->User->usr_nick) . '" class="tr">' . $this->User->usr_nick . '</a> <a href="/user/modify.vx" class="tr">' . $this->lang->settings() . '</a> <a href="/logout.vx" class="tr">' . $this->lang->logout() . '</a> <a href="/expense/view.vx" class="tr">' . $this->lang->copper(intval($this->User->usr_money)) . '</a> ');
 			printf("<a href=\"/topic/archive/user/{$this->User->usr_nick}\" class=\"tr\"><small>%.3f%%</small></a>", $this->usr_share);
 			if ($this->User->usr_sw_shell) {
 				echo('<div style="padding-top: 8px;"><form action="/locator.php" method="get" onsubmit="return V2EXShell();"><input type="search" name="go" class="top_go" id="boxGo" autosave="V2EX Go" results="20" onmouseover="this.focus();" /></form></div>');
@@ -562,6 +562,11 @@ class Page {
 			include(BABEL_PREFIX . '/res/alimama_top.php');
 			echo('</div>');
 		}
+		if (GOOGLE_AD_ENABLED) {
+			echo('<div style="position: absolute; top: 25px; padding-left: 280px; width: 468px; z-index: 10;">');
+			include(BABEL_PREFIX . '/res/google_adsense_top.php');
+			echo('</div>');
+		}
 		echo('<div style="position: absolute; width: 270px; z-index: 20;">');
 		echo('<a href="/" rel="home"><img src="/img/' . $img_logo . '" border="0" alt="' . Vocabulary::site_name . '" /></a>');
 		echo('</div>');
@@ -571,7 +576,7 @@ class Page {
 		echo('<ul id="nav_menu">');
 		echo('<li class="top"><a href="/" class="top">&nbsp;&nbsp;&nbsp;<strong>' . Vocabulary::site_name . '</strong>&nbsp;&nbsp;&nbsp;</a>');
 		echo('<ul>');
-		echo('<li><a href="/new_features.html" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $this->lang->about(Vocabulary::site_name) . '</a></li>');
+		echo('<li><a href="/about" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $this->lang->about(Vocabulary::site_name) . '</a></li>');
 		echo('<li><a href="/" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $this->lang->home(Vocabulary::site_name) . '</a></li>');
 		if (BABEL_FEATURE_SHOP) {
 			echo('<li><a href="/shop" class="nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' . $this->lang->shop() . '</a></li>');
@@ -814,7 +819,7 @@ class Page {
 	/* S module: div#bottom tag */
 	
 	public function vxBottom($msgCopyright = Vocabulary::site_copyright) {
-		echo('<div id="bottom"><strong>' . $msgCopyright . '</strong>&nbsp;&nbsp;&nbsp;<a href="/community_guidelines.vx">' . Vocabulary::term_community_guidelines . '</a> &nbsp; <a href="http://io.v2ex.com/v2ex-doc/" target="_blank">Help</a> &nbsp; <a href="http://labs.v2ex.com/" target="_blank">Developer</a><br /><img src="/img/powered.png" alt="a site powered by Project Babel" align="absmiddle" border="0" style="margin-top: 10px;" /><br /></div>');
+		echo('<div id="bottom"><strong>' . $msgCopyright . '</strong>&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;<a href="/about">About</a><!-- &nbsp; <a href="http://io.v2ex.com/v2ex-doc/" target="_blank">Help</a> &nbsp; <a href="http://labs.v2ex.com/" target="_blank">Developer</a>--><br /><img src="/img/powered.png" alt="a site powered by Project Babel" align="absmiddle" border="0" style="margin-top: 10px;" /><br /></div>');
 		include(BABEL_PREFIX . '/res/google_analytics.php');
 	}
 	
@@ -1106,6 +1111,12 @@ class Page {
 				$this->vxSidebar();
 				$this->vxMenu();
 				$this->vxNewFeatures();
+				break;
+				
+			case 'about':
+				$this->vxSidebar();
+				$this->vxMenu();
+				$this->vxAbout();
 				break;
 			
 			case 'timtowtdi':
@@ -2221,13 +2232,29 @@ class Page {
 	
 	public function vxHome($style) {
 		$o = '<div id="main">';
-		
-		$o .= '<div class="blank">';
-		$o .= '<img src="/img/welcome_001.png" />';
-		$o .= _vo_hr();
-		$o .= '<span class="tip_i"><a href="/login" class="regular"><strong>Sign In</strong></a> if you\'re already registered or <a href="/signup.html" class="regular"><strong>Create Your Free Account</strong></a> now.';
-		$o .= '</span></div>';
-		
+		if (!$this->User->vxIsLogin()) {
+			$o .= '<div class="blank">';
+			switch (BABEL_LANG) {
+				case 'en_us':
+				default:
+					$o .= '<img src="/img/splash/0709/en_us.png" />';
+					break;
+				case 'zh_cn':
+					$o .= '<img src="/img/splash/0709/zh_cn.png" />';
+					break;
+			}
+			$o .= _vo_hr();
+			switch (BABEL_LANG) {
+				case 'en_us':
+				default:
+					$o .= '<span class="tip_i"><a href="/login" class="regular"><strong>Sign In</strong></a> if you\'re already registered or <a href="/signup.html" class="regular"><strong>Create Your Free Account</strong></a> now.';
+					break;
+				case 'zh_cn':
+					$o .= '<span class="tip_i">如果你已经有账户，那么请 <a href="/login" class="regular"><strong>登入</strong></a> 或者现在就 <a href="/signup.html" class="regular"><strong>注册一个新账户</strong></a>';
+					break;
+			}
+			$o .= '</span></div>';
+		}
 		if ($_SESSION['hits'] < 10) {
 			$o .= file_get_contents(BABEL_PREFIX . '/res/hot.html');
 		}
@@ -2426,7 +2453,7 @@ class Page {
 		$o = '<script src="/js/babel_home_tabs.js" type="text/javascript"> </script>';
 		$o .= '<div align="left" class="blank">';
 		$o .= '<ul class="tabs">';
-		$o .= '<li class="normal" id="home_tab_latest" onclick="switchHomeTab(' . "'latest', '', ''" . ')">最新讨论</li>';
+		$o .= '<li class="normal" id="home_tab_latest" onclick="switchHomeTab(' . "'latest', '', ''" . ')">Latest Discussions</li>';
 		$sql = 'SELECT nod_id, nod_name, nod_title FROM babel_node WHERE nod_level = 1 ORDER BY nod_weight DESC';
 		$rs = mysql_query($sql, $this->db);
 		while ($Node = mysql_fetch_object($rs)) {
@@ -2805,7 +2832,7 @@ class Page {
 			
 			$o .= $this->vxHomeSectionRemix($go->nod_id, $go->nod_level);
 			
-			$o .= '阅读讨论区 <a href="/go/' . $go->nod_name . '" class="t">' . $go->nod_title . '</a> 的全部主题 | <a href="/topic/new/' . $go->nod_id . '.vx" rel="nofollow" class="t">创建新主题</a> | 使用 <a href="/feed/board/' . $go->nod_name . '.rss" class="t">RSS</a> 订阅 | <a href="/go/' . $go->nod_name . '" class="var"><img src="' . CDN_UI . 'img/icons/silk/shape_move_forwards.png" align="absmiddle" border="0" /></a>&nbsp;<a href="/go/' . $go->nod_name . '" class="t">切换到正常模式</a>';
+			$o .= '<span class="tip_i"><a href="/topic/new/' . $go->nod_id . '.vx" rel="nofollow" class="regular">' . $this->lang->create_new_topic() . '</a> | <a href="/feed/board/' . $go->nod_name . '.rss" class="regular">RSS</a> | <a href="/go/' . $go->nod_name . '" class="var"><img src="' . CDN_UI . 'img/icons/silk/shape_move_forwards.png" align="absmiddle" border="0" /></a>&nbsp;<a href="/go/' . $go->nod_name . '" class="t">NORMAL Mode</a></span>';
 			$o .= '</td></tr>';
 		} else {
 			$sql = 'SELECT nod_id, nod_name, nod_title FROM babel_node WHERE nod_level = 1 ORDER BY nod_weight DESC, nod_id ASC';
@@ -3416,7 +3443,9 @@ class Page {
 		$rs = mysql_query($sql);
 		$_nodes = array();
 		while ($_node = mysql_fetch_array($rs)) {
-			$_nodes[] = $_node;
+			if (!(preg_match('/^[0-9]{6}$/', $_node['nod_name']) | preg_match('/^f[0-9]{6}$/', $_node['nod_name']))) {
+				$_nodes[] = $_node;
+			}
 		}
 		mysql_free_result($rs);
 		$total = count($_nodes);
@@ -3997,6 +4026,24 @@ class Page {
 	}
 	
 	/* E module: There is more than one way to do it block */
+	
+	/* S module: About block */
+	
+	public function vxAbout() {
+		echo('<div id="main">');
+		echo('<div class="blank">');
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->lang->about(Vocabulary::site_name) . '</div>');
+		_v_b_l_s();
+		echo('<h1 class="silver">');
+		echo($this->lang->about(Vocabulary::site_name));
+		echo('</h1>');
+		include(BABEL_PREFIX . '/res/about/en_us.php');
+		_v_d_e();
+		echo('</div>');
+	}
+	
+	/* E module: New Features block */
 	
 	/* S module: Sorry block */
 	
@@ -4688,6 +4735,9 @@ class Page {
 		$txt .= '</span>';
 		
 		echo('<td width="95" align="left" valign="top"><img src="' . $img_p . '" class="portrait" alt="' . make_single_return($O->usr_nick) . '" /></td><td align="left" valign="top">');
+		echo('<div style="float: right;">');
+		echo('<div class="v2ex_watch" style="border: 1px solid #90909F; -moz-border-radius: 3px; width: 120px; background-color: #FFF;"><div class="v2ex_watch_title" style="color: #FFF; background-color: #90909F; padding: 2px 4px 2px 4px; font-size: 9px; ">Who is watching Livid?</div><div class="v2ex_watch_buddies" style="padding: 3px 4px 3px 4px; font-size: 9px;"><img src="http://www.v2ex.com/img/p/1_n.jpg" /> <img src="http://www.v2ex.com/img/p/3_n.jpg" /></div></div>');
+		echo('</div>');
 		echo('<span class="text_large">' . $O->usr_nick . '</span>');
 		
 		echo('<span class="excerpt"><br /><br />' . $txt . '</span></td>');
@@ -4821,7 +4871,7 @@ class Page {
 			if ($this->User->vxIsLogin() && $this->User->usr_id == $O->usr_id) {
 				$i++;
 				$css_class = $i % 2 ? 'section_even' : 'section_odd';
-				echo('<form action="/recv/savepoint.vx" method="post"><tr><td colspan="2" align="left" class="' . $css_class . '">你可以为自己添加一个新的网上据点&nbsp;&nbsp;<span class="tip_i">http://&nbsp;<input type="text" onmouseover="this.focus();" name="url" class="sll" />&nbsp;&nbsp;<input type="image" align="absmiddle" src="/img/silver/sbtn_add.gif" /></span><div class="notify" style="margin-top: 5px;">');
+				echo('<form action="/recv/savepoint.vx" method="post"><tr><td colspan="2" align="left" class="' . $css_class . '">Add a new Savepoint Now&nbsp;&nbsp;<span class="tip_i">http://&nbsp;<input type="text" onmouseover="this.focus();" name="url" class="sll" />&nbsp;&nbsp;<input type="image" align="absmiddle" src="/img/silver/sbtn_add.gif" /></span><div class="notify" style="margin-top: 5px;">');
 				echo $msgs[9];
 				echo('</div></td></tr></form>');
 			}
@@ -4849,10 +4899,10 @@ class Page {
 						mysql_free_result($rs);
 						$sql = "INSERT INTO babel_friend(frd_uid, frd_fid, frd_created, frd_lastupdated) VALUES({$this->User->usr_id}, {$O->usr_id}, " . time() . ", " . time() . ")";
 						mysql_query($sql);
-						$txt_friend = '<span class="tip_i">&nbsp;&nbsp;&nbsp;你已经把 ' . $O->usr_nick . ' 加为了好友</span>';
+						$txt_friend = '<span class="tip_i">&nbsp;&nbsp;&nbsp;You have added this member as friend</span>';
 					} else {
 						mysql_free_result($rs);
-						$txt_friend = '<span class="tip">&nbsp;&nbsp;&nbsp;<a href="/friend/remove/' . $O->usr_nick . '" class="g">把 ' . $O->usr_nick . ' 从好友列表中去掉</a></span>';
+						$txt_friend = '<span class="tip">&nbsp;&nbsp;&nbsp;<a href="/friend/remove/' . $O->usr_nick . '" class="g">No Longer Friend</a></span>';
 					}
 				}
 				if ($do == 'remove') {
@@ -4862,10 +4912,10 @@ class Page {
 						mysql_free_result($rs);
 						$sql = "DELETE FROM babel_friend WHERE frd_uid = {$this->User->usr_id} AND frd_fid = {$O->usr_id}";
 						mysql_query($sql);
-						$txt_friend = '<span class="tip_i">&nbsp;&nbsp;&nbsp;你已经把 ' . $O->usr_nick . ' 移出了好友列表</span>';
+						$txt_friend = '<span class="tip_i">&nbsp;&nbsp;&nbsp;You removed this member from your friends</span>';
 					} else {
 						mysql_free_result($rs);
-						$txt_friend = '<span class="tip">&nbsp;&nbsp;&nbsp;<a href="/friend/connect/' . $O->usr_nick . '" class="g">把 ' . $O->usr_nick . ' 加为好友！</a></span>';
+						$txt_friend = '<span class="tip">&nbsp;&nbsp;&nbsp;<a href="/friend/connect/' . $O->usr_nick . '" class="g">Add as Friend</a></span>';
 					}
 				}
 			} else {
@@ -4873,9 +4923,9 @@ class Page {
 				$rs = mysql_query($sql);
 				
 				if (mysql_num_rows($rs) == 1) {
-					$txt_friend = '<span class="tip">&nbsp;&nbsp;&nbsp;<a href="/friend/remove/' . $O->usr_nick . '" class="g">把 ' . $O->usr_nick . ' 从好友列表中去掉</a></span>';
+					$txt_friend = '<span class="tip">&nbsp;&nbsp;&nbsp;<a href="/friend/remove/' . $O->usr_nick . '" class="g">No Longer Friend</a></span>';
 				} else {
-					$txt_friend = '<span class="tip">&nbsp;&nbsp;&nbsp;<a href="/friend/connect/' . $O->usr_nick . '" class="g">把 ' . $O->usr_nick . ' 加为好友！</a></span>';
+					$txt_friend = '<span class="tip">&nbsp;&nbsp;&nbsp;<a href="/friend/connect/' . $O->usr_nick . '" class="g">Add as Friend</a></span>';
 				}
 			}
 		} else {
@@ -4883,7 +4933,7 @@ class Page {
 		}
 		
 		if ($this->User->vxIsLogin() && $O->usr_id != $this->User->usr_id) {
-			$txt_msg = '<span class="tip">&nbsp;&nbsp;<a href="#;" class="g" onclick="sendMessage(' . $O->usr_id . ');">向 ' . $O->usr_nick . ' 发送短消息</a></span>';
+			$txt_msg = '<span class="tip">&nbsp;&nbsp;<a href="#;" class="g" onclick="sendMessage(' . $O->usr_id . ');">Send Message</a></span>';
 		} else {
 			$txt_msg = '&nbsp;&nbsp;';
 		}
@@ -4895,10 +4945,10 @@ class Page {
 			$sql = "SELECT usr_id, usr_password FROM babel_user WHERE usr_password = 'DISABLED' AND usr_id = {$O->usr_id}";
 			$_rs = mysql_query($sql);
 			if ($_u = mysql_fetch_object($_rs)) {
-				$txt_duid = '<span class="tip_i">&nbsp;&nbsp;该会员已经被暂时禁止</span>';
+				$txt_duid = '<span class="tip_i">&nbsp;&nbsp;This member was disabled</span>';
 			} else {
 				if ($O->usr_id != 1) {
-					$txt_duid = '<span class="tip">&nbsp;&nbsp;<a href="#;" onclick="if (confirm(' . "'确认要暂时禁止该会员？'" . ')) { location.href=' . "'/d/uid/{$O->usr_id}'; } else { return false; }" . '" class="g">暂时禁止该会员</a></span>';
+					$txt_duid = '<span class="tip">&nbsp;&nbsp;<a href="#;" onclick="if (confirm(' . "'Continue to disable this member？'" . ')) { location.href=' . "'/d/uid/{$O->usr_id}'; } else { return false; }" . '" class="g">Disable</a></span>';
 				} else {
 					$txt_duid = '';
 				}
@@ -4906,7 +4956,7 @@ class Page {
 			$_rs = null;
 			
 			if ($O->usr_id != 1) {
-				$txt_dtuid = '<span class="tip">&nbsp;&nbsp;<a href="#;" onclick="if (confirm(' . "'确认要擦除该会员的所有 0 回复主题？'" . ')) { location.href=' . "'/dt/uid/{$O->usr_id}'; } else { return false; }" . '" class="g">擦除该会员的所有 0 回复主题</a></span>';
+				$txt_dtuid = '<span class="tip">&nbsp;&nbsp;<a href="#;" onclick="if (confirm(' . "'Continue to erase all topics from this member with 0 replies？'" . ')) { location.href=' . "'/dt/uid/{$O->usr_id}'; } else { return false; }" . '" class="g">Erase Zero</a></span>';
 			} else {
 				$txt_dtuid = '';
 			}
@@ -6777,6 +6827,35 @@ class Page {
 		echo('</h1>');
 		echo('<div class="notify">');
 		if ($rt['errors'] > 0) {
+			_v_ico_silk('exclamation');
+			echo(' <strong>Please fix the following ' . $rt['errors'] . ' mistakes and submit again.</strong>');
+			_v_hr();
+			echo('<ul style="list-style: square; margin: 0px 0px 0px 2em; padding: 0px;">');
+			if ($rt['nod_name_error'] > 0) {
+				echo('<li>' . $rt['nod_name_error_msg'][$rt['nod_name_error']] . '</li>');
+			}
+			if ($rt['nod_title_error'] > 0) {
+				echo('<li>' . $rt['nod_title_error_msg'][$rt['nod_title_error']] . '</li>');
+			}
+			if ($rt['nod_title_en_us_error'] > 0) {
+				echo('<li>' . $rt['nod_title_en_us_error_msg'][$rt['nod_title_en_us_error']] . '</li>');
+			}
+			if ($rt['nod_title_de_de_error'] > 0) {
+				echo('<li>' . $rt['nod_title_de_de_error_msg'][$rt['nod_title_de_de_error']] . '</li>');
+			}
+			if ($rt['nod_title_zh_cn_error'] > 0) {
+				echo('<li>' . $rt['nod_title_zh_cn_error_msg'][$rt['nod_title_zh_cn_error']] . '</li>');
+			}
+			if ($rt['nod_description_error'] > 0) {
+				echo('<li>' . $rt['nod_description_error_msg'][$rt['nod_description_error']] . '</li>');
+			}
+			if ($rt['nod_header_error'] > 0) {
+				echo('<li>' . $rt['nod_header_error_msg'][$rt['nod_header_error']] . '</li>');
+			}
+			if ($rt['nod_footer_error'] > 0) {
+				echo('<li>' . $rt['nod_footer_error_msg'][$rt['nod_footer_error']] . '</li>');
+			}
+			echo('</ul>');
 		} else {
 			$nod_name_sql = mysql_real_escape_string($rt['nod_name_value']);
 			$nod_title_sql = mysql_real_escape_string($rt['nod_title_value']);
@@ -11377,7 +11456,7 @@ google_color_url = "00CC00";
 		_v_d_e();
 		echo('<h1 class="ititle">');
 		_v_ico_tango_32('categories/applications-internet');
-		echo(' 控制台</h1> <span class="tip_i">' . $count_weblog . ' 个博客网站</span>');
+		echo(' Console</h1> <span class="tip_i">' . $count_weblog . ' weblogs</span>');
 		_v_hr();
 		if (isset($_SESSION['babel_message_weblog'])) {
 			if ($_SESSION['babel_message_weblog'] != '') {
@@ -11412,7 +11491,7 @@ google_color_url = "00CC00";
 			if (intval($_weblog['blg_dirty']) == 1) {
 				echo(' <span class="tip">');
 				_v_ico_silk('error');
-				echo(' 需要重新构建</span>');
+				echo(' Need to Rebuild</span>');
 			}
 			echo('</td>');
 			echo('</tr>');
@@ -11443,11 +11522,10 @@ google_color_url = "00CC00";
 			_v_hr();
 			echo('<span class="tip">');
 			_v_ico_silk('chart_bar');
-			echo(' 建立于 ' . date('Y 年 n 月 j 日', $_weblog['blg_created']) . '，其中 ' . $_weblog['blg_entries'] . ' 篇文章共获得了 ' . $_weblog['blg_comments'] . ' 条评论</span>');
+			echo(' Created on ' . date('n/j/Y', $_weblog['blg_created']) . ' - Received ' . $_weblog['blg_comments'] . ' comments for ' . $_weblog['blg_entries'] . ' entries');
+			echo('</span>');
 			echo('</div>');
 		}
-		_v_hr();
-		echo('欢迎从 <a href="http://nexus.v2ex.com/nexus" class="t">Project Nexus</a> 的博客网志上获取帮助和更多信息！');
 		_v_d_e();
 		_v_d_e();
 	}
@@ -11457,12 +11535,12 @@ google_color_url = "00CC00";
 		echo('<link type="text/css" rel="stylesheet" href="/css/themes/' . BABEL_THEME . '/css_weblog.css" />');
 		_v_b_l_s();
 		_v_ico_map();
-		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; <a href="/blog/admin.vx">博客网志</a> &gt; 创建新的博客网站 <span class="tip_i"><small>alpha</small></span>');
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; <a href="/blog/admin.vx">' . $this->lang->weblogs() . '</a> &gt; ' . $this->lang->blog_create() . ' <span class="tip_i"><small>alpha</small></span>');
 		_v_d_e();
 		_v_b_l_s();
-		_v_ico_silk('application_add');
-		echo(' 创建新的博客网站');
-		_v_hr();
+		echo('<h1 class="silver">');
+		echo('New Weblog Settings');
+		echo('</h1>');
 		echo('<table cellpadding="5" cellspacing="0" border="0" class="form">');
 		echo('<form action="/blog/create/save.vx" method="post" id="form_blog_create">');
 		echo('<tr><td width="100" align="right">访问地址</td><td width="400" align="left">http://' . BABEL_WEBLOG_SITE . '/<input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sl" name="blg_name" /></td></tr>');
@@ -11485,9 +11563,6 @@ google_color_url = "00CC00";
 		echo('</td></tr>');
 		echo('</form>');
 		echo('</table>');
-		_v_hr();
-		_v_ico_silk('information');
-		echo(' ');
 		_v_d_e();
 		_v_d_e();
 	}
@@ -12478,7 +12553,7 @@ google_color_url = "00CC00";
 		if (intval($Weblog->blg_dirty) == 1) {
 			echo(' <span class="tip">');
 			_v_ico_silk('error');
-			echo(' 需要重新构建</span>');
+			echo(' Rebuild Needed</span>');
 		}
 		echo('</td>');
 		echo('</tr>');
@@ -12492,14 +12567,14 @@ google_color_url = "00CC00";
 		echo('<td height="40" align="left"><span class="text_large">');
 		echo($Entry->bge_title_plain);
 		echo('</span>');
-		echo('<span class="tip_i">');
-		echo(' ... ' . $Entry->bge_revisions . ' 次编辑 ... ' . $Entry->bge_comments . ' 篇评论');
+		echo('<span class="tip_i"><small>');
+		echo(' ... Edited ' . $Entry->bge_revisions . ' times ... ' . $Entry->bge_comments . ' comments');
 		if ($Entry->bge_status == 1) {
-			echo(' ... 已发布');
+			echo(' ... published');
 		} else {
-			echo(' ... <span class="green">草稿</span>');
+			echo(' ... <span class="green">draft</span>');
 		}
-		echo('</span>');
+		echo('</small></span>');
 		echo('</td>');
 		echo('<td width="300" align="right"><span class="tip_i">');
 		if ($Entry->bge_status == 0) {
@@ -12677,35 +12752,35 @@ google_color_url = "00CC00";
 			$i++;
 			$css_color = rand_color();
 			$o = $o . '<dl class="home_topic">';
-			$img_p = $Topic->usr_portrait ? CDN_IMG . 'p/' . $Topic->usr_portrait . '_s.jpg' : CDN_IMG . 'p_' . $Topic->usr_gender . '_s.gif';
-			$o .= '<dt style="margin-bottom: 2px;">&nbsp;';
-			$o .= '<a href="/u/' . urlencode($Topic->usr_nick) . '" class="var"><img src="' . $img_p . '" align="absmiddle" class="portrait" border="0" /></a>&nbsp;&nbsp;';
-			$o .= '<a href="/topic/view/' . $Topic->tpc_id . '.html" class="var" style="color: ' . $css_color . '; font-size: 18px;">';
+			$img_p = $Topic->usr_portrait ? CDN_IMG . 'p/' . $Topic->usr_portrait . '_n.jpg' : CDN_IMG . 'p_' . $Topic->usr_gender . '_n.gif';
+			$o .= '<h1 class="silver">&nbsp;';
+			$o .= '<a href="/u/' . urlencode($Topic->usr_nick) . '" class="var"><img src="' . $img_p . '" align="absmiddle" class="portrait" border="0" /></a>&nbsp;';
+			$o .= '<a href="/topic/view/' . $Topic->tpc_id . '.html" class="regular">';
 			$o .= make_plaintext($Topic->tpc_title);
+			$o .= '</a></h1><dd>';
 			$url = 'http://' . BABEL_DNS_NAME . '/topic/view/' . $Topic->tpc_id . '.html';
-			$o .= '</a><span class="tip_h"> ... ' . make_descriptive_time($Topic->tpc_lasttouched) . '，' . $Topic->tpc_posts . ' 篇回复，' . $Topic->tpc_hits . ' 次点击</span></dt><dd>';
 			if (preg_match('/\[media/i', $Topic->tpc_content)) {
-				$o .= '本主题含有多媒体影音内容，请 <a href="/topic/view/' . $Topic->tpc_id . '.html" class="t">点击这里阅读全文</a> ...';
+				$o .= 'This topic contains multimedia content, please <a href="/topic/view/' . $Topic->tpc_id . '.html" class="regular">click here</a> to continue ...';
 			} else {
 				$o .= make_excerpt_home($Topic);
 			}
 			if ($node_level < 2) {
-				$o .= '<span class="tip_i" style="display: block; clear: left; margin-top: 10px; padding-top: 5px; padding-bottom: 5px; border-top: 1px solid #E0E0E0; font-size: 12px; font-size: 12px;">... <a href="/topic/view/' . $Topic->tpc_id . '.html#reply" class="t">' . $Topic->tpc_posts . ' 篇回复</a> | <a href="/topic/view/' . $Topic->tpc_id . '.html#replyForm" class="t">添加回复</a> | 阅读讨论区 <a href="/remix/' . $Topic->nod_name . '" class="t">' . $Topic->nod_title . '</a> | <a href="/u/' . urlencode($Topic->usr_nick) . '" class="t">' . $Topic->usr_nick . '</a> 的个人空间';
+				$o .= '<span class="tip_i" style="display: block; clear: left; margin-top: 10px; padding-top: 5px; padding-bottom: 5px; border-top: 1px solid #E0E0E0; font-size: 12px; font-size: 12px;">... <a href="/topic/view/' . $Topic->tpc_id . '.html#reply" class="regular">' . $this->lang->posts($Topic->tpc_posts) . '</a> | <a href="/topic/view/' . $Topic->tpc_id . '.html#replyForm" class="regular">' . $this->lang->join_discussion() . '</a> | ' . $this->lang->browse_node($Topic->nod_name, $Topic->nod_title) . ' | <a href="/u/' . urlencode($Topic->usr_nick) . '" class="regular">' . $Topic->usr_nick . '</a>';
 			} else {
-				$o .= '<span class="tip_i" style="display: block; clear: left; margin-top: 10px; padding-top: 5px; padding-bottom: 5px; border-top: 1px solid #E0E0E0; font-size: 12px; font-size: 12px;">... <a href="/topic/view/' . $Topic->tpc_id . '.html#reply" class="t">' . $Topic->tpc_posts . ' 篇回复</a> | <a href="/topic/view/' . $Topic->tpc_id . '.html#replyForm" class="t">添加回复</a> | <a href="/u/' . urlencode($Topic->usr_nick) . '" class="t">' . $Topic->usr_nick . '</a> 的个人空间';
+				$o .= '<span class="tip_i" style="display: block; clear: left; margin-top: 10px; padding-top: 5px; padding-bottom: 5px; border-top: 1px solid #E0E0E0; font-size: 12px; font-size: 12px;">... <a href="/topic/view/' . $Topic->tpc_id . '.html#reply" class="regular">' . $this->lang->posts($Topic->tpc_posts) . '</a> | <a href="/topic/view/' . $Topic->tpc_id . '.html#replyForm" class="regular">' . $this->lang->join_discussion() . '</a> | <a href="/u/' . urlencode($Topic->usr_nick) . '" class="regular">' . $Topic->usr_nick . '</a>';
 			}
 			$o .= ' | ';
 			
 			$title = urlencode($Topic->tpc_title);
-			$o .= '<a href="http://del.icio.us/post?url=' . $url . '&title=' . $title . '" class="var" target="_blank"><img src="/img/prom/delicious.png" border="0" align="absmiddle" alt="收藏到 del.icio.us" /></a> | ';
-			$o .= '<a href="http://reddit.com/submit?url=' . $url . '&title=' . $title . '" class="var" target="_blank"><img src="/img/prom/reddit.png" border="0" align="absmiddle" alt="收藏到 reddit" /></a> | ';
-			$o .= '<a href="http://technorati.com/cosmos/search.html?url=' . $url . '" class="var" target="_blank"><img src="/img/prom/technorati.png" border="0" align="absmiddle" alt="在 Technorati 中搜索本主题" /></a> | ';
-			$o .= '<a href="http://ma.gnolia.com/bookmarklet/add?url=' . $url . '&title=' . $title . '" class="var" target="_blank"><img src="/img/prom/magnoliacom.png" border="0" align="absmiddle" alt="收藏到 Ma.gonolia" /></a> | ';
-			$o .= '<a href="http://blogmarks.net/my/new.php?mini=1&truc=3&title=' . $title . '&url=' . $url . '" class="var" target="_blank"><img src="/img/prom/blogmarks.png" border="0" align="absmiddle" alt="收藏到 BlogMarks" /></a> | ';
-			$o .= '<a href="http://www.furl.net/storeIt.jsp?t=' . $title . '&u=' . $url . '" class="var" target="_blank"><img src="/img/prom/furl.png" border="0" align="absmiddle" alt="收藏到 LookSmart FURL" /></a> | ';
-			$o .= '<a href="http://www.spurl.net/spurl.php?v=3&title=' . $title . '&url=' . $url . '&blocked=" class="var" target="_blank"><img src="/img/prom/spurl.png" border="0" align="absmiddle" alt="收藏到 Spurl" /></a> | ';
-			$o .= '<a href="http://simpy.com/simpy/LinkAdd.do?title=' . $title . '&href=' . $url . '&note=&_doneURI=http%3A%2F%2Fwww.simpy.com%2F&v=6&src=bookmarklet" class="var" target="_blank"><img src="/img/prom/simpy.png" border="0" align="absmiddle" alt="收藏到 simpy" /></a> | ';
-			$o .= '<a href="http://tailrank.com/share/?title=' . $title . '&link_href=' . $url . '&text=" class="var" target="_blank"><img src="/img/prom/tailrank.png" border="0" align="absmiddle" alt="收藏到 Tailrank" /></a>';
+			$o .= '<a href="http://del.icio.us/post?url=' . $url . '&title=' . $title . '" class="var" target="_blank"><img src="/img/prom/delicious.png" border="0" align="absmiddle" alt="Add to del.icio.us" /></a> | ';
+			$o .= '<a href="http://reddit.com/submit?url=' . $url . '&title=' . $title . '" class="var" target="_blank"><img src="/img/prom/reddit.png" border="0" align="absmiddle" alt="Add to reddit" /></a> | ';
+			$o .= '<a href="http://technorati.com/cosmos/search.html?url=' . $url . '" class="var" target="_blank"><img src="/img/prom/technorati.png" border="0" align="absmiddle" alt="Search in Technorati" /></a> | ';
+			$o .= '<a href="http://ma.gnolia.com/bookmarklet/add?url=' . $url . '&title=' . $title . '" class="var" target="_blank"><img src="/img/prom/magnoliacom.png" border="0" align="absmiddle" alt="Add to Ma.gonolia" /></a> | ';
+			$o .= '<a href="http://blogmarks.net/my/new.php?mini=1&truc=3&title=' . $title . '&url=' . $url . '" class="var" target="_blank"><img src="/img/prom/blogmarks.png" border="0" align="absmiddle" alt="Add to BlogMarks" /></a> | ';
+			$o .= '<a href="http://www.furl.net/storeIt.jsp?t=' . $title . '&u=' . $url . '" class="var" target="_blank"><img src="/img/prom/furl.png" border="0" align="absmiddle" alt="Add to LookSmart FURL" /></a> | ';
+			$o .= '<a href="http://www.spurl.net/spurl.php?v=3&title=' . $title . '&url=' . $url . '&blocked=" class="var" target="_blank"><img src="/img/prom/spurl.png" border="0" align="absmiddle" alt="Add to Spurl" /></a> | ';
+			$o .= '<a href="http://simpy.com/simpy/LinkAdd.do?title=' . $title . '&href=' . $url . '&note=&_doneURI=http%3A%2F%2Fwww.simpy.com%2F&v=6&src=bookmarklet" class="var" target="_blank"><img src="/img/prom/simpy.png" border="0" align="absmiddle" alt="Add to simpy" /></a> | ';
+			$o .= '<a href="http://tailrank.com/share/?title=' . $title . '&link_href=' . $url . '&text=" class="var" target="_blank"><img src="/img/prom/tailrank.png" border="0" align="absmiddle" alt="Add to Tailrank" /></a>';
 			$o .= '</span></dd></dl>';
 		}
 		mysql_free_result($rs);

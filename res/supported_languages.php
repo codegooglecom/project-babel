@@ -1,9 +1,10 @@
 <?php
 /* Now supported: */
 $_languages = array(
-	'zh_cn' => '中文',
 	'en_us' => 'English',
-	'de_de' => 'Deutsch'
+	'de_de' => 'Deutsch',
+	'pl_pl' => 'Polski',
+	'zh_cn' => '中文'
 );
 
 /* Plan to support:
