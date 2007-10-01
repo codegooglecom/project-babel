@@ -152,6 +152,31 @@ Project Babel 从 2006 年第一次开放源代码发布至今，每一个版本
 </small>
 </div>
 
+<div class="header">
+<?php _v_ico_silk('world'); ?> Sponsor Links
+</div>
+
+<div class="content"><script type="text/javascript"><!--
+google_ad_client = "pub-9823529788289591";
+google_alternate_color = "FFFFFF";
+google_ad_width = 160;
+google_ad_height = 600;
+google_ad_format = "160x600_as";
+google_ad_type = "text_image";
+//2007-06-14: V2EX Labs
+google_ad_channel = "4524673078";
+google_color_border = "FFFFFF";
+google_color_bg = "FFFFFF";
+google_color_link = "999999";
+google_color_text = "000000";
+google_color_url = "00CC00";
+//-->
+</script>
+<script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+
 </div>
 </div>
 </div>

@@ -66,6 +66,16 @@ Project Babel 的项目控制站点及 Subversion repository 位于 <a href="htt
 </blockquote>
 </div>
 
+<div class="header"><?php _v_ico_silk('heart'); ?> <a name="goodies"> </a> Goodies</div>
+<div class="content">
+<img src="http://www.saicn.com/bbs/images/way/logo_2.jpg" align="left" style="margin-right: 10px;" />
+如果你使用的是 Discuz! 5.5 论坛程序，那么我将向你推荐由 <a href="http://blog.orzotl.com/?1" target="_blank">Sai</a> 开发的 <a href="http://www.v2ex.com/topic/view/14050.html" target="_blank">Project Parasynthesis</a>，安装之后，即可让你的 Discuz! 5.5 拥有和 Project Babel 相似的外观！<br /><br />
+<?php _v_hr(); ?>
+<?php _v_ico_silk('eye'); ?> 无名论坛演示地址:&nbsp;&nbsp;<a href="http://saicn.com/bbs/" target="_blank">http://saicn.com/bbs/</a><br /><br />
+
+<?php _v_ico_silk('basket_put'); ?> 下载地址:&nbsp;&nbsp;<a href="http://parasy.googlecode.com/files/ProjectParasy.zip" target="_blank">http://parasy.googlecode.com/files/ProjectParasy.zip</a> <span class="tip">453 KB</span><br /><br />
+</div>
+
 </div> <!-- end of div class="left" -->
 <div class="right">
 
@@ -117,6 +127,31 @@ Project Babel 的项目控制站点及 Subversion repository 位于 <a href="htt
 
 <?php _v_ico_silk('bullet_go'); ?> <a href="http://www.v2ex.com/go/svn" target="_blank">Subversion</a><br />
 </small>
+</div>
+
+<div class="header">
+<?php _v_ico_silk('world'); ?> Sponsor Links
+</div>
+
+<div class="content"><script type="text/javascript"><!--
+google_ad_client = "pub-9823529788289591";
+google_alternate_color = "FFFFFF";
+google_ad_width = 160;
+google_ad_height = 600;
+google_ad_format = "160x600_as";
+google_ad_type = "text_image";
+//2007-06-14: V2EX Labs
+google_ad_channel = "4524673078";
+google_color_border = "FFFFFF";
+google_color_bg = "FFFFFF";
+google_color_link = "999999";
+google_color_text = "000000";
+google_color_url = "00CC00";
+//-->
+</script>
+<script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
 </div>
 
 </div>

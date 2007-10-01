@@ -53,10 +53,6 @@ require_once('inc/functions.php');
 
 <blockquote><span class="tip">网聚狗的力量</span></blockquote>
 
-<?php _v_ico_silk('bullet_black'); ?> <strong>Kijiji YY</strong> - <a href="http://yy.kijiji.cn/" target="_blank">yy.kijiji.cn</a>
-
-<blockquote><span class="tip">客齐集的 YY 社区</span></blockquote>
-
 <?php _v_ico_silk('bullet_black'); ?> <strong>我们的氧气</strong> - <a href="http://www.ouro2.cn/" target="_blank">www.ouro2.cn</a>
 
 <blockquote><span class="tip">Our O<sup>2</sup></span></blockquote>
@@ -81,42 +77,28 @@ require_once('inc/functions.php');
 
 <blockquote><span class="tip">我爱我家 @ 威海</span></blockquote>
 
+<?php _v_ico_silk('bullet_black'); ?> <strong>NECAM</strong> - <a href="http://www.newclassical.cn/" target="_blank">www.newclassical.cn</a>
+
+<blockquote><span class="tip">新古音乐</span></blockquote>
+
+<?php _v_ico_silk('bullet_black'); ?> <strong>Veedo</strong> - <a href="http://veedo.cn/" target="_blank">veedo.cn</a>
+
+<blockquote><span class="tip">Veedo! - We do!</span></blockquote>
+
+<?php _v_ico_silk('bullet_black'); ?> <strong>Mamia</strong> - <a href="http://mamia.cn/" target="_blank">mamia.cn</a>
+
+<blockquote><span class="tip">玛米亚社区</span></blockquote>
+
+<?php _v_ico_silk('bullet_black'); ?> <strong>朋友圈</strong> - <a href="http://www.pengyouquan.com/" target="_blank">pengyouquan.com</a>
+
+<blockquote><span class="tip">我们的朋友圈，一起思维，一起快乐</span></blockquote>
+
 </div>
 
 </div>
 
 </div> <!-- end of div class="left" -->
 <div class="right">
-
-<div class="header">
-<?php _v_ico_silk('plugin'); ?> 相关网站
-</div>
-
-<div class="content">
-
-<small><?php _v_ico_silk('bullet_go'); ?> <a href="http://framework.zend.com/" target="_blank">Zend Framework</a><br />
-
-<?php _v_ico_silk('bullet_go'); ?> <a href="http://pear.php.net/" target="_blank">PEAR</a><br />
-
-<?php _v_ico_silk('bullet_go'); ?> <a href="http://www.famfamfam.com/" target="_blank">FAMFAMFAM</a><br />
-</small>
-</div>
-
-<div class="header">
-<?php _v_ico_silk('images'); ?> Subversion 客户端
-</div>
-
-<div class="content">
-<small>
-<?php _v_ico_silk('bullet_go'); ?> <a href="http://subversion.tigris.org/" target="_blank">Subversion Official</a><br />
-
-<?php _v_ico_silk('bullet_go'); ?> <a href="http://subclipse.tigris.org/" target="_blank">Subclipse</a><br />
-
-<?php _v_ico_silk('bullet_go'); ?> <a href="http://tortoisesvn.tigris.org/" target="_blank">TortoiseSVN</a><br />
-
-<?php _v_ico_silk('bullet_go'); ?> <a href="http://rapidsvn.tigris.org/" target="_blank">RapidSVN</a>
-</small>
-</div>
 
 <div class="header">
 <?php _v_ico_silk('comments'); ?> 相关 V2EX 讨论区
@@ -136,6 +118,31 @@ require_once('inc/functions.php');
 
 <?php _v_ico_silk('bullet_go'); ?> <a href="http://www.v2ex.com/go/svn" target="_blank">Subversion</a><br />
 </small>
+</div>
+
+<div class="header">
+<?php _v_ico_silk('world'); ?> Sponsor Links
+</div>
+
+<div class="content"><script type="text/javascript"><!--
+google_ad_client = "pub-9823529788289591";
+google_alternate_color = "FFFFFF";
+google_ad_width = 160;
+google_ad_height = 600;
+google_ad_format = "160x600_as";
+google_ad_type = "text_image";
+//2007-06-14: V2EX Labs
+google_ad_channel = "4524673078";
+google_color_border = "FFFFFF";
+google_color_bg = "FFFFFF";
+google_color_link = "999999";
+google_color_text = "000000";
+google_color_url = "00CC00";
+//-->
+</script>
+<script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
 </div>
 
 </div>

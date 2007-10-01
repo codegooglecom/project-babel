@@ -178,6 +178,7 @@ V2EX 的制作者是一个狂热的移动设备收藏迷，因而能够兼容各
 <div class="header">
 <img src="/img/icons/group.png" align="absmiddle" /> V2EX Team
 </div>
+
 <div class="content">
 <a href="http://www.v2ex.com/u/Livid" target="_blank"><img src="<?php echo CDN_UI; ?>p/1_s.jpg" style="margin-right: 5px;" align="left" class="p" border="0" /></a> <a href="http://www.v2ex.com/u/Livid" target="_blank">Livid</a><span class="tip"><small> - Location: Shanghai, China</small></span><br /><span class="tip"><small>The creator of the project.</small></span>
 <?php _v_hr(); ?>
@@ -186,6 +187,31 @@ V2EX 的制作者是一个狂热的移动设备收藏迷，因而能够兼容各
 <small><?php _v_ico_silk('server'); ?> Hosted by <a href="http://www.mediatemple.net/" target="_blank">(mt) Media Temple</a></small>
 <div style="padding-top: 10px;">
 <a href="http://www.mediatemple.net/" target="_blank"><img src="http://www.mediatemple.net/_images/partnerlogos/mt-234x60-lt.jpg" border="0" alt="Hosted by (mt) Media Temple" /></a></div>
+</div>
+
+<div class="header">
+<?php _v_ico_silk('world'); ?> Sponsor Links
+</div>
+
+<div class="content"><script type="text/javascript"><!--
+google_ad_client = "pub-9823529788289591";
+google_alternate_color = "FFFFFF";
+google_ad_width = 160;
+google_ad_height = 600;
+google_ad_format = "160x600_as";
+google_ad_type = "text_image";
+//2007-06-14: V2EX Labs
+google_ad_channel = "4524673078";
+google_color_border = "FFFFFF";
+google_color_bg = "FFFFFF";
+google_color_link = "999999";
+google_color_text = "000000";
+google_color_url = "00CC00";
+//-->
+</script>
+<script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
 </div>
 
 </div>
