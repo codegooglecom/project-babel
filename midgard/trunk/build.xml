@@ -52,6 +52,7 @@
         <pathelement location="${extlib}/hsqldb.jar" />
         <pathelement location="${extlib}/lucene-core.jar" />
         <pathelement location="${extlib}/log4j.jar" />
+        <pathelement location="${extlib}/mina-core.jar" />
         <pathelement location="${conf}" />
       </classpath>
     </javac>
@@ -86,6 +87,7 @@
         <pathelement location="${extlib}/hsqldb.jar" />
         <pathelement location="${extlib}/lucene-core.jar" />
         <pathelement location="${extlib}/log4j.jar" />
+        <pathelement location="${extlib}/mina-core.jar" />
         <pathelement location="${conf}" />
       </classpath>
     </manifestclasspath>
@@ -126,7 +128,7 @@
   </target>
   
   <target name="fetch-extlib"
-        description="Get external libraries" >
+        description="Get external libraries" depends="init">
     <exec dir="${extlib}" executable="wget">
       <arg value="--input-file=${conf}/extlib.urls"/>
       <arg value="-nc"/>

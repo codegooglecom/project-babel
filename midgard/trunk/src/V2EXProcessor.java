@@ -20,6 +20,8 @@ import java.lang.System;
 
 import java.io.*;
 
+import java.net.*;
+
 import net.zuckerfrei.jcfd.DatabaseList;
 import net.zuckerfrei.jcfd.Definition;
 import net.zuckerfrei.jcfd.DefinitionList;
@@ -92,7 +94,9 @@ class V2EXProcessor extends GenericProcessor {
 					} else if (ls.equals("f") || ls.equals("/f")) {
 						chat.sendMessage(this.getUpdates(this.db, msg.getFrom(), this.cache));
 					} else if (ls.startsWith("/d")) {
-						chat.sendMessage(this.getDefs(ls));
+						chat.sendMessage(this.getEnglish(ls));
+					} else if (ls.startsWith("/j")) {
+						chat.sendMessage(this.getJapanese(ls));
 					} else if (ls.equals("all") || ls.equals("ls") || ls.equals("/ls") || ls.equals("/all")) {
 						chat.sendMessage(this.getPublic(this.db));
 					} else if (ls.equals("me") || ls.equals("/me") || ls.equals("/i") || ls.equals("i")) {
@@ -118,12 +122,12 @@ class V2EXProcessor extends GenericProcessor {
 	}
 	
 	public String getHelpEN() {
-		String help = new String("Available commands:\n\n? or h - Print usage information\nv - Print version information\nl - Print the latest ING activity\nwho - Print current user\nf - Get the latest updates from your friends\nls - Latest updates in public timeline\nme - Get my own updates\n/revert - Erase your last update\n/d [word] - Look up dictionary for a word\n/link [uid] [password] - Link your Google account with V2EX ID\n/php [keyword] - Search for [keyword] in PHP manual pages\n\nanything else - Will update to your ING");
+		String help = new String("Available commands:\n\n? or h - Print usage information\nv - Print version information\nl - Print the latest ING activity\nwho - Print current user\nf - Get the latest updates from your friends\nls - Latest updates in public timeline\nme - Get my own updates\n/revert - Erase your last update\n/d [word] - Look up in E<->E dictionary\n/j [word] - Look up in E<->J dictionary\n/link [uid] [password] - Link your Google account with V2EX ID\n/php [keyword] - Search for [keyword] in PHP manual pages\n\nanything else - Will update to your ING");
 		return help;
 	}
 	
 	public String getHelpCN() {
-		String help = new String("欢迎使用 V2EX XMPP 即时通讯机器人\n\n可用指令:\n\n? or h - 帮助信息\nv - 系统版本信息\nl - 最新的一条 ING 更新\nwho - 显示当前用户\nf - 得到朋友们的最新 ING\nls - 得到所有人的最新 ING\nme - 得到我自己的最新 ING\n/revert - 删除上一条更新\n/d [word] - 查询词典\n/link [uid] [password] - 关联 Google 账户\n/php [keyword] - 搜索 PHP 参考手册\n\n任何的其他输入 - 将被更新到你的 ING");
+		String help = new String("欢迎使用 V2EX XMPP 即时通讯机器人\n\n可用指令:\n\n? or h - 帮助信息\nv - 系统版本信息\nl - 最新的一条 ING 更新\nwho - 显示当前用户\nf - 得到朋友们的最新 ING\nls - 得到所有人的最新 ING\nme - 得到我自己的最新 ING\n/revert - 删除上一条更新\n/d [word] - 查询英<->英辞典\n/j [word] - 查询英<->日辞典\n/link [uid] [password] - 关联 Google 账户\n/php [keyword] - 搜索 PHP 参考手册\n\n任何的其他输入 - 将被更新到你的 ING");
 		return help;
 	}
 	
@@ -153,7 +157,7 @@ class V2EXProcessor extends GenericProcessor {
 		return doing;
 	}
 	
-	private String getDefs(String command) {
+	private String getEnglish(String command) {
 		if (command.length() > 3) {
 			String word = command.substring(3);
 			try {
@@ -177,6 +181,38 @@ class V2EXProcessor extends GenericProcessor {
 					return "No definitions for this word: " + word;
 				}
 			} catch (Exception e) {
+				return "No definitions for this word.";
+			}
+		} else {
+			return "Please specify a word to lookup.";
+		}
+	}
+	
+	private String getJapanese(String command) {
+		if (command.length() > 3) {
+			String word = command.substring(3);
+			try {
+				Socket dict = new Socket("nihongobenkyo.org", 2628);
+				PrintWriter out = new PrintWriter(dict.getOutputStream(), true);
+				BufferedReader in = new BufferedReader(new InputStreamReader(dict.getInputStream()));
+				String ok = in.readLine();
+				out.println("d jmdict " + word);
+				String defs = "";
+				String more = "";
+				while ((more = in.readLine()) != null) {
+					System.out.println(more);
+					defs = defs + more + "\n";
+					if (more.length() > 2) {
+						if (more.substring(0, 3).equals("250")) {
+							break;	
+						}
+					}
+				}
+				out.close();
+				in.close();
+				return defs;
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
 				return "No definitions for this word.";
 			}
 		} else {
