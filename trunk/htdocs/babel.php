@@ -2450,6 +2450,43 @@ switch ($m) {
 			}
 		}
 		
+	case 'blog_pages':
+		if ($p->User->vxIsLogin()) {
+			if (isset($_GET['weblog_id'])) {
+				$weblog_id = intval($_GET['weblog_id']);
+				$Weblog = new Weblog($weblog_id);
+				if ($Weblog->weblog) {
+					if ($Weblog->blg_uid == $p->User->usr_id) {
+						$p->vxHead($msgSiteTitle = make_plaintext($Weblog->blg_title) . ' - ' . 'Manage Pages');
+						$p->vxBodyStart();
+						$p->vxTop();
+						$p->vxContainer('blog_pages', $Weblog);
+						break;
+					} else {
+						$_SESSION['babel_message_weblog'] = 'You are not allowed to operate on this weblog.';
+						die($p->URL->vxToRedirect($p->URL->vxGetBlogAdmin()));
+						break;
+					}
+				} else {
+					$_SESSION['babel_message_weblog'] = 'Weblog not found.';
+					die($p->URL->vxToRedirect($p->URL->vxGetBlogAdmin()));
+					break;
+				}
+			} else {
+				die($p->URL->vxToRedirect($p->URL->vxGetBlogAdmin()));
+				break;
+			}
+		} else {
+			if (isset($_GET['weblog_id'])) {
+				$weblog_id = intval($_GET['weblog_id']);
+				die($p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetBlogPages($weblog_id))));
+				break;
+			} else {
+				die($p->URL->vxToRedirect($p->URL->vxGetLogin($p->URL->vxGetBlogAdmin())));
+				break;
+			}
+		}
+		
 	case 'blog_link':
 		if ($p->User->vxIsLogin()) {
 			if (isset($_GET['weblog_id'])) {

@@ -1952,6 +1952,16 @@ class Page {
 				$this->vxBlogList($options);
 				break;
 				
+			case 'blog_pages':
+				$_menu_options['modules']['new_members'] = false;
+				$_menu_options['modules']['friends'] = false;
+				$_menu_options['modules']['stats'] = false;
+				$_menu_options['modules']['fav'] = false;
+				$this->vxSidebar($show = false);
+				$this->vxMenu($_menu_options);
+				$this->vxBlogPages($options);
+				break;
+				
 			case 'blog_link':
 				$_menu_options['modules']['new_members'] = false;
 				$_menu_options['modules']['friends'] = false;
@@ -4736,7 +4746,7 @@ class Page {
 		
 		echo('<td width="95" align="left" valign="top"><img src="' . $img_p . '" class="portrait" alt="' . make_single_return($O->usr_nick) . '" /></td><td align="left" valign="top">');
 		echo('<div style="float: right;">');
-		echo('<div class="v2ex_watch" style="border: 1px solid #90909F; -moz-border-radius: 3px; width: 120px; background-color: #FFF;"><div class="v2ex_watch_title" style="color: #FFF; background-color: #90909F; padding: 2px 4px 2px 4px; font-size: 9px; ">Who is watching Livid?</div><div class="v2ex_watch_buddies" style="padding: 3px 4px 3px 4px; font-size: 9px;"><img src="http://www.v2ex.com/img/p/1_n.jpg" /> <img src="http://www.v2ex.com/img/p/3_n.jpg" /></div></div>');
+		//echo('<div class="v2ex_watch" style="border: 1px solid #90909F; -moz-border-radius: 3px; width: 120px; background-color: #FFF;"><div class="v2ex_watch_title" style="color: #FFF; background-color: #90909F; padding: 2px 4px 2px 4px; font-size: 9px; ">Who is watching Livid?</div><div class="v2ex_watch_buddies" style="padding: 3px 4px 3px 4px; font-size: 9px;"><img src="http://www.v2ex.com/img/p/1_n.jpg" /> <img src="http://www.v2ex.com/img/p/3_n.jpg" /></div></div>');
 		echo('</div>');
 		echo('<span class="text_large">' . $O->usr_nick . '</span>');
 		
@@ -11454,10 +11464,10 @@ google_color_url = "00CC00";
 		_v_d_tr_s();
 		echo('<a href="/blog/create.vx">' . $this->lang->blog_create() . '</a>');
 		_v_d_e();
-		echo('<h1 class="ititle">');
-		_v_ico_tango_32('categories/applications-internet');
-		echo(' Console</h1> <span class="tip_i">' . $count_weblog . ' weblogs</span>');
-		_v_hr();
+		echo('<h1 class="silver">');
+		_v_ico_tango_22('categories/applications-internet');
+		echo(' Console &gt; ' . $count_weblog . ' weblogs');
+		echo('</h1>');
 		if (isset($_SESSION['babel_message_weblog'])) {
 			if ($_SESSION['babel_message_weblog'] != '') {
 				echo('<div class="notify">' . $_SESSION['babel_message_weblog'] . '</div>');
@@ -11507,6 +11517,10 @@ google_color_url = "00CC00";
 			echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
 			_v_ico_silk('table_multiple');
 			echo(' <a href="/blog/list/' . $_weblog['blg_id'] . '.vx">' . $this->lang->blog_manage_articles() . '</a>');
+			/*echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
+			_v_ico_silk('page_white_stack');
+			echo(' <a href="/blog/pages/' . $_weblog['blg_id'] . '.vx">' . 'Pages' . '</a>');*/
+			// FIXME: Pages feature to be done
 			echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
 			_v_ico_silk('link');
 			echo(' <a href="/blog/link/' . $_weblog['blg_id'] . '.vx">' . $this->lang->blog_manage_links() . '</a>');
@@ -11515,7 +11529,7 @@ google_color_url = "00CC00";
 			echo(' <a href="/blog/build/' . $_weblog['blg_id'] . '.vx">' . $this->lang->blog_rebuild() . '</a>');
 			echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
 			_v_ico_silk('cross');
-			echo(' <a href="#;" onclick="if (confirm(' . "'你确认要彻底关闭这个博客网站吗？\\n\\n这些数据被清除后将无法恢复。'" . ')) { location.href = ' . "'/blog/destroy/" . $_weblog['blg_id'] . ".vx'; } else { return false; }" . '">' . $this->lang->blog_destroy() . '</a>');
+			echo(' <a href="#;" onclick="if (confirm(' . "'Confirm to close?\\n\\nAll data will be erased immediately.'" . ')) { location.href = ' . "'/blog/destroy/" . $_weblog['blg_id'] . ".vx'; } else { return false; }" . '">' . $this->lang->blog_destroy() . '</a>');
 			echo('</td>');
 			echo('</tr>');
 			echo('</table>');
@@ -11936,11 +11950,11 @@ google_color_url = "00CC00";
 		echo($this->lang->blog_compose() . ' <span class="tip_i"><small>alpha</small></span>');
 		_v_d_e();
 		_v_b_l_s();
+		echo('<h1 class="silver">');
+		_v_ico_tango_22('actions/document-new');
+		echo(' <a href="/blog/admin.vx">Console</a> &gt; <a href="/blog/list/' . $Weblog->blg_id . '.vx">' . make_plaintext($Weblog->blg_title) . '</a> &gt; ' . $this->lang->blog_compose() . '</h1>');
 		echo('<div align="left"><table cellpadding="5" cellspacing="" border="0" class="form">');
 		echo('<form action="/blog/compose/save/' . $Weblog->blg_id . '.vx" method="post" id="form_blog_compose">');
-		echo('<tr><td colspan="2" align="left"><h1 class="ititle">');
-		_v_ico_tango_32('actions/document-new');
-		echo(' ' . $this->lang->blog_compose() . '</h1></td></tr>');
 		echo('<tr><td colspan="2" align="left"><input onfocus="brightBox(this);" onblur="dimBox(this);" type="text" class="sllt" name="bge_title" value="" /></td></tr>');
 		echo('<tr><td colspan="2" align="left">');
 		echo('<textarea class="ml" style="width: 550px;" rows="30" name="bge_body"></textarea>');
@@ -12068,14 +12082,10 @@ google_color_url = "00CC00";
 		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; <a href="/blog/admin.vx">' . $this->lang->weblogs() . '</a> &gt; <a href="/blog/' . Weblog::DEFAULT_ACTION . '/' . $Weblog->blg_id . '.vx">' . make_plaintext($Weblog->blg_title) . '</a> <span class="tip_i"><small>alpha</small></span>');
 		_v_d_e();
 		_v_b_l_s();
-		_v_d_tr_s();
-		echo('');
-		_v_d_e();
-		echo('');
-		_v_ico_tango_32('categories/applications-internet');
-		echo(' <a href="/blog/admin.vx">控制台</a> &gt; <h1 class="ititle">' . make_plaintext($Weblog->blg_title));
+		echo('<h1 class="silver">');
+		_v_ico_tango_22('categories/applications-internet');
+		echo(' <a href="/blog/admin.vx">Console</a> &gt; ' . make_plaintext($Weblog->blg_title));
 		echo('</h1>');
-		_v_hr();
 		if (isset($_SESSION['babel_message_weblog'])) {
 			if ($_SESSION['babel_message_weblog'] != '') {
 				echo('<div class="notify">' . $_SESSION['babel_message_weblog'] . '</div>');
@@ -12124,6 +12134,9 @@ google_color_url = "00CC00";
 		echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
 		_v_ico_silk('table_multiple');
 		echo(' <strong>' . $this->lang->blog_manage_articles() . '</strong>');
+		/*echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
+		_v_ico_silk('page_white_stack');
+		echo(' <a href="/blog/pages/' . $Weblog->blg_id . '.vx">' . 'Pages' . '</a>');*/
 		echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
 		_v_ico_silk('link');
 		echo(' <a href="/blog/link/' . $Weblog->blg_id . '.vx">' . $this->lang->blog_manage_links() . '</a>');
@@ -12139,7 +12152,151 @@ google_color_url = "00CC00";
 		_v_hr();
 		echo('<span class="tip">');
 		_v_ico_silk('chart_bar');
-		echo(' 建立于 ' . date('Y 年 n 月 j 日', $Weblog->blg_created) . '，其中 ' . $Weblog->blg_entries . ' 篇文章共获得了 ' . $Weblog->blg_comments . ' 条评论</span>');
+		echo(' Created on ' . date('n/j/Y', $Weblog->blg_created) . ' - Received ' . $Weblog->blg_comments . ' comments for ' . $Weblog->blg_entries . ' entries');
+		echo('</span>');
+		_v_hr();
+		$sql = "SELECT bge_id, bge_status, bge_mode, bge_comments, bge_revisions, bge_title FROM babel_weblog_entry WHERE bge_pid = {$Weblog->blg_id} ORDER BY bge_created DESC";
+		$rs = mysql_query($sql);
+		echo('<table width="99%" cellpadding="0" cellspacing="0" border="0">');
+		while ($_entry = mysql_fetch_array($rs)) {
+			echo('<tr>');
+			echo('<td width="40" height="40" valign="middle" align="center">');
+			_v_ico_tango_32('mimetypes/x-office-document');
+			echo('</td>');
+			echo('<td height="40" align="left"><span class="text_large">');
+			echo('<a href="/blog/moderate/' . $_entry['bge_id'] . '.vx">' . make_plaintext($_entry['bge_title']) . '</a>');
+			echo('</span>');
+			echo('<span class="tip_i">');
+			echo(' ... ' . $_entry['bge_revisions'] . ' 次编辑 ... ' . $_entry['bge_comments'] . ' 篇评论');
+			if ($_entry['bge_status'] == 1) {
+				echo(' ... 已发布');
+			} else {
+				echo(' ... <span class="green">草稿</span>');
+			}
+			echo('</span>');
+			echo('</td>');
+			echo('<td width="300" align="right">');
+			if ($_entry['bge_status'] == 0) {
+				echo('&nbsp;&nbsp;<a href="/blog/publish/' . $_entry['bge_id'] . '.vx" class="btn">');
+				_v_ico_silk('page_world');
+				echo(' 发布</a>');
+			}
+			echo('&nbsp;&nbsp;<a href="/blog/moderate/' . $_entry['bge_id'] . '.vx" class="btn">');
+			_v_ico_silk('comments');
+			echo(' 管理</a>');
+			echo('&nbsp;&nbsp;<a href="/blog/edit/' . $_entry['bge_id'] . '.vx" class="btn">');
+			_v_ico_silk('page_edit');
+			echo(' 编辑</a>');
+			echo('&nbsp;&nbsp;<a href="#;" onclick="if (confirm(' . "'确认删除？'" . ')) { location.href = ' . "'/blog/erase/" . $_entry['bge_id'] . ".vx'" . '; } else { return false; }" class="btn">');
+			_v_ico_silk('delete');
+			echo(' 删除</a>');
+			echo('</td>');
+			echo('</tr>');
+		}
+		echo('</table>');
+		echo('</div>');
+		$sql = "SELECT blg_id, blg_title FROM babel_weblog WHERE blg_uid = {$this->User->usr_id} AND blg_id != {$Weblog->blg_id} ORDER BY blg_title";
+		$sql_md5 = md5($sql);
+		if ($o = $this->cs->get($sql_md5)) {
+		} else {
+			$rs = mysql_query($sql);
+			$o = '';
+			if (mysql_num_rows($rs) > 0) {			
+				$o .= _vo_hr();
+				$o .= '<span class="tip_i">我的其他博客网站&nbsp;&nbsp;';
+				while ($_weblog = mysql_fetch_array($rs)) {
+					$o .= '<a href="/blog/list/' . $_weblog['blg_id'] . '.vx" class="var" style="color: ' . rand_color() . '">' . make_plaintext($_weblog['blg_title']) . '</a>&nbsp;&nbsp;';
+				}
+				$o .= '</span>';
+			}
+			mysql_free_result($rs);
+			$this->cs->save($o, $sql_md5);
+		}
+		echo $o;
+		_v_d_e();
+		_v_d_e();
+	}
+	
+	public function vxBlogPages($Weblog) {
+		_v_m_s();
+		echo('<link type="text/css" rel="stylesheet" href="/css/themes/' . BABEL_THEME . '/css_weblog.css" />');
+		_v_b_l_s();
+		_v_ico_map();
+		echo(' <a href="/">' . Vocabulary::site_name . '</a> &gt; ' . $this->User->usr_nick_plain . ' &gt; <a href="/blog/admin.vx">' . $this->lang->weblogs() . '</a> &gt; <a href="/blog/' . Weblog::DEFAULT_ACTION . '/' . $Weblog->blg_id . '.vx">' . make_plaintext($Weblog->blg_title) . '</a> <span class="tip_i"><small>alpha</small></span>');
+		_v_d_e();
+		_v_b_l_s();
+		echo('<h1 class="silver">');
+		_v_ico_tango_22('categories/applications-internet');
+		echo(' <a href="/blog/admin.vx">Console</a> &gt; ' . make_plaintext($Weblog->blg_title));
+		echo('</h1>');
+		if (isset($_SESSION['babel_message_weblog'])) {
+			if ($_SESSION['babel_message_weblog'] != '') {
+				echo('<div class="notify">' . $_SESSION['babel_message_weblog'] . '</div>');
+				$_SESSION['babel_message_weblog'] = '';
+			}
+		} else {
+			$_SESSION['babel_message_weblog'] = '';
+		}
+		echo('<div class="blog_block">');
+		echo('<div class="blog_view"><span class="tip_i">');
+		_v_ico_silk('picture');
+		echo(' <a href="/blog/portrait/' . $Weblog->blg_id . '.vx">' . $this->lang->blog_icon() . '</a>');
+		echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
+		_v_ico_silk('layout');
+		echo(' <a href="/blog/theme/' . $Weblog->blg_id . '.vx">' . $this->lang->blog_theme() . '</a>');
+		echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
+		_v_ico_silk('cog_edit');
+		echo(' <a href="/blog/config/' . $Weblog->blg_id . '.vx">' . $this->lang->blog_settings() . '</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_name . '/" target="_blank">' . $this->lang->blog_view() . '</a> <img src="/img/ext.png" align="absmiddle" /></span></div>');
+		echo('<table width="98%" cellpadding="0" cellspacing="0" border="0">');
+		echo('<tr>');
+		echo('<td width="114" rowspan="3" align="left">');
+		if ($Weblog->blg_portrait != '') {
+			echo('<img src="/img/b/' . $Weblog->blg_portrait . '.' . BABEL_PORTRAIT_EXT . '" class="blog_portrait" border="0" />');
+		} else {
+			echo('<img src="/img/p_blog.png" class="blog_portrait" border="0" />');
+		}
+		echo('</td>');
+		echo('<td height="35">');
+		echo('<h1 class="ititle">' . make_plaintext($Weblog->blg_title) . '</h1>');
+		if (intval($Weblog->blg_dirty) == 1) {
+			echo(' <span class="tip">');
+			_v_ico_silk('error');
+			echo(' 需要重新构建</span>');
+		}
+		echo('</td>');
+		echo('</tr>');
+		echo('<tr>');
+		echo('<td valign="top" height="45">');
+		
+		echo('</td>');
+		echo('</tr>');
+		echo('<tr>');
+		echo('<td valign="top" height="24"><span class="tip_i">');
+		_v_ico_silk('pencil');
+		echo(' <a href="/blog/compose/' . $Weblog->blg_id . '.vx">' . $this->lang->blog_compose() . '</a>');
+		echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
+		_v_ico_silk('table_multiple');
+		echo(' <a href="/blog/list/' . $Weblog->blg_id . '.vx">' . $this->lang->blog_manage_articles() . '</a>');
+		echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
+		_v_ico_silk('page_white_stack');
+		echo(' <strong>Pages</strong>');
+		echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
+		_v_ico_silk('link');
+		echo(' <a href="/blog/link/' . $Weblog->blg_id . '.vx">' . $this->lang->blog_manage_links() . '</a>');
+		echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
+		_v_ico_silk('arrow_refresh');
+		echo(' <a href="/blog/build/' . $Weblog->blg_id . '.vx">' . $this->lang->blog_rebuild() . '</a>');
+		echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
+		_v_ico_silk('cross');
+		echo(' <a href="#;" onclick="if (confirm(' . "'你确认要彻底关闭这个博客网站吗？\\n\\n这些数据被删除后将无法恢复。'" . ')) { location.href = ' . "'/blog/destroy/" . $Weblog->blg_id . ".vx'; } else { return false; }" . '">' . $this->lang->blog_destroy() . '</a>');
+		echo('</td>');
+		echo('</tr>');
+		echo('</table>');
+		_v_hr();
+		echo('<span class="tip">');
+		_v_ico_silk('chart_bar');
+		echo(' Created on ' . date('n/j/Y', $Weblog->blg_created) . ' - Received ' . $Weblog->blg_comments . ' comments for ' . $Weblog->blg_entries . ' entries');
+		echo('</span>');
 		_v_hr();
 		$sql = "SELECT bge_id, bge_status, bge_mode, bge_comments, bge_revisions, bge_title FROM babel_weblog_entry WHERE bge_pid = {$Weblog->blg_id} ORDER BY bge_created DESC";
 		$rs = mysql_query($sql);
@@ -12267,6 +12424,9 @@ google_color_url = "00CC00";
 		echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
 		_v_ico_silk('table_multiple');
 		echo(' <a href="/blog/list/' . $Weblog->blg_id . '.vx">' . $this->lang->blog_manage_articles() . '</a>');
+		echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
+		_v_ico_silk('page_white_stack');
+		echo(' <a href="/blog/pages/' . $Weblog->blg_id . '.vx">' . 'Pages' . '</a>');
 		echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
 		_v_ico_silk('link');
 		echo(' <strong>' . $this->lang->blog_manage_links() . '</strong>');
