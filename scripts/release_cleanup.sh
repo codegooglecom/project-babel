@@ -1,4 +1,6 @@
 #!/bin/bash
+rm ../htdocs/core/V2EXInstallCore.php
+rm ../htdocs/core/KijijiInstallCore.php
 cp /dev/null ../res/google_adsense_top.php
 cp /dev/null ../res/google_analytics.php
 cp /dev/null ../res/alimama_top.php
