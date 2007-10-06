@@ -3,7 +3,6 @@
 $_languages = array(
 	'en_us' => 'English',
 	'de_de' => 'Deutsch',
-	'pl_pl' => 'Polski',
 	'zh_cn' => '中文'
 );
 
