@@ -1,4 +1,5 @@
 #!/bin/bash
+rm -rf ../screenshots
 rm ../htdocs/core/V2EXInstallCore.php
 rm ../htdocs/core/KijijiInstallCore.php
 cp /dev/null ../res/google_adsense_top.php

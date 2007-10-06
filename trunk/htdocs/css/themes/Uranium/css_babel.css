@@ -16,7 +16,7 @@ body, html {
 margin: 0px;
 padding: 0px;
 font-family: "Lucida Grande", Tahoma, Verdana, arial, sans-serif, hei;
-background: #FFF url("/img/bg_city.jpg") 50% 0 fixed repeat-y;
+background: #000 url("/img/bg_city.jpg") 50% 0 fixed no-repeat;
 }
 
 div#v2ex {
