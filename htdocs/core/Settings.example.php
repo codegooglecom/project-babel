@@ -44,14 +44,7 @@ define('BABEL_PREFIX', '/www/babel');
  *
  * de_de
  * en_us
- * es_es
- * fr_fr
- * ja_jp
- * ko_kr
- * pl_pl
- * pt_pt
  * zh_cn
- * zh_tw
  *
  */
 define('BABEL_LANG_DEFAULT', 'en_us');
@@ -59,12 +52,12 @@ define('BABEL_LANG_DEFAULT', 'en_us');
 if (($_SERVER['SERVER_ADDR'] == '::1') | ($_SERVER['SERVER_ADDR'] == '127.0.0.1') | ($_SERVER['SERVER_ADDR'] == '192.168.31.150')) {
 	define('BABEL_DEBUG', true);
 } else {
-	define('BABEL_DEBUG', true);
+	define('BABEL_DEBUG', false);
 }
 
-define('BABEL_AM_FROM', '"V2EX" <noreply@v2ex.com>');
-define('BABEL_AM_SUPPORT', 'support@v2ex.org');
-define('BABEL_AM_SIGNATURE', "\n\n\n_______________________________________________\n\nV2EX 敬上");
+define('BABEL_AM_FROM', '"Project Babel" <noreply@yourdomain.tld>');
+define('BABEL_AM_SUPPORT', 'support@yourdomain.tld');
+define('BABEL_AM_SIGNATURE', "\n\n\n_______________________________________________\n\nProject Babel");
 
 define('BABEL_DNS_NAME', 'www.v2ex.com');
 define('BABEL_DNS_DOMAIN', 'v2ex.com');
@@ -233,23 +226,9 @@ define('ZEND_CACHE_OPTIONS_MEMCACHED_PORT', 11211);
 $ZEND_CACHE_OPTIONS_MEMCACHED = array('servers' => array(array('host' => ZEND_CACHE_OPTIONS_MEMCACHED_SERVER, 'port' => ZEND_CACHE_OPTIONS_MEMCACHED_PORT, 'persistent' => true)));
 
 /* Zend Framework */
-define('ZEND_FRAMEWORK_VERSION', '1.0.0-RC1'); // Which version of Zend Framework to use?
+define('ZEND_FRAMEWORK_VERSION', '1.0.2'); // Which version of Zend Framework to use?
 
-if (BABEL_DEBUG) {
-	define('CDN_IMG', '/img/');
-} else {
-	define('CDN_IMG', '/img/'); // This is quite legacy.
-}
-
-if (BABEL_DEBUG) {
-	define('CDN_UI', '/');
-} else {
-	define('CDN_UI', 'http://static.cn.v2ex.com/v2ex/0.5/'); // If you have dedicated image servers.
-}
-
-if (BABEL_DEBUG) {
-	define('CDN_P', '/img/');
-} else {
-	define('CDN_P', 'http://www.v2ex.com/img/'); // If you set up your dedicated portrait server.
-}
+define('CDN_IMG', '/img/');
+define('CDN_UI', '/');
+define('CDN_P', '/img/');
 ?>
