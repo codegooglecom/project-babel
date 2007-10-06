@@ -49,11 +49,7 @@ define('BABEL_PREFIX', '/www/babel');
  */
 define('BABEL_LANG_DEFAULT', 'en_us');
 
-if (($_SERVER['SERVER_ADDR'] == '::1') | ($_SERVER['SERVER_ADDR'] == '127.0.0.1') | ($_SERVER['SERVER_ADDR'] == '192.168.31.150')) {
-	define('BABEL_DEBUG', true);
-} else {
-	define('BABEL_DEBUG', false);
-}
+define('BABEL_DEBUG', true);
 
 define('BABEL_AM_FROM', '"Project Babel" <noreply@yourdomain.tld>');
 define('BABEL_AM_SUPPORT', 'support@yourdomain.tld');
