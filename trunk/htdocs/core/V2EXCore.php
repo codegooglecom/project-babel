@@ -1054,7 +1054,10 @@ class Page {
 			echo('<script type="text/javascript" src="http://pub.mybloglog.com/comm2.php?mblID=' . MBL_ID . '&amp;c_width=160&amp;c_sn_opt=y&amp;c_rows=6&amp;c_img_size=h&amp;c_heading_text=Recent+V2EXers&amp;c_color_heading_bg=FFFFFF&amp;c_color_heading=999999&amp;c_color_link_bg=FFFFFF&amp;c_color_link=0033FF&amp;c_color_bottom_bg=FFFFFF"></script>');
 		}
 		_v_hr();
-		echo('<div align="center"><a href="http://www.spreadfirefox.com/?q=affiliates&amp;id=3028&amp;t=177"><img border="0" alt="Get Thunderbird!" title="Get Thunderbird!" src="http://sfx-images.mozilla.org/affiliates/thunderbird/reclaimyourinbox_small.png"/></a></div>');
+		echo('<div align="center"><a href="http://www.spreadfirefox.com/?q=affiliates&amp;id=3028&amp;t=177"><img border="0" alt="Get Thunderbird!" title="Get Thunderbird!" src="http://sfx-images.mozilla.org/affiliates/thunderbird/reclaimyourinbox_small.png"/></a>');
+		_v_hr();
+		echo('<span class="tip_i"><small>Sponsored by <a href="http://www.lusinshop.com/" target="_blank" style="color: ' . rand_color() . ';" class="var">Lusin Shop</a></small></span>');
+		echo('</div>');
 		echo('</div>');
 		/*
 		echo('<script language="javascript" src="/js/awstats_misc_tracker.js" type="text/javascript"></script>
@@ -4912,7 +4915,7 @@ class Page {
 						$txt_friend = '<span class="tip_i">&nbsp;&nbsp;&nbsp;You have added this member as friend</span>';
 					} else {
 						mysql_free_result($rs);
-						$txt_friend = '<span class="tip">&nbsp;&nbsp;&nbsp;<a href="/friend/remove/' . $O->usr_nick . '" class="g">No Longer Friend</a></span>';
+						$txt_friend = '<span class="tip">&nbsp;&nbsp;&nbsp;<a href="#;" onclick="location.href = \'/friend/remove/' . urlencode($O->usr_nick) . '\'" class="g">No Longer Friend</a></span>';
 					}
 				}
 				if ($do == 'remove') {
@@ -4933,7 +4936,7 @@ class Page {
 				$rs = mysql_query($sql);
 				
 				if (mysql_num_rows($rs) == 1) {
-					$txt_friend = '<span class="tip">&nbsp;&nbsp;&nbsp;<a href="/friend/remove/' . $O->usr_nick . '" class="g">No Longer Friend</a></span>';
+					$txt_friend = '<span class="tip">&nbsp;&nbsp;&nbsp;<a href="#;" onclick="location.href = \'/friend/remove/' . urlencode($O->usr_nick) . '\'" class="g">No Longer Friend</a></span>';
 				} else {
 					$txt_friend = '<span class="tip">&nbsp;&nbsp;&nbsp;<a href="/friend/connect/' . $O->usr_nick . '" class="g">Add as Friend</a></span>';
 				}
