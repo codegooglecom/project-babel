@@ -232,7 +232,7 @@ function format_ubb($text, $emoticon = true) {
 	
 	$p[15] = '/\{gtalk\}/i';
 	
-	$r[0] = '<img class="code" src="$1" border="0" />';
+	$r[0] = '<img class="code" src="$1" border="0" style="max-width: 500px;" />';
 	$r[1] = '<a href="$1" rel="nofollow external" class="tpc">$1</a>';
 	$r[2] = '<a href="http://$1" rel="nofollow external" class="tpc">http://$1</a>';
 	$r[3] = '<a href="$1" rel="nofollow external" class="tpc">$2</a>';
@@ -784,7 +784,7 @@ function is_valid_nick($nick) {
 	if (preg_match($regex, $nick)) {
 		return false;
 	} else {
-		$bad_words = array('。', '，', '？', '～', '！', '刘', '昕', '刘昕', '客齐集', '管', 'admin', 'fuck', 'kijiji', 'public', 'portal', 'all', 'home', 'new', 'save', 'modify', 'post', 'add', 'write', 'update', 'own', 'private', 'static', 'protected', 'final', 'go', 'view', 'special', 'featured', 'staff', '斑竹', '版', '主', 'rss', 'v2ex', 'babel', 'project', 'page', 'goto');
+		$bad_words = array('。', '，', '？', '～', '！', '刘', '昕', '刘昕', '客齐集', '管', 'admin', 'fuck', 'kijiji', 'public', 'portal', 'all', 'home', 'new', 'save', 'modify', 'post', 'add', 'write', 'update', 'own', 'private', 'static', 'protected', 'final', 'view', 'special', 'featured', 'staff', '斑竹', '版', '主', 'rss', 'v2ex', 'babel', 'project', 'page', 'goto');
 		foreach ($bad_words as $w) {
 			$pos = stripos($nick, $w);
 			if ($pos === false) {
