@@ -16,7 +16,7 @@
 <div id="contain">
 <div id="main">
 	<h2 class="title">{$entry.bge_title}</h2>
-		<div class="attribute">Posted by <a href="http://{$site_babel}/u/{$item.usr_nick_url}">{$item.usr_nick_plain}</a> on {$item.bge_published_plain} - <a href="#;" onclick="openComment({$item.bge_id});">{$item.bge_comments} comments</a>{if $item.bge_tags neq ''} - tags: {$item.bge_tags_plain_comma}{/if}
+		<div class="attribute">Posted by <a href="http://{$site_babel}/u/{$item.usr_nick_url}">{$entry.usr_nick_plain}</a> on {$entry.bge_published_plain} - <a href="#;" onclick="openComment({$entry.bge_id});">{$entry.bge_comments} comments</a>{if $entry.bge_tags neq ''} - tags: {$entry.bge_tags_plain_comma}{/if}
 		</div>
 		<div class="entry">
 			{$entry.bge_body_plain}
