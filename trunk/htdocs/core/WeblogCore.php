@@ -625,7 +625,7 @@ class Weblog {
 			
 			$end = microtime(true);
 			$elapsed = $end - $start;
-			$_SESSION['babel_message_weblog'] = _vo_ico_silk('tick') . ' 博客网站 ' . make_plaintext($Weblog->blg_title) . ' 基于 ' . $Weblog->blg_theme . ' 主题重新构建成功，' . $files . ' 个文件共写入了 ' . $bytes . ' 字节，共耗时 <small>' . $elapsed . '</small> 秒，<a href="http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_name . '" class="t" target="_blank">现在查看</a> <img src="/img/ext.png" align="absmiddle" />';
+			$_SESSION['babel_message_weblog'] = _vo_ico_silk('tick') . ' 博客网站 ' . make_plaintext($Weblog->blg_title) . ' 基于 ' . $Weblog->blg_theme . ' 主题重新构建成功，' . $files . ' 个文件共写入了 ' . $bytes . ' 字节，共耗时 <small>' . $elapsed . '</small> 秒，<a href="http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_name . '/?.rand=' . rand(11, 99) . '" class="t" target="_blank">现在查看</a> <img src="/img/ext.png" align="absmiddle" />';
 		}
 	}
 	
