@@ -16,7 +16,7 @@ body, html {
 margin: 0px;
 padding: 0px;
 font-family: "Lucida Grande", Tahoma, Verdana, arial, sans-serif, hei;
-background: #000 url("/img/bg_city.jpg") 50% 0 fixed no-repeat;
+background: #000 url("/img/bg_city.jpg") no-repeat fixed 50% 0;
 }
 
 div#v2ex {
@@ -230,6 +230,7 @@ height: 240px;
 div#menu {
 float: right;
 width: 200px;
+
 }
 
 div#main {

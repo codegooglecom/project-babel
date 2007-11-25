@@ -569,6 +569,7 @@ class Validator {
 		$o['PSP_DETECTED'] = 0;
 		$o['MSIE_DETECTED'] = 0;
 		$o['GECKO_DETECTED'] = 0;
+		$o['FF3_DETECTED'] = 0;
 		$o['KHTML_DETECTED'] = 0;
 		$o['OPERA_DETECTED'] = 0;
 		$o['IPHONE_DETECTED'] = 0;
@@ -818,6 +819,11 @@ class Validator {
 			$o['version'] = $z[6];
 			$o['DEVICE_LEVEL'] = 3;
 			$o['GECKO_DETECTED'] = 1;
+			if ($o['name'] == 'Firefox') {
+				if (preg_match('/^3\.0/', $o['version'])) {
+					$o['FF3_DETECTED'] = 1;
+				}
+			}
 			return $o;
 		}
 
