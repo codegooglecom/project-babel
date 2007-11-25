@@ -469,7 +469,6 @@ class Page {
 	public function vxLink($feedURL = BABEL_FEED_URL) {
 		echo('<link href="/favicon.ico" rel="shortcut icon" />');
 		echo('<link rel="stylesheet" type="text/css" href="/css/themes/' . BABEL_THEME . '/css_babel.css?' . date('YnjG', time()) . '" />');
-		$_SESSION['babel_ua'] = $this->Validator->vxGetUserAgent();
 		if ($_SESSION['babel_ua']['FF3_DETECTED']) {
 			echo('<style type="text/css">body, html { background: #000 url("/img/bg_city.jpg") no-repeat 50% 0; }</style>');
 		}
