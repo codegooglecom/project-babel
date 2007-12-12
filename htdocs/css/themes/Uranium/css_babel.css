@@ -811,6 +811,7 @@ background-color: #EFEFEF;
 text-decoration: none;
 border: 2px solid #D0D0D0;
 -moz-border-radius: 5px;
+-webkit-border-radius: 5px;
 }
 
 a.g:hover {
@@ -822,6 +823,7 @@ background-color: #DEDEDF;
 border: 2px solid #90909F;
 text-decoration: none;
 -moz-border-radius: 5px;
+-webkit-border-radius: 5px;
 }
 
 a.h, a.h:active, a.h:visited {

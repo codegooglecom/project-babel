@@ -137,7 +137,7 @@ class lang implements Language {
 	}
 	
 	public function register_agreement() {
-		return '在注册之前请先花一些时间阅读我们的 <a href="/communtiy_guidelines.vx" class="regular">社区指南</a>，谢谢。';
+		return '在注册之前请先花一些时间阅读我们的 <a href="/community_guidelines.vx" class="regular">社区指南</a>，谢谢。';
 	}
 	
 	public function take_a_tour() {
@@ -197,7 +197,7 @@ class lang implements Language {
 	}
 	
 	public function weblogs() {
-		return '博客';
+		return '空间';
 	}
 	
 	public function online_total() {
@@ -321,7 +321,7 @@ class lang implements Language {
 	}
 	
 	public function my_blogs() {
-		return '我的博客网志';
+		return '我的空间';
 	}
 	
 	public function my_messages() {
@@ -616,7 +616,7 @@ class lang implements Language {
 	}
 	
 	public function blog_create() {
-		return '创建新的博客网站';
+		return '创建新的空间';
 	}
 	
 	public function blog_manage_articles() {

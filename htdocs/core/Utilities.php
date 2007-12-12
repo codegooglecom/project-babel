@@ -316,7 +316,7 @@ function filter_tags($input) {
 	$output = str_ireplace('>', '', $output);
 	$output = str_ireplace('#', '', $output);
 	$output = str_ireplace('`', '', $output);
-	$output = trim($input);
+	$output = str_ireplace('/', '', $output);
 	return $output;
 }
 

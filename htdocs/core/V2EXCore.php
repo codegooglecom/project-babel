@@ -1059,8 +1059,6 @@ class Page {
 		}
 		_v_hr();
 		echo('<div align="center"><a href="http://www.spreadfirefox.com/?q=affiliates&amp;id=3028&amp;t=177"><img border="0" alt="Get Thunderbird!" title="Get Thunderbird!" src="http://sfx-images.mozilla.org/affiliates/thunderbird/reclaimyourinbox_small.png"/></a>');
-		_v_hr();
-		echo('<span class="tip_i"><small>Sponsored by <a href="http://www.lusinshop.com/" target="_blank" style="color: ' . rand_color() . ';" class="var">Lusin Shop</a></small></span>');
 		echo('</div>');
 		echo('</div>');
 		/*
@@ -10365,7 +10363,7 @@ google_color_url = "00CC00";
 	public function vxOutputJavaScriptIngPersonal() {
 		if (isset($_GET['u'])) {
 			$user_nick = fetch_single($_GET['u']);
-			$User = $this->User->vxGetUserInfoByNick($user_nick);
+			$User = $this->User->vxGetUserInfoByNick(mysql_real_escape_string($user_nick));
 			if (!$User) {
 				$User = $this->User->vxGetUserInfo(1);
 			}
