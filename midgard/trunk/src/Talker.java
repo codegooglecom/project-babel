@@ -50,7 +50,6 @@ class Talker {
 	
 	public void init() {
 		try {
-			log.info("Loading configuration");
 			Properties p = new Properties();
 			p.loadFromXML(new FileInputStream("conf/config.xml"));
 			
@@ -71,8 +70,7 @@ class Talker {
 			String cacheRepo = p.getProperty("cacheRepo");
 			if (dbEnable.equals("yes")) {
 				if (dbType.equals("mysql")) {
-					Class.forName("com.mysql.jdbc.Driver").newInstance();
-					this.db = DriverManager.getConnection("jdbc:mysql://" + dbServer + ":" + dbPort + "/" + dbSchemata + "?" + "user=" + dbUsername +  "&password=" + dbPassword + "&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8");
+					// Not now
 				} else if (dbType.equals("derby")) {
 					Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();
 					this.db = DriverManager.getConnection("jdbc:derby:" + dbHome + ";create=true");
@@ -119,7 +117,7 @@ class Talker {
 				
 				PacketCollector collector = this.xmpp.createPacketCollector(myFilter);
 			
-				V2EXProcessor processor = new V2EXProcessor(this.db, this.xmpp, this.cache);
+				V2EXProcessor processor = new V2EXProcessor(this.xmpp, this.cache);
 				while (true) {
 					Packet packet = collector.nextResult();
 					processor.processMessage(packet);

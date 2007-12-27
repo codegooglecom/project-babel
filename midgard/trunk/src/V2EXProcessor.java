@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
+import java.sql.DriverManager;
 
 import java.util.Date;
 import java.util.Properties;
@@ -46,14 +47,12 @@ import org.apache.commons.logging.LogFactory;
 import com.softabar.sha4j.ShaUtil;
 
 class V2EXProcessor extends GenericProcessor {
-	public Connection db = null;
 	public XMPPConnection xmpp = null;
 	public Connection cache = null;
 	public Searcher searcher = null;
 	private Log log = LogFactory.getLog("com.v2ex.midgard.V2EXProcessor");
 
-	V2EXProcessor(Connection dbInput, XMPPConnection xmppInput, Connection dbCache) {
-		db = dbInput;
+	V2EXProcessor(XMPPConnection xmppInput, Connection dbCache) {
 		xmpp = xmppInput;
 		cache = dbCache;
 		try {
@@ -88,27 +87,29 @@ class V2EXProcessor extends GenericProcessor {
 					} else if (ls.equals("h") || ls.equals("help") || ls.equals("/h") || ls.equals("/help")) {
 						chat.sendMessage(this.getHelpCN());
 					} else if (ls.equals("l") || ls.equals("/l")) {
-						chat.sendMessage(this.getLatestIng(this.db));
+						chat.sendMessage(this.getLatestIng());
+					} else if (ls.equals("hot") || ls.equals("/hot")) {
+						chat.sendMessage(this.getHot());
 					} else if (ls.equals("who") || ls.equals("/who")) {
-						chat.sendMessage(this.getWhoAmI(this.db, msg.getFrom()));
+						chat.sendMessage(this.getWhoAmI(msg.getFrom()));
 					} else if (ls.equals("f") || ls.equals("/f")) {
-						chat.sendMessage(this.getUpdates(this.db, msg.getFrom(), this.cache));
-					} else if (ls.startsWith("/d")) {
-						chat.sendMessage(this.getEnglish(ls));
-					} else if (ls.startsWith("/j")) {
-						chat.sendMessage(this.getJapanese(ls));
+						chat.sendMessage(this.getUpdates(msg.getFrom(), this.cache));
+					/* } else if (ls.startsWith("/d")) {
+						chat.sendMessage(this.getEnglish(ls)); */
+					/* } else if (ls.startsWith("/j")) {
+						chat.sendMessage(this.getJapanese(ls)); */
 					} else if (ls.equals("all") || ls.equals("ls") || ls.equals("/ls") || ls.equals("/all")) {
-						chat.sendMessage(this.getPublic(this.db));
+						chat.sendMessage(this.getPublic());
 					} else if (ls.equals("me") || ls.equals("/me") || ls.equals("/i") || ls.equals("i")) {
-						chat.sendMessage(this.getMine(this.db, msg.getFrom()));
+						chat.sendMessage(this.getMine(msg.getFrom()));
 					} else if (ls.equals("/revert") || ls.equals("revert")) {
-						chat.sendMessage(this.revertIng(this.db, msg.getFrom()));
+						chat.sendMessage(this.revertIng(msg.getFrom()));
 					} else if (ls.startsWith("/link")) {
-						chat.sendMessage(this.makeLink(msg.getBody(), this.db, msg.getFrom()));
-					} else if (ls.startsWith("/php")) {
-						chat.sendMessage(this.searchPHP(msg.getBody()));
+						chat.sendMessage(this.makeLink(msg.getBody(), msg.getFrom()));
+					/* } else if (ls.startsWith("/php")) {
+						chat.sendMessage(this.searchPHP(msg.getBody())); */
 					} else {
-						chat.sendMessage(this.writeIng(this.db, msg.getFrom(), msgBody));
+						chat.sendMessage(this.writeIng(msg.getFrom(), msgBody));
 					}
 				}
 			}
@@ -122,21 +123,25 @@ class V2EXProcessor extends GenericProcessor {
 	}
 	
 	public String getHelpEN() {
-		String help = new String("Available commands:\n\n? or h - Print usage information\nv - Print version information\nl - Print the latest ING activity\nwho - Print current user\nf - Get the latest updates from your friends\nls - Latest updates in public timeline\nme - Get my own updates\n/revert - Erase your last update\n/d [word] - Look up in E<->E dictionary\n/j [word] - Look up in E<->J dictionary\n/link [uid] [password] - Link your Google account with V2EX ID\n/php [keyword] - Search for [keyword] in PHP manual pages\n\nanything else - Will update to your ING");
+		String help = new String("Available commands:\n\n? or h - Print usage information\nv - Print version information\nl - Print the latest ING activity\nwho - Print current user\nf - Get the latest updates from your friends\nls - Latest updates in public timeline\nme - Get my own updates\n/revert - Erase your last update\n/link [uid] [password] - Link your Jabber ID with Babel ID\n\nanything else - Will update to your ING");
 		return help;
 	}
 	
 	public String getHelpCN() {
-		String help = new String("欢迎使用 V2EX XMPP 即时通讯机器人\n\n可用指令:\n\n? or h - 帮助信息\nv - 系统版本信息\nl - 最新的一条 ING 更新\nwho - 显示当前用户\nf - 得到朋友们的最新 ING\nls - 得到所有人的最新 ING\nme - 得到我自己的最新 ING\n/revert - 删除上一条更新\n/d [word] - 查询英<->英辞典\n/j [word] - 查询英<->日辞典\n/link [uid] [password] - 关联 Google 账户\n/php [keyword] - 搜索 PHP 参考手册\n\n任何的其他输入 - 将被更新到你的 ING");
+		String help = new String("欢迎使用 Project Midgard XMPP 即时通讯机器人\n\n可用指令:\n\n? or h - 帮助信息\nv - 系统版本信息\nl - 最新的一条 ING 更新\nwho - 显示当前用户\nhot - 看社区里最火的帖子\nf - 得到朋友们的最新 ING\nls - 得到所有人的最新 ING\nme - 得到我自己的最新 ING\n/revert - 删除上一条更新\n/link [uid] [password] - 关联 Jabber 账户\n\n任何的其他输入 - 将被更新到你的 ING");
 		return help;
 	}
 	
 	public String getVersion() {
-		String version = "ING/V2EX - 20070708 - (c) Livid";
+		String version = "PROJECT MIDGARD - 20071228 - (c) Livid";
 		return version;
 	}
 
-	private String getLatestIng(Connection db) {
+	private String getLatestIng() throws Exception {
+		Connection db = null;
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		db = DriverManager.getConnection("jdbc:mysql://" + com.v2ex.midgard.Configuration.get("dbServer") + ":" + com.v2ex.midgard.Configuration.get("dbPort") + "/" + com.v2ex.midgard.Configuration.get("dbSchemata") + "?" + "user=" + com.v2ex.midgard.Configuration.get("dbUsername") +  "&password=" + com.v2ex.midgard.Configuration.get("dbPassword") + "&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8");
+		
 		String doing = "(void)";
 		
 		Statement sql = null;
@@ -147,17 +152,52 @@ class V2EXProcessor extends GenericProcessor {
 			rs = sql.executeQuery("SELECT ing_doing, usr_nick FROM babel_ing_update, babel_user WHERE ing_uid = usr_id ORDER BY ing_created DESC LIMIT 1");
 			rs.next();
 			doing = rs.getString("usr_nick") + ": " + rs.getString("ing_doing");
-			rs.close(); rs = null;
-			sql.close(); sql = null;
-			return doing;
 		} catch (SQLException se) {
 			System.err.println("SQLException: " + se.getMessage());
+		} finally {
+			rs.close(); rs = null;
+			sql.close(); sql = null;
+			db.close(); db = null;
 		}
 		
 		return doing;
 	}
 	
-	private String getEnglish(String command) {
+	private String getHot() throws Exception {
+		Connection db = null;
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		db = DriverManager.getConnection("jdbc:mysql://" + com.v2ex.midgard.Configuration.get("dbServer") + ":" + com.v2ex.midgard.Configuration.get("dbPort") + "/" + com.v2ex.midgard.Configuration.get("dbSchemata") + "?" + "user=" + com.v2ex.midgard.Configuration.get("dbUsername") +  "&password=" + com.v2ex.midgard.Configuration.get("dbPassword") + "&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8");
+		
+		String hot = "(void)";
+		
+		Statement sql = null;
+		ResultSet rs = null;
+		
+		int i = 0;
+		
+		try  {
+			sql = db.createStatement();
+			rs = sql.executeQuery("SELECT tpc_id, tpc_title FROM babel_topic WHERE tpc_posts > 5 AND tpc_hits > 31 ORDER BY tpc_id DESC LIMIT 5");
+			while (rs.next()) {
+				i = i + 1;
+				if (i == 1) hot = "";
+				if (i != 1) {
+					hot = hot + "\n\n";
+				}
+				hot = hot + rs.getString("tpc_title") + "\n" + "http://mac.6.cn/topic/view/" + rs.getInt("tpc_id") + ".html";
+			}
+		} catch (SQLException se) {
+			System.err.println("SQLException: " + se.getMessage());
+		} finally {
+			rs.close(); rs = null;
+			sql.close(); sql = null;
+			db.close();
+		}
+		
+		return hot;
+	}
+	
+	private String getEnglish(String command) throws Exception {
 		if (command.length() > 3) {
 			String word = command.substring(3);
 			try {
@@ -188,7 +228,7 @@ class V2EXProcessor extends GenericProcessor {
 		}
 	}
 	
-	private String getJapanese(String command) {
+	private String getJapanese(String command) throws Exception {
 		if (command.length() > 3) {
 			String word = command.substring(3);
 			try {
@@ -220,11 +260,17 @@ class V2EXProcessor extends GenericProcessor {
 		}
 	}
 	
-	private String getWhoAmI(Connection db, String from) {
+	private String getWhoAmI(String from) throws Exception {
+		Connection db = null;
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		db = DriverManager.getConnection("jdbc:mysql://" + com.v2ex.midgard.Configuration.get("dbServer") + ":" + com.v2ex.midgard.Configuration.get("dbPort") + "/" + com.v2ex.midgard.Configuration.get("dbSchemata") + "?" + "user=" + com.v2ex.midgard.Configuration.get("dbUsername") +  "&password=" + com.v2ex.midgard.Configuration.get("dbPassword") + "&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8");
+		
 		String sender = mysqlEscape(this.getSender(from));
 		String userNick = null;
 		Statement sql = null;
 		ResultSet rs = null;
+		
+		String o = "(void)";
 		
 		try {
 			sql = db.createStatement();
@@ -232,18 +278,26 @@ class V2EXProcessor extends GenericProcessor {
 			if (rs.next()) {
 				int userId = rs.getInt("usr_id");
 				userNick = rs.getString("usr_nick");
-				return "#" + userId + " member - " + userNick;
+				o = "#" + userId + " member - " + userNick;
 			} else {
-				return "Your Gooogle account is not linked.";
+				o = "Your Gooogle account is not linked.";
 			}
 		} catch (SQLException se) {
 			System.err.println("SQLException: " + se.getMessage());
+		} finally {
+			rs.close(); rs = null;
+			sql.close(); sql = null;
+			db.close(); db = null;
 		}
 		
-		return userNick;
+		return o;
 	}
 	
-	private String getUpdates(Connection db, String from, Connection cache) {
+	private String getUpdates(String from, Connection cache) throws Exception {
+		Connection db = null;
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		db = DriverManager.getConnection("jdbc:mysql://" + com.v2ex.midgard.Configuration.get("dbServer") + ":" + com.v2ex.midgard.Configuration.get("dbPort") + "/" + com.v2ex.midgard.Configuration.get("dbSchemata") + "?" + "user=" + com.v2ex.midgard.Configuration.get("dbUsername") +  "&password=" + com.v2ex.midgard.Configuration.get("dbPassword") + "&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8");
+		
 		String sender = mysqlEscape(this.getSender(from));
 		String userNick = null;
 		Statement sql = null;
@@ -268,6 +322,7 @@ class V2EXProcessor extends GenericProcessor {
 				String r = rs.getString("data");
 				rs.close(); rs = null;
 				sql_c.close(); sql_c = null;
+				db.close(); db = null;
 				return r;
 			} else {
 				sql = db.createStatement();
@@ -305,7 +360,7 @@ class V2EXProcessor extends GenericProcessor {
 					p.setInt(3, now);
 					p.execute();
 					p.close(); p = null;
-					return rt;
+					db.close(); db = null;
 				} else {
 					if (rs != null) {
 						rs.close(); rs = null;
@@ -313,7 +368,8 @@ class V2EXProcessor extends GenericProcessor {
 					if (sql != null) {
 						sql.close(); sql = null;
 					}
-					return "Your Google account is not linked.";
+					rt = "Your Google account is not linked.";
+					db.close(); db = null;
 				}
 			}
 		} catch (SQLException se) {
@@ -321,10 +377,19 @@ class V2EXProcessor extends GenericProcessor {
 		} catch (Exception e) {
 			System.err.println("Exception: " + e.getMessage());
 		}
-		return userNick;
+		
+		if (rt == "") {
+			rt = "(void)";
+		}
+		
+		return rt;
 	}
 	
-	private String getPublic(Connection db) {
+	private String getPublic() throws Exception {
+		Connection db = null;
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		db = DriverManager.getConnection("jdbc:mysql://" + com.v2ex.midgard.Configuration.get("dbServer") + ":" + com.v2ex.midgard.Configuration.get("dbPort") + "/" + com.v2ex.midgard.Configuration.get("dbSchemata") + "?" + "user=" + com.v2ex.midgard.Configuration.get("dbUsername") +  "&password=" + com.v2ex.midgard.Configuration.get("dbPassword") + "&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8");
+		
 		Statement sql = null;
 		ResultSet rs = null;
 		String up[] = new String[10];
@@ -346,20 +411,27 @@ class V2EXProcessor extends GenericProcessor {
 				i--;
 				rt = rt + up[i];
 			}
+			
+			rt = rt.trim();
+		} catch (SQLException se) {
+			System.err.println("SQLException: " + se.getMessage());
+		} finally {
 			if (rs != null) {
 				rs.close(); rs = null;
 			}
 			if (sql != null) {
 				sql.close(); sql = null;
 			}
-			return rt.trim();
-		} catch (SQLException se) {
-			System.err.println("SQLException: " + se.getMessage());
+			db.close(); db = null;
 		}
 		return rt;
 	}
 	
-	private String getMine(Connection db, String from) {
+	private String getMine(String from) throws Exception {
+		Connection db = null;
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		db = DriverManager.getConnection("jdbc:mysql://" + com.v2ex.midgard.Configuration.get("dbServer") + ":" + com.v2ex.midgard.Configuration.get("dbPort") + "/" + com.v2ex.midgard.Configuration.get("dbSchemata") + "?" + "user=" + com.v2ex.midgard.Configuration.get("dbUsername") +  "&password=" + com.v2ex.midgard.Configuration.get("dbPassword") + "&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8");
+		
 		String sender = mysqlEscape(this.getSender(from));
 		String userNick = null;
 		Statement sql = null;
@@ -387,36 +459,36 @@ class V2EXProcessor extends GenericProcessor {
 					i--;
 					rt = rt + up[i];
 				}
-				if (rs != null) {
-					rs.close(); rs = null;
-				}
 				if (rs_me != null) {
 					rs_me.close(); rs_me = null;
 				}
-				if (sql != null) {
-					sql.close(); sql = null;
-				}
-				return rt.trim();
+				rt = rt.trim();
 			} else {
-				if (rs != null) {
-					rs.close(); rs = null;
-				}
-				if (sql != null) {
-					sql.close(); sql = null;
-				}
-				return "Your Google account is not linked.";
+				rt = "Your Google account is not linked.";
 			}
 		} catch (SQLException se) {
 			System.err.println("SQLException: " + se.getMessage());
+		} finally {
+			rs.close(); rs = null;
+			sql.close(); sql = null;
+			db.close(); db = null;
 		}
-		return userNick;
+		if (rt == "") {
+			rt = "(void)";
+		}
+		return rt;
 	}
 	
-	private String revertIng(Connection db, String from) {
+	private String revertIng(String from) throws Exception {
+		Connection db = null;
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		db = DriverManager.getConnection("jdbc:mysql://" + com.v2ex.midgard.Configuration.get("dbServer") + ":" + com.v2ex.midgard.Configuration.get("dbPort") + "/" + com.v2ex.midgard.Configuration.get("dbSchemata") + "?" + "user=" + com.v2ex.midgard.Configuration.get("dbUsername") +  "&password=" + com.v2ex.midgard.Configuration.get("dbPassword") + "&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8");
+		
 		String sender = mysqlEscape(this.getSender(from));
 		String userNick = null;
 		Statement sql = null;
 		ResultSet rs = null;
+		String rt = "(void)";
 		
 		try {
 			sql = db.createStatement();
@@ -425,38 +497,41 @@ class V2EXProcessor extends GenericProcessor {
 				int userId = rs.getInt("usr_id");
 				userNick = rs.getString("usr_nick");
 				sql.executeUpdate("DELETE FROM babel_ing_update WHERE ing_uid = " + userId + " ORDER BY ing_created DESC LIMIT 1");
-				if (rs != null) {
-					rs.close(); rs = null;
-				}
-				if (sql != null) {
-					sql.close(); sql = null;
-				}
-				return "Your last update has been erased.";
+				rt = "Your last update has been erased.";
 			} else {
-				if (rs != null) {
-					rs.close(); rs = null;
-				}
-				if (sql != null) {
-					sql.close(); sql = null;
-				}
-				return "Your Google account is not linked.";
+				rt = "Your Google account is not linked.";
 			}
 		} catch (SQLException se) {
 			System.err.println("SQLException: " + se.getMessage());
+		} finally {
+			if (rs != null) {
+				rs.close(); rs = null;
+			}
+			if (sql != null) {
+				sql.close(); sql = null;
+			}
+			if (db != null) {
+				db.close(); db = null;
+			}
 		}
 		
-		return userNick;
+		return rt;
 	}
 	
-	private String writeIng(Connection db, String from, String ing) {
+	private String writeIng(String from, String ing) throws Exception {
+		Connection db = null;
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		db = DriverManager.getConnection("jdbc:mysql://" + com.v2ex.midgard.Configuration.get("dbServer") + ":" + com.v2ex.midgard.Configuration.get("dbPort") + "/" + com.v2ex.midgard.Configuration.get("dbSchemata") + "?" + "user=" + com.v2ex.midgard.Configuration.get("dbUsername") +  "&password=" + com.v2ex.midgard.Configuration.get("dbPassword") + "&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8");
+		
 		String sender = mysqlEscape(this.getSender(from));
 		String ing_sql = mysqlEscape(ing);
 		String userNick = null;
 		Statement sql = null;
 		ResultSet rs = null;
+		String rt = "(void)";
 		
 		if (ing_sql.length() > 131) {
-			return "Your input is too long. :(";
+			rt = "Your input is too long. :(";
 		} else {
 			try {
 				sql = db.createStatement();
@@ -473,34 +548,47 @@ class V2EXProcessor extends GenericProcessor {
 						source = 6;
 					}
 					sql.executeUpdate("INSERT INTO babel_ing_update (ing_uid, ing_doing, ing_source, ing_created) VALUES(" + userId + ", " + ing_sql + ", " + source + ", UNIX_TIMESTAMP())");
-					if (rs != null) {
-						rs.close(); rs = null;
-					}
-					if (sql != null) {
-						sql.close(); sql = null;
-					}
 					return "Got it.";
 				} else {
-					if (rs != null) {
-						rs.close(); rs = null;
-					}
-					if (sql != null) {
-						sql.close(); sql = null;
-					}
-					return "Your Google account is not linked.";
+					rt = "Your Google account is not linked.";
 				}
 			} catch (SQLException se) {
 				System.err.println("SQLException: " + se.getMessage());
+			} finally {
+				if (rs != null) {
+					rs.close(); rs = null;
+				}
+				if (sql != null) {
+					sql.close(); sql = null;
+				}
+				if (db != null) {
+					db.close(); db = null;
+				}
 			}
 		}
 		
-		return userNick;
+		if (rs != null) {
+			rs.close(); rs = null;
+		}
+		if (sql != null) {
+			sql.close(); sql = null;
+		}
+		if (db != null) {
+			db.close(); db = null;
+		}
+		
+		return rt;
 	}
 	
-	private String makeLink(String command, Connection db, String from) {
+	private String makeLink(String command, String from) throws Exception {
+		Connection db = null;
+		Class.forName("com.mysql.jdbc.Driver").newInstance();
+		db = DriverManager.getConnection("jdbc:mysql://" + com.v2ex.midgard.Configuration.get("dbServer") + ":" + com.v2ex.midgard.Configuration.get("dbPort") + "/" + com.v2ex.midgard.Configuration.get("dbSchemata") + "?" + "user=" + com.v2ex.midgard.Configuration.get("dbUsername") +  "&password=" + com.v2ex.midgard.Configuration.get("dbPassword") + "&useUnicode=true&characterEncoding=UTF-8&characterSetResults=UTF-8");
+		
 		String sender = mysqlEscape(this.getSender(from));
 		Statement sql = null;
 		ResultSet rs = null;
+		String rt = "(void)";
 		if (command.length() > 6) {
 			String token = command.substring(6);
 			try {
@@ -515,28 +603,37 @@ class V2EXProcessor extends GenericProcessor {
 					rs = sql.executeQuery("SELECT usr_id, usr_nick FROM babel_user WHERE usr_id = " + uid + " AND usr_password = '" + password + "'");
 					if (rs.next()) {
 						String nick = rs.getString("usr_nick");
-						rs.close(); rs = null;
 						sql.executeUpdate("UPDATE babel_user SET usr_google_account = '' WHERE usr_google_account = " + sender);
 						sql.executeUpdate("UPDATE babel_user SET usr_google_account = " + sender + " WHERE usr_id = " + uid);
-						sql.close(); sql = null;
-						return "Your Google account is linked with: " + nick + " (#" + uid + " member)";
+						rt = "Your Google account is linked with: " + nick + " (#" + uid + " member)";
 					} else {
-						rs.close(); rs = null;
-						return "Your submitted password or user ID is incorrect.";
+						rt = "Your submitted password or user ID is incorrect.";
 					}
 				} else {
-					return token + "\n\nYour input format is incorrect.";
+					rt = token + "\n\nYour input format is incorrect.";
 				}
 			} catch (Exception e) {
 				System.err.println("Exception: " + e.getMessage());
-				return "Your input format is incorrect.";
+				rt = "Your input format is incorrect.";
 			}
 		} else {
-			return "Your input format is incorrect.";
+			rt = "Your input format is incorrect.";
 		}
+		
+		if (rs != null) {
+			rs.close(); rs = null;
+		}
+		if (sql != null) {
+			sql.close(); sql = null;
+		}
+		if (db != null) {
+			db.close(); db = null;
+		}
+		
+		return rt;
 	}
 	
-	private String searchPHP(String command) {
+	private String searchPHP(String command) throws Exception {
 		if (command.length() > 4) {
 			String token = command.substring(4).toLowerCase().trim();
 			try {
