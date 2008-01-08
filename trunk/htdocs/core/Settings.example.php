@@ -227,4 +227,6 @@ define('ZEND_FRAMEWORK_VERSION', '1.0.2'); // Which version of Zend Framework to
 define('CDN_IMG', '/img/');
 define('CDN_UI', '/');
 define('CDN_P', '/img/');
+
+define('MIDGARD_BOT', 'v2ex.ing@gmail.com');
 ?>

@@ -3901,7 +3901,7 @@ class Page {
 			echo('<tr><td width="150" align="right" class="section_odd">错失次数</td><td class="section_odd" align="left">' . $_apc_cache_info['num_misses'] . '</td></tr>');
 			echo('<tr><td width="150" align="right" class="section_even">储存的条目数量</td><td class="section_even" align="left">' . $_apc_cache_info['num_entries'] . '</td></tr>');
 			echo('<tr><td width="150" align="right" class="section_odd">插入次数</td><td class="section_odd" align="left">' . $_apc_cache_info['num_inserts'] . '</td></tr>');
-			echo('<tr><td width="150" align="right" class="section_even">剩余可用缓存内存数量</td><td class="section_even" align="left">' . intval($_apc_cache_info['mem_size'] / 1024) . 'KB</td></tr>');
+			echo('<tr><td width="150" align="right" class="section_even">缓存中的文件尺寸</td><td class="section_even" align="left">' . intval($_apc_cache_info['mem_size'] / 1024) . 'KB</td></tr>');
 		} else {
 			echo('<tr><td colspan="2" align="left"><div class="notify">');
 			_v_ico_silk('database_lightning');

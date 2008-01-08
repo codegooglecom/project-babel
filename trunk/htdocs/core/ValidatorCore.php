@@ -806,7 +806,7 @@ class Validator {
 		 * Camino Example: Mozilla/5.0 (Macintosh; U; PPC Mac OS X Mach-O; en-US; rv:1.8b4) Gecko/20050914 Camino/1.0a1
 		 * Firefox Example: Mozilla/5.0 (Macintosh; U; PPC Mac OS X Mach-O; en-US; rv:1.8b4) Gecko/20050908 Firefox/1.4 
 		 * Firefox Example: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.7.12) Gecko/20050922 Firefox/1.0.7 (Debian package 1.0.7-1) */
-		if (preg_match('/Mozilla\/5\.0 \(([a-zA-Z0-9]+); U; ([0-9a-zA-Z\.\- ]+); [a-zA-Z\- ]*; rv:([0-9a-z\.]+)\) Gecko\/([0-9]+) (Camino|Firefox|Firebird|Minefield|SeaMonkey|Thunderbird|Sunbird|Epiphany)\/([0-9]+\.[0-9a-zA-Z\.]*)/', $ua, $z)) {
+		if (preg_match('/Mozilla\/5\.0 \(([a-zA-Z0-9]+); U; ([0-9a-zA-Z\.\- ]+); [a-zA-Z\- ]*; rv:([0-9a-z\.]+)\) Gecko\/([0-9]+) (Camino|Firefox|Firebird|GranParadiso|Minefield|SeaMonkey|Thunderbird|Sunbird|Epiphany)\/([0-9]+\.[0-9a-zA-Z\.]*)/', $ua, $z)) {
 			if ($z[1] == 'Windows' | preg_match('/X11/', $z[1])) {
 				$o['platform'] = $z[2];
 				if (preg_match('/(Linux)/', $o['platform'], $y)) {
