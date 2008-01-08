@@ -767,7 +767,7 @@ function is_valid_blog_name($name) {
 }
 
 function is_valid_email($email) {
-	$regex = '/^[A-Z0-9._-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z.]{2,6}$/i';
+	$regex = '/^([a-z0-9]+\+)?[A-Z0-9._-]+@[A-Z0-9][A-Z0-9.-]{0,61}[A-Z0-9]\.[A-Z.]{2,6}$/i';
 	return (preg_match($regex, $email));
 }
 

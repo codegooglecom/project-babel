@@ -49,10 +49,10 @@ class Widget {
 		switch (BABEL_LANG) {
 			case 'en_us':
 			default:
-				echo("You've got things to say, your days are colorful, you care about details which others ignore.<br /><br />Say it and the world is listening.");
+				echo("You've got things to say, your days are colorful, you care about details which others ignore.<br /><br />Say it and the world is listening.<br /><br />And you can talk to " . MIDGARD_BOT . " via <a href=\"http://talk.google.com/\" target=\"_blank\">Gtalk</a> to update your ING.");
 				break;
 			case 'zh_cn':
-				echo('你有很多话要说。你每天的生活都很精彩。你总能发现别人没有注意到的细节。<br /><br />那就尽情说吧，这个世界在听。');
+				echo('你有很多话要说。你每天的生活都很精彩。你总能发现别人没有注意到的细节。<br /><br />那就尽情说吧，这个世界在听。<br /><br />你还可以通过在 <a href="http://talk.google.com/">Gtalk</a> 或者其他 Jabber 客户端中对 ' . MIDGARD_BOT . ' 说话来更新你的 ING。');
 				break;
 		}
 		_v_hr();
