@@ -26,8 +26,8 @@ span.text {
 display: block;
 padding: 3px;
 margin: 1px;
-border-top: 1px dotted #AAA;
-border-bottom: 1px dotted #AAA;
+border-top: 1px solid #CCC;
+border-bottom: 1px solid #CCC;
 color: #000;
 max-width: 600px;
 }
@@ -45,7 +45,7 @@ div.content {
 display: block;
 padding: 3px;
 margin: 1px;
-border-bottom: 1px dotted #AAA;
+border-bottom: 1px solid #CCC;
 color: #333;
 max-width: 600px;
 }
@@ -54,7 +54,7 @@ div.form {
 display: block;
 padding: 3px;
 margin: 1px;
-border-bottom: 1px dotted #AAA;
+border-bottom: 1px solid #CCC;
 color: #333;
 max-width: 600px;
 line-height: 25px;
@@ -92,6 +92,7 @@ ul {
 list-style: square;
 margin-top: 5px;
 margin-bottom: 5px;
+padding-left: 15px;
 }
 
 ul li {
