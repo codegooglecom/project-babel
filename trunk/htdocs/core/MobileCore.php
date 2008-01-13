@@ -691,6 +691,7 @@ class Mobile {
 		echo('<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-CN" lang="zh-CN">' . "\n");
 		echo('<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" />' . "\n");
 		echo('<meta name="generator" content="Bluefish 1.0.6"/>' . "\n");
+		echo('<meta id="viewport" name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;" />' . "\n");
 		$this->vxTitle($title);
 		$this->vxLink();
 		echo('</head>');
