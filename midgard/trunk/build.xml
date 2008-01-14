@@ -132,6 +132,7 @@
     <exec dir="${extlib}" executable="wget">
       <arg value="--input-file=${conf}/extlib.urls"/>
       <arg value="-nc"/>
+      <arg value="--no-check-certificate"/>
     </exec>
   </target>
 </project>

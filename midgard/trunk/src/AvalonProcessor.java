@@ -19,6 +19,11 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Date;
 
+/**
+ * 
+ * @author Livid
+ */
+
 class AvalonProcessor extends GenericProcessor {
 	public XMPPConnection xmpp = null;
 

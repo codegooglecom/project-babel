@@ -57,9 +57,9 @@ class V2EXProcessor extends GenericProcessor {
 		cache = dbCache;
 		try {
 			Properties p = new Properties();
-			p.loadFromXML(new FileInputStream("conf/lucene.xml"));
+			/* p.loadFromXML(new FileInputStream("conf/lucene.xml"));
 			String luceneIndex = p.getProperty("luceneIndex");
-			searcher = new IndexSearcher(luceneIndex);
+			searcher = new IndexSearcher(luceneIndex); */
 		} catch (Exception e) {
 			log.error("Exception: " + e.getMessage());
 		}
