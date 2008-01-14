@@ -2,17 +2,17 @@
 /* Project Babel
  *
  * Author: Livid Liu <v2ex.livid@mac.com>
- * File: /htdocs/babel.php
- * Usage: Loader for Web
+ * File: /htdocs/babel_iphone.php
+ * Usage: Loader for iPhone
  * Format: 1 tab indent(4 spaces), LF, UTF-8, no-BOM
  *
  * Subversion Keywords:
  *
- * $Id: babel.php 287 2007-10-06 18:52:15Z v2ex.livid $
- * $LastChangedDate: 2007-10-07 02:52:15 +0800 (Sun, 07 Oct 2007) $
- * $LastChangedRevision: 287 $
- * $LastChangedBy: v2ex.livid $
- * $URL: https://project-babel.googlecode.com/svn/trunk/htdocs/babel.php $
+ * $Id$
+ * $LastChangedDate$
+ * $LastChangedRevision$
+ * $LastChangedBy$
+ * $URL$
  *
  * Copyright (C) 2006 Livid Liu <v2ex.livid@mac.com>
  *
