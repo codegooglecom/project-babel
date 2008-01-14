@@ -3,7 +3,7 @@
     Project Midgard is a Gtalk agent for V2EX
   </description>
   <!-- set global properties for this build -->
-  <property name="src" location="src"/>
+  <property name="src" location="com"/>
   <property name="conf" location="conf"/>
   <property name="db" location="db"/>
   <property name="cache" location="cache"/>
