@@ -51,6 +51,7 @@ define('BABEL_LANG_DEFAULT', 'en_us');
 
 define('BABEL_DEBUG', true);
 
+define('BABEL_AM_SENDER', 'smtp');
 define('BABEL_AM_FROM', '"Project Babel" <noreply@yourdomain.tld>');
 define('BABEL_AM_SUPPORT', 'support@yourdomain.tld');
 define('BABEL_AM_SIGNATURE', "\n\n\n_______________________________________________\n\nProject Babel");

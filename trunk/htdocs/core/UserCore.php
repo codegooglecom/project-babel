@@ -255,8 +255,13 @@ class User {
 	}
 	
 	public function vxSessionStart() {
-		setcookie('babel_usr_email', $this->usr_email, time() + 2678400, '/', BABEL_DNS_DOMAIN);
-		setcookie('babel_usr_password', $this->bf->encrypt($this->usr_password), time() + 2678400, '/', BABEL_DNS_DOMAIN);
+		if (BABEL_DEBUG) {
+			setcookie('babel_usr_email', $this->usr_email, time() + 2678400, '/');
+			setcookie('babel_usr_password', $this->bf->encrypt($this->usr_password), time() + 2678400, '/');
+		} else {
+			setcookie('babel_usr_email', $this->usr_email, time() + 2678400, '/', BABEL_DNS_DOMAIN);
+			setcookie('babel_usr_password', $this->bf->encrypt($this->usr_password), time() + 2678400, '/', BABEL_DNS_DOMAIN);
+		}
 		$_SESSION['babel_usr_email'] = $this->usr_email;
 		$_SESSION['babel_usr_password'] = $this->usr_password;
 	}
@@ -348,7 +353,8 @@ class User {
 	 *
 	 */
 	
-	public function vxGetUserInfoByNick($user_nick) { // mysql_real_escape_string() or other treatment is expected for $user_nick
+	public function vxGetUserInfoByNick($user_nick) {
+		$user_nick = mysql_real_escape_string($user_nick);
 		$sql = "SELECT usr_id, usr_gender, usr_nick, usr_brief, usr_email, usr_portrait, usr_hits, usr_created, usr_lastlogin FROM babel_user WHERE usr_nick = '{$user_nick}'";
 		$rs = mysql_query($sql, $this->db);
 		if ($User = mysql_fetch_object($rs)) {

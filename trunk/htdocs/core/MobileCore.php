@@ -57,6 +57,7 @@ if (V2EX_BABEL == 1) {
 	require_once('core/ChannelCore.php');
 	require_once('core/URLCore.php');
 	require_once('core/ValidatorCore.php');
+	require_once('core/LividUtil.php');
 } else {
 	die('<strong>Project Babel</strong><br /><br />Made by V2EX | software for internet');
 }
@@ -84,10 +85,27 @@ class Mobile {
 		}
 		$this->URL = new URL();
 		$this->User = new User('', '', $this->db);
+		if (!isset($GLOBALS['SET_LANG'])) {
+			if ($this->User->vxIsLogin()) {
+				define('BABEL_LANG', $this->User->usr_lang);
+			} else {
+				include(BABEL_PREFIX . '/res/supported_languages.php');
+				if (isset($_SESSION['babel_lang'])) {
+					if (in_array($_SESSION['babel_lang'], array_keys($_languages))) {
+						define('BABEL_LANG', $_SESSION['babel_lang']);
+					} else {
+						define('BABEL_LANG', BABEL_LANG_DEFAULT);
+					}
+				} else {
+					define('BABEL_LANG', BABEL_LANG_DEFAULT);
+				}
+			}
+			$GLOBALS['SET_LANG'] = true;
+		}
 		$this->Validator = new Validator($this->db, $this->User);
 		
 		if (!isset($_SESSION['babel_ua'])) {
-			$_SESSION['babel_ua'] = $this->Validator->vxGetUserAgent();
+			$_SESSION['babel_ua'] = LividUtil::parseUserAgent();
 		}
 		
 		global $CACHE_LITE_OPTIONS_SHORT;
@@ -109,9 +127,9 @@ class Mobile {
 		echo('<div class="content"><small>');
 		if ($this->User->vxIsLogin()) {
 			echo('<a href="/u/' . urlencode($this->User->usr_nick) . '">' . $this->User->usr_nick . '</a> - ');
-			echo('<a href="/logout.vx">登出</a>');
+			echo('<a href="/babel_mobile.php?m=logout">登出</a>');
 		} else {
-			echo('<a href="/login.vx">登录</a>');
+			echo('<a href="/babel_mobile.php?m=login">登录</a>');
 		}
 		echo('</small></div>');
 		echo('<div class="content">');
@@ -181,7 +199,7 @@ class Mobile {
 			$this->vxH1();
 			echo('<div class="content"><small><a href="/' . $_SESSION['babel_page_home_mobile'] . '">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::action_login . '</small></div>');
 			echo('<div class="form">');
-			echo('<form action="/login.vx" method="post">');
+			echo('<form action="/babel_mobile.php?m=login" method="post">');
 			echo('用户: <input type="text" name="usr" class="textbox" /><br />');
 			echo('密码: <input type="password" name="usr_password" class="textbox" /><br />');
 			echo('<input type="submit" value="登 录" class="go" />');
@@ -224,7 +242,7 @@ class Mobile {
 					}
 					echo('<div class="content"><small><a href="/' . $_SESSION['babel_page_home_mobile'] . '">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::action_login . '</small></div>');
 					echo('<div class="form">');
-					echo('<form action="/login.vx" method="post">');
+					echo('<form action="/babel_mobile.php?m=login" method="post">');
 					echo('用户: <input type="text" name="usr" class="textbox" /><br />');
 					echo('密码: <input type="password" name="usr_password" class="textbox" /><br />');
 					echo('<input type="submit" value="登 录" class="go" />');
@@ -237,14 +255,14 @@ class Mobile {
 				case 'ok':
 					echo('<div class="content"><small>');
 					echo('<a href="/u/' . urlencode($this->User->usr_nick) . '">' . make_plaintext($this->User->usr_nick) . '</a> - ');
-					echo('<a href="/logout.vx">登出</a>');
+					echo('<a href="/babel_mobile.php?m=logout">登出</a>');
 					echo('</small></div>');
 					echo('<div class="content">欢迎回到 <a href="/' . $_SESSION['babel_page_home_mobile'] . '">' . Vocabulary::site_name . '</a>，你上次登录时间是在 ' . make_descriptive_time($this->User->usr_lastlogin) . '。</div>');
 					break;
 				case 'error':
 					echo('<div class="content"><small><a href="/' . $_SESSION['babel_page_home_mobile'] . '">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::action_login . '</small></div>');
 					echo('<div class="form">');
-					echo('<form action="/login.vx" method="post"><small class="error">密码或者用户名错误</small><br />');
+					echo('<form action="/babel_mobile.php?m=login" method="post"><small class="error">密码或者用户名错误</small><br />');
 					echo('用户: <input type="text" name="usr" class="textbox" /><br />');
 					echo('密码: <input type="password" name="usr_password" class="textbox" /><br />');
 					echo('<input type="submit" value="登 录" class="go" />');
@@ -267,7 +285,7 @@ class Mobile {
 		$this->vxBodyStart();
 		$this->vxH1();
 		echo('<div class="content"><small><a href="/' . $_SESSION['babel_page_home_mobile'] . '">' . Vocabulary::site_name . '</a> &gt; ' . Vocabulary::action_logout . '</small></div>');
-		echo('<div class="content">你已经从 ' . Vocabulary::site_name . ' 完全登出。<br /><br />感谢你访问 ' . Vocabulary::site_name . '，没有任何的个人信息留在你当前使用的设备上。<br /><br /><a href="/login.vx">重新登录</a></div>');
+		echo('<div class="content">你已经从 ' . Vocabulary::site_name . ' 完全登出。<br /><br />感谢你访问 ' . Vocabulary::site_name . '，没有任何的个人信息留在你当前使用的设备上。<br /><br /><a href="/babel_mobile.php?m=login">重新登录</a></div>');
 		$this->vxBottom();
 		$this->vxBodyEnd();
 		$this->vxHTMLEnd();
@@ -289,9 +307,9 @@ class Mobile {
 				echo('<div class="content"><small>');
 				if ($this->User->vxIsLogin()) {
 					echo('<a href="/u/' . urlencode($this->User->usr_nick) . '">' . $this->User->usr_nick . '</a> - ');
-					echo('<a href="/logout.vx">登出</a>');
+					echo('<a href="/babel_mobile.php?m=logout">登出</a>');
 				} else {
-					echo('<a href="/login.vx">登录</a>');
+					echo('<a href="/babel_mobile.php?m=login">登录</a>');
 				}
 				echo('</small></div>');
 				echo('<div class="content"><small><a href="/' . $_SESSION['babel_page_home_mobile'] . '">' . Vocabulary::site_name . '</a> &gt; ' . make_plaintext($Section->nod_title) . ' &gt; ' . make_plaintext($Board->nod_title) . '</small></div>');
@@ -443,9 +461,9 @@ class Mobile {
 			echo('<div class="content"><small>');
 			if ($this->User->vxIsLogin()) {
 				echo('<a href="/u/' . urlencode($this->User->usr_nick) . '">' . $this->User->usr_nick . '</a> - ');
-				echo('<a href="/logout.vx">登出</a>');
+				echo('<a href="/babel_mobile.php?m=logout">登出</a>');
 			} else {
-				echo('<a href="/login.vx">登录</a>');
+				echo('<a href="/babel_mobile.php?m=login">登录</a>');
 			}
 			echo('</small></div>');
 			echo('<div class="content"><small><a href="/">V2EX</a> &gt; ' . $_u->usr_nick . '</small></div>');
@@ -537,9 +555,9 @@ class Mobile {
 			echo('<div class="content"><small>');
 			if ($this->User->vxIsLogin()) {
 				echo('<a href="/u/' . urlencode($this->User->usr_nick) . '">' . $this->User->usr_nick . '</a> - ');
-				echo('<a href="/logout.vx">登出</a>');
+				echo('<a href="/babel_mobile.php?m=logout">登出</a>');
 			} else {
-				echo('<a href="/login.vx">登录</a>');
+				echo('<a href="/babel_mobile.php?m=login">登录</a>');
 			}
 			echo('</small></div>');
 			echo('<div class="content">用户不存在</div>');
@@ -574,9 +592,9 @@ class Mobile {
 		echo('<div class="content"><small>');
 		if ($this->User->vxIsLogin()) {
 			echo('<a href="/u/' . urlencode($this->User->usr_nick) . '">' . $this->User->usr_nick . '</a> - ');
-			echo('<a href="/logout.vx">登出</a>');
+			echo('<a href="/babel_mobile.php?m=logout">登出</a>');
 		} else {
-			echo('<a href="/login.vx">登录</a>');
+			echo('<a href="/babel_mobile.php?m=login">登录</a>');
 		}
 		echo('</small></div>');
 		if ($_u) {
@@ -669,9 +687,9 @@ class Mobile {
 		echo('<div class="content"><small>');
 		if ($this->User->vxIsLogin()) {
 			echo('<a href="/u/' . urlencode($this->User->usr_nick) . '">' . $this->User->usr_nick . '</a> - ');
-			echo('<a href="/logout.vx">登出</a>');
+			echo('<a href="/babel_mobile.php?m=logout">登出</a>');
 		} else {
-			echo('<a href="/login.vx">登录</a>');
+			echo('<a href="/babel_mobile.php?m=login">登录</a>');
 		}
 		echo('</small></div>');
 		echo('<div class="content"><small><a href="/">' . Vocabulary::site_name . '</a> &gt; ING</small></div>');

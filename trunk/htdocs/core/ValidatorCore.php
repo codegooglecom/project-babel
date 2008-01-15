@@ -539,324 +539,7 @@ class Validator {
 	}
 	
 	/* E module: URL Classified logic */
-	
-	/* S module: User Agent Check logic */
-	
-	public function vxGetUserAgent($ua = '') {
-		if ($ua == '') {
-			if (isset($_SERVER['HTTP_USER_AGENT'])) {
-				$ua = $_SERVER['HTTP_USER_AGENT'];
-			} else {
-				if (isset($_SERVER['HTTP_VIA'])) {
-					if (preg_match('/(infoX)|(Nokia WAP Gateway)|(WAP)/i', $_SERVER['HTTP_VIA'], $z)) {
-						$o['ua'] = $_SERVER['HTTP_VIA'];
-						$o['name'] = 'WAP Gateway';
-						$o['platform'] = 'Handheld';
-						$o['version'] = '0';
-						$o['DEVICE_LEVEL'] = 2;
-						return $o;
-					}
-				}
-			}
-		}
-		
-		$o = array();
-		
-		$o['ua'] = $ua;
-		$o['platform'] = '';
-		$o['name'] = '';
-		$o['version'] = '';
-		$o['PSP_DETECTED'] = 0;
-		$o['MSIE_DETECTED'] = 0;
-		$o['GECKO_DETECTED'] = 0;
-		$o['FF3_DETECTED'] = 0;
-		$o['KHTML_DETECTED'] = 0;
-		$o['OPERA_DETECTED'] = 0;
-		$o['IPHONE_DETECTED'] = 0;
-		$o['LEGACY_ENCODING'] = 0;
-		/* DEVICE_LEVEL
-		0 => bot
-		1 => plaintext
-		2 => handheld (limited display and processor)
-		3 => pc (full capable)
-		4 => fetcher (just file access)
-		5 => tv (various features supported)
-		*/
-		$o['DEVICE_LEVEL'] = 0;
-		
-		/* PSP Internet Browser 
-		 * Example: Mozilla/4.0 (PSP (PlayStation Portable); 2.00) */
-		if (preg_match('/Mozilla\/4\.0 \(PSP \(PlayStation Portable\); ([2-9]?\.[0-9]*)\)/', $ua, $z)) {
-			$o['platform'] = 'PSP';
-			$o['name'] = 'PSP Internet Browser';
-			$o['version'] = $z[1];
-			$o['PSP_DETECTED'] = 1;
-			$o['DEVICE_LEVEL'] = 2;
-			return $o;
-		}
-		
-		/* PalmOne Blazer */
-		if (preg_match('/Blazer\/([1-9]+\.[0-9a-zA-Z]*)/', $ua, $z) && preg_match('/Palm/', $ua)) {
-			$o['platform'] = 'PalmOS';
-			$o['name'] = 'Blazer';
-			$o['version'] = $z[1];
-			$o['DEVICE_LEVEL'] = 2;
-			return $o;
-		}
-		
-		/* Xiino
-		 * Example: Xiino/3.4E [en] (v.5.4.8; 153x130; c16/d) */
-		if (preg_match('/Xiino\/([0-9a-zA-Z\.]*)/', $ua, $z)) {
-			$o['platform'] = 'PalmOS';
-			$o['name'] = 'Xiino';
-			$o['version'] = $z[1];
-			$o['LEGACY_ENCODING'] = 1;
-			$o['DEVICE_LEVEL'] = 2;
-			return $o;
-		}
-		
-		/* Nokia 9300 Opera
-		 * Example: Nokia9300/5.50 Series80/2.0 Profile/MIDP-2.0 Configuration/CLDC-1.1 */
-		if (preg_match('/Nokia9300\/([0-9]+)\.([0-9]+) Series80\/([0-9]+)\.([0-9]+) Profile\/MIDP-([0-9]+)\.([0-9]+) Configuration\/CLDC-([0-9]+)\.([0-9]+)/', $ua, $z)) {
-			$o['platform'] = 'Nokia9300';
-			$o['name'] = 'Opera';
-			$o['version'] = '6.0';
-			$o['DEVICE_LEVEL'] = 2;
-			$o['OPERA_DETECTED'] = 1;
-			return $o;
-		}
-		
-		/* PocketLink
-		 * Example: Mozilla/5.0 (compatible; PalmOS) PLink 2.56c */
-		if (preg_match('/Mozilla\/5\.0 \(compatible; PalmOS\) PLink ([0-9a-zA-Z\.]*)/', $ua, $z)) {
-			$o['platform'] = 'PalmOS';
-			$o['name'] = 'PocketLink';
-			$o['version'] = $z[1];
-			$o['LEGACY_ENCODING'] = 1;
-			$o['DEVICE_LEVEL'] = 2;
-			return $o;
-		}
-		
-		/* Opera (Identify as Opera)
-		 * Example: Opera/8.5 (Macintosh; PPC Mac OS X; U; zh-cn)
-		 * Example: Opera/8.50 (Windows NT 5.0; U; en) */
-		if (preg_match('/Opera\/([0-9]+\.[0-9]+) \(([a-zA-Z0-9\.\- ]*); ([a-zA-Z0-9\.\- ]*); ([a-zA-Z0-9\.\-\; ]*)\)/', $ua, $z)) {
-			if (preg_match('/(Linux|Mac OS X)/', $ua, $y)) {
-				$o['platform'] = $y[1];
-			} else {
-				$o['platform'] = $z[2];
-			}
-			$o['name'] = 'Opera';
-			$o['version'] = $z[1];
-			$o['DEVICE_LEVEL'] = 3;
-			$o['OPERA_DETECTED'] = 1;
-			return $o;
-		}
 
-		/* Opera (Identify as MSIE 6.0)
-		 * Example: Mozilla/4.0 (compatible; MSIE 6.0; X11; Linux i686; en) Opera 8.5
-		 * Example: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.0; en) Opera 8.50 */
-		if (preg_match('/Mozilla\/4\.0 \(compatible; MSIE ([0-9\.]*); ([a-zA-Z0-9\-\.;_ ]*); ([a-zA-Z0-9\-\.;_ ]*)\) Opera ([0-9\.]*)/', $ua, $z)) {
-			if (preg_match('/(Linux|Mac OS X)/', $z[2], $y)) {
-				$o['platform'] = $y[1];
-			} else {
-				$o['platform'] = $z[2];
-			}
-			$o['name'] = 'Opera';
-			$o['version'] = $z[4];
-			$o['DEVICE_LEVEL'] = 3;
-			$o['OPERA_DETECTED'] = 1;
-			return $o;
-		}
-
-		/* Opera (Identify as Mozilla/5.0)
-		 * Example: Mozilla/5.0 (X11; Linux i686; U; en) Opera 8.5 
-		 * Example: Mozilla/5.0 (Windows NT 5.0; U; en) Opera 8.50 */
-		if (preg_match('/Mozilla\/5\.0 \(([a-zA-Z0-9\-\. ]*); ([a-zA-Z0-9\-\. ]*); ([a-zA-Z0-9\-\.; ]*)\) Opera ([0-9\.]*)/', $ua, $z)) {
-			if (preg_match('/Windows ([a-zA-Z0-9\.\- ]*)/', $z[1], $y)) {
-				$o['platform'] = $y[0];
-			} else {
-				if (preg_match('/(Linux|Mac OS X)/', $z[2], $y)) {
-					$o['platform'] = $y[1];
-				} else {
-					$o['platform'] = $z[2];
-				}
-			}
-			$o['name'] = 'Opera';
-			$o['version'] = $z[4];
-			$o['DEVICE_LEVEL'] = 3;
-			$o['OPERA_DETECTED'] = 1;
-			return $o;
-		}
-		
-		/* Apple iPhone
-		 * Example: Mozilla/5.0 (iPhone; U; CPU like Mac OS X; en) AppleWebKit/420+(KHTML, like Gecko) Version/3.0 Mobile/1C25 Safari/419.3 */
-		if (preg_match('/Mozilla\/5\.0 \(iPhone; U; CPU like Mac OS X; ([a-z\-]+)\) AppleWebKit\/([a-z0-9]+)\+ \(KHTML, like Gecko\) Version\/3.0 Mobile\/([a-zA-Z0-9]+) Safari\/([0-9]+\.[0-9]+)/', $ua, $z)) {
-			$o['platform'] = 'Mac OS X';
-			$o['name'] = 'Safari';
-			$o['version'] = $z[2];
-			$o['DEVICE_LEVEL'] = 3;
-			$o['KHTML_DETECTED'] = 1;
-			$o['IPHONE_DETECTED'] = 1;
-			return $o;
-		}
-	
-		/* Apple Safari 2.x 
-		 * Example: Mozilla/5.0 (Macintosh; U; PPC Mac OS X; zh-cn) AppleWebKit/412.7 (KHTML, like Gecko) Safari/412.5 */
-		if (preg_match('/Mozilla\/5\.0 \(Macintosh; U;([a-zA-Z0-9\s]+); [a-z\-]+\) AppleWebKit\/([0-9]+\.[0-9]+) \(KHTML, like Gecko\) Safari\/([0-9]+\.[0-9]+)/', $ua, $z)) {
-			$o['platform'] = 'Mac OS X';
-			$o['name'] = 'Safari';
-			$o['version'] = $z[2];
-			$o['DEVICE_LEVEL'] = 3;
-			$o['KHTML_DETECTED'] = 1;
-			return $o;
-		}
-		
-		/* Apple Safari 3.x on Mac OS X
-		 * Example: Mozilla/5.0 (Macintosh; U; Intel Mac OS X; en) AppleWebKit/522.10.1 (KHTML, like Gecko) Version/3.0 Safari/522.11 */
-		if (preg_match('/Mozilla\/5\.0 \(Macintosh; U;([a-zA-Z0-9\s]+); [a-z\-]+\) AppleWebKit\/([0-9]+\.[0-9]+\.[0-9]+) \(KHTML, like Gecko\) Version\/([0-9]+\.[0-9]+) Safari\/([0-9]+\.[0-9]+)/', $ua, $z)) {
-			$o['platform'] = 'Mac OS X';
-			$o['name'] = 'Safari';
-			$o['version'] = $z[3];
-			$o['DEVICE_LEVEL'] = 3;
-			$o['KHTML_DETECTED'] = 1;
-			return $o;
-		}
-		
-		/* Apple Safari 3.x on Windows
-		 * Example: Mozilla/5.0 (Windows; U; Windows NT 5.1; zh) AppleWebKit/522.11.3 (KHTML, like Gecko) Version/3.0 Safari/522.11.3 */
-		if (preg_match('/Mozilla\/5\.0 \(Windows; U;([a-zA-Z0-9\.\s]+); [a-z\-]+\) AppleWebKit\/([0-9]+\.[0-9]+\.[0-9]+) \(KHTML, like Gecko\) Version\/([0-9]+\.[0-9]+) Safari\/([0-9]+\.[0-9]+)/', $ua, $z)) {
-			$o['platform'] = 'Windows';
-			$o['name'] = 'Safari';
-			$o['version'] = $z[3];
-			$o['DEVICE_LEVEL'] = 3;
-			$o['KHTML_DETECTED'] = 1;
-			return $o;
-		}
-		
-		/* Apple WebKit 
-		 * Example: Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/420+ (KHTML, like Gecko) Safari/417.9.2 */
-		if (preg_match('/Mozilla\/5\.0 \(Macintosh; U;([a-zA-Z0-9\s]+); [a-z\-]+\) AppleWebKit\/([0-9\+\.]+) \(KHTML, like Gecko\) Safari\/([0-9]+\.[0-9]+)/', $ua, $z)) {
-			$o['platform'] = 'Mac OS X';
-			$o['name'] = 'WebKit';
-			$o['version'] = $z[2];
-			$o['DEVICE_LEVEL'] = 3;
-			$o['KHTML_DETECTED'] = 1;
-			return $o;
-		}
-		
-		/* Shiira (WebKit based)
-		 * Example: Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en) AppleWebKit/419 (KHTML, like Gecko) Shiira/2.0 b2 Safari/125 */
-		if (preg_match('/Mozilla\/5\.0 \(Macintosh; U;([a-zA-Z0-9\s]+); [a-z\-]+\) AppleWebKit\/([0-9\+\.]+) \(KHTML, like Gecko\) Shiira\/([0-9]+\.[0-9]+) ([b0-9]+) Safari\/([0-9]+)/', $ua, $z)) {
-			$o['platform'] = 'Mac OS X';
-			$o['name'] = 'Shiira';
-			if (isset($z[5])) {
-				$o['version'] = $z[3] . ' ' . $z[4];
-			} else {
-				$o['version'] = $z[3];
-			}
-			$o['DEVICE_LEVEL'] = 3;
-			$o['KHTML_DETECTED'] = 1;
-			return $o;
-		}
-	
-		/* KDE Konqueror
-		 * Example: Mozilla/5.0 (compatible; Konqueror/3.4; Linux) KHTML/3.4.2 (like Gecko) (Debian package 4:3.4.2-4) */
-		if (preg_match('/Mozilla\/5\.0 \(compatible; Konqueror\/([0-9\.]*); ([a-zA-Z]*)\) KHTML\/([0-9\.]*)/', $ua, $z)) {
-			$o['platform'] = $z[2];
-			$o['name'] = 'Konqueror';
-			$o['version'] = $z[1];
-			$o['DEVICE_LEVEL'] = 3;
-			$o['KHTML_DETECTED'] = 1;
-			return $o;
-		}
-
-		/* iCab
-		 * Example: Mozilla/5.0 (compatible; iCab 3.0.1; Macintosh; U; PPC Mac OS X)*/
-		if (preg_match('/Mozilla\/5\.0 \(compatible; iCab ([0-9\.]+); Macintosh; U; PPC Mac OS X\)/', $ua, $z)) {
-			$o['platform'] = 'Macintosh';
-			$o['name'] = 'iCab';
-			$o['version'] = $z[1];
-			$o['DEVICE_LEVEL'] = 3;
-			return $o;
-		}
-	
-		/* Microsoft Internet Explorer 
-		 * Example: Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; .NET CLR 1.1.4322; .NET CLR 2.0.50215) */
-		if (preg_match('/Mozilla\/4\.0 \([a-z]+; MSIE ([0-9]+\.[0-9]+); ([a-zA-Z0-9\.\- ]+)/', $ua, $z)) {
-			$o['platform'] = $z[2];
-			$o['name'] = 'Internet Explorer';
-			$o['version'] = $z[1];
-			$o['DEVICE_LEVEL'] = 3;
-			$o['MSIE_DETECTED'] = 1;
-			return $o;
-		}
-
-		/* Chimera
-		 * Example: Chimera/2.0alpha */
-		if (preg_match('/^Chimera\/([0-9a-zA-Z\.]*)/', $ua, $z)) {
-			$o['platform'] = 'Unix';
-			$o['name'] = 'Chimera';
-			$o['version'] = $z[1];
-			$o['DEVICE_LEVEL'] = 3;
-			return $o;
-		}
-
-		/* Mozilla Camino | Firefox | Firebird | Thunderbird | SeaMonkey | Sunbird | Epiphany
-		 * Camino Example: Mozilla/5.0 (Macintosh; U; PPC Mac OS X Mach-O; en-US; rv:1.8b4) Gecko/20050914 Camino/1.0a1
-		 * Firefox Example: Mozilla/5.0 (Macintosh; U; PPC Mac OS X Mach-O; en-US; rv:1.8b4) Gecko/20050908 Firefox/1.4 
-		 * Firefox Example: Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.7.12) Gecko/20050922 Firefox/1.0.7 (Debian package 1.0.7-1) */
-		if (preg_match('/Mozilla\/5\.0 \(([a-zA-Z0-9]+); U; ([0-9a-zA-Z\.\- ]+); [a-zA-Z\- ]*; rv:([0-9a-z\.]+)\) Gecko\/([0-9]+) (Camino|Firefox|Firebird|GranParadiso|Minefield|SeaMonkey|Thunderbird|Sunbird|Epiphany)\/([0-9]+\.[0-9a-zA-Z\.]*)/', $ua, $z)) {
-			if ($z[1] == 'Windows' | preg_match('/X11/', $z[1])) {
-				$o['platform'] = $z[2];
-				if (preg_match('/(Linux)/', $o['platform'], $y)) {
-					$o['platform'] = $y[1];
-				}
-			} else {
-				$o['platform'] = $z[1];
-			}
-			$o['name'] = $z[5];
-			$o['version'] = $z[6];
-			$o['DEVICE_LEVEL'] = 3;
-			$o['GECKO_DETECTED'] = 1;
-			if ($o['name'] == 'Firefox' || $o['name'] == 'Minefield') {
-				if (preg_match('/^3\.0/', $o['version'])) {
-					$o['FF3_DETECTED'] = 1;
-				}
-			}
-			return $o;
-		}
-
-		/* Mozilla Suite
-		 * Example: Mozilla/5.0 (Macintosh; U; PPC Mac OS X Mach-O; en-US; rv:1.7.12) Gecko/20050915 */
-		if (preg_match('/Mozilla\/5\.0 \(([a-zA-Z0-9]+); U; ([0-9a-zA-Z\.\- ]*); [a-zA-Z\- ]*; rv:([0-9a-z\.]+)\) Gecko\/([0-9]+)/', $ua, $z)) {
-			if ($z[1] == 'Windows' | preg_match('/X11/', $z[1])) {
-				$o['platform'] = $z[2];
-				if (preg_match('/(Linux)/', $o['platform'], $y)) {
-					$o['platform'] = $y[1];
-				}
-			} else {
-				$o['platform'] = $z[1];
-			}
-			$o['name'] = 'Mozilla';
-			$o['version'] = $z[3];
-			$o['DEVICE_LEVEL'] = 3;
-			$o['GECKO_DETECTED'] = 1;
-			return $o;
-		}
-
-		/* Unknown Vendor Unknown Browser */
-		if ($o['name'] == '') {
-			$o['platform'] = 'Unknown Platform';
-			$o['name'] = 'Unknown Browser';
-			$o['version'] = 'Unknown Version';
-			$o['DEVICE_LEVEL'] = 0;
-			return $o;
-		}
-	}
-	
-	/* E module: User Agent Check logic */
-	
 	/* S module: User Create Check logic */
 	
 	public function vxUserCreateCheck() {
@@ -887,7 +570,7 @@ class Validator {
 		/* usr_nick_error:
 		0 => no error
 		1 => empty
-		2 => overflow (20 mbs)
+		2 => overflow (12 mbs)
 		3 => invalid characters
 		4 => conflict
 		999 => unspecific */
@@ -1009,7 +692,7 @@ class Validator {
 				$rt['usr_nick_error'] = 1;
 				$rt['errors']++;
 			} else {
-				if (mb_strlen($rt['usr_nick_value']) > 20) {
+				if (mb_strlen($rt['usr_nick_value'], 'UTF-8') > 12) {
 					$rt['usr_nick_error'] = 2;
 					$rt['errors']++;
 				} else {
@@ -1279,7 +962,7 @@ class Validator {
 		/* usr_nick_error:
 		0 => no error
 		1 => empty
-		2 => overflow (20 mbs)
+		2 => overflow (12 mbs)
 		3 => invalid characters
 		4 => conflict
 		999 => unspecific */
@@ -1410,7 +1093,7 @@ class Validator {
 				$rt['usr_nick_error'] = 1;
 				$rt['errors']++;
 			} else {
-				if (mb_strlen($rt['usr_nick_value'], 'UTF-8') > 20) {
+				if (mb_strlen($rt['usr_nick_value'], 'UTF-8') > 12) {
 					$rt['usr_nick_error'] = 2;
 					$rt['errors']++;
 				} else {

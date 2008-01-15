@@ -327,8 +327,10 @@ function filter_html($input) {
 
 function fetch_single($input) { // $input must be an element in GPC
 	$output = trim($input);
-	if (get_magic_quotes_gpc()) {
-		$output = stripslashes($output);
+	if (function_exists('get_magic_quotes_gpc')) {
+		if (get_magic_quotes_gpc()) {
+			$output = stripslashes($output);
+		}
 	}
 	$output = str_ireplace(chr(10), '', $output);
 	$output = str_ireplace(chr(13), '', $output);

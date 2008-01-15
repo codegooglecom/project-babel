@@ -78,14 +78,24 @@ class Airmail {
 		$this->headers['to'] = $receiver;
 		
 		$this->params = array();
-		$this->params["sendmail_path"] = '/usr/sbin/sendmail';
+		switch (BABEL_AM_SENDER) {
+			case 'sendmail':
+				$this->params["sendmail_path"] = '/usr/sbin/sendmail';
+				break;
+				
+			case 'smtp':
+				$this->params["host"] = '127.0.0.1';
+				$this->params["port"] = '25';
+				break;
+		}
+		
 	}
 	
 	public function __destruct() {
 	}
 	
 	public function vxSend() {
-		$m =& Mail::factory('sendmail', $this->params);
+		$m =& Mail::factory(BABEL_AM_SENDER, $this->params);
 		$m->send($this->headers['to'], $this->headers, $this->body);
 	}
 }

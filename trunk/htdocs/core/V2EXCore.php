@@ -84,6 +84,7 @@ if (V2EX_BABEL == 1) {
 	
 	/* new world cores */
 	require_once('core/SimpleStorageCore.php');
+	require_once('core/LividUtil.php');
 } else {
 	die('<strong>Project Babel</strong><br /><br />Made by <a href="http://labs.v2ex.com/">V2EX</a> | software for internet');
 }
@@ -186,6 +187,7 @@ class Page {
 				define('BABEL_LANG', BABEL_LANG_DEFAULT);
 			}
 		}
+		$GLOBALS['SET_LANG'] = true;
 		require_once(BABEL_PREFIX . '/lang/' . BABEL_LANG . '/lang.php');
 		$this->lang = new lang();
 		if ($this->User->vxIsLogin()) {
@@ -200,7 +202,7 @@ class Page {
 		}
 		$this->Validator =  new Validator($this->db, $this->User);
 		if (!isset($_SESSION['babel_ua'])) {
-			$_SESSION['babel_ua'] = $this->Validator->vxGetUserAgent();
+			$_SESSION['babel_ua'] = LividUtil::parseUserAgent();
 		}
 		$sql = 'DELETE FROM babel_online WHERE onl_lastmoved < ' . (time() - BABEL_USR_ONLINE_DURATION);
 		mysql_query($sql, $this->db);
@@ -469,19 +471,19 @@ class Page {
 	public function vxLink($feedURL = BABEL_FEED_URL) {
 		echo('<link href="/favicon.ico" rel="shortcut icon" />');
 		echo('<link rel="stylesheet" type="text/css" href="/css/themes/' . BABEL_THEME . '/css_babel.css?' . date('YnjG', time()) . '" />');
-		// $_SESSION['babel_ua'] = $this->Validator->vxGetUserAgent();
+		$_SESSION['babel_ua'] = LividUtil::parseUserAgent();
 		if ($_SESSION['babel_ua']['FF3_DETECTED']) {
 			echo('<style type="text/css">body, html { background: #000 url("/img/bg_city.jpg") no-repeat 50% 0; }</style>');
 		}
 		echo('<link rel="stylesheet" type="text/css" href="/css/themes/' . BABEL_THEME . '/css_extra.css?' . date('YnjG', time()) . '" />');
 		echo('<link rel="stylesheet" type="text/css" href="/css/themes/' . BABEL_THEME . '/css_zen.css" />');
-		//echo('<link rel="stylesheet" type="text/css" href="/css/lightbox.css" media="screen" />');
+		echo('<link rel="stylesheet" type="text/css" href="/css/lightbox.css" media="screen" />');
 		echo('<link rel="alternate" type="application/rss+xml" title="' . Vocabulary::site_name . ' RSS" href="' . $feedURL . '" />');
 		echo('<script type="text/javascript" src="/js/babel.js"></script>');
 		echo('<script type="text/javascript" src="/js/babel_zen.js"></script>');
-		//echo('<script type="text/javascript" src="' . CDN_UI . 'js/prototype.js"></script>');
-		//echo('<script type="text/javascript" src="' . CDN_UI . 'js/scriptaculous.js?load=effects"></script>');
-		//echo('<script type="text/javascript" src="' . CDN_UI . 'js/lightbox.js"></script>');
+		echo('<script type="text/javascript" src="' . CDN_UI . 'js/prototype.js"></script>');
+		echo('<script type="text/javascript" src="' . CDN_UI . 'js/scriptaculous.js?load=effects"></script>');
+		echo('<script type="text/javascript" src="' . CDN_UI . 'js/lightbox.js"></script>');
 	}
 	
 	/* E module: link and script tags */
@@ -529,9 +531,18 @@ class Page {
 		}
 		
 		/* nav menu start: */
-		echo('<div id="top_banner" align="left">');
-		
-		$img_logo = 'v2ex_logo_uranium.png';
+		switch (BABEL_DNS_DOMAIN) {
+			case 'v2ex.com':
+			default:
+				echo('<div id="top_banner" align="left">');
+				$img_logo = 'v2ex_logo_uranium.png';
+				break;
+				
+			case 'mac.6.cn':
+				echo('<div id="top_banner" align="left" style="background-image: url(\'/img/bg_space.jpg\'); border-bottom: 1px solid #777;">');
+				$img_logo = 'm6_logo.png';
+				break;
+		}
 
 		if ($this->User->usr_id != 0) {
 			if ($usr_share = $this->cs->get('babel_user_share_' . $this->User->usr_id)) {
@@ -2247,28 +2258,30 @@ class Page {
 	
 	public function vxHome($style) {
 		$o = '<div id="main">';
-		if (!$this->User->vxIsLogin()) {
-			$o .= '<div class="blank">';
-			switch (BABEL_LANG) {
-				case 'en_us':
-				default:
-					$o .= '<img src="/img/splash/0709/en_us.png" />';
-					break;
-				case 'zh_cn':
-					$o .= '<img src="/img/splash/0709/zh_cn.png" />';
-					break;
+		if (BABEL_DNS_DOMAIN == 'v2ex.com') {
+			if (!$this->User->vxIsLogin()) {
+				$o .= '<div class="blank">';
+				switch (BABEL_LANG) {
+					case 'en_us':
+					default:
+						$o .= '<img src="/img/splash/0709/en_us.png" />';
+						break;
+					case 'zh_cn':
+						$o .= '<img src="/img/splash/0709/zh_cn.png" />';
+						break;
+				}
+				$o .= _vo_hr();
+				switch (BABEL_LANG) {
+					case 'en_us':
+					default:
+						$o .= '<span class="tip_i"><a href="/login" class="regular"><strong>Sign In</strong></a> if you\'re already registered or <a href="/signup.html" class="regular"><strong>Create Your Free Account</strong></a> now.';
+						break;
+					case 'zh_cn':
+						$o .= '<span class="tip_i">如果你已经有账户，那么请 <a href="/login" class="regular"><strong>登入</strong></a> 或者现在就 <a href="/signup.html" class="regular"><strong>注册一个新账户</strong></a>';
+						break;
+				}
+				$o .= '</span></div>';
 			}
-			$o .= _vo_hr();
-			switch (BABEL_LANG) {
-				case 'en_us':
-				default:
-					$o .= '<span class="tip_i"><a href="/login" class="regular"><strong>Sign In</strong></a> if you\'re already registered or <a href="/signup.html" class="regular"><strong>Create Your Free Account</strong></a> now.';
-					break;
-				case 'zh_cn':
-					$o .= '<span class="tip_i">如果你已经有账户，那么请 <a href="/login" class="regular"><strong>登入</strong></a> 或者现在就 <a href="/signup.html" class="regular"><strong>注册一个新账户</strong></a>';
-					break;
-			}
-			$o .= '</span></div>';
 		}
 		if ($_SESSION['hits'] < 10) {
 			$o .= file_get_contents(BABEL_PREFIX . '/res/hot.html');
@@ -5269,13 +5282,10 @@ class Page {
 			echo(' ' . $this->lang->register_agreement() . '</div>');
 		} else {
 			$mail = array();
-			$mail['subject'] = "{$this->User->usr_nick} 你好，欢迎来到 " . Vocabulary::site_name;
-			$mail['body'] = "{$this->User->usr_nick}，你好！\n\n" . Vocabulary::site_name . " 欢迎你的到来，你或许会对 " . Vocabulary::site_name . " 这个名字感到好奇吧？\n\n" . Vocabulary::site_name . " 是两个短句的缩写，way too extreme 和 way to explore，前者关于一种生活的态度，后者关于我们每天都会产生然后又失去的好奇心。So is V2EX，希望你喜欢。\n\n目前看来，V2EX 是一个普普通通不足为奇的社区（或者说论坛），不过，我们正在修建一个有着透明玻璃的怪物博物馆，不久的将来，每天都会有各种怪物可以玩，也是相当开心的事情吧。\n\nEnjoy!" . BABEL_AM_SIGNATURE;
-			
+			include(BABEL_PREFIX . '/impl/mail/' . BABEL_DNS_DOMAIN . '/signup.php');
 			$am = new Airmail($this->User->usr_email, $mail['subject'], $mail['body'], $this->db);
 			$am->vxSend();
 			$am = null;
-			
 			echo('<div class="blank" align="left"><span class="text_large"><img src="/img/ico_smile.gif" align="absmiddle" class="home" />' . $this->User->usr_nick . '，恭喜你！注册成功</span>');
 			echo('<table cellpadding="5" cellspacing="0" border="0" class="form"><tr><td width="200" align="right" valign="top">' . $this->lang->email() . '</td><td align="left">' . $this->User->usr_email . '</td></tr><tr><td width="200" align="right" valign="top">' . $this->lang->user_id() . '</td><td align="left">' . $this->User->usr_nick . '</td></tr><tr><td width="200" align="right" valign="top">' . $this->lang->password() . '</td><td align="left"><div class="important">');
 			$max = rand(1, 6) * 4;
@@ -11011,7 +11021,7 @@ google_color_url = "00CC00";
 		_v_hr();
 		_v_btn_f('创建', 'dry_new');
 		_v_hr();
-		echo('<div class="notify">你可以将新项目的查看权限设置为公开或者私密，如果设置为公开，请确保你的内容和 V2EX 的 <a href="/community_guidelines.vx" class="t">社区指导原则</a> 相符</div>');
+		echo('<div class="notify">你可以将新项目的查看权限设置为公开或者私密，如果设置为公开，请确保你的内容和 ' . Vocabulary::SITE_NAME . ' 的 <a href="/community_guidelines.vx" class="t">社区指导原则</a> 相符</div>');
 		echo('</form>');
 		_v_d_e();
 		_v_b_l_s();
@@ -11073,7 +11083,7 @@ google_color_url = "00CC00";
 			_v_hr();
 			_v_btn_f('创建', 'dry_new');
 			_v_hr();
-			echo('<div class="notify">你可以将新项目的查看权限设置为公开或者私密，如果设置为公开，请确保你的内容和 V2EX 的 <a href="/community_guidelines.vx" class="t">社区指导原则</a> 相符</div>');
+			echo('<div class="notify">你可以将新项目的查看权限设置为公开或者私密，如果设置为公开，请确保你的内容和 ' . Vocabulary::SITE_NAME . ' 的 <a href="/community_guidelines.vx" class="t">社区指导原则</a> 相符</div>');
 			echo('</form>');
 			_v_d_e();
 			_v_b_l_s();
@@ -13084,7 +13094,7 @@ google_color_url = "00CC00";
 		_v_d_e();
 		_v_b_l_s(); // Introduction
 		_v_ico_silk('information');
-		echo(' 你可以在 V2EX Shop 买到各种有用的在线应用程序和资料，一切都在持续更新中。');
+		echo(' 你可以在 ' . Vocabulary::SITE_NAME . ' Shop 买到各种有用的在线应用程序和资料，一切都在持续更新中。');
 		_v_d_e();
 		_v_b_l_s(); // Shop
 		echo('<span class="text_large">Buy</span>');
@@ -13120,7 +13130,7 @@ google_color_url = "00CC00";
 		_v_d_e();
 		_v_b_l_s(); // Information for Developers
 		_v_ico_silk('cog');
-		echo(' 如果你熟悉程序开发，希望开发能够被放到 V2EX Shop 中进行出售的物品，请参考 Project Babel 的 SimpleStorage 实现。');
+		echo(' 如果你熟悉程序开发，希望开发能够被放到 ' . Vocabulary::SITE_NAME . ' Shop 中进行出售的物品，请参考 Project Babel 的 SimpleStorage 实现。');
 		_v_d_e();
 		_v_d_e();
 	}

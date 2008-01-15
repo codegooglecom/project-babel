@@ -79,11 +79,29 @@ function _v_btn_f($label, $form) {
 }
 
 function _v_ico_map() {
-	echo('<img src="' . CDN_UI . 'img/icons/silk/map.png" align="absmiddle" alt="You are here" class="map" />');
+	switch (BABEL_DNS_DOMAIN) {
+		case 'v2ex.com':
+		default:
+			echo('<img src="' . CDN_UI . 'img/icons/silk/map.png" align="absmiddle" alt="' . Vocabulary::SITE_NAME . '" class="map" />');
+			break;
+			
+		case 'mac.6.cn':
+			echo('<img src="/img/m6_icon.gif" align="absmiddle" alt="You are here" class="map" />');
+			break;
+	}
 }
 
 function _vo_ico_map() {
-	return '<img src="' . CDN_UI . 'img/icons/silk/map.png" align="absmiddle" alt="You are here" class="map" />';
+	switch (BABEL_DNS_DOMAIN) {
+		case 'v2ex.com':
+		default:
+			return '<img src="' . CDN_UI . 'img/icons/silk/map.png" align="absmiddle" alt="' . Vocabulary::SITE_NAME . '" class="map" />';
+			break;
+		
+		case 'mac.6.cn':
+			return '<img src="/img/m6_icon.gif" align="absmiddle" alt="M6" class="map" />';
+			break;
+	}
 }
 
 function _v_ico_silk($icon, $align = 'absmiddle') {
