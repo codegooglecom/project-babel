@@ -1851,17 +1851,12 @@ switch ($m) {
 	case 'ing_personal':
 		$public = false;
 		if (isset($_GET['u'])) {
-			$u = make_single_safe($_GET['u']);
+			$u = fetch_single($_GET['u']);
 		} else {
 			$u = false;
 			$public = true;
 		}
 		if ($u) {
-			if (get_magic_quotes_gpc()) {
-				$u = mysql_real_escape_string(stripslashes($u));
-			} else {
-				$u = mysql_real_escape_string($u);
-			}
 			$User = $p->User->vxGetUserInfoByNick($u);
 			if (!$User) {
 				$public = true;
@@ -1884,17 +1879,12 @@ switch ($m) {
 	case 'ing_friends':
 		$public = false;
 		if (isset($_GET['u'])) {
-			$u = make_single_safe($_GET['u']);
+			$u = fetch_single($_GET['u']);
 		} else {
 			$u = false;
 			$public = true;
 		}
 		if ($u) {
-			if (get_magic_quotes_gpc()) {
-				$u = mysql_real_escape_string(stripslashes($u));
-			} else {
-				$u = mysql_real_escape_string($u);
-			}
 			$User = $p->User->vxGetUserInfoByNick($u);
 			if (!$User) {
 				$public = true;
@@ -1998,21 +1988,12 @@ switch ($m) {
 	case 'add':
 		$hot = false;
 		if (isset($_GET['u'])) {
-			$u = make_single_safe($_GET['u']);
+			$u = fetch_single($_GET['u']);
 		} else {
 			$u = false;
 			$hot = true;
 		}
 		if ($u) {
-			if (function_exists('get_magic_quotes_gpc')) {
-				if (get_magic_quotes_gpc()) {
-					$u = mysql_real_escape_string(stripslashes($u));
-				} else {
-					$u = mysql_real_escape_string($u);
-				}
-			} else {
-				$u = mysql_real_escape_string($u);
-			}
 			if (strtolower($u) == 'own') {
 				if ($p->User->vxIsLogin()) {
 					$User = $p->User->vxGetUserInfoByNick($p->User->usr_nick);

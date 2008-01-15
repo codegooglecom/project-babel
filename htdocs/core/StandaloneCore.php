@@ -63,6 +63,7 @@ if (V2EX_BABEL == 1) {
 	require('core/ValidatorCore.php');
 	require('core/WeblogCore.php');
 	require('core/EntryCore.php');
+	require('core/LividUtil.php');
 } else {
 	die('<strong>Project Babel</strong><br /><br />Made by V2EX | software for internet');
 }
@@ -91,7 +92,7 @@ class Standalone {
 		define('BABEL_LANG', $this->User->usr_lang);
 		$this->Validator =  new Validator($this->db, $this->User);
 		if (!isset($_SESSION['babel_ua'])) {
-			$_SESSION['babel_ua'] = $this->Validator->vxGetUserAgent();
+			$_SESSION['babel_ua'] = LividUtil::parseUserAgent();
 		}
 		$this->URL = new URL();
 		global $CACHE_LITE_OPTIONS_SHORT;

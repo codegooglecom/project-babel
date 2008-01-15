@@ -2,16 +2,16 @@
 /* Project Babel
  *
  * Author: Livid Liu <v2ex.livid@mac.com>
- * File: /htdocs/babel_ing.php
- * Usage: Loader for Ing
+ * File: /htdocs/core/iPhoneCore.php
+ * Usage: iPhone Core Class
  * Format: 1 tab indent(4 spaces), LF, UTF-8, no-BOM
- *
+ *  
  * Subversion Keywords:
  *
  * $Id$
- * $LastChangedDate$
- * $LastChangedRevision$
- * $LastChangedBy$
+ * $Date$
+ * $Revision$
+ * $Author$
  * $URL$
  *
  * Copyright (C) 2006 Livid Liu <v2ex.livid@mac.com>
@@ -31,34 +31,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-DEFINE('V2EX_BABEL', 1);
+class iPhoneCore {
 
-require('core/IngCore.php');
-
-if (isset($_GET['m'])) {
-	$m = strtolower(trim($_GET['m']));
-} else {
-	$m = 'public';
-}
-
-$p = &new Ing();
-
-switch ($m) {
-	default:
-	case 'public':
-		$p->vxPublic();
-		break;
-		
-	case 'personal':
-		if (isset($_GET['u'])) { // u: usr_nick
-			$u = fetch_single($_GET['u']);
-			if ($u == '') {
-				$p->vxPublic();
-			} else {
-				$User = $p->User->vxGetUserInfoByNick($u);
-			}
-		}
-		$p->vxPersonal();
-		break;
 }
 ?>
