@@ -2,6 +2,8 @@ body {
 padding: 3px;
 margin: 0px;
 background-color: #FFF;
+-webkit-text-size-adjust: none;
+-webkit-user-select: none;
 }
 
 h1 {
