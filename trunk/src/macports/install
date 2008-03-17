@@ -1,3 +1,6 @@
 sudo port install jpeg
 sudo port install libpng
 sudo port install freetype
+sudo port install libmcrypt
+sudo port install mhash
+sudo port install tidy

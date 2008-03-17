@@ -1,17 +1,16 @@
 ./configure \
 --prefix=/opt/vik/php-5.2 \
 --with-zlib \
---with-xml \
 --with-gettext=/opt/local \
 --with-gd \
 --with-jpeg-dir=/opt/local \
 --with-png-dir=/opt/local \
 --with-mcrypt=/opt/local \
 --with-mhash=/opt/local \
+--with-tidy=/opt/local \
 --with-openssl=/opt/local \
---with-pdo \
---with-pdo-mysql=/usr/local/mysql-5.1.18-beta-osx10.4-i686 \
---with-mysql=/usr/local/mysql-5.1.18-beta-osx10.4-i686 \
+--with-pdo-mysql=/usr/local/mysql \
+--with-mysql=/usr/local/mysql \
 --with-mysqli \
 --with-apxs2=/opt/local/apache2/bin/apxs \
 --with-freetype-dir=/opt/local \
@@ -22,8 +21,8 @@
 --enable-shmop \
 --enable-bcmath \
 --enable-dba \
---with-inifile \
 --enable-exif \
 --enable-ftp \
 --enable-sqlite-utf8 \
---enable-wddx
+--enable-wddx \
+--without-iconv
