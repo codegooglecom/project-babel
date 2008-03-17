@@ -1416,7 +1416,7 @@ class Standalone {
 					if ($_weblog['blg_uid'] == $this->User->usr_id) {
 						if (isset($_POST['blg_links'])) {
 							$blg_links = fetch_multi($_POST['blg_links']);
-							if (strlen($blg_links) > 400) {
+							if (strlen($blg_links) > 2048) {
 								$_SESSION['babel_message_weblog'] = '链接描述文本过长';
 							} else {
 								$blg_links = str_replace('\|', '{$pipeline}', $blg_links);
