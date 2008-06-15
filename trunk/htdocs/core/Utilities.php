@@ -122,6 +122,19 @@ function read_xml_religions() {
 	return $_religions;
 }
 
+// return: string
+function db_wash($value) {
+	$value_sql = mysql_real_escape_string($value);
+	$sql = "INSERT INTO babel_washer(wsh_value) VALUES('{$value_sql}')";
+	mysql_query($sql);
+	$id = mysql_insert_id();
+	$sql = "SELECT wsh_value FROM babel_washer WHERE wsh_id = {$id}";
+	$washed = mysql_result(mysql_query($sql), 0, 0);
+	$sql = "DELETE FROM babel_washer WHERE wsh_id = {$id}";
+	mysql_query($sql);
+	return $washed;
+}
+
 // return: void
 function exception_message($func = '') {
 	header('Content-type: text/html;charset=UTF-8');
