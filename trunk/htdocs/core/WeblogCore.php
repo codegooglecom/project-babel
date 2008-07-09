@@ -506,6 +506,9 @@ class Weblog {
 						case 3: // textile
 							$_entries[$_entry['bge_id']]['bge_body_plain'] = $purifier->purify($Textile->TextileThis($_entry['bge_body']));
 							break;
+						case 4: //
+							$_entries[$_entry['bge_id']]['bge_body_plain'] = $purifier->purify(Markdown($_entry['bge_body']));
+							break;
 					}
 					$_entries[$_entry['bge_id']]['bge_body_plain_rss'] = htmlspecialchars($_entries[$_entry['bge_id']]['bge_body_plain']);
 					if ($_entry['bge_tags'] == '') {
@@ -579,6 +582,9 @@ class Weblog {
 					case 3: // textile
 						$_entry['bge_body_plain'] = $purifier->purify($Textile->TextileThis($_entry['bge_body']));
 						break;
+					case 4: //
+						$_entry['bge_body_plain'] = $purifier->purify(Markdown($_entry['bge_body']));
+						break;
 				}
 				if ($_entry['bge_tags'] == '') {
 					$_entry['bge_tags_plain'] = '';
@@ -613,6 +619,7 @@ class Weblog {
 			$Weblog->vxUpdateComments();
 			
 			// Ping Ping-o-Matic
+			/*
 			require_once('Zend/Http/Client.php');
 			$blg_url_url = urlencode('http://' . BABEL_WEBLOG_SITE . '/' . $Weblog->blg_name . '/');
 			$blg_title_url = urlencode($Weblog->blg_title);
@@ -622,6 +629,7 @@ class Weblog {
 				$client->request();
 			} catch (Exception $e) {
 			}
+			*/
 			
 			$end = microtime(true);
 			$elapsed = $end - $start;
